@@ -1,7 +1,7 @@
-// import process from 'process'
+import process from 'process'
 // process.client or process.browser
-// const server = process.env.API
-const server = '/api'
+const server = process.env.APP_API
+// const server = '/api'
 const API_ADDRESS = {
   auth: {
     login: server + '/auth/login',

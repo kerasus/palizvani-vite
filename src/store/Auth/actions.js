@@ -32,6 +32,59 @@ export function login (context, data) {
       })
   })
 }
+
+export function signUp (context, data) {
+  const setVars = (user, accessToken) => {
+    context.commit('updateUser', user)
+    context.commit('updateAccessToken', accessToken)
+    if (typeof window !== 'undefined') {
+      Cookies.set('BearerAccessToken', accessToken, {
+        // domain: '.' + window.location.host,
+        path: '/',
+        expires: '365d'
+      })
+    }
+    context.commit('updateAxiosAuthorization', accessToken)
+  }
+  return new Promise((resolve, reject) => {
+    APIGateway.auth.signUp(data)
+      .then(({ user, accessToken }) => {
+        setVars(user, accessToken)
+        context.commit('updateUser', user)
+        resolve({ accessToken, user })
+      })
+      .catch(() => {
+        reject()
+      })
+  })
+}
+
+export function setPassword (context, data) {
+  const setVars = (user, accessToken) => {
+    context.commit('updateUser', user)
+    context.commit('updateAccessToken', accessToken)
+    if (typeof window !== 'undefined') {
+      Cookies.set('BearerAccessToken', accessToken, {
+        // domain: '.' + window.location.host,
+        path: '/',
+        expires: '365d'
+      })
+    }
+    context.commit('updateAxiosAuthorization', accessToken)
+  }
+  return new Promise((resolve, reject) => {
+    APIGateway.auth.setPassword(data)
+      .then(({ user, accessToken }) => {
+        setVars(user, accessToken)
+        context.commit('updateUser', user)
+        resolve({ accessToken, user })
+      })
+      .catch(() => {
+        reject()
+      })
+  })
+}
+
 export function logOut (context, payload) {
   const redirectTo = payload?.redirectTo
   const clearRedirectTo = payload?.clearRedirectTo

@@ -64,18 +64,7 @@
         </span>
         تا درخواست مجدد
       </div>
-      <q-btn class="full-width btn-verifyUsername"
-             color="primary"
-             label="تایید و ادامه"
-             :disable="loading"
-             :loading="loading"
-             @click="verify" />
-      <div class="go-to-set-username-message"
-           @click="goToGetUsernameStep">
-        تغییر شماره تلفن همراه یا استفاده از آدرس ایمیل
-      </div>
-    </template>
-    <template v-else-if="registerStep === 'information'">
+
       <div class="information-top-message">
         لطفا اطلاعات کاربری خود را وارد کنید.
       </div>
@@ -87,7 +76,7 @@
                outlined
                class="name-input"
                label="نام خود را وارد کنید"
-               @keydown.enter="register">
+               @keydown.enter="verify">
         <template v-slot:prepend>
           <q-icon name="person" />
         </template>
@@ -100,7 +89,7 @@
                outlined
                class="lastname-input"
                label="نام خانوادگی خود را وارد کنید"
-               @keydown.enter="register">
+               @keydown.enter="verify">
         <template v-slot:prepend>
           <q-icon name="person" />
         </template>
@@ -114,7 +103,7 @@
                outlined
                class="password-input"
                label="گذرواژه خود را وارد کنید"
-               @keydown.enter="register">
+               @keydown.enter="verify">
         <template v-slot:prepend>
           <q-icon name="person" />
         </template>
@@ -122,10 +111,69 @@
           <q-icon name="person" />
         </template>
       </q-input>
-      <q-btn class="full-width btn-login"
+
+      <q-btn class="full-width btn-verifyUsername"
              color="primary"
              label="ثبت نام"
-             @click="register" />
+             :disable="loading"
+             :loading="loading"
+             @click="verify" />
+      <div class="go-to-set-username-message"
+           @click="goToGetUsernameStep">
+        تغییر شماره تلفن همراه یا استفاده از آدرس ایمیل
+      </div>
+    </template>
+    <template v-else-if="registerStep === 'information'">
+      <div class="information-top-message">
+        لطفا اطلاعات کاربری خود را وارد کنید.
+      </div>
+      <!--      <label for="name">-->
+      <!--        نام-->
+      <!--      </label>-->
+      <!--      <q-input id="name"-->
+      <!--               v-model="firstname"-->
+      <!--               outlined-->
+      <!--               class="name-input"-->
+      <!--               label="نام خود را وارد کنید"-->
+      <!--               @keydown.enter="register">-->
+      <!--        <template v-slot:prepend>-->
+      <!--          <q-icon name="person" />-->
+      <!--        </template>-->
+      <!--      </q-input>-->
+      <!--      <label for="lastname">-->
+      <!--        نام خانوادگی-->
+      <!--      </label>-->
+      <!--      <q-input id="lastname"-->
+      <!--               v-model="lastname"-->
+      <!--               outlined-->
+      <!--               class="lastname-input"-->
+      <!--               label="نام خانوادگی خود را وارد کنید"-->
+      <!--               @keydown.enter="register">-->
+      <!--        <template v-slot:prepend>-->
+      <!--          <q-icon name="person" />-->
+      <!--        </template>-->
+      <!--      </q-input>-->
+      <!--      <label class="password-label"-->
+      <!--             for="password">-->
+      <!--        گذرواژه-->
+      <!--      </label>-->
+      <!--      <q-input id="password"-->
+      <!--               v-model="password"-->
+      <!--               outlined-->
+      <!--               class="password-input"-->
+      <!--               label="گذرواژه خود را وارد کنید"-->
+      <!--               @keydown.enter="register">-->
+      <!--        <template v-slot:prepend>-->
+      <!--          <q-icon name="person" />-->
+      <!--        </template>-->
+      <!--        <template v-slot:append>-->
+      <!--          <q-icon name="person" />-->
+      <!--        </template>-->
+      <!--      </q-input>-->
+      <!--      <q-btn class="full-width btn-login"-->
+      <!--             color="primary"-->
+      <!--             label="ثبت نام"-->
+      <!--             @click="register" />-->
     </template>
   </div>
 </template>
@@ -133,6 +181,7 @@
 <script>
 import API_ADDRESS from 'src/api/Addresses.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
+import { APIGateway } from 'src/api/APIGateway'
 
 export default {
   name: 'RegisterStep',
@@ -258,10 +307,7 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.post(API_ADDRESS.auth.sendOtp, {
-        input: this.username,
-        action: 'sign-up'
-      })
+      APIGateway.auth.sendOtpSignUp({ input: this.username })
         .then(() => {
           this.loading = false
           this.restartOtpInterval()
@@ -278,21 +324,17 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.post(API_ADDRESS.auth.signUp, {
+      this.$store.dispatch('Auth/signUp', {
         input: this.username,
-        otp: this.verifyNumber
+        otp: this.verifyNumber,
+        password: this.password,
+        firstname: this.firstname,
+        lastname: this.lastname
       })
-        .then((response) => {
+        .then(() => {
           this.loading = false
-          const accessToken = response.data.token.access_token
-          this.$axios.defaults.headers.common.Authorization = 'Bearer ' + accessToken
-          this.$store.commit('Auth/updateAccessToken', accessToken)
-          this.$store.commit('Auth/setAccessToken', accessToken)
-          const ca = accessToken
-          const base64Url = ca.split('.')[1]
-          const decodedValue = JSON.parse(window.atob(base64Url))
-          this.$store.commit('Auth/updateUser', decodedValue)
-          this.setRegisterStep('information')
+          this.$router.push({ name: 'Public.Home' })
+          // this.setRegisterStep('information')
         })
         .catch(() => {
           this.loading = false

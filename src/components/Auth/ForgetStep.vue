@@ -45,26 +45,13 @@
                class="username-input"
                label=""
                :disable="loading"
-               :loading="loading"
-               @keydown.enter="verify" />
+               :loading="loading" />
       <div class="resend-timer-message">
         <span class="resend-timer-message-value">
           {{ formatedTimer }}
         </span>
         تا درخواست مجدد
       </div>
-      <q-btn class="full-width btn-verifyUsername"
-             color="primary"
-             label="تایید و ادامه"
-             :disable="loading"
-             :loading="loading"
-             @click="verify" />
-      <div class="go-to-set-username-message"
-           @click="goToGetUsernameStep">
-        تغییر شماره تلفن همراه یا استفاده از آدرس ایمیل
-      </div>
-    </template>
-    <template v-else-if="registerStep === 'newPassword'">
       <label class="password-label"
              for="password">
         گذرواژه
@@ -74,7 +61,7 @@
                outlined
                class="password-input"
                label="گذرواژه جدید خود را وارد کنید"
-               @keydown.enter="setNewPassword">
+               @keydown.enter="verify">
         <template v-slot:prepend>
           <q-icon name="person" />
         </template>
@@ -82,6 +69,35 @@
           <q-icon name="person" />
         </template>
       </q-input>
+      <q-btn class="full-width btn-verifyUsername"
+             color="primary"
+             label="تایید و ورود"
+             :disable="loading"
+             :loading="loading"
+             @click="verify" />
+      <div class="go-to-set-username-message"
+           @click="goToGetUsernameStep">
+        تغییر شماره تلفن همراه یا استفاده از آدرس ایمیل
+      </div>
+    </template>
+    <template v-else-if="registerStep === 'newPassword'">
+      <!--      <label class="password-label"-->
+      <!--             for="password">-->
+      <!--        گذرواژه-->
+      <!--      </label>-->
+      <!--      <q-input id="password"-->
+      <!--               v-model="password"-->
+      <!--               outlined-->
+      <!--               class="password-input"-->
+      <!--               label="گذرواژه جدید خود را وارد کنید"-->
+      <!--               @keydown.enter="setNewPassword">-->
+      <!--        <template v-slot:prepend>-->
+      <!--          <q-icon name="person" />-->
+      <!--        </template>-->
+      <!--        <template v-slot:append>-->
+      <!--          <q-icon name="person" />-->
+      <!--        </template>-->
+      <!--      </q-input>-->
       <q-btn class="full-width btn-login"
              color="primary"
              label="تایید و ورود"
@@ -93,6 +109,7 @@
 <script>
 import API_ADDRESS from 'src/api/Addresses.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
+import { APIGateway } from 'src/api/APIGateway'
 
 export default {
   name: 'ForgetStep',
@@ -214,9 +231,8 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.post(API_ADDRESS.auth.sendOtp, {
-        input: this.username,
-        action: 'forgot-password'
+      APIGateway.auth.sendOtpForgotPassword({
+        input: this.username
       })
         .then(() => {
           this.restartOtpInterval()
@@ -232,21 +248,15 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.post(API_ADDRESS.auth.login, {
+      this.$store.dispatch('Auth/setPassword', {
         input: this.username,
+        password: this.password,
         otp: this.verifyNumber
       })
-        .then((response) => {
+        .then(() => {
           this.loading = false
-          const accessToken = response.data.token.access_token
-          this.$axios.defaults.headers.common.Authorization = 'Bearer ' + accessToken
-          this.$store.commit('Auth/updateAccessToken', accessToken)
-          this.$store.commit('Auth/setAccessToken', accessToken)
-          const ca = accessToken
-          const base64Url = ca.split('.')[1]
-          const decodedValue = JSON.parse(window.atob(base64Url))
-          this.$store.commit('Auth/updateUser', decodedValue)
-          this.setRegisterStep('newPassword')
+          this.redirectTo()
+          // this.setRegisterStep('newPassword')
         })
         .catch(() => {
           this.loading = false
