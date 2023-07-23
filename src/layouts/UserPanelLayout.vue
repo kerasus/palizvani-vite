@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="UserPanelLayout">
     <div v-if="breadcrumbsVisibility && false"
          class="q-mb-md">
       <q-skeleton v-if="!breadcrumbs.path"
@@ -68,3 +68,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.UserPanelLayout {
+  padding-top: 35px;
+  padding-right: 35px;
+  padding-left: 61px;
+  padding-bottom: 35px;
+}
+</style>

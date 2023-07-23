@@ -4,7 +4,7 @@ import APIRepository from '../classes/APIRepository.js'
 
 export default class UserAPI extends APIRepository {
   constructor() {
-    super('user', appApi, '/user', User)
+    super('user', appApi, '/uma/users', User)
     this.APIAdresses = {
       base: '/uma/users',
       verify: '/uma/users/verify',

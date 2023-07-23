@@ -20,7 +20,7 @@ const routes = [
       layoutLeftDrawerWidth: 325,
       layoutLeftDrawerBehavior: 'default',
       layoutRightDrawer: false,
-      layoutFooter: true,
+      layoutFooter: false,
       showHamburgerBtn: true,
       layoutFooterVisible: true,
       layoutFooterType: 'main',
@@ -92,7 +92,8 @@ const routes = [
         path: 'panel',
         name: 'UserPanel',
         layoutConfig: {
-          showHamburgerBtn: false,
+          layoutLeftDrawer: true,
+          layoutLeftDrawerVisible: true,
           layoutHeaderType: 'user-panel',
           layoutLeftSideBarType: 'user-panel'
         },

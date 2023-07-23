@@ -231,6 +231,7 @@ export default {
     display: flex;
     flex-flow: row;
     height: 100%;
+    background: #F6F7FB;
     .top-menu-items {
       width: calc( 100% - 240px );
       display: flex;

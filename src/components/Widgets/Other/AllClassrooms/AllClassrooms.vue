@@ -62,10 +62,10 @@
         {{ displayTitleFilter.label }}
       </q-chip>
     </div>
-    <div v-if="!loading && classrooms.length > 0"
+    <div v-if="!classrooms.loading && classrooms.list.length > 0"
          :key="classroomsKey"
          class="classrooms row q-col-gutter-md">
-      <div v-for="classroom in classrooms"
+      <div v-for="classroom in classrooms.list"
            :key="classroom.id"
            class="classroom-col col-md-4">
         <q-card flat
@@ -208,10 +208,10 @@
         </q-card>
       </div>
     </div>
-    <div v-else-if="!loading && classrooms.length === 0">
+    <div v-else-if="!classrooms.loading && classrooms.list.length === 0">
       دوره ای یافت نشد.
     </div>
-    <div v-else-if="loading">
+    <div v-else-if="classrooms.loading">
       کمی صبر کنید ...
     </div>
     <q-dialog v-model="filterDialog"
@@ -247,9 +247,9 @@
           <div class="row q-col-gutter-md">
             <div class="col-md-3">
               <select-control v-model:value="filter.category"
-                              :options="categories"
-                              :disable="categoriesLoading"
-                              :loading="categoriesLoading"
+                              :options="categories.list"
+                              :disable="categories.loading"
+                              :loading="categories.loading"
                               optionValue="id"
                               optionLabel="title"
                               label="گروه آموزشی"
@@ -257,9 +257,9 @@
             </div>
             <div class="col-md-3">
               <select-control v-model:value="filter.unit"
-                              :options="units"
-                              :disable="unitsLoading"
-                              :loading="unitsLoading"
+                              :options="units.list"
+                              :disable="units.loading"
+                              :loading="units.loading"
                               optionValue="id"
                               optionLabel="title"
                               label="درس" />
@@ -304,24 +304,29 @@
 </template>
 
 <script>
+import { User } from 'src/models/User.js'
+import { UnitList } from 'src/models/Unit.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
+import { ClassroomList } from 'src/models/Classroom.js'
 import SelectControl from 'src/components/Control/Select.vue'
+import { UnitCategoryList } from 'src/models/UnitCategory.js'
+import { ClassroomRegistrationList } from 'src/models/ClassroomRegistration.js'
 
 export default {
   name: 'AllClassrooms',
   components: { SelectControl },
   data: () => ({
     loading: false,
-    units: [],
+    user: new User(),
+    units: new UnitList(),
     classroomsKey: Date.now(),
-    userRegistrations: [],
-    categories: [],
+    userRegistrations: new ClassroomRegistrationList(),
+    categories: new UnitCategoryList(),
     professors: [],
     professorsLoading: false,
-    categoriesLoading: false,
-    unitsLoading: false,
     filter: {
       category: null,
       unit: null,
@@ -330,12 +335,9 @@ export default {
       professor: null
     },
     filterDialog: false,
-    classrooms: []
+    classrooms: new ClassroomList()
   }),
   computed: {
-    user () {
-      return this.$store.getters['Auth/user']
-    },
     classroomStatuses () {
       return Enums.classroomStatuses
     },
@@ -348,14 +350,14 @@ export default {
         filters.push({
           filterKey: 'category',
           value: this.filter.category,
-          label: this.categories.find(item => item.id === this.filter.category).title
+          label: this.categories.list.find(item => item.id === this.filter.category).title
         })
       }
       if (this.filter.unit) {
         filters.push({
           filterKey: 'unit',
           value: this.filter.unit,
-          label: this.units.find(item => item.id === this.filter.unit).title
+          label: this.units.list.find(item => item.id === this.filter.unit).title
         })
       }
       if (this.filter.classroomStatus) {
@@ -384,7 +386,8 @@ export default {
       return filters
     }
   },
-  created () {
+  mounted () {
+    this.loadAuthData()
     if (this.user && this.user.id !== null) {
       this.getUserRegistrations()
     }
@@ -393,16 +396,23 @@ export default {
     this.getUnits()
   },
   methods: {
+    loadAuthData () {
+      this.user = this.$store.getters['Auth/user']
+    },
     getUserRegistrations () {
-      this.$axios.get(API_ADDRESS.registrations.base)
-        .then((response) => {
-          this.userRegistrations = response.data.results
+      this.userRegistrations.loading = true
+      APIGateway.classroomRegistration.index()
+        .then((classroomRegistrationList) => {
+          this.userRegistrations = new ClassroomRegistrationList(classroomRegistrationList)
           this.classroomsKey = Date.now()
+          this.userRegistrations.loading = false
         })
-        .catch(() => {})
+        .catch(() => {
+          this.userRegistrations.loading = false
+        })
     },
     isClassroomRegistered (classroomId) {
-      return !!this.userRegistrations.find(item => item.classroom === classroomId)
+      return !!this.userRegistrations.list.find(item => item.classroom === classroomId)
     },
     getTerm (classroom) {
       if (!classroom.beginning_registration_period) {
@@ -449,40 +459,40 @@ export default {
       return filters
     },
     getClassrooms () {
-      this.loading = true
-      this.$axios.get(API_ADDRESS.classroom.base + '?per_page=9999' + this.getFilters())
-        .then(response => {
-          this.classrooms = response.data.results
-          this.loading = false
+      this.classrooms.loading = true
+      APIGateway.classroom.index({ per_page: 9999 })
+        .then(classroomList => {
+          this.classrooms = new ClassroomList(classroomList)
+          this.classrooms.loading = false
         })
         .catch(() => {
-          this.loading = false
+          this.classrooms.loading = false
         })
     },
     getCategories () {
-      this.categoriesLoading = true
-      this.$axios.get(API_ADDRESS.category.base)
-        .then(response => {
-          this.categoriesLoading = false
-          this.categories = response.data.results
+      this.categories.loading = true
+      APIGateway.unitCategory.index()
+        .then(unitCategoryList => {
+          this.categories.loading = false
+          this.categories = new UnitCategoryList(unitCategoryList)
         })
         .catch(() => {
-          this.categoriesLoading = false
+          this.categories.loading = false
         })
     },
     getUnits (categoryId) {
-      this.unitsLoading = true
-      let address = API_ADDRESS.unit.base
-      if (categoryId) {
-        address = API_ADDRESS.unit.base + '?category=' + categoryId
-      }
-      this.$axios.get(address)
-        .then(response => {
-          this.unitsLoading = false
-          this.units = response.data.results
+      this.units.loading = true
+      // let address = API_ADDRESS.unit.base
+      // if (categoryId) {
+      //   address = API_ADDRESS.unit.base + '?category=' + categoryId
+      // }
+      APIGateway.unit.index({ category: categoryId })
+        .then(unitList => {
+          this.units.loading = false
+          this.units = new UnitList(unitList)
         })
         .catch(() => {
-          this.unitsLoading = false
+          this.units.loading = false
         })
     },
     openFilterDialog () {

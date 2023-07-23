@@ -24,10 +24,10 @@
         </q-btn>
       </div>
     </div>
-    <carousel v-if="!loading && classrooms.length > 0"
+    <carousel v-if="!classrooms.loading && classrooms.list.length > 0"
               :breakpoints="breakpoints"
               dir="rtl">
-      <slide v-for="classroom in classrooms"
+      <slide v-for="classroom in classrooms.list"
              :key="classroom.id + classroomsKey">
         <q-card flat
                 class="classroomCarousel-item"
@@ -174,10 +174,10 @@
         <pagination v-if="slidesCount > 1 && false" />
       </template>
     </carousel>
-    <div v-else-if="!loading && classrooms.length === 0">
+    <div v-else-if="!classrooms.loading && classrooms.list.length === 0">
       دوره ای یافت نشد.
     </div>
-    <div v-else-if="loading">
+    <div v-else-if="classrooms.loading">
       کمی صبر کنید ...
     </div>
   </div>
@@ -185,8 +185,11 @@
 
 <script>
 import 'vue3-carousel/dist/carousel.css'
-import API_ADDRESS from 'src/api/Addresses.js'
+import { User } from 'src/models/User.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
+import { ClassroomList } from 'src/models/Classroom.js'
+import { ClassroomRegistrationList } from 'src/models/ClassroomRegistration.js'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel/dist/carousel'
 
 export default {
@@ -199,10 +202,11 @@ export default {
   },
   data: () => ({
     loading: false,
+    user: new User(),
     classroomsKey: Date.now(),
-    userRegistrations: [],
+    userRegistrations: new ClassroomRegistrationList(),
     slide: 0,
-    classrooms: [],
+    classrooms: new ClassroomList(),
     breakpoints: {
       // 1024 and up
       1024: {
@@ -223,18 +227,17 @@ export default {
     maximizedToggle: true,
     dialog: false
   }),
-  computed: {
-    user () {
-      return this.$store.getters['Auth/user']
-    }
-  },
-  created () {
+  mounted () {
+    this.loadAuthData()
     if (this.user && this.user.id !== null) {
       this.getUserRegistrations()
     }
     this.getClassrooms()
   },
   methods: {
+    loadAuthData () {
+      this.user = this.$store.getters['Auth/user']
+    },
     getTerm (classroom) {
       if (!classroom.beginning_registration_period) {
         return '-'
@@ -242,25 +245,29 @@ export default {
       return ShamsiDate.getTerm(classroom.beginning_registration_period)
     },
     isClassroomRegistered (classroomId) {
-      return !!this.userRegistrations.find(item => item.classroom === classroomId)
+      return !!this.userRegistrations.list.find(item => item.classroom === classroomId)
     },
     getUserRegistrations () {
-      this.$axios.get(API_ADDRESS.registrations.base)
-        .then((response) => {
-          this.userRegistrations = response.data.results
+      this.userRegistrations.loading = true
+      APIGateway.classroomRegistration.index()
+        .then((classroomRegistrationList) => {
+          this.userRegistrations = new ClassroomRegistrationList(classroomRegistrationList)
           this.classroomsKey = Date.now()
-        })
-        .catch(() => {})
-    },
-    getClassrooms () {
-      this.loading = true
-      this.$axios.get(API_ADDRESS.classroom.base)
-        .then(response => {
-          this.classrooms = response.data.results
-          this.loading = false
+          this.userRegistrations.loading = false
         })
         .catch(() => {
-          this.loading = false
+          this.userRegistrations.loading = false
+        })
+    },
+    getClassrooms () {
+      this.classrooms.loading = true
+      APIGateway.classroom.index()
+        .then(classroomList => {
+          this.classrooms = new ClassroomList(classroomList)
+          this.classrooms.loading = false
+        })
+        .catch(() => {
+          this.classrooms.loading = false
         })
     }
   }

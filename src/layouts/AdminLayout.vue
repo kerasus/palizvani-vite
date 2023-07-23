@@ -74,5 +74,6 @@ export default {
   padding-top: 35px;
   padding-right: 35px;
   padding-left: 61px;
+  padding-bottom: 35px;
 }
 </style>
