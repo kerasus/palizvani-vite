@@ -1,0 +1,10 @@
+{
+  "appId": "com.alaatv.ios",
+  "appName": "${ANDROID_APP_NAME}",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

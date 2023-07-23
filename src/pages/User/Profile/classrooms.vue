@@ -1,0 +1,246 @@
+<template>
+  <entity-index ref="entityIndex"
+                v-model:value="inputs"
+                title="لیست دوره ها"
+                :api="api"
+                :table="table"
+                :table-keys="tableKeys"
+                :show-expand-button="false"
+                :show-reload-button="false"
+                :show-search-button="false">
+    <template #table-cell="{inputData}">
+      <q-td :props="inputData.props">
+        <template v-if="inputData.props.col.name === 'actions'">
+          <q-btn size="md"
+                 color="primary"
+                 label="جزییات"
+                 :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: inputData.props.row.classroom_info.id}}" />
+        </template>
+        <template v-else>
+          {{ inputData.props.value }}
+        </template>
+      </q-td>
+    </template>
+  </entity-index>
+</template>
+
+<script>
+import { shallowRef } from 'vue'
+import { EntityIndex } from 'quasar-crud'
+import Enums from 'assets/Enums/Enums.js'
+import API_ADDRESS from 'src/api/Addresses.js'
+import ShamsiDate from 'src/assets/ShamsiDate.js'
+import BtnControl from 'src/components/Control/btn.vue'
+
+const BtnControlComp = shallowRef(BtnControl)
+
+export default {
+  name: 'UserPanel.Profile.AllClassrooms',
+  components: {
+    EntityIndex
+  },
+  data () {
+    return {
+      inputs: [
+        {
+          type: 'select',
+          name: 'status',
+          options: Enums.classroomStatuses,
+          value: null,
+          label: 'وضعیت دوره',
+          col: 'col-md-2'
+        },
+        {
+          type: 'select',
+          name: 'category',
+          options: [],
+          value: null,
+          label: 'گروه آموزشی',
+          col: 'col-md-2'
+        },
+        {
+          type: 'select',
+          name: 'unit',
+          responseKey: 'unit',
+          options: [],
+          value: null,
+          label: 'درس',
+          col: 'col-md-2'
+        },
+        { type: 'input', name: 'search', label: 'جستجو', col: 'col-md-2' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', props: { atClick: this.search }, col: 'col-md-2' }
+      ],
+      api: API_ADDRESS.registrations.base,
+      table: {
+        columns: [
+          {
+            name: 'id',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'نام درس',
+            align: 'left',
+            field: row => row.classroom_info.unit_info.title
+          },
+          {
+            name: 'audience_gender_type',
+            required: true,
+            label: 'جنسیت',
+            align: 'left',
+            field: row => (row.classroom_info.audience_gender_type === 'FEMALE') ? 'خواهران' : (row.classroom_info.audience_gender_type === 'MALE') ? 'برادران' : 'خواهران و برادران'
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'تاریخ شروع',
+            align: 'left',
+            field: row => ShamsiDate.getDateTime(row.classroom_info.beginning_registration_period)
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'نوع برگزاری',
+            align: 'left',
+            field: row => this.getClassroomHoldingTypeTitle(row.classroom_info.holding_type)
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'استاد',
+            align: 'left',
+            field: row => row.classroom_info.professor
+          },
+          {
+            name: 'status',
+            required: true,
+            label: 'تعداد جلسات',
+            align: 'left',
+            field: row => row.classroom_info.sessions_info.length
+          },
+          {
+            name: 'status',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => this.getClassroomStatusTitle(row.classroom_info.status)
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'زمان ثبت نام',
+            align: 'left',
+            field: row => ShamsiDate.getDateTime(row.classroom_info.beginning_registration_period)
+          },
+          {
+            name: 'status',
+            required: true,
+            label: 'وضعیت مالی',
+            align: 'left',
+            field: row => row.invoice_info ? this.getInvoiceStatusTitle(row.invoice_info) : 'نام مشخص'
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'جزییات',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      tableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      }
+    }
+  },
+  computed: {
+    selectedCategoryId () {
+      return this.getInputValue('category')
+    }
+  },
+  watch: {
+    selectedCategoryId () {
+      this.setInputValue('unit', null)
+      this.getUnits(this.selectedCategoryId)
+    }
+  },
+  created () {
+    this.loadInputDataOptions()
+  },
+  methods: {
+    search () {
+      this.$refs.entityIndex.search()
+    },
+    getClassroomHoldingTypeTitle (type) {
+      const target = Enums.classroomHoldingTypes.find(item => item.value === type)
+      if (!target) {
+        return '-'
+      }
+
+      return target.label
+    },
+    getClassroomStatusTitle (type) {
+      const target = Enums.classroomStatuses.find(item => item.value === type)
+      if (!target) {
+        return '-'
+      }
+
+      return target.label
+    },
+    getInvoiceStatusTitle (type) {
+      const target = Enums.invoiceStatus.find(item => item.value === type)
+      if (!target) {
+        return '-'
+      }
+
+      return target.label
+    },
+    loadInputDataOptions () {
+      this.getCategories()
+      this.getUnits()
+    },
+    getCategories () {
+      this.$axios.get(API_ADDRESS.category.base)
+        .then(response => {
+          this.loadSelectOptions('category', this.getSelectOptions(response.data.results, 'id', 'title'))
+        })
+    },
+    getUnits (selectedcategoryId) {
+      const param = (selectedcategoryId) ? '?category=' + selectedcategoryId : ''
+      this.$axios.get(API_ADDRESS.unit.base + param)
+        .then(response => {
+          this.loadSelectOptions('unit', this.getSelectOptions(response.data.results, 'id', 'title'))
+        })
+    },
+    getInputValue (name) {
+      const inputIndex = this.inputs.findIndex(input => input.name === name)
+      return this.inputs[inputIndex].value
+    },
+    setInputValue (name, value) {
+      const inputIndex = this.inputs.findIndex(input => input.name === name)
+      this.inputs[inputIndex].value = value
+    },
+    getSelectOptions (result, value, label) {
+      return result.map(item => {
+        return {
+          value: item[value],
+          label: item[label]
+        }
+      })
+    },
+    loadSelectOptions (name, value) {
+      const inputIndex = this.inputs.findIndex(input => input.name === name)
+      this.inputs[inputIndex].options = value
+    }
+  }
+}
+</script>

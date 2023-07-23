@@ -1,0 +1,27 @@
+@import 'src/css/fonts.scss';
+@import 'src/css/Theme/sizes.scss';
+@import 'src/css/Theme/colors.scss';
+@import 'src/css/Theme/Widgets/widgets.scss';
+@import 'src/css/Theme/Controls/controles.scss';
+@import 'src/css/Theme/Typography/typography.scss';
+//@import 'src/css/Theme/FormBuilder/formBuilder.scss';
+
+* {
+  font-family: IRANSans, 'Arial', '-apple-system', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+body.body--light {
+  background: #F6F7FB;
+}
+
+.default-notify-class {
+  font-size: 18px;
+  text-align: center;
+  padding: 10px 16PX;
+}
+
+@media screen and (max-width:600px){
+  .q-page-container {
+    margin-bottom: $mobileFooterHeight;
+  }
+}

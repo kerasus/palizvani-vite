@@ -1,0 +1,237 @@
+<template>
+  <component :is="parentComponent"
+             :to="localOptions.action.route"
+             :class="options.className"
+             :href="localOptions.action.route"
+             @click="onClickLink">
+    <q-img :ref="imageRef"
+           :src="getImageSource(options)"
+           :ratio="options.ratio"
+           spinner-color="primary"
+           :width="getImageWidth(options)"
+           :height="getImageHeight(options)"
+           :style="options.style"
+           :class="{'cursor-pointer': localOptions.hasAction}"
+           @click="takeAction(options.action)" />
+  </component>
+</template>
+
+<script>
+import { AEE } from 'src/assets/js/AEE/AnalyticsEnhancedEcommerce.js'
+import { mixinPrefetchServerData, mixinWidget } from 'src/mixin/Mixins.js'
+
+export default {
+  name: 'ImageWidget',
+  mixins: [mixinPrefetchServerData, mixinWidget],
+  data() {
+    return {
+      imageRef: 'img' + Date.now(),
+      windowWidth: 0,
+      defaultOptions: {
+        imageSource: null,
+        ratio: null,
+        hasAction: false,
+        useAEEEvent: false,
+        action: {
+          name: null,
+          route: null,
+          scrollTo: null,
+          eventName: null,
+          eventArgs: null
+        },
+        xs: {
+          height: null,
+          width: null,
+          src: null
+        },
+        sm: {
+          height: null,
+          width: null,
+          src: null
+        },
+        md: {
+          height: null,
+          width: null,
+          src: null
+        },
+        lg: {
+          height: null,
+          width: null,
+          src: null
+        },
+        xl: {
+          height: null,
+          width: null,
+          src: null
+        }
+      }
+    }
+  },
+  computed: {
+    parentComponent() {
+      if (this.localOptions.action.route) {
+        if (this.isExternal(this.localOptions.action.route)) {
+          return 'a'
+        } else {
+          return 'router-link'
+        }
+      }
+      return 'div'
+    }
+  },
+  mounted() {
+    this.windowWidth = window.innerWidth
+    window.addEventListener('resize', this.onResize)
+    this.$nextTick(() => {
+      this.setAEEEvent()
+    })
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.onResize)
+  },
+  methods: {
+    onClickLink (event) {
+      event.preventDefault()
+      event.stopPropagation()
+      if (this.parentComponent === 'a') {
+        window.location.href = this.localOptions.action.route
+      } else {
+        this.$router.push(this.localOptions.action.route)
+      }
+    },
+    setProductIntersectionObserver () {
+      const elements = [this.$refs[this.imageRef].$el]
+      const observer = new IntersectionObserver(this.handleIntersection)
+
+      elements.forEach(obs => {
+        observer.observe(obs)
+      })
+    },
+    handleIntersection(entries, observer) {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0) {
+          this.ImageIsViewed()
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    getAEEKey() {
+      let AEEKey
+      Object.values(this.localOptions.AEEEventBody).forEach(item => {
+        AEEKey += item
+      })
+      return AEEKey
+    },
+    ImageIsViewed () {
+      AEE.promotionView([this.localOptions.AEEEventBody], {
+        TTl: 1000,
+        key: this.getAEEKey()
+      })
+    },
+    pushClickedEvent () {
+      AEE.promotionClick([this.localOptions.AEEEventBody], {
+        TTl: 1000,
+        key: this.getAEEKey()
+      })
+    },
+    setAEEEvent () {
+      if (!this.localOptions.useAEEEvent) {
+        return
+      }
+      this.setProductIntersectionObserver()
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth
+    },
+    getImageSource (options) {
+      if (options.imageSource) {
+        return options.imageSource
+      }
+      if (this.windowWidth >= 1920) {
+        return options.xl?.src ? options.xl.src : options.lg?.src ? options.lg.src : options.sm?.src ? options.md.src : options.sm?.src ? options.sm.src : options.xs?.src
+      } else if (this.windowWidth <= 1919 && this.windowWidth > 1440) {
+        return options.lg.src ? options.lg.src : options.md?.src ? options.md.src : options.sm?.src ? options.sm.src : options.xs?.src ? options.xs?.src : options.xl?.src
+      } else if (this.windowWidth <= 1439 && this.windowWidth > 1024) {
+        return options.md.src ? options.md.src : options.sm?.src ? options.sm.src : options.xs?.src ? options.xs.src : options.lg?.src ? options.lg.src : options.xl?.src
+      } else if (this.windowWidth <= 1023 && this.windowWidth > 600) {
+        return options.sm.src ? options.sm.src : options.xs?.src ? options.xs.src : options.md?.src ? options.md.src : options.lg?.src ? options.lg.src : options.xl?.src
+      } else if (this.windowWidth <= 599) {
+        return options.xs?.src ? options.xs.src : options.sm?.src ? options.sm.src : options.md?.src ? options.md.src : options.lg?.src ? options.lg.src : options.xl?.src
+      } else {
+        return ''
+      }
+    },
+    getImageHeight (options) {
+      if (options.height) {
+        return options.height
+      }
+      if (this.windowWidth >= 1920) {
+        return options.xl?.height ? options.xl.height : options.lg?.height ? options.lg.height : options.sm?.height ? options.md.height : options.sm?.height ? options.sm.height : options.xs?.height
+      } else if (this.windowWidth <= 1919 && this.windowWidth > 1440) {
+        return options.lg?.height ? options.lg.height : options.md?.height ? options.md.height : options.sm?.height ? options.sm.height : options.xs?.height ? options.xs.height : options.xl?.height
+      } else if (this.windowWidth <= 1439 && this.windowWidth > 1024) {
+        return options.md?.height ? options.md.height : options.sm?.height ? options.sm.height : options.xs?.height ? options.xs.height : options.lg?.height ? options.lg.height : options.xl?.height
+      } else if (this.windowWidth <= 1023 && this.windowWidth > 600) {
+        return options.sm?.height ? options.sm.height : options.xs?.height ? options.xs.height : options.md?.height ? options.md.height : options.lg?.height ? options.lg.height : options.xl?.height
+      } else if (this.windowWidth <= 599) {
+        return options.xs?.height ? options.xs.height : options.sm?.height ? options.sm.height : options.md?.height ? options.md.height : options.lg?.height ? options.lg.height : options.xl?.height
+      } else {
+        return ''
+      }
+    },
+    getImageWidth (options) {
+      if (options.width) {
+        return options.width
+      }
+      if (this.windowWidth >= 1920) {
+        return options.xl?.width ? options.xl.width : options.lg?.width ? options.lg.width : options.sm?.width ? options.md.width : options.sm?.width ? options.sm.width : options.xs?.width
+      } else if (this.windowWidth <= 1919 && this.windowWidth > 1440) {
+        return options.lg?.width ? options.lg.width : options.md?.width ? options.md.width : options.sm?.width ? options.sm.width : options.xs?.width ? options.xs.width : options.xl?.width
+      } else if (this.windowWidth <= 1439 && this.windowWidth > 1024) {
+        return options.md?.width ? options.md.width : options.sm?.width ? options.sm.width : options.xs?.width ? options.xs.width : options.lg?.width ? options.lg.width : options.xl?.width
+      } else if (this.windowWidth <= 1023 && this.windowWidth > 600) {
+        return options.sm?.width ? options.sm.width : options.xs?.width ? options.xs.width : options.md?.width ? options.md.width : options.lg?.width ? options.lg.width : options.xl?.width
+      } else if (this.windowWidth <= 599) {
+        return options.xs?.width ? options.xs.width : options.sm?.width ? options.sm.width : options.md?.width ? options.md.width : options.lg?.width ? options.lg.width : options.xl?.width
+      } else {
+        return ''
+      }
+    },
+    checkDomain(url) {
+      if (url.indexOf('//') === 0) {
+        url = window.location.protocol + url
+      }
+      return url.toLowerCase().replace(/([a-z])?:\/\//, '$1').split('/')[0]
+    },
+    isExternal(url) {
+      if (typeof window === 'undefined') {
+        return true
+      }
+      // return ((url.indexOf(':') > -1 || url.indexOf('//') > -1) && this.checkDomain(window.location.href) !== this.checkDomain(url))
+      // return ((url.indexOf('http://') > -1 || url.indexOf('https://') > -1) && this.checkDomain(window.location.href) !== this.checkDomain(url))
+      return (url.indexOf('http://') > -1 || url.indexOf('https://') > -1)
+    },
+    takeAction(action) {
+      if (!this.localOptions.hasAction) {
+        return
+      }
+      if (this.localOptions.useAEEEvent) {
+        this.pushClickedEvent()
+      }
+      if (this.callBack) {
+        this.callBack()
+      } else if (action.name === 'scroll') {
+        this.scrollToElement(action.scrollTo)
+      } else if (action.name === 'event') {
+        this.$bus.emit(action.eventName, action.eventArgs)
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>

@@ -1,0 +1,21 @@
+.q-field {
+  &.q-field--outlined {
+    .q-field__inner {
+      .q-field__control {
+        height: 48px;
+        &:before {
+          background: #FFFFFF 0 0 no-repeat padding-box;
+          border: 1px solid #DFE1EC;
+          border-radius: 8px;
+        }
+        .q-field__control-container {
+          .q-field__label {
+            font-size: 15px;
+            letter-spacing: 0;
+            color: #B4B1B1;
+          }
+        }
+      }
+    }
+  }
+}
