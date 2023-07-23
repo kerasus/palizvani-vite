@@ -78,7 +78,7 @@ import { mapMutations } from 'vuex'
 import { User } from 'src/models/User.js'
 
 export default {
-  name: 'AdminPanelHeader',
+  name: 'UserPanelHeader',
   data () {
     return {
       user: new User(),

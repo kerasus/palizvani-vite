@@ -1,5 +1,6 @@
 <template>
-  <entity-edit ref="entityEdit"
+  <entity-edit v-if="mounted"
+               ref="entityEdit"
                v-model:value="inputs"
                title="اطلاعات کاربری"
                :api="api"
@@ -20,30 +21,34 @@
       </div>
     </template>
   </entity-edit>
+  <template v-else>
+    کمی صبر کنید...
+  </template>
 </template>
 
 <script>
 import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 import Warning from 'src/components/other/Warning.vue'
 import VerifyEmail from 'src/components/other/VerifyEmail.vue'
 import NationalCode from 'src/components/other/NationalCode.vue'
 import VerifyMobileNumber from 'src/components/other/VerifyMobileNumber.vue'
 
-const VerifyMobileNumberComp = shallowRef(VerifyMobileNumber)
+const WarningComp = shallowRef(Warning)
 const VerifyEmailComp = shallowRef(VerifyEmail)
 const NationalCodeComp = shallowRef(NationalCode)
-const WarningComp = shallowRef(Warning)
+const VerifyMobileNumberComp = shallowRef(VerifyMobileNumber)
 
 export default {
   name: 'UserPanel.Profile.UserInfo',
   components: { EntityEdit },
   data () {
     return {
+      mounted: false,
       tab: 'userInfo',
-      api: API_ADDRESS.user.current,
+      api: APIGateway.user.APIAdresses.current,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'UserPanel.Profile.UserInfo',
@@ -55,8 +60,8 @@ export default {
         // { type: 'input', name: 'on_call_mobile_number', label: 'تلفن همراه', responseKey: 'on_call_mobile_number', col: 'col-md-3' },
         { type: VerifyMobileNumberComp, name: 'on_call_mobile_number', label: 'تلفن همراه', responseKey: 'on_call_mobile_number', col: 'col-md-3' },
         { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', col: 'col-md-12' },
-        { type: 'file', name: 'avatar', label: 'عکس پروفایل', responseKey: 'data.avatar', col: 'col-md-3' },
-        { type: 'separator', name: 'space', size: 0, col: 'col-md-12' },
+        { type: 'file', name: 'picture', label: 'عکس پروفایل', responseKey: 'picture', col: 'col-md-3' },
+        { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
         { type: 'input', name: 'firstname', label: 'نام', responseKey: 'firstname', col: 'col-md-3' },
         { type: 'input', name: 'lastname', label: 'نام خانوادگی', responseKey: 'lastname', col: 'col-md-3' },
         {
@@ -112,6 +117,9 @@ export default {
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-12' }
       ]
     }
+  },
+  mounted() {
+    this.mounted = true
   },
   methods: {
     afterLoadInputData (responseData, setNewInputData) {

@@ -93,6 +93,7 @@ const routes = [
         name: 'UserPanel',
         layoutConfig: {
           showHamburgerBtn: false,
+          layoutHeaderType: 'user-panel',
           layoutLeftSideBarType: 'user-panel'
         },
         meta: { middlewares: [Authenticated, canSeeUserProfilePanel] },

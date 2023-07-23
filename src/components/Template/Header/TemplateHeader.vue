@@ -1,27 +1,21 @@
 <template>
   <main-header v-if="type === 'main'" />
   <admin-panel-header v-if="type === 'admin'" />
-  <user-abrisham-panel v-if="type === 'abrisham'" />
-  <user-gift-card-panel v-if="type === 'gift-card'" />
-  <triple-title-set-panel v-if="type === 'triple-title-set'" />
+  <user-panel-header v-if="type === 'user-panel'" />
 </template>
 
 <script>
 import MainHeader from 'src/components/Template/Header/MainHeader.vue'
 // import MainHeaderTemplate from 'src/components/Template/Header/Main.vue'
 import AdminPanelHeader from 'src/components/Template/Header/AdminPanelHeader.vue'
-import UserAbrishamPanel from 'src/components/Template/Header/UserAbrishamPanel.vue'
-import UserGiftCardPanel from 'src/components/Template/Header/UserGiftCardPanel.vue'
-import TripleTitleSetPanel from 'src/components/Template/Header/TripleTitleSetPanel.vue'
+import UserPanelHeader from 'src/components/Template/Header/UserPanelHeader.vue'
 
 export default {
   name: 'templateHeader',
   components: {
     MainHeader,
-    AdminPanelHeader,
-    UserGiftCardPanel,
-    UserAbrishamPanel,
-    TripleTitleSetPanel
+    UserPanelHeader,
+    AdminPanelHeader
   },
   props: {
     type: [String, Boolean, null],
