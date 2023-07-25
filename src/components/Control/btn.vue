@@ -4,7 +4,7 @@
          :class="btnClass"
          :disable="disable"
          :loading="loading"
-         @click="atClick" />
+         @click="onClick" />
 </template>
 
 <script>
@@ -47,6 +47,12 @@ export default {
   },
   created () {
     this.inputData = this.value
+  },
+  methods: {
+    onClick (event) {
+      this.atClick()
+      this.$emit('onClick', event)
+    }
   }
 }
 </script>

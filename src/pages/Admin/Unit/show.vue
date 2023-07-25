@@ -1,7 +1,8 @@
 <template>
   <div>
     <div>
-      <entity-edit ref="categoryEntityEdit"
+      <entity-edit v-if="mounted"
+                   ref="categoryEntityEdit"
                    v-model:value="inputs"
                    title="مشخصات دسته بندی"
                    :api="api"
@@ -23,7 +24,8 @@
       </entity-edit>
     </div>
     <div class="q-mt-md">
-      <entity-index ref="sessionEntityIndex"
+      <entity-index v-if="mounted"
+                    ref="sessionEntityIndex"
                     v-model:value="sessionFilterInputs"
                     title="لیست جلسات"
                     :api="sessionApi"
@@ -72,10 +74,11 @@
 
 <script>
 import { shallowRef } from 'vue'
-import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 import { EntityEdit, EntityIndex } from 'quasar-crud'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
+import { UnitCategoryList } from 'src/models/UnitCategory.js'
 import PostRequisites from 'src/components/Control/PostRequisites.vue'
 
 const PostRequisitesComp = shallowRef(PostRequisites)
@@ -89,10 +92,11 @@ export default {
   },
   data () {
     return {
+      mounted: false,
       newSessionLoading: false,
       newSessionName: '-',
       newSessionSessionCount: null,
-      api: API_ADDRESS.unit.base,
+      api: null,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Unit.Show',
@@ -105,10 +109,8 @@ export default {
         { type: 'hidden', name: 'category', responseKey: 'category_info.id', label: 'id', col: 'col-md-3' }
       ],
 
-      categoriesLoading: false,
-      categories: [],
-      unitsLoading: false,
-      units: [],
+      categories: new UnitCategoryList(),
+      units: new UnitCategoryList(),
       prerequisite: {
         category: null,
         unit: null
@@ -116,7 +118,7 @@ export default {
 
       sessionFilterInputs: [],
 
-      sessionApi: API_ADDRESS.sessionTemplates.base + '?unit=' + this.$route.params.id,
+      sessionApi: null,
       sessionTable: {
         columns: [
           {
@@ -173,31 +175,33 @@ export default {
       }
     }
   },
-  created () {
-    this.api += '/' + this.$route.params.id
-    this.getCategories()
+  mounted () {
+    this.api = APIGateway.unit.APIAdresses.byId(this.$route.params.id)
+    this.sessionApi = APIGateway.sessionTemplate.APIAdresses.base + '?unit=' + this.$route.params.id
+    // this.getCategories()
+    this.mounted = true
   },
   methods: {
     getCategories () {
-      this.categoriesLoading = true
-      this.$axios.get(API_ADDRESS.category.base)
-        .then(response => {
-          this.categoriesLoading = false
-          this.categories = response.data.results
+      this.categories.loading = true
+      APIGateway.unitCategory.index()
+        .then(categories => {
+          this.categories.loading = false
+          this.categories = new UnitCategoryList(categories.list)
         })
         .catch(() => {
-          this.categoriesLoading = false
+          this.categories.loading = false
         })
     },
     getUnits () {
-      this.unitsLoading = true
-      this.$axios.get(API_ADDRESS.unit.base + '?category=' + this.prerequisite.category)
-        .then(response => {
-          this.unitsLoading = false
-          this.units = response.data.results
+      this.units.loading = true
+      APIGateway.unit.index({ category: this.prerequisite.category })
+        .then(units => {
+          this.units.loading = false
+          this.units = new UnitCategoryList(units.list)
         })
         .catch(() => {
-          this.unitsLoading = false
+          this.units.loading = false
         })
     },
     updateCategory () {
@@ -211,7 +215,7 @@ export default {
     },
     createSession () {
       this.newSessionLoading = true
-      this.$axios.post(API_ADDRESS.sessionTemplates.base, {
+      APIGateway.sessionTemplate.create({
         title: this.newSessionName,
         unit: this.$route.params.id
       })

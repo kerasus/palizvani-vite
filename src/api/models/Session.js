@@ -1,13 +1,13 @@
 import { appApi } from 'src/boot/axios.js'
 import APIRepository from '../classes/APIRepository.js'
-import { Unit, UnitList } from 'src/models/Unit.js'
+import { Session, SessionList } from 'src/models/Session.js'
 
-export default class UnitAPI extends APIRepository {
+export default class SessionAPI extends APIRepository {
   constructor() {
-    super('Unit', appApi, '/lma/categories', Unit)
+    super('Session', appApi, '/lma/categories', Session)
     this.APIAdresses = {
-      base: '/lma/units',
-      byId: (id) => '/lma/units/' + id
+      base: '/lma/sessions',
+      byId: (id) => '/lma/sessions/' + id
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -30,7 +30,7 @@ export default class UnitAPI extends APIRepository {
         const results = response.data.results
         delete paginate.results
         return {
-          list: new UnitList(results),
+          list: new SessionList(results),
           paginate
           // {
           //   "count": 1,
@@ -55,12 +55,10 @@ export default class UnitAPI extends APIRepository {
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
         title: null, // String
-        category: null, // Number
-        default_session_count: null, // Number
-        prerequisites: [] // Array
+        unit: null // Number
       }, data),
       resolveCallback: (response) => {
-        return new Unit(response.data)
+        return new Session(response.data)
       },
       rejectCallback: (error) => {
         return error

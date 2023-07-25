@@ -7,21 +7,21 @@
       <div class="row q-col-gutter-md">
         <div class="col-md-3">
           <select-control v-model:value="prerequisite.category"
-                          :options="categories"
-                          :disable="categoriesLoading"
-                          :loading="categoriesLoading"
-                          optionValue="id"
-                          optionLabel="title"
+                          :options="categories.list"
+                          :disable="categories.loading"
+                          :loading="categories.loading"
+                          :option-value="'id'"
+                          :option-label="'title'"
                           label="دسته بندی"
                           @update:model-value="getUnits" />
         </div>
         <div class="col-md-3">
           <select-control v-model:value="prerequisite.unit"
-                          :options="units"
-                          :disable="unitsLoading"
-                          :loading="unitsLoading"
-                          optionValue="id"
-                          optionLabel="title"
+                          :options="units.list"
+                          :disable="units.loading"
+                          :loading="units.loading"
+                          :option-value="'id'"
+                          :option-label="'title'"
                           label="درس" />
         </div>
         <div class="col-md-3">
@@ -38,17 +38,19 @@
            class="col-md-3">
         <div class="preItem">
           <div class="preItem-title">
-            {{ prerequisite.category.title }},
-            {{ prerequisite.unit.title }}
+            {{ prerequisite.category?.title }},
+            {{ prerequisite.unit?.title }}
           </div>
           <div class="preItem-actions">
-            <div class="view">
+            <q-btn v-if="prerequisite.unit?.id"
+                   flat
+                   class="view"
+                   :to="{ name: 'Admin.Unit.Show', params: { id: prerequisite.unit.id } }">
               <svg data-name="Component 14 – 2"
                    xmlns="http://www.w3.org/2000/svg"
                    width="42"
                    height="42"
-                   viewBox="0 0 42 42"
-                   @click="showUnit(prerequisite.unit.id)">
+                   viewBox="0 0 42 42">
                 <g data-name="Rectangle 3232"
                    fill="#fff"
                    stroke="#475f4a"
@@ -71,14 +73,14 @@
                         fill="#475f4a" />
                 </g>
               </svg>
-            </div>
-            <div class="remove">
+            </q-btn>
+            <div class="remove"
+                 @click="removeUnit(prerequisite.unit.id)">
               <svg data-name="Component 13 – 43"
                    xmlns="http://www.w3.org/2000/svg"
                    width="42"
                    height="42"
-                   viewBox="0 0 42 42"
-                   @click="removeUnit(prerequisite.unit.id)">
+                   viewBox="0 0 42 42">
                 <g data-name="Rectangle 3219"
                    fill="#fff"
                    stroke="#f83a3a"
@@ -115,8 +117,10 @@
 </template>
 
 <script>
-import API_ADDRESS from 'src/api/Addresses'
-import SelectControl from 'components/Control/Select'
+import { UnitList } from 'src/models/Unit.js'
+import { APIGateway } from 'src/api/APIGateway.js'
+import SelectControl from 'src/components/Control/Select.vue'
+import { UnitCategoryList } from 'src/models/UnitCategory.js'
 
 export default {
   name: 'PostRequisites',
@@ -174,11 +178,10 @@ export default {
         category: null,
         unit: null
       },
-      categoriesLoading: false,
-      categories: [],
+      categories: new UnitCategoryList(),
       unitsLoading: false,
-      allUnits: [],
-      units: []
+      allUnits: new UnitList(),
+      units: new UnitList()
     }
   },
   watch: {
@@ -219,13 +222,13 @@ export default {
       this.change()
     },
     getCategoryObject (categoryId) {
-      return this.categories.find(cat => cat.id === categoryId)
+      return this.categories.list.find(cat => cat.id === categoryId)
     },
     getUnitObjectByCategoryId (categoryId) {
-      return this.allUnits.find(unit => unit.category_info.id === categoryId)
+      return this.allUnits.list.find(unit => unit.category_info.id === categoryId)
     },
     getCategoryObjectByUnitId (unitId) {
-      const target = this.allUnits.find(unit => unit.id === unitId)
+      const target = this.allUnits.list.find(unit => unit.id === unitId)
       if (!target) {
         return null
       }
@@ -233,7 +236,7 @@ export default {
       return target.category_info
     },
     getUnitObject (unitId) {
-      return this.allUnits.find(unit => unit.id === unitId)
+      return this.allUnits.list.find(unit => unit.id === unitId)
     },
     addPostRequisites () {
       if (!this.prerequisite.category || !this.prerequisite.unit) {
@@ -249,39 +252,39 @@ export default {
       this.change()
     },
     getCategories () {
-      this.categoriesLoading = true
-      this.$axios.get(API_ADDRESS.category.base)
-        .then(response => {
-          this.categoriesLoading = false
-          this.categories = response.data.results
+      this.categories.loading = true
+      APIGateway.unitCategory.index()
+        .then(categories => {
+          this.categories.loading = false
+          this.categories = new UnitCategoryList(categories.list)
         })
         .catch(() => {
-          this.categoriesLoading = false
+          this.categories.loading = false
         })
     },
     getAllUnits () {
-      this.unitsLoading = true
-      this.$axios.get(API_ADDRESS.unit.base)
-        .then(response => {
-          this.unitsLoading = false
-          this.allUnits = response.data.results
+      this.allUnits.loading = true
+      APIGateway.unit.index({ per_page: 9999 })
+        .then(units => {
+          this.allUnits.loading = false
+          this.allUnits = new UnitList(units.list)
           this.loadPrerequisitesFromInputData()
         })
         .catch(() => {
-          this.unitsLoading = false
+          this.allUnits.loading = false
         })
     },
     getUnits () {
-      this.unitsLoading = true
-      this.units = []
+      this.units.loading = true
+      this.units = new UnitList()
       this.prerequisite.unit = null
-      this.$axios.get(API_ADDRESS.unit.base + '?category=' + this.prerequisite.category)
-        .then(response => {
-          this.unitsLoading = false
-          this.units = response.data.results
+      APIGateway.unit.index({ category: this.prerequisite.category })
+        .then(units => {
+          this.units.loading = false
+          this.units = new UnitList(units.list)
         })
         .catch(() => {
-          this.unitsLoading = false
+          this.units.loading = false
         })
     },
     change () {

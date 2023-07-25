@@ -28,7 +28,8 @@
     <q-tab-panels v-model="tab"
                   animated>
       <q-tab-panel name="userInfo">
-        <entity-edit ref="entityEdit"
+        <entity-edit v-if="mounted"
+                     ref="entityEdit"
                      v-model:value="inputs"
                      title="اطلاعات کاربری"
                      :api="api"
@@ -36,6 +37,7 @@
                      :entity-id-key="entityIdKey"
                      :entity-param-key="entityParamKey"
                      :show-route-name="showRouteName"
+                     :default-layout="false"
                      :show-close-button="false"
                      :show-edit-button="false"
                      :show-expand-button="false"
@@ -77,7 +79,7 @@
 <script>
 import { EntityEdit } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'Admin.User.Show',
@@ -85,7 +87,8 @@ export default {
   data () {
     return {
       tab: 'userInfo',
-      api: API_ADDRESS.user.base,
+      api: null,
+      mounted: false,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.User.Show',
@@ -105,7 +108,7 @@ export default {
         { type: 'input', name: 'on_call_mobile_number', label: 'تلفن همراه', responseKey: 'on_call_mobile_number', col: 'col-md-3' },
         { type: 'input', name: 'national_code', label: 'کدملی/کد اتباع غیر ایرانی', responseKey: 'national_code', col: 'col-md-3' },
         { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', col: 'col-md-12' },
-        { type: 'file', name: 'picture', label: 'عکس پروفایل', responseKey: 'data.picture', col: 'col-md-3' },
+        { type: 'file', name: 'picture', label: 'عکس پروفایل', responseKey: 'picture', col: 'col-md-3' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
         { type: 'input', name: 'firstname', label: 'نام', responseKey: 'firstname', col: 'col-md-3' },
         { type: 'input', name: 'lastname', label: 'نام خانوادگی', responseKey: 'lastname', col: 'col-md-3' },
@@ -164,8 +167,9 @@ export default {
       ]
     }
   },
-  created () {
-    this.api += '/' + this.$route.params.id
+  mounted () {
+    this.api = APIGateway.user.APIAdresses.byId(this.$route.params.id)
+    this.mounted = true
   },
   methods: {
     afterLoadInputData (responseData, setNewInputData) {

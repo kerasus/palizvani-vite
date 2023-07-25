@@ -1,30 +1,33 @@
 <template>
-  <entity-create ref="classroomEntityCreate"
-                 v-model:value="inputs"
-                 title="مشخصات دوره آموزشی"
-                 :api="api"
-                 :entity-id-key="entityIdKey"
-                 :entity-param-key="entityParamKey"
-                 :show-route-name="showRouteName"
-                 :show-close-button="false"
-                 :show-edit-button="false"
-                 :show-expand-button="false"
-                 :show-save-button="false"
-                 :show-reload-button="false">
-    <template #after-form-builder>
-      <div class="flex justify-end">
-        <q-btn color="primary"
-               label="ایجاد دوره آموزشی جدید"
-               @click="createClassroom" />
-      </div>
-    </template>
-  </entity-create>
+  <div class="AdminClassroomCreate">
+    <entity-create v-if="mounted"
+                   ref="classroomEntityCreate"
+                   v-model:value="inputs"
+                   title="مشخصات دوره آموزشی"
+                   :api="api"
+                   :entity-id-key="entityIdKey"
+                   :entity-param-key="entityParamKey"
+                   :show-route-name="showRouteName"
+                   :show-close-button="false"
+                   :show-edit-button="false"
+                   :show-expand-button="false"
+                   :show-save-button="false"
+                   :show-reload-button="false">
+      <template #after-form-builder>
+        <div class="flex justify-end">
+          <q-btn color="primary"
+                 label="ایجاد دوره آموزشی جدید"
+                 @click="createClassroom" />
+        </div>
+      </template>
+    </entity-create>
+  </div>
 </template>
 
 <script>
 import { EntityCreate } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
+import { APIGateway } from 'src/api/APIGateway'
 
 export default {
   name: 'Admin.Classroom.Create',
@@ -33,10 +36,11 @@ export default {
   },
   data () {
     return {
+      mounted: false,
       newUnitLoading: false,
       newUnitName: null,
       newUnitSessionCount: null,
-      api: API_ADDRESS.classroom.base,
+      api: APIGateway.classroom.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Classroom.Show',
@@ -136,7 +140,8 @@ export default {
       this.getUnits(this.selectedCategoryId)
     }
   },
-  created () {
+  mounted () {
+    this.mounted = true
     this.beforeLoadInputData()
   },
   methods: {
@@ -150,24 +155,33 @@ export default {
       })
     },
     async getProfessors (setNewInputData) {
-      const response = await this.$axios.get(API_ADDRESS.user.base + '?per_page=9999&role=professor')
-      this.loadSelectOptions('professor', response.data.results.map(item => {
-        return {
-          value: item.id,
-          label: this.getUserFullname(item)
-        }
-      }), setNewInputData)
+      APIGateway.user.index({ per_page: 9999, role: 'professor' })
+        .then((users) => {
+          this.loadSelectOptions('professor', users.list.list.map(item => {
+            return {
+              value: item.id,
+              label: this.getUserFullname(item)
+            }
+          }), setNewInputData)
+        })
+        .catch(() => {})
     },
     getUserFullname (user) {
       return user.firstname + ' ' + user.lastname
     },
     async getCategories (setNewInputData) {
-      const response = await this.$axios.get(API_ADDRESS.category.base)
-      this.loadSelectOptions('category', this.getSelectOptions(response.data.results, 'id', 'title'), setNewInputData)
+      APIGateway.unitCategory.index({ per_page: 9999 })
+        .then((categories) => {
+          this.loadSelectOptions('category', this.getSelectOptions(categories.list.list, 'id', 'title'), setNewInputData)
+        })
+        .catch(() => {})
     },
     async getUnits (selectedcategoryId, setNewInputData) {
-      const response = await this.$axios.get(API_ADDRESS.unit.base + '?category=' + selectedcategoryId)
-      this.loadSelectOptions('unit', this.getSelectOptions(response.data.results, 'id', 'title'), setNewInputData)
+      APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
+        .then((units) => {
+          this.loadSelectOptions('unit', this.getSelectOptions(units.list.list, 'id', 'title'), setNewInputData)
+        })
+        .catch(() => {})
     },
     getSelectOptions (result, value, label) {
       return result.map(item => {

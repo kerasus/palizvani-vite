@@ -6,6 +6,7 @@ class UnitCategory extends Model {
   constructor (data) {
     super(data, [
       { key: 'id' },
+      { key: 'title' },
       { key: 'creator' },
       {
         key: 'creator_info',

@@ -1,75 +1,78 @@
 <template>
-  <entity-edit ref="categoryEntityEdit"
-               v-model:value="inputs"
-               title="مشخصات دسته بندی"
-               :api="api"
-               :entity-id-key="entityIdKey"
-               :entity-param-key="entityParamKey"
-               :show-route-name="showRouteName"
-               :show-close-button="false"
-               :show-edit-button="false"
-               :show-expand-button="false"
-               :show-save-button="false"
-               :show-reload-button="false">
-    <template #after-form-builder>
-      <div class="row q-col-gutter-md q-mb-md">
-        <div class="col-md-3">
-          <q-input v-model="newUnitName"
-                   label="درس ها"
-                   :disable="newUnitLoading"
-                   :loading="newUnitLoading" />
+  <div class="AdminCategoryIndex">
+    <entity-edit v-if="mounted"
+                 ref="categoryEntityEdit"
+                 v-model:value="inputs"
+                 title="مشخصات دسته بندی"
+                 :api="api"
+                 :entity-id-key="entityIdKey"
+                 :entity-param-key="entityParamKey"
+                 :show-route-name="showRouteName"
+                 :show-close-button="false"
+                 :show-edit-button="false"
+                 :show-expand-button="false"
+                 :show-save-button="false"
+                 :show-reload-button="false">
+      <template #after-form-builder>
+        <div class="row q-col-gutter-md q-mb-md">
+          <div class="col-md-3">
+            <q-input v-model="newUnitName"
+                     label="درس ها"
+                     :disable="newUnitLoading"
+                     :loading="newUnitLoading" />
+          </div>
+          <div class="col-md-3">
+            <q-input v-model="newUnitSessionCount"
+                     label="تعداد جلسات"
+                     type="number"
+                     :disable="newUnitLoading"
+                     :loading="newUnitLoading" />
+          </div>
+          <div class="col-md-3">
+            <q-btn color="primary"
+                   label="افزودن"
+                   @click="createUnit" />
+          </div>
         </div>
-        <div class="col-md-3">
-          <q-input v-model="newUnitSessionCount"
-                   label="تعداد جلسات"
-                   type="number"
-                   :disable="newUnitLoading"
-                   :loading="newUnitLoading" />
-        </div>
-        <div class="col-md-3">
-          <q-btn color="primary"
-                 label="افزودن"
-                 @click="createUnit" />
-        </div>
-      </div>
-      <div class="row ">
-        <div class="col">
-          <entity-index ref="unitEntityIndex"
-                        v-model:value="unitFilterInputs"
-                        title="لیست درس ها"
-                        :api="unitApi"
-                        :table="unitTable"
-                        :table-keys="unitTableKeys"
-                        :show-reload-button="false"
-                        :show-search-button="false"
-                        :show-expand-button="false">
-            <template #table-cell="{inputData, showConfirmRemoveDialog}">
-              <q-td :props="inputData.props">
-                <template v-if="inputData.props.col.name === 'actions'">
+        <div class="row ">
+          <div class="col">
+            <entity-index ref="unitEntityIndex"
+                          v-model:value="unitFilterInputs"
+                          title="لیست درس ها"
+                          :api="unitApi"
+                          :table="unitTable"
+                          :table-keys="unitTableKeys"
+                          :show-reload-button="false"
+                          :show-search-button="false"
+                          :show-expand-button="false"
+                          :default-layout="false">
+              <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+                <template v-if="inputData.col.name === 'actions'">
                   <div class="action-column-entity-index">
                     <q-btn size="md"
                            color="primary"
                            label="تعیین جزییات"
-                           :to="{name: 'Admin.Unit.Show', params: {id: inputData.props.row.id}}" />
+                           :to="{name: 'Admin.Unit.Show', params: {id: inputData.props.row.id}}"
+                           class="q-mr-md" />
                     <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
                   </div>
                 </template>
                 <template v-else>
-                  {{ inputData.props.value }}
+                  {{ inputData.col.value }}
                 </template>
-              </q-td>
-            </template>
-          </entity-index>
+              </template>
+            </entity-index>
+          </div>
         </div>
-      </div>
-    </template>
-  </entity-edit>
+      </template>
+    </entity-edit>
+  </div>
 </template>
 
 <script>
 import { shallowRef } from 'vue'
-import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 import { EntityEdit, EntityIndex } from 'quasar-crud'
 import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
@@ -85,10 +88,11 @@ export default {
   },
   data () {
     return {
+      mounted: false,
       newUnitLoading: false,
       newUnitName: null,
       newUnitSessionCount: null,
-      api: API_ADDRESS.category.base,
+      api: null,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Category.Show',
@@ -98,9 +102,11 @@ export default {
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id' }
       ],
 
-      unitFilterInputs: [],
+      unitFilterInputs: [
+        // { type: 'hidden', name: 'category', value: null }
+      ],
 
-      unitApi: API_ADDRESS.unit.base + '?category=' + this.$route.params.id,
+      unitApi: APIGateway.unit.APIAdresses.base + '?category=' + this.$route.params.id,
       unitTable: {
         columns: [
           {
@@ -158,8 +164,10 @@ export default {
 
     }
   },
-  created () {
-    this.api += '/' + this.$route.params.id
+  mounted () {
+    // this.unitFilterInputs[0].value = this.$route.params.id
+    this.api = APIGateway.unitCategory.APIAdresses.byId(this.$route.params.id)
+    this.mounted = true
   },
   methods: {
     updateCategory () {
@@ -176,7 +184,7 @@ export default {
     },
     createUnit () {
       this.newUnitLoading = true
-      this.$axios.post(API_ADDRESS.unit.base, {
+      APIGateway.unit.create({
         title: this.newUnitName,
         category: this.$route.params.id,
         default_session_count: this.newUnitSessionCount
@@ -193,8 +201,12 @@ export default {
 }
 </script>
 
-<style>
-.fit-to-card {
-  margin: -16px;
+<style lang="scss" scoped>
+.AdminCategoryIndex {
+  .action-column-entity-index {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 }
 </style>

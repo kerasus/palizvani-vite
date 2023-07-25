@@ -1,6 +1,4 @@
-/* eslint-disable camelcase,prefer-const */
-import { Model } from 'js-abstract-model'
-// import API_ADDRESS from '../api/Addresses'
+import { Collection, Model } from 'js-abstract-model'
 
 class User extends Model {
   constructor (data) {
@@ -162,4 +160,10 @@ class User extends Model {
   }
 }
 
-export { User }
+class UserList extends Collection {
+  model () {
+    return User
+  }
+}
+
+export { User, UserList }

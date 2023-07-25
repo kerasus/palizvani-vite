@@ -1,5 +1,5 @@
-import { User } from 'src/models/User.js'
 import { appApi } from 'src/boot/axios.js'
+import { User, UserList } from 'src/models/User.js'
 import APIRepository from '../classes/APIRepository.js'
 
 export default class UserAPI extends APIRepository {
@@ -19,6 +19,39 @@ export default class UserAPI extends APIRepository {
       byId: (id) => this.name + this.APIAdresses.byId(id),
       changeRole: (id) => this.name + this.APIAdresses.changeRole(id)
     }
+  }
+
+  index(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.base,
+      data: this.getNormalizedSendData({
+        role: null, // String
+        per_page: 10, // Number
+        page: 1 // Number
+      }, data),
+      resolveCallback: (response) => {
+        const paginate = response.data
+        const results = response.data.results
+        delete paginate.results
+        return {
+          list: new UserList(results),
+          paginate
+          // {
+          //   "count": 1,
+          //   "num_pages": 1,
+          //   "per_page": 10,
+          //   "current": 1,
+          //   "next": null,
+          //   "previous": null,
+          // }
+        }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
   }
 
   updateCurrent(data = {}) {
@@ -75,6 +108,7 @@ export default class UserAPI extends APIRepository {
         marital_status: 'UNKNOWN', // String
         birthdate: null, // String
         national_code: '', // String
+        is_active: false, // Boolean
         has_seminary_education: false, // Boolean
         last_academic_degree: 'UNDER_DIPLOMA', // String
         last_academic_degree_field: null, // String

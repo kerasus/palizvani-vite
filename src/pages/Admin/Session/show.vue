@@ -1,41 +1,45 @@
 <template>
-  <entity-edit ref="sessionEntityEdit"
-               v-model:value="inputs"
-               title="جزییات جلسه"
-               :api="api"
-               :entity-id-key="entityIdKey"
-               :entity-param-key="entityParamKey"
-               :show-route-name="showRouteName"
-               :show-close-button="false"
-               :show-edit-button="false"
-               :show-expand-button="false"
-               :show-save-button="false"
-               :show-reload-button="false">
-    <template #after-form-builder>
-      <div class="flex justify-end">
-        <q-btn color="primary"
-               label="ذخیره جزییات"
-               @click="updateSessionTemplates" />
-      </div>
-    </template>
-  </entity-edit>
+  <div class="AdminSessionShow">
+    <entity-edit v-if="mounted"
+                 ref="sessionEntityEdit"
+                 v-model:value="inputs"
+                 title="جزییات جلسه"
+                 :api="api"
+                 :entity-id-key="entityIdKey"
+                 :entity-param-key="entityParamKey"
+                 :show-route-name="showRouteName"
+                 :show-close-button="false"
+                 :show-edit-button="false"
+                 :show-expand-button="false"
+                 :show-save-button="false"
+                 :show-reload-button="false">
+      <template #after-form-builder>
+        <div class="flex justify-end">
+          <q-btn color="primary"
+                 label="ذخیره جزییات"
+                 @click="updateSessionTemplates" />
+        </div>
+      </template>
+    </entity-edit>
+  </div>
 </template>
 
 <script>
 import { EntityEdit } from 'quasar-crud'
-import API_ADDRESS from 'src/api/Addresses.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
-  name: 'Admin.SessionTemplates.Index',
+  name: 'Admin.Session.Show',
   components: {
     EntityEdit
   },
   data () {
     return {
+      mounted: false,
       newUnitLoading: false,
       newUnitName: null,
       newUnitSessionCount: null,
-      api: API_ADDRESS.session.base,
+      api: null,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.SessionTemplate.Show',
@@ -51,8 +55,9 @@ export default {
       ]
     }
   },
-  created () {
-    this.api += '/' + this.$route.params.id
+  mounted () {
+    this.api = APIGateway.session.APIAdresses.byId(this.$route.params.id)
+    this.mounted = true
   },
   methods: {
     updateSessionTemplates () {

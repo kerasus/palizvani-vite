@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card class="AdminClassroomShow">
     <q-tabs v-model="tab"
             dense
             class="text-grey"
@@ -21,7 +21,8 @@
 
     <q-separator />
 
-    <q-tab-panels v-model="tab"
+    <q-tab-panels v-if="mounted"
+                  v-model="tab"
                   animated>
       <q-tab-panel name="classroomInfo">
         <entity-edit ref="categoryEntityEdit"
@@ -55,21 +56,20 @@
                       :show-search-button="false"
                       :show-reload-button="false"
                       :show-expand-button="false">
-          <template #table-cell="{inputData, showConfirmRemoveDialog}">
-            <q-td :props="inputData.props">
-              <template v-if="inputData.props.col.name === 'actions'">
-                <div class="action-column-entity-index">
-                  <q-btn size="md"
-                         color="primary"
-                         label="جزییات"
-                         :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}" />
-                  <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
-                </div>
-              </template>
-              <template v-else>
-                {{ inputData.props.value }}
-              </template>
-            </q-td>
+          <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+            <template v-if="inputData.col.name === 'actions'">
+              <div class="action-column-entity-index">
+                <q-btn size="md"
+                       color="primary"
+                       label="جزییات"
+                       :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}"
+                       class="q-mr-md" />
+                <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
           </template>
         </entity-index>
       </q-tab-panel>
@@ -89,7 +89,7 @@
 
 <script>
 import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { EntityEdit, EntityIndex } from 'quasar-crud'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
@@ -103,8 +103,9 @@ export default {
   },
   data () {
     return {
+      mounted: false,
       tab: 'classroomInfo',
-      api: API_ADDRESS.classroom.base,
+      api: null,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Classroom.Show',
@@ -197,7 +198,7 @@ export default {
       sessionListInputs: [
         { type: 'hidden', name: 'classroom', value: this.$route.params.id, label: 'نام دوره', col: 'col-md-12' }
       ],
-      sessionListApi: API_ADDRESS.session.base,
+      sessionListApi: APIGateway.session.APIAdresses.base,
       sessionListTable: {
         columns: [
           {
@@ -258,8 +259,9 @@ export default {
       this.getUnits(this.selectedCategoryId)
     }
   },
-  created () {
-    this.api += '/' + this.$route.params.id
+  mounted () {
+    this.api = APIGateway.classroom.APIAdresses.byId(this.$route.params.id)
+    this.mounted = true
   },
   methods: {
     async beforeLoadInputData (responseData, setNewInputData) {
@@ -272,24 +274,33 @@ export default {
       })
     },
     async getProfessors (setNewInputData) {
-      const response = await this.$axios.get(API_ADDRESS.user.base + '?per_page=9999&role=professor')
-      this.loadSelectOptions('professor', response.data.results.map(item => {
-        return {
-          value: item.id,
-          label: this.getUserFullname(item)
-        }
-      }), setNewInputData)
+      APIGateway.user.index({ per_page: 9999, role: 'professor' })
+        .then((users) => {
+          this.loadSelectOptions('professor', users.list.list.map(item => {
+            return {
+              value: item.id,
+              label: this.getUserFullname(item)
+            }
+          }), setNewInputData)
+        })
+        .catch(() => {})
     },
     getUserFullname (user) {
       return user.firstname + ' ' + user.lastname
     },
     async getCategories (setNewInputData) {
-      const response = await this.$axios.get(API_ADDRESS.category.base)
-      this.loadSelectOptions('category', this.getSelectOptions(response.data.results, 'id', 'title'), setNewInputData)
+      APIGateway.unitCategory.index({ per_page: 9999 })
+        .then((categories) => {
+          this.loadSelectOptions('category', this.getSelectOptions(categories.list.list, 'id', 'title'), setNewInputData)
+        })
+        .catch(() => {})
     },
     async getUnits (selectedcategoryId, setNewInputData) {
-      const response = await this.$axios.get(API_ADDRESS.unit.base + '?category=' + selectedcategoryId)
-      this.loadSelectOptions('unit', this.getSelectOptions(response.data.results, 'id', 'title'), setNewInputData)
+      APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
+        .then((units) => {
+          this.loadSelectOptions('unit', this.getSelectOptions(units.list.list, 'id', 'title'), setNewInputData)
+        })
+        .catch(() => {})
     },
     getSelectOptions (result, value, label) {
       return result.map(item => {
@@ -324,8 +335,12 @@ export default {
 }
 </script>
 
-<style>
-.fit-to-card {
-  margin: -16px;
+<style lang="scss" scoped>
+.AdminClassroomShow {
+  .action-column-entity-index {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 }
 </style>
