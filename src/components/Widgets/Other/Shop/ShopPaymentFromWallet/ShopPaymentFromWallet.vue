@@ -237,7 +237,7 @@ export default {
   },
   created () {
     if (this.classroom === null || typeof this.classroom.id === 'undefined' || this.classroom.id === null) {
-      this.$router.push({ name: 'UserPanel.AllClassrooms' })
+      this.$router.push({ name: 'Public.AllClassrooms' })
     }
   },
   methods: {

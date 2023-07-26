@@ -1,0 +1,28 @@
+.main-layout {
+  .q-layout__section--marginal {
+    background-color: white;
+    height: 70px;
+    color: inherit;
+    //border-bottom: solid 1px #DFE1EC;
+  }
+  &.isNotAdminPage:not(.isProfilePage) {
+    .q-layout__section--marginal {
+      background-color: #FBF4EA;
+      height: 120px;
+      color: #212121;
+      border-bottom: solid 1px #DFE1EC;
+    }
+  }
+  &.isHomePage {
+    .q-layout__section--marginal {
+      height: 120px;
+      background-color: transparent !important;
+      border: none !important;
+    }
+  }
+  &.isPublicPage {
+    .q-layout__section--marginal {
+      height: 120px;
+    }
+  }
+}

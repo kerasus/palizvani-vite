@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'UserPanel.AllClassrooms',
+  name: 'Public.AllClassrooms',
   data () {
     return {
       pageConfig: {},

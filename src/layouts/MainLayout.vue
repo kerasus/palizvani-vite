@@ -1,5 +1,6 @@
 <template>
-  <div class="main-layout">
+  <div class="main-layout"
+       :class="{'isNotAdminPage': !isAdminPage, 'isHomePage': isHomePage, 'isProfilePage': isProfilePage, 'isPublicPage': isPublicPage}">
     <quasar-template-builder @onResize="resize">
       <template #header>
         <template-header :type="getTemplateHeaderType" />
@@ -83,6 +84,18 @@ export default {
     }
   },
   computed: {
+    isPublicPage () {
+      return this.$route.name && this.$route.name.includes('Public.')
+    },
+    isAdminPage () {
+      return this.$route.name && this.$route.name.includes('Admin.')
+    },
+    isProfilePage () {
+      return this.$route.name && this.$route.name.includes('UserPanel.')
+    },
+    isHomePage () {
+      return this.$route.name && this.$route.name === 'Public.Home'
+    },
     canShowFloatingActionBtn () {
       return true
       // return this.user.hasPermission('editSiteSetting') && (this.hasDynamicSetting || this.hasDynamicSettingWithParams)

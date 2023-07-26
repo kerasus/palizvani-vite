@@ -8,7 +8,7 @@
       </div>
       <div>
         <q-btn flat
-               :to="{name: 'UserPanel.AllClassrooms'}">
+               :to="{name: 'Public.AllClassrooms'}">
           مشاهده همه
           <svg xmlns="http://www.w3.org/2000/svg"
                width="18.387"
@@ -33,7 +33,7 @@
                 class="classroomCarousel-item"
                 :class="{'isRegistered' : isClassroomRegistered(classroom.id) }">
           <q-card-section class="thumbnail">
-            <router-link :to="{name: 'UserPanel.ShowClassroomInfo', params: {id: classroom.id}}">
+            <router-link :to="{name: 'Public.ShowClassroomInfo', params: {id: classroom.id}}">
               <div class="RegisteredSign">
                 <svg class="ribbon"
                      xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@
             </router-link>
           </q-card-section>
           <q-card-section class="title">
-            <router-link :to="{name: 'UserPanel.ShowClassroomInfo', params: {id: classroom.id}}">
+            <router-link :to="{name: 'Public.ShowClassroomInfo', params: {id: classroom.id}}">
               {{classroom.title}}
             </router-link>
           </q-card-section>
@@ -152,7 +152,7 @@
           <q-card-actions class="action-section">
             <q-btn color="primary"
                    class="btn-show-classroom"
-                   :to="{name: 'UserPanel.ShowClassroomInfo', params: {id: classroom.id}}">
+                   :to="{name: 'Public.ShowClassroomInfo', params: {id: classroom.id}}">
               جزییات دوره
               <svg xmlns="http://www.w3.org/2000/svg"
                    width="18.387"
@@ -251,7 +251,7 @@ export default {
       this.userRegistrations.loading = true
       APIGateway.classroomRegistration.index()
         .then((classroomRegistrationList) => {
-          this.userRegistrations = new ClassroomRegistrationList(classroomRegistrationList)
+          this.userRegistrations = new ClassroomRegistrationList(classroomRegistrationList.list)
           this.classroomsKey = Date.now()
           this.userRegistrations.loading = false
         })
@@ -263,7 +263,7 @@ export default {
       this.classrooms.loading = true
       APIGateway.classroom.index()
         .then(classroomList => {
-          this.classrooms = new ClassroomList(classroomList)
+          this.classrooms = new ClassroomList(classroomList.list)
           this.classrooms.loading = false
         })
         .catch(() => {

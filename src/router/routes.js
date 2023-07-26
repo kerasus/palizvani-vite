@@ -83,8 +83,8 @@ const routes = [
           // },
 
           { name: 'Public.Home', path: '', component: () => import('src/pages/Public/index.vue') },
-          { name: 'UserPanel.AllClassrooms', path: 'all-classrooms', component: () => import('src/pages/Public/classrooms.vue') },
-          { name: 'UserPanel.ShowClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/Public/ShowClassroomInfo.vue') }
+          { name: 'Public.AllClassrooms', path: 'all-classrooms', component: () => import('src/pages/Public/classrooms.vue') },
+          { name: 'Public.ShowClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/Public/ShowClassroomInfo.vue') }
 
         ]
       },
@@ -108,6 +108,17 @@ const routes = [
           {
             name: 'UserPanel.ShopCompleteInfo',
             path: 'shop/completeInfo',
+            layoutConfig: {
+              layoutView: 'hHh LpR fFf',
+              layoutHeaderType: 'admin',
+              layoutHeaderBordered: true,
+              layoutLeftDrawer: false,
+              layoutLeftDrawerVisible: false,
+              layoutLeftSideBarType: 'admin',
+              layoutLeftDrawerBordered: true,
+              layoutLeftDrawerWidth: 240,
+              layoutFooter: false
+            },
             meta: { middlewares: [Authenticated] },
             component: () => import('src/pages/User/Shop/completeInfo.vue')
           },

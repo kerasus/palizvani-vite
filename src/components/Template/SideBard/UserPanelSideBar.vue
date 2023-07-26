@@ -48,7 +48,7 @@ export default {
       userProfileMenuItems: [
         {
           title: 'پیشخوان',
-          // routeName: 'Admin.User.Index',
+          routeName: 'Public.AllClassrooms',
           scrollTo: '#introSection',
           show: true,
           active: false

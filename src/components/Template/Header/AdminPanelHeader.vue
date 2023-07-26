@@ -227,6 +227,7 @@ export default {
 </style>
 <style lang="scss">
 .header-inside {
+  height: 100%;
   .admin-top-menu {
     display: flex;
     flex-flow: row;

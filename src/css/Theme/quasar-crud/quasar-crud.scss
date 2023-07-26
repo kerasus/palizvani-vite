@@ -1,0 +1,18 @@
+.q-card {
+  .q-toolbar {
+    .doc-card-title {
+      background: transparent;
+      color: #616161;
+      &:after {
+        border-top-color: transparent;
+      }
+    }
+  }
+}
+
+
+@import 'index';
+@import 'input';
+@import 'select';
+@import 'dateTimeInput';
+@import 'tiptapEditor';

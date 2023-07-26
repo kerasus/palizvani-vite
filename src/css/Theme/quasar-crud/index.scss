@@ -1,0 +1,29 @@
+.quasar-crud-index-table {
+  margin-right: -32px;
+  margin-left: -32px;
+  //margin-top: -16px;
+  padding-top: 0;
+  .q-table__card {
+    background-color: transparent;
+    box-shadow: none;
+    .q-table__top {
+      display: none;
+    }
+    .q-table {
+      thead {
+        background: #F0EFEE;
+        color: #8588A3;
+      }
+    }
+  }
+}
+
+.action-column-entity-index {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+  svg {
+    margin-left: 20px;
+  }
+}
