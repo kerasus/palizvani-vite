@@ -283,8 +283,8 @@ export default {
     justify-content: space-between;
     padding-bottom: 33px;
   }
-  ::v-deep(.carousel__prev),
-  ::v-deep(.carousel__next) {
+  :deep(.carousel__prev),
+  :deep(.carousel__next) {
     width: 48px;
     height: 48px;
     background-color: #475F4A;
@@ -298,12 +298,12 @@ export default {
       //display: none;
     }
   }
-  ::v-deep(.carousel__prev) {
+  :deep(.carousel__prev) {
     right: auto;
     left: 0;
     transform: translate(-100%, -50%);
   }
-  ::v-deep(.carousel__next) {
+  :deep(.carousel__next) {
     left: auto;
     right: 0;
     transform: translate(100%, -50%);

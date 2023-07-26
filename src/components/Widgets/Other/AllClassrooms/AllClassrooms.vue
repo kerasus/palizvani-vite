@@ -576,7 +576,7 @@ export default {
       .RegisteredSign {
         display: none;
       }
-      ::v-deep(img) {
+      :deep(img) {
         border-radius: 10px;
       }
     }

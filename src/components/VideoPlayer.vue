@@ -51,7 +51,7 @@ import 'videojs-hls-quality-selector'
 import videojsBrand from 'videojs-brand'
 import fa from 'video.js/dist/lang/fa.json'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { mixinAbrisham } from 'src/mixin/Mixins.js'
+// import { mixinAbrisham } from 'src/mixin/Mixins.js'
 import { PlayerSourceList } from 'src/models/PlayerSource.js'
 import videoJsResolutionSwitcher from 'src/assets/js/videoJsResolutionSwitcher.js'
 
@@ -60,7 +60,7 @@ import videoJsResolutionSwitcher from 'src/assets/js/videoJsResolutionSwitcher.j
 
 export default {
   name: 'VideoPlayer',
-  mixins: [mixinAbrisham],
+  // mixins: [mixinAbrisham],
   props: {
     hasVast: {
       type: Boolean,
