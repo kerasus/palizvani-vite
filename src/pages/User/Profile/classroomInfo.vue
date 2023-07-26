@@ -28,7 +28,8 @@
       </q-tab-panel>
 
       <q-tab-panel name="educations">
-        <entity-index ref="entityIndex"
+        <entity-index v-if="mounted"
+                      ref="entityIndex"
                       v-model:value="inputs"
                       title="لیست جلسات"
                       :api="api"
@@ -69,8 +70,8 @@
 <script>
 import { EntityIndex } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
 
 export default {
@@ -81,9 +82,10 @@ export default {
   },
   data () {
     return {
+      mounted: false,
       tab: 'classroomInfo',
       inputs: [],
-      api: API_ADDRESS.classroom.base + '/' + this.$route.params.id,
+      api: null,
       table: {
         columns: [
           {
@@ -144,7 +146,9 @@ export default {
       this.getUnits(this.selectedCategoryId)
     }
   },
-  created () {
+  mounted () {
+    this.api = APIGateway.classroom.APIAdresses.byId(this.$route.params.id)
+    this.mounted = true
   },
   methods: {
     search () {

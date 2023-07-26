@@ -8,18 +8,16 @@
                 :show-expand-button="false"
                 :show-reload-button="false"
                 :show-search-button="false">
-    <template #table-cell="{inputData}">
-      <q-td :props="inputData.props">
-        <template v-if="inputData.props.col.name === 'actions'">
-          <q-btn size="md"
-                 color="primary"
-                 label="جزییات"
-                 :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: inputData.props.row.classroom_info.id}}" />
-        </template>
-        <template v-else>
-          {{ inputData.props.value }}
-        </template>
-      </q-td>
+    <template v-slot:entity-index-table-cell="{inputData}">
+      <template v-if="inputData.col.name === 'actions'">
+        <q-btn size="md"
+               color="primary"
+               label="جزییات"
+               :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: inputData.props.row.classroom_info.id}}" />
+      </template>
+      <template v-else>
+        {{ inputData.col.value }}
+      </template>
     </template>
   </entity-index>
 </template>
@@ -27,9 +25,9 @@
 <script>
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
-import Enums from 'assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
+import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
@@ -70,7 +68,7 @@ export default {
         { type: 'input', name: 'search', label: 'جستجو', col: 'col-md-2' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', props: { atClick: this.search }, col: 'col-md-2' }
       ],
-      api: API_ADDRESS.registrations.base,
+      api: APIGateway.registration.APIAdresses.base,
       table: {
         columns: [
           {
@@ -209,16 +207,19 @@ export default {
       this.getUnits()
     },
     getCategories () {
-      this.$axios.get(API_ADDRESS.category.base)
-        .then(response => {
-          this.loadSelectOptions('category', this.getSelectOptions(response.data.results, 'id', 'title'))
+      APIGateway.classroom.index({ per_page: 9999 })
+        .then(classroomList => {
+          this.loadSelectOptions('category', this.getSelectOptions(classroomList.list.list, 'id', 'title'))
+        })
+        .catch(() => {
         })
     },
     getUnits (selectedcategoryId) {
-      const param = (selectedcategoryId) ? '?category=' + selectedcategoryId : ''
-      this.$axios.get(API_ADDRESS.unit.base + param)
-        .then(response => {
-          this.loadSelectOptions('unit', this.getSelectOptions(response.data.results, 'id', 'title'))
+      APIGateway.unit.index({ category: selectedcategoryId })
+        .then(unitList => {
+          this.loadSelectOptions('unit', this.getSelectOptions(unitList.list.list, 'id', 'title'))
+        })
+        .catch(() => {
         })
     },
     getInputValue (name) {

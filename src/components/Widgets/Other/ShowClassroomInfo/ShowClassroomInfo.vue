@@ -297,9 +297,10 @@
 
 <script>
 import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
+import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 
 export default {
   name: 'ShowClassroomInfo',
@@ -319,7 +320,7 @@ export default {
     rulesAccept: false,
     rulesDialog: false,
     loading: true,
-    classroom: null
+    classroom: new Classroom()
   }),
   created () {
     this.getClassrooms()
@@ -360,9 +361,10 @@ export default {
     },
     getClassrooms () {
       this.loading = true
-      this.$axios.get(API_ADDRESS.classroom.base + '/' + this.$route.params.id)
-        .then(response => {
-          this.classroom = response.data
+      APIGateway.classroom.get(this.$route.params.id)
+      // this.$axios.get(API_ADDRESS.classroom.base + '/' + this.$route.params.id)
+        .then(classroom => {
+          this.classroom = new Classroom(classroom)
           this.loading = false
         })
         .catch(() => {

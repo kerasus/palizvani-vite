@@ -1,13 +1,13 @@
 import { appApi } from 'src/boot/axios.js'
 import APIRepository from '../classes/APIRepository.js'
-import { Classroom, ClassroomList } from 'src/models/Classroom.js'
+import { Registration, RegistrationList } from 'src/models/Registration.js'
 
-export default class ClassroomAPI extends APIRepository {
+export default class RegistrationAPI extends APIRepository {
   constructor() {
-    super('classrooms', appApi, '/lma/classrooms', Classroom)
+    super('registrations', appApi, '/lma/registrations', Registration)
     this.APIAdresses = {
-      base: '/lma/classrooms',
-      byId: (id) => '/lma/classrooms/' + id
+      base: '/lma/registrations',
+      byId: (id) => '/lma/registrations/' + id
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -29,7 +29,7 @@ export default class ClassroomAPI extends APIRepository {
         const results = response.data.results
         delete paginate.results
         return {
-          list: new ClassroomList(results),
+          list: new RegistrationList(results),
           paginate
           // {
           //   "count": 1,
@@ -40,20 +40,6 @@ export default class ClassroomAPI extends APIRepository {
           //   "previous": null,
           // }
         }
-      },
-      rejectCallback: (error) => {
-        return error
-      }
-    })
-  }
-
-  get(id) {
-    return this.sendRequest({
-      apiMethod: 'get',
-      api: this.api,
-      request: this.APIAdresses.byId(id),
-      resolveCallback: (response) => {
-        return new Classroom(response.data)
       },
       rejectCallback: (error) => {
         return error

@@ -92,10 +92,15 @@ const routes = [
         path: 'panel',
         name: 'UserPanel',
         layoutConfig: {
+          layoutView: 'hHh LpR fFf',
+          layoutHeaderType: 'admin',
+          layoutHeaderBordered: true,
           layoutLeftDrawer: true,
           layoutLeftDrawerVisible: true,
-          layoutHeaderType: 'user-panel',
-          layoutLeftSideBarType: 'user-panel'
+          layoutLeftSideBarType: 'admin',
+          layoutLeftDrawerBordered: true,
+          layoutLeftDrawerWidth: 240,
+          layoutFooter: false
         },
         meta: { middlewares: [Authenticated, canSeeUserProfilePanel] },
         component: () => import('src/layouts/bareLayout.vue'),

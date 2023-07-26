@@ -5,6 +5,7 @@ import UnitAPI from 'src/api/models/Unit.js'
 import SessionAPI from 'src/api/models/Session.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
 import PageSettingAPI from 'src/api/models/PageSetting.js'
+import RegistrationAPI from 'src/api/models/Registration.js'
 import UnitCategoryAPI from 'src/api/models/UnitCategory.js'
 import SessionTemplateAPI from 'src/api/models/SessionTemplate.js'
 import ClassroomRegistrationAPI from 'src/api/models/ClassroomRegistration.js'
@@ -18,6 +19,7 @@ export const APIGateway = {
   session: new SessionAPI(),
   classroom: new ClassroomAPI(),
   pageSetting: new PageSettingAPI(),
+  registration: new RegistrationAPI(),
   unitCategory: new UnitCategoryAPI(),
   sessionTemplate: new SessionTemplateAPI(),
   classroomRegistration: new ClassroomRegistrationAPI()
