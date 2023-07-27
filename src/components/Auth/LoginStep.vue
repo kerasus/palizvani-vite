@@ -93,18 +93,18 @@ export default {
     },
 
     redirectTo () {
-      let redirectTo = window.localStorage.getItem('redirectTo')
-      if (!redirectTo) {
-        redirectTo = 'Admin.User.Index'
+      let redirectTo = this.$store.getters['Auth/redirectTo']
+      // if (!redirectTo) {
+      //   redirectTo = 'Admin.User.Index'
+      // }
+
+      if (!redirectTo && this.user.canSeeAdminPanel()) {
+        redirectTo = { name: 'Admin.User.Index' }
+      } else if (!redirectTo) {
+        redirectTo = { name: 'Public.Home' }
       }
 
-      if (this.user.canSeeAdminPanel()) {
-        redirectTo = 'Admin.User.Index'
-      } else {
-        redirectTo = 'Public.Home'
-      }
-
-      this.$router.push({ name: redirectTo })
+      this.$router.push(redirectTo)
     },
 
     login () {

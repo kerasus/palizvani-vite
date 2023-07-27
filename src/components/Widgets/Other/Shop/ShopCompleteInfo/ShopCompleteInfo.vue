@@ -84,7 +84,8 @@
       تکمیل اطلاعات
     </q-banner>
     <q-card class="complete-info-form-card">
-      <entity-edit ref="entityEdit"
+      <entity-edit v-if="mounted"
+                   ref="entityEdit"
                    v-model:value="inputs"
                    title="اطلاعات کاربری"
                    :api="api"
@@ -95,7 +96,8 @@
                    :show-edit-button="false"
                    :show-expand-button="false"
                    :show-save-button="false"
-                   :show-reload-button="false" />
+                   :show-reload-button="false"
+                   :redirect-after-edit="false" />
     </q-card>
 
     <div class="flex justify-end section-edit-btn">
@@ -121,20 +123,22 @@
 <script>
 import { EntityEdit } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 
 export default {
   name: 'ShopCompleteInfo',
   components: { EntityEdit },
   data: () => ({
+    mounted: false,
     step: false,
     rulesAccept: false,
     rulesDialog: false,
     loading: true,
-    classroom: null,
+    classroom: new Classroom(),
 
-    api: API_ADDRESS.user.current,
+    api: APIGateway.user.APIAdresses.current,
     entityIdKey: 'id',
     entityParamKey: 'id',
     showRouteName: 'UserPanel.ShopPaymentFromWallet',
@@ -144,8 +148,8 @@ export default {
       { type: 'input', name: 'on_call_mobile_number', label: 'تلفن همراه', responseKey: 'on_call_mobile_number', col: 'col-md-3' },
       { type: 'input', name: 'national_code', label: 'کدملی/کد اتباع غیر ایرانی', responseKey: 'national_code', col: 'col-md-3' },
       { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', col: 'col-md-12' },
-      { type: 'file', name: 'avatar', label: 'عکس پروفایل', responseKey: 'data.avatar', col: 'col-md-3' },
-      { type: 'separator', name: 'space', size: 0, col: 'col-md-12' },
+      { type: 'file', name: 'picture', label: 'عکس پروفایل', responseKey: 'picture', col: 'col-md-3' },
+      { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
       { type: 'input', name: 'firstname', label: 'نام', responseKey: 'firstname', col: 'col-md-3' },
       { type: 'input', name: 'lastname', label: 'نام خانوادگی', responseKey: 'lastname', col: 'col-md-3' },
       {
@@ -197,14 +201,20 @@ export default {
       { type: 'input', name: 'living_abroad_province', label: 'استان محل زندگی فعلی', responseKey: 'living_province', col: 'col-md-4' },
       { type: 'input', name: 'living_abroad_city', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', col: 'col-md-4' },
       { type: 'input', name: 'living_postal_code', label: 'کد پستی محل زندگی', responseKey: 'living_postal_code', col: 'col-md-3' },
-      { type: 'input', name: 'living_address', label: 'آدرس پستی محل زندگی', responseKey: 'living_address', col: 'col-md-6' }
+      { type: 'input', name: 'living_address', label: 'آدرس پستی محل زندگی', responseKey: 'living_address', col: 'col-md-9' },
+      { type: 'hidden', name: 'id', responseKey: 'id' }
     ]
   }),
-  created () {
+  mounted () {
+    this.mounted = true
   },
   methods: {
     editEntity () {
-      this.$refs.entityEdit.editEntity()
+      this.$refs.entityEdit.editEntity(false)
+        .then(() => {
+          this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet' })
+        })
+        .catch(() => {})
     },
     openRulesDialog () {
       this.rulesDialog = true
@@ -234,9 +244,9 @@ export default {
     },
     getClassrooms () {
       this.loading = true
-      this.$axios.get(API_ADDRESS.classroom.base + '/' + this.$route.params.id)
-        .then(response => {
-          this.classroom = response.data
+      APIGateway.classroom.get(this.$route.params.id)
+        .then(classroom => {
+          this.classroom = new Classroom(classroom)
           this.loading = false
         })
         .catch(() => {

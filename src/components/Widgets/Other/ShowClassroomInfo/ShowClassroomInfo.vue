@@ -322,7 +322,7 @@ export default {
     loading: true,
     classroom: new Classroom()
   }),
-  created () {
+  mounted () {
     this.getClassrooms()
   },
   methods: {
@@ -362,7 +362,6 @@ export default {
     getClassrooms () {
       this.loading = true
       APIGateway.classroom.get(this.$route.params.id)
-      // this.$axios.get(API_ADDRESS.classroom.base + '/' + this.$route.params.id)
         .then(classroom => {
           this.classroom = new Classroom(classroom)
           this.loading = false

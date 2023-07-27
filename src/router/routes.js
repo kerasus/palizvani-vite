@@ -1,4 +1,4 @@
-import { notLogedIn, Authenticated, canSeeAdminPanel, canSeeUserProfilePanel } from './middleware/middleware.js'
+import { /* notLogedIn, */Authenticated, canSeeAdminPanel, canSeeUserProfilePanel } from './middleware/middleware.js'
 
 const routes = [
   {
@@ -20,7 +20,7 @@ const routes = [
       layoutLeftDrawerWidth: 325,
       layoutLeftDrawerBehavior: 'default',
       layoutRightDrawer: false,
-      layoutFooter: false,
+      layoutFooter: true,
       showHamburgerBtn: true,
       layoutFooterVisible: true,
       layoutFooterType: 'main',
@@ -49,17 +49,17 @@ const routes = [
           {
             path: '/login/admin',
             name: 'AdminLogin',
-            meta: {
-              middlewares: [notLogedIn]
-            },
+            // meta: {
+            //   middlewares: [notLogedIn]
+            // },
             component: () => import('src/pages/Auth/Login.vue')
           },
           {
             path: '/login',
             name: 'Login',
-            meta: {
-              middlewares: [notLogedIn]
-            },
+            // meta: {
+            //   middlewares: [notLogedIn]
+            // },
             component: () => import('src/pages/Auth/Login.vue')
           }
         ]
@@ -67,25 +67,19 @@ const routes = [
       {
         path: '',
         name: 'Public',
-        layoutConfig: {
-          layoutView: 'lhh Lpr fff'
-        },
         component: () => import('layouts/bareLayout.vue'),
         meta: { middlewares: [canSeeUserProfilePanel] },
         children: [
-          // {
-          //   path: '',
-          //   name: 'Public.Home',
-          //   meta: {
-          //     hasDynamicSetting: true
-          //   },
-          //   component: () => import('src/pages/Public/Home.vue')
-          // },
-
-          { name: 'Public.Home', path: '', component: () => import('src/pages/Public/index.vue') },
+          {
+            name: 'Public.Home',
+            path: '',
+            layoutConfig: {
+              layoutView: 'lhh Lpr fff'
+            },
+            component: () => import('src/pages/Public/index.vue')
+          },
           { name: 'Public.AllClassrooms', path: 'all-classrooms', component: () => import('src/pages/Public/classrooms.vue') },
           { name: 'Public.ShowClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/Public/ShowClassroomInfo.vue') }
-
         ]
       },
       {
@@ -93,11 +87,11 @@ const routes = [
         name: 'UserPanel',
         layoutConfig: {
           layoutView: 'hHh LpR fFf',
-          layoutHeaderType: 'admin',
+          layoutHeaderType: 'user-panel',
           layoutHeaderBordered: true,
           layoutLeftDrawer: true,
           layoutLeftDrawerVisible: true,
-          layoutLeftSideBarType: 'admin',
+          layoutLeftSideBarType: 'user-panel',
           layoutLeftDrawerBordered: true,
           layoutLeftDrawerWidth: 240,
           layoutFooter: false
@@ -110,21 +104,25 @@ const routes = [
             path: 'shop/completeInfo',
             layoutConfig: {
               layoutView: 'hHh LpR fFf',
-              layoutHeaderType: 'admin',
+              layoutHeaderType: 'main',
               layoutHeaderBordered: true,
               layoutLeftDrawer: false,
               layoutLeftDrawerVisible: false,
-              layoutLeftSideBarType: 'admin',
-              layoutLeftDrawerBordered: true,
-              layoutLeftDrawerWidth: 240,
               layoutFooter: false
             },
-            meta: { middlewares: [Authenticated] },
             component: () => import('src/pages/User/Shop/completeInfo.vue')
           },
           {
             name: 'UserPanel.ShopPaymentFromWallet',
             path: 'shop/payment-from-wallet',
+            layoutConfig: {
+              layoutView: 'hHh LpR fFf',
+              layoutHeaderType: 'main',
+              layoutHeaderBordered: true,
+              layoutLeftDrawer: false,
+              layoutLeftDrawerVisible: false,
+              layoutFooter: false
+            },
             meta: { middlewares: [Authenticated] },
             component: () => import('src/pages/User/Shop/paymentFromWallet.vue')
           },

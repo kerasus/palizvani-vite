@@ -16,8 +16,7 @@
           <q-icon name="search" />
         </template>
       </q-input>
-      <menu-item v-if="isProfilePage"
-                 :menu="userProfileMenuItems" />
+      <menu-item :menu="userProfileMenuItems" />
     </q-list>
     <div v-if="false"
          class="log-out"

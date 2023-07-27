@@ -173,60 +173,8 @@ export default {
 
 <style lang="scss" scoped>
 
-.drawer-btn {
-  display: none;
-  @media screen and (max-width: 1439px) {
-    display: block;
-  }
-  @media screen and (max-width: 599px) {
-    margin-bottom: 10px;
-  }
-}
-
-.right-side {
-  display: flex;
-  align-items: center;
-  @media screen and (max-width: 1439px) {
-    margin-left: 78px;
-  }
-  @media screen and (max-width: 1023px) {
-    margin-left: 42px;
-  }
-  @media screen and (max-width: 599px) {
-    margin-left: 0;
-  }
-
-  .breadcrumbs {
-    &:deep(> *) {
-      font-style: normal;
-      font-weight: bold;
-      font-size: 16px;
-      line-height: 31px;
-      text-align: right;
-      color: #23263B;
-
-      div:first-child {
-        font-size: 18px;
-      }
-    }
-  }
-}
-
-.left-side {
-  display: flex;
-  justify-content: flex-end;
-  @media screen and (max-width: 1439px) {
-    position: absolute;
-    right: 30px;
-  }
-  @media screen and (max-width: 599px) {
-    right: 16px;
-    margin-bottom: 10px;
-  }
-}
-</style>
-<style lang="scss">
 .header-inside {
+  height: 70px;
   .admin-top-menu {
     display: flex;
     flex-flow: row;
@@ -331,6 +279,58 @@ export default {
         }
       }
     }
+  }
+}
+
+.drawer-btn {
+  display: none;
+  @media screen and (max-width: 1439px) {
+    display: block;
+  }
+  @media screen and (max-width: 599px) {
+    margin-bottom: 10px;
+  }
+}
+
+.right-side {
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 1439px) {
+    margin-left: 78px;
+  }
+  @media screen and (max-width: 1023px) {
+    margin-left: 42px;
+  }
+  @media screen and (max-width: 599px) {
+    margin-left: 0;
+  }
+
+  .breadcrumbs {
+    &:deep(> *) {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 31px;
+      text-align: right;
+      color: #23263B;
+
+      div:first-child {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+.left-side {
+  display: flex;
+  justify-content: flex-end;
+  @media screen and (max-width: 1439px) {
+    position: absolute;
+    right: 30px;
+  }
+  @media screen and (max-width: 599px) {
+    right: 16px;
+    margin-bottom: 10px;
   }
 }
 </style>

@@ -48,7 +48,7 @@
         <floating-action-button v-if="canShowFloatingActionBtn" />
       </template>
       <template #footer>
-        <alaa-footer :type="getFooterType" />
+        <footer-template :type="getFooterType" />
       </template>
     </quasar-template-builder>
   </div>
@@ -58,7 +58,7 @@
 import { User } from 'src/models/User.js'
 import Router from 'src/router/Router.vue'
 import AuthLogin from 'src/components/Auth.vue'
-import AlaaFooter from 'src/components/Widgets/Footer/Footer.vue'
+import FooterTemplate from 'src/components/Template/Footer/FooterTemplate.vue'
 import KeepAliveComponents from 'src/assets/js/KeepAliveComponents.js'
 import templateHeader from 'src/components/Template/Header/TemplateHeader.vue'
 import TemplateSideBar from 'src/components/Template/SideBard/TemplateSideBar.vue'
@@ -69,7 +69,7 @@ export default {
   components: {
     AuthLogin,
     Router,
-    AlaaFooter,
+    FooterTemplate,
     templateHeader,
     TemplateSideBar,
     FloatingActionButton,

@@ -225,7 +225,7 @@ export default {
   }
 }
 </style>
-<style lang="scss">
+<style scoped lang="scss">
 .header-inside {
   height: 100%;
   .admin-top-menu {
