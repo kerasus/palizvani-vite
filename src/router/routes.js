@@ -165,6 +165,28 @@ const routes = [
                 component: () => import('src/pages/User/Invoice/Show.vue')
               }
             ]
+          },
+          {
+            path: 'ticket',
+            name: 'UserPanel.Ticket',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              {
+                path: '',
+                name: 'UserPanel.Ticket.List',
+                component: () => import('src/pages/User/Ticket/List.vue')
+              },
+              {
+                path: ':id',
+                name: 'UserPanel.Ticket.Show',
+                component: () => import('src/pages/User/Ticket/Show.vue')
+              },
+              {
+                path: 'create',
+                name: 'UserPanel.Ticket.Create',
+                component: () => import('src/pages/User/Ticket/Create.vue')
+              }
+            ]
           }
         ]
       },

@@ -2,6 +2,7 @@ import SeoAPI from 'src/api/models/Seo.js'
 import AuthAPI from 'src/api/models/Auth.js'
 import UserAPI from 'src/api/models/User.js'
 import UnitAPI from 'src/api/models/Unit.js'
+import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
 import InvoiceAPI from 'src/api/models/Invoice.js'
 import SessionAPI from 'src/api/models/Session.js'
@@ -18,6 +19,7 @@ export const APIGateway = {
   auth: new AuthAPI(),
   user: new UserAPI(),
   unit: new UnitAPI(),
+  ticket: new TicketAPI(),
   wallet: new WalletAPI(),
   invoice: new InvoiceAPI(),
   session: new SessionAPI(),
