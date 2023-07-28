@@ -1,5 +1,5 @@
-// ToDo: use moment-jalaali
-// import * as PersianDate from 'persian-date'
+import moment from 'moment-jalaali'
+moment.loadPersian()
 const PersianDate = null
 
 class Assist {
@@ -25,15 +25,12 @@ class Assist {
     }
   }
 
-  static miladiToShamsi(miladi, justDate) {
+  static miladiToShamsi(miladi, format = 'jYYYY/jMM/jDD HH:mm:ss') {
     if (!miladi) {
       return null
     }
 
-    if (justDate) {
-      return new PersianDate(new Date(miladi)).format('YYYY/MM/DD')
-    }
-    return new PersianDate(new Date(miladi)).format('HH:mm:ss YYYY/MM/DD')
+    return moment(miladi, 'YYYY/M/D').locale('fa').format(format)
   }
 
   static diffDate(date1, date2, diffType) {

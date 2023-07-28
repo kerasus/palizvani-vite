@@ -13,11 +13,12 @@ export default {
   mixins: [mixinPageOptions],
   data: () => {
     return {
-      sections: [{ data: { rows: [{ cols: [{ widgets: [{ name: 'InvoiceList' }], options: { style: { paddingTop: '124px' } } }], options: {} }] } }]
+      sections: [{ data: { rows: [{ cols: [{ widgets: [{ name: 'InvoiceList' }], options: { style: { paddingTop: '100px' } } }], options: { className: '', height: 'auto', boxed: true, boxedWidth: 1200, gutterXSize: 'md', gutterYSize: 'md', absolute: 'none', paddingOfBoxedInFullWidth: '30px', style: { maxWidth: '1200px', width: '1200px' } } }] } }]
     }
   },
   created() {
     this.currenSections = this.sections
+    this.pageBuilderLoading = false
   }
 }
 </script>
