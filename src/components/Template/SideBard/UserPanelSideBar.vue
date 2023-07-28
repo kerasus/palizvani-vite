@@ -111,8 +111,7 @@ export default {
             },
             {
               title: 'کیف پول الکترونیک',
-              scrollTo: '#introSection',
-              // routeName: 'Admin.User.Index',
+              routeName: 'UserPanel.Wallet',
               show: true,
               active: false
             }

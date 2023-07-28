@@ -187,6 +187,11 @@ const routes = [
                 component: () => import('src/pages/User/Ticket/Create.vue')
               }
             ]
+          },
+          {
+            path: 'wallet',
+            name: 'UserPanel.Wallet',
+            component: () => import('src/pages/User/Wallet/Show.vue')
           }
         ]
       },
