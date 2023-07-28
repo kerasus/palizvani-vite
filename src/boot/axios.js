@@ -13,38 +13,6 @@ const apiServerTarget = process.env.APP_API_SERVER
 // const webServer = process.env.ALAA_WEB
 // const webServerTarget = process.env.ALAA_WEB_SERVER
 
-const AjaxResponseMessages = (function () {
-  const messageMap = {
-    0: 'مشکلی پیش آمده است. مجدد تلاش کنید.',
-    400: 'ابتدا وارد سامانه شوید.',
-    401: 'ابتدا وارد سامانه شوید.',
-    1: 'پیش از این در این آزمون ثبت نام انجام شده است.',
-    2: 'زمان آزمون فرا نرسیده است',
-    3: 'ثبت نام در این آزمون انجام نشده است.',
-    4: 'دانش آموز برای این آزمون ثبت نام نکرده است.',
-    5: 'نتیجه آزمونی برای این آزمون وجود ندارد.',
-    6: 'پاسخنامه داوطلب پیش از این ارسال شده است.',
-    7: 'زمان پاسخگویی قبل از شروع آزمون است.',
-    8: 'آزمون متعلق به کاربر نیست.',
-    13: 'سوالات آزمون آماده نشده است.',
-    14: 'آزمون بسته شده است.',
-    17: 'ثبت درس تکراری در یک دفترچه امکان پذیر نیست.'
-  }
-
-  function isCustomMessage(statusCode) {
-    return !!(messageMap[statusCode.toString()])
-  }
-
-  function getMessage(statusCode) {
-    return messageMap[statusCode]
-  }
-
-  return {
-    isCustomMessage,
-    getMessage
-  }
-}())
-
 const AxiosHooks = (function () {
   let $notify = null
 
@@ -55,8 +23,8 @@ const AxiosHooks = (function () {
     $notify = $q.notify
   }
 
-  function handleErrors(error, router, store) {
-    let messages = []
+  function handleErrors (error, router, store) {
+    const messages = []
     if (!error || !error.response) {
       return
     }
@@ -66,27 +34,22 @@ const AxiosHooks = (function () {
     } else if (statusCode === 404) {
       messages.push('موردی یافت نشد.')
     } else if (statusCode === 401) {
-      messages.push('ابتدا وارد سامانه شوید.')
+      const message = error.response.data.message
+      messages.push(message)
       deAuthorizeUser(router, store)
-    } else if (error.response.data.error && AjaxResponseMessages.isCustomMessage(error.response.data.error.code)) {
-      console.error('error.response.data.error.code', AjaxResponseMessages.getMessage(error.response.data.error.code))
-      messages.push(AjaxResponseMessages.getMessage(error.response.data.error.code))
-    } else if (error.response.data.error && !AjaxResponseMessages.isCustomMessage(error.response.data.error.code)) {
-      for (const [key, value] of Object.entries(error.response.data.error)) {
-        if (typeof error.response.data.error[key] === 'string') {
-          messages.push(value)
+    } else if (statusCode === 403) {
+      const message = error.response.data.detail
+      messages.push(message)
+    } else if (error.response.data) {
+      for (const key of Object.keys(error.response.data)) {
+        if (typeof error.response.data[key] === 'string') {
+          messages.push(key + ': ' + error.response.data[key])
+        } else if (Array.isArray(error.response.data[key])) {
+          error.response.data[key].forEach(message => {
+            messages.push(key + ': ' + message)
+          })
         }
       }
-    } else if (error.response.data.errors) {
-      for (const [key, value] of Object.entries(error.response.data.errors)) {
-        if (typeof error.response.data.errors[key] === 'string') {
-          messages.push(value)
-        } else {
-          messages = messages.concat(getMessagesFromArrayWithRecursion(value))
-        }
-      }
-    } else if (!error.response.data.errors && error.response.data.message) {
-      messages.push(error.response.data.message)
     }
 
     toastMessages(messages)
@@ -124,15 +87,6 @@ const AxiosHooks = (function () {
         })
       }
     })
-  }
-
-  function getMessagesFromArrayWithRecursion(array) {
-    if (array) {
-      if (Array.isArray(array)) {
-        return array.flat(Math.min())
-      }
-      return array[0]
-    }
   }
 
   return {

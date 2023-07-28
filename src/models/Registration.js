@@ -1,44 +1,58 @@
 import { User } from 'src/models/User.js'
-import { Classroom } from 'src/models/Classroom.js'
-import { Model, Collection } from 'js-abstract-model'
+// import { Package } from 'src/models/Package.js'
+// import { Service } from 'src/models/Service.js'
+import { Collection, Model } from 'js-abstract-model'
 
 class Registration extends Model {
   constructor (data) {
     super(data, [
       { key: 'id' },
-      { key: 'owner' },
+      { key: 'product_info' },
+      { key: 'item' },
+      { key: 'item_info' },
+      { key: 'basket' },
+      { key: 'count' },
+      { key: 'user' },
       {
-        key: 'owner_info',
+        key: 'user_info',
         relatedModel: User
       },
-      { key: 'classroom' },
-      {
-        key: 'classroom_info',
-        relatedModel: Classroom
-      },
-      { key: 'status' }
+      { key: 'time_status' },
+      { key: 'termination_datetime' },
+      { key: 'creation_time' },
+      { key: 'last_modification_time' }
     ])
 
-    this.statusEnums = [
+    this.timeStatusEnums = [
       {
-        label: 'ثبت نام شده',
-        value: 'REGISTERED'
+        label: 'فعال',
+        value: 'ONGOING',
+        color: '#2FA84A'
       }
     ]
 
-    this.loadStatusInfo()
+    this.loadTimeStatusInfo()
   }
 
-  loadStatusInfo () {
-    const target = this.statusEnums.find(type => type.value === this.status)
+  loadTimeStatusInfo () {
+    const target = this.timeStatusEnums.find(type => type.value === this.time_status)
     if (!target) {
-      this.status_info = {
+      this.time_status_info = {
         label: null,
-        value: null
+        value: null,
+        color: ''
       }
     } else {
-      this.status_info = target
+      this.time_status_info = target
     }
+  }
+
+  loadProductData () {
+    // if (this.product_info.product_type === 'package') {
+    //   this.product_data = new Package(this.product_info)
+    // } else if (this.product_info.product_type === 'service') {
+    //   this.product_data = new Service(this.product_info)
+    // }
   }
 }
 
@@ -47,4 +61,5 @@ class RegistrationList extends Collection {
     return Registration
   }
 }
+
 export { Registration, RegistrationList }

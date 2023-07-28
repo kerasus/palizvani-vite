@@ -100,154 +100,257 @@
       </div>
     </q-card>
 
-    <q-banner class="banner complete-info-pay-banner">
-      پرداخت
-    </q-banner>
-    <q-card class="complete-info-pay-form-card">
-      <q-card-section>
-        <div class="complete-info-pay-form-card-title">
-          مبلغ قابل پرداخت:
-        </div>
-        <q-card>
-          <q-card-section v-if="classroom"
-                          class="product-item">
-            <div class="product-item-title">
-              <div class="product-item-icon">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="23.771"
-                     height="16.991"
-                     viewBox="0 0 23.771 16.991">
-                  <path id="import_contacts_FILL0_wght400_GRAD0_opsz48"
-                        d="M7.618,21.506a11.7,11.7,0,0,1,2.823.338,12.529,12.529,0,0,1,2.688,1.013V11.322A10.276,10.276,0,0,0,10.5,10.066a9.542,9.542,0,0,0-2.877-.446,7.957,7.957,0,0,0-2.012.257,19.465,19.465,0,0,0-1.985.635h0V22.235h0a7.623,7.623,0,0,1,1.9-.554A12.88,12.88,0,0,1,7.618,21.506Zm7.131,1.351A13.593,13.593,0,0,1,17.4,21.844a10.9,10.9,0,0,1,2.755-.338,14.467,14.467,0,0,1,2.12.162,10.571,10.571,0,0,1,1.877.432h0V10.512h0A8.027,8.027,0,0,0,22.2,9.837a9.94,9.94,0,0,0-2.053-.216,9.031,9.031,0,0,0-2.823.446,10.525,10.525,0,0,0-2.58,1.256Zm-.81,2.134a1.745,1.745,0,0,1-.392-.041.766.766,0,0,1-.311-.149,11.392,11.392,0,0,0-2.7-1.216,10.041,10.041,0,0,0-2.917-.432,7.778,7.778,0,0,0-1.945.243,19.068,19.068,0,0,0-1.891.594,1.157,1.157,0,0,1-1.2-.081A1.214,1.214,0,0,1,2,22.83V10.323a1.494,1.494,0,0,1,.189-.743,1.29,1.29,0,0,1,.567-.527,10.442,10.442,0,0,1,2.364-.8A12.192,12.192,0,0,1,7.618,8a11.986,11.986,0,0,1,3.309.459,10.558,10.558,0,0,1,3.012,1.4,10.255,10.255,0,0,1,2.958-1.4A11.6,11.6,0,0,1,20.152,8a12,12,0,0,1,2.485.257,10.487,10.487,0,0,1,2.35.8,1.376,1.376,0,0,1,.581.527,1.417,1.417,0,0,1,.2.743V22.83a1.28,1.28,0,0,1-.608,1.148,1.035,1.035,0,0,1-1.2.014,12.862,12.862,0,0,0-1.864-.608,8.211,8.211,0,0,0-1.945-.23,9.683,9.683,0,0,0-2.863.432A11.018,11.018,0,0,0,14.642,24.8a.766.766,0,0,1-.311.149A1.745,1.745,0,0,1,13.939,24.991ZM8.375,16.4Z"
-                        transform="translate(-2 -8)"
-                        fill="#475f4a" />
-                </svg>
-              </div>
-              {{ classroom.title }}
-              {{ classroom.unit_info.title }}
-              ویژه
-              {{ getAudienceGenderType(classroom.audience_gender_type) }}
-              به صورت
-              {{ getHoldingType(classroom.holding_type) }}
-              {{ getTerm(classroom) }}
-            </div>
-            <div class="product-item-price">
-              <svg xmlns="http://www.w3.org/2000/svg"
-                   width="22"
-                   height="16"
-                   viewBox="0 0 22 16">
-                <g id="Group_11468"
-                   data-name="Group 11468"
-                   transform="translate(240 -290) rotate(90)">
-                  <g id="Rectangle_2935"
-                     data-name="Rectangle 2935"
-                     transform="translate(290 218)"
-                     fill="none"
-                     stroke="#aaa095"
-                     stroke-width="1.5">
-                    <rect width="16"
-                          height="22"
-                          rx="5"
-                          stroke="none" />
-                    <rect x="0.75"
-                          y="0.75"
-                          width="14.5"
-                          height="20.5"
-                          rx="4.25"
-                          fill="none" />
-                  </g>
-                  <line id="Line_737"
-                        data-name="Line 737"
-                        y1="2"
-                        transform="translate(294 233.5)"
-                        fill="none"
-                        stroke="#aaa095"
-                        stroke-linecap="round"
-                        stroke-width="2" />
-                  <line id="Line_738"
-                        data-name="Line 738"
-                        y1="2"
-                        transform="translate(302 222.5)"
-                        fill="none"
-                        stroke="#aaa095"
-                        stroke-linecap="round"
-                        stroke-width="2" />
-                  <g id="Ellipse_892"
-                     data-name="Ellipse 892"
-                     transform="translate(295 226)"
-                     fill="#fff"
-                     stroke="#aaa095"
-                     stroke-width="1.5">
-                    <circle cx="3"
-                            cy="3"
-                            r="3"
-                            stroke="none" />
-                    <circle cx="3"
-                            cy="3"
-                            r="2.25"
-                            fill="none" />
-                  </g>
-                </g>
-              </svg>
-              {{ classroom.price }}
-              تومان
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-card-section>
-    </q-card>
-
-    <div class="flex justify-end section-edit-btn">
-      <q-btn color="primary"
-             @click="register">
-        تایید و ادامه
-        <svg xmlns="http://www.w3.org/2000/svg"
-             width="18.387"
-             height="11.502"
-             viewBox="0 0 18.387 11.502">
-          <path id="Combined_Shape"
-                data-name="Combined Shape"
-                d="M-9.338,11.408a.748.748,0,0,0,.388-.656V6.5h8.2A.751.751,0,0,0,0,5.75.75.75,0,0,0-.75,5h-8.2V.75A.751.751,0,0,0-9.338.093.769.769,0,0,0-9.7,0a.735.735,0,0,0-.4.115l-7.938,5a.747.747,0,0,0-.35.635.742.742,0,0,0,.35.634l7.938,5a.751.751,0,0,0,.4.116A.746.746,0,0,0-9.338,11.408ZM-10.45,9.392l-5.78-3.641,5.78-3.642Z"
-                transform="translate(18.387)"
-                fill="#fff" />
-        </svg>
-      </q-btn>
+    <div class="info-column">
+      <q-skeleton v-if="invoice.loading"
+                  height="200px"
+                  width="100%"
+                  square />
+      <invoice-info v-if="!invoice.loading"
+                    :invoice="invoice"
+                    :classroom="classroom"
+                    class="invoice-info" />
+      <payment-card v-if="!invoice.loading"
+                    :wallet="wallet"
+                    :invoice="invoice"
+                    :classroom="classroom"
+                    class="payment-card"
+                    @onCancel="onCancel"
+                    @onAccept="onAccept" />
     </div>
+
+    <template v-if="false">
+      <q-banner class="banner complete-info-pay-banner">
+        پرداخت
+      </q-banner>
+      <q-card class="complete-info-pay-form-card">
+        <q-card-section>
+          <div class="complete-info-pay-form-card-title">
+            مبلغ قابل پرداخت:
+          </div>
+          <q-card>
+            <q-card-section v-if="classroom"
+                            class="product-item">
+              <div class="product-item-title">
+                <div class="product-item-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="23.771"
+                       height="16.991"
+                       viewBox="0 0 23.771 16.991">
+                    <path id="import_contacts_FILL0_wght400_GRAD0_opsz48"
+                          d="M7.618,21.506a11.7,11.7,0,0,1,2.823.338,12.529,12.529,0,0,1,2.688,1.013V11.322A10.276,10.276,0,0,0,10.5,10.066a9.542,9.542,0,0,0-2.877-.446,7.957,7.957,0,0,0-2.012.257,19.465,19.465,0,0,0-1.985.635h0V22.235h0a7.623,7.623,0,0,1,1.9-.554A12.88,12.88,0,0,1,7.618,21.506Zm7.131,1.351A13.593,13.593,0,0,1,17.4,21.844a10.9,10.9,0,0,1,2.755-.338,14.467,14.467,0,0,1,2.12.162,10.571,10.571,0,0,1,1.877.432h0V10.512h0A8.027,8.027,0,0,0,22.2,9.837a9.94,9.94,0,0,0-2.053-.216,9.031,9.031,0,0,0-2.823.446,10.525,10.525,0,0,0-2.58,1.256Zm-.81,2.134a1.745,1.745,0,0,1-.392-.041.766.766,0,0,1-.311-.149,11.392,11.392,0,0,0-2.7-1.216,10.041,10.041,0,0,0-2.917-.432,7.778,7.778,0,0,0-1.945.243,19.068,19.068,0,0,0-1.891.594,1.157,1.157,0,0,1-1.2-.081A1.214,1.214,0,0,1,2,22.83V10.323a1.494,1.494,0,0,1,.189-.743,1.29,1.29,0,0,1,.567-.527,10.442,10.442,0,0,1,2.364-.8A12.192,12.192,0,0,1,7.618,8a11.986,11.986,0,0,1,3.309.459,10.558,10.558,0,0,1,3.012,1.4,10.255,10.255,0,0,1,2.958-1.4A11.6,11.6,0,0,1,20.152,8a12,12,0,0,1,2.485.257,10.487,10.487,0,0,1,2.35.8,1.376,1.376,0,0,1,.581.527,1.417,1.417,0,0,1,.2.743V22.83a1.28,1.28,0,0,1-.608,1.148,1.035,1.035,0,0,1-1.2.014,12.862,12.862,0,0,0-1.864-.608,8.211,8.211,0,0,0-1.945-.23,9.683,9.683,0,0,0-2.863.432A11.018,11.018,0,0,0,14.642,24.8a.766.766,0,0,1-.311.149A1.745,1.745,0,0,1,13.939,24.991ZM8.375,16.4Z"
+                          transform="translate(-2 -8)"
+                          fill="#475f4a" />
+                  </svg>
+                </div>
+                {{ classroom.title }}
+                {{ classroom.unit_info.title }}
+                ویژه
+                {{ getAudienceGenderType(classroom.audience_gender_type) }}
+                به صورت
+                {{ getHoldingType(classroom.holding_type) }}
+                {{ getTerm(classroom) }}
+              </div>
+              <div class="product-item-price">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="22"
+                     height="16"
+                     viewBox="0 0 22 16">
+                  <g id="Group_11468"
+                     data-name="Group 11468"
+                     transform="translate(240 -290) rotate(90)">
+                    <g id="Rectangle_2935"
+                       data-name="Rectangle 2935"
+                       transform="translate(290 218)"
+                       fill="none"
+                       stroke="#aaa095"
+                       stroke-width="1.5">
+                      <rect width="16"
+                            height="22"
+                            rx="5"
+                            stroke="none" />
+                      <rect x="0.75"
+                            y="0.75"
+                            width="14.5"
+                            height="20.5"
+                            rx="4.25"
+                            fill="none" />
+                    </g>
+                    <line id="Line_737"
+                          data-name="Line 737"
+                          y1="2"
+                          transform="translate(294 233.5)"
+                          fill="none"
+                          stroke="#aaa095"
+                          stroke-linecap="round"
+                          stroke-width="2" />
+                    <line id="Line_738"
+                          data-name="Line 738"
+                          y1="2"
+                          transform="translate(302 222.5)"
+                          fill="none"
+                          stroke="#aaa095"
+                          stroke-linecap="round"
+                          stroke-width="2" />
+                    <g id="Ellipse_892"
+                       data-name="Ellipse 892"
+                       transform="translate(295 226)"
+                       fill="#fff"
+                       stroke="#aaa095"
+                       stroke-width="1.5">
+                      <circle cx="3"
+                              cy="3"
+                              r="3"
+                              stroke="none" />
+                      <circle cx="3"
+                              cy="3"
+                              r="2.25"
+                              fill="none" />
+                    </g>
+                  </g>
+                </svg>
+                {{ classroom.price }}
+                تومان
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-card-section>
+      </q-card>
+      <div class="flex justify-end section-edit-btn">
+        <q-btn color="primary"
+               @click="register">
+          تایید و ادامه
+          <svg xmlns="http://www.w3.org/2000/svg"
+               width="18.387"
+               height="11.502"
+               viewBox="0 0 18.387 11.502">
+            <path id="Combined_Shape"
+                  data-name="Combined Shape"
+                  d="M-9.338,11.408a.748.748,0,0,0,.388-.656V6.5h8.2A.751.751,0,0,0,0,5.75.75.75,0,0,0-.75,5h-8.2V.75A.751.751,0,0,0-9.338.093.769.769,0,0,0-9.7,0a.735.735,0,0,0-.4.115l-7.938,5a.747.747,0,0,0-.35.635.742.742,0,0,0,.35.634l7.938,5a.751.751,0,0,0,.4.116A.746.746,0,0,0-9.338,11.408ZM-10.45,9.392l-5.78-3.641,5.78-3.642Z"
+                  transform="translate(18.387)"
+                  fill="#fff" />
+          </svg>
+        </q-btn>
+      </div>
+    </template>
 
   </div>
 </template>
 
 <script>
+import { User } from 'src/models/User.js'
 import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
+import { Wallet } from 'src/models/Wallet.js'
+import { Invoice } from 'src/models/Invoice.js'
+// import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
+import InvoiceInfo from './components/InvoiceInfo.vue'
+import PaymentCard from './components/PaymentCard.vue'
 
 export default {
   name: 'PaymentFromWallet',
+  components: { InvoiceInfo, PaymentCard },
   data: () => ({
     step: false,
+    user: new User(),
+    wallet: new Wallet(),
+    invoice: new Invoice(),
+    classroom: new Classroom(),
     rulesAccept: false,
     rulesDialog: false,
     loading: true
   }),
-  computed: {
-    classroom () {
-      return this.$store.getters['Shop/onRegisterClassroom']
-    }
-  },
-  created () {
-    if (this.classroom === null || typeof this.classroom.id === 'undefined' || this.classroom.id === null) {
-      this.$router.push({ name: 'Public.AllClassrooms' })
-    }
+  mounted () {
+    this.loadAuthData()
+    this.loadClassroomFromStore()
+    this.checkStoreClassroom()
+    this.createInvoice()
+    this.getMyWallet()
   },
   methods: {
-    register () {
-      this.$axios.put(API_ADDRESS.classroom.register(this.classroom.id), {
-        classroom: this.classroom.id
-      })
-        .then(() => {
-          this.$router.push({ name: 'UserPanel.PaymentResult' })
+    onCancel () {
+      this.$router.push({ name: 'Public.AllClassrooms' })
+    },
+    onAccept () {
+      this.payInvoice()
+    },
+    amountOfDepositWalletNeeded () {
+      return this.invoice.amount - this.wallet.inventory
+    },
+    payInvoice () {
+      if (this.amountOfDepositWalletNeeded() > 0) {
+        this.payInvoiceByDepositWallet()
+      } else {
+        this.payInvoiceByWallet()
+      }
+    },
+    payInvoiceByWallet () {
+      this.invoice.loading = true
+      APIGateway.invoice.pay(this.invoice.id)
+        .then((message) => {
+          this.payMessage = message
+          this.invoice.loading = false
         })
+        .catch(() => {
+          this.invoice.loading = false
+        })
+    },
+    payInvoiceByDepositWallet () {
+      this.invoice.loading = true
+      APIGateway.wallet.deposit({
+        amount: this.amountOfDepositWalletNeeded(),
+        invoice: this.invoice.id
+      })
+        .then((url) => {
+          window.location.href = url
+        })
+        .catch(() => {
+          this.depositLoading = false
+        })
+    },
+    loadAuthData() { // prevent Hydration node mismatch
+      this.user = this.$store.getters['Auth/user']
+    },
+    getMyWallet () {
+      this.wallet.loading = true
+      APIGateway.wallet.getMyWallet(this.user.id)
+        .then((wallet) => {
+          this.wallet = new Wallet(wallet)
+          this.wallet.loading = false
+          this.walletLoaded = true
+          this.checkForNeedToDeposit()
+        })
+        .catch(() => {
+          this.wallet.loading = false
+        })
+    },
+    createInvoice () {
+      this.invoice.loading = true
+      APIGateway.classroom.createInvoice(this.classroom.id)
+        .then((invoice) => {
+          this.invoice = new Invoice(invoice)
+          this.invoice.loading = false
+        })
+        .catch(() => {
+          this.invoice.loading = false
+        })
+    },
+    loadClassroomFromStore () {
+      this.classroom = this.$store.getters['Shop/onRegisterClassroom']
+    },
+    checkStoreClassroom () {
+      if (this.classroom === null || typeof this.classroom.id === 'undefined' || this.classroom.id === null) {
+        this.$router.push({ name: 'Public.AllClassrooms' })
+      }
+    },
+    register () {
+      // this.$axios.put(API_ADDRESS.classroom.register(this.classroom.id), {
+      //   classroom: this.classroom.id
+      // })
+      //   .then(() => {
+      //     this.$router.push({ name: 'UserPanel.PaymentResult' })
+      //   })
     },
     getHoldingType (type) {
       const target = Enums.classroomHoldingTypes.find(item => item.value === type)
@@ -278,6 +381,7 @@ export default {
 
 <style scoped lang="scss">
 .complete-info {
+  margin-bottom: 102px;
   .complete-info-top-banner {
     margin-top: 50px;
     margin-bottom: 42px;
@@ -333,6 +437,23 @@ export default {
       }
     }
   }
+  .info-column {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    .invoice-info {
+      width: 100%;
+      max-width: 643px;
+      margin-bottom: 40px;
+    }
+    .payment-card {
+      width: 100%;
+      max-width: 643px;
+    }
+  }
+
   .complete-info-pay-banner {
     margin-bottom: 26px;
   }

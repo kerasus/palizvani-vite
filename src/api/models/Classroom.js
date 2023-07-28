@@ -1,4 +1,5 @@
 import { appApi } from 'src/boot/axios.js'
+import { Invoice } from 'src/models/Invoice.js'
 import APIRepository from '../classes/APIRepository.js'
 import { Classroom, ClassroomList } from 'src/models/Classroom.js'
 
@@ -7,7 +8,11 @@ export default class ClassroomAPI extends APIRepository {
     super('classrooms', appApi, '/lma/classrooms', Classroom)
     this.APIAdresses = {
       base: '/lma/classrooms',
-      byId: (id) => '/lma/classrooms/' + id
+      byId: (id) => '/lma/classrooms/' + id,
+      enroll: (id) => '/lma/classrooms/' + id + '/enroll',
+      enrollByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/enrolll?user_id=' + userId,
+      createInvoice: (id) => '/lma/classrooms/' + id + '/create_invoice',
+      createInvoiceByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/create_invoice?user_id=' + userId
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -15,7 +20,7 @@ export default class ClassroomAPI extends APIRepository {
     }
   }
 
-  index(data) {
+  index (data) {
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
@@ -47,13 +52,69 @@ export default class ClassroomAPI extends APIRepository {
     })
   }
 
-  get(id) {
+  get (id) {
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
       request: this.APIAdresses.byId(id),
       resolveCallback: (response) => {
         return new Classroom(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  enrollByUser (id) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.enroll(id),
+      resolveCallback: (response) => {
+        return new Classroom(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  enrollByAdmin (classroomId, userId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.enrollByAdmin(classroomId, userId),
+      resolveCallback: (response) => {
+        return new Classroom(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  createInvoice (id) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.createInvoice(id),
+      resolveCallback: (response) => {
+        return new Invoice(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  createInvoiceByAdmin (classroomId, userId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.createInvoiceByAdmin(classroomId, userId),
+      resolveCallback: (response) => {
+        return new Invoice(response.data)
       },
       rejectCallback: (error) => {
         return error

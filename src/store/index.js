@@ -18,6 +18,7 @@ if (process.browser) {
       storage: window.localStorage,
       fetchBeforeUse: true,
       paths: [
+        'Shop',
         'Auth.user',
         'Auth.redirectTo',
         'Auth.accessToken'

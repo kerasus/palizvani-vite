@@ -86,7 +86,7 @@ const routes = [
         path: 'panel',
         name: 'UserPanel',
         layoutConfig: {
-          layoutView: 'hHh LpR fFf',
+          layoutView: 'hHh LpR fff',
           layoutHeaderType: 'user-panel',
           layoutHeaderBordered: true,
           layoutLeftDrawer: true,
@@ -94,7 +94,7 @@ const routes = [
           layoutLeftSideBarType: 'user-panel',
           layoutLeftDrawerBordered: true,
           layoutLeftDrawerWidth: 240,
-          layoutFooter: false
+          layoutFooter: true
         },
         meta: { middlewares: [Authenticated, canSeeUserProfilePanel] },
         component: () => import('src/layouts/bareLayout.vue'),
@@ -103,12 +103,12 @@ const routes = [
             name: 'UserPanel.ShopCompleteInfo',
             path: 'shop/completeInfo',
             layoutConfig: {
-              layoutView: 'hHh LpR fFf',
+              layoutView: 'hHh LpR fff',
               layoutHeaderType: 'main',
               layoutHeaderBordered: true,
               layoutLeftDrawer: false,
               layoutLeftDrawerVisible: false,
-              layoutFooter: false
+              layoutFooter: true
             },
             component: () => import('src/pages/User/Shop/completeInfo.vue')
           },
@@ -116,12 +116,12 @@ const routes = [
             name: 'UserPanel.ShopPaymentFromWallet',
             path: 'shop/payment-from-wallet',
             layoutConfig: {
-              layoutView: 'hHh LpR fFf',
+              layoutView: 'hHh LpR fff',
               layoutHeaderType: 'main',
               layoutHeaderBordered: true,
               layoutLeftDrawer: false,
               layoutLeftDrawerVisible: false,
-              layoutFooter: false
+              layoutFooter: true
             },
             meta: { middlewares: [Authenticated] },
             component: () => import('src/pages/User/Shop/paymentFromWallet.vue')
@@ -143,6 +143,28 @@ const routes = [
               { name: 'UserPanel.Profile.SessionInfo', path: 'session/:id', component: () => import('src/pages/User/Profile/sessionInfo.vue') },
               { name: 'UserPanel.Profile.UserInfo', path: 'user-info', component: () => import('src/pages/User/Profile/profile.vue') }
             ]
+          },
+          {
+            path: 'invoice',
+            name: 'UserPanel.Invoice',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              {
+                path: '',
+                name: 'UserPanel.Invoice.List',
+                component: () => import('src/pages/User/Invoice/List.vue')
+              },
+              {
+                path: 'thankyou',
+                name: 'UserPanel.Invoice.Thankyou',
+                component: () => import('src/pages/User/Invoice/Thankyou.vue')
+              },
+              {
+                path: ':id',
+                name: 'UserPanel.Invoice.Show',
+                component: () => import('src/pages/User/Invoice/Show.vue')
+              }
+            ]
           }
         ]
       },
@@ -150,7 +172,7 @@ const routes = [
         path: 'admin',
         name: 'Admin',
         layoutConfig: {
-          layoutView: 'hHh LpR fFf',
+          layoutView: 'hHh LpR fff',
           layoutHeaderType: 'admin',
           layoutHeaderBordered: true,
           layoutLeftDrawer: true,
