@@ -1,5 +1,16 @@
 .form-builder-select-col {
   .q-field {
+    .q-field__inner {
+      .q-field__control {
+        .q-field__control-container {
+          padding-top: 5px;
+        }
+        .q-field__append {
+          height: 48px;
+          min-height: 48px;
+        }
+      }
+    }
     .q-field__native {
       padding-left: 23px;
     }

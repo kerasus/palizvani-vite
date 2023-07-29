@@ -1,11 +1,13 @@
 import { User } from 'src/models/User.js'
-import { BasketList } from 'src/models/Basket.js'
+import { Classroom } from 'src/models/Classroom.js'
 import { Model, Collection } from 'js-abstract-model'
 
 class Invoice extends Model {
   constructor (data) {
     super(data, [
       { key: 'id' },
+      { key: 'title' },
+      { key: 'wallet_inventory' },
       {
         key: 'amount',
         default: 0
@@ -18,11 +20,13 @@ class Invoice extends Model {
       { key: 'last_modification_time' },
       { key: 'is_active' },
       { key: 'is_deleted' },
-      { key: 'creator' },
+      { key: 'item_id' },
+      { key: 'item_type' }, // CLASSROOM
       {
-        key: 'products_info',
-        relatedModel: BasketList
+        key: 'item_info',
+        relatedModel: Classroom
       },
+      { key: 'creator' },
       {
         key: 'creator_info',
         relatedModel: User

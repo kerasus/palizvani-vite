@@ -46,7 +46,8 @@ export default {
           options: Enums.classroomStatuses,
           value: null,
           label: 'وضعیت دوره',
-          col: 'col-md-2'
+          placeholder: ' ',
+          col: 'col-md-2 col-12'
         },
         {
           type: 'select',
@@ -54,7 +55,8 @@ export default {
           options: [],
           value: null,
           label: 'گروه آموزشی',
-          col: 'col-md-2'
+          placeholder: ' ',
+          col: 'col-md-2 col-12'
         },
         {
           type: 'select',
@@ -63,10 +65,11 @@ export default {
           options: [],
           value: null,
           label: 'درس',
-          col: 'col-md-2'
+          placeholder: ' ',
+          col: 'col-md-2 col-12'
         },
-        { type: 'input', name: 'search', label: 'جستجو', col: 'col-md-2' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', props: { atClick: this.search }, col: 'col-md-2' }
+        { type: 'input', name: 'search', label: 'جستجو', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       api: APIGateway.registration.APIAdresses.base,
       table: {
@@ -172,9 +175,17 @@ export default {
     }
   },
   created () {
+    this.setActionBtn()
     this.loadInputDataOptions()
   },
   methods: {
+    setActionBtn () {
+      this.inputs.forEach((item, index) => {
+        if (item.name === 'btn') {
+          this.inputs[index].atClick = this.search
+        }
+      })
+    },
     search () {
       this.$refs.entityIndex.search()
     },

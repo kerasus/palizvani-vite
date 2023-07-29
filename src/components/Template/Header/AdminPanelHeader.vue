@@ -1,7 +1,7 @@
 <template>
   <div class="header-inside col">
     <div class="admin-top-menu">
-      <div class="logo">
+      <div class="logo gt-sm">
         <router-link :to="{name: 'Public.Home'}">
           <q-img class="logo-image"
                  src="/assets/images/admin/layout/admin-logo.png" />
@@ -9,6 +9,9 @@
       </div>
       <div class="top-menu-items">
         <div class="right-side">
+          <q-btn flat
+                 icon="menu"
+                 @click="updateLayoutLeftDrawerVisible(true)" />
           <q-btn flat
                  :to="{name: 'Public.Home'}">
             <svg xmlns="http://www.w3.org/2000/svg"
@@ -190,9 +193,6 @@ export default {
     margin-left: 78px;
   }
   @media screen and (max-width: 1023px) {
-    margin-left: 42px;
-  }
-  @media screen and (max-width: 599px) {
     margin-left: 0;
   }
 
@@ -238,6 +238,9 @@ export default {
       display: flex;
       flex-flow: row;
       justify-content: space-between;
+      @media screen and (max-width: 1023px) {
+        width: 100%;
+      }
       .q-btn {
         height: 40px;
         svg {
@@ -249,12 +252,18 @@ export default {
         flex-flow: row;
         align-items: center;
         padding-left: 50px;
+        @media screen and (max-width: 1023px) {
+          padding-left: 0;
+        }
       }
       .left-side {
         display: flex;
         flex-flow: row;
         align-items: center;
         padding-right: 50px;
+        @media screen and (max-width: 1023px) {
+          padding-right: 0;
+        }
       }
     }
     .logo {
@@ -275,11 +284,6 @@ export default {
 
 .top-menu-items {
   border-radius: 10px;
-  @media only screen and (max-width: 1439px) {
-    & {
-      display: none !important;
-    }
-  }
   @media only screen and (max-width: 500px) {
     .q-btn__content {
       margin: 4px;

@@ -1,5 +1,6 @@
-import { Model, Collection } from 'js-abstract-model'
 import { User } from 'src/models/User'
+import { Invoice } from 'src/models/Invoice.js'
+import { Model, Collection } from 'js-abstract-model'
 
 class Transaction extends Model {
   constructor (data) {
@@ -7,8 +8,11 @@ class Transaction extends Model {
       { key: 'id' },
       { key: 'is_active' },
       { key: 'is_deleted' },
-      { key: 'inventory' },
+      { key: 'amount' },
+      { key: 'authority_code' },
+      { key: 'reference_code' },
       { key: 'description' },
+      { key: 'status' }, // IN_PROGRESS
       {
         key: 'additional_data',
         default: []
@@ -22,8 +26,13 @@ class Transaction extends Model {
       },
       { key: 'owner' },
       {
-        key: 'owner',
+        key: 'owner_info',
         relatedModel: User
+      },
+      { key: 'invoice' },
+      {
+        key: 'invoice_info',
+        relatedModel: Invoice
       }
     ])
   }

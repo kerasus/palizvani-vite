@@ -13,7 +13,7 @@ export default {
   mixins: [mixinPageOptions],
   data: () => {
     return {
-      sections: [{ data: { rows: [{ cols: [{ widgets: [{ name: 'MyWallet' }], options: { style: { paddingTop: '124px' } } }], options: { className: '', height: 'auto', boxed: true, boxedWidth: 1200, gutterXSize: 'md', gutterYSize: 'md', absolute: 'none', paddingOfBoxedInFullWidth: '30px', style: { maxWidth: '1200px', width: '1200px' } } }] } }]
+      sections: [{ data: { rows: [{ cols: [{ widgets: [{ name: 'MyWallet' }, { name: 'PaymentList', options: { style: { marginTop: '40px', marginBottom: '100px' } } }], options: { style: { paddingTop: '124px' } } }], options: { className: '', height: 'auto', boxed: true, boxedWidth: 1200, gutterXSize: 'md', gutterYSize: 'md', absolute: 'none', paddingOfBoxedInFullWidth: '30px', style: { maxWidth: '1200px', width: '1200px' } } }] } }]
     }
   },
   created() {

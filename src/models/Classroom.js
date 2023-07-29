@@ -76,6 +76,10 @@ class Classroom extends Model {
       {
         label: 'قبل از دوره حذف و اضافه',
         value: 'BEFORE_DROP_ADD_PERIOD'
+      },
+      {
+        label: 'در دوره حذف و اضافه',
+        value: 'IN_REGISTRATION_PERIOD'
       }
     ]
 

@@ -71,9 +71,9 @@ export default {
 
 <style lang="scss" scoped>
 .UserPanelLayout {
-  padding-top: 35px;
-  padding-right: 35px;
-  padding-left: 61px;
-  padding-bottom: 35px;
+  padding: 35px 35px 35px 61px;
+  @media screen and (max-width: 1023px) {
+    padding: 15px 5px !important;
+  }
 }
 </style>

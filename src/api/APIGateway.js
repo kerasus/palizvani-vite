@@ -5,6 +5,7 @@ import UnitAPI from 'src/api/models/Unit.js'
 import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
 import InvoiceAPI from 'src/api/models/Invoice.js'
+import PaymentAPI from 'src/api/models/Payment.js'
 import SessionAPI from 'src/api/models/Session.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
 import TransactionAPI from 'src/api/models/Transaction.js'
@@ -23,6 +24,7 @@ export const APIGateway = {
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
   invoice: new InvoiceAPI(),
+  payment: new PaymentAPI(),
   session: new SessionAPI(),
   classroom: new ClassroomAPI(),
   transaction: new TransactionAPI(),

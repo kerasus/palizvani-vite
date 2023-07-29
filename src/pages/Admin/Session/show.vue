@@ -44,14 +44,14 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'Admin.SessionTemplate.Show',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'نام جلسه', col: 'col-md-9' },
-        { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
-        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان شروع جلسه', col: 'col-md-6' },
-        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان پایان جلسه', col: 'col-md-6' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-6' },
-        { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', col: 'col-md-6' },
-        { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف جلسه', col: 'col-md-12' },
-        { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-12' }
+        { type: 'input', name: 'title', responseKey: 'title', label: 'نام جلسه', placeholder: ' ', col: 'col-md-9 col-12' },
+        { type: 'separator', name: 'space', size: '0', col: 'col-12' },
+        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان شروع جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان پایان جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف جلسه', placeholder: ' ', col: 'col-12' },
+        { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-12' }
       ]
     }
   },

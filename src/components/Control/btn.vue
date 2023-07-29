@@ -1,4 +1,6 @@
 <template>
+  <div v-if="placeholder && label"
+       class="outside-label" />
   <q-btn :label="label"
          :color="color"
          :class="btnClass"
@@ -24,6 +26,10 @@ export default {
       type: String
     },
     label: {
+      default: '',
+      type: String
+    },
+    placeholder: {
       default: '',
       type: String
     },
@@ -56,3 +62,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.outside-label {
+  height: 25px;
+}
+</style>

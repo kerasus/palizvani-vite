@@ -93,7 +93,7 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'Admin.User.Show',
       inputs: [
-        { type: 'separator', name: 'space', label: 'نقش و وضعیت ها', col: 'col-md-12' },
+        { type: 'separator', name: 'space', label: 'نقش و وضعیت ها', className: 'custom-separator', col: 'col-12' },
         {
           type: 'select',
           name: 'roles',
@@ -101,19 +101,18 @@ export default {
           options: Enums.groups,
           multiple: true,
           label: 'نقش',
-          col: 'col-md-3'
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
         },
-        { type: 'separator', name: 'space', label: 'اطلاعات ضروری', col: 'col-md-12' },
-        { type: 'input', name: 'email', label: 'ایمیل', responseKey: 'email', col: 'col-md-3' },
-        { type: 'input', name: 'on_call_mobile_number', label: 'تلفن همراه', responseKey: 'on_call_mobile_number', col: 'col-md-3' },
-        { type: 'input', name: 'national_code', label: 'کدملی/کد اتباع غیر ایرانی', responseKey: 'national_code', col: 'col-md-3' },
-        { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', col: 'col-md-12' },
-        { type: 'file', name: 'picture', label: 'عکس پروفایل', responseKey: 'picture', col: 'col-md-3' },
-        { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
-        { type: 'input', name: 'firstname', label: 'نام', responseKey: 'firstname', col: 'col-md-3' },
-        { type: 'input', name: 'lastname', label: 'نام خانوادگی', responseKey: 'lastname', col: 'col-md-3' },
-        { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-12' },
-        { type: 'hidden', name: 'is_active', responseKey: 'is_active', label: 'is_active', col: 'col-md-12' },
+        { type: 'separator', name: 'space', placeholder: ' ', label: 'اطلاعات ضروری', className: 'custom-separator', col: 'col-12' },
+        { type: 'input', name: 'email', placeholder: ' ', label: 'ایمیل', responseKey: 'email', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'on_call_mobile_number', placeholder: ' ', label: 'تلفن همراه', responseKey: 'on_call_mobile_number', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'national_code', placeholder: ' ', label: 'کدملی/کد اتباع غیر ایرانی', responseKey: 'national_code', col: 'col-md-3 col-12' },
+        { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', className: 'custom-separator', col: 'col-12' },
+        { type: 'file', name: 'picture', placeholder: ' ', label: 'عکس پروفایل', responseKey: 'picture', col: 'col-md-3 col-12' },
+        { type: 'separator', name: 'space', size: '0', col: 'col-12' },
+        { type: 'input', name: 'firstname', placeholder: ' ', label: 'نام', responseKey: 'firstname', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'lastname', placeholder: ' ', label: 'نام خانوادگی', responseKey: 'lastname', col: 'col-md-3 col-12' },
         {
           type: 'select',
           name: 'gender',
@@ -121,9 +120,10 @@ export default {
           options: Enums.genders,
           value: null,
           label: 'جنسیت',
-          col: 'col-md-3'
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
         },
-        { type: 'date', name: 'birthdate', label: 'تولد', responseKey: 'birthdate', col: 'col-md-3' },
+        { type: 'date', name: 'birthdate', placeholder: ' ', label: 'تولد', responseKey: 'birthdate', col: 'col-md-3 col-12' },
         {
           type: 'select',
           name: 'marital_status',
@@ -131,11 +131,12 @@ export default {
           options: Enums.maritalStatuses,
           value: null,
           label: 'وضعیت تاهل',
-          col: 'col-md-3'
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
         },
-        { type: 'input', name: 'on_call_mobile_number', label: 'تلفن همراه جهت تماس', responseKey: 'on_call_mobile_number', col: 'col-md-3' },
-        { type: 'input', name: 'on_social_network_mobile_number', label: 'تلفن همراه جهت شبکه های اجتماعی', responseKey: 'on_social_network_mobile_number', col: 'col-md-3' },
-        { type: 'input', name: 'phone_number', label: 'تلفن منزل', responseKey: 'phone_number', col: 'col-md-3' },
+        { type: 'input', name: 'on_call_mobile_number', placeholder: ' ', label: 'تلفن همراه جهت تماس', responseKey: 'on_call_mobile_number', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'on_social_network_mobile_number', placeholder: ' ', label: 'تلفن همراه جهت شبکه های اجتماعی', responseKey: 'on_social_network_mobile_number', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'phone_number', placeholder: ' ', label: 'تلفن منزل', responseKey: 'phone_number', col: 'col-md-3 col-12' },
         {
           type: 'select',
           name: 'last_academic_degree',
@@ -143,10 +144,11 @@ export default {
           options: Enums.academicDegree,
           value: null,
           label: 'آخرین مقطع تحصیلی',
-          col: 'col-md-3'
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
         },
-        { type: 'input', name: 'last_academic_degree_field', label: 'رشته تحصیلی', responseKey: 'last_academic_degree_field', col: 'col-md-3' },
-        { type: 'input', name: 'last_academy_name', label: 'نام دانشگاه یا حوزه تحصیلی', responseKey: 'last_academy_name', col: 'col-md-3' },
+        { type: 'input', name: 'last_academic_degree_field', placeholder: ' ', label: 'رشته تحصیلی', responseKey: 'last_academic_degree_field', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'last_academy_name', placeholder: ' ', label: 'نام دانشگاه یا حوزه تحصیلی', responseKey: 'last_academy_name', col: 'col-md-3 col-12' },
         {
           type: 'select',
           name: 'educational_status',
@@ -154,16 +156,19 @@ export default {
           options: Enums.educationalStatus,
           value: null,
           label: 'وضعیت تحصیلی',
-          col: 'col-md-3'
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
         },
-        { type: 'input', name: 'birth_country', label: 'کشور محل تولد', responseKey: 'birth_country', col: 'col-md-4' },
-        { type: 'input', name: 'birth_province', label: 'استان محل تولد', responseKey: 'birth_province', col: 'col-md-4' },
-        { type: 'input', name: 'birth_city', label: 'شهر محل تولد', responseKey: 'birth_city', col: 'col-md-4' },
-        { type: 'input', name: 'living_country', label: 'کشور محل زندگی فعلی', responseKey: 'living_country', col: 'col-md-4' },
-        { type: 'input', name: 'living_province', label: 'استان محل زندگی فعلی', responseKey: 'living_province', col: 'col-md-4' },
-        { type: 'input', name: 'living_city', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', col: 'col-md-4' },
-        { type: 'input', name: 'living_postal_code', label: 'کد پستی محل زندگی', responseKey: 'living_postal_code', col: 'col-md-3' },
-        { type: 'input', name: 'living_address', label: 'آدرس پستی محل زندگی', responseKey: 'living_address', col: 'col-md-6' }
+        { type: 'input', name: 'birth_country', placeholder: ' ', label: 'کشور محل تولد', responseKey: 'birth_country', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'birth_province', placeholder: ' ', label: 'استان محل تولد', responseKey: 'birth_province', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'birth_city', placeholder: ' ', label: 'شهر محل تولد', responseKey: 'birth_city', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'living_country', placeholder: ' ', label: 'کشور محل زندگی فعلی', responseKey: 'living_country', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'living_province', placeholder: ' ', label: 'استان محل زندگی فعلی', responseKey: 'living_province', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'living_city', placeholder: ' ', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'living_postal_code', placeholder: ' ', label: 'کد پستی محل زندگی', responseKey: 'living_postal_code', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'living_address', placeholder: ' ', label: 'آدرس پستی محل زندگی', responseKey: 'living_address', col: 'col-md-6 col-12' },
+        { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-12' },
+        { type: 'hidden', name: 'is_active', responseKey: 'is_active', label: 'is_active', col: 'col-12' }
       ]
     }
   },

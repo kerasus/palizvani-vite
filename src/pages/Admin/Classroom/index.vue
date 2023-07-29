@@ -18,6 +18,7 @@
       </q-btn>
     </div>
     <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست دسته بندی ها"
                   :api="api"
@@ -72,7 +73,8 @@ export default {
           options: Enums.classroomStatuses,
           value: null,
           label: 'وضعیت دوره',
-          col: 'col-md-2'
+          placeholder: ' ',
+          col: 'col-md-2 col-12'
         },
         {
           type: 'select',
@@ -80,9 +82,10 @@ export default {
           options: [],
           value: null,
           label: 'درس',
-          col: 'col-md-2'
+          placeholder: ' ',
+          col: 'col-md-2 col-12'
         },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', props: { atClick: this.search }, col: 'col-md-2' }
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       api: APIGateway.classroom.APIAdresses.base,
       table: {
@@ -170,10 +173,21 @@ export default {
     }
   },
   mounted () {
+    this.setActionBtn()
     this.mounted = true
     this.getUnits()
   },
   methods: {
+    setActionBtn () {
+      this.inputs.forEach((item, index) => {
+        if (item.name === 'btn') {
+          this.inputs[index].atClick = this.search
+        }
+      })
+    },
+    search () {
+      this.$refs.entityIndex.search()
+    },
     getUnits () {
       APIGateway.unit.index({ per_page: 9999 })
         .then((units) => {

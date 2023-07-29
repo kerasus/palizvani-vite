@@ -1,6 +1,7 @@
 <template>
   <div class="AdminUserIndex">
-    <entity-index ref="entityIndex"
+    <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست کاربران"
                   :api="api"
@@ -56,12 +57,13 @@ export default {
   },
   data () {
     return {
+      mounted: false,
       inputs: [
-        { type: 'input', name: 'id', value: null, label: 'شماره', col: 'col-md-2' },
-        { type: 'input', name: 'firstname', value: null, label: 'نام', col: 'col-md-2' },
-        { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', col: 'col-md-2' },
-        { type: 'input', name: 'national_code', value: null, label: 'کد ملی', col: 'col-md-2' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', props: { atClick: this.search }, col: 'col-md-2' }
+        { type: 'input', name: 'id', value: null, label: 'شماره', placeholder: ' ', col: 'col-md-2' },
+        { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-2' },
+        { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-2' },
+        { type: 'input', name: 'national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-2' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2' }
       ],
       api: APIGateway.user.APIAdresses.base,
       table: {
@@ -127,7 +129,18 @@ export default {
       }
     }
   },
+  mounted() {
+    this.setActionBtn()
+    this.mounted = true
+  },
   methods: {
+    setActionBtn () {
+      this.inputs.forEach((item, index) => {
+        if (item.name === 'btn') {
+          this.inputs[index].atClick = this.search
+        }
+      })
+    },
     search () {
       this.$refs.entityIndex.search()
     },

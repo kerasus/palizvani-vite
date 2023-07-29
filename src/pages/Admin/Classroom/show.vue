@@ -25,7 +25,8 @@
                   v-model="tab"
                   animated>
       <q-tab-panel name="classroomInfo">
-        <entity-edit ref="categoryEntityEdit"
+        <entity-edit ref="classroomEntityEdit"
+                     :key="classroomEntityEditKey"
                      v-model:value="inputs"
                      title="مشخصات دوره آموزشی"
                      :api="api"
@@ -36,8 +37,7 @@
                      :show-edit-button="false"
                      :show-expand-button="false"
                      :show-save-button="false"
-                     :show-reload-button="false"
-                     :before-load-input-data="beforeLoadInputData">
+                     :show-reload-button="false">
           <template #after-form-builder>
             <div class="flex justify-end">
               <q-btn color="primary"
@@ -104,6 +104,7 @@ export default {
   data () {
     return {
       mounted: false,
+      classroomEntityEditKey: Date.now(),
       tab: 'classroomInfo',
       api: null,
       entityIdKey: 'id',
@@ -126,6 +127,7 @@ export default {
           options: [1402, 1403, 1404, 1405, 1406, 1407, 1408, 1409, 1410],
           value: null,
           label: 'انتخاب سال دوره',
+          placeholder: ' ',
           col: 'col-md-3'
         },
         {
@@ -148,6 +150,7 @@ export default {
           ],
           value: null,
           label: 'انتخاب ماه دوره',
+          placeholder: ' ',
           col: 'col-md-3'
         },
         { type: 'input', name: 'sessions_frequency', responseKey: 'sessions_frequency', placeholder: ' ', label: 'دوره تناوب', col: 'col-12' },
@@ -192,9 +195,7 @@ export default {
         // -----------------------------------------------------------------------------------------------------------
 
         { type: 'separator', name: 'space', label: 'موارد زیر در طرح نبودند', className: 'custom-separator', col: 'col-12' },
-        { type: 'input', name: 'title', responseKey: 'title', placeholder: ' ', label: '??نام دوره', col: 'col-md-4 col-12' },
         { type: 'select', name: 'audience_role', responseKey: 'audience_role', options: Enums.groups, placeholder: ' ', label: 'نقش', col: 'col-md-4 col-12' },
-        { type: 'input', name: 'unit', responseKey: 'unit', placeholder: ' ', label: '??unit', col: 'col-md-4 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: '??توضیحات', col: 'col-12' },
 
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-3 col-12' }
@@ -267,45 +268,73 @@ export default {
   mounted () {
     this.api = APIGateway.classroom.APIAdresses.byId(this.$route.params.id)
     this.mounted = true
+    this.preLoadData()
   },
   methods: {
-    async beforeLoadInputData (responseData, setNewInputData) {
-      this.getProfessors(setNewInputData)
-      await this.getCategories(setNewInputData)
-      await this.getUnits(responseData.unit_info.category, setNewInputData)
+    setInputAttr (name, attr, value) {
+      this.$refs.classroomEntityEdit.setInputAttributeByName(name, attr, value)
+    },
+    preLoadData () {
+      APIGateway.classroom.get(this.$route.params.id)
+        .then((classroom) => {
+          this.setInputAttr('category', 'value', classroom.unit_info.category)
+          this.setInputAttr('unit', 'value', classroom.unit)
+          this.beforeLoadInputData(classroom)
+        })
+        .catch(() => {})
+    },
+    beforeLoadInputData (responseData) {
+      const promise1 = this.getProfessors()
+      const promise2 = this.getCategories()
+      const promise3 = this.getUnits(responseData.unit_info.category)
       this.$nextTick(() => {
-        this.setInputValue('category', responseData.unit_info.category)
-        this.setInputValue('unit', responseData.unit)
+        Promise.all([promise1, promise2, promise3])
+          .then(() => {
+            // this.setInputAttr('category', 'value', responseData.unit_info.category)
+            // this.setInputAttr('unit', 'value', responseData.unit)
+            this.classroomEntityEditKey = Date.now()
+          })
+          .catch(() => {})
       })
     },
-    async getProfessors (setNewInputData) {
-      APIGateway.user.index({ per_page: 9999, role: 'professor' })
+    getProfessors () {
+      return APIGateway.user.index({ per_page: 9999, role: 'professor' })
         .then((users) => {
-          this.loadSelectOptions('professor', users.list.list.map(item => {
+          this.setInputAttr('professor', 'options', users.list.list.map(item => {
             return {
               value: item.id,
               label: this.getUserFullname(item)
             }
-          }), setNewInputData)
+          }))
+        })
+        .catch(() => {})
+    },
+    getCategories () {
+      return APIGateway.unitCategory.index({ per_page: 9999 })
+        .then((categories) => {
+          this.setInputAttr('category', 'options', categories.list.list.map(item => {
+            return {
+              value: item.id,
+              label: item.title
+            }
+          }))
+        })
+        .catch(() => {})
+    },
+    getUnits (selectedcategoryId) {
+      return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
+        .then((units) => {
+          this.setInputAttr('unit', 'options', units.list.list.map(item => {
+            return {
+              value: item.id,
+              label: item.title
+            }
+          }))
         })
         .catch(() => {})
     },
     getUserFullname (user) {
       return user.firstname + ' ' + user.lastname
-    },
-    async getCategories (setNewInputData) {
-      APIGateway.unitCategory.index({ per_page: 9999 })
-        .then((categories) => {
-          this.loadSelectOptions('category', this.getSelectOptions(categories.list.list, 'id', 'title'), setNewInputData)
-        })
-        .catch(() => {})
-    },
-    async getUnits (selectedcategoryId, setNewInputData) {
-      APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
-        .then((units) => {
-          this.loadSelectOptions('unit', this.getSelectOptions(units.list.list, 'id', 'title'), setNewInputData)
-        })
-        .catch(() => {})
     },
     getSelectOptions (result, value, label) {
       return result.map(item => {
@@ -331,7 +360,7 @@ export default {
       }
     },
     updateClassroom () {
-      this.$refs.categoryEntityEdit.editEntity()
+      this.$refs.classroomEntityEdit.editEntity()
     },
     getRemoveMessage (row) {
       return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
