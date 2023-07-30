@@ -96,16 +96,9 @@ export default {
           active: false,
           children: [
             {
-              title: 'فروشگاه',
+              title: 'صورتحساب ها',
               scrollTo: '#introSection',
-              // routeName: 'Admin.User.Index',
-              show: true,
-              active: false
-            },
-            {
-              title: 'سوابق مالی',
-              scrollTo: '#introSection',
-              // routeName: 'Admin.User.Index',
+              routeName: 'UserPanel.Invoice.List',
               show: true,
               active: false
             },

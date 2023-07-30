@@ -1,17 +1,17 @@
 <template>
-  <div v-if="type === 'main'"
-       class="FooterTemplate">
-    <main-footer />
+  <div class="FooterTemplate">
+    <main-footer v-if="type === 'main'" />
+    <panel-footer v-if="type === 'panel'" />
   </div>
-  <div v-else />
 </template>
 
 <script>
 import MainFooter from 'src/components/Template/Footer/MainFooter.vue'
+import PanelFooter from 'src/components/Template/Footer/PanelFooter.vue'
 
 export default {
   name: 'FooterTemplate',
-  components: { MainFooter },
+  components: { MainFooter, PanelFooter },
   props: {
     type: [String, Boolean, null],
     default: () => 'main'

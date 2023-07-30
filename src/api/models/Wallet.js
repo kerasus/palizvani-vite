@@ -7,7 +7,7 @@ export default class WalletAPI extends APIRepository {
     super('wallets', appApi)
     this.APIAdresses = {
       base: '/accounting/wallets',
-      deposit: '/accounting/wallets/deposit'
+      deposit: '/accounting/transactions/deposit'
     }
     this.restUrl = (id) => this.url + '/' + id
     /* Setting the callback functions for the CRUD operations. */

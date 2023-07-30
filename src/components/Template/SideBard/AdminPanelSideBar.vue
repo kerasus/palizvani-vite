@@ -1,25 +1,11 @@
 <template>
   <q-list class="side-menu-list"
           padding>
-    <q-input v-if="false"
-             v-model="searchText"
-             dense
-             standout="bg-deep-purple-5 text-white"
-             placeholder="جست و جو"
-             @update:model-value ="search(adminMenuItems)">
-      <template v-slot:append>
-        <q-icon name="search" />
-      </template>
-    </q-input>
-    <menu-item v-if="isAdminRoute"
-               :menu="adminMenuItems" />
-    <menu-item v-if="isProfilePage"
-               :menu="userProfileMenuItems" />
+    <menu-item :menu="adminMenuItems" />
   </q-list>
 </template>
 
 <script>
-import { User } from 'src/models/User.js'
 import menuItem from 'src/components/Menu/SideMenu/MenuItem.vue'
 
 export default {
@@ -27,10 +13,6 @@ export default {
   components: { menuItem },
   data () {
     return {
-      clickedItem: null,
-      searchText: '',
-      user: new User(),
-
       adminMenuItems: [
         {
           title: 'کاربران',
@@ -40,9 +22,10 @@ export default {
         },
         {
           title: 'سامانه آموزشی',
+          icon: 'isax:book',
           routeName: null,
           show: true,
-          open: false,
+          open: true,
           active: false,
           children: [
             {
@@ -59,157 +42,7 @@ export default {
             }
           ]
         }
-      ],
-      userProfileMenuItems: [
-        {
-          title: 'پیشخوان',
-          // routeName: 'Admin.User.Index',
-          scrollTo: '#introSection',
-          show: true,
-          active: false
-        },
-        {
-          title: 'مدیریت حلقه ها',
-          // routeName: 'Admin.User.Index',
-          scrollTo: '#introSection',
-          show: true,
-          active: false
-        },
-        {
-          title: 'دوره های آموزشی',
-          routeName: null,
-          show: true,
-          open: false,
-          active: false,
-          children: [
-            {
-              title: 'دوره های من',
-              routeName: 'UserPanel.Profile.AllClassrooms',
-              show: true,
-              active: false
-            },
-            {
-              title: 'کارنامه',
-              scrollTo: '#introSection',
-              // routeName: 'Admin.User.Index',
-              show: true,
-              active: false
-            }
-          ]
-        },
-        {
-          title: 'درخواست ها',
-          // routeName: 'Admin.User.Index',
-          scrollTo: '#introSection',
-          show: true,
-          active: false
-        },
-        {
-          title: 'بخش مالی',
-          routeName: null,
-          show: true,
-          open: false,
-          active: false,
-          children: [
-            {
-              title: 'فروشگاه',
-              scrollTo: '#introSection',
-              // routeName: 'Admin.User.Index',
-              show: true,
-              active: false
-            },
-            {
-              title: 'سوابق مالی',
-              scrollTo: '#introSection',
-              // routeName: 'Admin.User.Index',
-              show: true,
-              active: false
-            },
-            {
-              title: 'کیف پول الکترونیک',
-              scrollTo: '#introSection',
-              // routeName: 'Admin.User.Index',
-              show: true,
-              active: false
-            }
-          ]
-        }
-      ],
-
-      titlesList: []
-    }
-  },
-  computed: {
-    isAdminRoute () {
-      return this.$route.name && this.$route.name.includes('Admin.')
-    },
-    isProfilePage () {
-      return this.$route.name && this.$route.name.includes('UserPanel.Profile.')
-    }
-  },
-  mounted () {
-    this.loadAuthData()
-  },
-  methods: {
-    loadAuthData () {
-      this.user = this.$store.getters['Auth/user']
-    },
-    loadUserItems () {
-      if (this.user.isSuperUser()) {
-        this.titlesList.unshift(...[
-          {
-            title: 'کاربران',
-            routeName: 'Admin.User.Index',
-            show: true,
-            active: false
-          },
-          {
-            title: 'سامانه آموزشی',
-            routeName: null,
-            show: true,
-            open: false,
-            active: false,
-            children: [
-              {
-                title: 'دسته بندی ها',
-                routeName: 'Admin.Category.Index',
-                show: true,
-                active: false
-              },
-              {
-                title: 'دوره های آموزشی',
-                routeName: 'Admin.Classroom.Index',
-                show: true,
-                active: false
-              }
-            ]
-          }
-        ])
-      }
-    },
-    search (list, parentContain = false) {
-      if (!list || list.length === 0) {
-        return false
-      }
-      if (parentContain) {
-        return true
-      }
-      let flag = false
-      list.forEach(item => {
-        const contain = item.title.includes(this.searchText)
-        if (this.search(item.children, contain) || contain) {
-          flag = true
-          item.show = true
-          item.open = true
-        } else {
-          item.open = false
-          item.show = false
-        }
-      })
-      return flag
-    },
-    logOut () {
-      return this.$store.dispatch('Auth/logOut')
+      ]
     }
   }
 }

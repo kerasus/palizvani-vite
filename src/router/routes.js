@@ -86,7 +86,7 @@ const routes = [
         path: 'panel',
         name: 'UserPanel',
         layoutConfig: {
-          layoutView: 'hHh LpR fff',
+          layoutView: 'hHh LpR lfr',
           layoutHeaderType: 'user-panel',
           layoutHeaderBordered: true,
           layoutLeftDrawer: true,
@@ -94,6 +94,7 @@ const routes = [
           layoutLeftSideBarType: 'user-panel',
           layoutLeftDrawerBordered: true,
           layoutLeftDrawerWidth: 240,
+          layoutFooterType: 'panel',
           layoutFooter: true
         },
         meta: { middlewares: [Authenticated, canSeeUserProfilePanel] },
@@ -199,7 +200,7 @@ const routes = [
         path: 'admin',
         name: 'Admin',
         layoutConfig: {
-          layoutView: 'hHh LpR fff',
+          layoutView: 'hHh LpR lfr',
           layoutHeaderType: 'admin',
           layoutHeaderBordered: true,
           layoutLeftDrawer: true,
@@ -207,7 +208,8 @@ const routes = [
           layoutLeftSideBarType: 'admin',
           layoutLeftDrawerBordered: true,
           layoutLeftDrawerWidth: 240,
-          layoutFooter: false
+          layoutFooterType: 'panel',
+          layoutFooter: true
         },
         meta: { middlewares: [Authenticated, canSeeAdminPanel] },
         component: () => import('src/layouts/AdminLayout.vue'),

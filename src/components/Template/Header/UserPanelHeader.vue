@@ -11,6 +11,7 @@
         <div class="right-side">
           <q-btn flat
                  icon="menu"
+                 class="lt-md"
                  @click="updateLayoutLeftDrawerVisible(true)" />
           <q-btn flat
                  :to="{name: 'Public.Home'}">
@@ -178,6 +179,7 @@ export default {
 
 .header-inside {
   height: 70px;
+  border-bottom: 1px solid #DFE1EC;
   .admin-top-menu {
     display: flex;
     flex-flow: row;
