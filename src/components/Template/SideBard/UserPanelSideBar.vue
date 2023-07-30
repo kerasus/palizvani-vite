@@ -63,7 +63,7 @@ export default {
           title: 'دوره های آموزشی',
           routeName: null,
           show: true,
-          open: false,
+          open: true,
           active: false,
           children: [
             {
@@ -92,7 +92,7 @@ export default {
           title: 'بخش مالی',
           routeName: null,
           show: true,
-          open: false,
+          open: true,
           active: false,
           children: [
             {
