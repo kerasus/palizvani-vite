@@ -34,7 +34,11 @@
               ثبت شکایات
             </div>
             <div class="col-item">
-              سوالات متداول
+              <q-btn :to="{name: 'Public.FAQ'}"
+                     flat
+                     dense>
+                سوالات متداول
+              </q-btn>
             </div>
           </div>
         </div>
