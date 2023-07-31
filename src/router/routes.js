@@ -79,7 +79,8 @@ const routes = [
             component: () => import('src/pages/Public/index.vue')
           },
           { name: 'Public.AllClassrooms', path: 'all-classrooms', component: () => import('src/pages/Public/classrooms.vue') },
-          { name: 'Public.ShowClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/Public/ShowClassroomInfo.vue') }
+          { name: 'Public.ShowClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/Public/ShowClassroomInfo.vue') },
+          { name: 'Public.FAQ', path: 'faq', component: () => import('src/pages/Public/FAQ.vue') }
         ]
       },
       {
