@@ -12,7 +12,7 @@
                       width="100px" />
         </template>
         <template v-else>
-          {{ packageTitle }}
+          ({{ ticketTitle }})
         </template>
       </div>
       <div class="back-action">
@@ -50,9 +50,10 @@
             <div style="width: 100%;">
               <q-chat-message v-for="message in repliesInfo"
                               :key="message.id"
-                              :avatar="message.creator_info.picture ? message.creator_info.picture : 'assets/images/web/sample-avatar.svg'"
+                              :avatar="message.creator_info.picture ? message.creator_info.picture : '/assets/images/web/default-avatar.png'"
                               :name="message.creator_info.firstname + ' ' + message.creator_info.lastname"
                               :text="[message.body]"
+                              text-html
                               :sent="authenticatedUser.id !== message.creator_info.id" />
               <!--                  <div>-->
               <!--                    <q-input v-model="replyBody"-->
@@ -115,7 +116,7 @@ export default {
       replyText: null,
       mounted: false,
       entityLoading: true,
-      packageTitle: '',
+      ticketTitle: '',
       authenticatedUser: new User(),
       api: APIGateway.ticket.APIAdresses.base,
       ticketCategoryList: new TicketCategoryList(),
@@ -195,18 +196,21 @@ export default {
     loadAuthData () {
       this.authenticatedUser = this.$store.getters['Auth/user']
     },
-    afterLoadInputData () {
+    afterLoadInputData (response) {
+      this.ticketTitle = response.title
       this.entityLoading = false
     },
     sendReply() {
       this.entityLoading = true
+      const body = this.replyText.replace(/\n/g, '<br>\n')
       APIGateway.ticket.reply({
         id: this.$route.params.id,
-        body: this.replyText
+        body
       })
         .then(() => {
           this.$refs.entityShow.editEntity()
             .then(() => {
+              this.replyText = null
               this.$refs.entityShow.getData()
               this.entityLoading = false
             })

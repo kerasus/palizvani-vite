@@ -12,6 +12,7 @@ import TransactionAPI from 'src/api/models/Transaction.js'
 import PageSettingAPI from 'src/api/models/PageSetting.js'
 import RegistrationAPI from 'src/api/models/Registration.js'
 import UnitCategoryAPI from 'src/api/models/UnitCategory.js'
+import TicketCategoryAPI from 'src/api/models/TicketCategory.js'
 import SessionTemplateAPI from 'src/api/models/SessionTemplate.js'
 import ClassroomRegistrationAPI from 'src/api/models/ClassroomRegistration.js'
 
@@ -31,6 +32,7 @@ export const APIGateway = {
   pageSetting: new PageSettingAPI(),
   registration: new RegistrationAPI(),
   unitCategory: new UnitCategoryAPI(),
+  ticketCategory: new TicketCategoryAPI(),
   sessionTemplate: new SessionTemplateAPI(),
   classroomRegistration: new ClassroomRegistrationAPI()
 }

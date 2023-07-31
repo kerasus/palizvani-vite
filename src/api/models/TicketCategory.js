@@ -1,21 +1,21 @@
 import { appApi } from 'src/boot/axios.js'
 import APIRepository from '../classes/APIRepository.js'
 import { Ticket, TicketList } from 'src/models/Ticket.js'
+import { TicketCategory } from 'src/models/TicketCategory.js'
 
-export default class TicketAPI extends APIRepository {
+export default class TicketCategoryAPI extends APIRepository {
   constructor() {
-    super('ticket', appApi)
+    super('ticketCategories', appApi)
     this.APIAdresses = {
-      base: '/mma/tickets',
-      byId: (id) => '/mma/tickets/' + id,
-      reply: (id) => '/mma/tickets/' + id + '/reply'
+      base: '/mma/categories',
+      byId: (id) => '/mma/categories/' + id
     }
     this.restUrl = (id) => this.url + '/' + id
     /* Setting the callback functions for the CRUD operations. */
     this.setCrudCallbacks({
-      get: (response) => { return new Ticket(response.data) },
-      post: (response) => { return new Ticket(response.data) },
-      put: (response) => { return new Ticket(response.data) },
+      get: (response) => { return new TicketCategory(response.data) },
+      post: (response) => { return new TicketCategory(response.data) },
+      put: (response) => { return new TicketCategory(response.data) },
       delete: (response) => { return response.data }
     })
   }

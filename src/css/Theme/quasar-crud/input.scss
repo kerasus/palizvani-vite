@@ -22,4 +22,12 @@
       }
     }
   }
+  &.q-textarea {
+    .q-field__inner {
+      .q-field__control {
+        height: auto;
+        min-height: 48px;
+      }
+    }
+  }
 }

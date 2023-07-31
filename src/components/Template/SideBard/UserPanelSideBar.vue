@@ -83,8 +83,7 @@ export default {
         },
         {
           title: 'درخواست ها',
-          // routeName: 'Admin.User.Index',
-          scrollTo: '#introSection',
+          routeName: 'UserPanel.Ticket.List',
           show: true,
           active: false
         },

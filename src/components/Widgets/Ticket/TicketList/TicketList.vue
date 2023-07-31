@@ -1,43 +1,34 @@
 <template>
   <div class="TicketList"
        :style="localOptions.style">
-    <div class="title">
-      پیام‌های دریافتی
-      <div class="back-action">
-        <q-btn flat
-               :to="{name: 'UserPanel.Ticket.Create'}"
-               color="grey">
-          ارسال پیام جدید
-        </q-btn>
-      </div>
+    <div class="more-action">
+      <q-btn label="ایجاد درخواست"
+             color="primary"
+             :to="{name: 'UserPanel.Ticket.Create'}" />
     </div>
-    <q-card class="list"
-            flat>
-      <entity-index v-if="mounted"
-                    v-model:value="inputs"
-                    title=""
-                    :api="api"
-                    :table="table"
-                    :table-keys="tableKeys"
-                    :create-route-name="createRouteName"
-                    :show-search-button="false"
-                    :show-expand-button="false"
-                    :show-reload-button="false"
-                    :default-layout="false">
-        <template #entity-index-table-cell="{inputData}">
-          <template v-if="inputData.col.name === 'action'">
-            <q-btn flat
-                   color="primary"
-                   :to="{name: 'UserPanel.Ticket.Show', params: {id: inputData.props.row.id}}">
-              مشاهده جزییات
-            </q-btn>
-          </template>
-          <template v-else>
-            {{ inputData.col.value }}
-          </template>
+    <entity-index v-if="mounted"
+                  ref="entityIndex"
+                  v-model:value="inputs"
+                  title="لیست درخواست ها"
+                  :api="api"
+                  :table="table"
+                  :table-keys="tableKeys"
+                  :create-route-name="createRouteName"
+                  :show-search-button="false"
+                  :show-expand-button="false"
+                  :show-reload-button="false">
+      <template #entity-index-table-cell="{inputData}">
+        <template v-if="inputData.col.name === 'action'">
+          <q-btn color="primary"
+                 :to="{name: 'UserPanel.Ticket.Show', params: {id: inputData.props.row.id}}">
+            مشاهده جزییات
+          </q-btn>
         </template>
-      </entity-index>
-    </q-card>
+        <template v-else>
+          {{ inputData.col.value }}
+        </template>
+      </template>
+    </entity-index>
   </div>
 </template>
 
@@ -106,31 +97,11 @@ export default {
 
 <style scoped lang="scss">
 .TicketList {
-  .title {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 140%;
-    color: #424242;
-    margin-bottom: 27px;
-    .back-action {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-  :deep(.list) {
-    .quasar-crud-index-table {
-      padding: 0;
-      .q-table__container {
-        background-color: transparent;
-        box-shadow: none;
-        border: none;
-        .q-table__top {
-          display: none;
-        }
-      }
-    }
+  .more-action {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    margin-bottom: 10px;
   }
 }
 </style>

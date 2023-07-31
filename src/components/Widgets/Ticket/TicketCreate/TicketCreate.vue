@@ -56,8 +56,8 @@ export default {
       api: APIGateway.ticket.APIAdresses.base,
       entityIdKeyInResponse: 'id',
       showRouteParamKey: 'id',
-      showRouteName: 'AdminPanel.Ticket.Show',
-      indexRouteName: 'AdminPanel.Ticket.List',
+      showRouteName: 'UserPanel.Ticket.Show',
+      indexRouteName: 'UserPanel.Ticket.List',
       inputs: [
         { type: 'select', name: 'category', responseKey: 'category', options: [], label: 'دسته', col: 'col-md-12 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', col: 'col-md-12 col-12' },
