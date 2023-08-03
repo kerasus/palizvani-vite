@@ -11,7 +11,11 @@
                    @click="removeTopic(topicIndex)">
               حذف موضوع
             </q-btn>
-            ({{ topic.title }})
+            (
+            <q-icon :name="localOptions.topics[topicIndex].icon"
+                    size="30px" />
+            {{ topic.title }}
+            )
           </div>
         </template>
         <q-card class="bg-grey-3">
@@ -20,6 +24,14 @@
               عنوان موضوع
             </div>
             <q-input v-model="localOptions.topics[topicIndex].title" />
+            <div>
+              آیکون موضوع
+            </div>
+            <div>
+              <icon-sax v-model:icon="localOptions.topics[topicIndex].icon"
+                        :select-type="'emit'" />
+            </div>
+
             <q-separator />
             <div v-for="(subTopic, subTopicIndex) in topic.subTopics"
                  :key="subTopicIndex"
@@ -58,11 +70,12 @@
 <script>
 import { defineComponent } from 'vue'
 import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
+import IconSax from 'src/pages/Document/IconSax.vue'
 import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
 
 export default defineComponent({
   name: 'OptionPanel',
-  components: { OptionPanelTabs },
+  components: { OptionPanelTabs, IconSax },
   mixins: [mixinOptionPanel],
   data() {
     return {

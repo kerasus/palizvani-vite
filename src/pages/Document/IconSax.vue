@@ -19,7 +19,7 @@
                      :icon="'isax:' + svgIcon"
                      flat
                      class="full-width"
-                     @click="copyIconName('isax:' + svgIcon)" />
+                     @click="onSelect('isax:' + svgIcon)" />
             </div>
           </div>
         </q-card-section>
@@ -31,8 +31,19 @@
 <script>
 import { copyToClipboard } from 'quasar'
 import IconList from 'src/iconListDoocument/font-icons.js'
+
 export default {
   name: 'IconSax',
+  props: {
+    selectType: {
+      type: String,
+      default: 'copyToClipboard'
+    },
+    icon: {
+      type: String,
+      default: null
+    }
+  },
   data () {
     return {
       filterIconName: null
@@ -47,6 +58,13 @@ export default {
     }
   },
   methods: {
+    onSelect (iconName) {
+      if (this.selectType === 'copyToClipboard') {
+        this.copyIconName(iconName)
+      } else {
+        this.$emit('update:icon', iconName)
+      }
+    },
     copyIconName (iconName) {
       copyToClipboard(iconName)
         .then(() => {

@@ -8,17 +8,24 @@
       </div>
     </div>
     <div class="faq-content">
-      <q-virtual-scroll v-slot="{ item, index }"
-                        :items="localOptions.topics"
-                        virtual-scroll-horizontal>
-        <q-btn :key="index"
-               color="primary"
-               class="q-ma-md"
+      <div class="faq-topics">
+        <q-virtual-scroll v-slot="{ item, index }"
+                          :items="localOptions.topics"
+                          virtual-scroll-horizontal>
+          <div :key="index"
+               class="topic-item"
+               :class="{'selected': topicIndex === index}"
                @click="topicIndex=index">
-          {{ item.title }}
-        </q-btn>
-      </q-virtual-scroll>
-
+            <div class="icon">
+              <q-icon :name="item.icon"
+                      size="40px" />
+            </div>
+            <div class="title ellipsis-2-lines">
+              {{ item.title }}
+            </div>
+          </div>
+        </q-virtual-scroll>
+      </div>
       <q-tab-panels v-model="topicIndex"
                     animated>
         <q-tab-panel v-for="(topic, topicIndex) in localOptions.topics"
@@ -63,6 +70,65 @@ export default {
     flex-flow: row;
     justify-content: space-between;
     padding-bottom: 33px;
+  }
+  .faq-content {
+    .faq-topics {
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      :deep(.q-virtual-scroll__content) {
+        padding-left: 5px;
+        padding-bottom: 5px;
+        .topic-item {
+          background: #FBF4EA;
+          box-shadow: 0 0 5px #00000029;
+          border-radius: 54px 54px 0 54px;
+          width: 200px;
+          height: 174px;
+          margin-right: 24px;
+          border-top: solid 12px $primary;
+          padding: 0 15px;
+          display: flex;
+          flex-flow: column;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          &:hover {
+            box-shadow: 0 0 10px #00000029;
+          }
+          .icon {
+            margin-top: 46px;
+            color: $primary;
+          }
+          .title {
+            margin-top: 19.3px;
+          }
+          &.selected {
+            background: #FFFFFF;
+          }
+        }
+      }
+    }
+    .q-tab-panels {
+      $topSpace: 85px;
+      background: #F6F6F6;
+      border-radius: 20px;
+      margin-top: -$topSpace;
+      padding-top: $topSpace;
+      position: relative;
+      z-index: 1;
+      .q-panel {
+        .q-tab-panel {
+          .q-expansion-item {
+            background: white;
+            margin-bottom: 20px;
+          }
+        }
+      }
+    }
   }
 }
 </style>
