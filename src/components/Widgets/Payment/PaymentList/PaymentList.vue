@@ -14,11 +14,10 @@
                   :show-reload-button="false">
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'action'">
-          <q-btn flat
-                 color="primary"
-                 :to="{name: 'UserPanel.Invoice.Show', params: {id: inputData.props.row.id}}">
-            مشاهده جزییات
-          </q-btn>
+          <!--          <q-btn color="primary"-->
+          <!--                 :to="{name: 'UserPanel.Invoice.Show', params: {id: inputData.props.row.id}}">-->
+          <!--            مشاهده جزییات-->
+          <!--          </q-btn>-->
         </template>
         <template v-else>
           {{ inputData.col.value }}

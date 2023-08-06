@@ -1,21 +1,9 @@
 <template>
   <div class="InvoiceShow"
        :style="localOptions.style">
-    <div class="title">
-      <div class="static-title">
-        مشاهده صورتحساب
-        شماره:
-      </div>
-      <div class="dynamic-title">
-        <template v-if="entityLoading">
-          <q-skeleton type="text"
-                      class="q-ml-lg"
-                      width="100px" />
-        </template>
-        <template v-else>
-          {{ entityId }}
-        </template>
-      </div>
+    <div class="title q-pb-lg">
+      <div class="static-title" />
+      <div class="dynamic-title" />
       <div class="back-action">
         <q-btn flat
                :to="{name: 'UserPanel.Invoice.List'}"
@@ -25,55 +13,72 @@
         </q-btn>
       </div>
     </div>
-    <q-card class="form"
-            flat>
-      <entity-show v-if="mounted"
-                   ref="entityEdit"
-                   v-model:value="inputs"
-                   :api="api"
-                   :entity-id-key="entityIdKey"
-                   :entity-param-key="entityParamKey"
-                   :show-route-name="showRouteName"
-                   :show-close-button="false"
-                   :show-edit-button="false"
-                   :show-expand-button="false"
-                   :show-save-button="false"
-                   :show-reload-button="false"
-                   :default-layout="false"
-                   :redirect-after-edit="false"
-                   :after-load-input-data="afterLoadInputData" />
-    </q-card>
-    <q-card v-if="invoice.products_info.list.length > 0"
+    <entity-show v-if="mounted"
+                 ref="entityEdit"
+                 v-model:value="inputs"
+                 :title="'مشاهده صورتحساب شماره: ' + entityId"
+                 :api="api"
+                 :entity-id-key="entityIdKey"
+                 :entity-param-key="entityParamKey"
+                 :show-route-name="showRouteName"
+                 :show-close-button="false"
+                 :show-edit-button="false"
+                 :show-expand-button="false"
+                 :show-save-button="false"
+                 :show-reload-button="false"
+                 :redirect-after-edit="false"
+                 :show-index-button="false"
+                 :after-load-input-data="afterLoadInputData" />
+    <q-card v-if="invoice.item_info"
             class="q-mt-lg">
       <q-card-section>
-        <div class="selectedProductsList">
-          <div class="selectedProductsList-row head">
-            <div class="selectedProductsList-title">
-              شرح خدمات
-            </div>
-            <div class="selectedProductsList-price">
-              مبلغ
-            </div>
+        <div class="row">
+          <div class="col-md-3 col-12">
+            <q-banner>
+              <q-icon name="isax:stickynote" />
+              {{ getDateTime(invoice.creation_time) }}
+            </q-banner>
           </div>
-          <div v-for="item in invoice.products_info.list[0].registrations_info.list"
-               :key="item.id"
-               class="selectedProductsList-row">
-            <div class="selectedProductsList-title">
-              {{ item.item_info.title }}
-            </div>
-            <div class="selectedProductsList-price">
-              {{ (item.count * item.item_info.unit_price).toLocaleString('fa') }}
+          <div class="col-md-3 col-12">
+            <q-banner>
+              {{ (invoice.amount ? invoice.amount.toLocaleString('fa') : 0) }}
               تومان
-            </div>
+            </q-banner>
           </div>
-          <div class="selectedProductsList-row footer">
-            <div class="selectedProductsList-title">
-              قابل پرداخت
-            </div>
-            <div class="selectedProductsList-price">
-              {{ (invoice.products_info.list[0].amount) ? invoice.products_info.list[0].amount.toLocaleString('fa') : 0 }}
-              تومان
-            </div>
+          <div class="col-md-3 col-12">
+            <q-banner>
+              شماره پیگیری
+              {{ invoice.id }}
+            </q-banner>
+          </div>
+          <div class="col-md-3 col-12">
+            <q-banner>
+              وضعیت:
+              {{ invoice.status_info.label }}
+            </q-banner>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-12">
+            <q-img :src="invoice.item_info.thumbnail"
+                   width="100px" />
+            {{ invoice.item_info.title }}
+          </div>
+          <div class="col-md-4 col-12">
+            <q-img :src="invoice.item_info.thumbnail"
+                   width="100px" />
+            <q-icon name="isax:user" />
+            استاد:
+            {{ invoice.item_info.professor_info.firstname }}
+            {{ invoice.item_info.professor_info.lastname }}
+          </div>
+          <div class="col-md-4 col-12">
+            <q-img :src="invoice.item_info.thumbnail"
+                   width="100px" />
+            <q-icon name="isax:card" />
+            قیمت:
+            {{ invoice.item_info?.price ? invoice.item_info.price.toLocaleString('fa') : 0 }}
+            تومان
           </div>
         </div>
       </q-card-section>
@@ -96,6 +101,7 @@
 </template>
 
 <script>
+import Assist from 'assets/js/Assist.js'
 import { EntityShow } from 'quasar-crud'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
@@ -160,6 +166,9 @@ export default {
     this.mounted = true
   },
   methods: {
+    getDateTime (dateTime) {
+      return Assist.miladiToShamsi(dateTime)
+    },
     pay () {
       this.invoice.loading = true
       APIGateway.invoice.pay(this.invoice.id)
@@ -223,75 +232,5 @@ export default {
     padding: 24px;
   }
 
-  .selectedProductsList {
-    width: 100%;
-
-    .selectedProductsList-row {
-      display: flex;
-      flex-flow: row;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 16px 0;
-      border-bottom: solid 1px #F6F6F6;
-
-      &.head {
-        .selectedProductsList-title {
-          color: #6589C3;
-          font-size: 16px;
-          font-weight: 700;
-          line-height: 140%;
-        }
-
-        .selectedProductsList-price {
-          color: #6589C3;
-          font-size: 16px;
-          font-weight: 700;
-          line-height: 140%;
-        }
-      }
-
-      &.footer {
-        .selectedProductsList-title {
-          color: #2FA84A;
-          font-size: 16px;
-          font-weight: 700;
-          line-height: 140%;
-        }
-
-        .selectedProductsList-price {
-          color: #2FA84A;
-          font-size: 16px;
-          font-weight: 700;
-          line-height: 140%;
-        }
-      }
-
-      .selectedProductsList-title {
-        width: calc(100% - 150px);
-        color: #272727;
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 140%;
-      }
-
-      .selectedProductsList-price {
-        width: 150px;
-        color: #272727;
-        font-size: 16px;
-        line-height: 140%;
-      }
-    }
-
-    :deep(.form) {
-      padding: 24px;
-
-      .action {
-        display: flex;
-        flex-flow: row;
-        justify-content: flex-end;
-        margin-top: 32px;
-      }
-    }
-  }
 }
 </style>

@@ -53,13 +53,6 @@ export default {
           active: false
         },
         {
-          title: 'مدیریت حلقه ها',
-          // routeName: 'Admin.User.Index',
-          scrollTo: '#introSection',
-          show: true,
-          active: false
-        },
-        {
           title: 'دوره های آموزشی',
           routeName: null,
           show: true,
@@ -69,13 +62,6 @@ export default {
             {
               title: 'دوره های من',
               routeName: 'UserPanel.Profile.AllClassrooms',
-              show: true,
-              active: false
-            },
-            {
-              title: 'کارنامه',
-              scrollTo: '#introSection',
-              // routeName: 'Admin.User.Index',
               show: true,
               active: false
             }

@@ -14,8 +14,7 @@
                   :show-reload-button="false">
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'action'">
-          <q-btn flat
-                 color="primary"
+          <q-btn color="primary"
                  :to="{name: 'UserPanel.Invoice.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
           </q-btn>
@@ -45,7 +44,7 @@ export default {
   mixins: [mixinWidget],
   data: () => {
     return {
-      api: APIGateway.payment.APIAdresses.base,
+      api: APIGateway.invoice.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -91,16 +90,16 @@ export default {
           {
             name: 'amount',
             required: true,
-            label: 'مبلغ تراکنش (تومان)',
+            label: 'مبلغ تراکنش(تومان)',
             align: 'left',
             field: row => row.amount.toLocaleString('fa')
           },
           {
-            name: 'invoice_info.status',
+            name: 'status',
             required: true,
-            label: 'وضعیت تراکنش',
+            label: 'وضعیت',
             align: 'left',
-            field: row => (new Invoice(row.invoice_info)).status_info.label
+            field: row => (new Invoice(row)).status_info.label
           },
           {
             name: 'creation_time',

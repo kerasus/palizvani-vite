@@ -65,6 +65,7 @@ export default {
   },
   mounted() {
     this.loadAuthData()
+    this.getMyWallet()
   },
   methods: {
     loadAuthData() { // prevent Hydration node mismatch

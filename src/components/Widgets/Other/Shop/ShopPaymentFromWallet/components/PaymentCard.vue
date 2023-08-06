@@ -7,7 +7,8 @@
       <div class="PaymentCard-head-caption">
         خرید شما قطعی نشده است و در صورت عدم پرداخت تا پایان زمان، صورتحساب شما لغو خواهد شد
       </div>
-      <div class="PaymentCard-head-remaining-time">
+      <div v-if="false"
+           class="PaymentCard-head-remaining-time">
         <q-icon name="isax:clock" />
         زمان باقی مانده :
         {{ timerString }}
