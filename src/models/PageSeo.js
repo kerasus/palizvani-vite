@@ -5,7 +5,7 @@ class PageSeo extends Model {
     super(data, [
       {
         key: 'title',
-        default: 'آموزش مجازی آلاء'
+        default: 'شهید پالیزوانی'
       },
       {
         key: 'description',
