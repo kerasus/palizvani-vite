@@ -1,12 +1,16 @@
 import { Notify } from 'quasar'
-import { APIGateway } from 'src/api/APIGateway'
+import { appApi } from 'src/boot/axios.js'
+import API_ADDRESS from 'src/api/Addresses'
+
+const axios = appApi
 
 const actions = {
   editPageWidget: (context, data) => {
     return new Promise((resolve, reject) => {
-      APIGateway.pageSetting.update({ key: data.key, value: JSON.stringify(data.sections) })
-        .then(pageData => {
-          const parsedData = JSON.parse(pageData.value)
+      axios
+        .put(API_ADDRESS.pages.base, { key: data.key, value: JSON.stringify(data.sections) })
+        .then(r => {
+          const parsedData = JSON.parse(r.data.data.value)
           context.commit('updateCurrentSections', parsedData)
           context.commit('updateInitialSections', parsedData)
           Notify.create({
@@ -21,12 +25,13 @@ const actions = {
   },
   getPageWidget: (context, value) => {
     return new Promise((resolve, reject) => {
-      APIGateway.pageSetting.get(value)
-        .then(pageData => {
-          const parsedData = JSON.parse(pageData.value)
+      axios
+        .get(API_ADDRESS.pages.show(value))
+        .then(r => {
+          const parsedData = JSON.parse(r.data.data.value)
           context.commit('updateCurrentSections', parsedData)
           context.commit('updateInitialSections', parsedData)
-          resolve(pageData)
+          resolve(r)
         })
         .catch(e => {
           reject(e)

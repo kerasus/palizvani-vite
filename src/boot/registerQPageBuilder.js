@@ -4,6 +4,7 @@ import widgetList from '../components/Widgets/widget.json'
 import QPageBuilder from 'quasar-ui-q-page-builder/src/components/QPageBuilder.vue'
 import PageBuilderComponents from '../components/Widgets/PageBuilderComponents.js'
 import PageBuilderOptionPanels from '../components/Widgets/PageBuilderOptionPanels.js'
+import ImageUploader from 'src/components/ImageUploader.vue'
 
 const widgets = []
 function extractWidgets (json) {
@@ -25,6 +26,7 @@ export default boot(function ({ app }) {
 
   app.config.globalProperties.$q.$pageBuilderWidgetComponents = PageBuilderComponents
   app.config.globalProperties.$q.$pageBuilderWidgetOptionPanels = PageBuilderOptionPanels
+  app.config.globalProperties.$q.$pageBuilderWidgetOptionPanelImageUploader = ImageUploader
   // app.component('q-page-builder', VuePlugin.QPageBuilder)
   app.component('q-page-builder', QPageBuilder)
 })

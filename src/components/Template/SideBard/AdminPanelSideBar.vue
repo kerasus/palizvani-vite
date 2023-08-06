@@ -21,7 +21,7 @@ export default {
           active: false
         },
         {
-          title: 'سامانه آموزشی',
+          title: 'مدیریت آموزش',
           icon: 'isax:book',
           routeName: null,
           show: true,
@@ -29,14 +29,48 @@ export default {
           active: false,
           children: [
             {
-              title: 'دسته بندی ها',
+              title: 'درس ها و چارت آموزشی',
               routeName: 'Admin.Category.Index',
               show: true,
               active: false
             },
             {
-              title: 'دوره های آموزشی',
+              title: 'کلاس های آموزشی',
               routeName: 'Admin.Classroom.Index',
+              show: true,
+              active: false
+            },
+            {
+              title: 'درخواست ها',
+              routeName: 'Admin.Classroom.Ticket',
+              show: true,
+              active: false
+            }
+          ]
+        },
+        {
+          title: 'محتوا',
+          icon: 'isax:video',
+          routeName: null,
+          show: true,
+          open: true,
+          active: false,
+          children: [
+            {
+              title: 'دسته بندی ها',
+              routeName: 'Admin.ContentCategory.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'لیست محتوا ها',
+              routeName: 'Admin.Content.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'درخواست ها',
+              routeName: 'Admin.Content.Ticket',
               show: true,
               active: false
             }

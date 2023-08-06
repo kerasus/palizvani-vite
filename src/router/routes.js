@@ -265,6 +265,28 @@ const routes = [
             ]
           },
           {
+            path: 'ticket',
+            name: 'AdminPanel.Ticket',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              {
+                path: '',
+                name: 'AdminPanel.Ticket.List',
+                component: () => import('src/pages/Admin/Ticket/List.vue')
+              },
+              {
+                path: 'create',
+                name: 'AdminPanel.Ticket.Create',
+                component: () => import('src/pages/Admin/Ticket/Create.vue')
+              },
+              {
+                path: ':id',
+                name: 'AdminPanel.Ticket.Show',
+                component: () => import('src/pages/Admin/Ticket/Show.vue')
+              }
+            ]
+          },
+          {
             name: 'Admin.Classroom',
             path: 'classrooms',
             component: () => import('layouts/bareLayout.vue'),
@@ -272,7 +294,29 @@ const routes = [
             children: [
               { name: 'Admin.Classroom.Index', path: '', component: () => import('src/pages/Admin/Classroom/index.vue') },
               { name: 'Admin.Classroom.Create', path: 'create', component: () => import('src/pages/Admin/Classroom/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
-              { name: 'Admin.Classroom.Show', path: ':id', component: () => import('src/pages/Admin/Classroom/show.vue'), breadcrumbs: { title: 'مشاهده اطلاعات دوره آموزشی' } }
+              { name: 'Admin.Classroom.Show', path: ':id', component: () => import('src/pages/Admin/Classroom/show.vue'), breadcrumbs: { title: 'مشاهده اطلاعات دوره آموزشی' } },
+              { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+            ]
+          },
+          {
+            path: 'content',
+            name: 'Admin.Content',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              { path: '', name: 'Admin.Content.List', component: () => import('src/pages/Admin/Content/List.vue') },
+              { path: 'create', name: 'Admin.Content.Create', component: () => import('src/pages/Admin/Content/Create.vue') },
+              { path: ':id', name: 'Admin.Content.Show', component: () => import('src/pages/Admin/Content/Show.vue') },
+              { name: 'Admin.Content.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+            ]
+          },
+          {
+            path: 'content-category',
+            name: 'Admin.ContentCategory',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              { path: '', name: 'Admin.ContentCategory.List', component: () => import('src/pages/Admin/ContentCategory/List.vue') },
+              { path: 'create', name: 'Admin.ContentCategory.Create', component: () => import('src/pages/Admin/ContentCategory/Create.vue') },
+              { path: ':id', name: 'Admin.ContentCategory.Show', component: () => import('src/pages/Admin/ContentCategory/Show.vue') }
             ]
           },
           {

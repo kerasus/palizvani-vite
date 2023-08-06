@@ -1,9 +1,14 @@
 <template>
-  <div class="AdminTicketList"
+  <div class="AdminContentList"
        :style="localOptions.style">
+    <div class="more-action">
+      <q-btn label="محتوای جدید"
+             color="primary"
+             :to="{name: 'Admin.Content.Create'}" />
+    </div>
     <entity-index v-if="mounted"
                   v-model:value="inputs"
-                  title="لیست درخواست ها"
+                  title="لیست محتواها"
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
@@ -14,7 +19,7 @@
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :to="{name: 'AdminPanel.Ticket.Show', params: {id: inputData.props.row.id}}">
+                 :to="{name: 'Admin.Content.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
           </q-btn>
         </template>
@@ -33,12 +38,12 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
-  name: 'AdminTicketList',
+  name: 'AdminContentList',
   components: { EntityIndex },
   mixins: [mixinWidget],
   data: () => {
     return {
-      api: APIGateway.ticket.APIAdresses.base,
+      api: APIGateway.content.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -90,6 +95,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminTicketList {
+.AdminContentList {
+  .more-action {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
 }
 </style>

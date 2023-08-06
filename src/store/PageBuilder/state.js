@@ -1,7 +1,7 @@
 export default function () {
   return {
     pageDataLoaded: false,
-    pageBuilderLoading: true,
+    pageBuilderLoading: false,
     pageBuilderEditable: false,
     initialSections: [],
     currentSections: []

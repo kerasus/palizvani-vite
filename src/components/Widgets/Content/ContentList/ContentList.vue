@@ -1,7 +1,13 @@
 <template>
-  <div class="AdminTicketList"
+  <div class="ContentList"
        :style="localOptions.style">
+    <div class="more-action">
+      <q-btn label="ایجاد درخواست"
+             color="primary"
+             :to="{name: 'UserPanel.Ticket.Create'}" />
+    </div>
     <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست درخواست ها"
                   :api="api"
@@ -14,7 +20,7 @@
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :to="{name: 'AdminPanel.Ticket.Show', params: {id: inputData.props.row.id}}">
+                 :to="{name: 'UserPanel.Ticket.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
           </q-btn>
         </template>
@@ -33,7 +39,7 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
-  name: 'AdminTicketList',
+  name: 'ContentList',
   components: { EntityIndex },
   mixins: [mixinWidget],
   data: () => {
@@ -90,6 +96,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminTicketList {
+.ContentList {
+  .more-action {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
 }
 </style>

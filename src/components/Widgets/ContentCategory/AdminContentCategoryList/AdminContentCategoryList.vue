@@ -1,9 +1,15 @@
 <template>
-  <div class="AdminTicketList"
+  <div class="AdminContentCategoryList"
        :style="localOptions.style">
+    <div v-if="!parent"
+         class="more-action">
+      <q-btn label="دسته محتوای جدید"
+             color="primary"
+             :to="{name: 'Admin.ContentCategory.Create'}" />
+    </div>
     <entity-index v-if="mounted"
                   v-model:value="inputs"
-                  title="لیست درخواست ها"
+                  :title="title"
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
@@ -14,7 +20,7 @@
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :to="{name: 'AdminPanel.Ticket.Show', params: {id: inputData.props.row.id}}">
+                 :to="{name: 'Admin.ContentCategory.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
           </q-btn>
         </template>
@@ -27,18 +33,29 @@
 </template>
 
 <script>
+import Assist from 'assets/js/Assist.js'
 import { EntityIndex } from 'quasar-crud'
-import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
-  name: 'AdminTicketList',
+  name: 'AdminContentCategoryList',
   components: { EntityIndex },
   mixins: [mixinWidget],
+  props: {
+    title: {
+      type: String,
+      default: 'لیست دسته بندی های کلی'
+    },
+    parent: {
+      type: Number,
+      default: null
+    }
+  },
   data: () => {
     return {
-      api: APIGateway.ticket.APIAdresses.base,
+      api: APIGateway.contentCategory.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -46,29 +63,25 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
+      inputs: [
+        { type: 'hidden', name: 'parent', value: null },
+        { type: 'hidden', name: 'parent__isnull', value: null }
+      ],
       table: {
         columns: [
           {
             name: 'title',
             required: true,
-            label: 'موضوع پیام',
+            label: 'نام دسته',
             align: 'left',
             field: row => row.title
           },
           {
-            name: 'sender',
+            name: 'creation_time',
             required: true,
-            label: 'فرستنده',
+            label: 'تاریخ ایجاد',
             align: 'left',
-            field: row => row.creator_info.firstname + ' ' + row.creator_info.lastname
-          },
-          {
-            name: 'status',
-            required: true,
-            label: 'وضعیت',
-            align: 'left',
-            field: row => (new Ticket(row)).status_info.label
+            field: row => Assist.miladiToShamsi(row.creation_time)
           },
           {
             name: 'action',
@@ -83,6 +96,12 @@ export default {
       createRouteName: ''
     }
   },
+  created() {
+    FormBuilderAssist.setAttributeByName(this.inputs, 'parent', 'value', this.parent)
+    if (!this.parent) {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'parent__isnull', 'value', 'true')
+    }
+  },
   mounted() {
     this.mounted = true
   }
@@ -90,6 +109,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminTicketList {
+.AdminContentCategoryList {
+  .more-action {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
 }
 </style>
