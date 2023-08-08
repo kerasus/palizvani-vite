@@ -37,7 +37,8 @@
                      :show-edit-button="false"
                      :show-expand-button="false"
                      :show-save-button="false"
-                     :show-reload-button="false">
+                     :show-reload-button="false"
+                     :after-load-input-data="afterLoadInputData">
           <template #after-form-builder>
             <div class="flex justify-end">
               <q-btn color="primary"
@@ -92,6 +93,7 @@ import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { EntityEdit, EntityIndex } from 'quasar-crud'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
 export default {
@@ -114,7 +116,7 @@ export default {
         { type: 'separator', name: 'space', label: 'مشخصات دوره', className: 'custom-separator', col: 'col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'آپلود عکس دوره', col: 'col-md-3 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
-        { type: 'select', name: 'category', responseKey: 'unit_info.category', options: [], value: null, placeholder: ' ', label: 'دسته بندی', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'category', responseKey: 'unit_info.category_info.id', options: [], value: null, placeholder: ' ', label: 'دسته بندی', col: 'col-md-3 col-12' },
         { type: 'select', name: 'unit', responseKey: 'unit', options: [], value: null, placeholder: ' ', label: 'درس', col: 'col-md-3 col-12' },
         { type: 'select', name: 'holding_type', responseKey: 'holding_type', options: Enums.classroomHoldingTypes, value: null, placeholder: ' ', label: 'نوع برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'price', responseKey: 'price', placeholder: ' ', label: 'هزینه برگزاری', col: 'col-md-3 col-12' },
@@ -261,40 +263,67 @@ export default {
   },
   watch: {
     selectedCategoryId () {
+      if (!this.mounted) {
+        return
+      }
       this.setInputValue('unit', null)
       this.getUnits(this.selectedCategoryId)
     }
   },
   mounted () {
     this.api = APIGateway.classroom.APIAdresses.byId(this.$route.params.id)
-    this.mounted = true
     this.preLoadData()
+      .then(() => {
+        this.mounted = true
+      })
+      .catch(() => {
+      })
   },
   methods: {
+    afterLoadInputData () {
+      // const gg = data.beginning_enrollment_period.replace('T', ' ')
+      // this.setInputAttr('beginning_enrollment_period', 'value', gg)
+    },
     setInputAttr (name, attr, value) {
-      this.$refs.classroomEntityEdit.setInputAttributeByName(name, attr, value)
+      FormBuilderAssist.setAttributeByName(this.inputs, name, attr, value)
+      // this.$refs.classroomEntityEdit.setInputAttributeByName(name, attr, value)
     },
     preLoadData () {
-      APIGateway.classroom.get(this.$route.params.id)
-        .then((classroom) => {
-          this.setInputAttr('category', 'value', classroom.unit_info.category)
-          this.setInputAttr('unit', 'value', classroom.unit)
-          this.beforeLoadInputData(classroom)
-        })
-        .catch(() => {})
+      return new Promise((resolve, reject) => {
+        APIGateway.classroom.get(this.$route.params.id)
+          .then((classroom) => {
+            this.setInputAttr('category', 'value', classroom.unit_info.category_info.id)
+            this.setInputAttr('unit', 'value', classroom.unit)
+            this.beforeLoadInputData(classroom)
+              .then((classroom) => {
+                resolve()
+              })
+              .catch(() => {
+                reject()
+              })
+          })
+          .catch(() => {
+            reject()
+          })
+      })
     },
     beforeLoadInputData (responseData) {
-      const promise1 = this.getProfessors()
-      const promise2 = this.getCategories()
-      const promise3 = this.getUnits(responseData.unit_info.category)
-      this.$nextTick(() => {
-        Promise.all([promise1, promise2, promise3])
-          .then(() => {
+      return new Promise((resolve, reject) => {
+        const promise1 = this.getProfessors()
+        const promise2 = this.getCategories()
+        const promise3 = this.getUnits(responseData.unit_info.category)
+        this.$nextTick(() => {
+          Promise.all([promise1, promise2, promise3])
+            .then(() => {
             // this.setInputAttr('category', 'value', responseData.unit_info.category)
             // this.setInputAttr('unit', 'value', responseData.unit)
-            this.classroomEntityEditKey = Date.now()
-          })
-          .catch(() => {})
+              this.classroomEntityEditKey = Date.now()
+              resolve()
+            })
+            .catch(() => {
+              reject()
+            })
+        })
       })
     },
     getProfessors () {
