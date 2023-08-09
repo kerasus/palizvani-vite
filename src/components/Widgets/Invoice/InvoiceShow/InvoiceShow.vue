@@ -13,24 +13,10 @@
         </q-btn>
       </div>
     </div>
-    <entity-show v-if="mounted"
-                 ref="entityEdit"
-                 v-model:value="inputs"
-                 :title="'مشاهده صورتحساب شماره: ' + entityId"
-                 :api="api"
-                 :entity-id-key="entityIdKey"
-                 :entity-param-key="entityParamKey"
-                 :show-route-name="showRouteName"
-                 :show-close-button="false"
-                 :show-edit-button="false"
-                 :show-expand-button="false"
-                 :show-save-button="false"
-                 :show-reload-button="false"
-                 :redirect-after-edit="false"
-                 :show-index-button="false"
-                 :after-load-input-data="afterLoadInputData" />
     <q-card v-if="invoice.item_info"
             class="q-mt-lg">
+      <q-linear-progress v-if="invoice.loading"
+                         indeterminate />
       <q-card-section>
         <div class="row">
           <div class="col-md-3 col-12">
@@ -84,13 +70,14 @@
       </q-card-section>
     </q-card>
     <div class="action q-mt-lg">
-      <q-card v-if="invoice.status!=='PAYING'"
+      <q-card v-if="invoice.status!=='PAYING' && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
               class="q-mb-md">
         <q-card-section>
           تنها در صورتی که وضعیت سفارش در حال پرداخت باشد امکان پرداخت با کیف پول وجود دارد
         </q-card-section>
       </q-card>
-      <q-btn color="green"
+      <q-btn v-if="invoice.status!=='PAYING' && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
+             color="green"
              :disable="invoice.status!=='PAYING'"
              class="q-px-xl"
              @click="pay">
@@ -102,16 +89,12 @@
 
 <script>
 import Assist from 'assets/js/Assist.js'
-import { EntityShow } from 'quasar-crud'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'InvoiceShow',
-  components: {
-    EntityShow
-  },
   mixins: [mixinWidget],
   props: {
     invoiceId: {
@@ -121,49 +104,11 @@ export default {
   },
   data: () => {
     return {
-      mounted: false,
-      entityLoading: true,
-      invoice: new Invoice(),
-      entityId: '',
-      api: null,
-      entityIdKey: 'id',
-      entityParamKey: 'id',
-      showRouteName: 'UserPanel.Invoice.Show',
-      indexRouteName: 'UserPanel.Invoice.List',
-      inputs: [
-        {
-          type: 'date',
-          name: 'creation_time',
-          responseKey: 'creation_time',
-          label: 'تاریخ صورت‌حساب',
-          placeholder: ' ',
-          col: 'col-md-6 col-12'
-        },
-        {
-          type: 'select',
-          name: 'status',
-          responseKey: 'status',
-          label: 'وضعیت',
-          placeholder: ' ',
-          options: (new Invoice()).statusEnums,
-          col: 'col-md-6 col-12'
-        },
-        {
-          type: 'hidden',
-          name: 'id',
-          responseKey: 'id'
-        }
-      ]
-    }
-  },
-  computed: {
-    localInvoiceId () {
-      return this.invoiceId || this.$route.params.id
+      invoice: new Invoice()
     }
   },
   mounted() {
-    this.api = APIGateway.invoice.APIAdresses.byId(this.localInvoiceId)
-    this.mounted = true
+    this.getInvoice()
   },
   methods: {
     getDateTime (dateTime) {
@@ -180,24 +125,16 @@ export default {
           this.invoice.loading = false
         })
     },
-    onUpdateServices () {
-      this.$refs.entityEdit.getData()
-    },
-    afterLoadInputData (response) {
-      this.invoice = new Invoice(response)
-      this.entityId = response.id
-      this.entityLoading = false
-    },
-    edit() {
-      this.entityLoading = true
-      this.$refs.entityEdit.editEntity()
-        .then(() => {
-          this.$refs.entityEdit.getData()
-          this.entityLoading = false
+    getInvoice () {
+      this.invoice.loading = true
+      const invoiceId = this.$route.params.id
+      APIGateway.invoice.get({ data: { id: invoiceId } })
+        .then((invoice) => {
+          this.invoice = new Invoice(invoice)
+          this.invoice.loading = false
         })
         .catch(() => {
-          this.$refs.entityEdit.getData()
-          this.entityLoading = false
+          this.invoice.loading = false
         })
     }
   }
