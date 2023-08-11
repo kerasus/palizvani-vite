@@ -5,6 +5,14 @@
          :class="{'isHomePage': isHomePage}">
       <div class="right-side">
         <q-toolbar>
+          <q-btn class="lt-md q-mr-md"
+                 icon="isax:menu-1"
+                 color="primary"
+                 round
+                 text-color="white"
+                 dense
+                 unelevated
+                 @click="toggleLeftDrawer" />
           <q-btn flat
                  round
                  dense
@@ -13,59 +21,61 @@
             <q-img src="/assets/images/web/user-top-menu-logo.png"
                    width="53" />
           </q-btn>
-          <q-btn stretch
-                 flat
-                 label="اخبار و رویدادها"
-                 class="top-menu-item" />
-          <q-btn stretch
-                 flat
-                 label="سامانه آموزش"
-                 class="top-menu-item" />
-          <q-btn-dropdown stretch
-                          flat
-                          label="آرشیو محتوایی"
-                          class="top-menu-item">
-            <q-list>
-              <q-item-label header>عنوان یک</q-item-label>
-              <q-item v-for="n in 3"
-                      :key="`x.${n}`"
-                      v-close-popup
-                      clickable
-                      tabindex="0">
-                <q-item-section>
-                  <q-item-label>زیر عنوان</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-separator inset
-                           spaced />
-              <q-item-label header>عنوان دو</q-item-label>
-              <q-item v-for="n in 3"
-                      :key="`y.${n}`"
-                      v-close-popup
-                      clickable
-                      tabindex="0">
-                <q-item-section>
-                  <q-item-label>زیر عنوان</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
-          <q-btn stretch
-                 flat
-                 label="فروشگاه"
-                 class="top-menu-item" />
-          <q-btn stretch
-                 flat
-                 label="پخش زنده"
-                 class="top-menu-item" />
-          <q-btn stretch
-                 flat
-                 label="درباره ما"
-                 class="top-menu-item" />
-          <q-btn stretch
-                 flat
-                 label="تماس با ما"
-                 class="top-menu-item" />
+          <div class="gt-sm">
+            <q-btn stretch
+                   flat
+                   label="اخبار و رویدادها"
+                   class="top-menu-item" />
+            <q-btn stretch
+                   flat
+                   label="سامانه آموزش"
+                   class="top-menu-item" />
+            <q-btn-dropdown stretch
+                            flat
+                            label="آرشیو محتوایی"
+                            class="top-menu-item">
+              <q-list>
+                <q-item-label header>عنوان یک</q-item-label>
+                <q-item v-for="n in 3"
+                        :key="`x.${n}`"
+                        v-close-popup
+                        clickable
+                        tabindex="0">
+                  <q-item-section>
+                    <q-item-label>زیر عنوان</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-separator inset
+                             spaced />
+                <q-item-label header>عنوان دو</q-item-label>
+                <q-item v-for="n in 3"
+                        :key="`y.${n}`"
+                        v-close-popup
+                        clickable
+                        tabindex="0">
+                  <q-item-section>
+                    <q-item-label>زیر عنوان</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+            <q-btn stretch
+                   flat
+                   label="فروشگاه"
+                   class="top-menu-item" />
+            <q-btn stretch
+                   flat
+                   label="پخش زنده"
+                   class="top-menu-item" />
+            <q-btn stretch
+                   flat
+                   label="درباره ما"
+                   class="top-menu-item" />
+            <q-btn stretch
+                   flat
+                   label="تماس با ما"
+                   class="top-menu-item" />
+          </div>
         </q-toolbar>
       </div>
       <div class="left-side">
@@ -228,9 +238,6 @@ export default {
 .right-side {
   display: flex;
   align-items: center;
-  @media screen and (max-width: 1439px) {
-    margin-left: 78px;
-  }
   @media screen and (max-width: 1023px) {
     margin-left: 42px;
   }
@@ -259,7 +266,7 @@ export default {
   justify-content: flex-end;
   @media screen and (max-width: 1439px) {
     position: absolute;
-    right: 30px;
+    right: 0;
   }
   @media screen and (max-width: 599px) {
     right: 16px;
@@ -323,6 +330,11 @@ export default {
     margin-right: 100px;
     margin-left: 100px;
     margin-bottom: 22px;
+
+    @media only screen and (max-width: 1500px) {
+      margin-right: 10px;
+      margin-left: 10px;
+    }
 
     display: flex;
     flex-flow: row;

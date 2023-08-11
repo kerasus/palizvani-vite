@@ -1,7 +1,7 @@
 <template>
   <div class="MainFooter">
     <div class="contents row">
-      <div class="column col-md-4 col-12">
+      <div class="column col-md-4 col-sm-6 col-12">
         <div class="col-title">تماس با ما</div>
         <div class="col-content">
           <div class="col-items">
@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="column col-md-4 col-12">
+      <div class="column col-md-4 col-sm-6 col-12">
         <div class="col-title">راهنما</div>
         <div class="col-content">
           <div class="col-items">
@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <div class="column col-md-4 col-12">
+      <div class="column col-md-4 col-12 social-column">
         <div class="col-title">شبکه‌های اجتماعی</div>
         <div class="col-content">
           <div class="col-items social-row">
@@ -108,8 +108,8 @@ export default {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 39px;
-    padding-bottom: 48px;
+    padding: 39px 10px 48px;
+
     .column {
       .col-title {
         font-size: 16px;
@@ -117,8 +117,12 @@ export default {
         letter-spacing: 0;
         color: #212121;
         margin-bottom: 33px;
+        max-width: 100%;
+        width: 100%;
       }
       .col-content {
+        max-width: 100%;
+        width: 100%;
         .col-items {
           max-width: 280px;
           &.social-row {
@@ -175,6 +179,38 @@ export default {
             .q-icon {
               color: #AAA095;
               margin-right: 9px;
+            }
+          }
+        }
+      }
+      &.social-column {
+        @media screen and (max-width: 1023px) {
+          .col-title {
+            text-align: center;
+          }
+          .col-content {
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+            .col-items {
+              .col-item.social-row {
+
+              }
+            }
+          }
+        }
+      }
+      @media screen and (max-width: 599px) {
+        .col-title {
+          text-align: center;
+        }
+        .col-content {
+          display: flex;
+          flex-flow: row;
+          justify-content: center;
+          .col-items {
+            .col-item {
+              text-align: center;
             }
           }
         }
