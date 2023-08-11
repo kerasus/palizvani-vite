@@ -25,8 +25,14 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
+import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
+import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
+
+const ContentMediasComp = shallowRef(ContentMedias)
+const ContentsSelectorComp = shallowRef(ContentsSelector)
 
 export default {
   name: 'Admin.Session.Show',
@@ -50,7 +56,10 @@ export default {
         { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان پایان جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف جلسه', placeholder: ' ', col: 'col-12' },
+        { type: ContentsSelectorComp, name: 'contents', responseKey: 'contents_info', col: 'col-12' },
+        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', sourceType: 'SESSION', col: 'col-12' },
+        { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'assignment_answer', responseKey: 'assignment_answer', label: 'پاسخ تکلیف', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-12' }
       ]
     }
@@ -61,7 +70,7 @@ export default {
   },
   methods: {
     updateSessionTemplates () {
-      this.$refs.sessionEntityEdit.editEntity()
+      this.$refs.sessionEntityEdit.editEntity(false)
     },
     getRemoveMessage (row) {
       return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'

@@ -22,8 +22,12 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
-import API_ADDRESS from 'src/api/Addresses.js'
+import { APIGateway } from 'src/api/APIGateway.js'
+import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
+
+const ContentsSelectorComp = shallowRef(ContentsSelector)
 
 export default {
   name: 'Admin.SessionTemplates.Index',
@@ -35,22 +39,25 @@ export default {
       newUnitLoading: false,
       newUnitName: null,
       newUnitSessionCount: null,
-      api: API_ADDRESS.sessionTemplates.base,
+      api: null,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.SessionTemplate.Show',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'نام جلسه', col: 'col-md-6' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'نام جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-6' },
-        { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', col: 'col-md-6' },
-        { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-12' },
-        { type: 'hidden', name: 'unit', responseKey: 'unit', label: 'unit', col: 'col-md-12' }
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: ContentsSelectorComp, name: 'contents', responseKey: 'contents_info', col: 'col-12' },
+        { type: 'inputEditor', name: 'assignment_question', responseKey: 'assignment_question', label: 'تکلیف', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'assignment_answer', responseKey: 'assignment_answer', label: 'پاسخ تکلیف', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'hidden', name: 'id', responseKey: 'id' },
+        { type: 'hidden', name: 'unit', responseKey: 'unit' }
       ]
     }
   },
   created () {
-    this.api += '/' + this.$route.params.id
+    this.api = APIGateway.sessionTemplate.APIAdresses.byId(this.$route.params.id)
   },
   methods: {
     updateSessionTemplates () {
@@ -64,7 +71,7 @@ export default {
     },
     createUnit () {
       this.newUnitLoading = true
-      this.$axios.post(API_ADDRESS.unit.base, {
+      APIGateway.unit.create({
         title: this.newUnitName,
         category: this.$route.params.id,
         default_session_count: this.newUnitSessionCount

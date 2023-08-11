@@ -42,6 +42,7 @@
     <q-btn class="full-width btn-login"
            color="primary"
            label="ورود به سامانه"
+           :loading="loadingList"
            @click="login" />
     <div>
       حساب کاربری ندارید؟

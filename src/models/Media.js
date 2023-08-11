@@ -36,10 +36,10 @@ class Media extends Model {
         label: 'ویدیو',
         value: 'VIDEO'
       },
-      {
-        label: 'متن',
-        value: 'TEXT'
-      },
+      // {
+      //   label: 'متن',
+      //   value: 'TEXT'
+      // },
       {
         label: 'صوت',
         value: 'SOUND'
@@ -66,6 +66,10 @@ class Media extends Model {
 class MediaList extends Collection {
   model () {
     return Media
+  }
+
+  getType (type) {
+    return this.list.filter(item => item.type === type)
   }
 }
 

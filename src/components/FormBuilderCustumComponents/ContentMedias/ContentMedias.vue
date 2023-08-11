@@ -1,29 +1,7 @@
 <template>
-  <q-card class="ContentMedias">
-    <q-card-section>
-      <q-list bordered
-              separator
-              class="q-mb-md">
-        <q-item class="media-item">
-          <q-item-label>
-            لیست چند رسانه ای های تعریف شده
-          </q-item-label>
-        </q-item>
-        <q-item v-for="(media, mediaIndex) in medias.list"
-                :key="media.id"
-                class="media-item">
-          <q-item-section>
-            <q-item-label>
-              <q-btn icon="isax:trash"
-                     round
-                     color="red"
-                     @click="removeMedia(mediaIndex)" />
-              {{ media.title }}
-            </q-item-label>
-            <q-item-label caption>{{ media.type_info?.label }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+  <div class="ContentMedias">
+    <div v-if="canAddMedia"
+         class="q-mb-md">
       <entity-create ref="entityCreate"
                      v-model:value="inputs"
                      title="تعریف چند رسانه ای"
@@ -41,18 +19,44 @@
              @click="entityCreate">
         افزودن چند رسانه ای
       </q-btn>
-    </q-card-section>
-  </q-card>
+    </div>
+    <media-category v-if="imageMedias.list.length > 0"
+                    :medias="imageMedias"
+                    icon="isax:image"
+                    title="تصویر"
+                    class="q-mt-lg"
+                    :can-delete="canDelete"
+                    @onView="onView"
+                    @onDelete="onDelete" />
+    <media-category v-if="soundMedias.list.length > 0"
+                    :medias="soundMedias"
+                    icon="isax:microphone"
+                    title="صوت"
+                    class="q-mt-lg"
+                    :can-delete="canDelete"
+                    @onView="onView"
+                    @onDelete="onDelete" />
+    <media-category v-if="videoMedias.list.length > 0"
+                    :medias="videoMedias"
+                    icon="isax:play"
+                    title="ویدیو"
+                    class="q-mt-lg"
+                    :can-delete="canDelete"
+                    @onView="onView"
+                    @onDelete="onDelete" />
+  </div>
 </template>
 
 <script>
 import { EntityCreate } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Media, MediaList } from 'src/models/Media.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
+import MediaCategory from 'src/components/FormBuilderCustumComponents/ContentMedias/MediaCategory.vue'
 
 export default {
   name: 'ContentMedias',
-  components: { EntityCreate },
+  components: { MediaCategory, EntityCreate },
   props: {
     value: {
       default: () => [],
@@ -61,6 +65,18 @@ export default {
     disable: {
       default: false,
       type: Boolean
+    },
+    canDelete: {
+      type: Boolean,
+      default: true
+    },
+    canAddMedia: {
+      type: Boolean,
+      default: true
+    },
+    sourceType: {
+      type: String,
+      default: 'CONTENT'
     }
   },
   emits: ['update:value'],
@@ -71,9 +87,9 @@ export default {
       entityIdKey: 'id',
       entityParamKey: 'id',
       inputs: [
+        { type: 'file', name: 'file', responseKey: 'file', label: 'فایل', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'select', name: 'type', responseKey: 'type', label: 'نوع', placeholder: ' ', options: (new Media()).typeEnums, col: 'col-md-4 col-12' },
-        { type: 'file', name: 'file', responseKey: 'file', label: 'فایل', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'url', responseKey: 'url', label: 'url', placeholder: ' ', col: 'col-12' },
         { type: 'input', name: 'iframe_code', responseKey: 'iframe_code', label: 'iframe_code', placeholder: ' ', col: 'col-12' },
         { type: 'input', name: 'script_code', responseKey: 'script_code', label: 'script_code', placeholder: ' ', col: 'col-12' },
@@ -82,20 +98,46 @@ export default {
       entityCreateLoading: false
     }
   },
+  computed: {
+    videoMedias () {
+      return new MediaList(this.medias.getType('VIDEO'))
+    },
+    soundMedias () {
+      return new MediaList(this.medias.getType('SOUND'))
+    },
+    imageMedias () {
+      return new MediaList(this.medias.getType('IMAGE'))
+    }
+  },
   watch: {
-    value () {
-      this.inputData = this.value
-      if (this.value.length > 0 && this.value[0].id) {
-        this.medias = new MediaList(this.value)
-        this.$emit('update:value', this.medias.list.map(item => item.id))
-      }
+    value: {
+      handler () {
+        this.inputData = this.value
+        if (this.value.length > 0 && this.value[0].id) {
+          this.medias = new MediaList(this.value)
+          this.$emit('update:value', this.medias.list.map(item => item.id))
+        }
+      },
+      immediate: true
     }
   },
   created () {
+    FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.sourceType)
     this.inputData = this.value
   },
   methods: {
-    removeMedia (mediaIndex) {
+    onView (media) {
+      const routeData = this.$router.resolve({ name: 'Admin.Media.Show', params: { id: media.id } })
+      window.open(routeData.href, '_blank')
+    },
+    onDelete (media) {
+      this.removeMedia(media.id)
+    },
+    removeMedia (mediaId) {
+      const mediaIndex = this.medias.list.findIndex(item => item.id === mediaId)
+      if (mediaIndex === -1) {
+        return
+      }
       this.medias.list.splice(mediaIndex, 1)
       this.$emit('update:value', this.medias.list.map(item => item.id))
     },
@@ -117,8 +159,5 @@ export default {
 
 <style lang="scss" scoped>
 .ContentMedias {
-  :deep(.media-item) {
-    display: block;
-  }
 }
 </style>

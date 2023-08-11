@@ -1,75 +1,95 @@
 <template>
-  <div>
-    <div>
-      <entity-edit v-if="mounted"
-                   ref="categoryEntityEdit"
-                   v-model:value="inputs"
-                   title="مشخصات دسته بندی"
-                   :api="api"
-                   :entity-id-key="entityIdKey"
-                   :entity-param-key="entityParamKey"
-                   :show-route-name="showRouteName"
-                   :show-close-button="false"
-                   :show-edit-button="false"
-                   :show-expand-button="false"
-                   :show-save-button="false"
-                   :show-reload-button="false">
-        <template #after-form-builder>
-          <div class="flex justify-end">
-            <q-btn color="primary"
-                   label="تایید"
-                   @click="updateCategory" />
-          </div>
-        </template>
-      </entity-edit>
-    </div>
-    <div class="q-mt-md">
-      <entity-index v-if="mounted"
-                    ref="sessionEntityIndex"
-                    v-model:value="sessionFilterInputs"
-                    title="لیست جلسات"
-                    :api="sessionApi"
-                    :table="sessionTable"
-                    :table-keys="sessionTableKeys"
-                    :show-reload-button="false"
-                    :show-search-button="false"
-                    :show-expand-button="false">
-        <template #toolbar>
-          <div class="flex justify-end">
-            <q-btn color="primary"
-                   outline
-                   label="افزودن جلسه"
-                   :loading="newSessionLoading"
-                   @click="createSession" />
-          </div>
-        </template>
-        <template #table-cell="{inputData, showConfirmRemoveDialog}">
-          <q-td :props="inputData.props">
-            <template v-if="inputData.props.col.name === 'actions'">
-              <div class="q-gutter-md">
-                <div class="action-column-entity-index">
-                  <q-btn size="md"
-                         color="primary"
-                         outline
-                         label="بانک سوالات"
-                         class="btn-go-to-question-bank"
-                         :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}" />
-                  <q-btn size="md"
-                         color="primary"
-                         label="تعیین جزییات"
-                         :to="{name: 'Admin.SessionTemplate.Show', params: {id: inputData.props.row.id}}" />
-                  <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
-                </div>
+  <q-card class="AdminUnitShow">
+    <q-tabs v-model="tab"
+            dense
+            class="text-grey"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator>
+      <q-tab name="UnitInfo"
+             label="مشخصات" />
+      <q-tab name="sessions"
+             label="لیست جلسات" />
+      <q-tab name="quiz"
+             label="آزمون" />
+    </q-tabs>
+    <q-separator />
+    <q-tab-panels v-if="mounted"
+                  v-model="tab"
+                  animated>
+      <q-tab-panel name="UnitInfo">
+        <entity-edit v-if="mounted"
+                     ref="categoryEntityEdit"
+                     v-model:value="inputs"
+                     title="مشخصات دسته بندی"
+                     :api="api"
+                     :entity-id-key="entityIdKey"
+                     :entity-param-key="entityParamKey"
+                     :show-route-name="showRouteName"
+                     :show-close-button="false"
+                     :show-edit-button="false"
+                     :show-expand-button="false"
+                     :show-save-button="false"
+                     :show-reload-button="false">
+          <template #after-form-builder>
+            <div class="flex justify-end">
+              <q-btn color="primary"
+                     label="تایید"
+                     @click="updateCategory" />
+            </div>
+          </template>
+        </entity-edit>
+      </q-tab-panel>
+      <q-tab-panel name="sessions">
+        <div class="q-mt-md">
+          <entity-index v-if="mounted"
+                        ref="sessionEntityIndex"
+                        v-model:value="sessionFilterInputs"
+                        title="لیست جلسات"
+                        :api="sessionApi"
+                        :table="sessionTable"
+                        :table-keys="sessionTableKeys"
+                        :show-reload-button="false"
+                        :show-search-button="false"
+                        :show-expand-button="false">
+            <template #toolbar>
+              <div class="flex justify-end">
+                <q-btn color="primary"
+                       outline
+                       label="افزودن جلسه"
+                       :loading="newSessionLoading"
+                       @click="createSession" />
               </div>
             </template>
-            <template v-else>
-              {{ inputData.props.value }}
+            <template #entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+              <template v-if="inputData.col.name === 'actions'">
+                <div class="q-gutter-md">
+                  <div class="action-column-entity-index">
+                    <q-btn size="md"
+                           color="primary"
+                           outline
+                           label="بانک سوالات"
+                           class="btn-go-to-question-bank"
+                           :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}" />
+                    <q-btn size="md"
+                           color="primary"
+                           label="تعیین جزییات"
+                           :to="{name: 'Admin.SessionTemplate.Show', params: {id: inputData.props.row.id}}" />
+                    <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+                  </div>
+                </div>
+              </template>
+              <template v-else>
+                {{ inputData.col.value }}
+              </template>
             </template>
-          </q-td>
-        </template>
-      </entity-index>
-    </div>
-  </div>
+          </entity-index>
+        </div>
+      </q-tab-panel>
+      <q-tab-panel name="quiz" />
+    </q-tab-panels>
+  </q-card>
 </template>
 
 <script>
@@ -92,6 +112,7 @@ export default {
   },
   data () {
     return {
+      tab: 'UnitInfo',
       mounted: false,
       newSessionLoading: false,
       newSessionName: '-',

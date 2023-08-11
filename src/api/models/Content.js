@@ -28,6 +28,8 @@ export default class ContentAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
+        category: null, // Number
+        per_page: 10, // Number
         page: 1 // Number
       }, data),
       resolveCallback: (response) => {

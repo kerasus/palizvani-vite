@@ -1,7 +1,7 @@
 import { Collection, Model } from 'js-abstract-model'
 import { CelebrityList } from 'src/models/Celebrity.js'
+import { ContentCategory } from 'src/models/ContentCategory.js'
 import { ContentHashtagList } from 'src/models/ContentHashtag.js'
-import { ContentCategoryList } from 'src/models/ContentCategory.js'
 
 class Content extends Model {
   constructor (data) {
@@ -19,10 +19,14 @@ class Content extends Model {
         key: 'medias',
         defalut: []
       },
+      {
+        key: 'medias_info',
+        defalut: []
+      },
       { key: 'category' },
       {
         key: 'category_info',
-        relatedModel: ContentCategoryList
+        relatedModel: ContentCategory
       },
       {
         key: 'celebrities',

@@ -7,6 +7,7 @@ export default class MediaAPI extends APIRepository {
     super('media', appApi)
     this.APIAdresses = {
       base: '/cma/medias',
+      byId: (id) => '/cma/medias/' + id,
       assignService: (id) => '/core/packages/' + id + '/assign'
     }
     this.CacheList = {

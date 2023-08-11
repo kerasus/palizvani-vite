@@ -23,7 +23,7 @@ import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
-import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias.vue'
+import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
 import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
@@ -45,9 +45,9 @@ export default {
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
         // { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category', col: 'col-md-12 col-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12 col-12' },
-        { type: ContentMediasComp, name: 'medias', responseKey: 'medias', col: 'col-md-12 col-12' },
+        { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category', col: 'col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
+        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ایجاد محتوا', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
       ]
     }

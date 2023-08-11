@@ -255,7 +255,7 @@ const routes = [
           },
           {
             name: 'Admin.SessionTemplate',
-            path: 'sessionTemplates',
+            path: 'session-templates',
             component: () => import('layouts/bareLayout.vue'),
             breadcrumbs: { title: 'طلیعه حکمت' },
             children: [
@@ -307,6 +307,17 @@ const routes = [
               { path: 'create', name: 'Admin.Content.Create', component: () => import('src/pages/Admin/Content/Create.vue') },
               { path: ':id', name: 'Admin.Content.Show', component: () => import('src/pages/Admin/Content/Show.vue') },
               { name: 'Admin.Content.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+            ]
+          },
+          {
+            path: 'media',
+            name: 'Admin.Media',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              // { path: '', name: 'Admin.Content.List', component: () => import('src/pages/Admin/Content/List.vue') },
+              // { path: 'create', name: 'Admin.Content.Create', component: () => import('src/pages/Admin/Content/Create.vue') },
+              { path: ':id', name: 'Admin.Media.Show', component: () => import('src/pages/Admin/Media/Show.vue') }
+              // { name: 'Admin.Content.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
             ]
           },
           {

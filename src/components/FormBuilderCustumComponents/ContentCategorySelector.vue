@@ -57,7 +57,11 @@ export default {
   },
   watch: {
     value () {
-      this.inputData = this.value
+      if (this.value.id) {
+        this.getCategories()
+      } else {
+        this.inputData = this.value
+      }
     },
     mainCategory (newValue) {
       this.subCategory = null
@@ -86,13 +90,25 @@ export default {
       this.$emit('update:value', categoryId)
     }
   },
-  created () {
-    this.inputData = this.value
-  },
-  mounted() {
-    this.getCategories()
-  },
   methods: {
+    setMainCategory () {
+      if (!this.value?.parent?.parent?.id) {
+        return
+      }
+      this.mainCategory = this.mainCategoryOptions.find(item => item.value === this.value.parent.parent.id)
+    },
+    setSubCategory () {
+      if (!this.value?.parent?.id) {
+        return
+      }
+      this.subCategory = this.subCategoryOptions.find(item => item.value === this.value.parent.id)
+    },
+    setBakhshCategory () {
+      if (!this.value?.id) {
+        return
+      }
+      this.bakhshCategory = this.bakhshCategoryOptions.find(item => item.value === this.value.id)
+    },
     getCategories () {
       this.contentCategories.laoding = true
       APIGateway.contentCategory.index({ parent__isnull: 'true', per_page: 99999 })
@@ -109,11 +125,11 @@ export default {
 
           if (this.value?.parent?.parent?.id && this.value.id) {
             this.$nextTick(() => {
-              this.mainCategory = this.mainCategoryOptions.find(item => item.value === this.value.parent.parent.id)
+              this.setMainCategory()
               this.$nextTick(() => {
-                this.subCategory = this.subCategoryOptions.find(item => item.value === this.value.parent.id)
+                this.setSubCategory()
                 this.$nextTick(() => {
-                  this.bakhshCategory = this.bakhshCategoryOptions.find(item => item.value === this.value.id)
+                  this.setBakhshCategory()
                   this.$emit('update:value', this.value.id)
                 })
               })

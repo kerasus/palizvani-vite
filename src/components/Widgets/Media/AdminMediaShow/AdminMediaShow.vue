@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminContentShow"
+  <div class="AdminMediaShow"
        :style="localOptions.style">
     <entity-edit v-if="mounted"
                  ref="entityEdit"
@@ -22,18 +22,14 @@
 <script>
 import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
+import { Media } from 'src/models/Media.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
-import ContentMedias from 'components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
-import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
-const ContentMediasComp = shallowRef(ContentMedias)
-const ContentCategorySelectorComp = shallowRef(ContentCategorySelector)
-
 export default {
-  name: 'AdminContentShow',
+  name: 'AdminMediaShow',
   components: {
     EntityEdit
   },
@@ -46,19 +42,25 @@ export default {
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Content.Show',
-      indexRouteName: 'Admin.Content.List',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category_info', col: 'col-md-12 col-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12 col-12' },
-        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-md-12 col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ویرایش محتوا', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'type', responseKey: 'type', label: 'نوع', placeholder: ' ', options: (new Media()).typeEnums, col: 'col-md-4 col-12' },
+        { type: 'file', name: 'file', responseKey: 'file', label: 'فایل', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'url', responseKey: 'url', label: 'url', placeholder: ' ', col: 'col-12' },
+        { type: 'input', name: 'iframe_code', responseKey: 'iframe_code', label: 'iframe_code', placeholder: ' ', col: 'col-12' },
+        { type: 'input', name: 'script_code', responseKey: 'script_code', label: 'script_code', placeholder: ' ', col: 'col-12' },
+        { type: 'hidden', name: 'source_type', responseKey: 'source_type', value: 'CONTENT' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ویرایش مدیا', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
       ]
     }
   },
+  computed: {
+    repliesInfo () {
+      return this.inputs.find(input => input.name === 'replies_info').value
+    }
+  },
   created() {
-    this.api = APIGateway.content.APIAdresses.byId(this.$route.params.id)
+    this.api = APIGateway.media.APIAdresses.byId(this.$route.params.id)
   },
   mounted() {
     this.setActionBtn()
@@ -92,7 +94,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminContentShow {
+.AdminMediaShow {
   .title {
     font-style: normal;
     font-weight: 700;

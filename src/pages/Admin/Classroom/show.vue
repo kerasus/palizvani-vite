@@ -21,11 +21,11 @@
 
     <q-separator />
 
-    <q-tab-panels v-if="mounted"
-                  v-model="tab"
+    <q-tab-panels v-model="tab"
                   animated>
       <q-tab-panel name="classroomInfo">
-        <entity-edit ref="classroomEntityEdit"
+        <entity-edit v-if="mounted"
+                     ref="classroomEntityEdit"
                      :key="classroomEntityEditKey"
                      v-model:value="inputs"
                      title="مشخصات دوره آموزشی"
@@ -47,9 +47,13 @@
             </div>
           </template>
         </entity-edit>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
       </q-tab-panel>
       <q-tab-panel name="educations">
-        <entity-index v-model:value="sessionListInputs"
+        <entity-index v-if="mounted"
+                      v-model:value="sessionListInputs"
                       title="لیست جلسات"
                       :api="sessionListApi"
                       :table="sessionListTable"
@@ -73,6 +77,9 @@
             </template>
           </template>
         </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
       </q-tab-panel>
 
       <q-tab-panel name="movies1">

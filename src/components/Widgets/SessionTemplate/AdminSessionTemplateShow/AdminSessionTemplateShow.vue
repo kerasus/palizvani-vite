@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminContentShow"
+  <div class="AdminSessionTemplateShow"
        :style="localOptions.style">
     <entity-edit v-if="mounted"
                  ref="entityEdit"
@@ -20,20 +20,12 @@
 </template>
 
 <script>
-import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import BtnControl from 'src/components/Control/btn.vue'
-import ContentMedias from 'components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
-import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
-
-const BtnControlComp = shallowRef(BtnControl)
-const ContentMediasComp = shallowRef(ContentMedias)
-const ContentCategorySelectorComp = shallowRef(ContentCategorySelector)
 
 export default {
-  name: 'AdminContentShow',
+  name: 'AdminSessionTemplateShow',
   components: {
     EntityEdit
   },
@@ -48,17 +40,19 @@ export default {
       showRouteName: 'Admin.Content.Show',
       indexRouteName: 'Admin.Content.List',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category_info', col: 'col-md-12 col-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12 col-12' },
-        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-md-12 col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ویرایش محتوا', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
+        { type: 'input', name: 'title', responseKey: 'title', label: 'نام جلسه', placeholder: ' ', col: 'col-md-9 col-12' },
+        { type: 'separator', name: 'space', size: '0', col: 'col-12' },
+        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان شروع جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان پایان جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف جلسه', placeholder: ' ', col: 'col-12' },
+        { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-12' }
       ]
     }
   },
   created() {
-    this.api = APIGateway.content.APIAdresses.byId(this.$route.params.id)
+    this.api = APIGateway.sessionTemplate.APIAdresses.byId(this.$route.params.id)
   },
   mounted() {
     this.setActionBtn()
@@ -92,7 +86,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminContentShow {
+.AdminSessionTemplateShow {
   .title {
     font-style: normal;
     font-weight: 700;
