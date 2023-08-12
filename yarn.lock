@@ -5406,23 +5406,23 @@ quasar-app-extension-q-page-builder@^0.1.51:
   dependencies:
     quasar-ui-q-page-builder "^0.1.51"
 
-quasar-crud@^0.3.42:
-  version "0.3.42"
-  resolved "https://registry.yarnpkg.com/quasar-crud/-/quasar-crud-0.3.42.tgz#593a1bb3e228e7a5864a5cc687e5c7cb776d5500"
-  integrity sha512-r8HI+Pc46Saemfdond2tfgsvZhjRA1iLdzsKphAKweMSdnI5t6rnQfxlGhfCL6EtQMFjvhzmw0kIZ6SLzBn+pg==
+quasar-crud@^0.3.43:
+  version "0.3.43"
+  resolved "https://registry.yarnpkg.com/quasar-crud/-/quasar-crud-0.3.43.tgz#7cfcf9e7232fe0aff4d43efb7c43a2452169feb7"
+  integrity sha512-v+moL5eTjx+huikl5h/CV4c3cLjMyPSXvnNPZIFuHB62k92q05Clg+aFRxswgPWM8xGJbwKFOs4x1aTsMQqD5Q==
   dependencies:
     "@quasar/extras" "^1.16.5"
     axios "^1.4.0"
     moment-jalaali "^0.10.0"
     quasar "^2.12.2"
-    quasar-form-builder "^0.1.106"
+    quasar-form-builder "^0.1.107"
     shvl "^3.0.0"
     vue "^3.2.47"
 
-quasar-form-builder@^0.1.106:
-  version "0.1.106"
-  resolved "https://registry.yarnpkg.com/quasar-form-builder/-/quasar-form-builder-0.1.106.tgz#9e8acd0a73153c9e096bcde7f72104f57f954f93"
-  integrity sha512-XwcP17sbYBHhhCoXiG86rOkQ2JU+bbMi+XCaGlDOnS8p7l2j7uTWMj48b50v6eV4VA2ZHPuYbtPYYka19lxJTQ==
+quasar-form-builder@^0.1.107:
+  version "0.1.107"
+  resolved "https://registry.yarnpkg.com/quasar-form-builder/-/quasar-form-builder-0.1.107.tgz#c94bd5960a3181ea4a87b838c1ea8b21c1e20959"
+  integrity sha512-IGLV3P8kf3OR8/KJcI+hrMNkdr/WctNNJyIFk2mOCJupfTeuRTOwWx2ilu3+Q17UAgD3bOOcuIHAy7Oz2x9wcA==
   dependencies:
     "@quasar/extras" "^1.16.5"
     core-js "^3.31.1"

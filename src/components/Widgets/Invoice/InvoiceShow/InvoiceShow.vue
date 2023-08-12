@@ -18,6 +18,11 @@
       <q-linear-progress v-if="invoice.loading"
                          indeterminate />
       <q-card-section>
+        صورتحساب شناسه
+        {{ invoice.id }}
+      </q-card-section>
+      <q-separator />
+      <q-card-section>
         <div class="row">
           <div class="col-md-3 col-12">
             <q-banner>
@@ -44,6 +49,9 @@
             </q-banner>
           </div>
         </div>
+      </q-card-section>
+      <q-separator />
+      <q-card-section>
         <div class="row">
           <div class="col-md-4 col-12">
             <q-img :src="invoice.item_info.thumbnail"
