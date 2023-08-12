@@ -31,6 +31,7 @@
              outlined
              class="password-input"
              label="گذرواژه خود را وارد کنید"
+             type="password"
              @keydown.enter="login">
       <template v-slot:prepend>
         <q-icon name="person" />

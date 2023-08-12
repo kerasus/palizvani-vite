@@ -9,8 +9,8 @@
                 :show-expand-button="false"
                 :show-reload-button="false"
                 :show-search-button="false">
-    <template v-slot:entity-index-table-cell="{inputData}">
-      <template v-if="inputData.col.name === 'actions'">
+    <template #entity-index-table-cell="{inputData}">
+      <template v-if="inputData.col.name === 'action'">
         <q-btn size="md"
                color="primary"
                label="جزییات"

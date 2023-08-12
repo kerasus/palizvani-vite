@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="flex justify-end">
+      <q-btn flat
+             color="grey"
+             @click="$router.go(-1)">
+        بازگشت
+        >
+      </q-btn>
+    </div>
     <entity-show v-model:value="inputs"
                  title="جزییات جلسه"
                  :api="api"
@@ -90,8 +98,8 @@
 
 <script>
 import { EntityShow } from 'quasar-crud'
-import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -100,7 +108,7 @@ export default {
   },
   data () {
     return {
-      api: API_ADDRESS.session.base,
+      api: null,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'UserPanel.Profile.SessionInfo',
@@ -140,7 +148,7 @@ export default {
     }
   },
   created () {
-    this.api += '/' + this.$route.params.id
+    this.api = APIGateway.session.APIAdresses.byId(this.$route.params.id)
   },
   methods: {
     getInputValue (name) {

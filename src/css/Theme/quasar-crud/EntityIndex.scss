@@ -1,8 +1,15 @@
 .entity-index {
-  .q-card {
+  & > .q-card {
     border-radius: 8px;
+    & > .q-card__section {
+      padding: 0;
+    }
     .entity-crud-formBuilder {
       margin-bottom: 11px;
+      padding: 16px;
+    }
+    .quasar-crud-index-table {
+      padding: 0;
     }
   }
 }
