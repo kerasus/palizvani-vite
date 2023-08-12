@@ -59,23 +59,19 @@
       </q-card-section>
       <q-separator />
       <q-card-section>
-        <div class="row">
-          <div class="col-md-4 col-12">
+        <div class="row q-col-gutter-lg">
+          <div class="col-md-4 col-12 flex items-center justify-start">
             <q-img :src="invoice.item_info.thumbnail"
                    width="100px" />
             {{ invoice.item_info.title }}
           </div>
-          <div class="col-md-4 col-12">
-            <q-img :src="invoice.item_info.thumbnail"
-                   width="100px" />
+          <div class="col-md-4 col-12 flex items-center justify-start">
             <q-icon name="isax:user" />
             استاد:
             {{ invoice.item_info.professor_info.firstname }}
             {{ invoice.item_info.professor_info.lastname }}
           </div>
-          <div class="col-md-4 col-12">
-            <q-img :src="invoice.item_info.thumbnail"
-                   width="100px" />
+          <div class="col-md-4 col-12 flex items-center justify-start">
             <q-icon name="isax:card" />
             قیمت:
             {{ invoice.item_info?.price ? invoice.item_info.price.toLocaleString('fa') : 0 }}

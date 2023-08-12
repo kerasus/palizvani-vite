@@ -6,13 +6,14 @@
       {{classroom.title}}
     </q-banner>
     <q-card v-if="!loading"
+            flat
             class="classroom-card">
       <q-card-section class="info-box">
         <div class="row">
-          <div class="col-md-4 classroom-thumbnail">
+          <div class="col-md-4 col-12 classroom-thumbnail">
             <q-img :src="classroom.thumbnail" />
           </div>
-          <div class="col-md-4 classroom-top-attributes">
+          <div class="col-md-4 col-12 classroom-top-attributes">
             <div class="title">
               دوره آموزشی
               {{classroom.title}}:
@@ -22,7 +23,7 @@
               <div class="attribute-item">{{getHoldingType(classroom.holding_type)}}</div>
             </div>
           </div>
-          <div class="col-md-4 classroom-action-col">
+          <div class="col-md-4 col-12 classroom-action-col">
             <q-btn v-if="!defaultOptions.profileMode"
                    color="primary"
                    class="btn-register"
@@ -60,7 +61,7 @@
       </q-card-section>
       <q-card-section class="info-box">
         <div class="row second-section">
-          <div class="col-md-4 attribute-column">
+          <div class="col-md-4 col-sm-6 col-12 attribute-column">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg"
                    width="17.058"
@@ -77,7 +78,7 @@
               {{ classroom.professor }}
             </div>
           </div>
-          <div class="col-md-4 attribute-column">
+          <div class="col-md-4 col-sm-6 col-12 attribute-column">
             <div class="icon">
               <svg id="Calendar"
                    xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +96,7 @@
               {{ getTerm(classroom) }}
             </div>
           </div>
-          <div class="col-md-4 attribute-column">
+          <div class="col-md-4 col-sm-6 col-12 attribute-column">
             <div class="icon">
               <svg data-name="Group 11306"
                    xmlns="http://www.w3.org/2000/svg"
@@ -113,14 +114,14 @@
               </svg>
             </div>
             <div class="title">
-              {{ classroom.price }}
+              {{ classroom.price ? classroom.price.toLocaleString('fa') : 0 }}
               تومان
             </div>
           </div>
         </div>
       </q-card-section>
-      <div class="row four-sections">
-        <div class="col-md-6">
+      <div class="row q-col-gutter-lg four-sections">
+        <div class="col-md-6 col-12">
           <div class="info-box detailes">
             <div class="info-box-title">
               <svg xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +176,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-12">
           <div class="info-box class-time">
             <div class="info-box-title">
               <svg id="Time_Circle"
@@ -387,10 +388,10 @@ export default {
       .info-box {
         height: 353px;
         &.detailes {
-          margin-right: 24px;
+          //margin-right: 24px;
         }
         &.rules {
-          margin-right: 24px;
+          //margin-right: 24px;
         }
         .info-box-title {
           margin-bottom: 29px;
@@ -439,8 +440,17 @@ export default {
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
+        flex-wrap: wrap;
         .btn-register {
           width: 220px;
+        }
+        @media screen and (max-width: 700px) {
+          width: 100%;
+          .q-btn {
+            width: 100% !important;
+            margin-left: 0;
+            margin-bottom: 8px;
+          }
         }
       }
       .second-section {

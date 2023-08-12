@@ -53,7 +53,8 @@
             exact
             @click="itemSelected(item)">
       <div class="section-title">
-        <q-item-section class="list-section title-icon"
+        <q-item-section v-if="item.icon"
+                        class="list-section title-icon"
                         avatar>
           <q-avatar :icon="item.icon"
                     size="30" />

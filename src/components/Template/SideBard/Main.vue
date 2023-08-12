@@ -2,9 +2,13 @@
   <div class="drawer-inside">
     <div class="side-menu-main-layout">
       <div class="side-logo">
-        <router-link :to="{name: 'Public.Home'}">
-          <div class="logo-image" />
-        </router-link>
+        <q-btn flat
+               round
+               dense
+               class="btn-logo"
+               :to="{name: 'Public.Home'}">
+          <q-img src="/assets/images/web/homepage-first-section-logo.png" />
+        </q-btn>
       </div>
       <div class="side-menu-body">
         <q-list class="side-menu-list"
@@ -239,21 +243,9 @@ export default {
   flex-direction: column;
   overflow-y: auto;
   .side-logo {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    margin-left: 25px;
-    cursor: pointer;
-    .alaa-logo {
-      width: 50px;
-      //&:deep(.q-img__image ){
-      //  width:50%;
-      //  height:50%;
-      //}
-    }
-    .logo-image {
-      text-align: left;
-      .q-img__container {
-      }
+    padding: 20px 90px;
+    .btn-logo {
+      width: 100%;
     }
   }
 

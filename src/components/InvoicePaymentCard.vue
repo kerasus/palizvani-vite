@@ -211,6 +211,7 @@ export default {
     color: #212121;
     .final-price {
       display: flex;
+      flex-wrap: wrap !important;
       flex-flow: row;
       justify-content: space-between;
       padding: 13px 22px 13px 27px;
@@ -223,6 +224,9 @@ export default {
         justify-content: flex-start;
         align-items: center;
         font-size: 17px;
+        @media screen and (max-width: 599px) {
+          width: 100%;
+        }
         .q-img {
           width: 32px;
           margin-right: 15px;
@@ -231,6 +235,10 @@ export default {
       .final-price-value {
         font-size: 20px;
         font-weight: bold;
+        @media screen and (max-width: 599px) {
+          width: 100%;
+          text-align: right;
+        }
         .unit {
           font-size: 17px;
           font-weight: normal;
@@ -242,6 +250,7 @@ export default {
       .other-item {
         display: flex;
         flex-flow: row;
+        flex-wrap: wrap !important;
         justify-content: space-between;
         padding: 19px 22px 18px 27px;
         border-bottom: 1px solid #E1E3ED;
@@ -251,6 +260,9 @@ export default {
           justify-content: flex-start;
           align-items: center;
           font-size: 16px;
+          @media screen and (max-width: 599px) {
+            width: 100%;
+          }
           .q-icon {
             color: #475F4A;
             margin-right: 10px;
@@ -263,6 +275,10 @@ export default {
           align-items: center;
           font-size: 18px;
           font-weight: bold;
+          @media screen and (max-width: 599px) {
+            width: 100%;
+            text-align: right;
+          }
           .unit {
             font-size: 16px;
             font-weight: normal;
@@ -273,15 +289,27 @@ export default {
     .action-area {
       display: flex;
       flex-flow: row;
+      flex-wrap: wrap !important;
       justify-content: flex-start;
       align-items: center;
       margin-bottom: 28px;
       .btn-pay {
         width: 60%;
         margin-left: 19px;
+        @media screen and (max-width: 599px) {
+          width: 100%;
+          margin-bottom: 16px;
+          margin-left: 0;
+          order: 1;
+        }
       }
       .btn-cancel {
         width: calc( 40% - 19px );
+        @media screen and (max-width: 599px) {
+          margin-bottom: 16px;
+          width: 100%;
+          order: 2;
+        }
       }
     }
     .show-invoice-row {

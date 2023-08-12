@@ -35,21 +35,32 @@
                       :api="api"
                       :table="table"
                       :table-keys="tableKeys"
+                      :table-grid-size="$q.screen.lt.sm"
                       :show-expand-button="false"
                       :show-reload-button="false"
                       :show-search-button="false">
-          <template #table-cell="{inputData}">
-            <q-td :props="inputData.props">
-              <template v-if="inputData.props.col.name === 'actions'">
-                <q-btn size="md"
-                       color="primary"
-                       label="جزییات"
-                       :to="{name: 'UserPanel.Profile.SessionInfo', params: {id: inputData.props.row.id}}" />
+          <template #entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'action'">
+              <q-btn size="md"
+                     color="primary"
+                     label="جزییات"
+                     :to="{name: 'UserPanel.Profile.SessionInfo', params: {id: inputData.props.row.id}}" />
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+          <template #entity-index-table-item-cell="{inputData}">
+            <entity-index-grid-item :input-data="inputData">
+              <template #col="{col, row}">
+                <template v-if="col.name === 'action'">
+                  <q-btn size="md"
+                         color="primary"
+                         label="جزییات"
+                         :to="{name: 'UserPanel.Profile.SessionInfo', params: {id: row.id}}" />
+                </template>
               </template>
-              <template v-else>
-                {{ inputData.props.value }}
-              </template>
-            </q-td>
+            </entity-index-grid-item>
           </template>
         </entity-index>
       </q-tab-panel>
@@ -72,13 +83,15 @@ import { EntityIndex } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
   components: {
+    EntityIndex,
     ShowClassroomInfo,
-    EntityIndex
+    EntityIndexGridItem
   },
   data () {
     return {
@@ -117,7 +130,7 @@ export default {
             field: row => row.ending_time ? ShamsiDate.getDateTime(row.ending_time) : '-'
           },
           {
-            name: 'actions',
+            name: 'action',
             required: true,
             label: 'جزییات',
             align: 'left',

@@ -9,14 +9,15 @@
                  icon="isax:menu-1"
                  color="primary"
                  round
-                 text-color="white"
+                 flat
+                 text-color="gray"
                  dense
                  unelevated
                  @click="toggleLeftDrawer" />
           <q-btn flat
                  round
                  dense
-                 class="top-menu-item top-menu-logo"
+                 class="top-menu-item top-menu-logo gt-sm"
                  :to="{name: 'Public.Home'}">
             <q-img src="/assets/images/web/user-top-menu-logo.png"
                    width="53" />
@@ -78,6 +79,15 @@
           </div>
         </q-toolbar>
       </div>
+
+      <q-btn flat
+             round
+             dense
+             class="center-logo lt-md"
+             :to="{name: 'Public.Home'}">
+        <q-img src="/assets/images/web/homepage-first-section-logo.png" />
+      </q-btn>
+
       <div class="left-side">
         <q-btn v-if="user && user.id !== null"
                color="primary"
@@ -103,12 +113,16 @@
                   transform="translate(-114.152 -311.642)"
                   fill="#fff" />
           </svg>
-          حساب کاربری
+          <span class="btn-label">
+            حساب کاربری
+          </span>
         </q-btn>
         <q-btn v-else
                color="primary"
                :to="{name: 'Login'}">
-          ورود / ثبت نام
+          <span class="btn-label">
+            ورود / ثبت نام
+          </span>
           <svg id="Login"
                xmlns="http://www.w3.org/2000/svg"
                width="18.479"
@@ -268,20 +282,36 @@ export default {
     position: absolute;
     right: 0;
   }
+  @media screen and (max-width: 1023px) {
+    .q-btn {
+      width: 40px;
+      padding: 0;
+      .btn-label {
+        display: none;
+      }
+    }
+  }
   @media screen and (max-width: 599px) {
     right: 16px;
     margin-bottom: 10px;
   }
 }
 </style>
+
 <style scoped lang="scss">
 .header-inside {
   height: 120px;
   background-color: #FBF4EA;
   color: #212121;
+  @media only screen and (max-width: 1023px) {
+    height: 70px;
+  }
   //border-bottom: solid 1px #DFE1EC;
   &.isHomePage {
     background: transparent;
+    @media only screen and (max-width: 1023px) {
+      background-color: #FBF4EA;
+    }
   }
   .admin-top-menu {
     display: flex;
@@ -335,6 +365,10 @@ export default {
       margin-right: 10px;
       margin-left: 10px;
     }
+    @media only screen and (max-width: 1023px) {
+      padding-top: 0;
+      margin-bottom: 0;
+    }
 
     display: flex;
     flex-flow: row;
@@ -357,11 +391,25 @@ export default {
         }
       }
     }
+
+    .center-logo {
+      $width: 100px;
+      $height: 55px;
+      position: absolute;
+      width: $width;
+      height: 100%;
+      top: 0;
+      left: calc( 50% - (#{$width} / 2));
+    }
+
     .left-side {
       display: flex;
       flex-flow: row;
       align-items: center;
       padding-right: 50px;
+      @media only screen and (max-width: 1023px) {
+        height: 100%;
+      }
     }
 
     &.isHomePage {

@@ -5,6 +5,7 @@
                 :api="api"
                 :table="table"
                 :table-keys="tableKeys"
+                :table-grid-size="$q.screen.lt.sm"
                 :show-expand-button="false"
                 :show-reload-button="false"
                 :show-search-button="false">
@@ -19,6 +20,18 @@
         {{ inputData.col.value }}
       </template>
     </template>
+    <template #entity-index-table-item-cell="{inputData}">
+      <entity-index-grid-item :input-data="inputData">
+        <template #col="{col, row}">
+          <template v-if="col.name === 'action'">
+            <q-btn size="md"
+                   color="primary"
+                   label="جزییات"
+                   :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: row.classroom_info.id}}" />
+          </template>
+        </template>
+      </entity-index-grid-item>
+    </template>
   </entity-index>
 </template>
 
@@ -29,13 +42,15 @@ import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
+import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'UserPanel.Profile.AllClassrooms',
   components: {
-    EntityIndex
+    EntityIndex,
+    EntityIndexGridItem
   },
   data () {
     return {
@@ -145,7 +160,7 @@ export default {
             field: row => row.invoice_info ? this.getInvoiceStatusTitle(row.invoice_info) : 'نام مشخص'
           },
           {
-            name: 'actions',
+            name: 'action',
             required: true,
             label: 'جزییات',
             align: 'left',

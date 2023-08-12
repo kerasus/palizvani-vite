@@ -119,11 +119,18 @@ export default {
   .body {
     display: flex;
     flex-flow: row;
+    flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
     padding: 45px 58px;
+    @media screen and (max-width: 1024px) {
+      padding: 45px 16px;
+    }
     .card-column {
       width: 427px;
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+      }
       .card {
         max-width: 357px;
         width: 100%;
@@ -157,6 +164,9 @@ export default {
           left: 105px;
           color: #FFFFFF;
           font-size: 24px;
+          @media screen and (max-width: 500px) {
+            left: 50px;
+          }
           .unit {
             font-size: 18px;
           }
@@ -165,6 +175,10 @@ export default {
     }
     .actions-column {
       width: calc( 100% - 427px);
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        margin-top: 32px;
+      }
       .deposit-section {
         .btn-deposit {
           margin-top: 25px;

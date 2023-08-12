@@ -14,6 +14,7 @@
                   :table="table"
                   :table-keys="tableKeys"
                   :create-route-name="createRouteName"
+                  :table-grid-size="$q.screen.lt.sm"
                   :show-search-button="false"
                   :show-expand-button="false"
                   :show-reload-button="false">
@@ -28,6 +29,18 @@
           {{ inputData.col.value }}
         </template>
       </template>
+      <template #entity-index-table-item-cell="{inputData}">
+        <entity-index-grid-item :input-data="inputData">
+          <template #col="{col}">
+            <template v-if="col.name === 'action'">
+              <q-btn color="primary"
+                     :to="{name: 'UserPanel.Ticket.Show', params: {id: inputData.props.row.id}}">
+                مشاهده جزییات
+              </q-btn>
+            </template>
+          </template>
+        </entity-index-grid-item>
+      </template>
     </entity-index>
   </div>
 </template>
@@ -37,10 +50,11 @@ import { EntityIndex } from 'quasar-crud'
 import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 
 export default {
   name: 'TicketList',
-  components: { EntityIndex },
+  components: { EntityIndex, EntityIndexGridItem },
   mixins: [mixinWidget],
   data: () => {
     return {

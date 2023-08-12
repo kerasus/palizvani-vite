@@ -3,6 +3,11 @@
   margin-left: -32px;
   //margin-top: -16px;
   padding-top: 0;
+  .q-table__container {
+    .q-table__top {
+      display: none;
+    }
+  }
   .q-table__card {
     background-color: transparent;
     box-shadow: none;

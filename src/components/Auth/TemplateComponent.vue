@@ -2,7 +2,9 @@
   <q-card class="auth-template-card">
     <div class="header">
       <div class="title-image">
-        <q-img src="/assets/images/auth/login-image-right.png" />
+        <router-link :to="{name: 'Public.Home'}">
+          <q-img src="/assets/images/auth/login-image-right.png" />
+        </router-link>
       </div>
       <div class="image">
         <q-img src="/assets/images/auth/login-image-left.png" />
@@ -27,6 +29,12 @@ export default {
   box-shadow: 0 0 6px #00000029;
   border-radius: 10px;
   opacity: 1;
+
+  @media screen and (max-width: 599px) {
+    min-width: 90%;
+    max-width: 90%;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -43,6 +51,11 @@ export default {
     padding-right: 67px;
     padding-left: 67px;
     padding-bottom: 61px;
+    @media screen and (max-width: 599px) {
+      $padding: 20px;
+      padding-right: $padding;
+      padding-left: $padding;
+    }
   }
 }
 </style>
