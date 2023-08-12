@@ -49,6 +49,34 @@ export default {
           ]
         },
         {
+          title: 'حلقه های مباحثاتی',
+          icon: 'isax:book',
+          routeName: null,
+          show: true,
+          open: true,
+          active: false,
+          children: [
+            {
+              title: 'دسته بندی ها',
+              routeName: 'Admin.Category.DiscussionCircles.Index',
+              show: true,
+              active: false
+            },
+            {
+              title: 'حلقه های مباحثاتی',
+              routeName: 'Admin.Classroom.DiscussionCircles.Index',
+              show: true,
+              active: false
+            },
+            {
+              title: 'درخواست ها',
+              routeName: 'Classroom.DiscussionCircles.Ticket',
+              show: true,
+              active: false
+            }
+          ]
+        },
+        {
           title: 'محتوا',
           icon: 'isax:video',
           routeName: null,

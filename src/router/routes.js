@@ -265,6 +265,17 @@ const routes = [
             ]
           },
           {
+            name: 'Admin.Category.DiscussionCircles',
+            path: 'discussion-circles-categories',
+            component: () => import('layouts/bareLayout.vue'),
+            breadcrumbs: { title: 'دسته بندی ها' },
+            children: [
+              { name: 'Admin.Category.DiscussionCircles.Index', path: '', component: () => import('src/pages/Admin/DiscussionCirclesCategory/index.vue') },
+              { name: 'Admin.Category.DiscussionCircles.Create', path: 'create', component: () => import('src/pages/Admin/DiscussionCirclesCategory/create.vue') },
+              { name: 'Admin.Category.DiscussionCircles.Show', path: ':id', component: () => import('src/pages/Admin/DiscussionCirclesCategory/show.vue') }
+            ]
+          },
+          {
             name: 'Admin.Unit',
             path: 'units',
             component: () => import('src/layouts/bareLayout.vue'),
@@ -318,6 +329,18 @@ const routes = [
               { name: 'Admin.Classroom.Create', path: 'create', component: () => import('src/pages/Admin/Classroom/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
               { name: 'Admin.Classroom.Show', path: ':id', component: () => import('src/pages/Admin/Classroom/show.vue'), breadcrumbs: { title: 'مشاهده اطلاعات دوره آموزشی' } },
               { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+            ]
+          },
+          {
+            name: 'Admin.Classroom.DiscussionCircles',
+            path: 'discussion-circles-classrooms',
+            component: () => import('layouts/bareLayout.vue'),
+            breadcrumbs: { title: 'دوره های آموزشی', route: { name: 'Admin.Classroom.DiscussionCircles.Index' } },
+            children: [
+              { name: 'Admin.Classroom.DiscussionCircles.Index', path: '', component: () => import('src/pages/Admin/DiscussionCirclesClassroom/index.vue') },
+              { name: 'Admin.Classroom.DiscussionCircles.Create', path: 'create', component: () => import('src/pages/Admin/DiscussionCirclesClassroom/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
+              { name: 'Admin.Classroom.DiscussionCircles.Show', path: ':id', component: () => import('src/pages/Admin/DiscussionCirclesClassroom/show.vue'), breadcrumbs: { title: 'مشاهده اطلاعات دوره آموزشی' } },
+              { name: 'Admin.Classroom.DiscussionCircles.Ticket', path: 'ticket', component: () => import('src/pages/Admin/DiscussionCirclesClassroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
             ]
           },
           {
