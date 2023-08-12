@@ -17,7 +17,7 @@
       </div>
       <div class="back-action">
         <q-btn flat
-               :to="{name: 'AdminPanel.Ticket.List'}"
+               :to="{name: 'Admin.Invoice.Ticket'}"
                color="grey">
           بازگشت
           >
@@ -41,7 +41,7 @@
                    :show-reload-button="false"
                    :default-layout="false"
                    :redirect-after-edit="false"
-                   :after-load-input-data="afterLoadInputData" />
+                   :before-load-input-data="beforeLoadInputData" />
 
       <div class="row q-mt-lg justify-end">
         <div class="col-md-4 col-12">
@@ -104,6 +104,29 @@
         </div>
       </div>
     </q-card>
+
+    <admin-invoice-show v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
+                        :options="{invoiceId: ticket.source_id, showBackBtn: false}"
+                        class="q-mt-lg" />
+
+    <q-card v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
+            class="q-mt-lg">
+      <q-card-section>
+        اقساط
+      </q-card-section>
+      <q-separator />
+      <q-card-section>
+        <installment-offers :installment-offers="instalmentOffers"
+                            :loading="entityLoading"
+                            @onReject="onReject"
+                            @onAccept="onAccept" />
+      </q-card-section>
+      <q-separator />
+      <q-card-section>
+        <create-installment :invoice-id="ticket.source_id"
+                            @onCreated="onCreateInstallmentOffer" />
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
@@ -113,12 +136,20 @@ import { User } from 'src/models/User.js'
 import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { TicketCategoryList } from 'src/models/TicketCategory'
+import { FormBuilderAssist } from 'quasar-form-builder'
+import { TicketCategoryList } from 'src/models/TicketCategory.js'
+import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
+import AdminInvoiceShow from 'src/components/Widgets/Invoice/AdminInvoiceShow/AdminInvoiceShow.vue'
+import InstallmentOffers from 'src/components/Widgets/Ticket/AdminTicketShow/InstallmentOffers.vue'
+import CreateInstallment from 'src/components/Widgets/Ticket/AdminTicketShow/CreateInstallment.vue'
 
 export default {
   name: 'AdminTicketShow',
   components: {
-    EntityEdit
+    EntityEdit,
+    AdminInvoiceShow,
+    CreateInstallment,
+    InstallmentOffers
   },
   mixins: [mixinWidget],
   data: () => {
@@ -127,6 +158,7 @@ export default {
       mounted: false,
       entityLoading: true,
       packageTitle: '',
+      ticket: new Ticket(),
       authenticatedUser: new User(),
       api: APIGateway.ticket.APIAdresses.base,
       ticketCategoryList: new TicketCategoryList(),
@@ -135,25 +167,12 @@ export default {
       showRouteName: 'AdminPanel.Ticket.Show',
       indexRouteName: 'AdminPanel.Ticket.List',
       inputs: [
-        {
-          type: 'select',
-          name: 'category',
-          responseKey: 'category',
-          options: [],
-          label: 'دسته',
-          col: 'col-md-6 col-12'
-        },
-        {
-          type: 'select',
-          name: 'state',
-          responseKey: 'state',
-          options: (new Ticket()).statusEnums,
-          multiple: false,
-          label: 'وضعیت',
-          col: 'col-md-6 col-12'
-        },
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', col: 'col-12' },
-        { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', col: 'col-12' },
+        { type: 'select', name: 'source_type', responseKey: 'source_type', options: [{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }], label: 'دپارتمان', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: 'hidden', name: 'source_id', responseKey: 'source_id', value: null },
         { type: 'hidden', name: 'id', responseKey: 'id' },
         { type: 'hidden', name: 'owner', responseKey: 'owner' },
         { type: 'hidden', name: 'replies_info', responseKey: 'replies_info' }
@@ -161,6 +180,9 @@ export default {
     }
   },
   computed: {
+    instalmentOffers () {
+      return new InstalmentOfferList(this.ticket.source?.instalment_offers_info)
+    },
     repliesInfo () {
       return this.inputs.find(input => input.name === 'replies_info').value
     }
@@ -169,17 +191,18 @@ export default {
     this.api = this.api + '/' + this.$route.params.id
   },
   mounted() {
+    this.checkSource()
     this.loadOptions()
       .then(() => {
-        this.mounted = true
         this.loadAuthData()
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', this.ticketCategoryList.list.map(item => {
+          return {
+            value: item.id,
+            label: item.title
+          }
+        }))
         this.$nextTick(() => {
-          this.setInputOptions('category', this.ticketCategoryList.list.map(item => {
-            return {
-              value: item.id,
-              label: item.title
-            }
-          }))
+          this.mounted = true
         })
       })
       .catch(() => {
@@ -187,22 +210,49 @@ export default {
       })
   },
   methods: {
+    onReject (offer) {
+      this.entityLoading = true
+      APIGateway.instalmentOffer.reject(offer.id)
+        .then(() => {
+          this.$refs.entityEdit.getData()
+        })
+        .catch(() => {
+          this.$refs.entityEdit.getData()
+        })
+    },
+    onAccept (offer) {
+      this.entityLoading = true
+      APIGateway.instalmentOffer.accept(offer.id)
+        .then(() => {
+          this.$refs.entityEdit.getData()
+        })
+        .catch(() => {
+          this.$refs.entityEdit.getData()
+        })
+    },
+    onCreateInstallmentOffer () {
+      this.$refs.entityEdit.getData()
+    },
+    checkSource () {
+      if (this.localOptions.defaultSourceType) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.localOptions.defaultSourceType)
+      }
+    },
     loadAuthData () {
       this.authenticatedUser = this.$store.getters['Auth/user']
     },
-    afterLoadInputData () {
+    beforeLoadInputData (data) {
       this.entityLoading = false
+      this.ticket = new Ticket(data)
     },
     edit() {
       this.entityLoading = true
       this.$refs.entityEdit.editEntity()
         .then(() => {
           this.$refs.entityEdit.getData()
-          this.entityLoading = false
         })
         .catch(() => {
           this.$refs.entityEdit.getData()
-          this.entityLoading = false
         })
     },
     loadOptions () {
@@ -233,16 +283,13 @@ export default {
           this.$refs.entityEdit.editEntity()
             .then(() => {
               this.$refs.entityEdit.getData()
-              this.entityLoading = false
             })
             .catch(() => {
               this.$refs.entityEdit.getData()
-              this.entityLoading = false
             })
         })
         .catch(() => {
           this.$refs.entityEdit.getData()
-          this.entityLoading = false
         })
     }
   }

@@ -11,6 +11,9 @@ class Ticket extends Model {
       { key: 'body' }, //
       { key: 'priority' }, // HIGH - ...
       { key: 'status' }, // ADMIN_REPLIED - ...
+      { key: 'source_type' }, // INVOICE - CLASSROOM
+      { key: 'source_id' },
+      { key: 'source' },
       { key: 'category' },
       {
         key: 'category_info',

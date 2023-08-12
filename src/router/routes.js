@@ -165,6 +165,28 @@ const routes = [
                 path: ':id',
                 name: 'UserPanel.Invoice.Show',
                 component: () => import('src/pages/User/Invoice/Show.vue')
+              },
+              {
+                path: 'ticket',
+                name: 'UserPanel.Invoice.Ticket',
+                component: () => import('layouts/bareLayout.vue'),
+                children: [
+                  {
+                    path: '',
+                    name: 'UserPanel.Invoice.Ticket.List',
+                    component: () => import('src/pages/User/Invoice/Ticket/List.vue')
+                  },
+                  {
+                    path: ':id',
+                    name: 'UserPanel.Invoice.Ticket.Show',
+                    component: () => import('src/pages/User/Invoice/Ticket/Show.vue')
+                  },
+                  {
+                    path: 'create',
+                    name: 'UserPanel.Invoice.Ticket.Create',
+                    component: () => import('src/pages/User/Invoice/Ticket/Create.vue')
+                  }
+                ]
               }
             ]
           },
@@ -339,6 +361,40 @@ const routes = [
               { name: 'Admin.Session.Index', path: '', component: () => import('src/pages/Admin/Session/index.vue') },
               { name: 'Admin.Session.Create', path: 'create', component: () => import('src/pages/Admin/Session/create.vue') },
               { name: 'Admin.Session.Show', path: ':id', component: () => import('src/pages/Admin/Session/show.vue') }
+            ]
+          },
+          {
+            path: 'invoice',
+            name: 'Admin.Invoice',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              {
+                path: '',
+                name: 'Admin.Invoice.List',
+                component: () => import('src/pages/Admin/Invoice/List.vue')
+              },
+              {
+                path: ':id',
+                name: 'Admin.Invoice.Show',
+                component: () => import('src/pages/Admin/Invoice/Show.vue')
+              },
+              {
+                path: 'ticket',
+                name: 'Admin.Invoice.Ticket',
+                component: () => import('layouts/bareLayout.vue'),
+                children: [
+                  {
+                    path: '',
+                    name: 'Admin.Invoice.Ticket.List',
+                    component: () => import('src/pages/Admin/Invoice/Ticket/List.vue')
+                  },
+                  {
+                    path: ':id',
+                    name: 'Admin.Invoice.Ticket.Show',
+                    component: () => import('src/pages/Admin/Invoice/Ticket/Show.vue')
+                  }
+                ]
+              }
             ]
           }
         ]

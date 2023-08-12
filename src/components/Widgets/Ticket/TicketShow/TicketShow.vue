@@ -41,6 +41,7 @@
                    :show-reload-button="false"
                    :default-layout="false"
                    :redirect-after-edit="false"
+                   :before-load-input-data="beforeLoadInputData"
                    :after-load-input-data="afterLoadInputData" />
 
       <q-card v-if="mounted"
@@ -77,7 +78,7 @@
       <div class="action">
         <div class="row q-mt-lg justify-end">
           <div class="col-md-12 col-12">
-            متن پیام
+            پاسخ
           </div>
           <div class="col-md-12 col-12 q-mb-md">
             <q-input v-model="replyText"
@@ -94,6 +95,20 @@
         </div>
       </div>
     </q-card>
+
+    <q-card v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
+            class="q-mt-lg">
+      <q-card-section>
+        اقساط
+      </q-card-section>
+      <q-separator />
+      <q-card-section>
+        <installment-offers :installment-offers="instalmentOffers"
+                            :loading="entityLoading"
+                            @onReject="onReject"
+                            @onAccept="onAccept" />
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
@@ -103,16 +118,21 @@ import { User } from 'src/models/User.js'
 import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import { TicketCategoryList } from 'src/models/TicketCategory.js'
+import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
+import InstallmentOffers from 'src/components/Widgets/Ticket/TicketShow/InstallmentOffers.vue'
 
 export default {
   name: 'TicketShow',
   components: {
-    EntityShow
+    EntityShow,
+    InstallmentOffers
   },
   mixins: [mixinWidget],
   data: () => {
     return {
+      ticket: new Ticket(),
       replyText: null,
       mounted: false,
       entityLoading: true,
@@ -125,48 +145,22 @@ export default {
       showRouteName: 'AdminPanel.Ticket.Show',
       indexRouteName: 'AdminPanel.Ticket.List',
       inputs: [
-        {
-          type: 'select',
-          name: 'category',
-          responseKey: 'category',
-          placeholder: ' ',
-          options: [],
-          label: 'دسته',
-          col: 'col-md-6 col-12'
-        },
-        {
-          type: 'select',
-          name: 'status',
-          responseKey: 'status',
-          options: (new Ticket()).statusEnums,
-          multiple: false,
-          label: 'وضعیت',
-          placeholder: ' ',
-          col: 'col-md-6 col-12'
-        },
-        {
-          type: 'input',
-          name: 'title',
-          responseKey: 'title',
-          label: 'عنوان',
-          placeholder: ' ',
-          col: 'col-md-12 col-12'
-        },
-        {
-          type: 'inputEditor',
-          name: 'body',
-          responseKey: 'body',
-          label: 'متن',
-          placeholder: ' ',
-          col: 'col-md-12 col-12'
-        },
-        { type: 'hidden', name: 'id', responseKey: 'id', label: 'شناسه', col: 'col-md-12' },
-        { type: 'hidden', name: 'owner', responseKey: 'owner', label: 'owner', col: 'col-md-12' },
-        { type: 'hidden', name: 'replies_info', responseKey: 'replies_info', label: 'replies_info', col: 'col-md-12' }
+        { type: 'select', name: 'source_type', responseKey: 'source_type', options: [{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }], label: 'دپارتمان', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: 'hidden', name: 'source_id', responseKey: 'source_id', value: null },
+        { type: 'hidden', name: 'id', responseKey: 'id' },
+        { type: 'hidden', name: 'owner', responseKey: 'owner' },
+        { type: 'hidden', name: 'replies_info', responseKey: 'replies_info' }
       ]
     }
   },
   computed: {
+    instalmentOffers () {
+      return new InstalmentOfferList(this.ticket.source?.instalment_offers_info)
+    },
     repliesInfo () {
       return this.inputs.find(input => input.name === 'replies_info').value
     }
@@ -175,17 +169,18 @@ export default {
     this.api = this.api + '/' + this.$route.params.id
   },
   mounted() {
+    this.checkSource()
     this.loadOptions()
       .then(() => {
-        this.mounted = true
         this.loadAuthData()
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', this.ticketCategoryList.list.map(item => {
+          return {
+            value: item.id,
+            label: item.title
+          }
+        }))
         this.$nextTick(() => {
-          this.setInputOptions('category', this.ticketCategoryList.list.map(item => {
-            return {
-              value: item.id,
-              label: item.title
-            }
-          }))
+          this.mounted = true
         })
       })
       .catch(() => {
@@ -193,8 +188,38 @@ export default {
       })
   },
   methods: {
+    onReject (offer) {
+      this.entityLoading = true
+      APIGateway.instalmentOffer.reject(offer.id)
+        .then(() => {
+          this.$refs.entityShow.getData()
+        })
+        .catch(() => {
+          this.$refs.entityShow.getData()
+        })
+    },
+    onAccept (offer) {
+      this.entityLoading = true
+      APIGateway.instalmentOffer.accept(offer.id)
+        .then(() => {
+          this.$refs.entityShow.getData()
+        })
+        .catch(() => {
+          this.$refs.entityShow.getData()
+        })
+    },
+    checkSource () {
+      if (this.localOptions.defaultSourceType) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.localOptions.defaultSourceType)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'readonly', true)
+      }
+    },
     loadAuthData () {
       this.authenticatedUser = this.$store.getters['Auth/user']
+    },
+    beforeLoadInputData (data) {
+      this.ticket = new Ticket(data)
+      this.entityLoading = false
     },
     afterLoadInputData (response) {
       this.ticketTitle = response.title
@@ -212,16 +237,13 @@ export default {
             .then(() => {
               this.replyText = null
               this.$refs.entityShow.getData()
-              this.entityLoading = false
             })
             .catch(() => {
               this.$refs.entityShow.getData()
-              this.entityLoading = false
             })
         })
         .catch(() => {
           this.$refs.entityShow.getData()
-          this.entityLoading = false
         })
     },
     loadOptions () {

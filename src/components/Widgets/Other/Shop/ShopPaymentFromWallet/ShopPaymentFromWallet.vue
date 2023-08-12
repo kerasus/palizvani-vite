@@ -109,13 +109,12 @@
                     :invoice="invoice"
                     :classroom="classroom"
                     class="invoice-info" />
-      <payment-card v-if="!invoice.loading"
-                    :wallet="wallet"
-                    :invoice="invoice"
-                    :classroom="classroom"
-                    class="payment-card"
-                    @onCancel="onCancel"
-                    @onAccept="onAccept" />
+      <invoice-payment-card v-if="!invoice.loading"
+                            :wallet="wallet"
+                            :invoice="invoice"
+                            class="payment-card"
+                            @onCancel="onCancel"
+                            @onAccept="onAccept" />
     </div>
 
     <template v-if="false">
@@ -246,11 +245,11 @@ import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import InvoiceInfo from './components/InvoiceInfo.vue'
-import PaymentCard from './components/PaymentCard.vue'
+import InvoicePaymentCard from 'src/components/InvoicePaymentCard.vue'
 
 export default {
   name: 'PaymentFromWallet',
-  components: { InvoiceInfo, PaymentCard },
+  components: { InvoiceInfo, InvoicePaymentCard },
   data: () => ({
     step: false,
     user: new User(),
@@ -319,7 +318,6 @@ export default {
           this.wallet = new Wallet(wallet)
           this.wallet.loading = false
           this.walletLoaded = true
-          this.checkForNeedToDeposit()
         })
         .catch(() => {
           this.wallet.loading = false

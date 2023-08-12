@@ -75,6 +75,28 @@ export default {
               active: false
             }
           ]
+        },
+        {
+          title: 'مدیریت مالی',
+          icon: 'isax:card',
+          routeName: null,
+          show: true,
+          open: true,
+          active: false,
+          children: [
+            {
+              title: 'صورتحساب ها',
+              routeName: 'Admin.Invoice.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'درخواست ها',
+              routeName: 'Admin.Invoice.Ticket.List',
+              show: true,
+              active: false
+            }
+          ]
         }
       ]
     }

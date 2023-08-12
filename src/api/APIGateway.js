@@ -19,6 +19,7 @@ import MediaCategoryAPI from 'src/api/models/MediaCategory.js'
 import TicketCategoryAPI from 'src/api/models/TicketCategory.js'
 import SessionTemplateAPI from 'src/api/models/SessionTemplate.js'
 import ContentCategoryAPI from 'src/api/models/ContentCategory.js'
+import InstalmentOfferAPI from 'src/api/models/InstalmentOffer.js'
 import ClassroomRegistrationAPI from 'src/api/models/ClassroomRegistration.js'
 
 /* Exporting the APIGateway object. */
@@ -44,5 +45,6 @@ export const APIGateway = {
   ticketCategory: new TicketCategoryAPI(),
   sessionTemplate: new SessionTemplateAPI(),
   contentCategory: new ContentCategoryAPI(),
+  instalmentOffer: new InstalmentOfferAPI(),
   classroomRegistration: new ClassroomRegistrationAPI()
 }

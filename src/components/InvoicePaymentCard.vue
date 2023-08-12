@@ -1,20 +1,19 @@
 <template>
-  <div class="PaymentCard">
-    <div class="PaymentCard-head">
-      <div class="PaymentCard-head-title">
+  <div class="InvoicePaymentCard">
+    <div class="InvoicePaymentCard-head">
+      <div class="InvoicePaymentCard-head-title">
         پرداخت از طریق کیف پول
       </div>
-      <div class="PaymentCard-head-caption">
+      <div class="InvoicePaymentCard-head-caption">
         خرید شما قطعی نشده است و در صورت عدم پرداخت تا پایان زمان، صورتحساب شما لغو خواهد شد
       </div>
-      <div v-if="false"
-           class="PaymentCard-head-remaining-time">
+      <div class="InvoicePaymentCard-head-remaining-time">
         <q-icon name="isax:clock" />
         زمان باقی مانده :
         {{ timerString }}
       </div>
     </div>
-    <div class="PaymentCard-body">
+    <div class="InvoicePaymentCard-body">
       <div class="final-price">
         <div class="final-price-label">
           <q-img src="/assets/images/web/user-top-menu-logo.png"
@@ -75,10 +74,12 @@
           افزایش موجودی و پرداخت
         </q-btn>
       </div>
-      <div class="show-invoice-row">
+      <div v-if="showInvoiceLinkBtn"
+           class="show-invoice-row">
         <q-btn class="btn-show-invoice"
                color="primary"
-               flat>
+               flat
+               :to="{name: 'UserPanel.Invoice.Show', params: {id: invoice.id}}">
           مشاهده صورتحساب
         </q-btn>
       </div>
@@ -91,7 +92,7 @@ import { Wallet } from 'src/models/Wallet.js'
 import { Invoice } from 'src/models/Invoice.js'
 
 export default {
-  name: 'PaymentCard',
+  name: 'InvoicePaymentCard',
   props: {
     invoice: {
       type: Invoice,
@@ -111,6 +112,11 @@ export default {
       min: 0,
       sec: 0,
       interval: null
+    }
+  },
+  computed: {
+    showInvoiceLinkBtn () {
+      return this.$route.name !== 'UserPanel.Invoice.Show'
     }
   },
   mounted() {
@@ -149,11 +155,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.PaymentCard{
+.InvoicePaymentCard{
   background: #F5F5F5;
   border: 1px solid #DFE1EC;
   border-radius: 8px;
-  .PaymentCard-head {
+  .InvoicePaymentCard-head {
     background: #FFFFFF;
     border-bottom: 1px solid #DFE1EC;
     border-radius: 8px 8px 0 0;
@@ -162,7 +168,7 @@ export default {
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
-    .PaymentCard-head-title {
+    .InvoicePaymentCard-head-title {
       margin-top: 24px;
       width: 100%;
       text-align: left;
@@ -175,7 +181,7 @@ export default {
         margin-bottom: 35px;
       }
     }
-    .PaymentCard-head-caption {
+    .InvoicePaymentCard-head-caption {
       margin-bottom: 17px;
       width: 100%;
       text-align: left;
@@ -188,7 +194,7 @@ export default {
         padding-left: 20px;
       }
     }
-    .PaymentCard-head-remaining-time {
+    .InvoicePaymentCard-head-remaining-time {
       position: absolute;
       right: 23px;
       top: 26px;
@@ -200,7 +206,7 @@ export default {
       }
     }
   }
-  .PaymentCard-body {
+  .InvoicePaymentCard-body {
     padding: 20px 22px 26px;
     color: #212121;
     .final-price {

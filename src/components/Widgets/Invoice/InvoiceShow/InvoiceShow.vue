@@ -20,6 +20,13 @@
       <q-card-section>
         صورتحساب شناسه
         {{ invoice.id }}
+        <q-btn v-if="!invoice.loading && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
+               outline
+               color="primary"
+               class="btn-need-installment"
+               :to="{name: 'UserPanel.Invoice.Ticket.Create', query: {source_type: 'INVOICE', source_id: invoice.id}}">
+          درخواست مساعدت
+        </q-btn>
       </q-card-section>
       <q-separator />
       <q-card-section>
@@ -78,31 +85,42 @@
       </q-card-section>
     </q-card>
     <div class="action q-mt-lg">
-      <q-card v-if="invoice.status!=='PAYING' && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
+      <q-card v-if="!invoice.loading && invoice.status!=='PAYING' && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
               class="q-mb-md">
         <q-card-section>
           تنها در صورتی که وضعیت سفارش در حال پرداخت باشد امکان پرداخت با کیف پول وجود دارد
         </q-card-section>
       </q-card>
-      <q-btn v-if="invoice.status!=='PAYING' && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
-             color="green"
-             :disable="invoice.status!=='PAYING'"
-             class="q-px-xl"
-             @click="pay">
-        پرداخت با کیف پول
-      </q-btn>
+      <q-card v-if="!invoice.loading && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'">
+        <q-card-section>
+          پرداخت
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
+          <invoice-payment-card :wallet="wallet"
+                                :invoice="invoice"
+                                class="payment-card"
+                                @onCancel="onCancel"
+                                @onAccept="onAccept" />
+        </q-card-section>
+      </q-card>
+
     </div>
   </div>
 </template>
 
 <script>
 import Assist from 'assets/js/Assist.js'
+import { User } from 'src/models/User.js'
+import { Wallet } from 'src/models/Wallet.js'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import InvoicePaymentCard from 'src/components/InvoicePaymentCard.vue'
 
 export default {
   name: 'InvoiceShow',
+  components: { InvoicePaymentCard },
   mixins: [mixinWidget],
   props: {
     invoiceId: {
@@ -112,25 +130,77 @@ export default {
   },
   data: () => {
     return {
+      user: new User(),
+      wallet: new Wallet(),
       invoice: new Invoice()
     }
   },
   mounted() {
+    this.loadAuthData()
+    this.getMyWallet()
     this.getInvoice()
   },
   methods: {
+    loadAuthData() { // prevent Hydration node mismatch
+      this.user = this.$store.getters['Auth/user']
+    },
     getDateTime (dateTime) {
       return Assist.miladiToShamsi(dateTime)
     },
-    pay () {
+    onCancel () {
+      this.$router.push({ name: 'UserPanel.Invoice.List' })
+    },
+    onAccept () {
+      this.payInvoice()
+    },
+    getMyWallet () {
+      this.wallet.loading = true
+      APIGateway.wallet.getMyWallet(this.user.id)
+        .then((wallet) => {
+          this.wallet = new Wallet(wallet)
+          this.wallet.loading = false
+          this.walletLoaded = true
+        })
+        .catch(() => {
+          this.wallet.loading = false
+        })
+    },
+    amountOfDepositWalletNeeded () {
+      return this.invoice.amount - this.wallet.inventory
+    },
+    payInvoice () {
+      if (this.amountOfDepositWalletNeeded() > 0) {
+        this.payInvoiceByDepositWallet()
+      } else {
+        this.payInvoiceByWallet()
+      }
+    },
+    payInvoiceByWallet () {
       this.invoice.loading = true
       APIGateway.invoice.pay(this.invoice.id)
         .then((message) => {
-          this.payMessage = message
           this.invoice.loading = false
+          this.getInvoice()
+          this.$q.notify({
+            message,
+            type: 'positive'
+          })
         })
         .catch(() => {
           this.invoice.loading = false
+        })
+    },
+    payInvoiceByDepositWallet () {
+      this.invoice.loading = true
+      APIGateway.wallet.deposit({
+        amount: this.amountOfDepositWalletNeeded(),
+        invoice: this.invoice.id
+      })
+        .then((url) => {
+          window.location.href = url
+        })
+        .catch(() => {
+          this.depositLoading = false
         })
     },
     getInvoice () {
@@ -173,9 +243,10 @@ export default {
       top: 0;
     }
   }
-  :deep(.form) {
-    padding: 24px;
+  .btn-need-installment {
+    position: absolute;
+    right: 18px;
+    top: 8px;
   }
-
 }
 </style>

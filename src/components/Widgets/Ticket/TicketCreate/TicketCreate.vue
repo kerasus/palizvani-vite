@@ -44,6 +44,7 @@
 import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'TicketCreate',
@@ -59,20 +60,37 @@ export default {
       showRouteName: 'UserPanel.Ticket.Show',
       indexRouteName: 'UserPanel.Ticket.List',
       inputs: [
-        { type: 'select', name: 'category', responseKey: 'category', options: [], label: 'دسته', col: 'col-md-12 col-12' },
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', col: 'col-md-12 col-12' },
-        { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', col: 'col-md-12 col-12' },
-        { type: 'hidden', name: 'owner', responseKey: 'owner', value: 1, label: 'owner', col: 'col-md-12 col-12' }
+        { type: 'select', name: 'source_type', options: [{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }], label: 'دپارتمان', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'category', responseKey: 'category', options: [], label: 'دسته', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'separator', name: 'separator', size: '0', label: 'توضیحات عنوان اینجا قرار میگیرد', col: 'col-12' },
+        { type: 'inputEditor', name: 'body', label: 'متن درخواست', col: 'col-md-12 col-12' },
+        { type: 'file', name: 'attachment', label: 'انتخاب فایل ضمیمه', col: 'col-md-3 col-12' },
+        { type: 'hidden', name: 'owner', value: 1 },
+        { type: 'hidden', name: 'source_id', value: null }
       ]
     }
   },
   mounted() {
+    this.checkSource()
     this.loadOptions()
     this.$nextTick(() => {
       this.mounted = true
     })
   },
   methods: {
+    checkSource () {
+      const sourceId = this.$route.query.source_id
+      const sourceType = this.$route.query.source_type
+      if (sourceType && sourceId) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'source_id', 'value', sourceId)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', sourceType)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'readonly', true)
+      } else if (this.localOptions.defaultSourceType) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.localOptions.defaultSourceType)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'readonly', true)
+      }
+    },
     create() {
       this.entityLoading = true
       this.$refs.entityCreate.createEntity()

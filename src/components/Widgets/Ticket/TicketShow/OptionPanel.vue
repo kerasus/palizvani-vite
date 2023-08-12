@@ -1,7 +1,13 @@
 <template>
   <option-panel-tabs v-model:options="localOptions">
     <template #main-tab>
-      ...
+      <div>
+        defaultSourceType
+      </div>
+      <q-select v-model="localOptions.defaultSourceType"
+                :options="[{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }]"
+                emit-value
+                map-options />
     </template>
   </option-panel-tabs>
 </template>
