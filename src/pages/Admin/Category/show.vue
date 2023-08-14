@@ -14,16 +14,20 @@
                  :show-save-button="false"
                  :show-reload-button="false">
       <template #after-form-builder>
-        <div class="row q-col-gutter-md q-mb-md">
+        <div class="row q-col-gutter-md q-mb-md q-pt-lg">
           <div class="col-md-3">
+            <div>
+              نام درس
+            </div>
             <q-input v-model="newUnitName"
-                     label="درس ها"
                      :disable="newUnitLoading"
                      :loading="newUnitLoading" />
           </div>
           <div class="col-md-3">
+            <div>
+              تعداد جلسات
+            </div>
             <q-input v-model="newUnitSessionCount"
-                     label="تعداد جلسات"
                      type="number"
                      :disable="newUnitLoading"
                      :loading="newUnitLoading" />
@@ -31,6 +35,7 @@
           <div class="col-md-3">
             <q-btn color="primary"
                    label="افزودن"
+                   class="q-mt-lg"
                    @click="createUnit" />
           </div>
         </div>
@@ -97,8 +102,8 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'Admin.Category.Show',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'نام دسته بندی', col: 'col-md-6' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'بروزرسانی', props: { atClick: this.updateCategory }, col: 'col-md-6' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'نام دسته بندی', placeholder: ' ', col: 'col-md-6' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'بروزرسانی', placeholder: ' ', props: { atClick: this.updateCategory }, col: 'col-md-6' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id' }
       ],
 
