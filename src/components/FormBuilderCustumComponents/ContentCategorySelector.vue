@@ -90,6 +90,9 @@ export default {
       this.$emit('update:value', categoryId)
     }
   },
+  mounted() {
+    this.getCategories()
+  },
   methods: {
     setMainCategory () {
       if (!this.value?.parent?.parent?.id) {

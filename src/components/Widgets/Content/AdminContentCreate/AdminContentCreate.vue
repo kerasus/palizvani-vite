@@ -44,7 +44,7 @@ export default {
       showRouteName: 'Admin.Content.Show',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
-        // { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category', col: 'col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
         { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-12' },
