@@ -387,6 +387,7 @@ export default {
     .four-sections {
       .info-box {
         height: 353px;
+        overflow: auto;
         &.detailes {
           //margin-right: 24px;
         }
