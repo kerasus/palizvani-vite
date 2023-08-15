@@ -60,6 +60,7 @@
                v-model="password"
                outlined
                class="password-input"
+               type="password"
                label="گذرواژه جدید خود را وارد کنید"
                @keydown.enter="verify">
         <template v-slot:prepend>
