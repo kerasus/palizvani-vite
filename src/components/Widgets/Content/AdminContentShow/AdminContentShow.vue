@@ -4,7 +4,7 @@
     <entity-edit v-if="mounted"
                  ref="entityEdit"
                  v-model:value="inputs"
-                 title="اطلاعات کاربری"
+                 title="اطلاعات محتوا"
                  :api="api"
                  :entity-id-key="entityIdKey"
                  :entity-param-key="entityParamKey"
