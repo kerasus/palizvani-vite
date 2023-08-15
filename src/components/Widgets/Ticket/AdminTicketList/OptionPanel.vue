@@ -5,7 +5,7 @@
         defaultSourceType
       </div>
       <q-select v-model="localOptions.defaultSourceType"
-                :options="[{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }]"
+                :options="[{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }, { label: 'محتوا', value: 'CONTENT' }, { label: 'حلقه های مباحثاتی', value: 'DISCUSSION_CIRCLE' }]"
                 emit-value
                 map-options />
     </template>

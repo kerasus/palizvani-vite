@@ -81,7 +81,7 @@ export default {
             },
             {
               title: 'درخواست ها',
-              routeName: 'Classroom.DiscussionCircles.Ticket',
+              routeName: 'Admin.Classroom.DiscussionCircles.Ticket',
               show: true,
               active: false
             }
