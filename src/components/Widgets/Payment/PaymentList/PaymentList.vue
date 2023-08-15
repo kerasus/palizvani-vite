@@ -44,6 +44,7 @@
 import { shallowRef } from 'vue'
 import Assist from 'assets/js/Assist.js'
 import { EntityIndex } from 'quasar-crud'
+import { Payment } from 'src/models/Payment.js'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
@@ -106,7 +107,7 @@ export default {
             required: true,
             label: 'نوع تراکنش',
             align: 'left',
-            field: row => (row.type === 'WITHDRAW') ? 'برداشت' : 'واریز'
+            field: row => (new Payment(row)).type_info.label
           },
           {
             name: 'invoice_info.status',

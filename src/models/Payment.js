@@ -35,6 +35,39 @@ class Payment extends Model {
       { key: 'is_active' },
       { key: 'is_deleted' }
     ])
+
+    this.typeEnums = [
+      {
+        label: 'برداشت',
+        value: 'WITHDRAW'
+      },
+      {
+        label: 'درخواست برداشت',
+        value: 'WITHDRAW_REQUEST'
+      },
+      {
+        label: 'برداشت رد شده',
+        value: 'WITHDRAW_REJECT'
+      },
+      {
+        label: 'واریز',
+        value: 'DEPOSIT'
+      }
+    ]
+
+    this.loadTypeInfo()
+  }
+
+  loadTypeInfo () {
+    const target = this.typeEnums.find(type => type.value === this.type)
+    if (!target) {
+      this.type_info = {
+        label: null,
+        value: null
+      }
+    } else {
+      this.type_info = target
+    }
   }
 }
 
