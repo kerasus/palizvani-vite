@@ -4,7 +4,7 @@
     <entity-index v-if="mounted"
                   ref="entityIndex"
                   v-model:value="inputs"
-                  title="لیست تراکنش ها"
+                  title="لیست پرداخت ها"
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
