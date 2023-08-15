@@ -101,7 +101,7 @@ export default {
             required: true,
             label: 'نقش',
             align: 'left',
-            field: row => 'نقش'
+            field: row => row.roles.join(', ')
           },
           {
             name: 'status',
