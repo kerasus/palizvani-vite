@@ -115,7 +115,12 @@ export default {
     },
     loadCategories () {
       return new Promise((resolve, reject) => {
-        APIGateway.ticketCategory.index()
+        const type = null
+
+        // if (this.localOptions.defaultSourceType) {
+        //   type = this.localOptions.defaultSourceType
+        // }
+        APIGateway.ticketCategory.index({ type })
           .then(({ list }) => {
             FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', list.list.map(item => {
               return {

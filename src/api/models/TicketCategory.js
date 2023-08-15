@@ -26,6 +26,7 @@ export default class TicketCategoryAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
+        type: null, // String
         page: 1 // Number
       }, data),
       resolveCallback: (response) => {
