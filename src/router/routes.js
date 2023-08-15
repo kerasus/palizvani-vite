@@ -76,11 +76,35 @@ const routes = [
             layoutConfig: {
               layoutView: 'lhh Lpr fff'
             },
+            meta: {
+              hasDynamicSetting: true
+            },
             component: () => import('src/pages/Public/index.vue')
           },
-          { name: 'Public.AllClassrooms', path: 'all-classrooms', component: () => import('src/pages/Public/classrooms.vue') },
-          { name: 'Public.ShowClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/Public/ShowClassroomInfo.vue') },
-          { name: 'Public.FAQ', path: 'faq', component: () => import('src/pages/Public/FAQ.vue') }
+          {
+            name: 'Public.AllClassrooms',
+            path: 'all-classrooms',
+            meta: {
+              hasDynamicSetting: true
+            },
+            component: () => import('src/pages/Public/classrooms.vue')
+          },
+          {
+            name: 'Public.ShowClassroomInfo',
+            path: 'classroom/:id',
+            meta: {
+              hasDynamicSetting: true
+            },
+            component: () => import('src/pages/Public/ShowClassroomInfo.vue')
+          },
+          {
+            name: 'Public.FAQ',
+            path: 'faq',
+            meta: {
+              hasDynamicSetting: true
+            },
+            component: () => import('src/pages/Public/FAQ.vue')
+          }
         ]
       },
       {

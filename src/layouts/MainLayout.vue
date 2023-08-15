@@ -97,8 +97,8 @@ export default {
       return this.$route.name && this.$route.name === 'Public.Home'
     },
     canShowFloatingActionBtn () {
-      return true
-      // return this.user.hasPermission('editSiteSetting') && (this.hasDynamicSetting || this.hasDynamicSettingWithParams)
+      // return true
+      return this.user.isSuperUser() && (this.hasDynamicSetting || this.hasDynamicSettingWithParams)
     },
     hasDynamicSetting () {
       return !!this.$route.meta?.hasDynamicSetting
