@@ -240,6 +240,22 @@ const routes = [
             path: 'wallet',
             name: 'UserPanel.Wallet',
             component: () => import('src/pages/User/Wallet/Show.vue')
+          },
+          {
+            path: 'payment',
+            name: 'UserPanel.Payment',
+            component: () => import('src/layouts/bareLayout.vue'),
+            children: [
+              {
+                name: 'UserPanel.Payment.Show',
+                path: ':id',
+                component: () => import('src/pages/User/Payment/Show.vue'),
+                meta: {
+                  hasDynamicSetting: true
+                },
+                breadcrumbs: { title: 'اطلاعات کاربری' }
+              }
+            ]
           }
         ]
       },

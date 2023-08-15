@@ -16,7 +16,7 @@
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :to="{name: 'UserPanel.Invoice.Show', params: {id: inputData.props.row.id}}">
+                 :to="{name: 'UserPanel.Payment.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
           </q-btn>
         </template>
@@ -29,7 +29,7 @@
           <template #col="{col, row}">
             <template v-if="col.name === 'action'">
               <q-btn color="primary"
-                     :to="{name: 'UserPanel.Invoice.Show', params: {id: row.id}}">
+                     :to="{name: 'UserPanel.Payment.Show', params: {id: row.id}}">
                 مشاهده جزییات
               </q-btn>
             </template>
