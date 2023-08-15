@@ -19,14 +19,29 @@
       <template #after-form-builder>
         <div v-if="contentCategory.id"
              class="q-mt-lg">
-          <admin-content-category-list :key="listKey"
-                                       title="لیست دسته بندی های جزیی"
-                                       :parent="contentCategory.id" />
-          <q-separator class="q-my-lg" />
-          <admin-content-category-create :key="listKey"
-                                         title="ایجاد دسته بندی جزیی"
-                                         :parent="contentCategory.id"
-                                         @onCreated="onCreated" />
+          <q-expansion-item expand-separator
+                            label="لیست دسته بندی ها">
+            <q-card>
+              <q-card-section>
+                <admin-content-category-list :key="listKey"
+                                             title="لیست دسته بندی های جزیی"
+                                             :parent="contentCategory.id" />
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+
+          <q-expansion-item expand-separator
+                            label="ایجاد دسته بندی">
+            <q-card>
+              <q-card-section>
+                <admin-content-category-create :key="listKey"
+                                               title="ایجاد دسته بندی جزیی"
+                                               :parent="contentCategory.id"
+                                               @onCreated="onCreated" />
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+
         </div>
       </template>
     </entity-edit>
@@ -35,9 +50,10 @@
 
 <script>
 import { shallowRef } from 'vue'
-import { EntityEdit, EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { EntityEdit, EntityCreate } from 'quasar-crud'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { ContentCategory } from 'src/models/ContentCategory.js'
 import AdminContentCategoryList from 'src/components/Widgets/ContentCategory/AdminContentCategoryList/AdminContentCategoryList.vue'
@@ -65,12 +81,12 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'AdminPanel.Ticket.Show',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
-        // { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', value: null, placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', value: null, placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', value: null, placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید', placeholder: ' ', ignoreValue: false, atClick: () => {}, col: 'col-12' },
         { type: 'hidden', name: 'parent', responseKey: 'parent', value: null },
-        { type: 'hidden', name: 'id', responseKey: 'id', value: null },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید', placeholder: ' ', atClick: () => {}, col: 'col-12' }
+        { type: 'hidden', name: 'id', responseKey: 'id', value: null }
       ]
     }
   },
@@ -85,8 +101,17 @@ export default {
   },
   mounted() {
     this.mounted = true
+    this.setActionBtn()
   },
   methods: {
+    setActionBtn () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.edit)
+      // this.inputs.forEach((item, index) => {
+      //   if (item.name === 'btn') {
+      //     this.inputs[index].atClick = this.edit
+      //   }
+      // })
+    },
     afterLoadInputData (data) {
       this.contentCategory = new ContentCategory(data)
       this.contentCategory.loading = false
@@ -94,7 +119,8 @@ export default {
     },
     edit() {
       this.entityLoading = true
-      this.$refs.entityEdit.editEntity()
+      console.log('inputs', this.inputs)
+      this.$refs.entityEdit.editEntity(false)
         .then(() => {
           this.$refs.entityEdit.getData()
           this.entityLoading = false

@@ -110,6 +110,13 @@ export default {
 
 <style scoped lang="scss">
 .AdminContentCategoryList {
+  :deep(.entity-index) {
+    .q-card__section {
+      .q-item {
+        display: none;
+      }
+    }
+  }
   .more-action {
     display: flex;
     flex-flow: row;
