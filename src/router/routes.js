@@ -236,25 +236,13 @@ const routes = [
               }
             ]
           },
-          {
-            path: 'wallet',
-            name: 'UserPanel.Wallet',
-            component: () => import('src/pages/User/Wallet/Show.vue')
-          },
+          { path: 'wallet', name: 'UserPanel.Wallet', component: () => import('src/pages/User/Wallet/Show.vue') },
           {
             path: 'payment',
             name: 'UserPanel.Payment',
             component: () => import('src/layouts/bareLayout.vue'),
             children: [
-              {
-                name: 'UserPanel.Payment.Show',
-                path: ':id',
-                component: () => import('src/pages/User/Payment/Show.vue'),
-                meta: {
-                  hasDynamicSetting: true
-                },
-                breadcrumbs: { title: 'اطلاعات کاربری' }
-              }
+              { name: 'UserPanel.Payment.Show', path: ':id', component: () => import('src/pages/User/Payment/Show.vue'), breadcrumbs: { title: 'اطلاعات کاربری' } }
             ]
           }
         ]
@@ -391,7 +379,15 @@ const routes = [
               { path: '', name: 'Admin.Content.List', component: () => import('src/pages/Admin/Content/List.vue') },
               { path: 'create', name: 'Admin.Content.Create', component: () => import('src/pages/Admin/Content/Create.vue') },
               { path: ':id', name: 'Admin.Content.Show', component: () => import('src/pages/Admin/Content/Show.vue') },
-              { name: 'Admin.Content.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+              {
+                name: 'Admin.Content.Ticket',
+                meta: {
+                  hasDynamicSetting: true
+                },
+                path: 'ticket',
+                component: () => import('src/pages/Admin/Classroom/Ticket.vue'),
+                breadcrumbs: { title: 'درخواست ها دوره های آموزشی' }
+              }
             ]
           },
           {

@@ -67,7 +67,7 @@
                    @click="openRulesDialog">
               آیین نامه دوره
             </q-btn>
-            <q-btn v-if="defaultOptions.profileMode"
+            <q-btn v-if="defaultOptions.profileMode && classroom.is_enabled_dropping"
                    outline
                    color="red"
                    class="btn-register q-ml-md"
