@@ -20,7 +20,7 @@
       <q-card-section>
         صورتحساب شناسه
         {{ invoice.id }}
-        <q-btn v-if="!invoice.loading && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
+        <q-btn v-if="!invoice.loading && invoice.status === 'PAYING'"
                outline
                color="primary"
                class="btn-need-installment"
@@ -87,7 +87,7 @@
           تنها در صورتی که وضعیت سفارش در حال پرداخت باشد امکان پرداخت با کیف پول وجود دارد
         </q-card-section>
       </q-card>
-      <q-card v-if="!invoice.loading && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'">
+      <q-card v-if="!invoice.loading && (invoice.status==='PAYING' || invoice.status==='PAYING_IN_INSTALMENT')">
         <q-card-section>
           پرداخت
         </q-card-section>
