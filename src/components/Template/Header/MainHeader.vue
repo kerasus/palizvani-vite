@@ -410,6 +410,9 @@ export default {
       @media only screen and (max-width: 1023px) {
         height: 100%;
       }
+      @media only screen and (max-width: 599px) {
+        padding-right: 0;
+      }
     }
 
     &.isHomePage {
