@@ -17,6 +17,8 @@
              label="آزمون" />
       <q-tab name="movies3"
              label="کاربران" />
+      <q-tab name="live_streaming_url"
+             label="کلاس آنلاین" />
     </q-tabs>
 
     <q-separator />
@@ -91,6 +93,12 @@
       <q-tab-panel name="movies3">
         کاربران
       </q-tab-panel>
+      <q-tab-panel name="live_streaming_url">
+        <iframe :src="classroom.live_streaming_url"
+                title="W3Schools Free Online Web Tutorials"
+                style="height: 80vh"
+                class="full-width" />
+      </q-tab-panel>
     </q-tab-panels>
   </q-card>
 </template>
@@ -99,6 +107,7 @@
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 import { EntityEdit, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
@@ -209,6 +218,7 @@ export default {
 
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-3 col-12' }
       ],
+      classroom: new Classroom(),
 
       sessionListInputs: [
         { type: 'hidden', name: 'classroom', value: this.$route.params.id, label: 'نام دوره', col: 'col-12' }
@@ -287,7 +297,8 @@ export default {
       })
   },
   methods: {
-    afterLoadInputData () {
+    afterLoadInputData (data) {
+      this.classroom = new Classroom(data)
       // const gg = data.beginning_enrollment_period.replace('T', ' ')
       // this.setInputAttr('beginning_enrollment_period', 'value', gg)
     },
