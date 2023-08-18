@@ -18,7 +18,7 @@
       <q-tab name="movies3"
              label="کاربران" />
       <q-tab name="live_streaming_url"
-             label="کلاس آنلاین" />
+             label="بخش آنلاین" />
     </q-tabs>
 
     <q-separator />
