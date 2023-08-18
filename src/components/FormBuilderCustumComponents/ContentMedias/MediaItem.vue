@@ -4,14 +4,14 @@
       {{ media.title }}
     </div>
     <div class="actions">
-      <q-btn icon="isax:eye"
+      <q-btn icon="visibility"
              outline
              class="viewBtn"
              color="primary"
              @click="onView" />
       <q-btn v-if="canDelete"
              class="deleteBtn"
-             icon="isax:trash4"
+             icon="delete"
              outline
              color="red"
              @click="onDelete" />

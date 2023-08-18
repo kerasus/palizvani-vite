@@ -1,29 +1,5 @@
 <template>
   <div class="UserPanelLayout">
-    <div v-if="breadcrumbsVisibility && false"
-         class="q-mb-md">
-      <q-skeleton v-if="!breadcrumbs.path"
-                  width="100px"
-                  height="10px" />
-      <q-breadcrumbs v-else
-                     class="breadcrumbs"
-                     separator-color="dark"
-                     gutter="sm">
-        <template v-slot:separator>
-          <q-icon name="isax:arrow-right-3 " />
-        </template>
-        <q-breadcrumbs-el v-for="(breadcrumb, index) in breadcrumbs.path"
-                          :key="index"
-                          :icon=breadcrumb.icon
-                          :label=breadcrumb.title
-                          :to="getRoute(breadcrumb.route)"
-                          class="q-breadcrumbs-el">
-          <q-skeleton v-if="breadcrumb.loading"
-                      width="100px"
-                      height="10px" />
-        </q-breadcrumbs-el>
-      </q-breadcrumbs>
-    </div>
     <router :include="keepAliveComponents" />
   </div>
 </template>
@@ -71,6 +47,7 @@ export default {
 
 <style lang="scss" scoped>
 .UserPanelLayout {
+  background: #F9F9F9;
   padding: 35px 35px 35px 61px;
   @media screen and (max-width: 1023px) {
     padding: 15px 5px !important;

@@ -29,6 +29,7 @@ export default defineComponent({
         { label: 'مالی', value: 'INVOICE' },
         { label: 'آموزش', value: 'TRAINING_CLASSROOM' },
         { label: 'حلقه های مباحثاتی', value: 'DISCUSSION_CIRCLE_CLASSROOM' },
+        { label: 'محتوا', value: 'CONTENT' },
         { label: 'SESSION', value: 'SESSION' }
       ]
     }
