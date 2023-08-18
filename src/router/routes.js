@@ -184,6 +184,23 @@ const routes = [
                   }
                 }
               },
+              {
+                name: 'UserPanel.Profile.AllDiscussionCirclesClassrooms',
+                path: 'all-discussion-circles-classrooms',
+                component: () => import('src/pages/User/Profile/DiscussionCirclesClassrooms.vue'),
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'حلقه های مباحثاتی من',
+                        to: { name: 'UserPanel.Profile.AllDiscussionCirclesClassrooms' }
+                      }
+                    ]
+                  }
+                }
+              },
               { name: 'UserPanel.Profile.ClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/User/Profile/classroomInfo.vue') },
               { name: 'UserPanel.Profile.SessionInfo', path: 'session/:id', component: () => import('src/pages/User/Profile/sessionInfo.vue') },
               { name: 'UserPanel.Profile.UserInfo', path: 'user-info', component: () => import('src/pages/User/Profile/profile.vue') }

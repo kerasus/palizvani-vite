@@ -5,7 +5,7 @@
         defaultSourceType
       </div>
       <q-select v-model="localOptions.defaultSourceType"
-                :options="[{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }, { label: 'محتوا', value: 'CONTENT' }, { label: 'حلقه های مباحثاتی', value: 'DISCUSSION_CIRCLE' }]"
+                :options="options"
                 emit-value
                 map-options />
     </template>
@@ -22,6 +22,16 @@ export default defineComponent({
   components: {
     OptionPanelTabs
   },
-  mixins: [mixinOptionPanel]
+  mixins: [mixinOptionPanel],
+  data: () => {
+    return {
+      options: [
+        { label: 'مالی', value: 'INVOICE' },
+        { label: 'آموزش', value: 'TRAINING_CLASSROOM' },
+        { label: 'حلقه های مباحثاتی', value: 'DISCUSSION_CIRCLE_CLASSROOM' },
+        { label: 'SESSION', value: 'SESSION' }
+      ]
+    }
+  }
 })
 </script>

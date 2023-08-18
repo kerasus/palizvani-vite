@@ -52,18 +52,14 @@
             :to="redirectRoute(item)"
             exact
             @click="itemSelected(item)">
-      <div class="section-title">
-        <q-item-section v-if="item.icon"
-                        class="list-section title-icon"
-                        avatar>
-          <q-avatar :icon="item.icon"
-                    size="30" />
-        </q-item-section>
-        <q-item-section class="list-section">
-          {{ item.title }}
-        </q-item-section>
-        <!--        <span class="indicator" />-->
-      </div>
+      <q-item-section v-if="item.icon"
+                      avatar>
+        <q-avatar :icon="item.icon"
+                  size="30" />
+      </q-item-section>
+      <q-item-section>
+        {{ item.title }}
+      </q-item-section>
     </q-item>
     <q-badge v-if="item.badge"
              align="middle">
@@ -171,7 +167,7 @@ export default {
       //padding-left: 15px;
     }
   }
-  .q-item {
+  :deep(.q-item) {
     &.q-router-link--exact-active {
       background: rgba(91, 122, 95, 0.08);
       position: relative;
@@ -184,6 +180,15 @@ export default {
         height: 100%;
         background: #5B7A5F;
         border-radius: 0 5px 5px 0;
+      }
+    }
+    .q-item__section {
+      &.q-item__section--avatar {
+        width: 37px;
+        min-width: 37px;
+        .q-avatar {
+          width: 100%;
+        }
       }
     }
   }

@@ -33,13 +33,21 @@ export default {
         {
           title: 'پیشخوان',
           routeName: 'Public.AllClassrooms',
-          scrollTo: '#introSection',
+          icon: 'grid_view',
+          show: true,
+          active: false
+        },
+        {
+          title: 'مدیریت حلقه ها',
+          routeName: 'UserPanel.Profile.AllDiscussionCirclesClassrooms',
+          icon: 'groups',
           show: true,
           active: false
         },
         {
           title: 'دوره های آموزشی',
           routeName: null,
+          icon: 'auto_stories',
           show: true,
           open: true,
           active: false,
@@ -55,11 +63,13 @@ export default {
         {
           title: 'درخواست ها',
           routeName: 'UserPanel.Ticket.List',
+          icon: 'email',
           show: true,
           active: false
         },
         {
           title: 'بخش مالی',
+          icon: 'account_balance_wallet',
           routeName: null,
           show: true,
           open: true,
