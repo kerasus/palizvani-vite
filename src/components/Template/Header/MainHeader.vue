@@ -141,12 +141,14 @@
 </template>
 
 <script>
+import { User } from 'src/models/User.js'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'templateHeader',
   data () {
     return {
+      user: new User(),
       topMenuItems: [
         // {
         //   title: 'معرفی پروژه',
@@ -191,18 +193,21 @@ export default {
     isHomePage () {
       return this.$route.name && this.$route.name === 'Public.Home'
     },
-    user () {
-      return this.$store.getters['Auth/user']
-    },
     ...mapGetters('AppLayout', [
       'breadcrumbs',
       'windowSize'
     ])
   },
+  mounted () {
+    this.loadAuthData()
+  },
   methods: {
     ...mapMutations('AppLayout', [
       'updateLayoutLeftDrawerVisible'
     ]),
+    loadAuthData () {
+      this.user = this.$store.getters['Auth/user']
+    },
     goToHome () {
       this.$router.push({ name: 'Public.Home' })
     },

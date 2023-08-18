@@ -6,14 +6,14 @@
 </template>
 
 <script>
+import { mixinPageOptions, mixinPrefetchServerData, mixinSEO } from 'src/mixin/Mixins.js'
+
 export default {
-  name: 'ShowClassroomInfo',
+  name: 'Public.ShowClassroomInfo',
+  mixins: [mixinPrefetchServerData, mixinPageOptions, mixinSEO],
   data () {
     return {
-      pageConfig: {},
-      pageBuilderEditable: false,
-      pageBuilderLoading: false,
-      currenSections: [
+      sections: [
         {
           data: {
             rows: [
