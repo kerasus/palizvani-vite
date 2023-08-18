@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="col-md-4 col-12 classroom-action-col">
-            <q-btn v-if="!defaultOptions.profileMode && !classroom.is_current_user_registered"
+            <q-btn v-if="!defaultOptions.profileMode && !classroom.is_current_user_registered && classroom.is_enabled_adding"
                    color="primary"
                    class="btn-register"
                    @click="openRulesDialog">
@@ -41,6 +41,25 @@
                       fill="#fff" />
               </svg>
               ثبت نام
+            </q-btn>
+            <q-btn v-if="!defaultOptions.profileMode && !classroom.is_current_user_registered && classroom.is_enabled_enrolment"
+                   color="primary"
+                   class="btn-register"
+                   :loading="enrolmentLoading"
+                   @click="onEnrolment">
+              <svg data-name="Add User"
+                   xmlns="http://www.w3.org/2000/svg"
+                   width="20"
+                   height="19.795"
+                   viewBox="0 0 20 19.795"
+                   class="q-mr-md">
+                <path id="Combined_Shape"
+                      data-name="Combined Shape"
+                      d="M0,16.115c0-3.281,4.5-3.659,7.877-3.659,1.949,0,7.877,0,7.877,3.681,0,3.279-4.5,3.658-7.877,3.658C5.928,19.795,0,19.795,0,16.115Zm1.5,0c0,1.446,2.146,2.18,6.377,2.18s6.377-.726,6.377-2.158c0-1.447-2.146-2.181-6.377-2.181S1.5,14.683,1.5,16.115Zm14.954-5.436V9.424H15.16a.75.75,0,0,1,0-1.5h1.294V6.669a.75.75,0,1,1,1.5,0V7.924h1.3a.75.75,0,0,1,0,1.5h-1.3v1.255a.75.75,0,1,1-1.5,0Zm-8.609-.043a5.334,5.334,0,1,1,.031,0ZM4.06,5.318A3.8,3.8,0,0,0,7.849,9.136l.028.75v-.75A3.818,3.818,0,1,0,4.06,5.318Z"
+                      transform="translate(0)"
+                      fill="#fff" />
+              </svg>
+              پیش ثبت نام
             </q-btn>
             <q-btn v-if="!defaultOptions.profileMode && classroom.is_current_user_registered"
                    color="primary"
@@ -71,7 +90,8 @@
                    outline
                    color="red"
                    class="btn-register q-ml-md"
-                   @click="openRulesDialog">
+                   :loading="dropLoading"
+                   @click="onDropping">
               انصراف
             </q-btn>
           </div>
@@ -336,13 +356,15 @@ export default {
     defaultOptions: {
       profileMode: false
     },
+    enrolmentLoading: false,
+    dropLoading: false,
     rulesAccept: false,
     rulesDialog: false,
     loading: true,
     classroom: new Classroom()
   }),
   mounted () {
-    this.getClassrooms()
+    this.getClassroom()
   },
   methods: {
     getTitledDateTime (dateTime) {
@@ -351,6 +373,45 @@ export default {
     acceptAndContinue () {
       this.$store.commit('Shop/updateOnRegisterClassroom', this.classroom)
       this.$router.push({ name: 'UserPanel.ShopCompleteInfo' })
+    },
+    onEnrolment () {
+      this.$q.dialog({
+        title: 'توجه',
+        message: 'آیا از پیش ثبت نام این دوره اطمینان دارید؟' + '\n' + this.classroom.unit_info.codes,
+        html: true,
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.enrolmentLoading = true
+        const classroomId = this.$route.params.id
+        APIGateway.classroom.enrollByUser(classroomId)
+          .then(() => {
+            this.enrolmentLoading = false
+            this.getClassroom()
+          })
+          .catch(() => {
+            this.enrolmentLoading = false
+          })
+      })
+    },
+    onDropping () {
+      this.$q.dialog({
+        title: 'توجه',
+        message: 'آیا از حذف نام این دوره اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.dropLoading = true
+        const classroomId = this.$route.params.id
+        APIGateway.classroom.dropByUser(classroomId)
+          .then(() => {
+            this.dropLoading = false
+            this.getClassroom()
+          })
+          .catch(() => {
+            this.dropLoading = false
+          })
+      })
     },
     openRulesDialog () {
       this.rulesDialog = true
@@ -378,7 +439,7 @@ export default {
       }
       return ShamsiDate.getTerm(classroom.beginning_registration_period)
     },
-    getClassrooms () {
+    getClassroom () {
       this.loading = true
       APIGateway.classroom.get(this.$route.params.id)
         .then(classroom => {

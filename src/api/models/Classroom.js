@@ -10,7 +10,9 @@ export default class ClassroomAPI extends APIRepository {
       base: '/lma/classrooms',
       byId: (id) => '/lma/classrooms/' + id,
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
+      drop: (id) => '/lma/classrooms/' + id + '/drop',
       enrollByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/enrolll?user_id=' + userId,
+      dropByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/drop?user_id=' + userId,
       createInvoice: (id) => '/lma/classrooms/' + id + '/create_invoice',
       createInvoiceByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/create_invoice?user_id=' + userId
     }
@@ -80,11 +82,25 @@ export default class ClassroomAPI extends APIRepository {
     })
   }
 
-  enrollByAdmin (classroomId, userId) {
+  dropByUser (id) {
     return this.sendRequest({
       apiMethod: 'put',
       api: this.api,
-      request: this.APIAdresses.enrollByAdmin(classroomId, userId),
+      request: this.APIAdresses.drop(id),
+      resolveCallback: (response) => {
+        return new Classroom(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  dropByAdmin (classroomId, userId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.dropByAdmin(classroomId, userId),
       resolveCallback: (response) => {
         return new Classroom(response.data)
       },
