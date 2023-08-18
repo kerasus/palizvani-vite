@@ -33,6 +33,9 @@ const routes = [
       layoutPageContainerCustomClass: 'main-layout-container'
     },
     component: () => import('layouts/MainLayout.vue'),
+    meta: {
+      hasDynamicSetting: true
+    },
     children: [
       {
         path: '/auth',
@@ -164,7 +167,23 @@ const routes = [
             component: () => import('src/layouts/UserPanelLayout.vue'),
             meta: { middlewares: [Authenticated] },
             children: [
-              { name: 'UserPanel.Profile.AllClassrooms', path: 'all-classrooms', component: () => import('src/pages/User/Profile/classrooms.vue') },
+              {
+                name: 'UserPanel.Profile.AllClassrooms',
+                path: 'all-classrooms',
+                component: () => import('src/pages/User/Profile/classrooms.vue'),
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'دوره های من',
+                        to: { name: 'UserPanel.Profile.AllClassrooms' }
+                      }
+                    ]
+                  }
+                }
+              },
               { name: 'UserPanel.Profile.ClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/User/Profile/classroomInfo.vue') },
               { name: 'UserPanel.Profile.SessionInfo', path: 'session/:id', component: () => import('src/pages/User/Profile/sessionInfo.vue') },
               { name: 'UserPanel.Profile.UserInfo', path: 'user-info', component: () => import('src/pages/User/Profile/profile.vue') }
@@ -188,6 +207,21 @@ const routes = [
               {
                 path: ':id',
                 name: 'UserPanel.Invoice.Show',
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'صورتحساب ها',
+                        to: { name: 'UserPanel.Invoice.List' }
+                      },
+                      {
+                        label: 'جزییات صورتحساب'
+                      }
+                    ]
+                  }
+                },
                 component: () => import('src/pages/User/Invoice/Show.vue')
               },
               {
@@ -227,6 +261,21 @@ const routes = [
               {
                 path: ':id',
                 name: 'UserPanel.Ticket.Show',
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'درخواست ها',
+                        to: { name: 'UserPanel.Ticket.List' }
+                      },
+                      {
+                        label: 'جزییات درخواست'
+                      }
+                    ]
+                  }
+                },
                 component: () => import('src/pages/User/Ticket/Show.vue')
               },
               {
@@ -242,7 +291,26 @@ const routes = [
             name: 'UserPanel.Payment',
             component: () => import('src/layouts/bareLayout.vue'),
             children: [
-              { name: 'UserPanel.Payment.Show', path: ':id', component: () => import('src/pages/User/Payment/Show.vue'), breadcrumbs: { title: 'اطلاعات کاربری' } }
+              {
+                name: 'UserPanel.Payment.Show',
+                path: ':id',
+                component: () => import('src/pages/User/Payment/Show.vue'),
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'کیف پول الکترونیک',
+                        to: { name: 'UserPanel.Wallet' }
+                      },
+                      {
+                        label: 'جزییات پرداخت'
+                      }
+                    ]
+                  }
+                }
+              }
             ]
           }
         ]

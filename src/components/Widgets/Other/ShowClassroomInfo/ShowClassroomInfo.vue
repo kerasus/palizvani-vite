@@ -340,6 +340,7 @@ export default {
       }
     }
   },
+  emits: ['onloadn'],
   data: () => ({
     defaultOptions: {
       profileMode: false
@@ -433,6 +434,7 @@ export default {
         .then(classroom => {
           this.classroom = new Classroom(classroom)
           this.loading = false
+          this.$emit('onloadn', this.classroom)
         })
         .catch(() => {
           this.loading = false

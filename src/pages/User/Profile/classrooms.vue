@@ -1,4 +1,5 @@
 <template>
+  <breadcrumbs style="margin-top: 29px; margin-bottom: 19px;" />
   <entity-index ref="entityIndex"
                 v-model:value="inputs"
                 title="لیست دوره ها"
@@ -43,6 +44,7 @@ import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -50,6 +52,7 @@ export default {
   name: 'UserPanel.Profile.AllClassrooms',
   components: {
     EntityIndex,
+    Breadcrumbs,
     EntityIndexGridItem
   },
   data () {

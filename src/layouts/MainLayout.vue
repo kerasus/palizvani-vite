@@ -67,8 +67,8 @@ import FloatingActionButton from 'components/Template/FloatingActionButton/Float
 
 export default {
   components: {
-    AuthLogin,
     Router,
+    AuthLogin,
     FooterTemplate,
     templateHeader,
     TemplateSideBar,

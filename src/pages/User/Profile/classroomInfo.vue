@@ -1,4 +1,5 @@
 <template>
+  <breadcrumbs style="margin-top: 29px; margin-bottom: 19px;" />
   <q-card>
     <q-tabs v-model="tab"
             dense
@@ -24,7 +25,8 @@
     <q-tab-panels v-model="tab"
                   animated>
       <q-tab-panel name="classroomInfo">
-        <show-classroom-info :options="{ profileMode: true }" />
+        <show-classroom-info :options="{ profileMode: true }"
+                             @onloadn="onloadnClassroom" />
       </q-tab-panel>
 
       <q-tab-panel name="educations">
@@ -83,13 +85,16 @@ import { EntityIndex } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
   components: {
     EntityIndex,
+    Breadcrumbs,
     ShowClassroomInfo,
     EntityIndexGridItem
   },
@@ -99,6 +104,7 @@ export default {
       tab: 'classroomInfo',
       inputs: [],
       api: null,
+      classroom: new Classroom(),
       table: {
         columns: [
           {
@@ -164,6 +170,23 @@ export default {
     this.mounted = true
   },
   methods: {
+    onloadnClassroom (classroom) {
+      this.classroom = new Classroom(classroom)
+      this.$store.commit('AppLayout/updateBreadcrumbs', {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'دوره های من',
+            to: { name: 'UserPanel.Profile.AllClassrooms' }
+          },
+          {
+            label: this.classroom.title,
+            to: { name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } }
+          }
+        ]
+      })
+    },
     search () {
       this.$refs.entityIndex.search()
     },

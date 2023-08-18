@@ -1,4 +1,5 @@
 <template>
+  <breadcrumbs style="margin-top: 29px; margin-bottom: 19px;" />
   <div>
     <div class="flex justify-end">
       <q-btn flat
@@ -100,11 +101,13 @@
 import { EntityShow } from 'quasar-crud'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
   components: {
-    EntityShow
+    EntityShow,
+    Breadcrumbs
   },
   data () {
     return {
@@ -149,6 +152,24 @@ export default {
   },
   created () {
     this.api = APIGateway.session.APIAdresses.byId(this.$route.params.id)
+    this.$store.commit('AppLayout/updateBreadcrumbs', {
+      visible: true,
+      loading: false,
+      path: [
+        {
+          label: 'دوره های من',
+          to: { name: 'UserPanel.Profile.AllClassrooms' }
+        },
+        // {
+        //   label: this.classroom.title,
+        //   to: { name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } }
+        // },
+        {
+          label: 'جزییات جلسه',
+          to: { name: 'UserPanel.Profile.SessionInfo', params: { id: this.$route.params.id } }
+        }
+      ]
+    })
   },
   methods: {
     getInputValue (name) {
