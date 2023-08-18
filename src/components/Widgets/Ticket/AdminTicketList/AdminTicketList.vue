@@ -14,7 +14,7 @@
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :to="{name: 'AdminPanel.Ticket.Show', params: {id: inputData.props.row.id}}">
+                 :to="getShowRoute(inputData.props.row.id)">
             مشاهده جزییات
           </q-btn>
         </template>
@@ -113,13 +113,40 @@ export default {
     loadOptions () {
       return this.loadCategories()
     },
+    getShowRoute (ticketId) {
+      const defaultSourceType = this.localOptions.defaultSourceType
+      if (!defaultSourceType) {
+        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+      }
+
+      if (defaultSourceType === 'INVOICE') {
+        return { name: 'Admin.Invoice.Ticket.Show', params: { id: ticketId } }
+      } else if (defaultSourceType === 'TRAINING_CLASSROOM') {
+        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+      } else if (defaultSourceType === 'DISCUSSION_CIRCLE_CLASSROOM') {
+        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+      } else {
+        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+      }
+    },
+    getCategoryTypeFromSourceType () {
+      const defaultSourceType = this.localOptions.defaultSourceType
+      if (!defaultSourceType) {
+        return null
+      }
+
+      if (defaultSourceType === 'INVOICE') {
+        return 'FINANCIAL'
+      }
+      if (defaultSourceType === 'TRAINING_CLASSROOM' || defaultSourceType === 'DISCUSSION_CIRCLE_CLASSROOM') {
+        return 'EDUCATIONAL'
+      } else {
+        return 'GENERAL'
+      }
+    },
     loadCategories () {
       return new Promise((resolve, reject) => {
-        const type = null
-
-        // if (this.localOptions.defaultSourceType) {
-        //   type = this.localOptions.defaultSourceType
-        // }
+        const type = this.getCategoryTypeFromSourceType()
         APIGateway.ticketCategory.index({ type })
           .then(({ list }) => {
             FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', list.list.map(item => {
