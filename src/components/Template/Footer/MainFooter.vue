@@ -6,7 +6,7 @@
         <div class="col-content">
           <div class="col-items">
             <div class="col-item">
-              <q-icon name="isax:location" />
+              <q-icon name="place" />
               تهـران | خیـابان فلسطیـن | نبش بزرگمهـر سـاختمان 141 طبـقه 5 | واحـد 49
             </div>
             <div class="col-item">

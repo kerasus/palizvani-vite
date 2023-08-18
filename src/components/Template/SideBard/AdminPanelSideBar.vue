@@ -28,12 +28,13 @@ export default {
         {
           title: 'کاربران',
           routeName: 'Admin.User.Index',
+          icon: 'groups',
           show: true,
           active: false
         },
         {
           title: 'مدیریت آموزش',
-          icon: 'isax:book',
+          icon: 'import_contacts',
           routeName: null,
           show: true,
           open: true,
@@ -61,7 +62,7 @@ export default {
         },
         {
           title: 'حلقه های مباحثاتی',
-          icon: 'isax:book',
+          icon: 'diversity_2',
           routeName: null,
           show: true,
           open: true,
@@ -89,7 +90,7 @@ export default {
         },
         {
           title: 'محتوا',
-          icon: 'isax:video',
+          icon: 'live_tv',
           routeName: null,
           show: true,
           open: true,
@@ -117,7 +118,7 @@ export default {
         },
         {
           title: 'مدیریت مالی',
-          icon: 'isax:card',
+          icon: 'payments',
           routeName: null,
           show: true,
           open: true,

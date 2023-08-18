@@ -8,19 +8,19 @@
            label-position="top"
            external-label
            color="primary"
-           icon="isax:edit"
+           icon="edit"
            direction="up">
       <template v-if="!pageBuilderEditable">
         <q-fab-action external-label
                       label-position="right"
                       color="primary"
-                      icon="isax:grid-edit"
+                      icon="dashboard"
                       label="ویرایش صفحه"
                       @click="togglePageBuilderEditable" />
         <q-fab-action external-label
                       label-position="right"
                       color="primary"
-                      icon="isax:subtitle"
+                      icon="language"
                       label="ویرایش SEO"
                       @click="openSeoDialog" />
       </template>
@@ -28,31 +28,31 @@
         <q-fab-action external-label
                       label-position="right"
                       color="info"
-                      icon="isax:eye"
+                      icon="remove_red_eye"
                       label="نمایش کانفیگ"
                       @click="showPageBuilderShowConfigs" />
         <q-fab-action external-label
                       label-position="right"
                       color="info"
-                      icon="isax:eye"
+                      icon="remove_red_eye"
                       label="وارد کردن کانفیگ"
                       @click="showPageBuilderImportConfigs" />
         <q-fab-action external-label
                       label-position="right"
                       color="info"
-                      icon="isax:eye"
+                      icon="remove_red_eye"
                       label="پیشنمایش"
                       @click="togglePageBuilderEditable" />
         <q-fab-action external-label
                       label-position="right"
                       color="positive"
-                      icon="isax:clipboard-tick"
+                      icon="done"
                       label="تایید"
                       @click="acceptPageBuilderConfig" />
         <q-fab-action external-label
                       label-position="right"
                       color="negative"
-                      icon="isax:forbidden"
+                      icon="block"
                       label="انصراف"
                       @click="togglePageBuilderEditable" />
       </template>
