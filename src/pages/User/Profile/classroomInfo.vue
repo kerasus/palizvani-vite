@@ -76,6 +76,11 @@
       </q-tab-panel>
       <q-tab-panel v-if="classroom.live_streaming_url"
                    name="live_streaming_url">
+        <q-btn class="full-width q-mb-lg"
+               color="primary"
+               @click="goToLiveStreamUrl">
+          رفتن به کلاس
+        </q-btn>
         <iframe :src="classroom.live_streaming_url"
                 title="W3Schools Free Online Web Tutorials"
                 style="height: 80vh"
@@ -175,6 +180,9 @@ export default {
     this.mounted = true
   },
   methods: {
+    goToLiveStreamUrl () {
+      window.open(this.classroom.live_streaming_url, '_blank')
+    },
     onloadnClassroom (classroom) {
       this.classroom = new Classroom(classroom)
       this.$store.commit('AppLayout/updateBreadcrumbs', {
