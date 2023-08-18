@@ -101,7 +101,8 @@
               </svg>
             </div>
             <div class="title">
-              {{ classroom.professor }}
+              {{ classroom.professor_info.firstname }}
+              {{ classroom.professor_info.lastname }}
             </div>
           </div>
           <div class="col-md-4 col-sm-6 col-12 attribute-column">
@@ -325,13 +326,13 @@
 <script>
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
-import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { mixinPrefetchServerData, mixinWidget } from 'src/mixin/Mixins.js'
 
 export default {
   name: 'ShowClassroomInfo',
-  mixins: [mixinWidget],
+  mixins: [mixinWidget, mixinPrefetchServerData],
   props: {
     options: {
       type: Object,
@@ -352,10 +353,19 @@ export default {
     loading: true,
     classroom: new Classroom()
   }),
-  mounted () {
-    this.getClassroom()
-  },
   methods: {
+    prefetchServerDataPromise () {
+      return this.getClassroom()
+    },
+    prefetchServerDataPromiseThen (classroom) {
+      this.classroom = new Classroom(classroom)
+      this.loading = false
+      this.$emit('onloadn', this.classroom)
+    },
+    prefetchServerDataPromiseCatch () {
+      this.loading = false
+    },
+
     getTitledDateTime (dateTime) {
       return ShamsiDate.getTitledDateTime(dateTime)
     },
@@ -430,15 +440,7 @@ export default {
     },
     getClassroom () {
       this.loading = true
-      APIGateway.classroom.get(this.$route.params.id)
-        .then(classroom => {
-          this.classroom = new Classroom(classroom)
-          this.loading = false
-          this.$emit('onloadn', this.classroom)
-        })
-        .catch(() => {
-          this.loading = false
-        })
+      return APIGateway.classroom.get(this.$route.params.id)
     }
   }
 }

@@ -192,6 +192,7 @@ import { User } from 'src/models/User.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { ClassroomList } from 'src/models/Classroom.js'
+import { mixinPrefetchServerData } from 'src/mixin/Mixins.js'
 import { ClassroomRegistrationList } from 'src/models/ClassroomRegistration.js'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel/dist/carousel'
 
@@ -203,6 +204,7 @@ export default {
     Pagination,
     Navigation
   },
+  mixins: [mixinPrefetchServerData],
   data: () => ({
     loading: false,
     user: new User(),
@@ -235,9 +237,19 @@ export default {
     if (this.user && this.user.id !== null) {
       this.getUserRegistrations()
     }
-    this.getClassrooms()
   },
   methods: {
+    prefetchServerDataPromise () {
+      return this.getClassrooms()
+    },
+    prefetchServerDataPromiseThen (classroomList) {
+      this.classrooms = new ClassroomList(classroomList.list)
+      this.classrooms.loading = false
+    },
+    prefetchServerDataPromiseCatch () {
+      this.classrooms.loading = false
+    },
+
     loadAuthData () {
       this.user = this.$store.getters['Auth/user']
     },
@@ -264,14 +276,7 @@ export default {
     },
     getClassrooms () {
       this.classrooms.loading = true
-      APIGateway.classroom.index()
-        .then(classroomList => {
-          this.classrooms = new ClassroomList(classroomList.list)
-          this.classrooms.loading = false
-        })
-        .catch(() => {
-          this.classrooms.loading = false
-        })
+      return APIGateway.classroom.index()
     }
   }
 }
