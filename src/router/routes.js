@@ -34,7 +34,7 @@ const routes = [
     },
     component: () => import('layouts/MainLayout.vue'),
     meta: {
-      // hasDynamicSetting: true
+      hasDynamicSetting: true
     },
     children: [
       {
@@ -214,6 +214,21 @@ const routes = [
               {
                 path: '',
                 name: 'UserPanel.Invoice.List',
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'بخش مالی'
+                      },
+                      {
+                        label: 'صورتحساب ها',
+                        to: { name: 'UserPanel.Invoice.List' }
+                      }
+                    ]
+                  }
+                },
                 component: () => import('src/pages/User/Invoice/List.vue')
               },
               {
@@ -229,6 +244,9 @@ const routes = [
                     visible: true,
                     loading: false,
                     path: [
+                      {
+                        label: 'بخش مالی'
+                      },
                       {
                         label: 'صورتحساب ها',
                         to: { name: 'UserPanel.Invoice.List' }
@@ -302,7 +320,26 @@ const routes = [
               }
             ]
           },
-          { path: 'wallet', name: 'UserPanel.Wallet', component: () => import('src/pages/User/Wallet/Show.vue') },
+          {
+            path: 'wallet',
+            name: 'UserPanel.Wallet',
+            component: () => import('src/pages/User/Wallet/Show.vue'),
+            meta: {
+              breadcrumbs: {
+                visible: true,
+                loading: false,
+                path: [
+                  {
+                    label: 'بخش مالی'
+                  },
+                  {
+                    label: 'کیف پول الکترونیک',
+                    to: { name: 'UserPanel.Wallet' }
+                  }
+                ]
+              }
+            }
+          },
           {
             path: 'payment',
             name: 'UserPanel.Payment',

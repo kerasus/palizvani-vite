@@ -1,6 +1,10 @@
 <template>
-  <breadcrumbs style="margin-top: 29px; margin-bottom: 19px;" />
   <div>
+    <q-skeleton v-if="classroom.loading"
+                type="text"
+                width="200px" />
+    <breadcrumbs v-else
+                 style="margin-top: 29px; margin-bottom: 19px;" />
     <div class="flex justify-end">
       <q-btn flat
              color="grey"
@@ -9,15 +13,15 @@
         >
       </q-btn>
     </div>
-    <entity-show v-model:value="inputs"
+    <entity-show v-if="mounted"
+                 v-model:value="inputs"
                  title="جزییات جلسه"
                  :api="api"
-                 :entity-id-key="entityIdKey"
-                 :entity-param-key="entityParamKey"
                  :show-expand-button="false"
                  :show-edit-button="false"
                  :show-index-button="false"
-                 :show-reload-button="false">
+                 :show-reload-button="false"
+                 :before-load-input-data="beforeLoadInputData">
       <template #before-form-builder>
         <div class="session-title-and-time-row">
           <div class="item">
@@ -80,41 +84,30 @@
           </div>
         </div>
       </template>
-      <template #after-form-builder>
-        <q-banner v-if="afterFormBuilder"
-                  inline-actions
-                  rounded
-                  class="bg-orange text-white q-ma-md">
-          after form builder
-          <template v-slot:action>
-            <q-btn flat
-                   label="Dismiss"
-                   @click="afterFormBuilder = false" />
-          </template>
-        </q-banner>
-      </template>
     </entity-show>
   </div>
 </template>
 
 <script>
 import { EntityShow } from 'quasar-crud'
+import { Session } from 'src/models/Session.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
-  name: 'UserPanel.Profile.ClassroomInfo',
+  name: 'UserPanel.Profile.SessionInfo',
   components: {
     EntityShow,
     Breadcrumbs
   },
   data () {
     return {
+      classroom: new Classroom(),
+      session: new Session(),
+      mounted: false,
       api: null,
-      entityIdKey: 'id',
-      entityParamKey: 'id',
-      showRouteName: 'UserPanel.Profile.SessionInfo',
       inputs: [
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12' },
         { type: 'separator', name: 'space', size: '1px', col: 'col-md-12' },
@@ -150,30 +143,50 @@ export default {
       return ShamsiDate.getDateTime(data)
     }
   },
-  created () {
+  mounted() {
     this.api = APIGateway.session.APIAdresses.byId(this.$route.params.id)
-    this.$store.commit('AppLayout/updateBreadcrumbs', {
-      visible: true,
-      loading: false,
-      path: [
-        {
-          label: 'دوره های من',
-          to: { name: 'UserPanel.Profile.AllClassrooms' }
-        },
-        // {
-        //   label: this.classroom.title,
-        //   to: { name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } }
-        // },
-        {
-          label: 'جزییات جلسه',
-          to: { name: 'UserPanel.Profile.SessionInfo', params: { id: this.$route.params.id } }
-        }
-      ]
-    })
+    this.mounted = true
   },
   methods: {
+    updateBreadcrumbs () {
+      this.$store.commit('AppLayout/updateBreadcrumbs', {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'دوره های من',
+            to: { name: 'UserPanel.Profile.AllClassrooms' }
+          },
+          {
+            label: this.classroom.title,
+            to: { name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } }
+          },
+          {
+            label: 'جزییات جلسه',
+            to: { name: 'UserPanel.Profile.SessionInfo', params: { id: this.$route.params.id } }
+          }
+        ]
+      })
+    },
     getInputValue (name) {
       return this.inputs.find(input => input.name === name).value
+    },
+    beforeLoadInputData (data) {
+      this.session = new Session(data)
+      this.classroom.loading = true
+      this.getClassInfo(this.session.classroom)
+    },
+    getClassInfo (classroomId) {
+      this.classroom.loading = true
+      APIGateway.classroom.get(classroomId)
+        .then(classroom => {
+          this.classroom = new Classroom(classroom)
+          this.updateBreadcrumbs()
+          this.classroom.loading = false
+        })
+        .catch(() => {
+          this.classroom.loading = false
+        })
     }
   }
 }

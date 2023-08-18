@@ -2,10 +2,10 @@
   <div class="Breadcrumbs"
        :style="localOptions.style">
     <q-breadcrumbs v-if="breadcrumbs.visible">
-      <template v-slot:separator>
-        <q-icon name="chevron_right"
-                color="gray" />
-      </template>
+      <!--      <template v-slot:separator>-->
+      <!--        <q-icon name="chevron_right"-->
+      <!--                color="gray" />-->
+      <!--      </template>-->
       <q-breadcrumbs-el v-for="(el, elIndex) in breadcrumbs.path"
                         :key="elIndex"
                         :to="el.to"

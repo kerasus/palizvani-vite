@@ -84,6 +84,10 @@ class Classroom extends Model {
     ]
 
     this.loadStatusInfo()
+
+    if (!this.thumbnail) {
+      this.thumbnail = '/assets/images/web/sample-class-thumbnail.jpg'
+    }
   }
 
   loadStatusInfo () {
