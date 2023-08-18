@@ -47,10 +47,22 @@
                :disable="loading"
                :loading="loading" />
       <div class="resend-timer-message">
-        <span class="resend-timer-message-value">
-          {{ formatedTimer }}
-        </span>
-        تا درخواست مجدد
+        <template v-if="!timerEnded">
+          <span class="resend-timer-message-value">
+            <timer ref="timer"
+                   :time="120"
+                   @stop="onStopTimer" />
+          </span>
+          تا درخواست مجدد
+        </template>
+        <template v-else>
+          <q-btn color="primary"
+                 class="full-width"
+                 :loading="sendOtpLoading"
+                 @click="restartTimer">
+            ارسال مجدد کد تایید
+          </q-btn>
+        </template>
       </div>
       <label class="password-label"
              for="password">
@@ -82,23 +94,6 @@
       </div>
     </template>
     <template v-else-if="registerStep === 'newPassword'">
-      <!--      <label class="password-label"-->
-      <!--             for="password">-->
-      <!--        گذرواژه-->
-      <!--      </label>-->
-      <!--      <q-input id="password"-->
-      <!--               v-model="password"-->
-      <!--               outlined-->
-      <!--               class="password-input"-->
-      <!--               label="گذرواژه جدید خود را وارد کنید"-->
-      <!--               @keydown.enter="setNewPassword">-->
-      <!--        <template v-slot:prepend>-->
-      <!--          <q-icon name="person" />-->
-      <!--        </template>-->
-      <!--        <template v-slot:append>-->
-      <!--          <q-icon name="person" />-->
-      <!--        </template>-->
-      <!--      </q-input>-->
       <q-btn class="full-width btn-login"
              color="primary"
              label="تایید و ورود"
@@ -110,10 +105,12 @@
 <script>
 import API_ADDRESS from 'src/api/Addresses.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
-import { APIGateway } from 'src/api/APIGateway'
+import Timer from 'src/components/Auth/Timer.vue'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'ForgetStep',
+  components: { Timer },
   mixins: [mixinAuth],
   props: {
     redirect: {
@@ -122,6 +119,8 @@ export default {
     }
   },
   data: () => ({
+    sendOtpLoading: false,
+    timerEnded: false,
     loading: false,
     bannerMessage: 'بازیابی گذرواژه',
     registerStep: 'getUsername',
@@ -158,6 +157,28 @@ export default {
     this.$store.dispatch('Auth/logOut')
   },
   methods: {
+    onStopTimer () {
+      this.timerEnded = true
+    },
+    restartTimer () {
+      this.sendOtpForgotPassword()
+    },
+    sendOtpForgotPassword () {
+      this.sendOtpLoading = true
+      APIGateway.auth.sendOtpForgotPassword({
+        input: this.username
+      })
+        .then(() => {
+          this.sendOtpLoading = false
+          this.timerEnded = false
+          this.$nextTick(() => {
+            this.$refs.timer.startTimer()
+          })
+        })
+        .catch(() => {
+          this.sendOtpLoading = false
+        })
+    },
     restartOtpInterval () {
       this.clearOtpInterval()
       this.otpInterval = setInterval(() => {

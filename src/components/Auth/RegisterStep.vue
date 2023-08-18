@@ -59,10 +59,22 @@
                :loading="loading"
                @keydown.enter="verify" />
       <div class="resend-timer-message">
-        <span class="resend-timer-message-value">
-          01:59
-        </span>
-        تا درخواست مجدد
+        <template v-if="!timerEnded">
+          <span class="resend-timer-message-value">
+            <timer ref="timer"
+                   :time="120"
+                   @stop="onStopTimer" />
+          </span>
+          تا درخواست مجدد
+        </template>
+        <template v-else>
+          <q-btn color="primary"
+                 class="full-width"
+                 :loading="sendOtpLoading"
+                 @click="restartTimer">
+            ارسال مجدد کد تایید
+          </q-btn>
+        </template>
       </div>
 
       <div class="information-top-message">
@@ -127,53 +139,6 @@
       <div class="information-top-message">
         لطفا اطلاعات کاربری خود را وارد کنید.
       </div>
-      <!--      <label for="name">-->
-      <!--        نام-->
-      <!--      </label>-->
-      <!--      <q-input id="name"-->
-      <!--               v-model="firstname"-->
-      <!--               outlined-->
-      <!--               class="name-input"-->
-      <!--               label="نام خود را وارد کنید"-->
-      <!--               @keydown.enter="register">-->
-      <!--        <template v-slot:prepend>-->
-      <!--          <q-icon name="person" />-->
-      <!--        </template>-->
-      <!--      </q-input>-->
-      <!--      <label for="lastname">-->
-      <!--        نام خانوادگی-->
-      <!--      </label>-->
-      <!--      <q-input id="lastname"-->
-      <!--               v-model="lastname"-->
-      <!--               outlined-->
-      <!--               class="lastname-input"-->
-      <!--               label="نام خانوادگی خود را وارد کنید"-->
-      <!--               @keydown.enter="register">-->
-      <!--        <template v-slot:prepend>-->
-      <!--          <q-icon name="person" />-->
-      <!--        </template>-->
-      <!--      </q-input>-->
-      <!--      <label class="password-label"-->
-      <!--             for="password">-->
-      <!--        گذرواژه-->
-      <!--      </label>-->
-      <!--      <q-input id="password"-->
-      <!--               v-model="password"-->
-      <!--               outlined-->
-      <!--               class="password-input"-->
-      <!--               label="گذرواژه خود را وارد کنید"-->
-      <!--               @keydown.enter="register">-->
-      <!--        <template v-slot:prepend>-->
-      <!--          <q-icon name="person" />-->
-      <!--        </template>-->
-      <!--        <template v-slot:append>-->
-      <!--          <q-icon name="person" />-->
-      <!--        </template>-->
-      <!--      </q-input>-->
-      <!--      <q-btn class="full-width btn-login"-->
-      <!--             color="primary"-->
-      <!--             label="ثبت نام"-->
-      <!--             @click="register" />-->
     </template>
   </div>
 </template>
@@ -181,10 +146,12 @@
 <script>
 import API_ADDRESS from 'src/api/Addresses.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
-import { APIGateway } from 'src/api/APIGateway'
+import Timer from 'src/components/Auth/Timer.vue'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'RegisterStep',
+  components: { Timer },
   mixins: [mixinAuth],
   props: {
     redirect: {
@@ -193,6 +160,8 @@ export default {
     }
   },
   data: () => ({
+    sendOtpLoading: false,
+    timerEnded: false,
     loading: false,
     bannerMessage: 'ثبت نام در سامانه',
     registerStep: 'getUsername',
@@ -228,6 +197,26 @@ export default {
     this.setRegisterStep('getUsername')
   },
   methods: {
+    onStopTimer () {
+      this.timerEnded = true
+    },
+    restartTimer () {
+      this.sendOtpSignUp()
+    },
+    sendOtpSignUp () {
+      this.sendOtpLoading = true
+      APIGateway.auth.sendOtpSignUp({ input: this.username })
+        .then(() => {
+          this.sendOtpLoading = false
+          this.timerEnded = false
+          this.$nextTick(() => {
+            this.$refs.timer.startTimer()
+          })
+        })
+        .catch(() => {
+          this.sendOtpLoading = false
+        })
+    },
     restartOtpInterval () {
       this.clearOtpInterval()
       this.otpInterval = setInterval(() => {
