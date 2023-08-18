@@ -24,12 +24,10 @@
               عنوان موضوع
             </div>
             <q-input v-model="localOptions.topics[topicIndex].title" />
+
             <div>
-              آیکون موضوع
-            </div>
-            <div>
-              <icon-sax v-model:icon="localOptions.topics[topicIndex].icon"
-                        :select-type="'emit'" />
+              <div class="outsideLabel">عکس موضوع</div>
+              <image-uploader v-model:file="localOptions.topics[topicIndex].imageSource" />
             </div>
 
             <q-separator />
@@ -70,12 +68,12 @@
 <script>
 import { defineComponent } from 'vue'
 import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
-import IconSax from 'src/pages/Document/IconSax.vue'
+import ImageUploader from 'src/components/ImageUploader.vue'
 import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
 
 export default defineComponent({
   name: 'OptionPanel',
-  components: { OptionPanelTabs, IconSax },
+  components: { OptionPanelTabs, ImageUploader },
   mixins: [mixinOptionPanel],
   data() {
     return {

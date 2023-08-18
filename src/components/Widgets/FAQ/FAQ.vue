@@ -17,8 +17,8 @@
                :class="{'selected': topicIndex === index}"
                @click="topicIndex=index">
             <div class="icon">
-              <q-icon :name="item.icon"
-                      size="40px" />
+              <q-img :src="item.imageSource"
+                     width="40px" />
             </div>
             <div class="title ellipsis-2-lines">
               {{ item.title }}
