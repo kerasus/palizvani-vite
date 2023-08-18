@@ -37,13 +37,13 @@ export default {
           show: true,
           active: false
         },
-        {
-          title: 'مدیریت حلقه ها',
-          routeName: 'UserPanel.Profile.AllDiscussionCirclesClassrooms',
-          icon: 'groups',
-          show: true,
-          active: false
-        },
+        // {
+        //   title: 'مدیریت حلقه ها',
+        //   routeName: 'UserPanel.Profile.AllDiscussionCirclesClassrooms',
+        //   icon: 'groups',
+        //   show: true,
+        //   active: false
+        // },
         {
           title: 'دوره های آموزشی',
           routeName: null,

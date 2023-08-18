@@ -125,6 +125,8 @@ export default {
         return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
       } else if (defaultSourceType === 'DISCUSSION_CIRCLE_CLASSROOM') {
         return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+      } else if (defaultSourceType === 'CONTENT') {
+        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
       } else {
         return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
       }
@@ -137,9 +139,8 @@ export default {
 
       if (defaultSourceType === 'INVOICE') {
         return 'FINANCIAL'
-      }
-      if (defaultSourceType === 'TRAINING_CLASSROOM' || defaultSourceType === 'DISCUSSION_CIRCLE_CLASSROOM') {
-        return 'EDUCATIONAL'
+      } else if (defaultSourceType === 'CONTENT') {
+        return 'CONTENT'
       } else {
         return 'GENERAL'
       }

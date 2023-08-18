@@ -60,6 +60,24 @@ export default {
       inputs: [
         {
           type: 'select',
+          name: 'classroom__type',
+          options: [
+            {
+              label: 'دوره های آموزشی',
+              value: 'TRAINING'
+            },
+            {
+              label: 'حلقه های مباحثاتی',
+              value: 'DISCUSSION_CIRCLE'
+            }
+          ],
+          value: 'TRAINING',
+          label: 'نوع',
+          placeholder: ' ',
+          col: 'col-md-2 col-12'
+        },
+        {
+          type: 'select',
           name: 'status',
           options: Enums.classroomStatuses,
           value: null,
