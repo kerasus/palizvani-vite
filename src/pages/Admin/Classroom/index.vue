@@ -85,7 +85,7 @@ export default {
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
-        { type: 'hidden', name: 'type', value: 'TRAINING' },
+        { type: 'hidden', name: 'unit__category__type', value: 'TRAINING' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       api: APIGateway.classroom.APIAdresses.base,

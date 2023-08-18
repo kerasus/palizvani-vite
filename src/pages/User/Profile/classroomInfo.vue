@@ -16,7 +16,8 @@
              label="آزمون" />
       <q-tab name="movies2"
              label="پروژه" />
-      <q-tab name="movies3"
+      <q-tab v-if="classroom.live_streaming_url"
+             name="live_streaming_url"
              label="بخش آنلاین" />
     </q-tabs>
 
@@ -73,8 +74,12 @@
       <q-tab-panel name="movies2">
         پروژه
       </q-tab-panel>
-      <q-tab-panel name="movies3">
-        بخش آنلاین
+      <q-tab-panel v-if="classroom.live_streaming_url"
+                   name="live_streaming_url">
+        <iframe :src="classroom.live_streaming_url"
+                title="W3Schools Free Online Web Tutorials"
+                style="height: 80vh"
+                class="full-width" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>

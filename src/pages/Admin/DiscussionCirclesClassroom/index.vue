@@ -69,7 +69,7 @@ export default {
       inputs: [
         { type: 'select', name: 'status', options: Enums.classroomStatuses, value: null, label: 'وضعیت دوره', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: 'select', name: 'unit', options: [], value: null, label: 'درس', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'hidden', name: 'type', value: 'DISCUSSION_CIRCLE' },
+        { type: 'hidden', name: 'unit__category__type', value: 'DISCUSSION_CIRCLE' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       api: APIGateway.classroom.APIAdresses.base,

@@ -60,7 +60,7 @@ export default {
       inputs: [
         {
           type: 'select',
-          name: 'classroom__type',
+          name: 'classroom__unit__category__type',
           options: [
             {
               label: 'دوره های آموزشی',
@@ -137,6 +137,13 @@ export default {
             label: 'تاریخ شروع',
             align: 'left',
             field: row => ShamsiDate.getDateTime(row.classroom_info.beginning_registration_period)
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'نوع',
+            align: 'left',
+            field: row => (row.classroom_info?.unit_info?.category_info?.type === 'TRAINING') ? 'دوره آموزشی' : (row.classroom_info?.unit_info?.category_info?.type === 'DISCUSSION_CIRCLE') ? 'حلقه مباحثاتی' : '-'
           },
           {
             name: 'title',
