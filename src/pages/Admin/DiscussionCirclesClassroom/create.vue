@@ -49,7 +49,7 @@ export default {
       api: APIGateway.classroom.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'Admin.Classroom.Show',
+      showRouteName: 'Admin.Classroom.DiscussionCircles.Show',
       inputs: [
         { type: 'separator', name: 'space', label: 'مشخصات حلقه', className: 'custom-separator', col: 'col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'آپلود عکس حلقه', col: 'col-md-3 col-12' },
@@ -206,6 +206,10 @@ export default {
         .catch(() => {})
     },
     getUnits (selectedcategoryId = null) {
+      if (!selectedcategoryId) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'options', [])
+        return
+      }
       this.unitsLoading = true
       APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
         .then((units) => {

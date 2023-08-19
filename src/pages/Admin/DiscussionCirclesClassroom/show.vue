@@ -27,6 +27,8 @@
                   animated>
       <q-tab-panel name="classroomInfo"
                    class="q-pa-none">
+        <q-linear-progress v-if="unitsLoading"
+                           indeterminate />
         <entity-edit v-if="mounted"
                      ref="classroomEntityEdit"
                      :key="classroomEntityEditKey"
@@ -163,6 +165,7 @@ export default {
   data () {
     return {
       mounted: false,
+      unitsLoading: false,
       classroomEntityEditKey: Date.now(),
       tab: 'classroomInfo',
       api: null,
@@ -469,7 +472,7 @@ export default {
       return new Promise((resolve, reject) => {
         const promise1 = this.getProfessors()
         const promise2 = this.getCategories()
-        const promise3 = this.getUnits(responseData.unit_info.category)
+        const promise3 = this.getUnits(responseData.unit_info.category_info.id)
         this.$nextTick(() => {
           Promise.all([promise1, promise2, promise3])
             .then(() => {
@@ -497,7 +500,7 @@ export default {
         .catch(() => {})
     },
     getCategories () {
-      return APIGateway.unitCategory.index({ per_page: 9999 })
+      return APIGateway.unitCategory.index({ per_page: 9999, type: 'DISCUSSION_CIRCLE' })
         .then((categories) => {
           this.setInputAttr('category', 'options', categories.list.list.map(item => {
             return {
@@ -509,6 +512,11 @@ export default {
         .catch(() => {})
     },
     getUnits (selectedcategoryId) {
+      if (!selectedcategoryId) {
+        this.setInputAttr('unit', 'options', [])
+        return
+      }
+      this.unitsLoading = true
       return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
         .then((units) => {
           this.setInputAttr('unit', 'options', units.list.list.map(item => {
@@ -517,8 +525,11 @@ export default {
               label: item.title
             }
           }))
+          this.unitsLoading = false
         })
-        .catch(() => {})
+        .catch(() => {
+          this.unitsLoading = false
+        })
     },
     getUserFullname (user) {
       return user.firstname + ' ' + user.lastname
