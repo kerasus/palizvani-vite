@@ -187,7 +187,7 @@ export default {
         .catch(() => {})
     },
     getCategories () {
-      return APIGateway.unitCategory.index({ per_page: 9999 })
+      return APIGateway.unitCategory.index({ per_page: 9999, type: 'DISCUSSION_CIRCLE' })
         .then((categories) => {
           this.setInputAttr('category', 'options', categories.list.list.map(item => {
             return {
