@@ -15,15 +15,18 @@
              label="پروژه‌ها" />
       <q-tab name="movies2"
              label="آزمون" />
-      <q-tab name="movies3"
-             label="کاربران" />
+      <q-tab name="members"
+             label="اندیشه جویان" />
+      <q-tab name="live_streaming_url"
+             label="بخش آنلاین" />
     </q-tabs>
 
     <q-separator />
 
     <q-tab-panels v-model="tab"
                   animated>
-      <q-tab-panel name="classroomInfo">
+      <q-tab-panel name="classroomInfo"
+                   class="q-pa-none">
         <entity-edit v-if="mounted"
                      ref="classroomEntityEdit"
                      :key="classroomEntityEditKey"
@@ -51,7 +54,8 @@
                     type="rect"
                     height="200px" />
       </q-tab-panel>
-      <q-tab-panel name="educations">
+      <q-tab-panel name="educations"
+                   class="q-pa-none">
         <entity-index v-if="mounted"
                       v-model:value="sessionListInputs"
                       title="لیست جلسات"
@@ -88,20 +92,66 @@
       <q-tab-panel name="movies2">
         آزمون
       </q-tab-panel>
-      <q-tab-panel name="movies3">
-        کاربران
+      <q-tab-panel name="members"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="membersList"
+                      v-model:value="membersListInputs"
+                      title="لیست کاربران"
+                      :api="membersListApi"
+                      :table="membersListTable"
+                      :table-keys="membersListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+            <template v-if="inputData.col.name === 'actions'">
+              <div class="action-column-entity-index">
+                <q-btn size="md"
+                       color="primary"
+                       outline
+                       label="سابقه آموزشی"
+                       class="q-mr-md" />
+                <!--                :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}"-->
+                <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
+      </q-tab-panel>
+      <q-tab-panel name="live_streaming_url">
+        <q-btn class="full-width q-mb-lg"
+               color="primary"
+               @click="goToLiveStreamUrl">
+          رفتن به کلاس
+        </q-btn>
+        <iframe :src="classroom.live_streaming_url"
+                title="W3Schools Free Online Web Tutorials"
+                style="height: 80vh"
+                class="full-width" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 import { EntityEdit, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'Admin.Classroom.Show',
@@ -209,6 +259,7 @@ export default {
 
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-3 col-12' }
       ],
+      classroom: new Classroom(),
 
       sessionListInputs: [
         { type: 'hidden', name: 'classroom', value: this.$route.params.id, label: 'نام دوره', col: 'col-12' }
@@ -260,6 +311,94 @@ export default {
         currentPage: 'current',
         perPage: 'per_page',
         pageKey: 'page'
+      },
+
+      membersListInputs: [
+        { type: 'select', name: 'classroom', value: null, label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+      ],
+      membersListApi: null,
+      membersListTable: {
+        columns: [
+          {
+            name: 'id',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'owner_info.fullname',
+            required: true,
+            label: 'نام و نام خانوادگی',
+            align: 'left',
+            field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
+          },
+          {
+            name: 'owner_info.fullname',
+            required: true,
+            label: 'کد ملی',
+            align: 'left',
+            field: row => row.owner_info.national_code
+          },
+          {
+            name: 'is_project_done',
+            required: true,
+            label: 'پروژه',
+            align: 'left',
+            field: row => row.is_project_done
+          },
+          {
+            name: 'done_assignment_count',
+            required: true,
+            label: 'تکالیف انجام شده',
+            align: 'left',
+            field: row => row.done_assignment_count
+          },
+          {
+            name: 'is_allowed_absence_count',
+            required: true,
+            label: 'حضور و غیاب',
+            align: 'left',
+            field: row => row.is_allowed_absence_count // bool
+          },
+          {
+            name: 'attendance_score',
+            required: true,
+            label: 'نمره حضور و غیاب',
+            align: 'left',
+            field: row => row.attendance_score
+          },
+          {
+            name: 'final_test',
+            required: true,
+            label: 'آزمون',
+            align: 'left',
+            field: row => row.final_test // number - null
+          },
+          {
+            name: 'final_status',
+            required: true,
+            label: 'وضعیت نهایی',
+            align: 'left',
+            field: row => row.final_status
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'سابقه آموزشی',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      membersListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
       }
     }
   },
@@ -279,15 +418,27 @@ export default {
   },
   mounted () {
     this.api = APIGateway.classroom.APIAdresses.byId(this.$route.params.id)
+    this.membersListApi = APIGateway.classroom.APIAdresses.members(this.$route.params.id)
     this.preLoadData()
       .then(() => {
         this.mounted = true
       })
       .catch(() => {
+        this.mounted = true
       })
   },
   methods: {
-    afterLoadInputData () {
+    setMembersListActionBtn () {
+      FormBuilderAssist.setAttributeByName(this.membersListInputs, 'btn', 'atClick', this.searchMembersList)
+    },
+    searchMembersList () {
+      this.$refs.membersList.search()
+    },
+    goToLiveStreamUrl () {
+      window.open(this.classroom.live_streaming_url, '_blank')
+    },
+    afterLoadInputData (data) {
+      this.classroom = new Classroom(data)
       // const gg = data.beginning_enrollment_period.replace('T', ' ')
       // this.setInputAttr('beginning_enrollment_period', 'value', gg)
     },
