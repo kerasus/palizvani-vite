@@ -28,9 +28,6 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log('inputData', this.inputData)
-  },
   methods: {}
 }
 </script>

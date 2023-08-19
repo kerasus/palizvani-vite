@@ -119,7 +119,6 @@ export default {
     },
     edit() {
       this.entityLoading = true
-      console.log('inputs', this.inputs)
       this.$refs.entityEdit.editEntity(false)
         .then(() => {
           this.$refs.entityEdit.getData()

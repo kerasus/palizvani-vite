@@ -56,7 +56,7 @@ export default {
         { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' },
         { type: 'hidden', name: 'category__type', value: null },
-        { type: 'hidden', name: 'source_type', value: null },
+        { type: 'hidden', name: 'source_type', value: null }
       ],
       table: {
         columns: [

@@ -147,9 +147,6 @@ export default {
     this.mounted = true
   },
   methods: {
-    loggggg (data) {
-      console.log(data)
-    },
     setActionBtn () {
       this.inputs.forEach((item, index) => {
         if (item.name === 'btn') {
