@@ -33,7 +33,7 @@ export default {
           active: false
         },
         {
-          title: 'مدیریت آموزش',
+          title: 'دوره های آموزشی',
           icon: 'import_contacts',
           routeName: null,
           show: true,
@@ -47,7 +47,7 @@ export default {
               active: false
             },
             {
-              title: 'کلاس های آموزشی',
+              title: 'دوره های آموزشی',
               routeName: 'Admin.Classroom.Index',
               show: true,
               active: false
@@ -69,7 +69,7 @@ export default {
           active: false,
           children: [
             {
-              title: 'دسته بندی ها',
+              title: 'درس ها و چارت آموزشی',
               routeName: 'Admin.Category.DiscussionCircles.Index',
               show: true,
               active: false
