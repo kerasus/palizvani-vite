@@ -1,5 +1,7 @@
 <template>
   <div class="AdminClassroomCreate">
+    <q-linear-progress v-if="unitsLoading"
+                       indeterminate />
     <entity-create v-if="mounted"
                    ref="classroomEntityCreate"
                    :key="classroomEntityCreateKey"
@@ -28,7 +30,8 @@
 <script>
 import { EntityCreate } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
-import { APIGateway } from 'src/api/APIGateway'
+import { APIGateway } from 'src/api/APIGateway.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'Admin.Classroom.Create',
@@ -38,6 +41,7 @@ export default {
   data () {
     return {
       mounted: false,
+      unitsLoading: false,
       classroomEntityCreateKey: Date.now(),
       newUnitLoading: false,
       newUnitName: null,
@@ -140,44 +144,47 @@ export default {
   },
   computed: {
     selectedCategoryId () {
-      return this.getInputValue('category')
+      return FormBuilderAssist.getInputsByName(this.inputs, 'category')?.value
     }
   },
   watch: {
     selectedCategoryId () {
-      this.setInputValue('unit', null)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'value', null)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'options', [])
       this.getUnits(this.selectedCategoryId)
     }
   },
   mounted () {
-    this.mounted = true
     this.preLoadData()
+      .then(() => {
+        this.mounted = true
+      })
+      .catch(() => {
+      })
   },
   methods: {
     setInputAttr (name, attr, value) {
       this.$refs.classroomEntityCreate.setInputAttributeByName(name, attr, value)
     },
     preLoadData () {
-      this.beforeLoadInputData()
-    },
-    beforeLoadInputData () {
-      const promise1 = this.getProfessors()
-      const promise2 = this.getCategories()
-      const promise3 = this.getUnits()
-      this.$nextTick(() => {
-        Promise.all([promise1, promise2, promise3])
-          .then(() => {
-            // this.setInputAttr('category', 'value', responseData.unit_info.category)
-            // this.setInputAttr('unit', 'value', responseData.unit)
-            this.classroomEntityCreateKey = Date.now()
-          })
-          .catch(() => {})
+      return new Promise((resolve, reject) => {
+        const promise1 = this.getProfessors()
+        const promise2 = this.getCategories()
+        this.$nextTick(() => {
+          Promise.all([promise1, promise2])
+            .then(() => {
+              resolve()
+            })
+            .catch(() => {
+              reject()
+            })
+        })
       })
     },
     getProfessors () {
       return APIGateway.user.index({ per_page: 9999, role: 'professor' })
         .then((users) => {
-          this.setInputAttr('professor', 'options', users.list.list.map(item => {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'professor', 'options', users.list.list.map(item => {
             return {
               value: item.id,
               label: this.getUserFullname(item)
@@ -187,9 +194,9 @@ export default {
         .catch(() => {})
     },
     getCategories () {
-      return APIGateway.unitCategory.index({ per_page: 9999, type: 'DISCUSSION_CIRCLE' })
+      return APIGateway.unitCategory.index({ per_page: 9999, type: 'TRAINING' })
         .then((categories) => {
-          this.setInputAttr('category', 'options', categories.list.list.map(item => {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', categories.list.list.map(item => {
             return {
               value: item.id,
               label: item.title
@@ -199,46 +206,26 @@ export default {
         .catch(() => {})
     },
     getUnits (selectedcategoryId = null) {
-      return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
+      this.unitsLoading = true
+      APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
         .then((units) => {
-          this.setInputAttr('unit', 'options', units.list.list.map(item => {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'options', units.list.list.map(item => {
             return {
               value: item.id,
               label: item.title
             }
           }))
+          this.unitsLoading = false
         })
-        .catch(() => {})
+        .catch(() => {
+          this.unitsLoading = false
+        })
     },
-
     getUserFullname (user) {
       return user.firstname + ' ' + user.lastname
     },
-    getSelectOptions (result, value, label) {
-      return result.map(item => {
-        return {
-          value: item[value],
-          label: item[label]
-        }
-      })
-    },
-    setInputValue (name, value) {
-      const inputIndex = this.inputs.findIndex(input => input.name === name)
-      this.inputs[inputIndex].value = value
-    },
-    loadSelectOptions (name, value, setNewInputData) {
-      const inputIndex = this.inputs.findIndex(input => input.name === name)
-      this.inputs[inputIndex].options = value
-      if (typeof setNewInputData === 'function') {
-        setNewInputData(this.inputs)
-      }
-    },
     createClassroom () {
       this.$refs.classroomEntityCreate.createEntity()
-    },
-    getInputValue (name) {
-      const inputIndex = this.inputs.findIndex(input => input.name === name)
-      return this.inputs[inputIndex].value
     }
   }
 }
