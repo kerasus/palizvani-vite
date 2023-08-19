@@ -4,7 +4,7 @@
                    ref="classroomEntityCreate"
                    :key="classroomEntityCreateKey"
                    v-model:value="inputs"
-                   title="مشخصات دوره آموزشی"
+                   title="مشخصات حلقه آموزشی"
                    :api="api"
                    :entity-id-key="entityIdKey"
                    :entity-param-key="entityParamKey"
@@ -17,7 +17,7 @@
       <template #after-form-builder>
         <div class="flex justify-end">
           <q-btn color="primary"
-                 label="ایجاد دوره آموزشی جدید"
+                 label="ایجاد حلقه آموزشی جدید"
                  @click="createClassroom" />
         </div>
       </template>
@@ -187,7 +187,7 @@ export default {
         .catch(() => {})
     },
     getCategories () {
-      return APIGateway.unitCategory.index({ per_page: 9999 })
+      return APIGateway.unitCategory.index({ per_page: 9999, type: 'DISCUSSION_CIRCLE' })
         .then((categories) => {
           this.setInputAttr('category', 'options', categories.list.list.map(item => {
             return {

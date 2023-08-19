@@ -55,6 +55,7 @@ export default {
       inputs: [
         { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' },
+        { type: 'hidden', name: 'category__type', value: null },
         { type: 'hidden', name: 'source_type', value: null }
       ],
       table: {
@@ -105,6 +106,7 @@ export default {
     checkSource () {
       if (this.localOptions.defaultSourceType) {
         FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.localOptions.defaultSourceType)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'value', this.getCategoryTypeFromSourceType())
       }
     },
     setActionBtn () {
@@ -137,7 +139,11 @@ export default {
         return null
       }
 
-      if (defaultSourceType === 'INVOICE') {
+      if (defaultSourceType === 'TRAINING_CLASSROOM') {
+        return 'EDUCATIONAL'
+      } else if (defaultSourceType === 'DISCUSSION_CIRCLE_CLASSROOM') {
+        return 'EDUCATIONAL'
+      } else if (defaultSourceType === 'INVOICE') {
         return 'FINANCIAL'
       } else if (defaultSourceType === 'CONTENT') {
         return 'CONTENT'
