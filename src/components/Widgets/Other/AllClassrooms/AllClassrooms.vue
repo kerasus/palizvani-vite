@@ -143,7 +143,8 @@
                 </svg>
               </div>
               <div class="attribute-value">
-                {{classroom.professor}}
+                {{classroom.professor_info.firstname}}
+                {{classroom.professor_info.lastname}}
               </div>
             </div>
             <div class="attribute-item">
