@@ -91,7 +91,7 @@
       <div class="left-side">
         <q-btn v-if="user && user.id !== null"
                color="primary"
-               :to="{name: 'UserPanel.Profile.UserInfo'}">
+               @click="goToProperPanel">
           <svg id="_000000ff"
                data-name="#000000ff"
                xmlns="http://www.w3.org/2000/svg"
@@ -150,36 +150,6 @@ export default {
     return {
       user: new User(),
       topMenuItems: [
-        // {
-        //   title: 'معرفی پروژه',
-        //   scrollTo: '#introSection',
-        //   routeName: 'aaaaaaaaaaaa'
-        // },
-        // {
-        //   title: 'مجامع',
-        //   scrollTo: '#majameSection',
-        //   routeName: 'aaaaaaaaaaaa'
-        // },
-        // {
-        //   title: 'مشاورین حقوقی',
-        //   scrollTo: '#moshaverinSection',
-        //   routeName: 'aaaaaaaaaaaa'
-        // },
-        // {
-        //   title: 'تصاویر',
-        //   scrollTo: '#gallerySection',
-        //   routeName: 'aaaaaaaaaaaa'
-        // },
-        // {
-        //   title: 'اخبار و رویدادها',
-        //   scrollTo: '#newsSection',
-        //   routeName: 'aaaaaaaaaaaa'
-        // },
-        // {
-        //   title: 'ارتباط با ما',
-        //   scrollTo: '#feedback',
-        //   routeName: 'aaaaaaaaaaaa'
-        // }
       ]
     }
   },
@@ -207,6 +177,13 @@ export default {
     ]),
     loadAuthData () {
       this.user = this.$store.getters['Auth/user']
+    },
+    goToProperPanel () {
+      if (this.user.isSuperUser()) {
+        this.$router.push({ name: 'Admin.User.Index' })
+      } else {
+        this.$router.push({ name: 'UserPanel.Profile.UserInfo' })
+      }
     },
     goToHome () {
       this.$router.push({ name: 'Public.Home' })

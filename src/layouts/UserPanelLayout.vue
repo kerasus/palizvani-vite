@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Router from 'src/router/Router.vue'
 
 export default {
@@ -15,12 +14,10 @@ export default {
       keepAliveComponents: []
     }
   },
-  computed: {
-    ...mapGetters('AppLayout', [
-      'breadcrumbsVisibility',
-      'breadcrumbs',
-      'breadcrumbLoading'
-    ])
+  mounted () {
+    if (typeof window !== 'undefined') {
+      this.$store.commit('AppLayout/updateLayoutLeftDrawerVisible', window.screen.width > this.$q.screen.sizes.md)
+    }
   },
   methods: {
     hasRoute (route) {
