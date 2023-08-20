@@ -16,7 +16,7 @@
         <template v-if="inputData.col.name === 'action'">
           <q-btn color="primary"
                  :to="{name: 'Admin.Invoice.Show', params: {id: inputData.props.row.id}}">
-            مشاهده جزییات
+            جزییات جزییات
           </q-btn>
         </template>
         <template v-else>
@@ -81,11 +81,18 @@ export default {
             field: row => row.id
           },
           {
-            name: 'title',
+            name: 'id',
             required: true,
-            label: 'عنوان',
+            label: 'سفارش دهنده',
             align: 'left',
-            field: row => row.title
+            field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'نوع صورتحساب',
+            align: 'left',
+            field: row => (new Invoice(row)).type_info.label
           },
           {
             name: 'amount',
@@ -95,9 +102,9 @@ export default {
             field: row => row.amount.toLocaleString('fa')
           },
           {
-            name: 'status',
+            name: 'id',
             required: true,
-            label: 'وضعیت',
+            label: 'وضعیت تراکنش',
             align: 'left',
             field: row => (new Invoice(row)).status_info.label
           },
@@ -113,7 +120,7 @@ export default {
             required: true,
             label: 'زمان آخرین بروز رسانی',
             align: 'left',
-            field: row => Assist.miladiToShamsi(row.creation_time)
+            field: row => Assist.miladiToShamsi(row.last_modification_time)
           },
           {
             name: 'action',
