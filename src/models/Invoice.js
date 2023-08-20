@@ -86,43 +86,7 @@ class Invoice extends Model {
         ]
       }
     }
-    //
-    // this.statusEnums = [
-    //   {
-    //     label: 'در حال تأیید',
-    //     value: 'VERIFYING'
-    //   },
-    //   {
-    //     label: 'لغو شد',
-    //     value: 'CANCELED'
-    //   },
-    //   {
-    //     label: 'تأیید نشده',
-    //     value: 'NOT_VERIFIED'
-    //   },
-    //   {
-    //     label: 'درحال پرداخت',
-    //     value: 'PAYING'
-    //   },
-    //   {
-    //     label: 'درحال تایید پرداخت',
-    //     value: 'TRANSACTION_VERIFYING'
-    //   },
-    //   {
-    //     label: 'پرداخت شده',
-    //     value: 'PAID_FULL'
-    //   },
-    //   {
-    //     label: 'درحال پرداخت اقساط',
-    //     value: 'PAYING_IN_INSTALMENT'
-    //   },
-    //   {
-    //     label: 'اقساط پرداخت شده',
-    //     value: 'PAID_IN_INSTALMENT'
-    //   }
-    // ]
-    //
-    // this.loadStatusInfo()
+
     this.loadEnums()
   }
 
@@ -141,18 +105,6 @@ class Invoice extends Model {
       }
     } else {
       this[enumItem.infoKey] = target
-    }
-  }
-
-  loadStatusInfo () {
-    const target = this.statusEnums.find(type => type.value === this.status)
-    if (!target) {
-      this.status_info = {
-        label: null,
-        value: null
-      }
-    } else {
-      this.status_info = target
     }
   }
 }
