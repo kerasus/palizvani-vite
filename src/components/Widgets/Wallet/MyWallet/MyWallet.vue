@@ -12,7 +12,7 @@
                    width="33px" />
           </div>
           <div class="title">
-            کیف پول پالیزوانی
+            کیف پول شما
           </div>
           <div class="inventory">
             {{ wallet.inventory.toLocaleString('fa') }}
