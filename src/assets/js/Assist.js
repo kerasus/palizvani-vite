@@ -30,7 +30,7 @@ class Assist {
       return null
     }
 
-    return moment(miladi, 'YYYY/M/D').locale('fa').format(format)
+    return moment(miladi, 'YYYY/M/D HH:mm:ss').locale('fa').format(format)
   }
 
   static diffDate(date1, date2, diffType) {
