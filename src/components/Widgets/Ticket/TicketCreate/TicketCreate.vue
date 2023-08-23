@@ -14,6 +14,8 @@
     </div>
     <q-card class="form"
             flat>
+      <q-linear-progress v-if="categoriesLoading"
+                         indeterminate />
       <entity-create v-if="mounted"
                      ref="entityCreate"
                      v-model:value="inputs"
@@ -45,6 +47,7 @@ import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import { TicketCategory } from 'src/models/TicketCategory.js'
 
 export default {
   name: 'TicketCreate',
@@ -53,6 +56,7 @@ export default {
   data: () => {
     return {
       mounted: false,
+      categoriesLoading: false,
       entityLoading: false,
       api: APIGateway.ticket.APIAdresses.base,
       entityIdKeyInResponse: 'id',
@@ -60,7 +64,19 @@ export default {
       showRouteName: 'UserPanel.Ticket.Show',
       indexRouteName: 'UserPanel.Ticket.List',
       inputs: [
-        { type: 'select', name: 'source_type', options: [{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }], label: 'دپارتمان', placeholder: ' ', col: 'col-md-4 col-12' },
+        {
+          type: 'select',
+          name: 'source_type',
+          options: [
+            { label: 'مالی', value: 'INVOICE' },
+            { label: 'آموزش', value: 'TRAINING_CLASSROOM' },
+            { label: 'حلقه های مباحثاتی', value: 'DISCUSSION_CIRCLE_CLASSROOM' },
+            { label: 'محتوا', value: 'CONTENT' }
+          ],
+          label: 'دپارتمان',
+          placeholder: ' ',
+          col: 'col-md-4 col-12'
+        },
         { type: 'select', name: 'category', responseKey: 'category', options: [], label: 'دسته', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'separator', name: 'separator', size: '0', label: 'توضیحات عنوان اینجا قرار میگیرد', col: 'col-12' },
@@ -71,9 +87,18 @@ export default {
       ]
     }
   },
+  computed: {
+    selectedSourceType () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'source_type')?.value
+    }
+  },
+  watch: {
+    selectedSourceType () {
+      this.loadCategories()
+    }
+  },
   mounted() {
     this.checkSource()
-    this.loadOptions()
     this.$nextTick(() => {
       this.mounted = true
     })
@@ -101,11 +126,13 @@ export default {
           this.entityLoading = false
         })
     },
-    loadOptions () {
-      this.loadCategories()
-    },
     loadCategories () {
-      APIGateway.ticketCategory.index()
+      const type = (new TicketCategory()).getCategoryTypeFromSourceType(this.selectedSourceType)
+      if (!type) {
+        return
+      }
+      this.categoriesLoading = true
+      APIGateway.ticketCategory.index({ type })
         .then(({ list }) => {
           const ticketCategoryList = list
           this.setInputOptions('category', ticketCategoryList.list.map(item => {
@@ -114,6 +141,10 @@ export default {
               label: item.title
             }
           }))
+          this.categoriesLoading = false
+        })
+        .catch(() => {
+          this.categoriesLoading = false
         })
     },
     setInputOptions (name, options) {

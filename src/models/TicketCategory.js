@@ -7,6 +7,24 @@ class TicketCategory extends Model {
       { key: 'name' }
     ])
   }
+
+  getCategoryTypeFromSourceType (sourceType) {
+    if (!sourceType) {
+      return null
+    }
+
+    if (sourceType === 'TRAINING_CLASSROOM') {
+      return 'EDUCATIONAL'
+    } else if (sourceType === 'DISCUSSION_CIRCLE_CLASSROOM') {
+      return 'EDUCATIONAL'
+    } else if (sourceType === 'INVOICE') {
+      return 'FINANCIAL'
+    } else if (sourceType === 'CONTENT') {
+      return 'CONTENT'
+    } else {
+      return 'GENERAL'
+    }
+  }
 }
 
 class TicketCategoryList extends Collection {
