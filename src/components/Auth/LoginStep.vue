@@ -10,7 +10,7 @@
              v-model="username"
              outlined
              class="username-input"
-             label="ایمیل یا شماره تلفن همراه خود را وارد کنید"
+             placeholder="ایمیل یا شماره تلفن همراه خود را وارد کنید"
              @keydown.enter="login">
       <template v-slot:prepend>
         <q-icon name="person" />
@@ -30,7 +30,7 @@
              v-model="password"
              outlined
              class="password-input"
-             label="گذرواژه خود را وارد کنید"
+             placeholder="گذرواژه خود را وارد کنید"
              type="password"
              @keydown.enter="login">
       <template v-slot:prepend>

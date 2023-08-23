@@ -11,7 +11,7 @@
                v-model="username"
                outlined
                class="username-input"
-               label="ایمیل یا شماره تلفن همراه"
+               placeholder="ایمیل یا شماره تلفن همراه"
                :disable="loading"
                :loading="loading"
                @keydown.enter="goToVerifyStep">
@@ -73,7 +73,7 @@
                outlined
                class="password-input"
                type="password"
-               label="گذرواژه جدید خود را وارد کنید"
+               placeholder="گذرواژه جدید خود را وارد کنید"
                @keydown.enter="verify">
         <template v-slot:prepend>
           <q-icon name="person" />

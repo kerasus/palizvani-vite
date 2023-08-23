@@ -14,7 +14,7 @@
                v-model="username"
                outlined
                class="username-input"
-               label="ایمیل یا شماره تلفن همراه"
+               placeholder="ایمیل یا شماره تلفن همراه"
                :disable="loading"
                :loading="loading"
                @keydown.enter="goToVerifyStep">
@@ -87,7 +87,7 @@
                v-model="firstname"
                outlined
                class="name-input"
-               label="نام خود را وارد کنید"
+               placeholder="نام خود را وارد کنید"
                @keydown.enter="verify">
         <template v-slot:prepend>
           <q-icon name="person" />
@@ -100,7 +100,7 @@
                v-model="lastname"
                outlined
                class="lastname-input"
-               label="نام خانوادگی خود را وارد کنید"
+               placeholder="نام خانوادگی خود را وارد کنید"
                @keydown.enter="verify">
         <template v-slot:prepend>
           <q-icon name="person" />
@@ -114,7 +114,7 @@
                v-model="password"
                outlined
                class="password-input"
-               label="گذرواژه خود را وارد کنید"
+               placeholder="گذرواژه خود را وارد کنید"
                @keydown.enter="verify">
         <template v-slot:prepend>
           <q-icon name="person" />
