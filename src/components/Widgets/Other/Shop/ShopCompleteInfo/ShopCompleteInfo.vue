@@ -145,7 +145,7 @@ export default {
     inputs: [
       { type: 'separator', name: 'space', label: 'اطلاعات ضروری', col: 'col-md-12' },
       { type: 'input', name: 'email', label: 'ایمیل', responseKey: 'email', placeholder: ' ', col: 'col-md-3' },
-      { type: 'input', name: 'on_call_mobile_number', label: 'تلفن همراه', responseKey: 'on_call_mobile_number', placeholder: ' ', col: 'col-md-3' },
+      { type: 'input', name: 'mobile_number', label: 'تلفن همراه', responseKey: 'mobile_number', placeholder: ' ', col: 'col-md-3' },
       { type: 'input', name: 'national_code', label: 'کدملی/کد اتباع غیر ایرانی', responseKey: 'national_code', placeholder: ' ', col: 'col-md-3' },
       { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', col: 'col-md-12' },
       { type: 'file', name: 'picture', label: 'عکس پروفایل', responseKey: 'picture', placeholder: ' ', col: 'col-md-3' },
@@ -173,7 +173,7 @@ export default {
         label: 'وضعیت تاهل',
         col: 'col-md-3'
       },
-      { type: 'input', name: 'on_call_mobile_number', label: 'تلفن همراه جهت تماس', responseKey: 'on_call_mobile_number', placeholder: ' ', col: 'col-md-3' },
+      { type: 'input', name: 'on_call_mobile_number', label: 'تلفن همراه جهت تماس', responseKey: 'mobile_number', placeholder: ' ', col: 'col-md-3' },
       { type: 'input', name: 'on_social_network_mobile_number', label: 'تلفن همراه جهت شبکه های اجتماعی', responseKey: 'on_social_network_mobile_number', placeholder: ' ', col: 'col-md-3' },
       { type: 'input', name: 'phone_number', label: 'تلفن منزل', responseKey: 'phone_number', placeholder: ' ', col: 'col-md-3' },
       {

@@ -74,6 +74,7 @@ export default class UserAPI extends APIRepository {
         phone_number: null, // String
         on_social_network_mobile_number: null, // String
         on_call_mobile_number: null, // String
+        mobile_number: null, // String
         email: '', // String
         is_abroad_birth_address: 'False', // String
         is_abroad_living_address: 'False', // String
@@ -116,7 +117,7 @@ export default class UserAPI extends APIRepository {
         educational_status: null, // String
         phone_number: null, // String
         on_social_network_mobile_number: null, // String
-        on_call_mobile_number: null, // String
+        mobile_number: null, // String
         email: '', // String
         is_abroad_birth_address: 'False', // String
         is_abroad_living_address: 'False', // String

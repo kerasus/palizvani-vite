@@ -39,7 +39,7 @@
           </div>
           <div class="col-md-3 col-12">
             تلفن همراه:
-            {{ invoice.owner_info?.on_call_mobile_number }}
+            {{ invoice.owner_info?.mobile_number }}
           </div>
           <div v-if="invoice.owner_info?.id"
                class="col-md-3 col-12">

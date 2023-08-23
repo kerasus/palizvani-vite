@@ -104,7 +104,7 @@ export default {
             required: true,
             label: 'شماره تلفن',
             align: 'left',
-            field: row => row.on_call_mobile_number
+            field: row => row.mobile_number
           },
           {
             name: 'email',
