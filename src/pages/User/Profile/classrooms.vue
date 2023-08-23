@@ -1,6 +1,7 @@
 <template>
   <breadcrumbs style="margin-top: 29px; margin-bottom: 19px;" />
-  <entity-index ref="entityIndex"
+  <entity-index v-if="mounted"
+                ref="entityIndex"
                 v-model:value="inputs"
                 title="لیست دوره ها"
                 :api="api"
@@ -48,6 +49,7 @@ import { EntityIndex } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
@@ -63,6 +65,7 @@ export default {
   },
   data () {
     return {
+      mounted: false,
       inputs: [
         {
           type: 'select',
@@ -110,6 +113,7 @@ export default {
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
+        { type: 'hidden', name: 'owner', value: null },
         { type: 'input', name: 'search', label: 'جستجو', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
@@ -230,17 +234,19 @@ export default {
       this.getUnits(this.selectedCategoryId)
     }
   },
-  created () {
+  mounted () {
+    this.setOwner()
     this.setActionBtn()
     this.loadInputDataOptions()
+    this.mounted = true
   },
   methods: {
+    setOwner () {
+      const user = this.$store.getters['Auth/user']
+      FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', user.id)
+    },
     setActionBtn () {
-      this.inputs.forEach((item, index) => {
-        if (item.name === 'btn') {
-          this.inputs[index].atClick = this.search
-        }
-      })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     },
     search () {
       this.$refs.entityIndex.search()

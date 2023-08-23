@@ -54,6 +54,7 @@ import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
@@ -89,6 +90,7 @@ export default {
         },
         { type: 'select', name: 'category', options: [], label: 'وضعیت تراکنش', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: 'input', name: 'category', label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'hidden', name: 'owner', value: null },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       table: {
@@ -156,16 +158,17 @@ export default {
     }
   },
   mounted() {
+    this.setOwner()
     this.setActionBtn()
     this.mounted = true
   },
   methods: {
+    setOwner () {
+      const user = this.$store.getters['Auth/user']
+      FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', user.id)
+    },
     setActionBtn () {
-      this.inputs.forEach((item, index) => {
-        if (item.name === 'btn') {
-          this.inputs[index].atClick = this.search
-        }
-      })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     },
     search () {
       this.$refs.entityIndex.search()

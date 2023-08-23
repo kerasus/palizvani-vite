@@ -51,6 +51,7 @@ import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'TicketList',
@@ -66,7 +67,9 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
+      inputs: [
+        { type: 'hidden', name: 'owner', value: null }
+      ],
       table: {
         columns: [
           {
@@ -104,7 +107,14 @@ export default {
     }
   },
   mounted() {
+    this.setOwner()
     this.mounted = true
+  },
+  methods: {
+    setOwner () {
+      const user = this.$store.getters['Auth/user']
+      FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', user.id)
+    }
   }
 }
 </script>

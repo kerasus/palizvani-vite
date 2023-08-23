@@ -1,6 +1,7 @@
 <template>
   <breadcrumbs style="margin-top: 29px; margin-bottom: 19px;" />
-  <entity-index ref="entityIndex"
+  <entity-index v-if="mounted"
+                ref="entityIndex"
                 v-model:value="inputs"
                 title="لیست مباحثات"
                 :api="api"
@@ -45,6 +46,7 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -57,6 +59,7 @@ export default {
   },
   data () {
     return {
+      mounted: false,
       inputs: [
         {
           type: 'select',
@@ -86,6 +89,7 @@ export default {
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
+        { type: 'hidden', name: 'owner', value: null },
         { type: 'hidden', name: 'type', value: 'DISCUSSION_CIRCLE' },
         { type: 'hidden', name: 'unit__category__type', value: 'DISCUSSION_CIRCLE' },
         { type: 'input', name: 'search', label: 'جستجو', placeholder: ' ', col: 'col-md-2 col-12' },
@@ -194,11 +198,17 @@ export default {
       this.getUnits(this.selectedCategoryId)
     }
   },
-  created () {
+  mounted () {
+    this.setOwner()
     this.setActionBtn()
     this.loadInputDataOptions()
+    this.mounted = true
   },
   methods: {
+    setOwner () {
+      const user = this.$store.getters['Auth/user']
+      FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', user.id)
+    },
     setActionBtn () {
       this.inputs.forEach((item, index) => {
         if (item.name === 'btn') {

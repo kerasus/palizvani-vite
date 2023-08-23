@@ -116,6 +116,32 @@
           <span class="btn-label">
             حساب کاربری
           </span>
+          <q-menu v-if="user.isAdmin() || user.isSuperUser()"
+                  fit>
+            <q-list>
+              <q-item v-close-popup
+                      clickable
+                      :to="{ name: 'UserPanel.Profile.UserInfo' }">
+                <q-item-section>
+                  پنل کاربری
+                </q-item-section>
+              </q-item>
+              <q-item v-close-popup
+                      clickable
+                      :to="{ name: 'Admin.User.Index' }">
+                <q-item-section>
+                  پنل ادمین
+                </q-item-section>
+              </q-item>
+              <q-item v-close-popup
+                      clickable
+                      @click="logOut">
+                <q-item-section>
+                  خروچ
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
         <q-btn v-else
                color="primary"
@@ -180,7 +206,7 @@ export default {
     },
     goToProperPanel () {
       if (this.user.isSuperUser()) {
-        this.$router.push({ name: 'Admin.User.Index' })
+        // this.$router.push({ name: 'Admin.User.Index' })
       } else {
         this.$router.push({ name: 'UserPanel.Profile.UserInfo' })
       }
