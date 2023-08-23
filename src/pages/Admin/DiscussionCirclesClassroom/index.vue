@@ -132,14 +132,14 @@ export default {
             required: true,
             label: 'استاد مربوطه',
             align: 'left',
-            field: row => row.professor
+            field: row => row.professor_info?.firstname + ' ' + row.professor_info?.lastname
           },
           {
             name: 'title',
             required: true,
             label: 'تاریخ و زمان ثبت نام',
             align: 'left',
-            field: row => ShamsiDate.getDateTime(row.beginning_registration_period)
+            field: row => row.beginning_registration_period ? ShamsiDate.getDateTime(row.beginning_registration_period) : '-'
           },
           {
             name: 'title',
