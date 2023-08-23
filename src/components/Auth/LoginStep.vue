@@ -31,13 +31,15 @@
              outlined
              class="password-input"
              placeholder="گذرواژه خود را وارد کنید"
-             type="password"
+             :type="visibilityIcon === 'visibility' ? 'password' : 'text'"
              @keydown.enter="login">
       <template v-slot:prepend>
-        <q-icon name="person" />
+        <q-icon name="lock_open" />
       </template>
       <template v-slot:append>
-        <q-icon name="person" />
+        <q-icon :name="visibilityIcon"
+                class="cursor-pointer"
+                @click="toggleVisibilityIcon" />
       </template>
     </q-input>
     <q-btn class="full-width btn-login"
@@ -70,6 +72,7 @@ export default {
   data: () => ({
     userLogin: false,
     loadingList: false,
+    visibilityIcon: 'visibility',
     otpStep: 'sendOtp',
     username: '09123456789',
     password: '09123456789',
@@ -86,6 +89,9 @@ export default {
     // }
   },
   methods: {
+    toggleVisibilityIcon () {
+      this.visibilityIcon = this.visibilityIcon === 'visibility' ? 'visibility_off' : 'visibility'
+    },
     getToken () {
       return this.$store.getters['Auth/accessToken']
     },

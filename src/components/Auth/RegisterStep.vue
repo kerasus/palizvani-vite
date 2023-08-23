@@ -115,12 +115,15 @@
                outlined
                class="password-input"
                placeholder="گذرواژه خود را وارد کنید"
+               :type="visibilityIcon === 'visibility' ? 'password' : 'text'"
                @keydown.enter="verify">
         <template v-slot:prepend>
-          <q-icon name="person" />
+          <q-icon name="lock_open" />
         </template>
         <template v-slot:append>
-          <q-icon name="person" />
+          <q-icon :name="visibilityIcon"
+                  class="cursor-pointer"
+                  @click="toggleVisibilityIcon" />
         </template>
       </q-input>
 
@@ -163,6 +166,7 @@ export default {
     sendOtpLoading: false,
     timerEnded: false,
     loading: false,
+    visibilityIcon: 'visibility',
     bannerMessage: 'ثبت نام در سامانه',
     registerStep: 'getUsername',
     username: null,
@@ -197,6 +201,9 @@ export default {
     this.setRegisterStep('getUsername')
   },
   methods: {
+    toggleVisibilityIcon () {
+      this.visibilityIcon = this.visibilityIcon === 'visibility' ? 'visibility_off' : 'visibility'
+    },
     onStopTimer () {
       this.timerEnded = true
     },
