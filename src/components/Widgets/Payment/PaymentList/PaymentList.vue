@@ -14,7 +14,10 @@
                   :show-expand-button="false"
                   :show-reload-button="false">
       <template #entity-index-table-cell="{inputData}">
-        <template v-if="inputData.col.name === 'action'">
+        <template v-if="inputData.col.name === 'number'">
+          {{ inputData.rowNumber }}
+        </template>
+        <template v-else-if="inputData.col.name === 'action'">
           <q-btn color="primary"
                  :to="{name: 'UserPanel.Payment.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
@@ -27,7 +30,10 @@
       <template #entity-index-table-item-cell="{inputData}">
         <entity-index-grid-item :input-data="inputData">
           <template #col="{col, row}">
-            <template v-if="col.name === 'action'">
+            <template v-if="col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="col.name === 'action'">
               <q-btn color="primary"
                      :to="{name: 'UserPanel.Payment.Show', params: {id: row.id}}">
                 مشاهده جزییات
@@ -88,6 +94,13 @@ export default {
       ],
       table: {
         columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
           {
             name: 'id',
             required: true,

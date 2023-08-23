@@ -16,7 +16,10 @@
                   :show-reload-button="false"
                   :show-expand-button="false">
       <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
-        <template v-if="inputData.col.name === 'actions'">
+        <template v-if="inputData.col.name === 'number'">
+          {{ inputData.rowNumber }}
+        </template>
+        <template v-else-if="inputData.col.name === 'actions'">
           <div class="action-column-entity-index">
             <q-btn size="md"
                    color="primary"
@@ -62,9 +65,16 @@ export default {
       table: {
         columns: [
           {
-            name: 'id',
+            name: 'number',
             required: true,
             label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
             align: 'left',
             field: row => row.id
           },

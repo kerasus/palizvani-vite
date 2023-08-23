@@ -18,7 +18,14 @@
                   :show-expand-button="false"
                   :show-reload-button="false">
       <template #entity-index-table-cell="{inputData}">
-        <template v-if="inputData.col.name === 'action'">
+        <template v-if="inputData.col.name === 'number'">
+          {{ inputData.rowNumber }}
+        </template>
+        <template v-else-if="inputData.col.name === 'thumbnail'">
+          <q-img :src="inputData.col.value"
+                 width="100px" />
+        </template>
+        <template v-else-if="inputData.col.name === 'action'">
           <q-btn color="primary"
                  :to="{name: 'Admin.ContentCategory.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
@@ -69,6 +76,20 @@ export default {
       ],
       table: {
         columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'thumbnail',
+            required: true,
+            label: 'تصویر',
+            align: 'left',
+            field: row => row.thumbnail
+          },
           {
             name: 'title',
             required: true,
