@@ -126,6 +126,26 @@
                   @click="toggleVisibilityIcon" />
         </template>
       </q-input>
+      <label class="password-label"
+             for="password">
+        تکرار گذرواژه
+      </label>
+      <q-input id="rePassword"
+               v-model="rePassword"
+               outlined
+               class="password-input"
+               placeholder="مجدد گذرواژه خود را وارد کنید"
+               :type="visibilityIcon === 'visibility' ? 'password' : 'text'"
+               @keydown.enter="verify">
+        <template v-slot:prepend>
+          <q-icon name="lock_open" />
+        </template>
+        <template v-slot:append>
+          <q-icon :name="visibilityIcon"
+                  class="cursor-pointer"
+                  @click="toggleVisibilityIcon" />
+        </template>
+      </q-input>
 
       <q-btn class="full-width btn-verifyUsername"
              color="primary"
@@ -174,6 +194,7 @@ export default {
     firstname: null,
     lastname: null,
     password: null,
+    rePassword: null,
     otpInterval: null,
     otpTimer: 120,
 
@@ -317,6 +338,17 @@ export default {
     },
     verify () {
       if (!this.verifyNumber) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'کد تایید شماره همراه را وارد نکرده اید'
+        })
+        return
+      }
+      if (this.rePassword !== this.password) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'نام کلمه عبور و تکرار کلمه عبور یکسان نیستند'
+        })
         return
       }
       this.loading = true
