@@ -174,7 +174,7 @@ export default {
             required: true,
             label: 'استاد',
             align: 'left',
-            field: row => row.classroom_info.professor
+            field: row => row.classroom_info?.professor_info?.firstname + ' ' + row.classroom_info?.professor_info?.lastname
           },
           {
             name: 'status',
