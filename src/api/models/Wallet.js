@@ -52,7 +52,7 @@ export default class WalletAPI extends APIRepository {
   }
 
   deposit(data) {
-    const amount = data.amount ? data.amount * 10 : 0
+    const amount = data.amount ? data.amount : 0
     const invoice = data.invoice ? data.invoice : null
     return this.sendRequest({
       apiMethod: 'post',

@@ -108,7 +108,7 @@ export default {
           {
             name: 'amount',
             required: true,
-            label: 'مبلغ تراکنش(تومان)',
+            label: 'مبلغ تراکنش(ریال)',
             align: 'left',
             field: row => row.amount.toLocaleString('fa')
           },

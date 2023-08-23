@@ -142,7 +142,7 @@
             </div>
             <div class="title">
               {{ classroom.price ? classroom.price.toLocaleString('fa') : 0 }}
-              تومان
+              ریال
             </div>
           </div>
         </div>

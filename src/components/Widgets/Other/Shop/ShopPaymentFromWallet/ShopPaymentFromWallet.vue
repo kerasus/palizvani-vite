@@ -208,7 +208,7 @@
                   </g>
                 </svg>
                 {{ classroom.price }}
-                تومان
+                ریال
               </div>
             </q-card-section>
           </q-card>

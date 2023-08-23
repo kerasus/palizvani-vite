@@ -40,7 +40,7 @@
           <div class="col-md-3 col-12">
             <q-banner>
               {{ (invoice.amount ? invoice.amount.toLocaleString('fa') : 0) }}
-              تومان
+              ریال
             </q-banner>
           </div>
           <div class="col-md-3 col-12">
@@ -75,7 +75,7 @@
             <q-icon name="isax:card" />
             قیمت:
             {{ invoice.item_info?.price ? invoice.item_info.price.toLocaleString('fa') : 0 }}
-            تومان
+            ریال
           </div>
         </div>
       </q-card-section>

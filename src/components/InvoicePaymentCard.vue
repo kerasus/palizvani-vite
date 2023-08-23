@@ -23,7 +23,7 @@
         <div class="final-price-value">
           {{ invoice.amount ? invoice.amount.toLocaleString('fa') : 0 }}
           <span class="unit">
-            تومان
+            ریال
           </span>
         </div>
       </div>
@@ -41,7 +41,7 @@
               {{ wallet.inventory ? wallet.inventory.toLocaleString('fa') : 0 }}
             </template>
             <span class="unit">
-              تومان
+              ریال
             </span>
           </div>
         </div>
@@ -54,7 +54,7 @@
           <div class="other-item-value">
             {{ (invoice.amount - wallet.inventory) ? (invoice.amount - wallet.inventory).toLocaleString('fa') : 0 }}
             <span class="unit">
-              تومان
+              ریال
             </span>
           </div>
         </div>

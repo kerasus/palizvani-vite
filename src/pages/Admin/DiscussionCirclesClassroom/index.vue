@@ -123,7 +123,7 @@ export default {
           {
             name: 'title',
             required: true,
-            label: 'هزینه(تومان)',
+            label: 'هزینه(ریال)',
             align: 'left',
             field: row => row.price
           },

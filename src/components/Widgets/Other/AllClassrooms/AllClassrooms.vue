@@ -185,7 +185,7 @@
               </div>
               <div class="attribute-value">
                 {{classroom.price}}
-                تومان
+                ریال
               </div>
             </div>
           </q-card-section>
