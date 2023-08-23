@@ -191,7 +191,7 @@ export default {
             required: true,
             label: 'زمان ثبت نام',
             align: 'left',
-            field: row => ShamsiDate.getDateTime(row.classroom_info.beginning_registration_period)
+            field: row => ShamsiDate.getDateTime(row.creation_time)
           },
           {
             name: 'status',
