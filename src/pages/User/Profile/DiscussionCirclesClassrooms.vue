@@ -41,12 +41,13 @@
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
+import { Invoice } from 'src/models/Invoice.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import { FormBuilderAssist } from 'quasar-form-builder'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -166,7 +167,8 @@ export default {
             required: true,
             label: 'وضعیت مالی',
             align: 'left',
-            field: row => row.invoice_info ? this.getInvoiceStatusTitle(row.invoice_info) : 'نام مشخص'
+            field: row => (new Invoice(row.invoice_info)).status_info.label
+            // field: row => row.invoice_info ? this.getInvoiceStatusTitle(row.invoice_info) : 'نام مشخص'
           },
           {
             name: 'action',
@@ -210,11 +212,7 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', user.id)
     },
     setActionBtn () {
-      this.inputs.forEach((item, index) => {
-        if (item.name === 'btn') {
-          this.inputs[index].atClick = this.search
-        }
-      })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     },
     search () {
       this.$refs.entityIndex.search()

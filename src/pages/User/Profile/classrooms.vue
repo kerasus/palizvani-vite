@@ -47,6 +47,7 @@
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
+import { Invoice } from 'src/models/Invoice.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
@@ -202,7 +203,8 @@ export default {
             required: true,
             label: 'وضعیت مالی',
             align: 'left',
-            field: row => row.invoice_info ? this.getInvoiceStatusTitle(row.invoice_info) : 'نام مشخص'
+            field: row => (new Invoice(row.invoice_info)).status_info.label
+            // field: row => row.invoice_info ? this.getInvoiceStatusTitle(row.invoice_info) : 'نام مشخص'
           },
           {
             name: 'action',
