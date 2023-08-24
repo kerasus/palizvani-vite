@@ -97,7 +97,8 @@
                    :show-expand-button="false"
                    :show-save-button="false"
                    :show-reload-button="false"
-                   :redirect-after-edit="false" />
+                   :redirect-after-edit="false"
+                   :after-load-input-data="afterLoadInputData" />
     </q-card>
 
     <div class="flex justify-end section-edit-btn">
@@ -126,6 +127,7 @@ import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'ShopCompleteInfo',
@@ -220,6 +222,14 @@ export default {
           this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet' })
         })
         .catch(() => {})
+    },
+    afterLoadInputData () {
+      this.checkNationalCode()
+    },
+    checkNationalCode () {
+      if (FormBuilderAssist.getInputsByName(this.inputs, 'national_code')?.value) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'national_code', 'disable', true)
+      }
     },
     openRulesDialog () {
       this.rulesDialog = true
