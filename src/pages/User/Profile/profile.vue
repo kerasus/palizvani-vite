@@ -181,8 +181,7 @@ export default {
             .catch(() => {
             })
         })
-        .catch((e) => {
-          console.log(e)
+        .catch(() => {
         })
     }
   }
