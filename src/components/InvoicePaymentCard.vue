@@ -71,7 +71,12 @@
                class="btn-pay"
                :loading="invoice.loading || wallet.loading"
                @click="onAccept">
-          افزایش موجودی و پرداخت
+          <template v-if="amountOfDepositWalletNeeded > 0">
+            افزایش موجودی و پرداخت
+          </template>
+          <template v-else>
+            برداشت از کیف پول و برداشت
+          </template>
         </q-btn>
       </div>
       <div v-if="showInvoiceLinkBtn"
@@ -117,6 +122,9 @@ export default {
   computed: {
     showInvoiceLinkBtn () {
       return this.$route.name !== 'UserPanel.Invoice.Show'
+    },
+    amountOfDepositWalletNeeded () {
+      return this.invoice.amount - this.wallet.inventory
     }
   },
   mounted() {
