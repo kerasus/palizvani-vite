@@ -74,8 +74,8 @@ export default {
     loadingList: false,
     visibilityIcon: 'visibility',
     otpStep: 'sendOtp',
-    username: '09123456789',
-    password: '09123456789',
+    username: null,
+    password: null,
     otp: null
   }),
   computed: {
