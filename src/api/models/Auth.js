@@ -9,6 +9,7 @@ export default class AuthAPI extends APIRepository {
       login: '/uma/users/login',
       sendOtp: '/uma/users/send_otp',
       signUp: '/uma/users/sign_up',
+      verify: '/uma/users/verify',
       setPass: '/uma/users/set_password',
 
       loginAdmin: '/auth/login',
@@ -54,6 +55,42 @@ export default class AuthAPI extends APIRepository {
       }, data),
       resolveCallback: (response) => {
         return response.data.message // String (ok)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  sendOtpVerify (data) {
+    return this.sendRequest({
+      apiMethod: 'post',
+      api: this.api,
+      request: this.APIAdresses.sendOtp,
+      data: this.getNormalizedSendData({
+        input: '', // String
+        action: 'VERIFY' // String
+      }, data),
+      resolveCallback: (response) => {
+        return response.data.message // String (ok)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  verify (data) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.sendOtp,
+      data: this.getNormalizedSendData({
+        input: '', // String
+        otp: '' // String
+      }, data),
+      resolveCallback: (response) => {
+        return response.data
       },
       rejectCallback: (error) => {
         return error

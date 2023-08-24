@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import API_ADDRESS from 'src/api/Addresses.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'VerifyEmail',
@@ -145,13 +145,15 @@ export default {
     },
     sendOtp () {
       if (!this.textInput) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'ایمیل خود را وارد کنید.'
+        })
         return
       }
       this.emailAddress = this.textInput
       this.loading = true
-      this.$axios.post(API_ADDRESS.auth.sendOtp, {
-        input: this.emailAddress
-      })
+      APIGateway.auth.sendOtpVerify({ input: this.emailAddress })
         .then(() => {
           this.loading = false
           this.message = 'کد تایید به ایمیل ' + this.emailAddress + ' ارسال شد.'
@@ -161,7 +163,7 @@ export default {
         })
         .catch(() => {
           this.loading = false
-          this.updateEmailAddressNumber()
+          this.updateEmailAddress()
         })
     },
     updateEmailAddress () {
@@ -173,7 +175,7 @@ export default {
       this.message = ''
       this.otpValue = this.textInput
       this.textInput = ''
-      this.$axios.put(API_ADDRESS.user.verify, {
+      APIGateway.auth.verify({
         input: this.emailAddress,
         otp: this.otpValue
       })
