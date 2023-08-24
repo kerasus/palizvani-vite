@@ -201,12 +201,14 @@ export default {
         label: 'وضعیت تحصیلی',
         col: ' col-md-3 col-12'
       },
+      { type: 'checkbox', name: 'is_abroad_birth_address', placeholder: ' ', label: 'محل تولد خارج از کشور است؟', responseKey: 'is_abroad_birth_address', col: 'col-12' },
       { type: 'input', name: 'birth_country', label: 'کشور محل تولد', responseKey: 'birth_country', placeholder: ' ', col: 'col-md-4 col-12' },
       { type: 'input', name: 'birth_province', label: 'استان محل تولد', responseKey: 'birth_province', placeholder: ' ', col: 'col-md-4 col-12' },
       { type: 'input', name: 'birth_city', label: 'شهر محل تولد', responseKey: 'birth_city', placeholder: ' ', col: 'col-md-4 col-12' },
+      { type: 'checkbox', name: 'is_abroad_living_address', placeholder: ' ', label: 'محل زندگی فعلی خارج از کشور است؟', responseKey: 'is_abroad_living_address', col: 'col-12' },
       { type: 'input', name: 'living_country', label: 'کشور محل زندگی فعلی', responseKey: 'living_country', placeholder: ' ', col: 'col-md-4 col-12' },
-      { type: 'input', name: 'living_abroad_province', label: 'استان محل زندگی فعلی', responseKey: 'living_province', placeholder: ' ', col: 'col-md-4 col-12' },
-      { type: 'input', name: 'living_abroad_city', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', placeholder: ' ', col: 'col-md-4 col-12' },
+      { type: 'input', name: 'living_province', label: 'استان محل زندگی فعلی', responseKey: 'living_province', placeholder: ' ', col: 'col-md-4 col-12' },
+      { type: 'input', name: 'living_city', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', placeholder: ' ', col: 'col-md-4 col-12' },
       { type: 'input', name: 'living_postal_code', label: 'کد پستی محل زندگی', responseKey: 'living_postal_code', placeholder: ' ', col: ' col-md-3 col-12' },
       { type: 'input', name: 'living_address', label: 'آدرس پستی محل زندگی', responseKey: 'living_address', placeholder: ' ', col: 'col-md-9 col-12' },
       { type: 'hidden', name: 'id', responseKey: 'id' }
