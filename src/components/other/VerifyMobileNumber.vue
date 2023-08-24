@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import API_ADDRESS from 'src/api/Addresses.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'VerifyMobileNumber',
@@ -150,13 +150,15 @@ export default {
     },
     sendOtp () {
       if (!this.textInput) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'شماره همراه خود را وارد کنید.'
+        })
         return
       }
       this.mobileNumber = this.textInput
       this.loading = true
-      this.$axios.post(API_ADDRESS.auth.sendOtp, {
-        input: this.mobileNumber
-      })
+      APIGateway.auth.sendOtpVerify({ input: this.mobileNumber })
         .then(() => {
           this.loading = false
           this.message = 'کد تایید به شماره ' + this.mobileNumber + ' ارسال شد.'
@@ -178,7 +180,7 @@ export default {
       this.message = ''
       this.otpValue = this.textInput
       this.textInput = ''
-      this.$axios.put(API_ADDRESS.user.verify, {
+      APIGateway.auth.verify({
         input: this.mobileNumber,
         otp: this.otpValue
       })
