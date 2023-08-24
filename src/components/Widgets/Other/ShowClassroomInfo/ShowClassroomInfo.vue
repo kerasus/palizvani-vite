@@ -220,26 +220,50 @@
               زمان برگزاری کلاس
             </div>
             <div class="info-box-body">
-              <div v-if="classroom.sessions_info && classroom.sessions_info.length > 0 && classroom.sessions_info[0].starting_time"
+              <div v-if="classroom.sessions_info && classroom.sessions_info.list.length > 0"
                    class="info-item">
                 اولین جلسه:
-                {{ getTitledDateTime(classroom.sessions_info[0].starting_time) }}
+                {{ classroom.sessions_info.list[0].starting_time ? getTitledDateTime(classroom.sessions_info.list[0].starting_time) : '-' }}
               </div>
-              <div v-if="false"
-                   class="info-item">
-                کلاس‌ها:
-                روزهای دوشنبه ساعت 20:30 تا 22 به وقت ایران
-              </div>
-              <div v-if="classroom.sessions_info"
+              <div v-if="classroom.sessions_info && classroom.sessions_info.list.length > 0"
                    class="info-item">
                 طول دوره:
-                {{ classroom.sessions_info.length }}
+                {{ classroom.sessions_info.list.length }}
                 جلسه
               </div>
-              <div v-if="false"
-                   class="info-item">
+              <div class="info-item">
                 نوع برگزاری :
                 {{getHoldingType(classroom.holding_type)}}
+              </div>
+              <div v-if="classroom.beginning_enrollment_period"
+                   class="info-item">
+                زمان شروع پیش ثبت نام:
+                {{ getTitledDateTime(classroom.beginning_enrollment_period) }}
+              </div>
+              <div v-if="classroom.ending_enrollment_period"
+                   class="info-item">
+                زمان اتمام پیش ثبت نام:
+                {{ getTitledDateTime(classroom.ending_enrollment_period) }}
+              </div>
+              <div v-if="classroom.beginning_registration_period"
+                   class="info-item">
+                زمان شروع ثبت نام:
+                {{ getTitledDateTime(classroom.beginning_registration_period) }}
+              </div>
+              <div v-if="classroom.ending_registration_period"
+                   class="info-item">
+                زمان اتمام ثبت نام:
+                {{ getTitledDateTime(classroom.ending_registration_period) }}
+              </div>
+              <div v-if="classroom.beginning_drop_add_period"
+                   class="info-item">
+                زمان شروع حذف و اضافه:
+                {{ getTitledDateTime(classroom.beginning_drop_add_period) }}
+              </div>
+              <div v-if="classroom.ending_drop_add_period"
+                   class="info-item">
+                زمان اتمام حذف و اضافه:
+                {{ getTitledDateTime(classroom.ending_drop_add_period) }}
               </div>
             </div>
           </div>
