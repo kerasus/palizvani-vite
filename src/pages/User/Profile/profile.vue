@@ -14,7 +14,7 @@
                :show-save-button="false"
                :show-reload-button="false">
     <template #after-form-builder>
-      <div class="flex justify-end">
+      <div class="flex justify-end q-mt-md">
         <q-btn color="primary"
                label="تایید اطلاعات تکمیلی"
                @click="editEntity" />
@@ -29,6 +29,7 @@
 <script>
 import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
+import { User } from 'src/models/User.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import Warning from 'src/components/other/Warning.vue'
@@ -54,7 +55,7 @@ export default {
       showRouteName: 'UserPanel.Profile.UserInfo',
       inputs: [
         { type: 'separator', name: 'space', placeholder: ' ', label: 'اطلاعات ضروری', className: 'custom-separator', col: 'col-12' },
-        { type: WarningComp, label: 'بعد از تایید اطلاعات ضروری، امکان تغییر این اطلاعات وجود ندارد', col: 'col-12' },
+        { type: WarningComp, name: 'WarningComp', label: 'بعد از تایید اطلاعات ضروری، امکان تغییر این اطلاعات وجود ندارد', col: 'col-12' },
         { type: VerifyEmailComp, name: 'email', placeholder: ' ', label: 'ایمیل', responseKey: 'email', col: 'col-md-6 col-12' },
         { type: VerifyMobileNumberComp, name: 'mobile_number', placeholder: ' ', label: 'تلفن همراه', responseKey: 'mobile_number', col: 'col-md-6 col-12' },
         { type: 'optionGroupRadio', name: 'is_valid_national_code', label: 'اتباع خارجی', options: [{ label: 'نیستم', value: true }, { label: 'هستم', value: false }], value: true, col: 'col-md-6 col-12' },
@@ -110,9 +111,11 @@ export default {
           placeholder: ' ',
           col: 'col-md-6 col-12'
         },
+        { type: 'checkbox', name: 'is_abroad_birth_address', placeholder: ' ', label: 'محل تولد خارج از کشور است؟', responseKey: 'is_abroad_birth_address', col: 'col-12' },
         { type: 'input', name: 'birth_country', placeholder: ' ', label: 'کشور محل تولد', responseKey: 'birth_country', col: 'col-md-6 col-12' },
         { type: 'input', name: 'birth_province', placeholder: ' ', label: 'استان محل تولد', responseKey: 'birth_province', col: 'col-md-6 col-12' },
         { type: 'input', name: 'birth_city', placeholder: ' ', label: 'شهر محل تولد', responseKey: 'birth_city', col: 'col-md-6 col-12' },
+        { type: 'checkbox', name: 'is_abroad_living_address', placeholder: ' ', label: 'محل زندگی فعلی خارج از کشور است؟', responseKey: 'is_abroad_living_address', col: 'col-12' },
         { type: 'input', name: 'living_country', placeholder: ' ', label: 'کشور محل زندگی فعلی', responseKey: 'living_country', col: 'col-md-6 col-12' },
         { type: 'input', name: 'living_province', placeholder: ' ', label: 'استان محل زندگی فعلی', responseKey: 'living_province', col: 'col-md-6 col-12' },
         { type: 'input', name: 'living_city', placeholder: ' ', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', col: 'col-md-6 col-12' },
@@ -165,7 +168,22 @@ export default {
       return target.label
     },
     editEntity () {
-      this.$refs.entityEdit.editEntity()
+      this.$refs.entityEdit.editEntity(false)
+        .then(() => {
+          this.$q.notify({
+            message: 'اطلاعات با موفقیت ویرایش شد',
+            type: 'positive'
+          })
+          APIGateway.user.getCurrent()
+            .then((user) => {
+              this.$store.commit('Auth/updateUser', new User(user))
+            })
+            .catch(() => {
+            })
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
 }
