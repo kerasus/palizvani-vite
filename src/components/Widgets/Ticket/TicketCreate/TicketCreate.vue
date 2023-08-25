@@ -66,14 +66,15 @@ export default {
       inputs: [
         {
           type: 'select',
-          name: 'source_type',
+          name: 'category_info__type',
           options: [
-            { label: 'مالی', value: 'INVOICE' },
-            { label: 'آموزش', value: 'TRAINING_CLASSROOM' },
-            { label: 'حلقه های مباحثاتی', value: 'DISCUSSION_CIRCLE_CLASSROOM' },
-            { label: 'محتوا', value: 'CONTENT' }
+            { label: 'مالی', value: 'FINANCIAL' },
+            { label: 'آموزش', value: 'EDUCATIONAL' },
+            { label: 'محتوا', value: 'CONTENT' },
+            { label: 'عمومی', value: 'GENERAL' }
           ],
-          label: 'دپارتمان',
+          label: 'معاونت',
+          ignoreValue: true,
           placeholder: ' ',
           col: 'col-md-4 col-12'
         },
@@ -83,13 +84,14 @@ export default {
         { type: 'inputEditor', name: 'body', label: 'متن درخواست', col: 'col-md-12 col-12' },
         { type: 'file', name: 'attachment', label: 'انتخاب فایل ضمیمه', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'owner', value: 1 },
+        { type: 'hidden', name: 'source_type', value: null },
         { type: 'hidden', name: 'source_id', value: null }
       ]
     }
   },
   computed: {
     selectedSourceType () {
-      return FormBuilderAssist.getInputsByName(this.inputs, 'source_type')?.value
+      return FormBuilderAssist.getInputsByName(this.inputs, 'category_info__type')?.value
     }
   },
   watch: {
@@ -107,13 +109,16 @@ export default {
     checkSource () {
       const sourceId = this.$route.query.source_id
       const sourceType = this.$route.query.source_type
+      const ticketCategory = (new TicketCategory()).getCategoryTypeFromSourceType(sourceType)
+
       if (sourceType && sourceId) {
         FormBuilderAssist.setAttributeByName(this.inputs, 'source_id', 'value', sourceId)
         FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', sourceType)
-        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'readonly', true)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category_info__type', 'value', ticketCategory)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category_info__type', 'readonly', true)
       } else if (this.localOptions.defaultSourceType) {
-        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.localOptions.defaultSourceType)
-        FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'readonly', true)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category_info__type', 'value', this.localOptions.defaultSourceType)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category_info__type', 'readonly', true)
       }
     },
     create() {

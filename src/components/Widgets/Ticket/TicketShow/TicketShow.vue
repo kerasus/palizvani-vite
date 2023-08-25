@@ -145,7 +145,21 @@ export default {
       showRouteName: 'AdminPanel.Ticket.Show',
       indexRouteName: 'AdminPanel.Ticket.List',
       inputs: [
-        { type: 'select', name: 'source_type', responseKey: 'source_type', options: [{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }], label: 'دپارتمان', placeholder: ' ', col: 'col-md-4 col-12' },
+        {
+          type: 'select',
+          name: 'category_info__type',
+          responseKey: 'category_info.type',
+          options: [
+            { label: 'مالی', value: 'FINANCIAL' },
+            { label: 'آموزش', value: 'EDUCATIONAL' },
+            { label: 'محتوا', value: 'CONTENT' },
+            { label: 'عمومی', value: 'GENERAL' }
+          ],
+          label: 'معاونت',
+          placeholder: ' ',
+          ignoreValue: true,
+          col: 'col-md-4 col-12'
+        },
         { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
         { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-12 col-12' },
