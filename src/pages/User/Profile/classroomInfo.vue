@@ -26,7 +26,8 @@
     <q-tab-panels v-model="tab"
                   animated>
       <q-tab-panel name="classroomInfo">
-        <show-classroom-info :options="{ profileMode: true }"
+        <show-classroom-info v-if="mounted"
+                             :options="{ profileMode: true }"
                              @onloadn="onloadnClassroom" />
       </q-tab-panel>
 
@@ -96,6 +97,7 @@ import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
@@ -166,7 +168,7 @@ export default {
   },
   computed: {
     selectedCategoryId () {
-      return this.getInputValue('category')
+      return FormBuilderAssist.getInputsByName(this.inputs, 'category')?.value
     }
   },
   watch: {
@@ -230,13 +232,6 @@ export default {
     loadInputDataOptions () {
       this.getCategories()
       this.getUnits()
-    },
-    getInputValue (name) {
-      const inputIndex = this.inputs.findIndex(input => input.name === name)
-      if (!this.inputs[inputIndex]) {
-        return null
-      }
-      return this.inputs[inputIndex].value
     },
     setInputValue (name, value) {
       const inputIndex = this.inputs.findIndex(input => input.name === name)
