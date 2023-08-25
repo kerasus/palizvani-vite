@@ -54,6 +54,7 @@ import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { Registration } from 'src/models/Registration.js'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -189,7 +190,8 @@ export default {
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => this.getClassroomStatusTitle(row.classroom_info.status)
+            field: row => (new Registration(row)).status_info.label
+            // field: row => this.getClassroomStatusTitle(row.classroom_info.status)
           },
           {
             name: 'title',

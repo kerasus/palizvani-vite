@@ -17,21 +17,54 @@ class Registration extends Model {
         key: 'user_info',
         relatedModel: User
       },
+      { key: 'status' },
       { key: 'time_status' },
       { key: 'termination_datetime' },
       { key: 'creation_time' },
       { key: 'last_modification_time' }
-    ])
-
-    this.timeStatusEnums = [
-      {
-        label: 'فعال',
-        value: 'ONGOING',
-        color: '#2FA84A'
+    ], {
+      status: {
+        infoKey: 'status_info',
+        enums: [
+          {
+            label: 'پیش ثبت نام',
+            value: 'ENROLLED'
+          },
+          {
+            label: 'ثبت نام',
+            value: 'REGISTERED'
+          },
+          {
+            label: 'حذف توسط شما',
+            value: 'DROPPED_BY_ITSELF'
+          },
+          {
+            label: 'حذف توسط ادمین',
+            value: 'DROPPED_BY_ADMIN'
+          }
+        ]
+      },
+      time_status: {
+        infoKey: 'time_status_info',
+        enums: [
+          {
+            label: 'فعال',
+            value: 'ONGOING',
+            color: '#2FA84A'
+          }
+        ]
       }
-    ]
+    })
 
-    this.loadTimeStatusInfo()
+    // this.timeStatusEnums = [
+    //   {
+    //     label: 'فعال',
+    //     value: 'ONGOING',
+    //     color: '#2FA84A'
+    //   }
+    // ]
+
+    // this.loadTimeStatusInfo()
   }
 
   loadTimeStatusInfo () {

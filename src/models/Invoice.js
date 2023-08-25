@@ -36,9 +36,7 @@ class Invoice extends Model {
         key: 'owner_info',
         relatedModel: User
       }
-    ])
-
-    this.enumKeysForLoad = {
+    ], {
       status: {
         infoKey: 'status_info',
         enums: [
@@ -85,27 +83,7 @@ class Invoice extends Model {
           }
         ]
       }
-    }
-
-    this.loadEnums()
-  }
-
-  loadEnums () {
-    Object.keys(this.enumKeysForLoad).forEach(enumKey => {
-      this.loadEnum(enumKey, this.enumKeysForLoad[enumKey])
     })
-  }
-
-  loadEnum (enumKey, enumItem) {
-    const target = enumItem.enums.find(type => type.value === this[enumKey])
-    if (!target) {
-      this[enumItem.infoKey] = {
-        label: null,
-        value: null
-      }
-    } else {
-      this[enumItem.infoKey] = target
-    }
   }
 }
 
