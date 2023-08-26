@@ -230,7 +230,7 @@ export default {
     },
     checkNationalCode () {
       if (FormBuilderAssist.getInputsByName(this.inputs, 'national_code')?.value) {
-        FormBuilderAssist.setAttributeByName(this.inputs, 'national_code', 'disable', true)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'national_code', 'readonly', true)
       }
     },
     openRulesDialog () {
