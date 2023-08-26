@@ -105,6 +105,10 @@
       </div>
     </q-card>
 
+    <!--    <show-source :source-type="ticket.source_type"-->
+    <!--                 :source-id="ticket.source_id"-->
+    <!--                 :source="ticket.source" />-->
+
     <admin-invoice-show v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
                         :options="{invoiceId: ticket.source_id, showBackBtn: false}"
                         class="q-mt-lg" />
@@ -139,6 +143,7 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import { TicketCategoryList } from 'src/models/TicketCategory.js'
 import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
+// import ShowSource from 'src/components/Widgets/Ticket/AdminTicketShow/ShowSource.vue'
 import AdminInvoiceShow from 'src/components/Widgets/Invoice/AdminInvoiceShow/AdminInvoiceShow.vue'
 import InstallmentOffers from 'src/components/Widgets/Ticket/AdminTicketShow/InstallmentOffers.vue'
 import CreateInstallment from 'src/components/Widgets/Ticket/AdminTicketShow/CreateInstallment.vue'
@@ -147,6 +152,7 @@ export default {
   name: 'AdminTicketShow',
   components: {
     EntityEdit,
+    // ShowSource,
     AdminInvoiceShow,
     CreateInstallment,
     InstallmentOffers
@@ -167,7 +173,20 @@ export default {
       showRouteName: 'AdminPanel.Ticket.Show',
       indexRouteName: 'AdminPanel.Ticket.List',
       inputs: [
-        { type: 'select', name: 'source_type', responseKey: 'source_type', options: [{ label: 'مالی', value: 'INVOICE' }, { label: 'آموزش', value: 'CLASSROOM' }], label: 'دپارتمان', placeholder: ' ', col: 'col-md-4 col-12' },
+        {
+          type: 'select',
+          name: 'source_type',
+          responseKey: 'category_info.type',
+          options: [
+            { label: 'مالی', value: 'FINANCIAL' },
+            { label: 'آموزش', value: 'EDUCATIONAL' },
+            { label: 'محتوا', value: 'CONTENT' },
+            { label: 'عمومی', value: 'GENERAL' }
+          ],
+          label: 'معاونت',
+          placeholder: ' ',
+          col: 'col-md-4 col-12'
+        },
         { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
         { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-12 col-12' },

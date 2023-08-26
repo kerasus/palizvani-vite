@@ -34,7 +34,7 @@ const routes = [
     },
     component: () => import('layouts/MainLayout.vue'),
     meta: {
-      hasDynamicSetting: false
+      hasDynamicSetting: true
     },
     children: [
       {

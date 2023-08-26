@@ -96,6 +96,10 @@
       </div>
     </q-card>
 
+    <invoice-show v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
+                  :options="{invoiceId: ticket.source_id, showBackBtn: false, showNeedInstallmentBtn: false}"
+                  class="q-mt-lg" />
+
     <q-card v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
             class="q-mt-lg">
       <q-card-section>
@@ -121,12 +125,14 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import { TicketCategoryList } from 'src/models/TicketCategory.js'
 import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
+import InvoiceShow from 'src/components/Widgets/Invoice/InvoiceShow/InvoiceShow.vue'
 import InstallmentOffers from 'src/components/Widgets/Ticket/TicketShow/InstallmentOffers.vue'
 
 export default {
   name: 'TicketShow',
   components: {
     EntityShow,
+    InvoiceShow,
     InstallmentOffers
   },
   mixins: [mixinWidget],

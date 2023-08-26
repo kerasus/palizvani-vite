@@ -4,7 +4,8 @@
     <div class="title q-pb-lg">
       <div class="static-title" />
       <div class="dynamic-title" />
-      <div class="back-action">
+      <div v-if="localOptions.showBackBtn"
+           class="back-action">
         <q-btn flat
                :to="{name: 'UserPanel.Invoice.List'}"
                color="grey">
@@ -20,7 +21,7 @@
       <q-card-section>
         صورتحساب شناسه
         {{ invoice.id }}
-        <q-btn v-if="!invoice.loading && invoice.status === 'PAYING'"
+        <q-btn v-if="!invoice.loading && invoice.status === 'PAYING' && localOptions.showNeedInstallmentBtn"
                outline
                color="primary"
                class="btn-need-installment"
@@ -128,7 +129,11 @@ export default {
     return {
       user: new User(),
       wallet: new Wallet(),
-      invoice: new Invoice()
+      invoice: new Invoice(),
+      defaultOptions: {
+        showBackBtn: true,
+        showNeedInstallmentBtn: true
+      }
     }
   },
   mounted() {
@@ -199,9 +204,12 @@ export default {
           this.depositLoading = false
         })
     },
+    getInvoiceId () {
+      return this.localOptions.invoiceId || this.$route.params.id
+    },
     getInvoice () {
       this.invoice.loading = true
-      const invoiceId = this.$route.params.id
+      const invoiceId = this.getInvoiceId()
       APIGateway.invoice.get({ data: { id: invoiceId } })
         .then((invoice) => {
           this.invoice = new Invoice(invoice)
