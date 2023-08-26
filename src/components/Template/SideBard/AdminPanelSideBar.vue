@@ -51,12 +51,6 @@ export default {
               routeName: 'Admin.Classroom.Index',
               show: true,
               active: false
-            },
-            {
-              title: 'درخواست ها',
-              routeName: 'Admin.Classroom.Ticket',
-              show: true,
-              active: false
             }
           ]
         },
@@ -79,14 +73,15 @@ export default {
               routeName: 'Admin.Classroom.DiscussionCircles.Index',
               show: true,
               active: false
-            },
-            {
-              title: 'درخواست ها',
-              routeName: 'Admin.Classroom.DiscussionCircles.Ticket',
-              show: true,
-              active: false
             }
           ]
+        },
+        {
+          title: 'درخواست ها',
+          routeName: 'Admin.Ticket.List',
+          icon: 'confirmation_number',
+          show: true,
+          active: false
         },
         {
           title: 'محتوا',

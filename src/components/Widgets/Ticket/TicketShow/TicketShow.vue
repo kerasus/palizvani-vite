@@ -148,8 +148,8 @@ export default {
       ticketCategoryList: new TicketCategoryList(),
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'AdminPanel.Ticket.Show',
-      indexRouteName: 'AdminPanel.Ticket.List',
+      showRouteName: 'Admin.Ticket.Show',
+      indexRouteName: 'Admin.Ticket.List',
       inputs: [
         {
           type: 'select',

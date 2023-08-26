@@ -449,22 +449,22 @@ const routes = [
           },
           {
             path: 'ticket',
-            name: 'AdminPanel.Ticket',
+            name: 'Admin.Ticket',
             component: () => import('layouts/bareLayout.vue'),
             children: [
               {
                 path: '',
-                name: 'AdminPanel.Ticket.List',
+                name: 'Admin.Ticket.List',
                 component: () => import('src/pages/Admin/Ticket/List.vue')
               },
               {
                 path: 'create',
-                name: 'AdminPanel.Ticket.Create',
+                name: 'Admin.Ticket.Create',
                 component: () => import('src/pages/Admin/Ticket/Create.vue')
               },
               {
                 path: ':id',
-                name: 'AdminPanel.Ticket.Show',
+                name: 'Admin.Ticket.Show',
                 component: () => import('src/pages/Admin/Ticket/Show.vue')
               }
             ]

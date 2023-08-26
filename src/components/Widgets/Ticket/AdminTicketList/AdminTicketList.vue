@@ -37,7 +37,7 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
-import { TicketCategoryList } from 'src/models/TicketCategory.js'
+import { TicketCategory, TicketCategoryList } from 'src/models/TicketCategory.js'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -56,9 +56,9 @@ export default {
         pageKey: 'page'
       },
       inputs: [
+        { type: 'hidden', name: 'category__type', value: null, col: 'col-md-4 col-12' },
         { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' },
-        { type: 'hidden', name: 'category__type', value: null },
         { type: 'hidden', name: 'source_type', value: null }
       ],
       table: {
@@ -104,6 +104,16 @@ export default {
       ticketCategoryList: new TicketCategoryList()
     }
   },
+  computed: {
+    selectedSourceType () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'category__type')?.value
+    }
+  },
+  watch: {
+    selectedSourceType () {
+      this.loadCategories()
+    }
+  },
   mounted() {
     this.loadOptions()
     this.setActionBtn()
@@ -117,6 +127,18 @@ export default {
       if (this.localOptions.defaultSourceType) {
         FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.localOptions.defaultSourceType)
         FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'value', this.getCategoryTypeFromSourceType())
+      } else if (this.localOptions.defaultCategoryType) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'value', this.localOptions.defaultCategoryType)
+      } else {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'type', 'select')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'label', 'معاونت')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'placeholder', ' ')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'options', [
+          { label: 'مالی', value: 'FINANCIAL' },
+          { label: 'آموزش', value: 'EDUCATIONAL' },
+          { label: 'محتوا', value: 'CONTENT' },
+          { label: 'عمومی', value: 'GENERAL' }
+        ])
       }
     },
     setActionBtn () {
@@ -128,19 +150,19 @@ export default {
     getShowRoute (ticketId) {
       const defaultSourceType = this.localOptions.defaultSourceType
       if (!defaultSourceType) {
-        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+        return { name: 'Admin.Ticket.Show', params: { id: ticketId } }
       }
 
       if (defaultSourceType === 'INVOICE') {
         return { name: 'Admin.Invoice.Ticket.Show', params: { id: ticketId } }
       } else if (defaultSourceType === 'TRAINING_CLASSROOM') {
-        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+        return { name: 'Admin.Ticket.Show', params: { id: ticketId } }
       } else if (defaultSourceType === 'DISCUSSION_CIRCLE_CLASSROOM') {
-        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+        return { name: 'Admin.Ticket.Show', params: { id: ticketId } }
       } else if (defaultSourceType === 'CONTENT') {
-        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+        return { name: 'Admin.Ticket.Show', params: { id: ticketId } }
       } else {
-        return { name: 'AdminPanel.Ticket.Show', params: { id: ticketId } }
+        return { name: 'Admin.Ticket.Show', params: { id: ticketId } }
       }
     },
     getCategoryTypeFromSourceType () {
@@ -163,7 +185,7 @@ export default {
     },
     loadCategories () {
       return new Promise((resolve, reject) => {
-        const type = this.getCategoryTypeFromSourceType()
+        const type = this.localOptions.defaultCategoryType ? this.localOptions.defaultCategoryType : (new TicketCategory()).getCategoryTypeFromSourceType(this.selectedSourceType)
         APIGateway.ticketCategory.index({ type })
           .then(({ list }) => {
             FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', list.list.map(item => {

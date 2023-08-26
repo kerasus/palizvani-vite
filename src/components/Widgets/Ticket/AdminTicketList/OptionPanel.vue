@@ -2,6 +2,13 @@
   <option-panel-tabs v-model:options="localOptions">
     <template #main-tab>
       <div>
+        defaultCategoryType
+      </div>
+      <q-select v-model="localOptions.defaultCategoryType"
+                :options="categoryTypeOptions"
+                emit-value
+                map-options />
+      <div>
         defaultSourceType
       </div>
       <q-select v-model="localOptions.defaultSourceType"
@@ -26,11 +33,19 @@ export default defineComponent({
   data: () => {
     return {
       options: [
+        { label: 'قابل انتخاب', value: null },
         { label: 'مالی', value: 'INVOICE' },
         { label: 'آموزش', value: 'TRAINING_CLASSROOM' },
         { label: 'حلقه های مباحثاتی', value: 'DISCUSSION_CIRCLE_CLASSROOM' },
         { label: 'محتوا', value: 'CONTENT' },
         { label: 'SESSION', value: 'SESSION' }
+      ],
+      categoryTypeOptions: [
+        { label: 'قابل انتخاب', value: null },
+        { label: 'آموزشی', value: 'EDUCATIONAL' },
+        { label: 'مالی', value: 'FINANCIAL' },
+        { label: 'محتوایی', value: 'CONTENT' },
+        { label: 'عمومی', value: 'GENERAL' }
       ]
     }
   }

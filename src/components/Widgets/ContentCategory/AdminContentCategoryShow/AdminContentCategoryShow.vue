@@ -79,7 +79,7 @@ export default {
       api: null,
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'AdminPanel.Ticket.Show',
+      showRouteName: 'Admin.Ticket.Show',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', value: null, placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', value: null, placeholder: ' ', col: 'col-md-6 col-12' },
