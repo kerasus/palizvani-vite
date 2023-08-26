@@ -123,13 +123,6 @@ export default {
           {
             name: 'title',
             required: true,
-            label: 'تاریخ شروع',
-            align: 'left',
-            field: row => ShamsiDate.getDateTime(row.classroom_info.beginning_registration_period)
-          },
-          {
-            name: 'title',
-            required: true,
             label: 'نوع برگزاری',
             align: 'left',
             field: row => this.getClassroomHoldingTypeTitle(row.classroom_info.holding_type)
@@ -167,7 +160,7 @@ export default {
             required: true,
             label: 'وضعیت مالی',
             align: 'left',
-            field: row => (new Invoice(row.invoice_info)).status_info.label
+            field: row => (new Invoice(row.invoice_info)).status_info.label ? (new Invoice(row.invoice_info)).status_info.label : '-'
             // field: row => row.invoice_info ? this.getInvoiceStatusTitle(row.invoice_info) : 'نام مشخص'
           },
           {
