@@ -132,7 +132,7 @@ export default {
         })
     },
     loadCategories () {
-      const type = (new TicketCategory()).getCategoryTypeFromSourceType(this.selectedSourceType)
+      const type = this.selectedSourceType
       if (!type) {
         return
       }
