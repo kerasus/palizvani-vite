@@ -11,7 +11,7 @@ export default class ClassroomAPI extends APIRepository {
       byId: (id) => '/lma/classrooms/' + id,
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
       drop: (id) => '/lma/classrooms/' + id + '/drop',
-      members: (classroomId) => '/lma/registrations/activity_sheet/' + classroomId,
+      members: (classroomId) => '/lma/registrations/activity_sheet?classroom=' + classroomId,
       enrollByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/enrolll?user_id=' + userId,
       dropByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/drop?user_id=' + userId,
       createInvoice: (id) => '/lma/classrooms/' + id + '/create_invoice',
