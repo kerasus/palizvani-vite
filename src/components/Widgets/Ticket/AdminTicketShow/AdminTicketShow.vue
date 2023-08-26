@@ -122,6 +122,8 @@
       <q-card-section>
         <installment-offers :installment-offers="instalmentOffers"
                             :loading="entityLoading"
+                            :can-accept="false"
+                            :can-reject="false"
                             @onReject="onReject"
                             @onAccept="onAccept" />
       </q-card-section>

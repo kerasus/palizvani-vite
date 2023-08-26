@@ -32,12 +32,14 @@
             </div>
             <div v-if="offer.is_accepted === null"
                  class="col-12 flex justify-end">
-              <q-btn color="red"
+              <q-btn v-if="canReject"
+                     color="red"
                      :loading="loading"
                      @click="onReject(offer)">
                 رد درخواست
               </q-btn>
-              <q-btn color="green"
+              <q-btn v-if="canAccept"
+                     color="green"
                      class="q-ml-xl"
                      :loading="loading"
                      @click="onAccept(offer)">
@@ -65,6 +67,14 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    canAccept: {
+      type: Boolean,
+      default: true
+    },
+    canReject: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => {
