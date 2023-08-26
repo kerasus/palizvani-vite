@@ -62,11 +62,12 @@ export default {
     return {
       mounted: false,
       inputs: [
-        { type: 'input', name: 'id', value: null, label: 'شماره', placeholder: ' ', col: 'col-md-2' },
-        { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-2' },
-        { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-2' },
-        { type: 'input', name: 'national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-2' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2' }
+        { type: 'input', name: 'id', value: null, label: 'شناسه', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'input', name: 'national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'input', name: 'mobile_number', value: null, label: 'شماره همراه', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       api: APIGateway.user.APIAdresses.base,
       table: {
@@ -93,32 +94,39 @@ export default {
             field: row => row.firstname + ' ' + row.lastname
           },
           {
-            name: 'first_name',
+            name: 'national_code',
             required: true,
             label: 'کد ملی',
             align: 'left',
             field: row => row.national_code
           },
           {
-            name: 'last_name',
+            name: 'mobile_number',
             required: true,
-            label: 'شماره تلفن',
+            label: 'شماره همراه',
             align: 'left',
             field: row => row.mobile_number
           },
           {
             name: 'email',
             required: true,
+            label: 'ایمیل',
+            align: 'left',
+            field: row => row.email
+          },
+          {
+            name: 'roles',
+            required: true,
             label: 'نقش',
             align: 'left',
             field: row => row.roles.join(', ')
           },
           {
-            name: 'status',
+            name: 'is_active',
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => row.is_active
+            field: row => row.is_active ? 'فعال' : 'غیر فعال'
           },
           {
             name: 'action',
