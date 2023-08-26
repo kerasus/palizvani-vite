@@ -77,7 +77,7 @@ export default {
           ]
         },
         {
-          title: 'درخواست ها',
+          title: 'درخواست های آموزش',
           routeName: 'Admin.Ticket.List',
           icon: 'confirmation_number',
           show: true,
