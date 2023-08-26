@@ -44,7 +44,7 @@ class Ticket extends Model {
 
     this.statusEnums = [
       {
-        label: 'باز شده',
+        label: 'در انتظار پاسخ',
         value: 'OPENED',
         color: '#2FA84A'
       },
@@ -53,21 +53,21 @@ class Ticket extends Model {
         value: 'ADMIN_REPLIED',
         color: '#0B6AB1'
       },
-      {
-        label: 'در حال انتظار',
-        value: 'PENDING',
-        color: '#2FA84A'
-      },
-      {
-        label: 'خوانده نشده',
-        value: 'UNREAD',
-        color: '#2FA84A'
-      },
-      {
-        label: 'خوانده شده',
-        value: 'READ',
-        color: '#2FA84A'
-      },
+      // {
+      //   label: 'در حال انتظار',
+      //   value: 'PENDING',
+      //   color: '#2FA84A'
+      // },
+      // {
+      //   label: 'خوانده نشده',
+      //   value: 'UNREAD',
+      //   color: '#2FA84A'
+      // },
+      // {
+      //   label: 'خوانده شده',
+      //   value: 'READ',
+      //   color: '#2FA84A'
+      // },
       {
         label: 'بسته شده',
         value: 'CLOSED',
