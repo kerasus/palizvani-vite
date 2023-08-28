@@ -326,13 +326,7 @@ export default {
         body: this.replyText
       })
         .then(() => {
-          this.$refs.entityEdit.editEntity()
-            .then(() => {
-              this.$refs.entityEdit.getData()
-            })
-            .catch(() => {
-              this.$refs.entityEdit.getData()
-            })
+          this.$refs.entityEdit.getData()
         })
         .catch(() => {
           this.$refs.entityEdit.getData()
