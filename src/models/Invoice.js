@@ -39,6 +39,7 @@ class Invoice extends Model {
     ], {
       status: {
         infoKey: 'status_info',
+        enumListKey: 'statusEnums',
         enums: [
           {
             label: 'در حال تأیید',
@@ -76,10 +77,15 @@ class Invoice extends Model {
       },
       type: {
         infoKey: 'type_info',
+        enumListKey: 'typeEnums',
         enums: [
           {
-            label: 'دوره آموزشی',
+            label: 'بخش آموزش',
             value: 'CLASSROOM'
+          },
+          {
+            label: 'بخش فروشگاه',
+            value: 'STORE'
           }
         ]
       }

@@ -57,21 +57,21 @@ export default {
       },
       inputs: [
         {
-          type: 'date',
-          name: 'creation_time',
+          type: 'dateTime',
+          name: 'creation_time__gte',
           label: 'از تاریخ',
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
         {
-          type: 'date',
-          name: 'creation_time',
+          type: 'dateTime',
+          name: 'creation_time__lt',
           label: 'تا تاریخ',
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
-        { type: 'select', name: 'category', options: [], label: 'وضعیت تراکنش', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'category', label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'select', name: 'status', options: (new Invoice()).statusEnums, label: 'وضعیت', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'select', name: 'type', options: (new Invoice()).typeEnums, label: 'نوع', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       table: {
