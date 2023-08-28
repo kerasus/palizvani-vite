@@ -190,9 +190,9 @@ export default {
           col: 'col-md-4 col-12'
         },
         { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
-        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-12 col-12' },
-        { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', readonly: true, col: 'col-md-4 col-12' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', readonly: true, col: 'col-md-12 col-12' },
+        { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', readonly: true, col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'source_id', responseKey: 'source_id', value: null },
         { type: 'hidden', name: 'id', responseKey: 'id' },
         { type: 'hidden', name: 'owner', responseKey: 'owner' },
