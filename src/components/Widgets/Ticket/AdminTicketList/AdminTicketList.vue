@@ -56,10 +56,13 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'category__type', value: null, col: 'col-md-4 col-12' },
+        { type: 'hidden', name: 'category__type', value: null },
         { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' },
-        { type: 'hidden', name: 'source_type', value: null }
+        { type: 'hidden', name: 'source_type', value: null },
+        // { type: 'space', name: 'space', value: null, col: 'col-12' },
+        { type: 'space', name: 'space', value: null, col: 'col-md-4 col-12' },
+        { type: 'select', name: 'per_page', responseKey: 'per_page', placeholder: ' ', options: [10, 25, 50], value: 10, label: 'تعداد در صفحه', col: 'col-md-2 col-12' }
       ],
       table: {
         columns: [
@@ -105,11 +108,17 @@ export default {
     }
   },
   computed: {
+    selectedPerPage () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'per_page')?.value
+    },
     selectedSourceType () {
       return FormBuilderAssist.getInputsByName(this.inputs, 'category__type')?.value
     }
   },
   watch: {
+    selectedPerPage () {
+      this.search()
+    },
     selectedSourceType () {
       this.loadCategories()
     }
