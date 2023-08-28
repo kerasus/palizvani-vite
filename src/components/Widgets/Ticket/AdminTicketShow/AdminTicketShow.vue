@@ -216,6 +216,7 @@ export default {
   },
   watch: {
     selectedCategoryInfoType () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'value', null)
       this.loadCategories()
     }
   },
@@ -272,7 +273,9 @@ export default {
       this.ticket = new Ticket(data)
     },
     afterLoadInputData () {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'value', this.ticket.category)
+      this.$nextTick(() => {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'value', this.ticket.category)
+      })
     },
     edit() {
       this.entityLoading = true
