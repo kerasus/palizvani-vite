@@ -41,7 +41,8 @@
                    :show-reload-button="false"
                    :default-layout="false"
                    :redirect-after-edit="false"
-                   :before-load-input-data="beforeLoadInputData" />
+                   :before-load-input-data="beforeLoadInputData"
+                   :after-load-input-data="afterLoadInputData" />
 
       <div class="row q-mt-lg justify-end">
         <div class="col-md-4 col-12">
@@ -177,7 +178,7 @@ export default {
       inputs: [
         {
           type: 'select',
-          name: 'source_type',
+          name: 'category_info__type',
           responseKey: 'category_info.type',
           options: [
             { label: 'مالی', value: 'FINANCIAL' },
@@ -196,11 +197,16 @@ export default {
         { type: 'hidden', name: 'source_id', responseKey: 'source_id', value: null },
         { type: 'hidden', name: 'id', responseKey: 'id' },
         { type: 'hidden', name: 'owner', responseKey: 'owner' },
-        { type: 'hidden', name: 'replies_info', responseKey: 'replies_info' }
+        { type: 'hidden', name: 'replies_info', responseKey: 'replies_info' },
+        { type: 'hidden', name: 'source_type', value: null },
+        { type: 'hidden', name: 'source_id', value: null }
       ]
     }
   },
   computed: {
+    selectedCategoryInfoType () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'category_info__type')?.value
+    },
     instalmentOffers () {
       return new InstalmentOfferList(this.ticket.source?.instalment_offers_info)
     },
@@ -208,20 +214,19 @@ export default {
       return this.inputs.find(input => input.name === 'replies_info').value
     }
   },
+  watch: {
+    selectedCategoryInfoType () {
+      this.loadCategories()
+    }
+  },
   created() {
     this.api = this.api + '/' + this.$route.params.id
   },
   mounted() {
+    this.loadAuthData()
     this.checkSource()
     this.loadOptions()
       .then(() => {
-        this.loadAuthData()
-        FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', this.ticketCategoryList.list.map(item => {
-          return {
-            value: item.id,
-            label: item.title
-          }
-        }))
         this.$nextTick(() => {
           this.mounted = true
         })
@@ -266,6 +271,9 @@ export default {
       this.entityLoading = false
       this.ticket = new Ticket(data)
     },
+    afterLoadInputData () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'value', this.ticket.category)
+    },
     edit() {
       this.entityLoading = true
       this.$refs.entityEdit.editEntity()
@@ -281,18 +289,32 @@ export default {
     },
     loadCategories () {
       return new Promise((resolve, reject) => {
-        APIGateway.ticketCategory.index()
+        const type = this.selectedCategoryInfoType
+        // if (!type) {
+        //   return
+        // }
+        this.categoriesLoading = true
+        APIGateway.ticketCategory.index({ type })
           .then(({ list }) => {
-            this.ticketCategoryList = list
-            resolve()
+            const ticketCategoryList = list
+            FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', ticketCategoryList.list.map(item => {
+              return {
+                value: item.id,
+                label: item.title
+              }
+            }))
+            this.categoriesLoading = false
+            this.$nextTick(() => {
+              resolve()
+            })
           })
           .catch(() => {
-            reject()
+            this.categoriesLoading = false
+            this.$nextTick(() => {
+              reject()
+            })
           })
       })
-    },
-    setInputOptions (name, options) {
-      this.$refs.entityEdit.setInputAttributeByName(name, 'options', options)
     },
     sendReply() {
       this.entityLoading = true
