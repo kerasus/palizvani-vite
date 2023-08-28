@@ -49,8 +49,13 @@ class Ticket extends Model {
         color: '#2FA84A'
       },
       {
-        label: 'پاسخ داده شده',
+        label: 'ادمین پاسخ داده',
         value: 'ADMIN_REPLIED',
+        color: '#0B6AB1'
+      },
+      {
+        label: 'کاربر پاسخ داده',
+        value: 'USER_REPLIED',
         color: '#0B6AB1'
       },
       // {

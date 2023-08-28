@@ -56,12 +56,45 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'category__type', value: null },
-        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
+        {
+          type: 'dateTime',
+          name: 'creation_time__gte',
+          label: 'از تاریخ',
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'dateTime',
+          name: 'creation_time__lt',
+          label: 'تا تاریخ',
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        { type: 'input', name: 'owner__national_code', label: 'کدملی', placeholder: ' ', col: 'col-md-3 col-12' },
+
+        {
+          type: 'select',
+          name: 'source_type',
+          responseKey: 'source_type',
+          placeholder: ' ',
+          options: [
+            { label: ' ', value: null },
+            { label: 'مالی', value: 'INVOICE' },
+            { label: 'آموزش', value: 'TRAINING_CLASSROOM' },
+            { label: 'حلقه های مباحثاتی', value: 'DISCUSSION_CIRCLE_CLASSROOM' },
+            { label: 'محتوا', value: 'CONTENT' },
+            { label: 'SESSION', value: 'SESSION' }
+          ],
+          label: 'مرجع',
+          value: null,
+          col: 'col-md-3 col-12'
+        },
+        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'status', responseKey: 'status', placeholder: ' ', options: (new Ticket()).statusEnums, label: 'وضعیت', col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' },
         { type: 'hidden', name: 'source_type', value: null },
         // { type: 'space', name: 'space', value: null, col: 'col-12' },
-        { type: 'space', name: 'space', value: null, col: 'col-md-4 col-12' },
+        { type: 'space', name: 'space', value: null, col: 'col-md-2 col-12' },
         { type: 'select', name: 'per_page', responseKey: 'per_page', placeholder: ' ', options: [10, 25, 50], value: 10, label: 'تعداد در صفحه', col: 'col-md-2 col-12' }
       ],
       table: {

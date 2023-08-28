@@ -71,7 +71,6 @@ export default {
           col: 'col-md-3 col-12'
         },
         { type: 'select', name: 'category', options: [], label: 'وضعیت تراکنش', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'hidden', name: 'per_page', value: 5 },
         { type: 'input', name: 'category', label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
