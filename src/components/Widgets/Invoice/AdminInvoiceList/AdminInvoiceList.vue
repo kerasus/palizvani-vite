@@ -126,7 +126,7 @@ export default {
             field: row => Assist.miladiToShamsi(row.creation_time)
           },
           {
-            name: 'creation_time',
+            name: 'last_modification_time',
             required: true,
             label: 'زمان آخرین بروز رسانی',
             align: 'left',

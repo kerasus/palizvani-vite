@@ -31,6 +31,7 @@
 
 <script>
 import { shallowRef } from 'vue'
+import Assist from 'assets/js/Assist.js'
 import { EntityIndex } from 'quasar-crud'
 import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
@@ -107,6 +108,20 @@ export default {
             field: () => ''
           },
           {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'category_info__title',
+            required: true,
+            label: 'دسته',
+            align: 'left',
+            field: row => row.category_info.title
+          },
+          {
             name: 'title',
             required: true,
             label: 'موضوع پیام',
@@ -121,11 +136,25 @@ export default {
             field: row => row.creator_info.firstname + ' ' + row.creator_info.lastname
           },
           {
+            name: 'national_code',
+            required: true,
+            label: 'کد ملی فرستنده',
+            align: 'left',
+            field: row => row.creator_info.national_code
+          },
+          {
             name: 'status',
             required: true,
             label: 'وضعیت',
             align: 'left',
             field: row => (new Ticket(row)).status_info.label
+          },
+          {
+            name: 'last_modification_time',
+            required: true,
+            label: 'زمان آخرین تغییرات',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.last_modification_time)
           },
           {
             name: 'action',
