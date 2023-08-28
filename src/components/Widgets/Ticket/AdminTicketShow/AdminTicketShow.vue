@@ -194,12 +194,11 @@ export default {
         { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', readonly: true, col: 'col-md-4 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', readonly: true, col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', readonly: true, col: 'col-md-12 col-12' },
+        { type: 'hidden', name: 'source_type', responseKey: 'source_type', value: null },
         { type: 'hidden', name: 'source_id', responseKey: 'source_id', value: null },
         { type: 'hidden', name: 'id', responseKey: 'id' },
         { type: 'hidden', name: 'owner', responseKey: 'owner' },
-        { type: 'hidden', name: 'replies_info', responseKey: 'replies_info' },
-        { type: 'hidden', name: 'source_type', value: null },
-        { type: 'hidden', name: 'source_id', value: null }
+        { type: 'hidden', name: 'replies_info', responseKey: 'replies_info' }
       ]
     }
   },

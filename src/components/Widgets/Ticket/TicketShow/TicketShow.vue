@@ -253,14 +253,8 @@ export default {
         body
       })
         .then(() => {
-          this.$refs.entityShow.editEntity()
-            .then(() => {
-              this.replyText = null
-              this.$refs.entityShow.getData()
-            })
-            .catch(() => {
-              this.$refs.entityShow.getData()
-            })
+          this.replyText = null
+          this.$refs.entityShow.getData()
         })
         .catch(() => {
           this.$refs.entityShow.getData()
