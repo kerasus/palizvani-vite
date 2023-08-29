@@ -413,7 +413,7 @@ export default {
         })
     },
     isClassroomRegistered (classroomId) {
-      return !!this.userRegistrations.list.find(item => item.classroom === classroomId)
+      return !!this.userRegistrations.list.find(item => item.classroom === classroomId && (item.status === 'REGISTERED' || item.status === 'ENROLLED'))
     },
     getTerm (classroom) {
       if (!classroom.beginning_registration_period) {

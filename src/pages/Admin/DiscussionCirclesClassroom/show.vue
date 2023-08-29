@@ -45,7 +45,7 @@
                      :show-reload-button="false"
                      :after-load-input-data="afterLoadInputData">
           <template #after-form-builder>
-            <div class="flex justify-end">
+            <div class="flex justify-end q-mt-md">
               <q-btn color="primary"
                      label="بروزرسانی اطلاعات"
                      @click="updateClassroom" />
