@@ -9,6 +9,14 @@
             flat
             class="classroom-card">
       <q-card-section class="info-box">
+
+        <q-banner v-if="classroom.getUserRegisterInfoLabel()"
+                  inline-actions
+                  rounded
+                  class="bg-blue-3 text-white text-center q-mb-md">
+          {{ classroom.getUserRegisterInfoLabel() }}
+        </q-banner>
+
         <div class="row">
           <div class="col-md-4 col-12 classroom-thumbnail">
             <q-img :src="classroom.thumbnail" />

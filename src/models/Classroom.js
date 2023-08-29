@@ -92,6 +92,17 @@ class Classroom extends Model {
     }
   }
 
+  getUserRegisterInfoLabel () {
+    const enums = {
+      REGISTERED: 'ثبت نام شده',
+      ENROLLED: 'پیش ثبت نام شده',
+      DROPPED_BY_ITSELF: 'حذف شده توسط اندیشه جو',
+      DROPPED_BY_ADMIN: 'حذف شده توسط ادمین'
+    }
+
+    return enums[this.current_user_register_info?.status] || null
+  }
+
   loadStatusInfo () {
     const target = this.statusEnums.find(type => type.value === this.status)
     if (!target) {
