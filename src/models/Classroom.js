@@ -20,6 +20,7 @@ class Classroom extends Model {
       { key: 'holding_month' },
       { key: 'sessions_frequency' },
       { key: 'professor' },
+      { key: 'current_user_register_info' },
       {
         key: 'professor_info',
         relatedModel: User
@@ -59,6 +60,7 @@ class Classroom extends Model {
       { key: 'drop_add_period_refund_percent' },
       { key: 'is_enabled_enrolment' },
       { key: 'is_enabled_adding' },
+      { key: 'is_enabled_viewing' },
       { key: 'is_enabled_dropping' },
       { key: 'rules' },
       { key: 'description' },
