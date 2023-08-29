@@ -1,5 +1,6 @@
 export default function () {
   return {
-    onRegisterClassroom: null
+    onRegisterClassroom: null,
+    registerClassroomInvoice: null
   }
 }

@@ -124,6 +124,7 @@
 <script>
 import { EntityEdit } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
+import { Invoice } from 'src/models/Invoice.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
@@ -139,6 +140,7 @@ export default {
     rulesDialog: false,
     loading: true,
     classroom: new Classroom(),
+    invoice: new Invoice(),
 
     api: APIGateway.user.APIAdresses.current,
     entityIdKey: 'id',
@@ -215,15 +217,43 @@ export default {
     ]
   }),
   mounted () {
+    this.loadClassroomFromStore()
     this.mounted = true
   },
   methods: {
+    loadClassroomFromStore () {
+      this.classroom = this.$store.getters['Shop/onRegisterClassroom']
+    },
     editEntity () {
       this.$refs.entityEdit.editEntity(false)
         .then(() => {
-          this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet' })
+          if (this.$route.query.type === 'register') {
+            this.createInvoice()
+              .then(() => {
+                this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
+              })
+              .catch(() => {})
+          } else {
+            this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
+          }
         })
         .catch(() => {})
+    },
+    createInvoice () {
+      return new Promise((resolve, reject) => {
+        this.invoice.loading = true
+        APIGateway.classroom.createInvoice(this.classroom.id)
+          .then((invoice) => {
+            this.invoice = new Invoice(invoice)
+            this.invoice.loading = false
+            this.$store.commit('Shop/updateRegisterClassroomInvoice', this.invoice)
+            resolve(this.invoice)
+          })
+          .catch(() => {
+            this.invoice.loading = false
+            reject()
+          })
+      })
     },
     afterLoadInputData () {
       this.checkNationalCode()
@@ -258,17 +288,6 @@ export default {
         return '-'
       }
       return ShamsiDate.getTerm(classroom.beginning_registration_period)
-    },
-    getClassrooms () {
-      this.loading = true
-      APIGateway.classroom.get(this.$route.params.id)
-        .then(classroom => {
-          this.classroom = new Classroom(classroom)
-          this.loading = false
-        })
-        .catch(() => {
-          this.loading = false
-        })
     }
   }
 }

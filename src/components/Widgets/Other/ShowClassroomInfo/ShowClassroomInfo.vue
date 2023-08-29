@@ -35,7 +35,7 @@
             <q-btn v-if="classroom.is_enabled_adding && classroom.current_user_register_info?.status !== 'REGISTERED'"
                    color="primary"
                    class="btn-register"
-                   @click="openRulesDialog">
+                   @click="openRegisterDialog">
               <svg data-name="Add User"
                    xmlns="http://www.w3.org/2000/svg"
                    width="20"
@@ -53,7 +53,6 @@
             <q-btn v-if="classroom.is_enabled_enrolment && classroom.current_user_register_info?.status !== 'ENROLLED'"
                    color="primary"
                    class="btn-register"
-                   :loading="enrolmentLoading"
                    @click="onEnrolment">
               <svg data-name="Add User"
                    xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +68,7 @@
               </svg>
               پیش ثبت نام
             </q-btn>
-            <q-btn v-if="classroom.is_enabled_viewing"
+            <q-btn v-if="!defaultOptions.profileMode && classroom.is_enabled_viewing"
                    color="primary"
                    class="btn-register"
                    :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: classroom.id}}">
@@ -327,23 +326,23 @@
         <q-separator />
 
         <q-card-actions class="rulesDialog-actions">
-          <div v-if="!defaultOptions.profileMode"
+          <div v-if="!defaultOptions.profileMode && acceptClassType !== 'rules'"
                class="rulesDialog-accept-chk">
             <q-checkbox v-model="rulesAccept"
                         label="آیین نامه دوره آموزشی را خواندم و قصد ثبت نام در دوره را دارم" />
           </div>
           <div class="rulesDialog-btns q-gutter-md">
-            <q-btn v-if="defaultOptions.profileMode"
+            <q-btn v-if="defaultOptions.profileMode || acceptClassType === 'rules'"
                    v-close-popup
                    label="بستن"
                    color="primary"
                    outline />
-            <q-btn v-if="!defaultOptions.profileMode"
+            <q-btn v-if="!defaultOptions.profileMode && acceptClassType !== 'rules'"
                    v-close-popup
                    label="انصراف"
                    color="primary"
                    outline />
-            <q-btn v-if="!defaultOptions.profileMode"
+            <q-btn v-if="!defaultOptions.profileMode && acceptClassType !== 'rules'"
                    label="تایید و ادامه"
                    color="primary"
                    :disable="!rulesAccept"
@@ -378,7 +377,7 @@ export default {
     defaultOptions: {
       profileMode: false
     },
-    enrolmentLoading: false,
+    acceptClassType: 'register', // accept - enrollment - rules
     dropLoading: false,
     rulesAccept: false,
     rulesDialog: false,
@@ -403,27 +402,11 @@ export default {
     },
     acceptAndContinue () {
       this.$store.commit('Shop/updateOnRegisterClassroom', this.classroom)
-      this.$router.push({ name: 'UserPanel.ShopCompleteInfo' })
+      this.$router.push({ name: 'UserPanel.ShopCompleteInfo', query: { type: this.acceptClassType } })
     },
     onEnrolment () {
-      this.$q.dialog({
-        title: 'توجه',
-        message: 'آیا از پیش ثبت نام این دوره اطمینان دارید؟' + '\n' + this.classroom.unit_info.codes,
-        html: true,
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        this.enrolmentLoading = true
-        const classroomId = this.$route.params.id
-        APIGateway.classroom.enrollByUser(classroomId)
-          .then(() => {
-            this.enrolmentLoading = false
-            this.getClassroom()
-          })
-          .catch(() => {
-            this.enrolmentLoading = false
-          })
-      })
+      this.acceptClassType = 'enrollment'
+      this.rulesDialog = true
     },
     onDropping () {
       this.$q.dialog({
@@ -445,6 +428,11 @@ export default {
       })
     },
     openRulesDialog () {
+      this.acceptClassType = 'rules'
+      this.rulesDialog = true
+    },
+    openRegisterDialog () {
+      this.acceptClassType = 'register'
       this.rulesDialog = true
     },
     getHoldingType (type) {

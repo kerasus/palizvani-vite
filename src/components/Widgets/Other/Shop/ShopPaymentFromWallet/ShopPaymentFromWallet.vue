@@ -100,7 +100,8 @@
       </div>
     </q-card>
 
-    <div class="info-column">
+    <div v-if="isRegisterPage"
+         class="info-column">
       <q-skeleton v-if="invoice.loading"
                   height="200px"
                   width="100%"
@@ -115,6 +116,15 @@
                             class="payment-card"
                             @onCancel="onCancel"
                             @onAccept="onAccept" />
+    </div>
+
+    <div v-if="isEnrollmentPage"
+         class="text-center">
+      <q-btn color="primary"
+             :loading="enrolmentLoading"
+             @click="enrollClassroom">
+        تایید و پیش ثبت نام
+      </q-btn>
     </div>
 
     <template v-if="false">
@@ -252,6 +262,7 @@ export default {
   components: { InvoiceInfo, InvoicePaymentCard },
   data: () => ({
     step: false,
+    enrolmentLoading: false,
     user: new User(),
     wallet: new Wallet(),
     invoice: new Invoice(),
@@ -260,14 +271,33 @@ export default {
     rulesDialog: false,
     loading: true
   }),
+  computed: {
+    isRegisterPage () {
+      return this.$route.query.type === 'register'
+    },
+    isEnrollmentPage () {
+      return this.$route.query.type === 'enrollment'
+    }
+  },
   mounted () {
     this.loadAuthData()
     this.loadClassroomFromStore()
     this.checkStoreClassroom()
-    this.createInvoice()
+    this.getInvoiceFromStore()
     this.getMyWallet()
   },
   methods: {
+    enrollClassroom () {
+      this.enrolmentLoading = true
+      APIGateway.classroom.enrollByUser(this.classroom.id)
+        .then(() => {
+          this.enrolmentLoading = false
+          this.$route.push({ name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } })
+        })
+        .catch(() => {
+          this.enrolmentLoading = false
+        })
+    },
     onCancel () {
       this.$router.push({ name: 'Public.AllClassrooms' })
     },
@@ -323,16 +353,8 @@ export default {
           this.wallet.loading = false
         })
     },
-    createInvoice () {
-      this.invoice.loading = true
-      APIGateway.classroom.createInvoice(this.classroom.id)
-        .then((invoice) => {
-          this.invoice = new Invoice(invoice)
-          this.invoice.loading = false
-        })
-        .catch(() => {
-          this.invoice.loading = false
-        })
+    getInvoiceFromStore () {
+      this.invoice = this.$store.getters['Shop/registerClassroomInvoice']
     },
     loadClassroomFromStore () {
       this.classroom = this.$store.getters['Shop/onRegisterClassroom']

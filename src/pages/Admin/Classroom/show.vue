@@ -113,18 +113,20 @@
               خروجی اکسل
             </q-btn>
           </template>
-          <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+          <template v-slot:entity-index-table-cell="{inputData}">
             <template v-if="inputData.col.name === 'number'">
               {{ inputData.rowNumber }}
             </template>
             <template v-else-if="inputData.col.name === 'action'">
               <div class="action-column-entity-index">
-                <q-btn size="md"
+                <q-btn v-if="inputData.props.row.status !== 'DROPPED_BY_ADMIN'"
+                       size="md"
                        color="red"
                        outline
                        label="انصراف"
+                       :loading="dropClassroomByAdminLoading"
                        class="q-mr-md"
-                       @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveRegistrationMessage(inputData.props.row))" />
+                       @click="dropClassroomByAdmin(inputData.props.row)" />
               </div>
             </template>
             <template v-else>
@@ -359,6 +361,7 @@ export default {
         pageKey: 'page'
       },
 
+      dropClassroomByAdminLoading: false,
       exportReportLoading: false,
       membersListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId },
@@ -697,8 +700,27 @@ export default {
     getRemoveMessage (row) {
       return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
     },
-    getRemoveRegistrationMessage (row) {
-      return 'آیا از انصراف (' + row.owner_info.firstname + ' ' + row.owner_info.lastname + ') اطمینان دارید؟'
+    dropClassroomByAdmin (row) {
+      const classroomId = row.classroom
+      const userId = row.owner
+      const message = 'آیا از انصراف (' + row.owner_info.firstname + ' ' + row.owner_info.lastname + ') اطمینان دارید؟'
+      this.$q.dialog({
+        title: 'توجه',
+        message,
+        html: true,
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.dropClassroomByAdminLoading = true
+        APIGateway.classroom.dropByAdmin(classroomId, userId)
+          .then(() => {
+            this.dropClassroomByAdminLoading = false
+            this.searchMembersList()
+          })
+          .catch(() => {
+            this.dropClassroomByAdminLoading = false
+          })
+      })
     }
   }
 }
