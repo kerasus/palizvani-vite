@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="col-md-4 col-12 classroom-action-col">
-            <q-btn v-if="!defaultOptions.profileMode && !classroom.is_current_user_registered && classroom.is_enabled_adding"
+            <q-btn v-if="classroom.is_enabled_adding && classroom.current_user_register_info?.status !== 'REGISTERED'"
                    color="primary"
                    class="btn-register"
                    @click="openRulesDialog">
@@ -42,7 +42,7 @@
               </svg>
               ثبت نام
             </q-btn>
-            <q-btn v-if="!defaultOptions.profileMode && !classroom.is_current_user_registered && classroom.is_enabled_enrolment"
+            <q-btn v-if="classroom.is_enabled_enrolment && classroom.current_user_register_info?.status !== 'ENROLLED'"
                    color="primary"
                    class="btn-register"
                    :loading="enrolmentLoading"
@@ -61,26 +61,26 @@
               </svg>
               پیش ثبت نام
             </q-btn>
-            <q-btn v-if="!defaultOptions.profileMode && classroom.is_current_user_registered"
+            <q-btn v-if="classroom.is_enabled_viewing"
                    color="primary"
                    class="btn-register"
                    :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: classroom.id}}">
               مشاهده دوره
             </q-btn>
-            <q-btn v-if="defaultOptions.profileMode"
-                   outline
-                   color="primary"
-                   class="btn-register"
-                   @click="openRulesDialog">
-              آیین نامه دوره
-            </q-btn>
-            <q-btn v-if="defaultOptions.profileMode && classroom.is_enabled_dropping"
+            <q-btn v-if="classroom.is_enabled_dropping && classroom.current_user_register_info?.status !== 'DROPPED_BY_ITSELF' && classroom.current_user_register_info?.status !== 'DROPPED_BY_ADMIN'"
                    outline
                    color="red"
                    class="btn-register q-ml-md"
                    :loading="dropLoading"
                    @click="onDropping">
               انصراف
+            </q-btn>
+            <q-btn v-if="classroom.current_user_register_info?.status !== 'REGISTERED'"
+                   outline
+                   color="primary"
+                   class="btn-register"
+                   @click="openRulesDialog">
+              آیین نامه دوره
             </q-btn>
           </div>
         </div>
