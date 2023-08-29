@@ -447,7 +447,7 @@ export default {
       return '-'
     },
     getAudienceGenderType (type) {
-      const target = Enums.genders.find(item => item.value === type)
+      const target = Enums.classroomGenders.find(item => item.value === type)
       if (target) {
         return target.label
       }
