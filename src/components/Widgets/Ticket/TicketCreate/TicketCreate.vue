@@ -140,7 +140,7 @@ export default {
       APIGateway.ticketCategory.index({ type })
         .then(({ list }) => {
           const ticketCategoryList = list
-          this.setInputOptions('category', ticketCategoryList.list.map(item => {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', ticketCategoryList.list.map(item => {
             return {
               value: item.id,
               label: item.title
@@ -151,9 +151,6 @@ export default {
         .catch(() => {
           this.categoriesLoading = false
         })
-    },
-    setInputOptions (name, options) {
-      this.$refs.entityCreate.setInputAttributeByName(name, 'options', options)
     }
   }
 }

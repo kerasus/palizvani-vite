@@ -56,6 +56,36 @@ const AxiosHooks = (function () {
     return Promise.reject(error)
   }
 
+  function handleFulfilled (response) {
+    if (
+      // response.config.method === 'get' ||
+      // response.config.method === 'GET' ||
+      response.config.method === 'post' ||
+      response.config.method === 'POST' ||
+      response.config.method === 'put' ||
+      response.config.method === 'PUT' ||
+      response.config.method === 'delete' ||
+      response.config.method === 'DELETE'
+    ) {
+      const message = 'با موفقیت انجام شد'
+      if ($notify) {
+        $notify({
+          type: 'positive',
+          message
+        })
+      } else {
+        Notify.create({
+          type: 'positive',
+          color: 'positive',
+          timeout: 5000,
+          position: 'top',
+          message,
+          icon: 'report_problem'
+        })
+      }
+    }
+  }
+
   function deAuthorizeUser(router, store) {
     store.dispatch('Auth/logOut', { redirectTo: false, clearRedirectTo: false })
     const loginRouteName = 'Login'
@@ -91,6 +121,7 @@ const AxiosHooks = (function () {
 
   return {
     handleErrors,
+    handleFulfilled,
     setNotifyInstance
   }
 }())
@@ -111,7 +142,10 @@ export default boot(({ app, store, router, ssrContext }) => {
   AxiosHooks.setNotifyInstance(app.config.globalProperties.$q)
 
   if (appApi.interceptors) {
-    appApi.interceptors.response.use(undefined, async function (error) {
+    appApi.interceptors.response.use(function (response) {
+      AxiosHooks.handleFulfilled(response)
+      return Promise.resolve(response)
+    }, async function (error) {
       return Promise.reject(await AxiosHooks.handleErrors(error, router, store))
     })
   }
