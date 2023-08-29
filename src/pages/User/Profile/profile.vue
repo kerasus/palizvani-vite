@@ -63,8 +63,8 @@ export default {
         { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', className: 'custom-separator', col: 'col-12' },
         { type: 'file', name: 'picture', placeholder: ' ', label: 'عکس پروفایل', responseKey: 'picture', col: 'col-md-6 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-12' },
-        { type: 'input', name: 'firstname', placeholder: ' ', label: 'نام', responseKey: 'firstname', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'lastname', placeholder: ' ', label: 'نام خانوادگی', responseKey: 'lastname', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'firstname', placeholder: ' ', label: 'نام', responseKey: 'firstname', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'lastname', placeholder: ' ', label: 'نام خانوادگی', responseKey: 'lastname', className: 'require', col: 'col-md-6 col-12' },
         {
           type: 'select',
           name: 'gender',
@@ -73,9 +73,10 @@ export default {
           value: null,
           label: 'جنسیت',
           placeholder: ' ',
+          className: 'require',
           col: 'col-md-6 col-12'
         },
-        { type: 'date', name: 'birthdate', placeholder: ' ', label: 'تولد', responseKey: 'birthdate', col: 'col-md-6 col-12' },
+        { type: 'date', name: 'birthdate', placeholder: ' ', label: 'تولد', responseKey: 'birthdate', className: 'require', col: 'col-md-6 col-12' },
         {
           type: 'select',
           name: 'marital_status',
@@ -84,11 +85,12 @@ export default {
           value: null,
           label: 'وضعیت تاهل',
           placeholder: ' ',
+          className: 'require',
           col: 'col-md-6 col-12'
         },
-        { type: 'input', name: 'on_call_mobile_number', placeholder: ' ', label: 'تلفن همراه جهت تماس', responseKey: 'on_call_mobile_number', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'on_social_network_mobile_number', placeholder: ' ', label: 'تلفن همراه جهت شبکه های اجتماعی', responseKey: 'on_social_network_mobile_number', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'phone_number', placeholder: 'با کد شهر وارد شود', label: 'تلفن منزل', responseKey: 'phone_number', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'on_call_mobile_number', placeholder: ' ', label: 'تلفن همراه جهت تماس', responseKey: 'on_call_mobile_number', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'on_social_network_mobile_number', placeholder: ' ', label: 'تلفن همراه جهت شبکه های اجتماعی', className: 'require', responseKey: 'on_social_network_mobile_number', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'phone_number', placeholder: 'با کد شهر وارد شود', label: 'تلفن منزل', responseKey: 'phone_number', className: 'require', col: 'col-md-6 col-12' },
         {
           type: 'select',
           name: 'last_academic_degree',
@@ -97,10 +99,11 @@ export default {
           value: null,
           label: 'آخرین مقطع تحصیلی',
           placeholder: ' ',
+          className: 'require',
           col: 'col-md-6 col-12'
         },
-        { type: 'input', name: 'last_academic_degree_field', placeholder: ' ', label: 'رشته تحصیلی', responseKey: 'last_academic_degree_field', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'last_academy_name', placeholder: ' ', label: 'نام دانشگاه یا حوزه تحصیلی', responseKey: 'last_academy_name', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'last_academic_degree_field', placeholder: ' ', label: 'رشته تحصیلی', responseKey: 'last_academic_degree_field', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'last_academy_name', placeholder: ' ', label: 'نام دانشگاه یا حوزه تحصیلی', responseKey: 'last_academy_name', className: 'require', col: 'col-md-6 col-12' },
         {
           type: 'select',
           name: 'educational_status',
@@ -109,18 +112,19 @@ export default {
           value: null,
           label: 'وضعیت تحصیلی',
           placeholder: ' ',
+          className: 'require',
           col: 'col-md-6 col-12'
         },
-        { type: 'checkbox', name: 'is_abroad_birth_address', placeholder: ' ', label: 'محل تولد خارج از کشور است؟', responseKey: 'is_abroad_birth_address', col: 'col-12' },
-        { type: 'input', name: 'birth_country', placeholder: ' ', label: 'کشور محل تولد', responseKey: 'birth_country', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'birth_province', placeholder: ' ', label: 'استان محل تولد', responseKey: 'birth_province', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'birth_city', placeholder: ' ', label: 'شهر محل تولد', responseKey: 'birth_city', col: 'col-md-6 col-12' },
-        { type: 'checkbox', name: 'is_abroad_living_address', placeholder: ' ', label: 'محل زندگی فعلی خارج از کشور است؟', responseKey: 'is_abroad_living_address', col: 'col-12' },
-        { type: 'input', name: 'living_country', placeholder: ' ', label: 'کشور محل زندگی فعلی', responseKey: 'living_country', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'living_province', placeholder: ' ', label: 'استان محل زندگی فعلی', responseKey: 'living_province', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'living_city', placeholder: ' ', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'living_postal_code', placeholder: ' ', label: 'کد پستی محل زندگی', responseKey: 'living_postal_code', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'living_address', placeholder: ' ', label: 'آدرس پستی محل زندگی', responseKey: 'living_address', col: 'col-md-6 col-12' },
+        { type: 'checkbox', name: 'is_abroad_birth_address', placeholder: ' ', label: 'محل تولد خارج از کشور است؟', responseKey: 'is_abroad_birth_address', className: 'require', col: 'col-12' },
+        { type: 'input', name: 'birth_country', placeholder: ' ', label: 'کشور محل تولد', responseKey: 'birth_country', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'birth_province', placeholder: ' ', label: 'استان محل تولد', responseKey: 'birth_province', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'birth_city', placeholder: ' ', label: 'شهر محل تولد', responseKey: 'birth_city', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'checkbox', name: 'is_abroad_living_address', placeholder: ' ', label: 'محل زندگی فعلی خارج از کشور است؟', responseKey: 'is_abroad_living_address', className: 'require', col: 'col-12' },
+        { type: 'input', name: 'living_country', placeholder: ' ', label: 'کشور محل زندگی فعلی', responseKey: 'living_country', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'living_province', placeholder: ' ', label: 'استان محل زندگی فعلی', responseKey: 'living_province', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'living_city', placeholder: ' ', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'living_postal_code', placeholder: ' ', label: 'کد پستی محل زندگی', responseKey: 'living_postal_code', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'living_address', placeholder: ' ', label: 'آدرس پستی محل زندگی', responseKey: 'living_address', className: 'require', col: 'col-md-6 col-12' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-12' }
       ]
     }

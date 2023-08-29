@@ -220,6 +220,21 @@ export default {
 
 <style lang="scss" scoped>
 .VerifyEmail {
+  .label {
+    $starWidth: 10px;
+    padding-left: $starWidth * 1.5;
+    position: relative;
+    &:before {
+      content: '*';
+      color: red;
+      font-size: $starWidth * 2;
+      width: $starWidth;
+      height: $starWidth;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
   .contents {
     display: flex;
     flex-flow: row;
