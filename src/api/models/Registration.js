@@ -7,6 +7,7 @@ export default class RegistrationAPI extends APIRepository {
     super('registrations', appApi, '/lma/registrations', Registration)
     this.APIAdresses = {
       base: '/lma/registrations',
+      exportReport: '/lma/registrations/export_report',
       byId: (id) => '/lma/registrations/' + id
     }
     this.CacheList = {
@@ -40,6 +41,25 @@ export default class RegistrationAPI extends APIRepository {
           //   "previous": null,
           // }
         }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  exportReport(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.exportReport,
+      data: this.getNormalizedSendData({
+        classroom: null, // Number
+        type: null, // String
+        status: null // String
+      }, data),
+      resolveCallback: (response) => {
+        return response.data
       },
       rejectCallback: (error) => {
         return error

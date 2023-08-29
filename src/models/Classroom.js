@@ -72,27 +72,29 @@ class Classroom extends Model {
       { key: 'is_deleted' },
       { key: 'status' }
 
-    ])
-
-    this.statusEnums = [
-      {
-        label: 'قبل از دوره حذف و اضافه',
-        value: 'BEFORE_DROP_ADD_PERIOD'
-      },
-      {
-        label: 'در دوره حذف و اضافه',
-        value: 'IN_REGISTRATION_PERIOD'
+    ], {
+      status: {
+        infoKey: 'status_info',
+        enumListKey: 'statusEnums',
+        enums: [
+          {
+            label: 'قبل از دوره حذف و اضافه',
+            value: 'BEFORE_DROP_ADD_PERIOD'
+          },
+          {
+            label: 'در دوره حذف و اضافه',
+            value: 'IN_REGISTRATION_PERIOD'
+          }
+        ]
       }
-    ]
-
-    this.loadStatusInfo()
+    })
 
     if (!this.thumbnail) {
       this.thumbnail = '/assets/images/web/sample-class-thumbnail.jpg'
     }
   }
 
-  getUserRegisterInfoLabel () {
+  getUserRegisterInfoLabel (status) {
     const enums = {
       REGISTERED: 'ثبت نام شده',
       ENROLLED: 'پیش ثبت نام شده',
@@ -100,19 +102,9 @@ class Classroom extends Model {
       DROPPED_BY_ADMIN: 'حذف شده توسط ادمین'
     }
 
-    return enums[this.current_user_register_info?.status] || null
-  }
+    const target = status || this.current_user_register_info?.status
 
-  loadStatusInfo () {
-    const target = this.statusEnums.find(type => type.value === this.status)
-    if (!target) {
-      this.status_info = {
-        label: null,
-        value: null
-      }
-    } else {
-      this.status_info = target
-    }
+    return enums[target] || null
   }
 }
 
