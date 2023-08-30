@@ -69,5 +69,23 @@ class Assist {
 
     return true
   }
+
+  static saveCSV (data, fileName) {
+    const csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(data)
+    const exportLink = document.createElement('a')
+    exportLink.setAttribute('href', csvData)
+    exportLink.setAttribute('download', fileName + '.csv')
+    exportLink.setAttribute('target', '_blank')
+    exportLink.click()
+    // exportLink.appendChild(document.createTextNode('test.csv'));
+
+    // document.getElementById('results').appendChild(exportLink);
+
+    // const exportLink = document.createElement('a')
+    // exportLink.setAttribute('href', 'data:text/csv;base64,' + window.btoa(data))
+    // exportLink.appendChild(document.createTextNode(fileName + '.csv'))
+    // document.getElementById('results').appendChild(exportLink)
+  }
 }
+
 export default Assist

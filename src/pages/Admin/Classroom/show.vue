@@ -188,6 +188,7 @@
 
 <script>
 import { shallowRef } from 'vue'
+import Assist from 'src/assets/js/Assist.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
@@ -545,7 +546,7 @@ export default {
   mounted () {
     this.api = APIGateway.classroom.APIAdresses.byId(this.$route.params.id)
     this.setMembersListActionBtn()
-    this.setMembersListActionBtn()
+    this.setActivitySheetListActionBtn()
     this.preLoadData()
       .then(() => {
         this.mounted = true
@@ -559,7 +560,7 @@ export default {
       FormBuilderAssist.setAttributeByName(this.membersListInputs, 'btn', 'atClick', this.searchMembersList)
     },
     setActivitySheetListActionBtn () {
-      FormBuilderAssist.setAttributeByName(this.activitySheetListInputs, 'btn', 'atClick', this.searchMembersList)
+      FormBuilderAssist.setAttributeByName(this.activitySheetListInputs, 'btn', 'atClick', this.searchActivitySheetList)
     },
     searchMembersList () {
       this.$refs.membersList.search()
@@ -690,7 +691,8 @@ export default {
         type: 'users',
         status
       })
-        .then(() => {
+        .then((csvData) => {
+          Assist.saveCSV(csvData, this.classroom.title)
           this.exportReportLoading = false
         })
         .catch(() => {

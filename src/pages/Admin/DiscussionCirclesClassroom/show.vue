@@ -17,6 +17,8 @@
              label="آزمون" />
       <q-tab name="members"
              label="اندیشه جویان" />
+      <q-tab name="activity_sheet"
+             label="فعالیت کلاسی" />
       <q-tab name="live_streaming_url"
              label="بخش آنلاین" />
     </q-tabs>
@@ -106,6 +108,50 @@
                       :show-search-button="false"
                       :show-reload-button="false"
                       :show-expand-button="false">
+          <template #toolbar>
+            <q-btn color="primary"
+                   :loading="exportReportLoading"
+                   @click="getMembersExcel">
+              خروجی اکسل
+            </q-btn>
+          </template>
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'action'">
+              <div class="action-column-entity-index">
+                <q-btn v-if="inputData.props.row.status !== 'DROPPED_BY_ADMIN'"
+                       size="md"
+                       color="red"
+                       outline
+                       label="انصراف"
+                       :loading="dropClassroomByAdminLoading"
+                       class="q-mr-md"
+                       @click="dropClassroomByAdmin(inputData.props.row)" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
+      </q-tab-panel>
+      <q-tab-panel name="activity_sheet"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="activitySheetList"
+                      v-model:value="activitySheetListInputs"
+                      title="فعالیت کلاسی"
+                      :api="activitySheetListApi"
+                      :table="activitySheetListTable"
+                      :table-keys="activitySheetListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
           <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
             <template v-if="inputData.col.name === 'actions'">
               <div class="action-column-entity-index">
@@ -144,6 +190,7 @@
 
 <script>
 import { shallowRef } from 'vue'
+import Assist from 'assets/js/Assist.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
@@ -163,6 +210,7 @@ export default {
     DeleteBtn
   },
   data () {
+    const classroomId = this.$route.params.id
     return {
       mounted: false,
       unitsLoading: false,
@@ -317,12 +365,90 @@ export default {
         pageKey: 'page'
       },
 
+      dropClassroomByAdminLoading: false,
+      exportReportLoading: false,
       membersListInputs: [
-        { type: 'select', name: 'classroom', value: null, label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'hidden', name: 'classroom', value: classroomId },
+        { type: 'select', name: 'status', options: [{ label: 'ثبت نام شده', value: 'REGISTERED' }, { label: 'پیش ثبت نام شده', value: 'ENROLLED' }, { label: 'حذف توسط اندیشه جو', value: 'DROPPED_BY_ITSELF' }, { label: 'حذف توسط ادمین', value: 'DROPPED_BY_ADMIN' }], label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
-      membersListApi: null,
+      membersListApi: APIGateway.classroom.APIAdresses.members,
       membersListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'owner_info.fullname',
+            required: true,
+            label: 'نام و نام خانوادگی',
+            align: 'left',
+            field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
+          },
+          {
+            name: 'owner_info.national_code',
+            required: true,
+            label: 'کد ملی',
+            align: 'left',
+            field: row => row.owner_info.national_code
+          },
+          {
+            name: 'owner_info.mobile_number',
+            required: true,
+            label: 'تلفن همراه',
+            align: 'left',
+            field: row => row.owner_info.mobile_number
+          },
+          {
+            name: 'owner_info.email',
+            required: true,
+            label: 'ایمیل',
+            align: 'left',
+            field: row => row.owner_info.email
+          },
+          {
+            name: 'owner_info.email',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Classroom()).getUserRegisterInfoLabel(row.status)
+          },
+          {
+            name: 'action',
+            required: true,
+            label: ' ',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      membersListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      activitySheetListInputs: [
+        { type: 'hidden', name: 'classroom', value: classroomId },
+        { type: 'select', name: 'status', value: null, label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+      ],
+      activitySheetListApi: APIGateway.classroom.APIAdresses.activitySheet,
+      activitySheetListTable: {
         columns: [
           {
             name: 'id',
@@ -397,7 +523,7 @@ export default {
         ],
         data: []
       },
-      membersListTableKeys: {
+      activitySheetListTableKeys: {
         data: 'results',
         total: 'count',
         currentPage: 'current',
@@ -422,7 +548,8 @@ export default {
   },
   mounted () {
     this.api = APIGateway.classroom.APIAdresses.byId(this.$route.params.id)
-    this.membersListApi = APIGateway.classroom.APIAdresses.members(this.$route.params.id)
+    this.setMembersListActionBtn()
+    this.setActivitySheetListActionBtn()
     this.preLoadData()
       .then(() => {
         this.mounted = true
@@ -435,8 +562,14 @@ export default {
     setMembersListActionBtn () {
       FormBuilderAssist.setAttributeByName(this.membersListInputs, 'btn', 'atClick', this.searchMembersList)
     },
+    setActivitySheetListActionBtn () {
+      FormBuilderAssist.setAttributeByName(this.activitySheetListInputs, 'btn', 'atClick', this.searchActivitySheetList)
+    },
     searchMembersList () {
       this.$refs.membersList.search()
+    },
+    searchActivitySheetList () {
+      this.$refs.activitySheet.search()
     },
     goToLiveStreamUrl () {
       window.open(this.classroom.live_streaming_url, '_blank')
@@ -561,8 +694,46 @@ export default {
     updateClassroom () {
       this.$refs.classroomEntityEdit.editEntity()
     },
+    getMembersExcel () {
+      this.exportReportLoading = true
+      const status = FormBuilderAssist.getInputsByName(this.membersListInputs, 'status').value ? FormBuilderAssist.getInputsByName(this.membersListInputs, 'status').value : null
+      APIGateway.registration.exportReport({
+        classroom: this.$route.params.id,
+        type: 'users',
+        status
+      })
+        .then((csvData) => {
+          Assist.saveCSV(csvData, this.classroom.title)
+          this.exportReportLoading = false
+        })
+        .catch(() => {
+          this.exportReportLoading = false
+        })
+    },
     getRemoveMessage (row) {
       return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
+    },
+    dropClassroomByAdmin (row) {
+      const classroomId = row.classroom
+      const userId = row.owner
+      const message = 'آیا از انصراف (' + row.owner_info.firstname + ' ' + row.owner_info.lastname + ') اطمینان دارید؟'
+      this.$q.dialog({
+        title: 'توجه',
+        message,
+        html: true,
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.dropClassroomByAdminLoading = true
+        APIGateway.classroom.dropByAdmin(classroomId, userId)
+          .then(() => {
+            this.dropClassroomByAdminLoading = false
+            this.searchMembersList()
+          })
+          .catch(() => {
+            this.dropClassroomByAdminLoading = false
+          })
+      })
     }
   }
 }

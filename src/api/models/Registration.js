@@ -59,7 +59,7 @@ export default class RegistrationAPI extends APIRepository {
         status: null // String
       }, data),
       resolveCallback: (response) => {
-        return response.data
+        return response.data // csv string
       },
       rejectCallback: (error) => {
         return error
