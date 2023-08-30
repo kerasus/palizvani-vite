@@ -71,7 +71,7 @@
         <q-card flat
                 class="classroom-item"
                 :class="{'isRegistered' : classroom.is_current_user_registered }">
-<!--          isClassroomRegistered(classroom.id)-->
+          <!--          isClassroomRegistered(classroom.id)-->
           <q-card-section class="thumbnail">
             <router-link :to="{name: 'Public.ShowClassroomInfo', params: {id: classroom.id}}">
               <div class="RegisteredSign">
