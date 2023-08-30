@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="col-md-4 col-12 classroom-action-col">
-            <q-btn v-if="classroom.is_enabled_adding && classroom.current_user_register_info?.status !== 'REGISTERED'"
+            <q-btn v-if="classroom.is_enabled_adding"
                    color="primary"
                    class="btn-register"
                    @click="openRegisterDialog">
@@ -50,7 +50,7 @@
               </svg>
               ثبت نام
             </q-btn>
-            <q-btn v-if="classroom.is_enabled_enrolment && classroom.current_user_register_info?.status !== 'ENROLLED'"
+            <q-btn v-if="classroom.is_enabled_enrolment"
                    color="primary"
                    class="btn-register"
                    @click="onEnrolment">
@@ -74,7 +74,7 @@
                    :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: classroom.id}}">
               مشاهده دوره
             </q-btn>
-            <q-btn v-if="classroom.is_enabled_dropping && classroom.current_user_register_info?.status !== 'DROPPED_BY_ITSELF' && classroom.current_user_register_info?.status !== 'DROPPED_BY_ADMIN'"
+            <q-btn v-if="classroom.is_enabled_dropping"
                    outline
                    color="red"
                    class="btn-register q-ml-md"
@@ -82,7 +82,7 @@
                    @click="onDropping">
               انصراف
             </q-btn>
-            <q-btn v-if="classroom.current_user_register_info?.status !== 'REGISTERED'"
+            <q-btn v-if="classroom.current_user_register_info?.status !== 'REGISTERED' && classroom.current_user_register_info?.status !== 'ENROLLED'"
                    outline
                    color="primary"
                    class="btn-register"
