@@ -58,7 +58,7 @@ export default {
         { type: WarningComp, name: 'WarningComp', label: 'بعد از تایید اطلاعات ضروری، امکان تغییر این اطلاعات وجود ندارد', col: 'col-12' },
         { type: VerifyEmailComp, name: 'email', placeholder: ' ', label: 'ایمیل', responseKey: 'email', col: 'col-md-6 col-12' },
         { type: VerifyMobileNumberComp, name: 'mobile_number', placeholder: ' ', label: 'تلفن همراه', responseKey: 'mobile_number', col: 'col-md-6 col-12' },
-        { type: 'optionGroupRadio', name: 'is_valid_national_code', label: 'اتباع خارجی', options: [{ label: 'نیستم', value: true }, { label: 'هستم', value: false }], value: true, className: 'require', col: 'col-md-6 col-12' },
+        { type: 'optionGroupRadio', name: 'is_valid_national_code', responseKey: 'is_valid_national_code', label: 'اتباع خارجی', options: [{ label: 'نیستم', value: true }, { label: 'هستم', value: false }], value: true, className: 'require', col: 'col-md-6 col-12' },
         { type: NationalCodeComp, name: 'national_code', value: '', placeholder: ' ', label: 'کدملی/کد اتباع غیر ایرانی', responseKey: 'national_code', col: 'col-md-6 col-12' },
         { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', className: 'custom-separator', col: 'col-12' },
         { type: 'file', name: 'picture', placeholder: ' ', label: 'عکس پروفایل', responseKey: 'picture', col: 'col-md-6 col-12' },
