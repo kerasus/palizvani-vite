@@ -687,7 +687,7 @@ export default {
       const status = FormBuilderAssist.getInputsByName(this.membersListInputs, 'status').value ? FormBuilderAssist.getInputsByName(this.membersListInputs, 'status').value : null
       APIGateway.registration.exportReport({
         classroom: this.$route.params.id,
-        type: 'user',
+        type: 'users',
         status
       })
         .then(() => {
