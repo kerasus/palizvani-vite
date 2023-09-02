@@ -47,6 +47,10 @@ class Media extends Model {
       {
         label: 'تصویر',
         value: 'IMAGE'
+      },
+      {
+        label: 'سند',
+        value: 'DOCUMENT'
       }
     ]
 
