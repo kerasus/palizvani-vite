@@ -5,15 +5,15 @@ moment.loadPersian()
 
 class ShamsiDate {
   static getTerm (dateTime) {
-    return moment(dateTime, 'YYYY-M-D hh:mm:ss').format('jMMMM jYYYY')
+    return moment(dateTime, 'YYYY-M-D HH:mm:ss').format('jMMMM jYYYY')
   }
 
   static getDateTime (dateTime) {
-    return moment(dateTime, 'YYYY-M-D hh:mm:ss').format('hh:mm:ss jYYYY/jMM/jDD')
+    return moment(dateTime, 'YYYY-M-D HH:mm:ss').format('HH:mm:ss jYYYY/jMM/jDD')
   }
 
   static getTitledDateTime (dateTime) {
-    return moment(dateTime, 'YYYY-M-D hh:mm:ss').format('jD jMMMM jYYYY')
+    return moment(dateTime, 'YYYY-M-D HH:mm:ss').format('jD jMMMM jYYYY')
   }
 }
 
