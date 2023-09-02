@@ -14,7 +14,7 @@
                  :show-save-button="false"
                  :show-reload-button="false">
       <template #after-form-builder>
-        <div class="flex justify-end">
+        <div class="flex justify-end q-mt-md">
           <q-btn color="primary"
                  label="ذخیره جزییات"
                  @click="updateSessionTemplates" />

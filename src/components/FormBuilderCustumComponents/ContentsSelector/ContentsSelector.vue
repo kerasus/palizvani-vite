@@ -46,14 +46,18 @@ export default {
       handler (newValue) {
         if (newValue.length > 0 && newValue[0].id) {
           this.selectedContents = (new ContentList(JSON.parse(JSON.stringify(newValue)))).list
+          this.emitSelectedContents()
         }
       },
       immediate: true
     }
   },
   methods: {
-    onSelectContent () {
+    emitSelectedContents () {
       this.$emit('update:value', this.selectedContents.map(item => item.id))
+    },
+    onSelectContent () {
+      this.emitSelectedContents()
     },
     onView (content) {
       const routeData = this.$router.resolve({ name: 'Admin.Content.Show', params: { id: content.id } })
@@ -68,7 +72,7 @@ export default {
         return
       }
       this.selectedContents.splice(contentIndex, 1)
-      this.$emit('update:value', this.selectedContents.map(item => item.id))
+      this.emitSelectedContents()
     }
   }
 }
