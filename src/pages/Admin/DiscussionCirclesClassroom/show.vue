@@ -304,11 +304,14 @@ export default {
 
         { type: 'separator', name: 'space', label: 'قوانین', className: 'custom-separator', col: 'col-12' },
         { type: 'inputEditor', name: 'rules', responseKey: 'rules', label: 'قوانین دوره آموزشی', col: 'col-12' },
+
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
+        { type: 'inputEditor', name: 'specification', responseKey: 'specification', label: 'مشخصات', col: 'col-12' },
+        { type: 'inputEditor', name: 'holding_detail', responseKey: 'holding_detail', label: 'نحوه برگزاری', col: 'col-12' },
         // -----------------------------------------------------------------------------------------------------------
 
         { type: 'separator', name: 'space', label: 'موارد زیر در طرح نبودند', className: 'custom-separator', col: 'col-12' },
         { type: 'select', name: 'audience_role', responseKey: 'audience_role', options: Enums.groups, placeholder: ' ', label: 'نقش', col: 'col-md-4 col-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: '??توضیحات', col: 'col-12' },
 
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-3 col-12' }
       ],

@@ -168,26 +168,10 @@
                       transform="translate(0.001)"
                       fill="#aaa095" />
               </svg>
-              جزییات دوره
+              مشخصات
             </div>
-            <div class="info-box-body">
-              <div class="info-item">
-                نام درس:
-                {{ classroom.title }}
-              </div>
-              <div class="info-item">
-                گروه آموزشی:
-                {{ classroom.unit_info.category_info.title }}
-              </div>
-              <div class="info-item">
-                زمان شروع ثبت نام گروه درسی:
-                {{ getTime(classroom.beginning_registration_period) }}
-              </div>
-              <div class="info-item">
-                زمان اتمام ثبت نام گروه درسی:
-                {{ getTime(classroom.ending_registration_period) }}
-              </div>
-            </div>
+            <div class="info-box-body"
+                 v-html="classroom.specification" />
           </div>
           <div class="info-box rules">
             <div class="info-box-title">
@@ -201,13 +185,10 @@
                       transform="translate(0.001)"
                       fill="#aaa095" />
               </svg>
-              قوانین دوره
+              قوانین
             </div>
-            <div class="info-box-body">
-              <div v-html="classroom.rules" />
-              <div v-if="classroom.unit_info && classroom.unit_info.codes"
-                   v-html="classroom.unit_info.codes" />
-            </div>
+            <div class="info-box-body"
+                 v-html="classroom.rules" />
           </div>
         </div>
         <div class="col-md-6 col-12">
@@ -224,59 +205,13 @@
                       d="M0,10A10,10,0,1,1,10,20,10.011,10.011,0,0,1,0,10Zm1.5,0A8.5,8.5,0,1,0,10,1.5,8.51,8.51,0,0,0,1.5,10Zm11.547,3.587-3.77-2.249a.754.754,0,0,1-.366-.644V5.845a.75.75,0,0,1,1.5,0v4.422l3.4,2.03a.751.751,0,0,1-.769,1.29Z"
                       fill="#aaa095" />
               </svg>
-              زمان برگزاری کلاس
+              نحوه برگزاری
             </div>
-            <div class="info-box-body">
-              <div v-if="classroom.sessions_info && classroom.sessions_info.list.length > 0"
-                   class="info-item">
-                اولین جلسه:
-                {{ classroom.sessions_info.list[0].starting_time ? getTitledDateTime(classroom.sessions_info.list[0].starting_time) : '-' }}
-              </div>
-              <div v-if="classroom.sessions_info && classroom.sessions_info.list.length > 0"
-                   class="info-item">
-                طول دوره:
-                {{ classroom.sessions_info.list.length }}
-                جلسه
-              </div>
-              <div class="info-item">
-                نوع برگزاری :
-                {{getHoldingType(classroom.holding_type)}}
-              </div>
-              <div v-if="classroom.beginning_enrollment_period"
-                   class="info-item">
-                زمان شروع پیش ثبت نام:
-                {{ getTitledDateTime(classroom.beginning_enrollment_period) }}
-              </div>
-              <div v-if="classroom.ending_enrollment_period"
-                   class="info-item">
-                زمان اتمام پیش ثبت نام:
-                {{ getTitledDateTime(classroom.ending_enrollment_period) }}
-              </div>
-              <div v-if="classroom.beginning_registration_period"
-                   class="info-item">
-                زمان شروع ثبت نام:
-                {{ getTitledDateTime(classroom.beginning_registration_period) }}
-              </div>
-              <div v-if="classroom.ending_registration_period"
-                   class="info-item">
-                زمان اتمام ثبت نام:
-                {{ getTitledDateTime(classroom.ending_registration_period) }}
-              </div>
-              <div v-if="classroom.beginning_drop_add_period"
-                   class="info-item">
-                زمان شروع حذف و اضافه:
-                {{ getTitledDateTime(classroom.beginning_drop_add_period) }}
-              </div>
-              <div v-if="classroom.ending_drop_add_period"
-                   class="info-item">
-                زمان اتمام حذف و اضافه:
-                {{ getTitledDateTime(classroom.ending_drop_add_period) }}
-              </div>
-            </div>
+            <div class="info-box-body"
+                 v-html="classroom.holding_detail" />
           </div>
           <div class="info-box books">
-            <div v-if="false"
-                 class="info-box-title">
+            <div class="info-box-title">
               <svg xmlns="http://www.w3.org/2000/svg"
                    width="21.968"
                    height="15.702"
@@ -286,7 +221,7 @@
                       transform="translate(-2 -8)"
                       fill="#aaa095" />
               </svg>
-              کتاب ها
+              توضیحات
             </div>
             <div class="info-box-body"
                  v-html="classroom.description" />
