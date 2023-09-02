@@ -34,7 +34,7 @@
           <div class="col-md-4 col-12 classroom-action-col">
             <q-btn v-if="classroom.is_enabled_adding"
                    color="primary"
-                   class="btn-register"
+                   class="btn-register q-ml-md"
                    @click="openRegisterDialog">
               <svg data-name="Add User"
                    xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@
             </q-btn>
             <q-btn v-if="classroom.is_enabled_enrolment"
                    color="primary"
-                   class="btn-register"
+                   class="btn-register q-ml-md"
                    @click="onEnrolment">
               <svg data-name="Add User"
                    xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@
             </q-btn>
             <q-btn v-if="!defaultOptions.profileMode && classroom.is_enabled_viewing"
                    color="primary"
-                   class="btn-register"
+                   class="btn-register q-ml-md"
                    :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: classroom.id}}">
               مشاهده دوره
             </q-btn>
@@ -85,7 +85,7 @@
             <q-btn v-if="classroom.current_user_register_info?.status !== 'REGISTERED' && classroom.current_user_register_info?.status !== 'ENROLLED'"
                    outline
                    color="primary"
-                   class="btn-register"
+                   class="btn-register q-ml-md"
                    @click="openRulesDialog">
               آیین نامه دوره
             </q-btn>
@@ -326,23 +326,23 @@
         <q-separator />
 
         <q-card-actions class="rulesDialog-actions">
-          <div v-if="!defaultOptions.profileMode && acceptClassType !== 'rules'"
+          <div v-if="(!classroom.is_enabled_enrolment || !classroom.is_enabled_adding) && acceptClassType !== 'rules'"
                class="rulesDialog-accept-chk">
             <q-checkbox v-model="rulesAccept"
                         label="آیین نامه دوره آموزشی را خواندم و قصد ثبت نام در دوره را دارم" />
           </div>
           <div class="rulesDialog-btns q-gutter-md">
-            <q-btn v-if="defaultOptions.profileMode || acceptClassType === 'rules'"
+            <q-btn v-if="acceptClassType === 'rules'"
                    v-close-popup
                    label="بستن"
                    color="primary"
                    outline />
-            <q-btn v-if="!defaultOptions.profileMode && acceptClassType !== 'rules'"
+            <q-btn v-if="(!classroom.is_enabled_enrolment || !classroom.is_enabled_adding) && acceptClassType !== 'rules'"
                    v-close-popup
                    label="انصراف"
                    color="primary"
                    outline />
-            <q-btn v-if="!defaultOptions.profileMode && acceptClassType !== 'rules'"
+            <q-btn v-if="(!classroom.is_enabled_enrolment || !classroom.is_enabled_adding) && acceptClassType !== 'rules'"
                    label="تایید و ادامه"
                    color="primary"
                    :disable="!rulesAccept"
