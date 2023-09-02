@@ -86,6 +86,15 @@ class Classroom extends Model {
             value: 'IN_REGISTRATION_PERIOD'
           }
         ]
+      },
+      holding_type: {
+        infoKey: 'holding_type_info',
+        enumListKey: 'holding_typeEnums',
+        enums: [
+          { label: 'برخط(آنلاین)', value: 'ONLINE' },
+          { label: 'برون خط(آفلاین)', value: 'OFFLINE' },
+          { label: 'حضوری', value: 'FACE_TO_FACE' }
+        ]
       }
     })
 

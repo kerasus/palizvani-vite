@@ -150,20 +150,12 @@
             </div>
             <div class="attribute-item">
               <div class="attribute-logo">
-                <svg id="Calendar"
-                     xmlns="http://www.w3.org/2000/svg"
-                     width="21"
-                     height="23.154"
-                     viewBox="0 0 21 23.154">
-                  <path id="Combined_Shape"
-                        data-name="Combined Shape"
-                        d="M5.945,23.154c-3.668,0-5.945-2.26-5.945-5.9V7.51A5.382,5.382,0,0,1,5.347,1.721V.807a.808.808,0,0,1,1.616,0V1.7h7.084V.807a.807.807,0,1,1,1.615,0v.914a5.8,5.8,0,0,1,3.8,1.572A5.793,5.793,0,0,1,21,7.513v9.824c0,3.588-2.279,5.817-5.946,5.817Zm-4.33-5.9c0,2.762,1.537,4.284,4.33,4.284h9.109c2.792,0,4.331-1.493,4.331-4.2V9.59H1.616ZM19.385,7.974V7.51a4.159,4.159,0,0,0-1.063-3.074,4.164,4.164,0,0,0-2.66-1.094v1.01a.807.807,0,0,1-1.615,0V3.317H6.963V4.352a.808.808,0,0,1-1.616,0V3.341c-2.413.2-3.732,1.664-3.732,4.169v.464Zm-4.9,9.2a.8.8,0,0,1,.8-.807h.01a.807.807,0,1,1-.812.807Zm-4.778,0a.8.8,0,0,1,.8-.807h.01a.807.807,0,1,1-.812.807Zm-4.79,0a.8.8,0,0,1,.8-.807h.01a.807.807,0,1,1-.813.807Zm9.568-4.185a.8.8,0,0,1,.8-.808h.01a.808.808,0,1,1-.812.808Zm-4.778,0a.8.8,0,0,1,.8-.808h.01a.808.808,0,1,1-.812.808Zm-4.79,0a.8.8,0,0,1,.8-.808h.01a.808.808,0,1,1-.813.808Z"
-                        transform="translate(0 0)"
-                        fill="#aaa095" />
-                </svg>
+                <q-icon name="cast_for_education"
+                        size="20px"
+                        color="grey" />
               </div>
               <div class="attribute-value">
-                {{ getTerm(classroom) }}
+                {{ getHoldingType(classroom) }}
               </div>
             </div>
             <div class="attribute-item">
@@ -312,9 +304,9 @@ import Enums from 'src/assets/Enums/Enums.js'
 import API_ADDRESS from 'src/api/Addresses.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { ClassroomList } from 'src/models/Classroom.js'
 import SelectControl from 'src/components/Control/Select.vue'
 import { UnitCategoryList } from 'src/models/UnitCategory.js'
+import { Classroom, ClassroomList } from 'src/models/Classroom.js'
 import { ClassroomRegistrationList } from 'src/models/ClassroomRegistration.js'
 
 export default {
@@ -421,6 +413,9 @@ export default {
         return '-'
       }
       return ShamsiDate.getTerm(classroom.beginning_registration_period)
+    },
+    getHoldingType (classroom) {
+      return new Classroom(classroom).holding_type_info.label
     },
     getProfessors () {
       this.$axios.get(API_ADDRESS.user.base + '?per_page=9999&role=professor')
