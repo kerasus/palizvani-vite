@@ -255,7 +255,7 @@ import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import InvoiceInfo from './components/InvoiceInfo.vue'
-import InvoicePaymentCard from 'src/components/InvoicePaymentCard.vue'
+import InvoicePaymentCard from 'src/components/InvoicePaymentCard/InvoicePaymentCard.vue'
 
 export default {
   name: 'PaymentFromWallet',

@@ -150,7 +150,19 @@ export default {
       return Assist.miladiToShamsi(dateTime)
     },
     onCancel () {
-      this.$router.push({ name: 'UserPanel.Invoice.List' })
+      this.invoice.loading = true
+      APIGateway.invoice.cancel(this.invoice.id)
+        .then((message) => {
+          this.invoice.loading = false
+          this.getInvoice()
+          this.$q.notify({
+            message,
+            type: 'positive'
+          })
+        })
+        .catch(() => {
+          this.invoice.loading = false
+        })
     },
     onAccept () {
       this.payInvoice()

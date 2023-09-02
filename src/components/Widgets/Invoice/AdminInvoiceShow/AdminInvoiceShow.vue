@@ -137,7 +137,7 @@ import { Wallet } from 'src/models/Wallet.js'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import InvoicePaymentCard from 'src/components/InvoicePaymentCard.vue'
+import InvoicePaymentCard from 'src/components/InvoicePaymentCard/InvoicePaymentCard.vue'
 
 export default {
   name: 'AdminInvoiceShow',
@@ -172,7 +172,19 @@ export default {
       return Assist.miladiToShamsi(dateTime)
     },
     onCancel () {
-      this.$router.push({ name: 'UserPanel.Invoice.List' })
+      this.invoice.loading = true
+      APIGateway.invoice.cancel(this.invoice.id)
+        .then((message) => {
+          this.invoice.loading = false
+          this.getInvoice()
+          this.$q.notify({
+            message,
+            type: 'positive'
+          })
+        })
+        .catch(() => {
+          this.invoice.loading = false
+        })
     },
     onAccept () {
       this.payInvoice()

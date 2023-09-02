@@ -8,7 +8,8 @@ export default class InvoiceAPI extends APIRepository {
     this.APIAdresses = {
       base: '/accounting/invoices',
       byId: (id) => '/accounting/invoices/' + id,
-      pay: (id) => '/accounting/invoices/' + id + '/pay'
+      pay: (id) => '/accounting/invoices/' + id + '/pay',
+      cancel: (id) => '/accounting/invoices/' + id + '/cancel'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base
@@ -59,6 +60,20 @@ export default class InvoiceAPI extends APIRepository {
       apiMethod: 'put',
       api: this.api,
       request: this.APIAdresses.pay(invoiceId),
+      resolveCallback: (response) => {
+        return response.data.detail // String : message
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  cancel(invoiceId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.cancel(invoiceId),
       resolveCallback: (response) => {
         return response.data.detail // String : message
       },
