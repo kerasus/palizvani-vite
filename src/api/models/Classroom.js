@@ -15,8 +15,7 @@ export default class ClassroomAPI extends APIRepository {
       activitySheet: '/lma/registrations/activity_sheet',
       enrollByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/enrolll?user_id=' + userId,
       dropByAdmin: (classroomId) => '/lma/classrooms/' + classroomId + '/drop',
-      createInvoice: (id) => '/lma/classrooms/' + id + '/create_invoice',
-      createInvoiceByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/create_invoice?user_id=' + userId
+      createInvoice: (id) => '/lma/classrooms/' + id + '/create_invoice'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -133,7 +132,8 @@ export default class ClassroomAPI extends APIRepository {
     return this.sendRequest({
       apiMethod: 'put',
       api: this.api,
-      request: this.APIAdresses.createInvoiceByAdmin(classroomId, userId),
+      request: this.APIAdresses.createInvoice(classroomId),
+      data: { owner: userId },
       resolveCallback: (response) => {
         return new Invoice(response.data)
       },

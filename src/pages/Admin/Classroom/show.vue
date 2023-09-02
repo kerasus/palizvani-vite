@@ -127,6 +127,14 @@
                        :loading="dropClassroomByAdminLoading"
                        class="q-mr-md"
                        @click="dropClassroomByAdmin(inputData.props.row)" />
+                <q-btn v-if="inputData.props.row.status !== 'DROPPED_BY_ADMIN'"
+                       size="md"
+                       color="primary"
+                       outline
+                       label="ایجاد صورتحساب"
+                       :loading="createInvoiceLoading"
+                       class="q-mr-md"
+                       @click="createInvoiceVorClassroom(inputData.props.row)" />
               </div>
             </template>
             <template v-else>
@@ -211,6 +219,7 @@ export default {
     const classroomId = this.$route.params.id
     return {
       mounted: false,
+      createInvoiceLoading: false,
       classroomEntityEditKey: Date.now(),
       tab: 'classroomInfo',
       api: null,
@@ -724,6 +733,19 @@ export default {
             this.dropClassroomByAdminLoading = false
           })
       })
+    },
+    createInvoiceVorClassroom (row) {
+      const classroomId = row.classroom
+      const userId = row.owner
+      this.createInvoiceLoading = true
+      APIGateway.classroom.createInvoiceByAdmin(classroomId, userId)
+        .then((invoice) => {
+          this.$router.push({ name: 'Admin.Invoice.Show', params: { id: invoice.id } })
+          this.createInvoiceLoading = false
+        })
+        .catch(() => {
+          this.createInvoiceLoading = false
+        })
     }
   }
 }
