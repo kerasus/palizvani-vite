@@ -16,6 +16,7 @@ class User extends Model {
       { key: 'national_code' },
       { key: 'picture' },
       { key: 'has_seminary_education' },
+      { key: 'has_overdue_instalment' },
       { key: 'last_academic_degree' },
       { key: 'last_academic_degree_field' },
       { key: 'last_academy_name' },
