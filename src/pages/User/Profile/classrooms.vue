@@ -1,51 +1,46 @@
 <template>
   <breadcrumbs style="margin-top: 29px; margin-bottom: 19px;" />
-  <template v-if="user.has_overdue_instalment">
-    <overdue-instalments />
-  </template>
-  <template v-else>
-    <entity-index v-if="mounted"
-                  ref="entityIndex"
-                  v-model:value="inputs"
-                  title="لیست دوره ها"
-                  :api="api"
-                  :table="table"
-                  :table-keys="tableKeys"
-                  :table-grid-size="$q.screen.lt.sm"
-                  :show-expand-button="false"
-                  :show-reload-button="false"
-                  :show-search-button="false">
-      <template #entity-index-table-cell="{inputData}">
-        <template v-if="inputData.col.name === 'number'">
-          {{ inputData.rowNumber }}
-        </template>
-        <template v-else-if="inputData.col.name === 'action'">
-          <q-btn size="md"
-                 color="primary"
-                 label="جزییات"
-                 :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: inputData.props.row.classroom_info.id}}" />
-        </template>
-        <template v-else>
-          {{ inputData.col.value }}
-        </template>
+  <entity-index v-if="mounted"
+                ref="entityIndex"
+                v-model:value="inputs"
+                title="لیست دوره ها"
+                :api="api"
+                :table="table"
+                :table-keys="tableKeys"
+                :table-grid-size="$q.screen.lt.sm"
+                :show-expand-button="false"
+                :show-reload-button="false"
+                :show-search-button="false">
+    <template #entity-index-table-cell="{inputData}">
+      <template v-if="inputData.col.name === 'number'">
+        {{ inputData.rowNumber }}
       </template>
-      <template #entity-index-table-item-cell="{inputData}">
-        <entity-index-grid-item :input-data="inputData">
-          <template #col="{col, row}">
-            <template v-if="col.name === 'number'">
-              {{ inputData.rowNumber }}
-            </template>
-            <template v-else-if="col.name === 'action'">
-              <q-btn size="md"
-                     color="primary"
-                     label="جزییات"
-                     :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: row.classroom_info.id}}" />
-            </template>
+      <template v-else-if="inputData.col.name === 'action'">
+        <q-btn size="md"
+               color="primary"
+               label="جزییات"
+               :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: inputData.props.row.classroom_info.id}}" />
+      </template>
+      <template v-else>
+        {{ inputData.col.value }}
+      </template>
+    </template>
+    <template #entity-index-table-item-cell="{inputData}">
+      <entity-index-grid-item :input-data="inputData">
+        <template #col="{col, row}">
+          <template v-if="col.name === 'number'">
+            {{ inputData.rowNumber }}
           </template>
-        </entity-index-grid-item>
-      </template>
-    </entity-index>
-  </template>
+          <template v-else-if="col.name === 'action'">
+            <q-btn size="md"
+                   color="primary"
+                   label="جزییات"
+                   :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: row.classroom_info.id}}" />
+          </template>
+        </template>
+      </entity-index-grid-item>
+    </template>
+  </entity-index>
 </template>
 
 <script>
@@ -61,7 +56,6 @@ import BtnControl from 'src/components/Control/btn.vue'
 import { Registration } from 'src/models/Registration.js'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import OverdueInstalments from 'src/components/Widgets/Invoice/OverdueInstalments/OverdueInstalments.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -70,7 +64,6 @@ export default {
   components: {
     EntityIndex,
     Breadcrumbs,
-    OverdueInstalments,
     EntityIndexGridItem
   },
   mixins: [mixinAuth],

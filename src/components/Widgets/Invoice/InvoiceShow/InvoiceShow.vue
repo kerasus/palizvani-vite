@@ -98,7 +98,8 @@
                                 :invoice="invoice"
                                 class="payment-card"
                                 @onCancel="onCancel"
-                                @onAccept="onAccept" />
+                                @onAccept="onAccept"
+                                @onInstalmentPayed="onInstalmentPayed" />
         </q-card-section>
       </q-card>
 
@@ -113,7 +114,7 @@ import { Wallet } from 'src/models/Wallet.js'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import InvoicePaymentCard from 'src/components/InvoicePaymentCard.vue'
+import InvoicePaymentCard from 'src/components/InvoicePaymentCard/InvoicePaymentCard.vue'
 
 export default {
   name: 'InvoiceShow',
@@ -153,6 +154,10 @@ export default {
     },
     onAccept () {
       this.payInvoice()
+    },
+    onInstalmentPayed () {
+      this.getMyWallet()
+      this.getInvoice()
     },
     getMyWallet () {
       this.wallet.loading = true

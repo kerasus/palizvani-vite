@@ -1,22 +1,10 @@
 <template>
-  <div class="InvoiceList"
+  <div class="Instalments"
        :style="localOptions.style">
 
     <q-banner inline-actions
               class="text-white bg-red q-mb-md text-center">
       لطفا اقساط معوقه خود را پرداخت کنید.
-    </q-banner>
-    <q-banner class="q-mb-md">
-      موجودی کیف پول:
-      <template v-if="!wallet.loading">
-        {{ wallet.inventory ? wallet.inventory.toLocaleString('fa') : 0 }}
-      </template>
-      <template v-else>
-        <q-skeleton type="text"
-                    width="100px"
-                    class="inline-block" />
-      </template>
-      ریال
     </q-banner>
     <entity-index v-if="mounted"
                   ref="entityIndex"
@@ -29,17 +17,15 @@
                   :table-grid-size="$q.screen.lt.sm"
                   :show-search-button="false"
                   :show-expand-button="false"
-                  :show-reload-button="false"
-                  @on-page-changed="onPageChanged">
+                  :show-reload-button="false">
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
         </template>
         <template v-else-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :loading="payLoading || wallet.loading"
-                 @click="pay(inputData.props.row)">
-            پرداخت
+                 :to="{name: 'UserPanel.Invoice.Show', params: {id: inputData.props.row.invoice}}">
+            مشاهده جزییات
           </q-btn>
         </template>
         <template v-else>
@@ -54,9 +40,8 @@
             </template>
             <template v-else-if="col.name === 'action'">
               <q-btn color="primary"
-                     :loading="payLoading || wallet.loading"
-                     @click="pay(row)">
-                پرداخت
+                     :to="{name: 'UserPanel.Invoice.Show', params: {id: row.invoice}}">
+                مشاهده جزییات
               </q-btn>
             </template>
           </template>
@@ -69,22 +54,18 @@
 <script>
 import Assist from 'assets/js/Assist.js'
 import { EntityIndex } from 'quasar-crud'
-import { Wallet } from 'src/models/Wallet.js'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
-import { User } from 'src/models/User'
 
 export default {
-  name: 'InvoiceList',
+  name: 'Instalments',
   components: { EntityIndex, EntityIndexGridItem },
   mixins: [mixinWidget],
   data: () => {
     return {
-      user: new User(),
-      wallet: new Wallet(),
       api: APIGateway.instalment.APIAdresses.base,
       tableKeys: {
         data: 'results',
@@ -94,7 +75,7 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'type', value: 'overdue' }
+        // { type: 'hidden', name: 'type', value: 'overdue' }
       ],
       table: {
         columns: [
@@ -164,99 +145,31 @@ export default {
         ]
       },
       mounted: false,
-      payLoading: false,
       createRouteName: ''
     }
   },
   mounted() {
-    this.loadAuthData()
     this.setOwner()
     this.setActionBtn()
-    this.getMyWallet()
     this.mounted = true
   },
   methods: {
-    loadAuthData() { // prevent Hydration node mismatch
-      this.user = this.$store.getters['Auth/user']
-    },
     setOwner () {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', this.user.id)
+      const user = this.$store.getters['Auth/user']
+      FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', user.id)
     },
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     },
     search () {
       this.$refs.entityIndex.search()
-    },
-    onPageChanged (response) {
-      if (response.data.results.length === 0) {
-        this.redirectTo()
-      }
-    },
-    redirectTo () {
-      let redirectTo = this.$store.getters['Auth/redirectTo']
-      if (redirectTo === null || typeof redirectTo !== 'object') {
-        redirectTo = { name: 'Public.Home' }
-      }
-      this.$router.push(redirectTo)
-      this.$store.commit('Auth/updateRedirectTo', null)
-    },
-    getMyWallet () {
-      this.wallet.loading = true
-      APIGateway.wallet.getMyWallet(this.user.id)
-        .then((wallet) => {
-          this.wallet = new Wallet(wallet)
-          this.wallet.loading = false
-          this.walletLoaded = true
-        })
-        .catch(() => {
-          this.wallet.loading = false
-        })
-    },
-    amountOfDepositWalletNeeded (instalmentAmount) {
-      return instalmentAmount - this.wallet.inventory
-    },
-    pay (instalment) {
-      if (this.amountOfDepositWalletNeeded(instalment.amount) > 0) {
-        this.payInstalmentByDepositWallet(instalment.id, instalment.amount)
-      } else {
-        this.payInstalmentByWallet(instalment.id)
-      }
-    },
-    payInstalmentByWallet (instalmentId) {
-      this.payLoading = true
-      APIGateway.instalment.pay(instalmentId)
-        .then((message) => {
-          this.payLoading = false
-          this.search()
-          this.$q.notify({
-            message,
-            type: 'positive'
-          })
-        })
-        .catch(() => {
-          this.payLoading = false
-        })
-    },
-    payInstalmentByDepositWallet (instalmentId, instalmentAmount) {
-      this.payLoading = true
-      APIGateway.wallet.deposit({
-        amount: instalmentAmount,
-        instalment: instalmentId
-      })
-        .then((url) => {
-          window.location.href = url
-        })
-        .catch(() => {
-          this.payLoading = false
-        })
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.InvoiceList {
+.Instalments {
   .title {
     font-style: normal;
     font-weight: 700;

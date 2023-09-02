@@ -59,10 +59,12 @@
           </div>
         </div>
       </div>
-      <div class="action-area">
+      <div v-if="!invoice.instalments_info || invoice.instalments_info.length === 0"
+           class="action-area">
         <q-btn color="red"
                class="btn-cancel"
                outline
+               :disable="invoice.status==='PAYING_IN_INSTALMENT'"
                :loading="invoice.loading || wallet.loading"
                @click="onCancel">
           انصراف
@@ -88,6 +90,12 @@
           مشاهده صورتحساب
         </q-btn>
       </div>
+
+      <div>
+        <instalments :wallet="wallet"
+                     :invoice="invoice"
+                     @onInstalmentPayed="onInstalmentPayed" />
+      </div>
     </div>
   </div>
 </template>
@@ -95,9 +103,13 @@
 <script>
 import { Wallet } from 'src/models/Wallet.js'
 import { Invoice } from 'src/models/Invoice.js'
+import Instalments from './components/Instalments.vue'
 
 export default {
   name: 'InvoicePaymentCard',
+  components: {
+    Instalments
+  },
   props: {
     invoice: {
       type: Invoice,
@@ -108,6 +120,7 @@ export default {
       default: new Wallet()
     }
   },
+  emits: ['onCancel', 'onAccept', 'onInstalmentPayed'],
   data: () => {
     return {
       walletLoaded: false,
@@ -136,6 +149,9 @@ export default {
     },
     onAccept () {
       this.$emit('onAccept')
+    },
+    onInstalmentPayed () {
+      this.$emit('onInstalmentPayed')
     },
     checkForNeedToDeposit () {
       this.needToDeposit = this.invoice.amount > this.wallet.inventory

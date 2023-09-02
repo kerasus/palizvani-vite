@@ -10,6 +10,7 @@ import PaymentAPI from 'src/api/models/Payment.js'
 import SessionAPI from 'src/api/models/Session.js'
 import ContentAPI from 'src/api/models/Content.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
+import InstalmentAPI from 'src/api/models/Instalment.js'
 import TransactionAPI from 'src/api/models/Transaction.js'
 import PageSettingAPI from 'src/api/models/PageSetting.js'
 import MediaHashtagAPI from 'src/api/models/MediaHashtag.js'
@@ -36,6 +37,7 @@ export const APIGateway = {
   session: new SessionAPI(),
   content: new ContentAPI(),
   classroom: new ClassroomAPI(),
+  instalment: new InstalmentAPI(),
   transaction: new TransactionAPI(),
   pageSetting: new PageSettingAPI(),
   registration: new RegistrationAPI(),

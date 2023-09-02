@@ -1,4 +1,4 @@
-import { /* notLogedIn, */Authenticated, canSeeAdminPanel, canSeeUserProfilePanel } from './middleware/middleware.js'
+import { /* notLogedIn, */Authenticated, canSeeAdminPanel, canSeeUserProfilePanel, HasOverdueInstalment } from './middleware/middleware.js'
 
 const routes = [
   {
@@ -168,6 +168,11 @@ const routes = [
             meta: { middlewares: [Authenticated] },
             children: [
               {
+                name: 'UserPanel.Profile.OverdueInstalments',
+                path: 'overdue-instalments',
+                component: () => import('src/pages/User/Profile/OverdueInstalment.vue')
+              },
+              {
                 name: 'UserPanel.Profile.AllClassrooms',
                 path: 'all-classrooms',
                 component: () => import('src/pages/User/Profile/classrooms.vue'),
@@ -181,7 +186,8 @@ const routes = [
                         to: { name: 'UserPanel.Profile.AllClassrooms' }
                       }
                     ]
-                  }
+                  },
+                  middlewares: [HasOverdueInstalment]
                 }
               },
               {
@@ -198,12 +204,31 @@ const routes = [
                         to: { name: 'UserPanel.Profile.AllDiscussionCirclesClassrooms' }
                       }
                     ]
-                  }
+                  },
+                  middlewares: [HasOverdueInstalment]
                 }
               },
-              { name: 'UserPanel.Profile.ClassroomInfo', path: 'classroom/:id', component: () => import('src/pages/User/Profile/classroomInfo.vue') },
-              { name: 'UserPanel.Profile.SessionInfo', path: 'session/:id', component: () => import('src/pages/User/Profile/sessionInfo.vue') },
-              { name: 'UserPanel.Profile.UserInfo', path: 'user-info', component: () => import('src/pages/User/Profile/profile.vue') }
+              {
+                name: 'UserPanel.Profile.ClassroomInfo',
+                path: 'classroom/:id',
+                component: () => import('src/pages/User/Profile/classroomInfo.vue'),
+                meta: {
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
+                name: 'UserPanel.Profile.SessionInfo',
+                path: 'session/:id',
+                component: () => import('src/pages/User/Profile/sessionInfo.vue'),
+                meta: {
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
+                name: 'UserPanel.Profile.UserInfo',
+                path: 'user-info',
+                component: () => import('src/pages/User/Profile/profile.vue')
+              }
             ]
           },
           {

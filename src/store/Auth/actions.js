@@ -110,3 +110,15 @@ export function logOut (context, payload) {
     this.$router.push({ name: 'Login' })
   }
 }
+
+export function updateCurrent (context) {
+  return new Promise((resolve, reject) => {
+    APIGateway.user.getCurrent()
+      .then((user) => {
+        context.commit('updateUser', user)
+      })
+      .catch(() => {
+        reject()
+      })
+  })
+}

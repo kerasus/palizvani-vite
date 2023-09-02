@@ -22,6 +22,8 @@ class Invoice extends Model {
       { key: 'is_deleted' },
       { key: 'item_id' },
       { key: 'item_type' }, // CLASSROOM
+      { key: 'instalments' },
+      { key: 'instalments_info' },
       {
         key: 'item_info',
         relatedModel: Classroom

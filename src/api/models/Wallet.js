@@ -54,11 +54,19 @@ export default class WalletAPI extends APIRepository {
   deposit(data) {
     const amount = data.amount ? data.amount : 0
     const invoice = data.invoice ? data.invoice : null
+    const instalment = data.instalment ? data.instalment : null
+    const sendData = { amount }
+    if (invoice) {
+      sendData.invoice = invoice
+    }
+    if (instalment) {
+      sendData.instalment = instalment
+    }
     return this.sendRequest({
       apiMethod: 'post',
       api: this.api,
       request: this.APIAdresses.deposit,
-      data: { amount, invoice },
+      data: sendData,
       resolveCallback: (response) => {
         return response.data.url // String -> redirect url // thankyou
       },
