@@ -70,9 +70,12 @@ export default {
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
-        { type: 'select', name: 'status', options: (new Invoice()).statusEnums, label: 'وضعیت', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'select', name: 'type', options: (new Invoice()).typeEnums, label: 'نوع', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+        { type: 'select', name: 'status', options: (new Invoice()).statusEnums, label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'type', options: (new Invoice()).typeEnums, label: 'نوع', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'owner__firstname', label: 'نام سفارش دهنده', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'owner__lastname', label: 'نام خانوادگی سفارش دهنده', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'owner__national_code', label: 'کدملی سفارش دهنده', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
       ],
       table: {
         columns: [
@@ -96,6 +99,13 @@ export default {
             label: 'سفارش دهنده',
             align: 'left',
             field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'کدملی سفارش دهنده',
+            align: 'left',
+            field: row => row.owner_info.national_code
           },
           {
             name: 'id',
