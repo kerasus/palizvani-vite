@@ -38,7 +38,7 @@ export default class APIRepository {
    * @param requestData - { apiMethod, api, request, cacheKey, cache, resolveCallback, rejectCallback, data, params }
    * @returns A promise that will resolve or reject based on the response from the API call.
    */
-  sendRequest({ apiMethod, api, request, cacheKey, cache, resolveCallback, rejectCallback, data, params }) {
+  sendRequest({ apiMethod, api, request, cacheKey, cache, resolveCallback, rejectCallback, data, params, responseType }) {
     return new Promise((resolve, reject) => {
       APIInstanceWrapper[apiMethod]({
         api,
@@ -46,6 +46,7 @@ export default class APIRepository {
         cacheKey,
         cache,
         params,
+        responseType,
         data
       })
         .then((response) => {

@@ -77,14 +77,15 @@ class Assist {
     exportLink.setAttribute('download', fileName + '.csv')
     exportLink.setAttribute('target', '_blank')
     exportLink.click()
-    // exportLink.appendChild(document.createTextNode('test.csv'));
+  }
 
-    // document.getElementById('results').appendChild(exportLink);
-
-    // const exportLink = document.createElement('a')
-    // exportLink.setAttribute('href', 'data:text/csv;base64,' + window.btoa(data))
-    // exportLink.appendChild(document.createTextNode(fileName + '.csv'))
-    // document.getElementById('results').appendChild(exportLink)
+  static saveXlsx (data, fileName) {
+    const xlsxData = window.URL.createObjectURL(new Blob([data]))
+    const exportLink = document.createElement('a')
+    exportLink.setAttribute('href', xlsxData)
+    exportLink.setAttribute('download', fileName + '.xlsx')
+    exportLink.setAttribute('target', '_blank')
+    exportLink.click()
   }
 }
 

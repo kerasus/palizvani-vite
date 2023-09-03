@@ -59,8 +59,9 @@ export default class RegistrationAPI extends APIRepository {
         type: null, // String
         status: null // String
       }, data),
+      responseType: 'blob',
       resolveCallback: (response) => {
-        return response.data // csv string
+        return response.data // xlsxData
       },
       rejectCallback: (error) => {
         return error

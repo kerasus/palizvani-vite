@@ -705,11 +705,12 @@ export default {
         type: 'users',
         status
       })
-        .then((csvData) => {
-          Assist.saveCSV(csvData, this.classroom.title)
+        .then((xlsxData) => {
+          Assist.saveXlsx(xlsxData, this.classroom.title)
           this.exportReportLoading = false
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log('e', e)
           this.exportReportLoading = false
         })
     },
