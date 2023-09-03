@@ -8,6 +8,8 @@ class Registration extends Model {
     super(data, [
       { key: 'id' },
       { key: 'product_info' },
+      { key: 'classroom' },
+      { key: 'classroom_info' },
       { key: 'item' },
       { key: 'item_info' },
       { key: 'basket' },
