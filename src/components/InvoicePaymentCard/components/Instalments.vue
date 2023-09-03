@@ -61,7 +61,7 @@
               {{ getPaidTime(instalment.paid_time) }}
             </div>
             <div class="Instalments-col col-md-3 col-12">
-              <q-btn v-if="!instalment.paid_time"
+              <q-btn v-if="!instalment.paid_time && canAction"
                      color="primary"
                      :loading="payLoading"
                      @click="pay(instalment)">
@@ -91,6 +91,10 @@ export default {
     wallet: {
       type: Wallet,
       default: new Wallet()
+    },
+    canAction: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['onInstalmentPayed'],

@@ -103,14 +103,7 @@
         </div>
       </q-card-section>
     </q-card>
-    <div v-if="false"
-         class="action q-mt-lg">
-      <q-card v-if="!invoice.loading && invoice.status!=='PAYING' && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
-              class="q-mb-md">
-        <q-card-section>
-          تنها در صورتی که وضعیت سفارش در حال پرداخت باشد امکان پرداخت با کیف پول وجود دارد
-        </q-card-section>
-      </q-card>
+    <div class="action q-mt-lg">
       <q-card>
         <q-card-section>
           پرداخت
@@ -120,9 +113,15 @@
           <invoice-payment-card v-if="!invoice.loading && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
                                 :wallet="wallet"
                                 :invoice="invoice"
+                                :show-invoice-link="false"
+                                :show-timer="false"
+                                :show-message="false"
+                                :show-wallet="false"
+                                :can-action="false"
                                 class="payment-card"
                                 @onCancel="onCancel"
-                                @onAccept="onAccept" />
+                                @onAccept="onAccept"
+                                @onInstalmentPayed="onInstalmentPayed" />
         </q-card-section>
       </q-card>
 
@@ -188,6 +187,10 @@ export default {
     },
     onAccept () {
       this.payInvoice()
+    },
+    onInstalmentPayed () {
+      this.getMyWallet()
+      this.getInvoice()
     },
     getMyWallet () {
       this.wallet.loading = true

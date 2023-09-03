@@ -4,10 +4,12 @@
       <div class="InvoicePaymentCard-head-title">
         پرداخت از طریق کیف پول
       </div>
-      <div class="InvoicePaymentCard-head-caption">
+      <div v-if="showMessage"
+           class="InvoicePaymentCard-head-caption">
         خرید شما قطعی نشده است و در صورت عدم پرداخت تا پایان زمان، صورتحساب شما لغو خواهد شد
       </div>
-      <div class="InvoicePaymentCard-head-remaining-time">
+      <div v-if="showTimer"
+           class="InvoicePaymentCard-head-remaining-time">
         <q-icon name="isax:clock" />
         زمان باقی مانده :
         {{ timerString }}
@@ -28,7 +30,8 @@
         </div>
       </div>
       <div class="other-items">
-        <div class="other-item">
+        <div v-if="showWallet"
+             class="other-item">
           <div class="other-item-label">
             <q-icon name="isax:wallet" />
             موجودی کیف پول
@@ -59,7 +62,7 @@
           </div>
         </div>
       </div>
-      <div v-if="!invoice.instalments_info || invoice.instalments_info.length === 0"
+      <div v-if="(!invoice.instalments_info || invoice.instalments_info.length === 0) && canAction"
            class="action-area">
         <q-btn color="red"
                class="btn-cancel"
@@ -81,7 +84,7 @@
           </template>
         </q-btn>
       </div>
-      <div v-if="showInvoiceLinkBtn"
+      <div v-if="showInvoiceLinkBtn && showInvoiceLink"
            class="show-invoice-row">
         <q-btn class="btn-show-invoice"
                color="primary"
@@ -94,6 +97,7 @@
       <div>
         <instalments :wallet="wallet"
                      :invoice="invoice"
+                     :can-action="canAction"
                      @onInstalmentPayed="onInstalmentPayed" />
       </div>
     </div>
@@ -118,6 +122,26 @@ export default {
     wallet: {
       type: Wallet,
       default: new Wallet()
+    },
+    showInvoiceLink: {
+      type: Boolean,
+      default: true
+    },
+    showTimer: {
+      type: Boolean,
+      default: true
+    },
+    showMessage: {
+      type: Boolean,
+      default: true
+    },
+    showWallet: {
+      type: Boolean,
+      default: true
+    },
+    canAction: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['onCancel', 'onAccept', 'onInstalmentPayed'],
