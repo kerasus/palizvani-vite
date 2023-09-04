@@ -42,6 +42,7 @@ import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
@@ -58,7 +59,7 @@ export default {
       mounted: false,
       inputs: [
         { type: 'input', name: 'title', value: null, label: 'نام', col: 'col-md-2' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', props: { atClick: this.search }, col: 'col-md-2' }
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', atClick: () => {}, col: 'col-md-2' }
       ],
       api: APIGateway.unitCategory.APIAdresses.base,
       table: {
@@ -89,7 +90,7 @@ export default {
             required: true,
             label: 'تعداد درس های دسته',
             align: 'left',
-            field: () => '...'
+            field: (row) => row.units_count
           },
           {
             name: 'creation_time',
@@ -125,6 +126,7 @@ export default {
     }
   },
   mounted() {
+    FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     this.mounted = true
   },
   methods: {
