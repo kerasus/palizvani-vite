@@ -7,6 +7,8 @@ export default class TicketAPI extends APIRepository {
     super('ticket', appApi)
     this.APIAdresses = {
       base: '/mma/tickets',
+      repliesBase: '/mma/replies',
+      replyById: (id) => '/mma/replies/' + id,
       byId: (id) => '/mma/tickets/' + id,
       reply: (id) => '/mma/tickets/' + id + '/reply'
     }
@@ -20,7 +22,7 @@ export default class TicketAPI extends APIRepository {
     })
   }
 
-  index(data) {
+  index (data) {
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
@@ -51,7 +53,7 @@ export default class TicketAPI extends APIRepository {
     })
   }
 
-  reply(data) {
+  reply (data) {
     return this.sendRequest({
       apiMethod: 'put',
       api: this.api,
@@ -61,6 +63,20 @@ export default class TicketAPI extends APIRepository {
       }, data),
       resolveCallback: (response) => {
         return new Ticket(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  deleteReplyMessage (replyId) {
+    return this.sendRequest({
+      apiMethod: 'delete',
+      api: this.api,
+      request: this.APIAdresses.replyById(replyId),
+      resolveCallback: () => {
+        return null
       },
       rejectCallback: (error) => {
         return error

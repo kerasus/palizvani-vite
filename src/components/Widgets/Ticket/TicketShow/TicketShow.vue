@@ -52,10 +52,10 @@
               <q-chat-message v-for="message in repliesInfo"
                               :key="message.id"
                               :avatar="message.creator_info.picture ? message.creator_info.picture : '/assets/images/web/default-avatar.png'"
-                              :name="isUserMessage(authenticatedUser, message) ? 'کارشناس' : message.creator_info.firstname + ' ' + message.creator_info.lastname"
+                              :name="isUserMessage(authenticatedUser, message) ? message.creator_info.firstname + ' ' + message.creator_info.lastname : 'کارشناس'"
                               :text="[message.body]"
                               text-html
-                              :sent="isUserMessage(authenticatedUser, message)" />
+                              :sent="!isUserMessage(authenticatedUser, message)" />
               <div>
                 <q-input v-model="replyText"
                          bottom-slots
@@ -190,7 +190,7 @@ export default {
   },
   methods: {
     isUserMessage (authenticatedUser, message) {
-      return authenticatedUser.id !== message.creator_info.id
+      return authenticatedUser.id === message.creator_info.id
     },
     onReject (offer) {
       this.entityLoading = true

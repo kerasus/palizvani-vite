@@ -59,51 +59,49 @@
               class="q-mt-md">
         <q-card-section>
           <div class="row justify-center">
-            <div style="width: 100%;">
-              <q-chat-message v-for="message in repliesInfo"
-                              :key="message.id"
-                              :avatar="message.creator_info.picture ? message.creator_info.picture : 'assets/images/web/sample-avatar.svg'"
-                              :name="message.creator_info.firstname + ' ' + message.creator_info.lastname"
-                              :text="[message.body]"
-                              :sent="authenticatedUser.id !== message.creator_info.id" />
-              <!--                  <div>-->
-              <!--                    <q-input v-model="replyBody"-->
-              <!--                             bottom-slots-->
-              <!--                             :loading="replyBodyLoading">-->
-              <!--                      <template v-slot:after>-->
-              <!--                        <q-btn round-->
-              <!--                               dense-->
-              <!--                               flat-->
-              <!--                               icon="send"-->
-              <!--                               :loading="replyBodyLoading"-->
-              <!--                               @click="sendReplyBody" />-->
-              <!--                      </template>-->
-              <!--                    </q-input>-->
-              <!--                  </div>-->
+            <div class="full-width">
+              <q-skeleton v-if="entityLoading"
+                          type="rect"
+                          width="100%"
+                          height="200px" />
+              <template v-else>
+                <q-chat-message v-for="message in repliesInfo"
+                                :key="message.id"
+                                :avatar="message.creator_info.picture ? message.creator_info.picture : 'assets/images/web/sample-avatar.svg'"
+                                :name="message.creator_info.firstname + ' ' + message.creator_info.lastname"
+                                :text="[message.body]"
+                                :sent="!isUserMessage(authenticatedUser, message)">
+                  <template v-slot:stamp>
+                    <q-btn icon="clear"
+                           round
+                           color="red"
+                           flat
+                           size="xs"
+                           @click="removeMessage(message.id)" />
+                    <q-icon v-if="isUserMessage(authenticatedUser, message)"
+                            :name="message.read ? 'done_all' : 'done'" />
+                  </template>
+                </q-chat-message>
+                <div>
+                  <q-input v-model="replyText"
+                           bottom-slots
+                           autogrow
+                           :loading="entityLoading">
+                    <template v-slot:after>
+                      <q-btn round
+                             dense
+                             flat
+                             icon="send"
+                             :loading="entityLoading"
+                             @click="sendReply" />
+                    </template>
+                  </q-input>
+                </div>
+              </template>
             </div>
           </div>
         </q-card-section>
       </q-card>
-
-      <div class="action">
-        <div class="row q-mt-lg justify-end">
-          <div class="col-md-12 col-12">
-            متن پیام
-          </div>
-          <div class="col-md-12 col-12 q-mb-md">
-            <q-input v-model="replyText"
-                     type="textarea" />
-          </div>
-          <div class="col-md-4 col-12">
-            <q-btn color="primary"
-                   class="full-width"
-                   :loading="entityLoading"
-                   @click="sendReply">
-              ارسال پاسخ
-            </q-btn>
-          </div>
-        </div>
-      </div>
     </q-card>
 
     <!--    <show-source :source-type="ticket.source_type"-->
@@ -236,6 +234,26 @@ export default {
       })
   },
   methods: {
+    isUserMessage (authenticatedUser, message) {
+      return authenticatedUser.id === message.creator_info.id
+    },
+    removeMessage (replyMessageId) {
+      this.$q.dialog({
+        title: 'توجه',
+        message: 'آیا از حذف پیام اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.entityLoading = true
+        APIGateway.ticket.deleteReplyMessage(replyMessageId)
+          .then(() => {
+            this.$refs.entityEdit.getData()
+          })
+          .catch(() => {
+            this.entityLoading = true
+          })
+      })
+    },
     onReject (offer) {
       this.entityLoading = true
       APIGateway.instalmentOffer.reject(offer.id)
