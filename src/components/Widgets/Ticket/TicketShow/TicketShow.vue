@@ -52,48 +52,29 @@
               <q-chat-message v-for="message in repliesInfo"
                               :key="message.id"
                               :avatar="message.creator_info.picture ? message.creator_info.picture : '/assets/images/web/default-avatar.png'"
-                              :name="message.creator_info.firstname + ' ' + message.creator_info.lastname"
+                              :name="isUserMessage(authenticatedUser, message) ? 'کارشناس' : message.creator_info.firstname + ' ' + message.creator_info.lastname"
                               :text="[message.body]"
                               text-html
-                              :sent="authenticatedUser.id !== message.creator_info.id" />
-              <!--                  <div>-->
-              <!--                    <q-input v-model="replyBody"-->
-              <!--                             bottom-slots-->
-              <!--                             :loading="replyBodyLoading">-->
-              <!--                      <template v-slot:after>-->
-              <!--                        <q-btn round-->
-              <!--                               dense-->
-              <!--                               flat-->
-              <!--                               icon="send"-->
-              <!--                               :loading="replyBodyLoading"-->
-              <!--                               @click="sendReplyBody" />-->
-              <!--                      </template>-->
-              <!--                    </q-input>-->
-              <!--                  </div>-->
+                              :sent="isUserMessage(authenticatedUser, message)" />
+              <div>
+                <q-input v-model="replyText"
+                         bottom-slots
+                         autogrow
+                         :loading="entityLoading">
+                  <template v-slot:after>
+                    <q-btn round
+                           dense
+                           flat
+                           icon="send"
+                           :loading="entityLoading"
+                           @click="sendReply" />
+                  </template>
+                </q-input>
+              </div>
             </div>
           </div>
         </q-card-section>
       </q-card>
-
-      <div class="action">
-        <div class="row q-mt-lg justify-end">
-          <div class="col-md-12 col-12">
-            پاسخ
-          </div>
-          <div class="col-md-12 col-12 q-mb-md">
-            <q-input v-model="replyText"
-                     type="textarea" />
-          </div>
-          <div class="col-md-4 col-12">
-            <q-btn color="primary"
-                   class="full-width"
-                   :loading="entityLoading"
-                   @click="sendReply">
-              ارسال پاسخ
-            </q-btn>
-          </div>
-        </div>
-      </div>
     </q-card>
 
     <invoice-show v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
@@ -208,6 +189,9 @@ export default {
       })
   },
   methods: {
+    isUserMessage (authenticatedUser, message) {
+      return authenticatedUser.id !== message.creator_info.id
+    },
     onReject (offer) {
       this.entityLoading = true
       APIGateway.instalmentOffer.reject(offer.id)
