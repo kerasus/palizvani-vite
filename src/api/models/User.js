@@ -7,6 +7,7 @@ export default class UserAPI extends APIRepository {
     super('user', appApi, '/uma/users', User)
     this.APIAdresses = {
       base: '/uma/users',
+      exportReport: '/uma/users/export_report',
       verify: '/uma/users/verify',
       current: '/uma/users/current',
       byId: (id) => '/uma/users/' + id,
@@ -47,6 +48,22 @@ export default class UserAPI extends APIRepository {
           //   "previous": null,
           // }
         }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  exportReport(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.exportReport,
+      data,
+      responseType: 'blob',
+      resolveCallback: (response) => {
+        return response.data // xlsxData
       },
       rejectCallback: (error) => {
         return error

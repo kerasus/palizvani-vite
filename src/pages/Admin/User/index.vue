@@ -10,6 +10,13 @@
                   :show-expand-button="false"
                   :show-reload-button="false"
                   :show-search-button="false">
+      <template #toolbar>
+        <q-btn color="primary"
+               :loading="exportReportLoading"
+               @click="exportExcel">
+          خروجی اکسل
+        </q-btn>
+      </template>
       <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -46,6 +53,7 @@
 <script>
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
+import Assist from 'src/assets/js/Assist.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
@@ -61,6 +69,7 @@ export default {
   data () {
     return {
       mounted: false,
+      exportReportLoading: false,
       inputs: [
         { type: 'input', name: 'id', value: null, label: 'شناسه', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-4 col-12' },
@@ -153,6 +162,20 @@ export default {
     this.mounted = true
   },
   methods: {
+    exportExcel () {
+      const params = this.$refs.entityIndex.createParams()
+      this.exportReportLoading = true
+      delete params.btn
+      params.type = 'users'
+      APIGateway.user.exportReport(params)
+        .then((xlsxData) => {
+          Assist.saveXlsx(xlsxData, 'لیست کاربران')
+          this.exportReportLoading = false
+        })
+        .catch(() => {
+          this.exportReportLoading = false
+        })
+    },
     setActionBtn () {
       this.inputs.forEach((item, index) => {
         if (item.name === 'btn') {
