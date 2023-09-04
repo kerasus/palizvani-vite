@@ -136,18 +136,22 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import { User } from 'src/models/User.js'
 import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import BtnControl from 'src/components/Control/btn.vue'
 import { TicketCategoryList } from 'src/models/TicketCategory.js'
 import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
 // import ShowSource from 'src/components/Widgets/Ticket/AdminTicketShow/ShowSource.vue'
 import AdminInvoiceShow from 'src/components/Widgets/Invoice/AdminInvoiceShow/AdminInvoiceShow.vue'
 import InstallmentOffers from 'src/components/Widgets/Ticket/AdminTicketShow/InstallmentOffers.vue'
 import CreateInstallment from 'src/components/Widgets/Ticket/AdminTicketShow/CreateInstallment.vue'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminTicketShow',
@@ -167,13 +171,22 @@ export default {
       packageTitle: '',
       ticket: new Ticket(),
       authenticatedUser: new User(),
-      api: APIGateway.ticket.APIAdresses.base,
+      api: null,
       ticketCategoryList: new TicketCategoryList(),
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Ticket.Show',
       indexRouteName: 'Admin.Ticket.List',
       inputs: [
+        { type: 'separator', name: 'space', label: 'مشخصات کاربر', className: 'custom-separator', col: 'col-12' },
+        { type: 'hidden', name: 'userId', responseKey: 'creator_info.id', disable: true },
+        { type: 'input', name: 'creator_info.firstname', responseKey: 'creator_info.firstname', label: 'نام', placeholder: ' ', disable: true, col: 'col-md-2 col-12' },
+        { type: 'input', name: 'creator_info.lastname', responseKey: 'creator_info.lastname', label: 'نام خانوادگی', placeholder: ' ', disable: true, col: 'col-md-2 col-12' },
+        { type: 'input', name: 'creator_info.mobile_number', responseKey: 'creator_info.mobile_number', label: 'شماره موبایل', placeholder: ' ', disable: true, col: 'col-md-3 col-12' },
+        { type: 'input', name: 'creator_info.email', responseKey: 'creator_info.email', label: 'ایمیل', placeholder: ' ', disable: true, col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'مشخصات کاربر', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' },
+
+        { type: 'separator', name: 'space', label: 'مشخصات تیکت', className: 'custom-separator', col: 'col-12' },
         {
           type: 'select',
           name: 'category_info__type',
@@ -218,7 +231,12 @@ export default {
     }
   },
   created() {
-    this.api = this.api + '/' + this.$route.params.id
+    const ticketId = this.$route.params.id
+    this.api = APIGateway.ticket.APIAdresses.byId(ticketId)
+    FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', () => {
+      const userId = FormBuilderAssist.getInputsByName(this.inputs, 'userId').value
+      this.$router.push({ name: 'Admin.User.Show', params: { id: userId } })
+    })
   },
   mounted() {
     this.loadAuthData()
