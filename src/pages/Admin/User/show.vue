@@ -11,7 +11,7 @@
              label="اطلاعات کاربری" />
       <q-tab name="educations"
              label="سوابق آموزشی" />
-      <q-tab name="movies1"
+      <q-tab name="financial"
              label="سوابق مالی" />
       <q-tab name="movies2"
              label="سوابق دوره های مباحثاتی" />
@@ -68,7 +68,7 @@
             <template v-if="inputData.col.name === 'number'">
               {{ inputData.rowNumber }}
             </template>
-            <template v-else-if="inputData.col.name === 'actions'">
+            <template v-else-if="inputData.col.name === 'action'">
               <div class="action-column-entity-index">
                 <q-btn color="primary"
                        label="جزییات" />
@@ -94,7 +94,7 @@
             <template v-if="inputData.col.name === 'number'">
               {{ inputData.rowNumber }}
             </template>
-            <template v-else-if="inputData.col.name === 'actions'">
+            <template v-else-if="inputData.col.name === 'action'">
               <div class="action-column-entity-index">
                 <q-btn color="primary"
                        label="جزییات" />
@@ -110,8 +110,88 @@
                     height="200px" />
       </q-tab-panel>
 
-      <q-tab-panel name="movies1">
-        سوابق مالی
+      <q-tab-panel name="financial">
+        <entity-index v-if="mounted"
+                      ref="invoiceList"
+                      v-model:value="invoiceListInputs"
+                      title="لیست صورتحساب ها"
+                      :api="invoiceListApi"
+                      :table="invoiceListTable"
+                      :table-keys="invoiceListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'action'">
+              <div class="action-column-entity-index">
+                <q-btn color="primary"
+                       label="جزییات"
+                       :to="{name: 'Admin.Invoice.Show', params: {id: inputData.props.row.id}}" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-separator class="q-my-md" />
+        <entity-index v-if="mounted"
+                      ref="paymentList"
+                      v-model:value="paymentListInputs"
+                      title="لیست پرداخت ها"
+                      :api="paymentListApi"
+                      :table="paymentListTable"
+                      :table-keys="paymentListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'action'">
+              <div class="action-column-entity-index">
+                <q-btn color="primary"
+                       label="جزییات" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-separator class="q-my-md" />
+        <entity-index v-if="mounted"
+                      ref="transactionList"
+                      v-model:value="transactionListInputs"
+                      title="لیست تراکنش ها"
+                      :api="transactionListApi"
+                      :table="transactionListTable"
+                      :table-keys="transactionListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'action'">
+              <div class="action-column-entity-index">
+                <q-btn color="primary"
+                       label="جزییات" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
       </q-tab-panel>
       <q-tab-panel name="movies2">
         سوابق باشگاه اندیشه جویان
@@ -137,6 +217,7 @@ import { EntityEdit, EntityIndex } from 'quasar-crud'
 import { Classroom } from 'src/models/Classroom'
 import { Registration } from 'src/models/Registration'
 import { Invoice } from 'src/models/Invoice'
+import { Payment } from 'src/models/Payment'
 
 export default {
   name: 'Admin.User.Show',
@@ -326,7 +407,7 @@ export default {
             field: row => (new Invoice(row.invoice_info)).status_info.label
           },
           {
-            name: 'actions',
+            name: 'action',
             required: true,
             label: 'جزییات',
             align: 'left',
@@ -434,7 +515,7 @@ export default {
             field: row => (new Invoice(row.invoice_info)).status_info.label
           },
           {
-            name: 'actions',
+            name: 'action',
             required: true,
             label: 'جزییات',
             align: 'left',
@@ -444,6 +525,229 @@ export default {
         data: []
       },
       registrationsActivitySheetListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      invoiceListInputs: [
+        { type: 'hidden', name: 'owner', value: userId }
+      ],
+      invoiceListApi: APIGateway.invoice.APIAdresses.base,
+      invoiceListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'سفارش دهنده',
+            align: 'left',
+            field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'کدملی سفارش دهنده',
+            align: 'left',
+            field: row => row.owner_info.national_code
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'نوع صورتحساب',
+            align: 'left',
+            field: row => (new Invoice(row)).type_info.label
+          },
+          {
+            name: 'amount',
+            required: true,
+            label: 'مبلغ تراکنش(ریال)',
+            align: 'left',
+            field: row => row.amount.toLocaleString('fa')
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'وضعیت تراکنش',
+            align: 'left',
+            field: row => (new Invoice(row)).status_info.label
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان ثبت',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.creation_time)
+          },
+          {
+            name: 'last_modification_time',
+            required: true,
+            label: 'زمان آخرین بروز رسانی',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.last_modification_time)
+          },
+          {
+            name: 'action',
+            required: true,
+            label: 'جزییات',
+            align: 'left',
+            field: row => ''
+          }
+        ]
+      },
+      invoiceListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      paymentListInputs: [
+        { type: 'hidden', name: 'owner', value: userId }
+      ],
+      paymentListApi: APIGateway.payment.APIAdresses.base,
+      paymentListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'invoice_info.title',
+            required: true,
+            label: 'عنوان',
+            align: 'left',
+            field: row => row.invoice_info?.title
+          },
+          {
+            name: 'type',
+            required: true,
+            label: 'نوع تراکنش',
+            align: 'left',
+            field: row => (new Payment(row)).type_info.label
+          },
+          {
+            name: 'invoice_info.status',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Invoice(row.invoice_info)).status_info.label
+          },
+          {
+            name: 'amount',
+            required: true,
+            label: 'مبلغ تراکنش (ریال)',
+            align: 'left',
+            field: row => row.amount.toLocaleString('fa')
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.creation_time)
+          },
+          {
+            name: 'action',
+            required: true,
+            label: 'جزییات',
+            align: 'left',
+            field: row => ''
+          }
+        ]
+      },
+      paymentListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      transactionListInputs: [
+        { type: 'hidden', name: 'owner', value: userId }
+      ],
+      transactionListApi: APIGateway.transaction.APIAdresses.base,
+      transactionListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'amount',
+            required: true,
+            label: 'مبلغ تراکنش (ریال)',
+            align: 'left',
+            field: row => row.amount.toLocaleString('fa')
+          },
+          {
+            name: 'description',
+            required: true,
+            label: 'توضیحات',
+            align: 'left',
+            field: row => row.description
+          },
+          {
+            name: 'reference_code',
+            required: true,
+            label: 'کد مرجع',
+            align: 'left',
+            field: row => row.reference_code
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'تاریخ ایجاد',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.creation_time)
+          },
+          {
+            name: 'action',
+            required: true,
+            label: 'جزییات',
+            align: 'left',
+            field: row => ''
+          }
+        ]
+      },
+      transactionListTableKeys: {
         data: 'results',
         total: 'count',
         currentPage: 'current',

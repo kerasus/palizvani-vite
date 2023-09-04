@@ -6,9 +6,8 @@ export default class TransactionAPI extends APIRepository {
   constructor() {
     super('invoice', appApi)
     this.APIAdresses = {
-      base: '/accounting/invoices',
-      byId: (id) => '/accounting/invoices/' + id,
-      pay: (id) => '/accounting/invoices/' + id + '/pay'
+      base: '/accounting/transactions',
+      byId: (id) => '/accounting/transactions/' + id
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base
@@ -47,80 +46,6 @@ export default class TransactionAPI extends APIRepository {
           //   "previous": null,
           // }
         }
-      },
-      rejectCallback: (error) => {
-        return error
-      }
-    })
-  }
-
-  pay(invoiceId) {
-    return this.sendRequest({
-      apiMethod: 'put',
-      api: this.api,
-      request: this.APIAdresses.pay(invoiceId),
-      resolveCallback: (response) => {
-        return response.data.detail // String : message
-      },
-      rejectCallback: (error) => {
-        return error
-      }
-    })
-  }
-
-  createService (products = []) {
-    return this.sendRequest({
-      apiMethod: 'post',
-      api: this.api,
-      request: this.APIAdresses.base,
-      data: {
-        type: 'SERVICE', // String
-        products // Array of Object
-      },
-      resolveCallback: (response) => {
-        return new Transaction(response.data)
-      },
-      rejectCallback: (error) => {
-        return error
-      }
-    })
-  }
-
-  createBasket (basketType, basketId) {
-    return this.sendRequest({
-      apiMethod: 'post',
-      api: this.api,
-      request: this.APIAdresses.base,
-      data: {
-        type: basketType.toUpperCase(), // String
-        products: [
-          {
-            product_type: basketType + '_basket',
-            product_id: basketId,
-            count: 1
-          }
-        ]
-      },
-      resolveCallback: (response) => {
-        return new Transaction(response.data)
-      },
-      rejectCallback: (error) => {
-        return error
-      }
-    })
-  }
-
-  create (type, products = []) {
-    return this.sendRequest({
-      apiMethod: 'post',
-      api: this.api,
-      request: this.APIAdresses.base,
-      data: {
-        type, // String
-        products // Array of Object
-      },
-      resolveCallback: (response) => {
-        return new Transaction(response.data)
       },
       rejectCallback: (error) => {
         return error
