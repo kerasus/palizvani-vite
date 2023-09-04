@@ -15,6 +15,7 @@ class Classroom extends Model {
       { key: 'thumbnail' },
       { key: 'title' },
       { key: 'holding_type' },
+      { key: 'item_type' },
       { key: 'audience_gender_type' },
       { key: 'holding_year' },
       { key: 'holding_month' },
@@ -94,6 +95,23 @@ class Classroom extends Model {
           { label: 'برخط(آنلاین)', value: 'ONLINE' },
           { label: 'برون خط(آفلاین)', value: 'OFFLINE' },
           { label: 'حضوری', value: 'FACE_TO_FACE' }
+        ]
+      },
+      item_type: {
+        infoKey: 'item_type_info',
+        enumListKey: 'item_typeEnums',
+        enums: [
+          { label: 'دوره آموزشی', value: 'CLASSROOM' },
+          { label: 'حلقه مباحثاتی', value: 'DISCUSSION_CIRCLE' }
+        ]
+      },
+      audience_gender_type: {
+        infoKey: 'audience_gender_type_info',
+        enumListKey: 'audience_gender_typeEnums',
+        enums: [
+          { label: 'آقا', value: 'MALE' },
+          { label: 'خانم', value: 'FEMALE' },
+          { label: 'خانم و آقا', value: 'FEMALE_MALE' }
         ]
       }
     })

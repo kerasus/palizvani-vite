@@ -37,7 +37,7 @@ class Registration extends Model {
             value: 'REGISTERED'
           },
           {
-            label: 'حذف توسط شما',
+            label: 'حذف توسط کاربر',
             value: 'DROPPED_BY_ITSELF'
           },
           {

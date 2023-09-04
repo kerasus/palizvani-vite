@@ -54,7 +54,60 @@
       </q-tab-panel>
 
       <q-tab-panel name="educations">
-        سوابق آموزشی
+        <entity-index v-if="mounted"
+                      ref="registrationsList"
+                      v-model:value="registrationsListInputs"
+                      title="لیست دوره ها"
+                      :api="registrationsListApi"
+                      :table="registrationsListTable"
+                      :table-keys="registrationsListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'actions'">
+              <div class="action-column-entity-index">
+                <q-btn color="primary"
+                       label="جزییات" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-separator class="q-my-md" />
+        <entity-index v-if="mounted"
+                      ref="registrationsActivitySheetList"
+                      v-model:value="registrationsActivitySheetListInputs"
+                      title="لیست فعالت های کلاسی"
+                      :api="registrationsActivitySheetListApi"
+                      :table="registrationsActivitySheetListTable"
+                      :table-keys="registrationsActivitySheetListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'actions'">
+              <div class="action-column-entity-index">
+                <q-btn color="primary"
+                       label="جزییات" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
       </q-tab-panel>
 
       <q-tab-panel name="movies1">
@@ -77,17 +130,22 @@
 </template>
 
 <script>
-import { EntityEdit } from 'quasar-crud'
+import Assist from 'assets/js/Assist.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { EntityEdit, EntityIndex } from 'quasar-crud'
+import { Classroom } from 'src/models/Classroom'
+import { Registration } from 'src/models/Registration'
+import { Invoice } from 'src/models/Invoice'
 
 export default {
   name: 'Admin.User.Show',
-  components: { EntityEdit },
+  components: { EntityEdit, EntityIndex },
   data () {
+    const userId = this.$route.params.id
     return {
       tab: 'userInfo',
-      api: null,
+      api: APIGateway.user.APIAdresses.byId(userId),
       mounted: false,
       entityIdKey: 'id',
       entityParamKey: 'id',
@@ -175,11 +233,226 @@ export default {
 
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-12' },
         { type: 'hidden', name: 'is_active', responseKey: 'is_active', label: 'is_active', col: 'col-12' }
-      ]
+      ],
+
+      registrationsListInputs: [
+        { type: 'hidden', name: 'owner', value: userId }
+      ],
+      registrationsListApi: APIGateway.registration.APIAdresses.base,
+      registrationsListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'classroom_info.item_type_info',
+            required: true,
+            label: 'نوع',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).item_type_info.label
+          },
+          {
+            name: 'classroom_info.unit_info.title',
+            required: true,
+            label: 'نام درس',
+            align: 'left',
+            field: row => row.classroom_info.unit_info.title
+          },
+          {
+            name: 'classroom_infoaudience_gender_type_info',
+            required: true,
+            label: 'جنسیت',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).audience_gender_type_info.label
+          },
+          {
+            name: 'holding_time',
+            required: true,
+            label: 'تاریخ شروع',
+            align: 'left',
+            field: row => row.classroom_info.holding_month + ' ' + row.classroom_info.holding_year
+          },
+          {
+            name: 'classroom_info.holding_type_info.label',
+            required: true,
+            label: 'نوع برگزاری',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).holding_type_info.label
+          },
+          {
+            name: 'classroom_info.professor_info',
+            required: true,
+            label: 'استاد',
+            align: 'left',
+            field: row => row.classroom_info.professor_info.firstname + ' ' + row.classroom_info.professor_info.lastname
+          },
+          {
+            name: 'classroom_info.sessions_info.length',
+            required: true,
+            label: 'تعداد جلسات',
+            align: 'left',
+            field: row => row.classroom_info.sessions_info.length
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Registration(row)).status_info.label
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان ثبت نام',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.creation_time)
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'وضعیت مالی',
+            align: 'left',
+            field: row => (new Invoice(row.invoice_info)).status_info.label
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'جزییات',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      registrationsListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      registrationsActivitySheetListInputs: [
+        { type: 'hidden', name: 'owner', value: userId }
+      ],
+      registrationsActivitySheetListApi: APIGateway.classroom.APIAdresses.activitySheet,
+      registrationsActivitySheetListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'classroom_info.item_type_info',
+            required: true,
+            label: 'نوع',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).item_type_info.label
+          },
+          {
+            name: 'classroom_info.unit_info.title',
+            required: true,
+            label: 'نام درس',
+            align: 'left',
+            field: row => row.classroom_info?.unit_info?.title
+          },
+          {
+            name: 'classroom_infoaudience_gender_type_info',
+            required: true,
+            label: 'جنسیت',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).audience_gender_type_info.label
+          },
+          {
+            name: 'holding_time',
+            required: true,
+            label: 'تاریخ شروع',
+            align: 'left',
+            field: row => row.classroom_info?.holding_month + ' ' + row.classroom_info?.holding_year
+          },
+          {
+            name: 'classroom_info.holding_type_info.label',
+            required: true,
+            label: 'نوع برگزاری',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).holding_type_info.label
+          },
+          {
+            name: 'classroom_info.professor_info',
+            required: true,
+            label: 'استاد',
+            align: 'left',
+            field: row => row.classroom_info?.professor_info?.firstname + ' ' + row.classroom_info?.professor_info?.lastname
+          },
+          {
+            name: 'classroom_info.sessions_info.length',
+            required: true,
+            label: 'تعداد جلسات',
+            align: 'left',
+            field: row => row.classroom_info?.sessions_info ? row.classroom_info.sessions_info.length : '-'
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Registration(row)).status_info.label
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان ثبت نام',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.creation_time)
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'وضعیت مالی',
+            align: 'left',
+            field: row => (new Invoice(row.invoice_info)).status_info.label
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'جزییات',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      registrationsActivitySheetListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      }
     }
   },
   mounted () {
-    this.api = APIGateway.user.APIAdresses.byId(this.$route.params.id)
     this.mounted = true
   },
   methods: {
