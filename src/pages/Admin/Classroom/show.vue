@@ -136,7 +136,7 @@
             </template>
             <template v-else-if="inputData.col.name === 'action'">
               <div class="action-column-entity-index">
-                <q-btn v-if="inputData.props.row.status !== 'DROPPED_BY_ADMIN'"
+                <q-btn v-if="inputData.props.row.status !== 'DROPPED_BY_ADMIN' && inputData.props.row.status !== 'DROPPED_BY_ITSELF'"
                        size="md"
                        color="red"
                        outline
@@ -144,14 +144,14 @@
                        :loading="dropClassroomByAdminLoading"
                        class="q-mr-md"
                        @click="dropClassroomByAdmin(inputData.props.row)" />
-                <q-btn v-if="inputData.props.row.status !== 'DROPPED_BY_ADMIN'"
+                <q-btn v-if="inputData.props.row.status === 'ENROLLED'"
                        size="md"
                        color="primary"
                        outline
                        label="ایجاد صورتحساب"
                        :loading="createInvoiceLoading"
                        class="q-mr-md"
-                       @click="createInvoiceVorClassroom(inputData.props.row)" />
+                       @click="createInvoiceForClassroom(inputData.props.row)" />
               </div>
             </template>
             <template v-else>
@@ -772,7 +772,7 @@ export default {
           })
       })
     },
-    createInvoiceVorClassroom (row) {
+    createInvoiceForClassroom (row) {
       const classroomId = row.classroom
       const userId = row.owner
       this.createInvoiceLoading = true
