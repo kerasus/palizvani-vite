@@ -55,6 +55,7 @@ export default class SessionAPI extends APIRepository {
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
         title: null, // String
+        classroom: null, // Number
         unit: null // Number
       }, data),
       resolveCallback: (response) => {

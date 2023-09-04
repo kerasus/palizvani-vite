@@ -59,6 +59,7 @@
       <q-tab-panel name="educations"
                    class="q-pa-none">
         <entity-index v-if="mounted"
+                      ref="sessionList"
                       v-model:value="sessionListInputs"
                       title="لیست جلسات"
                       :api="sessionListApi"
@@ -67,6 +68,14 @@
                       :show-search-button="false"
                       :show-reload-button="false"
                       :show-expand-button="false">
+          <template #toolbar>
+            <q-btn color="primary"
+                   outline
+                   :loading="addNewSessionLoading"
+                   @click="addNewSession">
+              افزودن جلسه
+            </q-btn>
+          </template>
           <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
             <template v-if="inputData.col.name === 'actions'">
               <div class="action-column-entity-index">
@@ -219,6 +228,7 @@ export default {
     const classroomId = this.$route.params.id
     return {
       mounted: false,
+      addNewSessionLoading: false,
       createInvoiceLoading: false,
       classroomEntityEditKey: Date.now(),
       tab: 'classroomInfo',
@@ -571,6 +581,20 @@ export default {
       })
   },
   methods: {
+    addNewSession () {
+      this.addNewSessionLoading = true
+      APIGateway.session.create({
+        title: '-',
+        classroom: this.$route.params.id
+      })
+        .then(() => {
+          this.$refs.sessionList.search()
+          this.addNewSessionLoading = false
+        })
+        .catch(() => {
+          this.addNewSessionLoading = false
+        })
+    },
     setMembersListActionBtn () {
       FormBuilderAssist.setAttributeByName(this.membersListInputs, 'btn', 'atClick', this.searchMembersList)
     },

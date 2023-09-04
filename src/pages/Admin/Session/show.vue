@@ -52,8 +52,8 @@ export default {
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'نام جلسه', placeholder: ' ', col: 'col-md-9 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-12' },
-        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان شروع جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', label: 'زمان پایان جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'dateTime', name: 'beginning_time', responseKey: 'ending_enrollment_period', label: 'زمان شروع جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'dateTime', name: 'ending_time', responseKey: 'ending_enrollment_period', label: 'زمان پایان جلسه', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: ContentsSelectorComp, name: 'contents', responseKey: 'contents_info', col: 'col-12' },
