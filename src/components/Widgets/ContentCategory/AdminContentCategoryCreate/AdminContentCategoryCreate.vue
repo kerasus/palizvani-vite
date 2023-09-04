@@ -1,6 +1,14 @@
 <template>
   <div class="AdminContentCategoryCreate"
        :style="localOptions.style">
+    <div class="flex justify-end">
+      <q-btn flat
+             color="grey"
+             @click="$router.go(-1)">
+        بازگشت
+        >
+      </q-btn>
+    </div>
     <entity-create v-if="mounted"
                    ref="entityCreate"
                    v-model:value="inputs"

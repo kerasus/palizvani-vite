@@ -17,8 +17,8 @@
       </div>
       <div class="back-action">
         <q-btn flat
-               :to="{name: 'Admin.Invoice.Ticket'}"
-               color="grey">
+               color="grey"
+               @click="$router.go(-1)">
           بازگشت
           >
         </q-btn>

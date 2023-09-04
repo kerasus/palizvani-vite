@@ -1,6 +1,14 @@
 <template>
   <div class="PaymentShow"
        :style="localOptions.style">
+    <div class="flex justify-end">
+      <q-btn flat
+             color="grey"
+             @click="$router.go(-1)">
+        بازگشت
+        >
+      </q-btn>
+    </div>
     <entity-show v-if="mounted"
                  ref="entityEdit"
                  v-model:value="inputs"
@@ -14,6 +22,7 @@
                  :show-save-button="false"
                  :show-reload-button="false"
                  :redirect-after-edit="false"
+                 :show-index-button="false"
                  :after-load-input-data="afterLoadInputData">
       <template #after-form-builder>
         <q-btn v-if="payment.invoice_info?.id"

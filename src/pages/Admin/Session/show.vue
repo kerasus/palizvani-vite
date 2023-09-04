@@ -1,4 +1,12 @@
 <template>
+  <div class="flex justify-end">
+    <q-btn flat
+           color="grey"
+           @click="$router.go(-1)">
+      بازگشت
+      >
+    </q-btn>
+  </div>
   <div class="AdminSessionShow">
     <entity-edit v-if="mounted"
                  ref="sessionEntityEdit"

@@ -1,4 +1,12 @@
 <template>
+  <div class="flex justify-end">
+    <q-btn flat
+           color="grey"
+           @click="$router.go(-1)">
+      بازگشت
+      >
+    </q-btn>
+  </div>
   <div class="AdminCategoryIndex">
     <entity-edit v-if="mounted"
                  ref="categoryEntityEdit"
@@ -16,14 +24,16 @@
       <template #after-form-builder>
         <div class="row q-col-gutter-md q-mb-md">
           <div class="col-md-3">
+            <div>درس ها</div>
             <q-input v-model="newUnitName"
-                     label="درس ها"
                      :disable="newUnitLoading"
                      :loading="newUnitLoading" />
           </div>
           <div class="col-md-3">
+            <div>
+              تعداد جلسات
+            </div>
             <q-input v-model="newUnitSessionCount"
-                     label="تعداد جلسات"
                      type="number"
                      :disable="newUnitLoading"
                      :loading="newUnitLoading" />
@@ -44,8 +54,7 @@
                           :table-keys="unitTableKeys"
                           :show-reload-button="false"
                           :show-search-button="false"
-                          :show-expand-button="false"
-                          :default-layout="false">
+                          :show-expand-button="false">
               <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
                 <template v-if="inputData.col.name === 'actions'">
                   <div class="action-column-entity-index">
@@ -97,7 +106,7 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'Admin.Category.Show',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'نام دسته بندی', col: 'col-md-6' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'نام دسته بندی', placeholder: ' ', col: 'col-md-6' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'بروزرسانی', props: { atClick: this.updateCategory }, col: 'col-md-6' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id' }
       ],

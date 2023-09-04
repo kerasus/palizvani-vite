@@ -1,4 +1,12 @@
 <template>
+  <div class="flex justify-end">
+    <q-btn flat
+           color="grey"
+           @click="$router.go(-1)">
+      بازگشت
+      >
+    </q-btn>
+  </div>
   <entity-create ref="categoryEntityCreate"
                  v-model:value="inputs"
                  title="مشخصات دسته بندی"

@@ -1,5 +1,13 @@
 <template>
   <breadcrumbs style="margin-top: 29px; margin-bottom: 19px;" />
+  <div class="flex justify-end">
+    <q-btn flat
+           color="grey"
+           @click="$router.go(-1)">
+      بازگشت
+      >
+    </q-btn>
+  </div>
   <q-card>
     <q-tabs v-model="tab"
             dense
