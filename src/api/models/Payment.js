@@ -7,6 +7,7 @@ export default class PaymentAPI extends APIRepository {
     super('invoice', appApi)
     this.APIAdresses = {
       base: '/accounting/payments',
+      requestWithdraw: '/accounting/payments/request_withdraw',
       byId: (id) => '/accounting/payments/' + id
     }
     this.CacheList = {
@@ -46,6 +47,24 @@ export default class PaymentAPI extends APIRepository {
           //   "previous": null,
           // }
         }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  requestWithdraw(data) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.requestWithdraw,
+      data: this.getNormalizedSendData({
+        IBAN: null, // String
+        amount: null // Number
+      }, data),
+      resolveCallback: (response) => {
+        return new Payment(response.data)
       },
       rejectCallback: (error) => {
         return error

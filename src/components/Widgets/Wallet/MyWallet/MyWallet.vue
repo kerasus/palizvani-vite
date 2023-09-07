@@ -36,8 +36,45 @@
                      color="primary"
                      :loading="wallet.loading"
                      @click="deposit">
-                <q-icon name="isax:add" />
+                <q-icon name="add_circle_outline"
+                        class="q-mr-sm" />
                 افزایش موجودی
+              </q-btn>
+            </div>
+          </div>
+        </div>
+        <div class="withdraw-section q-mt-md">
+          <div class="row q-col-gutter-sm">
+            <div class="col-md-5 col-12">
+              <div class="title-of-input">
+                <div>
+                  برداشت از کیف پول
+                </div>
+                <q-btn flat
+                       color="primary"
+                       @click="setWithdrawAmountForAll">
+                  برداشت همه
+                </q-btn>
+              </div>
+              <q-input v-model="withdrawAmount"
+                       dense
+                       placeholder="لطفا مبلغ مورد نظر خود را مشخص کنید" />
+            </div>
+            <div class="col-md-4 col-12">
+              <div class="title-of-input">شماره شبا</div>
+              <q-input v-model="shabaNumber"
+                       dense
+                       placeholder="شماره شبای خود را وارد نمایید" />
+            </div>
+            <div class="col-md-3 col-12">
+              <q-btn class="btn-withdraw"
+                     color="red"
+                     outline
+                     :loading="wallet.loading"
+                     @click="withdraw">
+                <q-icon name="remove_circle_outline"
+                        class="q-mr-sm" />
+                برداشت از حساب
               </q-btn>
             </div>
           </div>
@@ -60,6 +97,8 @@ export default {
     return {
       user: new User(),
       wallet: new Wallet(),
+      shabaNumber: null,
+      withdrawAmount: null,
       depositAmount: null
     }
   },
@@ -94,6 +133,24 @@ export default {
         .catch(() => {
           this.wallet.loading = false
         })
+    },
+    withdraw () {
+      if (isNaN(this.withdrawAmount) || this.withdrawAmount === 0) {
+        return
+      }
+      this.wallet.loading = true
+      APIGateway.payment.requestWithdraw({ IBAN: this.shabaNumber, amount: this.withdrawAmount })
+        .then(() => {
+          this.shabaNumber = null
+          this.withdrawAmount = null
+          this.getMyWallet()
+        })
+        .catch(() => {
+          this.wallet.loading = false
+        })
+    },
+    setWithdrawAmountForAll () {
+      this.withdrawAmount = this.wallet.inventory
     }
   }
 }
@@ -122,12 +179,10 @@ export default {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
-    padding: 45px 58px;
-    @media screen and (max-width: 1024px) {
-      padding: 45px 16px;
-    }
+    padding: 45px 16px;
+    $cardColumn: 380px;
     .card-column {
-      width: 427px;
+      width: $cardColumn;
       @media screen and (max-width: 1024px) {
         width: 100%;
       }
@@ -174,7 +229,7 @@ export default {
       }
     }
     .actions-column {
-      width: calc( 100% - 427px);
+      width: calc( 100% - #{$cardColumn} );
       @media screen and (max-width: 1024px) {
         width: 100%;
         margin-top: 32px;
@@ -182,6 +237,17 @@ export default {
       .deposit-section {
         .btn-deposit {
           margin-top: 25px;
+        }
+      }
+      .withdraw-section {
+        .title-of-input {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 32px;
+        }
+        .btn-withdraw {
+          margin-top: 35px;
         }
       }
     }
