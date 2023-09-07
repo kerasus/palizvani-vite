@@ -126,6 +126,12 @@ export default {
               active: false
             },
             {
+              title: 'برداشت ها',
+              routeName: 'Admin.Payment.List',
+              show: true,
+              active: false
+            },
+            {
               title: 'درخواست ها',
               routeName: 'Admin.Invoice.Ticket.List',
               show: true,

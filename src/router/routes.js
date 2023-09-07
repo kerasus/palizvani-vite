@@ -594,6 +594,23 @@ const routes = [
                 ]
               }
             ]
+          },
+          {
+            path: 'payment',
+            name: 'Admin.Payment',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              {
+                path: '',
+                name: 'Admin.Payment.List',
+                component: () => import('src/pages/Admin/Payment/List.vue')
+              },
+              {
+                path: ':id',
+                name: 'Admin.Payment.Show',
+                component: () => import('src/pages/Admin/Payment/Show.vue')
+              }
+            ]
           }
         ]
       },
