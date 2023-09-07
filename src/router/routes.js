@@ -371,6 +371,11 @@ const routes = [
             component: () => import('src/layouts/bareLayout.vue'),
             children: [
               {
+                path: '',
+                name: 'UserPanel.Payment.List',
+                component: () => import('src/pages/User/Payment/List.vue')
+              },
+              {
                 name: 'UserPanel.Payment.Show',
                 path: ':id',
                 component: () => import('src/pages/User/Payment/Show.vue'),

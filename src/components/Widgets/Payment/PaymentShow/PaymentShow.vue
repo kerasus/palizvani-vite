@@ -12,7 +12,7 @@
     <entity-show v-if="mounted"
                  ref="entityEdit"
                  v-model:value="inputs"
-                 title="اطلاعات پرداخت"
+                 title="تراکنش کیف پول"
                  :api="api"
                  :entity-id-key="entityIdKey"
                  :index-route-name="'UserPanel.Wallet'"
@@ -31,6 +31,19 @@
                @click="showInvoice">
           مشاهده سفارش
         </q-btn>
+
+        <div v-if="payment.type === 'WITHDRAW_REQUEST'">
+          <div class="row q-col-gutter-md q-mt-lg">
+            <div class="col-md-6 col-12">
+              رسید پرداخت:
+              {{ payment.receipt }}
+            </div>
+            <div class="col-md-6 col-12">
+              شماره شبا:
+              {{ payment.IBAN }}
+            </div>
+          </div>
+        </div>
       </template>
     </entity-show>
   </div>
@@ -59,36 +72,21 @@ export default {
       showRouteName: 'Admin.Content.Show',
       indexRouteName: 'Admin.Content.List',
       inputs: [
-        { type: 'input', name: 'amount', responseKey: 'amount', label: 'مبلغ', placeholder: ' ', col: 'col-md-4 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', label: 'تاریخ ایجاد', placeholder: ' ', col: 'col-md-4 col-12' },
+        // { type: 'separator', name: 'space', label: 'مشخصات حساب', className: 'custom-separator', col: 'col-12' },
+        { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', label: 'تاریخ ثبت', placeholder: ' ', col: 'col-md-4 col-12' },
         {
           type: 'select',
           name: 'type',
           responseKey: 'type',
-          label: 'نوع',
-          options: [
-            {
-              label: 'برداشت',
-              value: 'WITHDRAW'
-            },
-            {
-              label: 'درخواست برداشت',
-              value: 'WITHDRAW_REQUEST'
-            },
-            {
-              label: 'برداشت رد شده',
-              value: 'WITHDRAW_REJECT'
-            },
-            {
-              label: 'واریز',
-              value: 'DEPOSIT'
-            }
-          ],
+          label: 'نوع درخواست',
+          options: (new Payment()).typeEnums,
           placeholder: ' ',
-          col: 'col-md-4 col-12'
+          col: 'col-md-3 col-12'
         },
-        { type: 'input', name: 'creator_info.firstname', responseKey: 'creator_info.firstname', label: 'نام پرداخت کننده', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'creator_info.lastname', responseKey: 'creator_info.lastname', label: 'نام خانوادگی پرداخت کننده', placeholder: ' ', col: 'col-md-6 col-12' }
+        { type: 'input', name: 'amount', responseKey: 'amount', label: 'مبلغ کل(ریال)', placeholder: ' ', col: 'col-md-3 col-12' }
+        // { type: 'input', name: 'IBAN', responseKey: 'IBAN', label: 'شماره شبا', placeholder: ' ', col: 'col-md-6 col-12' },
+        // { type: 'input', name: 'receipt', responseKey: 'receipt', label: 'رسید پرداخت', placeholder: ' ', col: 'col-md-6 col-12' }
       ]
     }
   },

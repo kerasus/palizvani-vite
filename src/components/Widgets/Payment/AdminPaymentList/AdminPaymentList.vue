@@ -19,7 +19,7 @@
         </template>
         <template v-else-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :to="{name: 'UserPanel.Payment.Show', params: {id: inputData.props.row.id}}">
+                 :to="{name: 'Admin.Payment.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
           </q-btn>
         </template>
@@ -35,7 +35,7 @@
             </template>
             <template v-else-if="col.name === 'action'">
               <q-btn color="primary"
-                     :to="{name: 'UserPanel.Payment.Show', params: {id: row.id}}">
+                     :to="{name: 'Admin.Payment.Show', params: {id: row.id}}">
                 مشاهده جزییات
               </q-btn>
             </template>

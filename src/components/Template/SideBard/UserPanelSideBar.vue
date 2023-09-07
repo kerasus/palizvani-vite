@@ -77,8 +77,13 @@ export default {
           children: [
             {
               title: 'صورتحساب ها',
-              scrollTo: '#introSection',
               routeName: 'UserPanel.Invoice.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'پرداخت ها',
+              routeName: 'UserPanel.Payment.List',
               show: true,
               active: false
             },
