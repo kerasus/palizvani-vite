@@ -111,9 +111,9 @@ export default {
           {
             name: 'invoice_info.title',
             required: true,
-            label: 'عنوان',
+            label: 'نام صاحب حساب',
             align: 'left',
-            field: row => row.invoice_info?.title
+            field: row => row.creator_info?.firstname + ' ' + row.creator_info?.lastname
           },
           {
             name: 'type',
@@ -123,18 +123,18 @@ export default {
             field: row => (new Payment(row)).type_info.label
           },
           {
-            name: 'invoice_info.status',
-            required: true,
-            label: 'وضعیت',
-            align: 'left',
-            field: row => (new Invoice(row.invoice_info)).status_info.label
-          },
-          {
             name: 'amount',
             required: true,
             label: 'مبلغ تراکنش (ریال)',
             align: 'left',
             field: row => row.amount.toLocaleString('fa')
+          },
+          {
+            name: 'invoice_info.status',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Invoice(row.invoice_info)).status_info.label
           },
           {
             name: 'creation_time',

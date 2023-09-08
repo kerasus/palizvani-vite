@@ -126,7 +126,7 @@ export default {
               active: false
             },
             {
-              title: 'برداشت ها',
+              title: 'پرداخت ها',
               routeName: 'Admin.Payment.List',
               show: true,
               active: false
