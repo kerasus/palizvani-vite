@@ -87,12 +87,12 @@ import { mixinPrefetchServerData, mixinWidget } from 'src/mixin/Mixins.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 let html2pdf
-if (typeof window !== 'undefined') {
-  import('html2pdf.js')
-    .then((html2pdfLib) => {
-      html2pdf = html2pdfLib.default
-    })
-}
+// if (typeof window !== 'undefined') {
+//   import('html2pdf.js')
+//     .then((html2pdfLib) => {
+//       html2pdf = html2pdfLib.default
+//     })
+// }
 
 export default {
   name: 'ShowClassroomInfo',
