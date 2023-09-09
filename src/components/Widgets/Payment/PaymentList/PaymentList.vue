@@ -90,7 +90,7 @@ export default {
           col: 'col-md-3 col-12'
         },
         { type: 'select', name: 'type', options: (new Payment()).typeEnums, label: 'نوع تراکنش', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'hidden', name: 'owner', value: null },
+        { type: 'hidden', name: 'wallet__owner', value: null },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       table: {
@@ -166,7 +166,7 @@ export default {
   methods: {
     setOwner () {
       const user = this.$store.getters['Auth/user']
-      FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', user.id)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'wallet__owner', 'value', user.id)
     },
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
