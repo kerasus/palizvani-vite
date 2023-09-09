@@ -8,23 +8,17 @@ COPY ./package*.json ./
 # Install dependencies
 RUN yarn install --production --frozen-lockfile
 
-
-ARG ALAA_API_V2_SERVER=https://alaatv.com/api/v2
-ARG ALAA_API_V1_SERVER=https://alaatv.com/api/v1
-ARG ALAA_WEB_SERVER=https://alaatv.com
-ARG ALAA_MINIO_SERVER=https://stage-minio.alaatv.com
+ARG APP_API_SERVER=http://palizvani.hghweb.ir/api
 ARG VUEX_PERSISTED_STATE_KEY=vuex
 ARG GET_TIME_SERVER=/time
-ARG ALAA_API_V1=/alaa/api/v1
-ARG ALAA_API_V2=/alaa/api/v2
-ARG ALAA_WEB=/alaa
-ARG ALAA_MINIO=/minio
+ARG APP_API=/api
 ARG NGINX_PORT=8081
 ARG SSR_PORT=3000
-ARG GOOGLE_TAG_MANAGER_TOKEN=GTM-PNP8RDW
+ARG APP_ENV=development
+ARG GOOGLE_TAG_MANAGER_TOKEN=GTM-PNP1111
 ARG HEAP_MEMORY_ALLOCATION_INTERVAL=10000
 ARG MAX_HEAP_MEMORY_ALLOCATION_IN_PERCENT=70
-ARG LOG_REQUEST=true
+ARG LOG_REQUEST=false
 
 # Copy all files
 COPY ./ ./
