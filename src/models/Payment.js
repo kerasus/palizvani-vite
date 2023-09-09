@@ -32,6 +32,8 @@ class Payment extends Model {
       },
       { key: 'creation_time' },
       { key: 'last_modification_time' },
+      { key: 'receipt' },
+      { key: 'IBAN' },
       { key: 'is_active' },
       { key: 'is_deleted' }
     ], {
