@@ -743,7 +743,6 @@ export default {
           this.exportReportLoading = false
         })
         .catch((e) => {
-          console.log('e', e)
           this.exportReportLoading = false
         })
     },
