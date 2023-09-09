@@ -160,6 +160,7 @@ export default {
   mounted() {
     this.setOwner()
     this.setActionBtn()
+    this.$bus.on('ReloadUserPayments', this.search)
     this.mounted = true
   },
   methods: {

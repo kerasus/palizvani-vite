@@ -144,6 +144,7 @@ export default {
           this.shabaNumber = null
           this.withdrawAmount = null
           this.getMyWallet()
+          this.$bus.emit('ReloadUserPayments')
         })
         .catch(() => {
           this.wallet.loading = false

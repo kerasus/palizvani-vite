@@ -130,13 +130,6 @@ export default {
             field: row => row.amount.toLocaleString('fa')
           },
           {
-            name: 'invoice_info.status',
-            required: true,
-            label: 'وضعیت',
-            align: 'left',
-            field: row => (new Invoice(row.invoice_info)).status_info.label
-          },
-          {
             name: 'creation_time',
             required: true,
             label: 'زمان',
