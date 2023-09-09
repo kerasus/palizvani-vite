@@ -32,18 +32,21 @@
           مشاهده سفارش
         </q-btn>
 
-        <div v-if="payment.type === 'WITHDRAW_REQUEST'">
+        <div v-if="payment.receipt || payment.IBAN">
           <div class="row q-col-gutter-md q-mt-lg">
             <div class="col-md-6 col-12">
               رسید پرداخت:
-              {{ payment.receipt }}
+              <div>
+                <q-img :src="payment.receipt" />
+              </div>
             </div>
             <div class="col-md-6 col-12">
               شماره شبا:
               {{ payment.IBAN }}
             </div>
           </div>
-          <form-builder ref="requestForm"
+          <form-builder v-if="payment.type === 'WITHDRAW_REQUEST'"
+                        ref="requestForm"
                         v-model:value="requestInputs"
                         :loading="requestLoading"
                         class="q-mt-md" />
@@ -154,21 +157,26 @@ export default {
       this.entityLoading = true
       this.$refs.entityEdit.editEntity(false)
         .then(() => {
-          this.$refs.entityEdit.getData()
+          this.refreshPaymentData()
           this.entityLoading = false
         })
         .catch(() => {
-          this.$refs.entityEdit.getData()
+          this.refreshPaymentData()
           this.entityLoading = false
         })
+    },
+    refreshPaymentData () {
+      this.$refs.entityEdit.getData()
     },
     confirmWithdraw () {
       this.requestLoading = true
       APIGateway.payment.confirmWithdraw(this.payment.id, this.getRequestFormData())
         .then(() => {
+          this.refreshPaymentData()
           this.requestLoading = false
         })
         .catch(() => {
+          this.refreshPaymentData()
           this.requestLoading = false
         })
     },
@@ -179,9 +187,11 @@ export default {
         description: FormBuilderAssist.getInputsByName(this.requestInputs, 'description').value
       })
         .then(() => {
+          this.refreshPaymentData()
           this.requestLoading = false
         })
         .catch(() => {
+          this.refreshPaymentData()
           this.requestLoading = false
         })
     },
