@@ -124,13 +124,6 @@ export default {
             field: row => (new Payment(row)).type_info.label
           },
           {
-            name: 'invoice_info.status',
-            required: true,
-            label: 'وضعیت',
-            align: 'left',
-            field: row => (new Invoice(row.invoice_info)).status_info.label
-          },
-          {
             name: 'amount',
             required: true,
             label: 'مبلغ تراکنش (ریال)',
