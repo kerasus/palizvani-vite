@@ -34,7 +34,18 @@ class Transaction extends Model {
         key: 'invoice_info',
         relatedModel: Invoice
       }
-    ])
+    ], {
+      status: {
+        infoKey: 'status_info',
+        enumListKey: 'statusEnums',
+        enums: [
+          { label: 'لغو شده', value: 'CANCELED' },
+          { label: 'در حال پرداخت', value: 'IN_PROGRESS' },
+          { label: 'پرداخت نقدی', value: 'PAID' },
+          { label: 'پرداخت قسطی', value: 'PAY_IN_INSTALMENT' }
+        ]
+      }
+    })
   }
 }
 

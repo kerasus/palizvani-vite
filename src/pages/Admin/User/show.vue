@@ -43,8 +43,6 @@
                      :api="api"
                      :after-load-input-data="afterLoadInputData"
                      :entity-id-key="entityIdKey"
-                     :entity-param-key="entityParamKey"
-                     :show-route-name="showRouteName"
                      :default-layout="false"
                      :show-close-button="false"
                      :show-edit-button="false"
@@ -121,87 +119,108 @@
       </q-tab-panel>
 
       <q-tab-panel name="financial">
-        <entity-index v-if="mounted"
-                      ref="invoiceList"
-                      v-model:value="invoiceListInputs"
-                      title="لیست صورتحساب ها"
-                      :api="invoiceListApi"
-                      :table="invoiceListTable"
-                      :table-keys="invoiceListTableKeys"
-                      :show-search-button="false"
-                      :show-reload-button="false"
-                      :show-expand-button="false">
-          <template v-slot:entity-index-table-cell="{inputData}">
-            <template v-if="inputData.col.name === 'number'">
-              {{ inputData.rowNumber }}
-            </template>
-            <template v-else-if="inputData.col.name === 'action'">
-              <div class="action-column-entity-index">
-                <q-btn color="primary"
-                       label="جزییات"
-                       :to="{name: 'Admin.Invoice.Show', params: {id: inputData.props.row.id}}" />
-              </div>
-            </template>
-            <template v-else>
-              {{ inputData.col.value }}
-            </template>
-          </template>
-        </entity-index>
-        <q-separator class="q-my-md" />
-        <entity-index v-if="mounted"
-                      ref="paymentList"
-                      v-model:value="paymentListInputs"
-                      title="لیست پرداخت ها"
-                      :api="paymentListApi"
-                      :table="paymentListTable"
-                      :table-keys="paymentListTableKeys"
-                      :show-search-button="false"
-                      :show-reload-button="false"
-                      :show-expand-button="false">
-          <template v-slot:entity-index-table-cell="{inputData}">
-            <template v-if="inputData.col.name === 'number'">
-              {{ inputData.rowNumber }}
-            </template>
-            <template v-else-if="inputData.col.name === 'action'">
-              <div class="action-column-entity-index">
-                <q-btn color="primary"
-                       label="جزییات" />
-              </div>
-            </template>
-            <template v-else>
-              {{ inputData.col.value }}
-            </template>
-          </template>
-        </entity-index>
-        <q-separator class="q-my-md" />
-        <entity-index v-if="mounted"
-                      ref="transactionList"
-                      v-model:value="transactionListInputs"
-                      title="لیست تراکنش ها"
-                      :api="transactionListApi"
-                      :table="transactionListTable"
-                      :table-keys="transactionListTableKeys"
-                      :show-search-button="false"
-                      :show-reload-button="false"
-                      :show-expand-button="false">
-          <template v-slot:entity-index-table-cell="{inputData}">
-            <template v-if="inputData.col.name === 'number'">
-              {{ inputData.rowNumber }}
-            </template>
-            <template v-else-if="inputData.col.name === 'action'">
-              <div class="action-column-entity-index">
-                <q-btn color="primary"
-                       label="جزییات" />
-              </div>
-            </template>
-            <template v-else>
-              {{ inputData.col.value }}
-            </template>
-          </template>
-        </entity-index>
-        <q-skeleton v-else
-                    type="rect"
-                    height="200px" />
+        <q-tabs v-model="financialTab"
+                dense
+                class="text-grey"
+                active-color="primary"
+                indicator-color="primary"
+                align="justify"
+                narrow-indicator>
+          <q-tab name="invoiceList"
+                 label="صورتحساب ها" />
+          <q-tab name="paymentList"
+                 label="پرداخت ها" />
+          <q-tab name="transactionList"
+                 label="تراکنش ها" />
+        </q-tabs>
+        <q-separator />
+        <q-tab-panels v-model="financialTab"
+                      animated>
+          <q-tab-panel name="invoiceList">
+            <entity-index v-if="mounted"
+                          ref="invoiceList"
+                          v-model:value="invoiceListInputs"
+                          title="لیست صورتحساب ها"
+                          :api="invoiceListApi"
+                          :table="invoiceListTable"
+                          :table-keys="invoiceListTableKeys"
+                          :show-search-button="false"
+                          :show-reload-button="false"
+                          :show-expand-button="false">
+              <template v-slot:entity-index-table-cell="{inputData}">
+                <template v-if="inputData.col.name === 'number'">
+                  {{ inputData.rowNumber }}
+                </template>
+                <template v-else-if="inputData.col.name === 'action'">
+                  <div class="action-column-entity-index">
+                    <q-btn color="primary"
+                           label="جزییات"
+                           :to="{name: 'Admin.Invoice.Show', params: {id: inputData.props.row.id}}" />
+                  </div>
+                </template>
+                <template v-else>
+                  {{ inputData.col.value }}
+                </template>
+              </template>
+            </entity-index>
+          </q-tab-panel>
+          <q-tab-panel name="paymentList">
+            <entity-index v-if="mounted"
+                          ref="paymentList"
+                          v-model:value="paymentListInputs"
+                          title="لیست پرداخت ها"
+                          :api="paymentListApi"
+                          :table="paymentListTable"
+                          :table-keys="paymentListTableKeys"
+                          :show-search-button="false"
+                          :show-reload-button="false"
+                          :show-expand-button="false">
+              <template v-slot:entity-index-table-cell="{inputData}">
+                <template v-if="inputData.col.name === 'number'">
+                  {{ inputData.rowNumber }}
+                </template>
+                <template v-else-if="inputData.col.name === 'action'">
+                  <div class="action-column-entity-index">
+                    <q-btn color="primary"
+                           :to="{ name: 'Admin.Payment.Show', params: { id: inputData.props.row.id } }"
+                           label="جزییات" />
+                  </div>
+                </template>
+                <template v-else>
+                  {{ inputData.col.value }}
+                </template>
+              </template>
+            </entity-index>
+          </q-tab-panel>
+          <q-tab-panel name="transactionList">
+            <entity-index v-if="mounted"
+                          ref="transactionList"
+                          v-model:value="transactionListInputs"
+                          title="لیست تراکنش ها"
+                          :api="transactionListApi"
+                          :table="transactionListTable"
+                          :table-keys="transactionListTableKeys"
+                          :show-search-button="false"
+                          :show-reload-button="false"
+                          :show-expand-button="false">
+              <template v-slot:entity-index-table-cell="{inputData}">
+                <template v-if="inputData.col.name === 'number'">
+                  {{ inputData.rowNumber }}
+                </template>
+                <template v-else-if="inputData.col.name === 'action'">
+                  <div class="action-column-entity-index">
+                    <q-btn color="primary"
+                           :to="{ name: 'Admin.Transaction.Show', params: { id: inputData.props.row.id } }"
+                           label="جزییات" />
+                  </div>
+                </template>
+                <template v-else>
+                  {{ inputData.col.value }}
+                </template>
+              </template>
+            </entity-index>
+          </q-tab-panel>
+        </q-tab-panels>
       </q-tab-panel>
       <q-tab-panel name="movies2">
         سوابق باشگاه اندیشه جویان
@@ -236,11 +255,10 @@ export default {
     const userId = this.$route.params.id
     return {
       tab: 'userInfo',
+      financialTab: 'invoiceList',
       api: APIGateway.user.APIAdresses.byId(userId),
       mounted: false,
       entityIdKey: 'id',
-      entityParamKey: 'id',
-      showRouteName: 'Admin.User.Show',
       inputs: [
         { type: 'separator', name: 'space', label: 'نقش و وضعیت ها', className: 'custom-separator', col: 'col-12' },
         {
