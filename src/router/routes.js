@@ -85,6 +85,15 @@ const routes = [
             component: () => import('src/pages/Public/index.vue')
           },
           {
+            path: 'post',
+            name: 'Public.Post',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              { path: '', name: 'Public.Post.List', component: () => import('src/pages/Public/Post/List.vue') },
+              { path: ':id', name: 'Public.Post.Show', component: () => import('src/pages/Public/Post/Show.vue') }
+            ]
+          },
+          {
             name: 'Public.AllClassrooms',
             path: 'all-classrooms',
             meta: {
@@ -536,6 +545,16 @@ const routes = [
             ]
           },
           {
+            path: 'post',
+            name: 'Admin.Post',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              { path: '', name: 'Admin.Post.List', component: () => import('src/pages/Admin/Post/List.vue') },
+              { path: 'create', name: 'Admin.Post.Create', component: () => import('src/pages/Admin/Post/Create.vue') },
+              { path: ':id', name: 'Admin.Post.Show', component: () => import('src/pages/Admin/Post/Show.vue') }
+            ]
+          },
+          {
             path: 'media',
             name: 'Admin.Media',
             component: () => import('layouts/bareLayout.vue'),
@@ -554,6 +573,16 @@ const routes = [
               { path: '', name: 'Admin.ContentCategory.List', component: () => import('src/pages/Admin/ContentCategory/List.vue') },
               { path: 'create', name: 'Admin.ContentCategory.Create', component: () => import('src/pages/Admin/ContentCategory/Create.vue') },
               { path: ':id', name: 'Admin.ContentCategory.Show', component: () => import('src/pages/Admin/ContentCategory/Show.vue') }
+            ]
+          },
+          {
+            path: 'post-category',
+            name: 'Admin.PostCategory',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              { path: '', name: 'Admin.PostCategory.List', component: () => import('src/pages/Admin/PostCategory/List.vue') },
+              { path: 'create', name: 'Admin.PostCategory.Create', component: () => import('src/pages/Admin/PostCategory/Create.vue') },
+              { path: ':id', name: 'Admin.PostCategory.Show', component: () => import('src/pages/Admin/PostCategory/Show.vue') }
             ]
           },
           {

@@ -112,6 +112,28 @@ export default {
           ]
         },
         {
+          title: 'بلاگ',
+          icon: 'rss_feed',
+          routeName: null,
+          show: true,
+          open: true,
+          active: false,
+          children: [
+            {
+              title: 'دسته بندی ها',
+              routeName: 'Admin.PostCategory.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'لیست پست ها',
+              routeName: 'Admin.Post.List',
+              show: true,
+              active: false
+            }
+          ]
+        },
+        {
           title: 'مدیریت مالی',
           icon: 'payments',
           routeName: null,

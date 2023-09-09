@@ -1,6 +1,7 @@
 import SeoAPI from 'src/api/models/Seo.js'
 import AuthAPI from 'src/api/models/Auth.js'
 import UserAPI from 'src/api/models/User.js'
+import PostAPI from 'src/api/models/Post.js'
 import UnitAPI from 'src/api/models/Unit.js'
 import MediaAPI from 'src/api/models/Media.js'
 import TicketAPI from 'src/api/models/Ticket.js'
@@ -13,6 +14,7 @@ import ClassroomAPI from 'src/api/models/Classroom.js'
 import InstalmentAPI from 'src/api/models/Instalment.js'
 import TransactionAPI from 'src/api/models/Transaction.js'
 import PageSettingAPI from 'src/api/models/PageSetting.js'
+import PostCategoryAPI from 'src/api/models/PostCategory.js'
 import MediaHashtagAPI from 'src/api/models/MediaHashtag.js'
 import RegistrationAPI from 'src/api/models/Registration.js'
 import UnitCategoryAPI from 'src/api/models/UnitCategory.js'
@@ -29,6 +31,7 @@ export const APIGateway = {
   auth: new AuthAPI(),
   user: new UserAPI(),
   unit: new UnitAPI(),
+  post: new PostAPI(),
   media: new MediaAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
@@ -41,6 +44,7 @@ export const APIGateway = {
   transaction: new TransactionAPI(),
   pageSetting: new PageSettingAPI(),
   registration: new RegistrationAPI(),
+  postCategory: new PostCategoryAPI(),
   unitCategory: new UnitCategoryAPI(),
   mediaHashtag: new MediaHashtagAPI(),
   mediaCategory: new MediaCategoryAPI(),

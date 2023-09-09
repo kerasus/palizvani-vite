@@ -29,6 +29,11 @@
                    class="top-menu-item" />
             <q-btn stretch
                    flat
+                   label="بلاگ"
+                   :to="{name: 'Public.Post.List'}"
+                   class="top-menu-item" />
+            <q-btn stretch
+                   flat
                    label="سامانه آموزش"
                    class="top-menu-item" />
             <q-btn-dropdown stretch
