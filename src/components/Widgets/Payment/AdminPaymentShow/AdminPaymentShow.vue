@@ -31,7 +31,11 @@
                @click="showInvoice">
           مشاهده سفارش
         </q-btn>
-
+        <div v-if="payment.description"
+             class="q-my-md">
+          توضیحات:
+          <div v-html="payment.description" />
+        </div>
         <div v-if="payment.receipt || payment.IBAN">
           <div class="row q-col-gutter-md q-mt-lg">
             <div class="col-md-6 col-12">
