@@ -112,7 +112,7 @@ export default {
             required: true,
             label: 'نام صاحب حساب',
             align: 'left',
-            field: row => row.creator_info?.firstname + ' ' + row.creator_info?.lastname
+            field: row => row.wallet_info?.owner_info?.firstname + ' ' + row.wallet_info?.owner_info?.lastname
           },
           {
             name: 'type',
