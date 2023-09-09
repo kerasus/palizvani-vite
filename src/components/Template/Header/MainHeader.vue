@@ -142,7 +142,7 @@
                       clickable
                       @click="logOut">
                 <q-item-section>
-                  خروچ
+                  خروج
                 </q-item-section>
               </q-item>
             </q-list>
