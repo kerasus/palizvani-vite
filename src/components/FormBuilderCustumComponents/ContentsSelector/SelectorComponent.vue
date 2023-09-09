@@ -34,7 +34,7 @@
                 :option-label="'title'"
                 :option-value="'id'"
                 multiple
-                :loading="contentOptions.laoding" />
+                :loading="contentOptions.loading" />
     </div>
   </div>
 </template>
@@ -185,10 +185,10 @@ export default {
       APIGateway.content.index({ category: categoryId, per_page: 9999 })
         .then(contents => {
           this.contentOptions = new ContentList(contents.list)
-          this.contentOptions.laoding = false
+          this.contentOptions.loading = false
         })
         .catch(() => {
-          this.contentOptions.laoding = false
+          this.contentOptions.loading = false
         })
     },
     onChangeBakhsh () {

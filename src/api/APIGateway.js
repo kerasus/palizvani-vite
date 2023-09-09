@@ -10,6 +10,7 @@ import InvoiceAPI from 'src/api/models/Invoice.js'
 import PaymentAPI from 'src/api/models/Payment.js'
 import SessionAPI from 'src/api/models/Session.js'
 import ContentAPI from 'src/api/models/Content.js'
+import ProjectAPI from 'src/api/models/Project.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
 import InstalmentAPI from 'src/api/models/Instalment.js'
 import TransactionAPI from 'src/api/models/Transaction.js'
@@ -35,6 +36,7 @@ export const APIGateway = {
   media: new MediaAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
+  project: new ProjectAPI(),
   invoice: new InvoiceAPI(),
   payment: new PaymentAPI(),
   session: new SessionAPI(),

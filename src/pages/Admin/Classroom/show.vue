@@ -19,7 +19,7 @@
              label="مشخصات" />
       <q-tab name="educations"
              label="لیست جلسات" />
-      <q-tab name="movies1"
+      <q-tab name="projects"
              label="پروژه‌ها" />
       <q-tab name="movies2"
              label="آزمون" />
@@ -85,7 +85,10 @@
             </q-btn>
           </template>
           <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
-            <template v-if="inputData.col.name === 'actions'">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'actions'">
               <div class="action-column-entity-index">
                 <q-btn size="md"
                        color="primary"
@@ -105,8 +108,58 @@
                     height="200px" />
       </q-tab-panel>
 
-      <q-tab-panel name="movies1">
-        پروژه‌ها
+      <q-tab-panel name="projects"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="projectList"
+                      v-model:value="projectListInputs"
+                      title="لیست پروژه ها"
+                      :api="projectListApi"
+                      :table="projectListTable"
+                      :table-keys="projectListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template #toolbar>
+            <q-btn color="primary"
+                   outline
+                   :loading="addNewProjectLoading"
+                   @click="addNewProject">
+              افزودن پروژه جدید
+            </q-btn>
+          </template>
+          <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'actions'">
+              <div class="action-column-entity-index">
+                <q-btn size="md"
+                       color="primary"
+                       label="جزییات"
+                       :to="{name: 'Admin.Classroom.Project.Show', params: {id: $route.params.id, project_id: inputData.props.row.id}}"
+                       class="q-mr-md" />
+                <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+              </div>
+            </template>
+            <template v-else-if="inputData.col.name === 'members'">
+              <div class="action-column-entity-index">
+                <q-btn size="md"
+                       color="primary"
+                       outline
+                       label="بررسی پروژه"
+                       :to="{name: 'Admin.Classroom.Project.Members', params: {id: $route.params.id, project_id: inputData.props.row.id}}"
+                       class="q-mr-md" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
       </q-tab-panel>
       <q-tab-panel name="movies2">
         آزمون
@@ -222,6 +275,7 @@ import { EntityEdit, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
+import { Project } from 'src/models/Project'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -237,6 +291,7 @@ export default {
     return {
       mounted: false,
       addNewSessionLoading: false,
+      addNewProjectLoading: false,
       createInvoiceLoading: false,
       classroomEntityEditKey: Date.now(),
       tab: 'classroomInfo',
@@ -349,9 +404,16 @@ export default {
       sessionListTable: {
         columns: [
           {
-            name: 'id',
+            name: 'number',
             required: true,
             label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
             align: 'left',
             field: row => row.id
           },
@@ -383,10 +445,81 @@ export default {
             align: 'left',
             field: ''
           }
-        ],
-        data: []
+        ]
       },
       sessionListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      projectListInputs: [
+        { type: 'hidden', name: 'classroom', value: this.$route.params.id, label: 'نام دوره', col: 'col-12' }
+      ],
+      projectListApi: APIGateway.project.APIAdresses.base,
+      projectListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'عنوان پروژه',
+            align: 'left',
+            field: row => row.title
+          },
+          {
+            name: 'type',
+            required: true,
+            label: 'نوع',
+            align: 'left',
+            field: row => (new Project(row)).typeEnums
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان شروع پروژه',
+            align: 'left',
+            field: row => row.beginning_doing_period ? ShamsiDate.getDateTime(row.beginning_doing_period) : '-'
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'مهلت ارسال پروژه',
+            align: 'left',
+            field: row => row.ending_doing_period ? ShamsiDate.getDateTime(row.ending_doing_period) : '-'
+          },
+          {
+            name: 'members',
+            required: true,
+            label: 'بررسی',
+            align: 'left',
+            field: ''
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: ''
+          }
+        ]
+      },
+      projectListTableKeys: {
         data: 'results',
         total: 'count',
         currentPage: 'current',
@@ -601,6 +734,20 @@ export default {
         })
         .catch(() => {
           this.addNewSessionLoading = false
+        })
+    },
+    addNewProject () {
+      this.addNewProjectLoading = true
+      APIGateway.project.create({
+        title: '-',
+        classroom: this.$route.params.id
+      })
+        .then(() => {
+          this.$refs.projectList.search()
+          this.addNewProjectLoading = false
+        })
+        .catch(() => {
+          this.addNewProjectLoading = false
         })
     },
     setMembersListActionBtn () {
