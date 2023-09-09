@@ -430,7 +430,8 @@ const routes = [
             breadcrumbs: { title: 'کاربران' },
             children: [
               { name: 'Admin.User.Index', path: '', component: () => import('src/pages/Admin/User/index.vue') },
-              { name: 'Admin.User.Show', path: ':id', component: () => import('src/pages/Admin/User/show.vue'), breadcrumbs: { title: 'اطلاعات کاربری' } }
+              { name: 'Admin.User.Show', path: ':id', component: () => import('src/pages/Admin/User/show.vue'), breadcrumbs: { title: 'اطلاعات کاربری' } },
+              { name: 'Admin.User.ClassroomInfo', path: ':id/classroom/:classroom_id', component: () => import('src/pages/Admin/User/UserClassroomInfo.vue'), breadcrumbs: { title: 'اطلاعات کاربری' } }
             ]
           },
           {

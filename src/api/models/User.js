@@ -20,6 +20,14 @@ export default class UserAPI extends APIRepository {
       byId: (id) => this.name + this.APIAdresses.byId(id),
       changeRole: (id) => this.name + this.APIAdresses.changeRole(id)
     }
+    this.restUrl = (id) => this.APIAdresses.byId(id)
+    /* Setting the callback functions for the CRUD operations. */
+    this.setCrudCallbacks({
+      get: (response) => { return new User(response.data) },
+      post: (response) => { return new User(response.data) },
+      put: (response) => { return new User(response.data) },
+      delete: (response) => { return response.data }
+    })
   }
 
   index(data) {
