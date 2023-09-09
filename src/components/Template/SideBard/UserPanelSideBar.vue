@@ -82,12 +82,6 @@ export default {
               active: false
             },
             {
-              title: 'پرداخت ها',
-              routeName: 'UserPanel.Payment.List',
-              show: true,
-              active: false
-            },
-            {
               title: 'کیف پول الکترونیک',
               routeName: 'UserPanel.Wallet',
               show: true,
