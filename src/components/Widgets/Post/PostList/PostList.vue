@@ -1,6 +1,11 @@
 <template>
   <div class="PostList"
        :style="localOptions.style">
+    <breadcrumbs class="q-mb-xl"
+                 style="margin-top: 29px; margin-bottom: 19px;" />
+    <q-banner class="q-mb-xl">
+      یادداشت ها و مقالات
+    </q-banner>
     <entity-index v-if="mounted"
                   ref="entityIndex"
                   v-model:value="inputs"
@@ -25,10 +30,11 @@ import { EntityIndex } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import PostItem from 'src/components/PostItem.vue'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'PostList',
-  components: { PostItem, EntityIndex },
+  components: { PostItem, EntityIndex, Breadcrumbs },
   mixins: [mixinWidget],
   data: () => {
     return {
@@ -50,6 +56,20 @@ export default {
   },
   mounted() {
     this.mounted = true
+    this.$store.commit('AppLayout/updateBreadcrumbs', {
+      visible: true,
+      loading: false,
+      path: [
+        {
+          label: 'خانه',
+          to: { name: 'Public.Home' }
+        },
+        {
+          label: 'یادداشت ها و مقالات',
+          to: { name: 'Public.Post.List' }
+        }
+      ]
+    })
   }
 }
 </script>
