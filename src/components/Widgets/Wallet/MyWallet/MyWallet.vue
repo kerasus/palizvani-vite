@@ -122,9 +122,6 @@ export default {
         })
     },
     deposit () {
-      if (isNaN(this.depositAmount) || this.depositAmount === 0) {
-        return
-      }
       this.wallet.loading = true
       APIGateway.wallet.deposit({ amount: this.depositAmount })
         .then((url) => {
@@ -135,9 +132,6 @@ export default {
         })
     },
     withdraw () {
-      if (isNaN(this.withdrawAmount) || this.withdrawAmount === 0) {
-        return
-      }
       this.wallet.loading = true
       APIGateway.payment.requestWithdraw({ IBAN: this.shabaNumber, amount: this.withdrawAmount })
         .then(() => {
