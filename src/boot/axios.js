@@ -87,13 +87,16 @@ const AxiosHooks = (function () {
   }
 
   function deAuthorizeUser(router, store) {
+    // console.error('deAuthorizeUser')
     store.dispatch('Auth/logOut', { redirectTo: false, clearRedirectTo: false })
     const loginRouteName = 'Login'
     const currentRoute = (router?.currentRoute?._value) ? router.currentRoute._value : (router?.history?.current) ? router.history.current : null
     if (currentRoute && currentRoute.name === loginRouteName) {
       return
     }
-    store.commit('Auth/updateRedirectTo', currentRoute)
+    store.commit('Auth/updateRedirectTo', JSON.parse(JSON.stringify({ name: currentRoute.name, params: currentRoute.params, query: currentRoute.query })))
+    // console.error('router', router)
+    // console.error('loginRouteName', loginRouteName)
     router.push({ name: loginRouteName })
   }
 

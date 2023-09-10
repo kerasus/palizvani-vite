@@ -78,11 +78,6 @@ export default {
     password: null,
     otp: null
   }),
-  computed: {
-    user () {
-      return this.$store.getters['Auth/user']
-    }
-  },
   created () {
     // if (this.getToken()) {
     //   this.getUserData(() => { this.redirectTo() })
