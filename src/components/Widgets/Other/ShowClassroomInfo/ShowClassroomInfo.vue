@@ -332,6 +332,16 @@ export default {
       this.loading = false
     },
 
+    reloadClassroom () {
+      this.getClassroom()
+        .then((classroom) => {
+          this.prefetchServerDataPromiseThen(classroom)
+        })
+        .catch(() => {
+          this.prefetchServerDataPromiseCatch()
+        })
+    },
+
     getTitledDateTime (dateTime) {
       return ShamsiDate.getTitledDateTime(dateTime)
     },
@@ -355,7 +365,7 @@ export default {
         APIGateway.classroom.dropByUser(classroomId)
           .then(() => {
             this.dropLoading = false
-            this.getClassroom()
+            this.reloadClassroom()
           })
           .catch(() => {
             this.dropLoading = false
