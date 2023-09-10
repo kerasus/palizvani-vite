@@ -55,7 +55,13 @@
                               :name="isUserMessage(authenticatedUser, message) ? message.creator_info.firstname + ' ' + message.creator_info.lastname : 'کارشناس'"
                               :text="[message.body]"
                               text-html
-                              :sent="!isUserMessage(authenticatedUser, message)" />
+                              :sent="!isUserMessage(authenticatedUser, message)">
+                <template v-slot:stamp>
+                  <div>
+                    {{ miladiToShamsi(message.creation_time) }}
+                  </div>
+                </template>
+              </q-chat-message>
               <div>
                 <q-input v-model="replyText"
                          bottom-slots
@@ -100,6 +106,7 @@
 <script>
 import { EntityShow } from 'quasar-crud'
 import { User } from 'src/models/User.js'
+import Assist from 'src/assets/js/Assist.js'
 import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
@@ -145,10 +152,11 @@ export default {
           label: 'معاونت',
           placeholder: ' ',
           ignoreValue: true,
-          col: 'col-md-4 col-12'
+          col: 'col-md-6 col-12'
         },
-        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
-        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-6 col-12' },
+        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', placeholder: ' ', label: 'تاریخ ایجاد', readonly: true, col: 'col-md-6 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'source_id', responseKey: 'source_id', value: null },
@@ -189,6 +197,9 @@ export default {
       })
   },
   methods: {
+    miladiToShamsi (miladi) {
+      return Assist.miladiToShamsi(miladi)
+    },
     isUserMessage (authenticatedUser, message) {
       return authenticatedUser.id === message.creator_info.id
     },
