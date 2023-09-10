@@ -320,6 +320,7 @@ export default {
         .then((message) => {
           this.payMessage = message
           this.invoice.loading = false
+          this.$router.push({ name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } })
         })
         .catch(() => {
           this.invoice.loading = false
