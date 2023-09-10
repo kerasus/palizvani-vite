@@ -52,7 +52,10 @@
                       :show-reload-button="false"
                       :show-search-button="false">
           <template #entity-index-table-cell="{inputData}">
-            <template v-if="inputData.col.name === 'action'">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'action'">
               <q-btn size="md"
                      color="primary"
                      label="جزییات"
@@ -65,7 +68,10 @@
           <template #entity-index-table-item-cell="{inputData}">
             <entity-index-grid-item :input-data="inputData">
               <template #col="{col, row}">
-                <template v-if="col.name === 'action'">
+                <template v-if="inputData.col.name === 'number'">
+                  {{ inputData.rowNumber }}
+                </template>
+                <template v-else-if="col.name === 'action'">
                   <q-btn size="md"
                          color="primary"
                          label="جزییات"
@@ -173,9 +179,16 @@ export default {
       table: {
         columns: [
           {
-            name: 'id',
+            name: 'number',
             required: true,
             label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
             align: 'left',
             field: row => row.id
           },
@@ -207,8 +220,7 @@ export default {
             align: 'left',
             field: ''
           }
-        ],
-        data: []
+        ]
       },
       tableKeys: {
         data: 'sessions_info',
