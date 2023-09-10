@@ -90,6 +90,16 @@
                @click="goToLiveStreamUrl">
           رفتن به کلاس
         </q-btn>
+        <q-banner>
+          <div class="q-mb-md">
+            نام کاربری اسکای روم:
+            {{ user.national_code }}
+          </div>
+          <div>
+            کلمه عبور اسکای روم:
+            1234
+          </div>
+        </q-banner>
         <iframe :src="classroom.live_streaming_url"
                 title="W3Schools Free Online Web Tutorials"
                 style="height: 80vh"
@@ -104,6 +114,7 @@ import { EntityIndex } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { mixinAuth } from 'src/mixin/Mixins.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
@@ -118,6 +129,7 @@ export default {
     ShowClassroomInfo,
     EntityIndexGridItem
   },
+  mixins: [mixinAuth],
   data () {
     return {
       mounted: false,
