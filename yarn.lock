@@ -1950,6 +1950,13 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-italic/-/extension-italic-2.1.8.tgz#b559c8d6b387e292e047985acd0def48a80a7aa0"
   integrity sha512-cR6kSoMraA/dCdwmus8A09WAwpxiZiGG+B0OqsludGF+MdZLilhoGyXDbTeO3aKoKccfqxZGk1YKK13C/gRM1Q==
 
+"@tiptap/extension-link@^2.1.8":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-link/-/extension-link-2.1.8.tgz#644229c309ef9a91db329126df23cba083ec3c61"
+  integrity sha512-f3yPNbbo3rNuusEX+Xh/oKUWkq/P1yyVip6ZmtUJVrrG4PFeq/w+f1vEVnlC+uZk3qoC4o8J1DTAOrlrZehx/g==
+  dependencies:
+    linkifyjs "^4.1.0"
+
 "@tiptap/extension-list-item@^2.1.8":
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-list-item/-/extension-list-item-2.1.8.tgz#b5dc1e04bfb96ca10a0821821ade5014fa188dbb"
@@ -5088,6 +5095,11 @@ linkify-it@^4.0.1:
   dependencies:
     uc.micro "^1.0.1"
 
+linkifyjs@^4.1.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-4.1.1.tgz#73d427e3bbaaf4ca8e71c589ad4ffda11a9a5fde"
+  integrity sha512-zFN/CTVmbcVef+WaDXT63dNzzkfRBKT1j464NJQkV7iSgJU0sLBus9W0HBwnXK13/hf168pbrx/V/bjEHOXNHA==
+
 locate-path@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-6.0.0.tgz#55321eb309febbc59c4801d931a72452a681d286"
@@ -7453,10 +7465,10 @@ vue-router@^4.1.0, vue-router@^4.1.6:
   dependencies:
     "@vue/devtools-api" "^6.5.0"
 
-vue-tiptap-katex-core@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/vue-tiptap-katex-core/-/vue-tiptap-katex-core-2.1.1.tgz#4d13596de1c7802ca315142fa7942593b12a7c63"
-  integrity sha512-VD3YNCzCL26DC5maOzgTlquwbU7z03dSa3UlrZa+309ulxzKPwSEvSkr/sMYEzdzcShTBbs0iC2lvO2A6CCGkQ==
+vue-tiptap-katex-core@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/vue-tiptap-katex-core/-/vue-tiptap-katex-core-2.1.2.tgz#ea994c8d15119de3cf6aa10dd3f45de4fa5deb26"
+  integrity sha512-JTZsColfjXCXbwO/7lkUsphUXECCeHWr6vul85uWcIFCojz/8AAB5AZiVzRDcWfH49cKCYmGsSQQdkLNoYqr6A==
   dependencies:
     "@mdi/font" "^6.9.96"
     "@tiptap/core" "^2.0.0-beta.209"
@@ -7495,10 +7507,10 @@ vue3-otp-input@^0.4.1:
   resolved "https://registry.yarnpkg.com/vue3-otp-input/-/vue3-otp-input-0.4.1.tgz#4757cc771bb0c723e34b78857424322079d07fae"
   integrity sha512-wVl9i3DcWlO0C7fBI9V+RIP3crm/1tY72fuhvb3YM2JfbLoYofB96aPl5AgFhA0Cse5bQEMYtIvOeiqW3rfbAw==
 
-vue3-tiptap-katex@^1.1.19:
-  version "1.1.19"
-  resolved "https://registry.yarnpkg.com/vue3-tiptap-katex/-/vue3-tiptap-katex-1.1.19.tgz#f74b2d167828fa1f37b2d161d5a48d229ba1e14c"
-  integrity sha512-N/6FAFpfQS751NOUh2ujYXcTKJX+E3uVNm4wjir4jGIDjIg37dVf9JGovV8ud+vilGnk1Oq5LkStliUijAISKQ==
+vue3-tiptap-katex@^1.1.20:
+  version "1.1.20"
+  resolved "https://registry.yarnpkg.com/vue3-tiptap-katex/-/vue3-tiptap-katex-1.1.20.tgz#3f53a63921a2d683cda442a7601847aed8bd6080"
+  integrity sha512-uCnKy/5lblzkpFw15cQqneIwMFcdPK8OuWKc5zuJCEtnkCkrQXKHal4kO3dDZkOGE3QrDmcCO+kitbP5/t6KGA==
   dependencies:
     "@ckpack/vue-color" "^1.4.1"
     "@mdi/font" "^6.9.96"
@@ -7506,6 +7518,7 @@ vue3-tiptap-katex@^1.1.19:
     "@tiptap/extension-color" "^2.0.3"
     "@tiptap/extension-focus" "^2.0.3"
     "@tiptap/extension-highlight" "^2.0.3"
+    "@tiptap/extension-link" "^2.1.8"
     "@tiptap/extension-table" "^2.0.3"
     "@tiptap/extension-table-row" "^2.0.3"
     "@tiptap/extension-text-align" "^2.0.3"
@@ -7526,7 +7539,7 @@ vue3-tiptap-katex@^1.1.19:
     tiptap-text-direction-extension "^1.0.7"
     vue "^3.2.47"
     vue-filepond "^7.0.3"
-    vue-tiptap-katex-core "^2.1.1"
+    vue-tiptap-katex-core "^2.1.2"
     vue3-drag-resize "^2.0.5"
 
 vue@^3.2.37, vue@^3.2.47:
