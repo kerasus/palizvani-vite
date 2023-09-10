@@ -21,6 +21,8 @@ class Classroom extends Model {
       { key: 'holding_month' },
       { key: 'sessions_frequency' },
       { key: 'professor' },
+      { key: 'specification' },
+      { key: 'holding_detail' },
       { key: 'current_user_register_info' },
       {
         key: 'professor_info',
