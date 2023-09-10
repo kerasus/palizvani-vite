@@ -22,7 +22,7 @@
              label="جدول آموزشی" />
       <q-tab name="movies1"
              label="آزمون" />
-      <q-tab name="movies2"
+      <q-tab name="projects"
              label="پروژه" />
       <q-tab v-if="classroom.live_streaming_url"
              name="live_streaming_url"
@@ -80,8 +80,39 @@
       <q-tab-panel name="movies1">
         آزمون
       </q-tab-panel>
-      <q-tab-panel name="movies2">
-        پروژه
+      <q-tab-panel name="projects"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="projectList"
+                      v-model:value="projectListInputs"
+                      title="لیست پروژه ها"
+                      :api="projectListApi"
+                      :table="projectListTable"
+                      :table-keys="projectListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'actions'">
+              <div class="action-column-entity-index">
+                <q-btn size="md"
+                       color="primary"
+                       label="جزییات"
+                       :to="{name: 'UserPanel.Profile.Classroom.Project.Show', params: {classroom_id: $route.params.id, project_id: inputData.props.row.id}}"
+                       class="q-mr-md" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
       </q-tab-panel>
       <q-tab-panel v-if="classroom.live_streaming_url"
                    name="live_streaming_url">
@@ -131,6 +162,8 @@ export default {
   },
   mixins: [mixinAuth],
   data () {
+    const classroomId = this.$route.params.id
+    const userId = this.$store.getters['Auth/user'].id
     return {
       mounted: false,
       tab: 'classroomInfo',
@@ -179,6 +212,72 @@ export default {
       },
       tableKeys: {
         data: 'sessions_info',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      projectListInputs: [
+        { type: 'hidden', name: 'classroom', value: classroomId },
+        { type: 'hidden', name: 'owner', value: userId }
+      ],
+      projectListApi: APIGateway.project.APIAdresses.base,
+      projectListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'عنوان پروژه',
+            align: 'left',
+            field: row => row.title
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان شروع',
+            align: 'left',
+            field: row => row.beginning_doing_period ? ShamsiDate.getDateTime(row.beginning_doing_period) : '-'
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان پایان',
+            align: 'left',
+            field: row => row.ending_doing_period ? ShamsiDate.getDateTime(row.ending_doing_period) : '-'
+          },
+          {
+            name: 'status',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: '-'
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: ''
+          }
+        ]
+      },
+      projectListTableKeys: {
+        data: 'results',
         total: 'count',
         currentPage: 'current',
         perPage: 'per_page',

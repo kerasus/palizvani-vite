@@ -12,8 +12,6 @@
                v-model:value="inputs"
                title="جزییات جلسه"
                :api="api"
-               :entity-id-key="entityIdKey"
-               :entity-param-key="entityParamKey"
                :show-close-button="false"
                :show-edit-button="false"
                :show-expand-button="false"
@@ -51,8 +49,6 @@ export default {
       newUnitName: null,
       newUnitSessionCount: null,
       api: APIGateway.project.APIAdresses.byId(projectId),
-      entityIdKey: 'id',
-      entityParamKey: 'id',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان پروژه', placeholder: ' ', col: 'col-md-6 col-12' },
         {
@@ -83,9 +79,6 @@ export default {
     },
     getRemoveMessage (row) {
       return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
-    },
-    reloadUnits () {
-      this.$refs.unitEntityIndex.reload()
     }
   }
 }

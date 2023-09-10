@@ -11,21 +11,24 @@
                        width="100px" />
               </div>
               <div class="title ellipsis-2-lines">
+                عنوان محتوا:
                 {{ content.title }}
               </div>
             </div>
             <div class="actions">
-              <q-btn icon="isax:eye"
+              <q-btn icon="visibility"
                      outline
                      color="primary"
                      class="viewBtn"
                      @click="onView(content)" />
-              <q-btn icon="isax:trash4"
+              <q-btn v-if="!readonly"
+                     icon="clear"
                      outline
                      color="red"
                      @click="onDelete(content)" />
             </div>
           </div>
+          <q-separator />
           <div class="content-medias">
             <content-medias :value="content.medias_info"
                             :can-delete="false"
@@ -48,6 +51,10 @@ export default {
     content: {
       type: Content,
       default: new Content()
+    },
+    readonly: {
+      default: false,
+      type: Boolean
     }
   },
   emits: ['update:value'],

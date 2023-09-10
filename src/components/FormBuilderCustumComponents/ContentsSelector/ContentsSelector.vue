@@ -1,6 +1,10 @@
 <template>
   <div class="ContentsSelector">
-    <div class="ContentCategorySelector">
+    <q-banner>
+      منابع
+    </q-banner>
+    <div v-if="!readonly"
+         class="ContentCategorySelector">
       <selector-component v-model:contents="selectedContents"
                           @update:contents="onSelectContent" />
     </div>
@@ -8,6 +12,7 @@
       <content-item v-for="(selectedContent, selectedContentIndex) in selectedContents"
                     :key="selectedContentIndex"
                     :content="selectedContent"
+                    :readonly="readonly"
                     @onView="onView"
                     @onDelete="onDelete" />
     </div>
@@ -30,7 +35,7 @@ export default {
       default: () => [],
       type: [Array, String, Number, Boolean]
     },
-    disable: {
+    readonly: {
       default: false,
       type: Boolean
     }
