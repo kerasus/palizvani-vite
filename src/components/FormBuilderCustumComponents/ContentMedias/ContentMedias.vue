@@ -22,7 +22,7 @@
     </div>
     <media-category v-if="imageMedias.list.length > 0"
                     :medias="imageMedias"
-                    icon="isax:image"
+                    icon="visibility"
                     title="تصویر"
                     class="q-mt-lg"
                     :can-delete="canDelete"
@@ -30,7 +30,7 @@
                     @onDelete="onDelete" />
     <media-category v-if="soundMedias.list.length > 0"
                     :medias="soundMedias"
-                    icon="isax:microphone"
+                    icon="mic_none"
                     title="صوت"
                     class="q-mt-lg"
                     :can-delete="canDelete"
@@ -38,8 +38,16 @@
                     @onDelete="onDelete" />
     <media-category v-if="videoMedias.list.length > 0"
                     :medias="videoMedias"
-                    icon="isax:play"
+                    icon="play_circle_outline"
                     title="ویدیو"
+                    class="q-mt-lg"
+                    :can-delete="canDelete"
+                    @onView="onView"
+                    @onDelete="onDelete" />
+    <media-category v-if="documentMedias.list.length > 0"
+                    :medias="documentMedias"
+                    icon="receipt_long"
+                    title="سند"
                     class="q-mt-lg"
                     :can-delete="canDelete"
                     @onView="onView"
@@ -107,6 +115,9 @@ export default {
     },
     imageMedias () {
       return new MediaList(this.medias.getType('IMAGE'))
+    },
+    documentMedias () {
+      return new MediaList(this.medias.getType('DOCUMENT'))
     }
   },
   watch: {
