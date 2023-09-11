@@ -27,7 +27,11 @@
         <div class="col-content">
           <div class="col-items">
             <div class="col-item">
-              درباره ما
+              <q-btn :to="{name: 'Public.Public.AboutUs'}"
+                     flat
+                     dense>
+                درباره ما
+              </q-btn>
             </div>
             <div class="col-item">
               <q-btn :to="{name: 'Public.Public.Rules'}"
