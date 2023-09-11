@@ -25,6 +25,12 @@
         <invoice-show :options="{invoiceId: $route.query.invoice}" />
       </div>
     </div>
+    <div class="flex justify-center">
+      <q-btn color="primary"
+             :to="{name: 'UserPanel.Profile.AllClassrooms'}">
+        مشاهده دوره های من
+      </q-btn>
+    </div>
   </div>
 </template>
 
