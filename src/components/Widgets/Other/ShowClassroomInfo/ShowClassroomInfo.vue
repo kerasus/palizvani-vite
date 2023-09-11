@@ -86,7 +86,7 @@
                    outline
                    color="primary"
                    class="btn-register q-ml-md"
-                   @click="openRulesDialog">
+                   @click="openCodeLink">
               آیین نامه دوره
             </q-btn>
           </div>
@@ -375,6 +375,9 @@ export default {
     openRulesDialog () {
       this.acceptClassType = 'rules'
       this.rulesDialog = true
+    },
+    openCodeLink () {
+      window.open(this.classroom.codes)
     },
     openRegisterDialog () {
       this.acceptClassType = 'register'

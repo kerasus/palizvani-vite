@@ -39,6 +39,7 @@ class Classroom extends Model {
       },
       { key: 'audience_role' },
       { key: 'price' },
+      { key: 'codes' },
       { key: 'capacity' },
       { key: 'used_capacity' },
       { key: 'allowed_absence_count' },

@@ -61,6 +61,7 @@ export default {
       inputs: [
         { type: 'separator', name: 'space', label: 'مشخصات حلقه', className: 'custom-separator', col: 'col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'آپلود عکس حلقه', col: 'col-md-3 col-12' },
+        { type: 'file', name: 'codes', responseKey: 'codes', label: 'آیین نامه دوره', col: 'col-md-3 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
         { type: 'select', name: 'category', responseKey: 'unit_info.category', options: [], value: null, placeholder: ' ', label: 'دسته بندی', col: 'col-md-3 col-12' },
         { type: 'select', name: 'unit', responseKey: 'unit', options: [], value: null, placeholder: ' ', label: 'درس', col: 'col-md-3 col-12' },
