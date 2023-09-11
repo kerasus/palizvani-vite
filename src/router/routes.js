@@ -139,7 +139,7 @@ const routes = [
             meta: {
               hasDynamicSetting: true
             },
-            component: () => import('src/pages/Public/AboutUs.vue')
+            component: () => import('src/pages/Public/ContactUs.vue')
           }
         ]
       },
