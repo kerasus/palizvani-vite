@@ -60,29 +60,44 @@
           <div class="col-items social-row">
             <div class="col-item social-row">
               <div class="social-item">
-                <q-img src="/assets/images/web/social/eta.svg"
-                       width="27px"
-                       height="27px" />
+                <a href="https://eitaa.com/bonyad_shahidpalizvani"
+                   target="_blank">
+                  <q-img src="/assets/images/web/social/eta.svg"
+                         width="27px"
+                         height="27px" />
+                </a>
               </div>
               <div class="social-item">
-                <q-img src="/assets/images/web/social/bale.svg"
-                       width="27px"
-                       height="27px" />
+                <a href="https://ble.im/bonyad_shahidpalizvani"
+                   target="_blank">
+                  <q-img src="/assets/images/web/social/bale.svg"
+                         width="27px"
+                         height="27px" />
+                </a>
               </div>
               <div class="social-item">
-                <q-img src="/assets/images/web/social/telegram.svg"
-                       width="27px"
-                       height="27px" />
+                <a href="https://t.me/bonyad_shahidpalizvani"
+                   target="_blank">
+                  <q-img src="/assets/images/web/social/telegram.svg"
+                         width="27px"
+                         height="27px" />
+                </a>
               </div>
               <div class="social-item">
-                <q-img src="/assets/images/web/social/aparat.svg"
-                       width="27px"
-                       height="27px" />
+                <a href="https://www.aparat.com/shahidpalizvani.ir"
+                   target="_blank">
+                  <q-img src="/assets/images/web/social/aparat.svg"
+                         width="27px"
+                         height="27px" />
+                </a>
               </div>
               <div class="social-item">
-                <q-img src="/assets/images/web/social/youtube.svg"
-                       width="27px"
-                       height="27px" />
+                <a href="https://youtube.com/@bonyad_shahidpalizvani971"
+                   target="_blank">
+                  <q-img src="/assets/images/web/social/youtube.svg"
+                         width="27px"
+                         height="27px" />
+                </a>
               </div>
               <div class="namad-row">
                 <div class="namad-item">
