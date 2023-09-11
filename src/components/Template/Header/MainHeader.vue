@@ -47,6 +47,11 @@
                    label="تماس با ما"
                    :to="{name: 'Public.Public.ContactUs'}"
                    class="top-menu-item" />
+            <q-btn stretch
+                   flat
+                   label="سوالات متداول"
+                   :to="{name: 'Public.FAQ'}"
+                   class="top-menu-item" />
           </div>
         </q-toolbar>
       </div>
