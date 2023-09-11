@@ -429,7 +429,7 @@ export default {
             required: true,
             label: 'زمان شروع جلسه',
             align: 'left',
-            field: row => row.starting_time ? ShamsiDate.getDateTime(row.starting_time) : '-'
+            field: row => row.beginning_time ? ShamsiDate.getDateTime(row.beginning_time) : '-'
           },
           {
             name: 'last_modification_time',

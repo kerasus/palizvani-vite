@@ -13,7 +13,7 @@ class SessionTemplate extends Model {
       { key: 'title' },
       { key: 'syllabus' },
       { key: 'description' },
-      { key: 'starting_time' },
+      { key: 'beginning_time' },
       { key: 'ending_time' },
       { key: 'question' },
       { key: 'answer' },

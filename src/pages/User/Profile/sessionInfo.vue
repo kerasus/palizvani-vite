@@ -116,7 +116,7 @@ export default {
         { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف جلسه', col: 'col-md-12' },
 
         { type: 'hidden', name: 'title', responseKey: 'title', label: 'نام جلسه', col: 'col-md-1' },
-        { type: 'hidden', name: 'starting_time', responseKey: 'starting_time', label: 'زمان شروع جلسه', col: 'col-md-1' },
+        { type: 'hidden', name: 'beginning_time', responseKey: 'beginning_time', label: 'زمان شروع جلسه', col: 'col-md-1' },
         { type: 'hidden', name: 'ending_time', responseKey: 'ending_time', label: 'زمان پایان جلسه', col: 'col-md-1' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-1' }
       ]
@@ -135,7 +135,7 @@ export default {
       return ShamsiDate.getDateTime(data)
     },
     startingTime () {
-      const data = this.getInputValue('starting_time')
+      const data = this.getInputValue('beginning_time')
       if (!data) {
         return '-'
       }
