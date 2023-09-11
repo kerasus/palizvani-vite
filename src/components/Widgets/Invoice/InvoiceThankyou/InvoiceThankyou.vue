@@ -22,7 +22,7 @@
     <div v-if="$route.query.invoice"
          class="row justify-center items-center">
       <div class="col-md-6 q-mt-lg">
-        <invoice-show :invoice-id="$route.query.invoice" />
+        <invoice-show :options="{invoiceId: $route.query.invoice}" />
       </div>
     </div>
   </div>
