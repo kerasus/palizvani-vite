@@ -299,7 +299,15 @@ export default {
         })
     },
     onCancel () {
-      this.$router.push({ name: 'Public.AllClassrooms' })
+      this.invoice.loading = true
+      APIGateway.invoice.cancel(this.invoice.id)
+        .then(() => {
+          this.invoice.loading = false
+          this.$router.push({ name: 'Public.AllClassrooms' })
+        })
+        .catch(() => {
+          this.invoice.loading = false
+        })
     },
     onAccept () {
       this.payInvoice()
