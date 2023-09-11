@@ -67,12 +67,7 @@ export default {
         {
           type: 'select',
           name: 'category_info__type',
-          options: [
-            { label: 'مالی', value: 'FINANCIAL' },
-            { label: 'آموزش', value: 'EDUCATIONAL' },
-            { label: 'محتوا', value: 'CONTENT' },
-            { label: 'عمومی', value: 'GENERAL' }
-          ],
+          options: (new TicketCategory()).typeEnums,
           label: 'معاونت',
           ignoreValue: true,
           placeholder: ' ',

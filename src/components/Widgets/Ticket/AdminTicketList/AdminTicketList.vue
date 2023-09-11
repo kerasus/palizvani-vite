@@ -204,12 +204,7 @@ export default {
         FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'type', 'select')
         FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'label', 'معاونت')
         FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'placeholder', ' ')
-        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'options', [
-          { label: 'مالی', value: 'FINANCIAL' },
-          { label: 'آموزش', value: 'EDUCATIONAL' },
-          { label: 'محتوا', value: 'CONTENT' },
-          { label: 'عمومی', value: 'GENERAL' }
-        ])
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'options', (new TicketCategory()).typeEnums)
       }
     },
     setActionBtn () {
@@ -238,21 +233,7 @@ export default {
     },
     getCategoryTypeFromSourceType () {
       const defaultSourceType = this.localOptions.defaultSourceType
-      if (!defaultSourceType) {
-        return null
-      }
-
-      if (defaultSourceType === 'TRAINING_CLASSROOM') {
-        return 'EDUCATIONAL'
-      } else if (defaultSourceType === 'DISCUSSION_CIRCLE_CLASSROOM') {
-        return 'EDUCATIONAL'
-      } else if (defaultSourceType === 'INVOICE') {
-        return 'FINANCIAL'
-      } else if (defaultSourceType === 'CONTENT') {
-        return 'CONTENT'
-      } else {
-        return 'GENERAL'
-      }
+      return (new TicketCategory()).getCategoryTypeFromSourceType(defaultSourceType)
     },
     loadCategories () {
       return new Promise((resolve, reject) => {

@@ -22,6 +22,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
+import { TicketCategory } from 'src/models/TicketCategory.js'
 import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
 
 export default defineComponent({
@@ -30,7 +31,9 @@ export default defineComponent({
     OptionPanelTabs
   },
   mixins: [mixinOptionPanel],
-  data: () => {
+  data () {
+    const ticketCategoryTypes = (new TicketCategory()).typeEnums
+    ticketCategoryTypes.push({ label: 'قابل انتخاب', value: null })
     return {
       options: [
         { label: 'قابل انتخاب', value: null },
@@ -40,13 +43,7 @@ export default defineComponent({
         { label: 'محتوا', value: 'CONTENT' },
         { label: 'SESSION', value: 'SESSION' }
       ],
-      categoryTypeOptions: [
-        { label: 'قابل انتخاب', value: null },
-        { label: 'آموزشی', value: 'EDUCATIONAL' },
-        { label: 'مالی', value: 'FINANCIAL' },
-        { label: 'محتوایی', value: 'CONTENT' },
-        { label: 'عمومی', value: 'GENERAL' }
-      ]
+      categoryTypeOptions: ticketCategoryTypes
     }
   }
 })

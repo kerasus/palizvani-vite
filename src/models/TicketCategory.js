@@ -4,8 +4,22 @@ class TicketCategory extends Model {
   constructor (data) {
     super(data, [
       { key: 'id' },
-      { key: 'name' }
-    ])
+      { key: 'name' },
+      { key: 'type' }
+    ], {
+      type: {
+        infoKey: 'type_info',
+        enumListKey: 'typeEnums',
+        enums: [
+          { label: 'معاونت آموزش', value: 'EDUCATIONAL' },
+          { label: 'معاونت مالی', value: 'FINANCIAL' },
+          { label: 'معاونت محتوا', value: 'CONTENT' },
+          { label: 'معاونت پژوهش', value: 'RESEARCH' },
+          { label: 'معاونت سرمایه انسانی', value: 'HR' },
+          { label: 'معاونت روابط عمومی', value: 'GENERAL' }
+        ]
+      }
+    })
   }
 
   getCategoryTypeFromSourceType (sourceType) {

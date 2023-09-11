@@ -148,8 +148,8 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
-import { TicketCategoryList } from 'src/models/TicketCategory.js'
 import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
+import { TicketCategory, TicketCategoryList } from 'src/models/TicketCategory.js'
 // import ShowSource from 'src/components/Widgets/Ticket/AdminTicketShow/ShowSource.vue'
 import AdminInvoiceShow from 'src/components/Widgets/Invoice/AdminInvoiceShow/AdminInvoiceShow.vue'
 import InstallmentOffers from 'src/components/Widgets/Ticket/AdminTicketShow/InstallmentOffers.vue'
@@ -195,12 +195,7 @@ export default {
           type: 'select',
           name: 'category_info__type',
           responseKey: 'category_info.type',
-          options: [
-            { label: 'مالی', value: 'FINANCIAL' },
-            { label: 'آموزش', value: 'EDUCATIONAL' },
-            { label: 'محتوا', value: 'CONTENT' },
-            { label: 'عمومی', value: 'GENERAL' }
-          ],
+          options: (new TicketCategory()).typeEnums,
           label: 'معاونت',
           placeholder: ' ',
           col: 'col-md-6 col-12'

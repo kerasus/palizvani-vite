@@ -15,6 +15,7 @@ class Ticket extends Model {
       { key: 'source_id' },
       { key: 'source' },
       { key: 'category' },
+      { key: 'category' },
       {
         key: 'category_info',
         relatedModel: TicketCategory
@@ -33,77 +34,59 @@ class Ticket extends Model {
         key: 'owner_info',
         relatedModel: User
       }
-    ])
-
-    this.priorityEnums = [
-      {
-        label: 'بالا',
-        value: 'HIGH'
-      }
-    ]
-
-    this.statusEnums = [
-      {
-        label: 'در انتظار پاسخ',
-        value: 'OPENED',
-        color: '#2FA84A'
+    ], {
+      status: {
+        infoKey: 'status_info',
+        enumListKey: 'statusEnums',
+        enums: [
+          {
+            label: 'در انتظار پاسخ',
+            value: 'OPENED',
+            color: '#2FA84A'
+          },
+          {
+            label: 'ادمین پاسخ داده',
+            value: 'ADMIN_REPLIED',
+            color: '#0B6AB1'
+          },
+          {
+            label: 'کاربر پاسخ داده',
+            value: 'USER_REPLIED',
+            color: '#0B6AB1'
+          },
+          // {
+          //   label: 'در حال انتظار',
+          //   value: 'PENDING',
+          //   color: '#2FA84A'
+          // },
+          // {
+          //   label: 'خوانده نشده',
+          //   value: 'UNREAD',
+          //   color: '#2FA84A'
+          // },
+          // {
+          //   label: 'خوانده شده',
+          //   value: 'READ',
+          //   color: '#2FA84A'
+          // },
+          {
+            label: 'بسته شده',
+            value: 'CLOSED',
+            color: '#989898'
+          }
+        ]
       },
-      {
-        label: 'ادمین پاسخ داده',
-        value: 'ADMIN_REPLIED',
-        color: '#0B6AB1'
-      },
-      {
-        label: 'کاربر پاسخ داده',
-        value: 'USER_REPLIED',
-        color: '#0B6AB1'
-      },
-      // {
-      //   label: 'در حال انتظار',
-      //   value: 'PENDING',
-      //   color: '#2FA84A'
-      // },
-      // {
-      //   label: 'خوانده نشده',
-      //   value: 'UNREAD',
-      //   color: '#2FA84A'
-      // },
-      // {
-      //   label: 'خوانده شده',
-      //   value: 'READ',
-      //   color: '#2FA84A'
-      // },
-      {
-        label: 'بسته شده',
-        value: 'CLOSED',
-        color: '#989898'
+      priority: {
+        infoKey: 'priority_info',
+        enumListKey: 'priorityEnums',
+        enums: [
+          {
+            label: 'بالا',
+            value: 'HIGH'
+          }
+        ]
       }
-    ]
-
-    this.loadStatusInfo()
-    this.loadPriorityInfo()
-  }
-
-  loadPriorityInfo () {
-    const target = this.priorityEnums.find(type => type.value === this.priority)
-    if (!target) {
-      this.priority_info = null
-    } else {
-      this.priority_info = target
-    }
-  }
-
-  loadStatusInfo () {
-    const target = this.statusEnums.find(type => type.value === this.status)
-    if (!target) {
-      this.status_info = {
-        label: null,
-        value: null,
-        color: ''
-      }
-    } else {
-      this.status_info = target
-    }
+    })
   }
 }
 
