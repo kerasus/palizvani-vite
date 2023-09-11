@@ -130,12 +130,11 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'Admin.Unit.Show',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'نام درس', col: 'col-md-12' },
-        { type: 'inputEditor', name: 'rules', responseKey: 'rules', label: 'قوانین درس', col: 'col-md-12' },
-        { type: 'inputEditor', name: 'codes', responseKey: 'codes', label: 'آیین نامه', col: 'col-md-12' },
-        { type: PostRequisitesComp, name: 'prerequisites', responseKey: 'prerequisites', col: 'col-md-12' },
-        { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-3' },
-        { type: 'hidden', name: 'category', responseKey: 'category_info.id', label: 'id', col: 'col-md-3' }
+        { type: 'input', name: 'title', responseKey: 'title', label: 'نام درس', col: 'col-12' },
+        { type: 'inputEditor', name: 'rules', responseKey: 'rules', label: 'قوانین درس', col: 'col-12' },
+        { type: PostRequisitesComp, name: 'prerequisites', responseKey: 'prerequisites', col: 'col-12' },
+        { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-3 col-12' },
+        { type: 'hidden', name: 'category', responseKey: 'category_info.id', label: 'id', col: 'col-md-3 col-12' }
       ],
 
       categories: new UnitCategoryList(),

@@ -246,7 +246,7 @@
               full-width>
       <q-card>
         <q-card-section>
-          <div class="text-h6">آیین نامه</div>
+          <div class="text-h6">قوانین</div>
         </q-card-section>
 
         <q-separator />
@@ -264,7 +264,7 @@
           <div v-if="(!classroom.is_enabled_enrolment || !classroom.is_enabled_adding) && acceptClassType !== 'rules'"
                class="rulesDialog-accept-chk">
             <q-checkbox v-model="rulesAccept"
-                        label="آیین نامه دوره آموزشی را خواندم و قصد ثبت نام در دوره را دارم" />
+                        label="قوانین دوره آموزشی را خواندم و قصد ثبت نام در دوره را دارم" />
           </div>
           <div class="rulesDialog-btns q-gutter-md">
             <q-btn v-if="acceptClassType === 'rules'"
