@@ -386,7 +386,7 @@ export default {
 
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
         { type: 'inputEditor', name: 'specification', responseKey: 'specification', label: 'مشخصات', col: 'col-12' },
-        { type: 'inputEditor', name: 'holding_detail', responseKey: 'holding_detail', label: 'نحوه برگزاری', col: 'col-12' },
+        { type: 'inputEditor', name: 'bulletin', responseKey: 'bulletin', label: 'تابلو اعلانات', col: 'col-12' },
 
         // -----------------------------------------------------------------------------------------------------------
 

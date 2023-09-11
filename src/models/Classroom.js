@@ -22,7 +22,7 @@ class Classroom extends Model {
       { key: 'sessions_frequency' },
       { key: 'professor' },
       { key: 'specification' },
-      { key: 'holding_detail' },
+      { key: 'bulletin' },
       { key: 'current_user_register_info' },
       {
         key: 'professor_info',

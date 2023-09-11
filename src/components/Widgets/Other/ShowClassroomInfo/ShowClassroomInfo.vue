@@ -205,10 +205,10 @@
                       d="M0,10A10,10,0,1,1,10,20,10.011,10.011,0,0,1,0,10Zm1.5,0A8.5,8.5,0,1,0,10,1.5,8.51,8.51,0,0,0,1.5,10Zm11.547,3.587-3.77-2.249a.754.754,0,0,1-.366-.644V5.845a.75.75,0,0,1,1.5,0v4.422l3.4,2.03a.751.751,0,0,1-.769,1.29Z"
                       fill="#aaa095" />
               </svg>
-              نحوه برگزاری
+              تابلو اعلانات
             </div>
             <div class="info-box-body"
-                 v-html="classroom.holding_detail" />
+                 v-html="classroom.bulletin" />
           </div>
           <div class="info-box books">
             <div class="info-box-title">
