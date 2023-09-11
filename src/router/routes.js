@@ -127,7 +127,15 @@ const routes = [
           },
           {
             name: 'Public.Public.AboutUs',
-            path: 'rules',
+            path: 'about-us',
+            meta: {
+              hasDynamicSetting: true
+            },
+            component: () => import('src/pages/Public/AboutUs.vue')
+          },
+          {
+            name: 'Public.Public.ContactUs',
+            path: 'contact-us',
             meta: {
               hasDynamicSetting: true
             },

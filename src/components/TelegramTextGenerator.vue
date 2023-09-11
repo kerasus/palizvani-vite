@@ -67,17 +67,7 @@ export default {
   },
   methods: {
     getMainTemplate () {
-      this.mainTemp = '👀 #فیلم جلسه ' + this.videoOrder + ' #' + this.setName + ' #' + this.nameDars + ' #کنکور  آلاء' + '\n\n' +
-        '❤️دوره های ویدئویی کاملا رایگان ▫️▫️▫️▫️' + '\n\n' +
-        '🔶 ' + this.videoName1 + '\n' +
-        '🔸 ' + this.videoName2 + '\n' +
-        '🔹دبیر: ' + this.teacherName + '\n\n' +
-        '➖➖➖➖➖➖➖➖➖➖➖➖' + '\n\n' +
-        'تماشای فیلم: 🎦👇' + '\n' +
-        '🖥  ' + this.contentUrl + '\n' +
-        'تهیه جزوه: 🔖👇' + '\n' +
-        '📃  ' + this.productUrl + '\n\n' +
-        '🆔 @alaa_sanatisharif'
+      this.mainTemp = '🆔 @alaa_sanatisharif'
     }
   }
 }

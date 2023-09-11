@@ -17,7 +17,7 @@ const menuItems = [
   },
   {
     selected: 'basicContents',
-    title: 'فیلم های پایه و کنکور آلاء',
+    title: '-',
     routeName: '',
     permission: 'all',
     type: 'megaMenu',
@@ -1593,7 +1593,7 @@ const menuItems = [
   },
   {
     selected: 'konkurConference',
-    title: 'دوره های برگزیده آلاء',
+    title: 'دوره های برگزیده پالیزوانی',
     routeName: '',
     permission: 'all',
     type: 'megaMenu',
@@ -1626,7 +1626,7 @@ const menuItems = [
         }
       },
       {
-        title: 'کارت هدیه آلاء',
+        title: 'پالیزوانی',
         route: {
           name: 'UserPanel.Asset.GiftCard.MyGiftCards',
           params: ''

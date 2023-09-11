@@ -60,7 +60,7 @@
             <!--              <q-input v-model="searchInput"-->
             <!--                       filled-->
             <!--                       class="search-input"-->
-            <!--                       placeholder="جستجو در آلا...">-->
+            <!--                       placeholder="جستجو در پالیزوانی...">-->
             <!--                <template v-slot:prepend>-->
             <!--                  <q-btn flat-->
             <!--                         rounded-->

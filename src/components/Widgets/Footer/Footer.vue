@@ -108,7 +108,7 @@
               <q-btn flat
                      class="sub-title"
                      :href="'https://forum.alaatv.com/'">
-                آلاخونه
+                پالیزوانی
               </q-btn>
             </div>
             <div class="products title-box">
@@ -122,7 +122,7 @@
         <div class="content-layout-2 box-2-details">
           <div class="layer-1">
             <div class="description">
-              آلاء یک مؤسسه غیر تجاری و دانش‌بنیان آموزشی برخط رایگان در ایران است که با هدف توسعهٔ عدالت آموزشی ایجاد شده و فعالیت خود را رسماً در سال ۱۳۹۲ آغاز نموده‌است.این مؤسسه هفتم بهمن سال ۱۳۹۸، مجوز رسانه صوتی و تصویری فراگیر را از صدا و سیما ایران دریافت نمود
+              پالیزوانی
             </div>
             <div class="footer-row">
               <div class="footer-logo-item item-soala">

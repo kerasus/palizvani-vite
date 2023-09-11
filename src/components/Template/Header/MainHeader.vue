@@ -25,61 +25,29 @@
           <div class="gt-sm">
             <q-btn stretch
                    flat
-                   label="اخبار و رویدادها"
-                   class="top-menu-item" />
-            <q-btn stretch
-                   flat
-                   label="بلاگ"
+                   label="اخبار و اطلاعیه ها"
                    :to="{name: 'Public.Post.List'}"
                    class="top-menu-item" />
+            <!--            cat 10-->
             <q-btn stretch
                    flat
-                   label="سامانه آموزش"
+                   label="راهنما"
+                   :to="{name: 'Public.Post.List'}"
                    class="top-menu-item" />
-            <q-btn-dropdown stretch
-                            flat
-                            label="آرشیو محتوایی"
-                            class="top-menu-item">
-              <q-list>
-                <q-item-label header>عنوان یک</q-item-label>
-                <q-item v-for="n in 3"
-                        :key="`x.${n}`"
-                        v-close-popup
-                        clickable
-                        tabindex="0">
-                  <q-item-section>
-                    <q-item-label>زیر عنوان</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-separator inset
-                             spaced />
-                <q-item-label header>عنوان دو</q-item-label>
-                <q-item v-for="n in 3"
-                        :key="`y.${n}`"
-                        v-close-popup
-                        clickable
-                        tabindex="0">
-                  <q-item-section>
-                    <q-item-label>زیر عنوان</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-btn-dropdown>
+            <!--            cat 5-->
             <q-btn stretch
                    flat
                    label="فروشگاه"
                    class="top-menu-item" />
             <q-btn stretch
                    flat
-                   label="پخش زنده"
-                   class="top-menu-item" />
-            <q-btn stretch
-                   flat
                    label="درباره ما"
+                   :to="{name: 'Public.Public.AboutUs'}"
                    class="top-menu-item" />
             <q-btn stretch
                    flat
                    label="تماس با ما"
+                   :to="{name: 'Public.Public.ContactUs'}"
                    class="top-menu-item" />
           </div>
         </q-toolbar>

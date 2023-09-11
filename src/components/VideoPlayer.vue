@@ -421,7 +421,7 @@ export default {
     setPlayerBrand () {
       this.player.brand({
         image: 'https://nodes.alaatv.com/upload/landing/chatr/alaa%20logo.png?w=30&h=30',
-        title: 'آلاء',
+        title: 'پالیزوانی',
         destination: '/',
         destinationTarget: '_blank'
       })
