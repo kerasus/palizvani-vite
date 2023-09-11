@@ -4,7 +4,7 @@ import { ProjectAttendanceSheets, ProjectAttendanceSheetsList } from 'src/models
 
 export default class ProjectAttendanceSheetsAPI extends APIRepository {
   constructor() {
-    super('project', appApi, '/lma/projects', ProjectAttendanceSheets)
+    super('project_attendance_sheets', appApi, '/lma/project_attendance_sheets', ProjectAttendanceSheets)
     this.APIAdresses = {
       base: '/lma/project_attendance_sheets',
       project_sheets: '/lma/project_attendance_sheets/project_sheets',

@@ -111,9 +111,9 @@ class Classroom extends Model {
         infoKey: 'audience_gender_type_info',
         enumListKey: 'audience_gender_typeEnums',
         enums: [
-          { label: 'آقا', value: 'MALE' },
-          { label: 'خانم', value: 'FEMALE' },
-          { label: 'خانم و آقا', value: 'FEMALE_MALE' }
+          { label: 'آقایان', value: 'MALE' },
+          { label: 'خانم ها', value: 'FEMALE' },
+          { label: 'خانم ها و آقایان', value: 'FEMALE_MALE' }
         ]
       }
     })
