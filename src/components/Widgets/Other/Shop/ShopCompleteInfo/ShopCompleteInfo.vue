@@ -251,6 +251,10 @@ export default {
             this.invoice = new Invoice(invoice)
             this.invoice.loading = false
             this.$store.commit('Shop/updateRegisterClassroomInvoice', this.invoice)
+            this.$q.notify({
+              message: 'صورت حساب شما ایجاد شد',
+              type: 'positive'
+            })
             resolve(this.invoice)
           })
           .catch(() => {
