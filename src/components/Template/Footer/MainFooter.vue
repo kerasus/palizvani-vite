@@ -5,11 +5,13 @@
         <div class="col-title">تماس با ما</div>
         <div class="col-content">
           <div class="col-items">
-            <div class="col-item">
+            <div v-if="false"
+                 class="col-item">
               <q-icon name="place" />
               تهـران | خیـابان فلسطیـن | نبش بزرگمهـر سـاختمان 141 طبـقه 5 | واحـد 49
             </div>
-            <div class="col-item">
+            <div v-if="false"
+                 class="col-item">
               <q-icon name="phone" />
               021-66499793
             </div>
@@ -28,9 +30,14 @@
               درباره ما
             </div>
             <div class="col-item">
-              قوانین و مقررات
+              <q-btn :to="{name: 'Public.Public.Rules'}"
+                     flat
+                     dense>
+                قوانین و مقررات
+              </q-btn>
             </div>
-            <div class="col-item">
+            <div v-if="false"
+                 class="col-item">
               ثبت شکایات
             </div>
             <div class="col-item">
