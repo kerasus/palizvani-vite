@@ -456,7 +456,7 @@ export default {
       },
 
       projectListInputs: [
-        { type: 'hidden', name: 'classroom', value: this.$route.params.id, label: 'نام دوره', col: 'col-12' }
+        { type: 'hidden', name: 'classroom', value: this.$route.params.id }
       ],
       projectListApi: APIGateway.project.APIAdresses.base,
       projectListTable: {

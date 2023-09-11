@@ -18,13 +18,6 @@
                   :show-expand-button="false"
                   :show-reload-button="false"
                   :show-search-button="false">
-      <template #toolbar>
-        <q-btn color="primary"
-               :loading="exportReportLoading"
-               @click="exportExcel">
-          خروجی اکسل
-        </q-btn>
-      </template>
       <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -59,14 +52,15 @@
 </template>
 
 <script>
-import { shallowRef } from 'vue'
+// import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
-import Assist from 'src/assets/js/Assist.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import BtnControl from 'src/components/Control/btn.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
+// import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
+import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets'
 
-const BtnControlComp = shallowRef(BtnControl)
+// const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'Admin.User.Index',
@@ -75,19 +69,21 @@ export default {
     EntityIndex
   },
   data () {
+    const projectId = this.$route.params.project_id
     return {
       mounted: false,
       exportReportLoading: false,
       inputs: [
-        { type: 'input', name: 'id', value: null, label: 'شناسه', placeholder: ' ', col: 'col-md-4 col-12' },
-        { type: 'input', name: 'national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-4 col-12' },
-        { type: 'input', name: 'mobile_number', value: null, label: 'شماره همراه', placeholder: ' ', col: 'col-md-4 col-12' },
-        { type: 'input', name: 'email', value: null, label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
+        // { type: 'input', name: 'id', value: null, label: 'شناسه', placeholder: ' ', col: 'col-md-4 col-12' },
+        // { type: 'input', name: 'national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-4 col-12' },
+        // { type: 'input', name: 'mobile_number', value: null, label: 'شماره همراه', placeholder: ' ', col: 'col-md-4 col-12' },
+        // { type: 'input', name: 'email', value: null, label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
+        // { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-3 col-12' },
+        // { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
+        // { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' },
+        { type: 'hidden', name: 'project', value: projectId }
       ],
-      api: APIGateway.user.APIAdresses.base,
+      api: APIGateway.projectAttendanceSheets.APIAdresses.project_sheets,
       table: {
         columns: [
           {
@@ -109,42 +105,28 @@ export default {
             required: true,
             label: 'نام و نام خانوادگی',
             align: 'left',
-            field: row => row.firstname + ' ' + row.lastname
+            field: row => row.owner_info?.firstname + ' ' + row.owner_info?.lastname
           },
           {
             name: 'national_code',
             required: true,
             label: 'کد ملی',
             align: 'left',
-            field: row => row.national_code
+            field: row => row.owner_info?.national_code
           },
           {
             name: 'mobile_number',
             required: true,
-            label: 'شماره همراه',
-            align: 'left',
-            field: row => row.mobile_number
-          },
-          {
-            name: 'email',
-            required: true,
-            label: 'ایمیل',
-            align: 'left',
-            field: row => row.email
-          },
-          {
-            name: 'roles',
-            required: true,
-            label: 'نقش',
-            align: 'left',
-            field: row => row.roles.join(', ')
-          },
-          {
-            name: 'is_active',
-            required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => row.is_active ? 'فعال' : 'غیر فعال'
+            field: row => new ProjectAttendanceSheets(row).answer_status_info.label
+          },
+          {
+            name: 'mobile_number',
+            required: true,
+            label: 'نتیجه',
+            align: 'left',
+            field: row => (row.is_answer_verified === null) ? '-' : ((row.is_answer_verified ? 'انجام شده' : 'انجام نشده'))
           },
           {
             name: 'action',
@@ -170,26 +152,8 @@ export default {
     this.mounted = true
   },
   methods: {
-    exportExcel () {
-      const params = this.$refs.entityIndex.createParams()
-      this.exportReportLoading = true
-      delete params.btn
-      params.type = 'users'
-      APIGateway.user.exportReport(params)
-        .then((xlsxData) => {
-          Assist.saveXlsx(xlsxData, 'لیست کاربران')
-          this.exportReportLoading = false
-        })
-        .catch(() => {
-          this.exportReportLoading = false
-        })
-    },
     setActionBtn () {
-      this.inputs.forEach((item, index) => {
-        if (item.name === 'btn') {
-          this.inputs[index].atClick = this.search
-        }
-      })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     },
     search () {
       this.$refs.entityIndex.search()
