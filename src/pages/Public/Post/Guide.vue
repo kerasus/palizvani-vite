@@ -9,7 +9,7 @@
 import { mixinSEO, mixinPageOptions, mixinPrefetchServerData } from 'src/mixin/Mixins.js'
 
 export default {
-  name: 'Public.Rules',
+  name: 'Public.Post.List.Guide',
   mixins: [mixinPrefetchServerData, mixinPageOptions, mixinSEO]
 }
 </script>

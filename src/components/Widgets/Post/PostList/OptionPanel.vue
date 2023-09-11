@@ -1,7 +1,10 @@
 <template>
   <option-panel-tabs v-model:options="localOptions">
     <template #main-tab>
-      ...
+      <div>
+        کد دسته
+      </div>
+      <q-input v-model="localOptions.categoryId" />
     </template>
   </option-panel-tabs>
 </template>

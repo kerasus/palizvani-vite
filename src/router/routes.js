@@ -90,6 +90,8 @@ const routes = [
             component: () => import('layouts/bareLayout.vue'),
             children: [
               { path: '', name: 'Public.Post.List', component: () => import('src/pages/Public/Post/List.vue') },
+              { path: 'news', name: 'Public.Post.List.News', component: () => import('src/pages/Public/Post/News.vue') },
+              { path: 'guide', name: 'Public.Post.List.Guide', component: () => import('src/pages/Public/Post/Guide.vue') },
               { path: ':id', name: 'Public.Post.Show', component: () => import('src/pages/Public/Post/Show.vue') }
             ]
           },

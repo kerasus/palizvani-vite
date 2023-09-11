@@ -26,15 +26,13 @@
             <q-btn stretch
                    flat
                    label="اخبار و اطلاعیه ها"
-                   :to="{name: 'Public.Post.List'}"
+                   :to="{name: 'Public.Post.List.News'}"
                    class="top-menu-item" />
-            <!--            cat 10-->
             <q-btn stretch
                    flat
                    label="راهنما"
-                   :to="{name: 'Public.Post.List'}"
+                   :to="{name: 'Public.Post.List.Guide'}"
                    class="top-menu-item" />
-            <!--            cat 5-->
             <q-btn stretch
                    flat
                    label="فروشگاه"

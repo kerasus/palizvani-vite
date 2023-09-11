@@ -31,6 +31,7 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import PostItem from 'src/components/PostItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'PostList',
@@ -46,7 +47,9 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
+      inputs: [
+        { type: 'hidden', name: 'category', value: null }
+      ],
       table: {
         columns: []
       },
@@ -70,6 +73,9 @@ export default {
         }
       ]
     })
+    if (this.localOptions.categoryId) {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'value', this.localOptions.categoryId)
+    }
   }
 }
 </script>
