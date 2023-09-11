@@ -56,6 +56,7 @@ import BtnControl from 'src/components/Control/btn.vue'
 import { Registration } from 'src/models/Registration.js'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { Classroom } from 'src/models/Classroom'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -139,26 +140,33 @@ export default {
             field: row => row.id
           },
           {
-            name: 'title',
+            name: 'classroom_info.title',
             required: true,
-            label: 'نام درس',
+            label: 'عنوان',
             align: 'left',
-            field: row => row.classroom_info.unit_info.title
+            field: row => row.classroom_info?.title
           },
+          // {
+          //   name: 'title',
+          //   required: true,
+          //   label: 'نام درس',
+          //   align: 'left',
+          //   field: row => row.classroom_info.unit_info.title
+          // },
           {
             name: 'audience_gender_type',
             required: true,
             label: 'جنسیت',
             align: 'left',
-            field: row => (row.classroom_info.audience_gender_type === 'FEMALE') ? 'خواهران' : (row.classroom_info.audience_gender_type === 'MALE') ? 'برادران' : 'خواهران و برادران'
+            field: row => (new Classroom(row.classroom_info)).audience_gender_type_info.label
           },
-          {
-            name: 'title',
-            required: true,
-            label: 'نوع',
-            align: 'left',
-            field: row => (row.classroom_info?.unit_info?.category_info?.type === 'TRAINING') ? 'دوره آموزشی' : (row.classroom_info?.unit_info?.category_info?.type === 'DISCUSSION_CIRCLE') ? 'حلقه مباحثاتی' : '-'
-          },
+          // {
+          //   name: 'title',
+          //   required: true,
+          //   label: 'نوع',
+          //   align: 'left',
+          //   field: row => (row.classroom_info?.unit_info?.category_info?.type === 'TRAINING') ? 'دوره آموزشی' : (row.classroom_info?.unit_info?.category_info?.type === 'DISCUSSION_CIRCLE') ? 'حلقه مباحثاتی' : '-'
+          // },
           {
             name: 'title',
             required: true,
@@ -209,8 +217,7 @@ export default {
             align: 'left',
             field: ''
           }
-        ],
-        data: []
+        ]
       },
       tableKeys: {
         data: 'results',

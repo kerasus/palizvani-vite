@@ -39,7 +39,8 @@
                              @onloadn="onloadnClassroom" />
       </q-tab-panel>
 
-      <q-tab-panel name="educations">
+      <q-tab-panel name="educations"
+                   class="q-pa-none">
         <entity-index v-if="mounted"
                       ref="entityIndex"
                       v-model:value="inputs"
@@ -174,7 +175,7 @@ export default {
       mounted: false,
       tab: 'classroomInfo',
       inputs: [],
-      api: null,
+      api: APIGateway.classroom.APIAdresses.byId(classroomId),
       classroom: new Classroom(),
       table: {
         columns: [
@@ -309,7 +310,6 @@ export default {
     }
   },
   mounted () {
-    this.api = APIGateway.classroom.APIAdresses.byId(this.$route.params.id)
     this.mounted = true
   },
   methods: {
