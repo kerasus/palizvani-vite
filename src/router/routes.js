@@ -377,6 +377,7 @@ const routes = [
               {
                 path: 'create',
                 name: 'UserPanel.Ticket.Create',
+                meta: { middlewares: [Authenticated] },
                 component: () => import('src/pages/User/Ticket/Create.vue')
               }
             ]
