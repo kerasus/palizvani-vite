@@ -101,6 +101,20 @@ export default {
   emits: ['onloadn'],
   data () {
     return {
+      breadcrumbs: {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'خانه',
+            to: { name: 'Public.Home' }
+          },
+          {
+            label: 'یادداشت ها و مقالات',
+            to: { name: 'Public.Post.List' }
+          }
+        ]
+      },
       defaultOptions: {
         profileMode: false
       },
@@ -114,24 +128,16 @@ export default {
     prefetchServerDataPromiseThen (post) {
       this.post = new Post(post)
       this.post.post = false
-      this.$store.commit('AppLayout/updateBreadcrumbs', {
-        visible: true,
-        loading: false,
-        path: [
-          {
-            label: 'خانه',
-            to: { name: 'Public.Home' }
-          },
-          {
-            label: 'یادداشت ها و مقالات',
-            to: { name: 'Public.Post.List' }
-          },
-          {
-            label: this.post.title,
-            to: { name: 'Public.Post.Show', params: { id: this.post.id } }
-          }
-        ]
+
+      this.breadcrumbs.path.push({
+        label: this.post.category_info.title,
+        to: { name: 'Public.PostCategory.Show', params: { category_id: this.post.category_info.id } }
       })
+      this.breadcrumbs.path.push({
+        label: this.post.title,
+        to: { name: 'Public.Post.Show', params: { id: this.post.id } }
+      })
+      this.$store.commit('AppLayout/updateBreadcrumbs', this.breadcrumbs)
       this.$emit('onloadn', this.post)
     },
     prefetchServerDataPromiseCatch () {

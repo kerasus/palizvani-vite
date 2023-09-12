@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mixinPageOptions, mixinPrefetchServerData, mixinSEO } from 'src/mixin/Mixins.js'
+import { mixinSEO, mixinPageOptions, mixinPrefetchServerData } from 'src/mixin/Mixins.js'
 
 export default {
   name: 'AdminPanel.Package.Show',

@@ -12,7 +12,6 @@
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
-                  :create-route-name="createRouteName"
                   :table-grid-size="true"
                   :default-layout="false"
                   :show-search-button="false"
@@ -30,8 +29,9 @@ import { EntityIndex } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import PostItem from 'src/components/PostItem.vue'
-import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import { PostCategory } from 'src/models/PostCategory.js'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'PostList',
@@ -48,33 +48,94 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'category', value: null }
+        { type: 'hidden', name: 'category', value: null },
+        { type: 'hidden', name: 'category__parent', value: null },
+        { type: 'hidden', name: 'category__parent__parent', value: null }
       ],
       table: {
         columns: []
       },
       mounted: false,
-      createRouteName: ''
+      postCategory: new PostCategory(),
+      breadcrumbs: {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'خانه',
+            to: { name: 'Public.Home' }
+          },
+          {
+            label: 'یادداشت ها و مقالات',
+            to: { name: 'Public.Post.List' }
+          }
+        ]
+      },
+      defaultOptions: {
+        categoryId: null,
+        categoryCategoryId: null,
+        categoryCategoryCategoryId: null,
+        categoryFromQueryParams: false,
+        categoryCategoryFromQueryParams: false,
+        categoryCategoryCategoryFromQueryParams: false
+      }
+    }
+  },
+  computed: {
+    postCategoryId () {
+      if (this.localOptions.categoryFromQueryParams && this.$route.params.category_id) {
+        return this.$route.params.category_id
+      }
+
+      if (this.localOptions.categoryId) {
+        return this.localOptions.categoryId
+      }
+
+      return null
     }
   },
   mounted() {
     this.mounted = true
-    this.$store.commit('AppLayout/updateBreadcrumbs', {
-      visible: true,
-      loading: false,
-      path: [
-        {
-          label: 'خانه',
-          to: { name: 'Public.Home' }
-        },
-        {
-          label: 'یادداشت ها و مقالات',
-          to: { name: 'Public.Post.List' }
-        }
-      ]
-    })
-    if (this.localOptions.categoryId) {
+    this.$store.commit('AppLayout/updateBreadcrumbs', this.breadcrumbs)
+
+    if (this.localOptions.categoryCategoryCategoryFromQueryParams) {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category__parent__parent', 'value', this.$route.params.category_parent_parent_id)
+    } else if (this.localOptions.categoryCategoryCategoryId) {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category__parent__parent', 'value', this.localOptions.categoryCategoryCategoryId)
+    }
+
+    if (this.localOptions.categoryCategoryFromQueryParams) {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category__parent', 'value', this.$route.params.category_parent_id)
+    } else if (this.localOptions.categoryCategoryId) {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category__parent', 'value', this.localOptions.categoryCategoryId)
+    }
+
+    if (this.localOptions.categoryFromQueryParams) {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'value', this.$route.params.category_id)
+    } else if (this.localOptions.categoryId) {
       FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'value', this.localOptions.categoryId)
+    }
+
+    if (this.postCategoryId) {
+      this.getPostCategoryInfo(this.postCategoryId)
+    }
+  },
+  methods: {
+    getPostCategoryInfo (postCategoryId) {
+      this.postCategory.loading = true
+      APIGateway.postCategory.get({ data: { id: postCategoryId } })
+        .then((postCategory) => {
+          this.postCategory = new PostCategory(postCategory)
+          this.breadcrumbs.path.push({
+            label: this.postCategory.title,
+            to: { name: 'Public.PostCategory.Show', params: { category_id: postCategoryId } }
+          })
+          this.$store.commit('AppLayout/updateBreadcrumbs', this.breadcrumbs)
+          this.postCategory.loading = false
+        })
+        .catch(() => {
+          this.postCategory.loading = false
+        })
     }
   }
 }

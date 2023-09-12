@@ -1,10 +1,45 @@
 <template>
   <option-panel-tabs v-model:options="localOptions">
     <template #main-tab>
-      <div>
-        کد دسته
+      <div class="q-mt-md">
+        کد دسته پدربزرگ
       </div>
-      <q-input v-model="localOptions.categoryId" />
+      <div class="row">
+        <div class="col-md-4 col-12">
+          <q-checkbox v-model="localOptions.categoryCategoryCategoryFromQueryParams"
+                      label="استفاده از کوری پارام صفحه" />
+        </div>
+        <div v-if="!localOptions.categoryCategoryCategoryFromQueryParams"
+             class="col-md-8 col-12">
+          <q-input v-model="localOptions.categoryCategoryCategoryId" />
+        </div>
+      </div>
+      <div>
+        کد دسته پدر
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-12">
+          <q-checkbox v-model="localOptions.categoryCategoryFromQueryParams"
+                      label="استفاده از کوری پارام صفحه" />
+        </div>
+        <div v-if="!localOptions.categoryCategoryFromQueryParams"
+             class="col-md-8 col-12">
+          <q-input v-model="localOptions.categoryCategoryId" />
+        </div>
+      </div>
+      <div>
+        کد دسته فرزند
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-12">
+          <q-checkbox v-model="localOptions.categoryFromQueryParams"
+                      label="استفاده از کوری پارام صفحه" />
+        </div>
+        <div v-if="!localOptions.categoryFromQueryParams"
+             class="col-md-8 col-12">
+          <q-input v-model="localOptions.categoryId" />
+        </div>
+      </div>
     </template>
   </option-panel-tabs>
 </template>
@@ -19,6 +54,18 @@ export default defineComponent({
   components: {
     OptionPanelTabs
   },
-  mixins: [mixinOptionPanel]
+  mixins: [mixinOptionPanel],
+  data () {
+    return {
+      defaultOptions: {
+        categoryId: null,
+        categoryCategoryId: null,
+        categoryCategoryCategoryId: null,
+        categoryFromQueryParams: false,
+        categoryCategoryFromQueryParams: false,
+        categoryCategoryCategoryFromQueryParams: false
+      }
+    }
+  }
 })
 </script>

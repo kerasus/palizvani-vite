@@ -7,9 +7,16 @@
           <q-img :src="post.thumbnail" />
         </router-link>
       </div>
-      <div class="title">
+      <div class="title ellipsis-2-lines">
         <router-link :to="{name: 'Public.Post.Show', params: {id: post.id}}">
           {{post.title}}
+        </router-link>
+      </div>
+      <div class="child-category ellipsis-2-lines">
+        <router-link :to="{name: 'Public.PostCategory.Show', params: {category_id: post.category_info?.id}}">
+          <q-icon name="account_tree" />
+          دسته:
+          {{post.category_info?.title}}
         </router-link>
       </div>
       <q-card-actions class="action-section">
@@ -51,6 +58,16 @@ export default defineComponent({
     }
   }
   .title {
+    font-size: 17px;
+    letter-spacing: 0;
+    padding-right: 26px;
+    padding-left: 26px;
+    margin-bottom: 16px;
+    a {
+      color: #475F4A;
+    }
+  }
+  .child-category {
     font-size: 17px;
     letter-spacing: 0;
     padding-right: 26px;

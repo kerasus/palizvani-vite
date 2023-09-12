@@ -95,6 +95,7 @@ const routes = [
               { path: ':id', name: 'Public.Post.Show', component: () => import('src/pages/Public/Post/Show.vue') }
             ]
           },
+          { path: 'post_category/:category_id', name: 'Public.PostCategory.Show', component: () => import('src/pages/Public/Post/ChildCategoryPostList.vue') },
           {
             name: 'Public.AllClassrooms',
             path: 'all-classrooms',
