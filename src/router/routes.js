@@ -121,7 +121,7 @@ const routes = [
             component: () => import('src/pages/Public/FAQ.vue')
           },
           {
-            name: 'Public.Public.Rules',
+            name: 'Public.Rules',
             path: 'rules',
             meta: {
               hasDynamicSetting: true
@@ -129,7 +129,7 @@ const routes = [
             component: () => import('src/pages/Public/Rules.vue')
           },
           {
-            name: 'Public.Public.AboutUs',
+            name: 'Public.AboutUs',
             path: 'about-us',
             meta: {
               hasDynamicSetting: true
@@ -137,7 +137,7 @@ const routes = [
             component: () => import('src/pages/Public/AboutUs.vue')
           },
           {
-            name: 'Public.Public.ContactUs',
+            name: 'Public.ContactUs',
             path: 'contact-us',
             meta: {
               hasDynamicSetting: true

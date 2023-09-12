@@ -6,7 +6,7 @@
       <div class="right-side">
         <q-toolbar>
           <q-btn class="lt-md q-mr-md"
-                 icon="isax:menu-1"
+                 icon="menu"
                  color="primary"
                  round
                  flat
@@ -26,12 +26,12 @@
             <q-btn stretch
                    flat
                    label="اخبار و اطلاعیه ها"
-                   :to="{name: 'Public.Post.List.News'}"
+                   :to="{ name: 'Public.Post.List.News' }"
                    class="top-menu-item" />
             <q-btn stretch
                    flat
                    label="راهنما"
-                   :to="{name: 'Public.Post.List.Guide'}"
+                   :to="{ name: 'Public.Post.List.Guide' }"
                    class="top-menu-item" />
             <q-btn stretch
                    flat
@@ -57,17 +57,17 @@
             <q-btn stretch
                    flat
                    label="درباره ما"
-                   :to="{name: 'Public.Public.AboutUs'}"
+                   :to="{ name: 'Public.AboutUs' }"
                    class="top-menu-item" />
             <q-btn stretch
                    flat
                    label="تماس با ما"
-                   :to="{name: 'Public.Public.ContactUs'}"
+                   :to="{ name: 'Public.ContactUs' }"
                    class="top-menu-item" />
             <q-btn stretch
                    flat
                    label="سوالات متداول"
-                   :to="{name: 'Public.FAQ'}"
+                   :to="{ name: 'Public.FAQ' }"
                    class="top-menu-item" />
           </div>
         </q-toolbar>

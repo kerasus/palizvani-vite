@@ -48,56 +48,30 @@ export default {
       menuItems: [
         {
           title: 'اخبار و رویدادها',
-          externalLink: '/',
+          route: { name: 'Public.Post.List.News' },
           type: 'itemMenu',
           permission: 'all',
           show: true
         },
         {
-          title: 'سامانه آموزش',
-          externalLink: '/',
+          title: 'راهنما',
+          route: { name: 'Public.Post.List.Guide' },
           type: 'itemMenu',
           permission: 'all',
           show: true
         },
         {
-          title: 'آرشیو محتوایی',
+          title: 'فروشگاه',
           type: 'simpleMenu',
           children: [
             {
-              title: 'عنوان یک',
-              children: [
-                {
-                  title: 'زیر عنوان'
-                },
-                {
-                  title: 'زیر عنوان'
-                }
-              ],
+              title: 'کتب سطح یک',
+              externalLink: 'https://formafzar.com/form/iv9cq',
               show: true
             },
             {
-              title: 'عنوان یک',
-              children: [
-                {
-                  title: 'زیر عنوان'
-                },
-                {
-                  title: 'زیر عنوان'
-                }
-              ],
-              show: true
-            },
-            {
-              title: 'عنوان یک',
-              children: [
-                {
-                  title: 'زیر عنوان'
-                },
-                {
-                  title: 'زیر عنوان'
-                }
-              ],
+              title: 'کتب جریان‌شناسی',
+              externalLink: 'https://formafzar.com/form/ch1om',
               show: true
             }
           ],
@@ -105,79 +79,25 @@ export default {
           mobileMode: true
         },
         {
-          title: 'فروشگاه',
-          externalLink: '/',
-          type: 'itemMenu',
-          permission: 'all',
-          show: true
-        },
-        {
-          title: 'پخش زنده',
-          externalLink: '/',
-          type: 'itemMenu',
-          permission: 'all',
-          show: true
-        },
-        {
           title: 'درباره ما',
-          externalLink: '/',
+          route: { name: 'Public.AboutUs' },
           type: 'itemMenu',
           permission: 'all',
           show: true
         },
         {
           title: 'تماس با ما',
-          externalLink: '/',
+          route: { name: 'Public.ContactUs' },
           type: 'itemMenu',
           permission: 'all',
           show: true
-        }
-      ],
-      examsPlan: [
-        {
-          divider: true
         },
         {
-          name: 'دهم تجربی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_tajrobi_dahom.pdf'
-        },
-        {
-          name: 'دهم ریاضی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_riyazi_dahom.pdf'
-        },
-        {
-          name: 'دهم انسانی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_ensani_dahom.pdf'
-        },
-        {
-          divider: true
-        },
-        {
-          name: 'یازدهم تجربی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_tajrobi_yazdahom.pdf'
-        },
-        {
-          name: 'یازدهم ریاضی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_riyazi_yazdahom.pdf'
-        },
-        {
-          name: 'یازدهم انسانی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_ensani_yazdahom.pdf'
-        },
-        {
-          divider: true
-        },
-        {
-          name: 'دوازدهم تجربی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_tajrobi_davazdahom.pdf'
-        },
-        {
-          name: 'دوازدهم ریاضی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_riyazi_davazdahom.pdf'
-        },
-        {
-          name: 'دوازدهم انسانی',
-          link: 'https://nodes.alaatv.com/aaa/pdf/1401_plan_ensani_davazdahom.pdf'
+          title: 'سوالات متداول',
+          route: { name: 'Public.FAQ' },
+          type: 'itemMenu',
+          permission: 'all',
+          show: true
         }
       ]
     }

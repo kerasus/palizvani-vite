@@ -133,6 +133,8 @@ export default {
         return { name: 'Public.Home', query: { 'tags[]': item.tags } }
       } else if (item.href) {
         return { path: item.href }
+      } else if (item.route) {
+        return item.route
       } else if (!item.routeName) {
         return undefined
       }
