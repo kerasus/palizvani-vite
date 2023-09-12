@@ -139,7 +139,7 @@ export default {
           this.withdrawAmount = null
           this.getMyWallet()
           this.$q.notify({
-            message: 'درخواست برداشت با موفقیت ثبت شد',
+            message: 'درخواست برداشت با موفقیت ثبت شد ولی انتقال پول بعد از تایید ادمین به شماره شبای معرفی شده واریز خواهد شد.',
             type: 'positive'
           })
           this.$bus.emit('ReloadUserPayments')
