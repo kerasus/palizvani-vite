@@ -7465,10 +7465,10 @@ vue-router@^4.1.0, vue-router@^4.1.6:
   dependencies:
     "@vue/devtools-api" "^6.5.0"
 
-vue-tiptap-katex-core@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/vue-tiptap-katex-core/-/vue-tiptap-katex-core-2.1.2.tgz#ea994c8d15119de3cf6aa10dd3f45de4fa5deb26"
-  integrity sha512-JTZsColfjXCXbwO/7lkUsphUXECCeHWr6vul85uWcIFCojz/8AAB5AZiVzRDcWfH49cKCYmGsSQQdkLNoYqr6A==
+vue-tiptap-katex-core@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/vue-tiptap-katex-core/-/vue-tiptap-katex-core-2.1.4.tgz#47e8f4b7233b6f1bafbd403401805cb0ebc35131"
+  integrity sha512-m3wpL5rSOdo3nNRqQYfmM5u1GATplQkRROKfrx3U0c99WYU5Fr4hYl5mBL66fndbtE1SiwoNnjFLNgJrJ7G9MQ==
   dependencies:
     "@mdi/font" "^6.9.96"
     "@tiptap/core" "^2.0.0-beta.209"
@@ -7507,10 +7507,10 @@ vue3-otp-input@^0.4.1:
   resolved "https://registry.yarnpkg.com/vue3-otp-input/-/vue3-otp-input-0.4.1.tgz#4757cc771bb0c723e34b78857424322079d07fae"
   integrity sha512-wVl9i3DcWlO0C7fBI9V+RIP3crm/1tY72fuhvb3YM2JfbLoYofB96aPl5AgFhA0Cse5bQEMYtIvOeiqW3rfbAw==
 
-vue3-tiptap-katex@^1.1.20:
-  version "1.1.20"
-  resolved "https://registry.yarnpkg.com/vue3-tiptap-katex/-/vue3-tiptap-katex-1.1.20.tgz#3f53a63921a2d683cda442a7601847aed8bd6080"
-  integrity sha512-uCnKy/5lblzkpFw15cQqneIwMFcdPK8OuWKc5zuJCEtnkCkrQXKHal4kO3dDZkOGE3QrDmcCO+kitbP5/t6KGA==
+vue3-tiptap-katex@^1.1.25:
+  version "1.1.25"
+  resolved "https://registry.yarnpkg.com/vue3-tiptap-katex/-/vue3-tiptap-katex-1.1.25.tgz#63a676e0a1a2fbc88861a3195906f17151ad3be5"
+  integrity sha512-myTg0jtvG/tjl0wY4kmmuFVzrl44P0BIZmcRSDNENbYZSNS1HAIkLakD72J4VcaSz1TsAeWjJFHebQY1CrXSyQ==
   dependencies:
     "@ckpack/vue-color" "^1.4.1"
     "@mdi/font" "^6.9.96"
@@ -7539,7 +7539,7 @@ vue3-tiptap-katex@^1.1.20:
     tiptap-text-direction-extension "^1.0.7"
     vue "^3.2.47"
     vue-filepond "^7.0.3"
-    vue-tiptap-katex-core "^2.1.2"
+    vue-tiptap-katex-core "^2.1.4"
     vue3-drag-resize "^2.0.5"
 
 vue@^3.2.37, vue@^3.2.47:

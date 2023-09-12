@@ -33,6 +33,7 @@ import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
+import PostMixin from 'src/components/Widgets/Post/PostMixin.js'
 import PostCategorySelector from 'src/components/FormBuilderCustumComponents/PostCategorySelector.vue'
 import FormBuilderTiptapEditor from 'src/components/FormBuilderCustumComponents/FormBuilderTiptapEditor.vue'
 
@@ -45,10 +46,12 @@ export default {
   components: {
     EntityEdit
   },
-  mixins: [mixinWidget],
+  mixins: [mixinWidget, PostMixin],
   data () {
     const postId = this.$route.params.id
     const authorization = 'Bearer ' + this.$store.getters['Auth/accessToken']
+    const uploadVideo = this.uploadVideo
+    const uploadAudio = this.uploadAudio
     return {
       mounted: false,
       entityLoading: true,
@@ -80,7 +83,9 @@ export default {
               instantUpload: true,
               responseKey: 'file',
               headers: { Authorization: authorization }
-            }
+            },
+            uploadVideo,
+            uploadAudio
           },
           col: 'col-md-12 col-12'
         },
@@ -102,7 +107,9 @@ export default {
               instantUpload: true,
               responseKey: 'file',
               headers: { Authorization: authorization }
-            }
+            },
+            uploadVideo,
+            uploadAudio
           },
           col: 'col-md-12 col-12'
         },

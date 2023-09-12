@@ -31,8 +31,10 @@ import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
+import PostMixin from 'src/components/Widgets/Post/PostMixin.js'
 import PostCategorySelector from 'src/components/FormBuilderCustumComponents/PostCategorySelector.vue'
 import FormBuilderTiptapEditor from 'src/components/FormBuilderCustumComponents/FormBuilderTiptapEditor.vue'
+// import { FormBuilderAssist } from 'quasar-form-builder'
 
 const BtnControlComp = shallowRef(BtnControl)
 const PostCategorySelectorComp = shallowRef(PostCategorySelector)
@@ -41,9 +43,11 @@ const FormBuilderTiptapEditorComp = shallowRef(FormBuilderTiptapEditor)
 export default {
   name: 'AdminPostCreate',
   components: { EntityCreate },
-  mixins: [mixinWidget],
+  mixins: [mixinWidget, PostMixin],
   data () {
     const authorization = 'Bearer ' + this.$store.getters['Auth/accessToken']
+    const uploadVideo = this.uploadVideo
+    const uploadAudio = this.uploadAudio
     return {
       mounted: false,
       entityLoading: false,
@@ -74,7 +78,9 @@ export default {
               instantUpload: true,
               responseKey: 'file',
               headers: { Authorization: authorization }
-            }
+            },
+            uploadVideo,
+            uploadAudio
           },
           col: 'col-md-12 col-12'
         },
@@ -96,7 +102,9 @@ export default {
               instantUpload: true,
               responseKey: 'file',
               headers: { Authorization: authorization }
-            }
+            },
+            uploadVideo,
+            uploadAudio
           },
           col: 'col-md-12 col-12'
         },
@@ -104,8 +112,11 @@ export default {
       ]
     }
   },
-  mounted() {
+  mounted () {
     this.setActionBtn()
+    // const options = FormBuilderAssist.getInputsByName(this.inputs, 'text').options
+    // options.uploadVideo = this.uploadVideo
+    // FormBuilderAssist.setAttributeByName(this.inputs, 'text', 'options', options)
     this.mounted = true
   },
   methods: {
