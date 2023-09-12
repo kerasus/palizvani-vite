@@ -36,7 +36,24 @@
             <q-btn stretch
                    flat
                    label="فروشگاه"
-                   class="top-menu-item" />
+                   class="top-menu-item">
+              <q-menu>
+                <q-list style="min-width: 100px">
+                  <q-item v-close-popup
+                          href="https://formafzar.com/form/iv9cq"
+                          target="_blank"
+                          clickable>
+                    <q-item-section>کتب سطح یک</q-item-section>
+                  </q-item>
+                  <q-item v-close-popup
+                          href="https://formafzar.com/form/ch1om"
+                          target="_blank"
+                          clickable>
+                    <q-item-section>کتب جریان‌شناسی</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
             <q-btn stretch
                    flat
                    label="درباره ما"
