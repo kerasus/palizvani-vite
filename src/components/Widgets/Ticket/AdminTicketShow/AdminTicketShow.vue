@@ -100,6 +100,13 @@
                     </template>
                   </q-input>
                 </div>
+                <div>
+                  <q-btn outline
+                         color="red"
+                         @click="closeTicket">
+                    بستن تیکت
+                  </q-btn>
+                </div>
               </template>
             </div>
           </div>
@@ -253,6 +260,23 @@ export default {
       })
   },
   methods: {
+    closeTicket () {
+      this.$q.dialog({
+        title: 'توجه',
+        message: 'آیا از بستن تیکت اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.entityLoading = true
+        APIGateway.ticket.close(this.$route.params.id)
+          .then(() => {
+            this.$refs.entityEdit.getData()
+          })
+          .catch(() => {
+            this.entityLoading = false
+          })
+      })
+    },
     miladiToShamsi (miladi) {
       return Assist.miladiToShamsi(miladi)
     },
@@ -272,7 +296,7 @@ export default {
             this.$refs.entityEdit.getData()
           })
           .catch(() => {
-            this.entityLoading = true
+            this.entityLoading = false
           })
       })
     },

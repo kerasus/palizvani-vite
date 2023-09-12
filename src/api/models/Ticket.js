@@ -10,7 +10,8 @@ export default class TicketAPI extends APIRepository {
       repliesBase: '/mma/replies',
       replyById: (id) => '/mma/replies/' + id,
       byId: (id) => '/mma/tickets/' + id,
-      reply: (id) => '/mma/tickets/' + id + '/reply'
+      reply: (id) => '/mma/tickets/' + id + '/reply',
+      close: (id) => '/mma/tickets/' + id + '/close'
     }
     this.restUrl = (id) => this.url + '/' + id
     /* Setting the callback functions for the CRUD operations. */
@@ -61,6 +62,20 @@ export default class TicketAPI extends APIRepository {
       data: this.getNormalizedSendData({
         body: '' // String
       }, data),
+      resolveCallback: (response) => {
+        return new Ticket(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  close (ticketId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.close(ticketId),
       resolveCallback: (response) => {
         return new Ticket(response.data)
       },
