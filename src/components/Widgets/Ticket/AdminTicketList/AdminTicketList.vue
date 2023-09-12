@@ -212,10 +212,13 @@ export default {
   },
   methods: {
     checkSource () {
-      if (this.localOptions.defaultSourceType) {
-        // FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.localOptions.defaultSourceType)
-        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'value', this.getCategoryTypeFromSourceType())
-      } else if (this.localOptions.defaultCategoryType) {
+      // if (this.localOptions.defaultSourceType) {
+      //   // FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.localOptions.defaultSourceType)
+      //   FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'value', this.getCategoryTypeFromSourceType())
+      // }
+
+      if (this.localOptions.defaultCategoryType) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'readonly', true)
         FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'value', this.localOptions.defaultCategoryType)
       } else {
         FormBuilderAssist.setAttributeByName(this.inputs, 'category__type', 'type', 'select')

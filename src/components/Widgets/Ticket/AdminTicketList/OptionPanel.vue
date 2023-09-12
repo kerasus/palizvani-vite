@@ -8,13 +8,13 @@
                 :options="categoryTypeOptions"
                 emit-value
                 map-options />
-      <div>
-        defaultSourceType
-      </div>
-      <q-select v-model="localOptions.defaultSourceType"
-                :options="options"
-                emit-value
-                map-options />
+      <!--      <div>-->
+      <!--        defaultSourceType-->
+      <!--      </div>-->
+      <!--      <q-select v-model="localOptions.defaultSourceType"-->
+      <!--                :options="options"-->
+      <!--                emit-value-->
+      <!--                map-options />-->
     </template>
   </option-panel-tabs>
 </template>

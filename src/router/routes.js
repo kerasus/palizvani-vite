@@ -526,6 +526,11 @@ const routes = [
                 component: () => import('src/pages/Admin/Ticket/List.vue')
               },
               {
+                path: 'educational',
+                name: 'Admin.Ticket.List.Educational',
+                component: () => import('src/pages/Admin/Ticket/EducationalList.vue')
+              },
+              {
                 path: 'create',
                 name: 'Admin.Ticket.Create',
                 component: () => import('src/pages/Admin/Ticket/Create.vue')

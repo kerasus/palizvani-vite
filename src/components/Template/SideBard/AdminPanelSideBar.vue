@@ -78,8 +78,8 @@ export default {
         },
         {
           title: 'درخواست های آموزش',
-          routeName: 'Admin.Ticket.List',
-          icon: 'confirmation_number',
+          routeName: 'Admin.Ticket.List.Educational',
+          icon: 'local_activity',
           show: true,
           active: false
         },
@@ -160,6 +160,13 @@ export default {
               active: false
             }
           ]
+        },
+        {
+          title: 'تمام درخواست ها',
+          routeName: 'Admin.Ticket.List',
+          icon: 'confirmation_number',
+          show: true,
+          active: false
         }
       ]
     }
