@@ -138,6 +138,10 @@ export default {
           this.shabaNumber = null
           this.withdrawAmount = null
           this.getMyWallet()
+          this.$q.notify({
+            message: 'درخواست برداشت با موفقیت ثبت شد',
+            type: 'positive'
+          })
           this.$bus.emit('ReloadUserPayments')
         })
         .catch(() => {
