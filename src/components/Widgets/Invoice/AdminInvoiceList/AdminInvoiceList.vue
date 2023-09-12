@@ -45,7 +45,7 @@ export default {
   name: 'AdminInvoiceList',
   components: { EntityIndex },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
       api: APIGateway.invoice.APIAdresses.base,
       tableKeys: {
@@ -110,6 +110,13 @@ export default {
           {
             name: 'id',
             required: true,
+            label: 'عنوان',
+            align: 'left',
+            field: row => this.getInvoiceTitle(row)
+          },
+          {
+            name: 'id',
+            required: true,
             label: 'نوع صورتحساب',
             align: 'left',
             field: row => (new Invoice(row)).type_info.label
@@ -160,6 +167,13 @@ export default {
     this.mounted = true
   },
   methods: {
+    getInvoiceTitle (invoice) {
+      if (invoice.item_info.item_type === 'CLASSROOM') {
+        return invoice.item_info.title
+      } else {
+        return invoice.item_info.title || '-'
+      }
+    },
     setActionBtn () {
       this.inputs.forEach((item, index) => {
         if (item.name === 'btn') {
