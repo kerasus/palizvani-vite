@@ -71,6 +71,7 @@ export default {
             floatingMenu: false,
             poem: false,
             reading: false,
+            loadBareHtml: true,
             persianKeyboard: true,
             mathliveOptions: { smartFence: false },
             uploadServer: {
@@ -95,6 +96,7 @@ export default {
             floatingMenu: false,
             poem: false,
             reading: false,
+            loadBareHtml: true,
             persianKeyboard: true,
             mathliveOptions: { smartFence: false },
             uploadServer: {

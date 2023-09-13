@@ -294,8 +294,13 @@ export default {
       color: #707070;
     }
   }
-  .post-body {
+  :deep(.post-body) {
     margin-top: 32px;
+    .barehtml {
+      width: 600px;
+      max-width: 100%;
+      margin: auto;
+    }
   }
 }
 </style>
