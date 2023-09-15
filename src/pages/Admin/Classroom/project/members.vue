@@ -83,7 +83,7 @@ export default {
         // { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'project', value: projectId }
       ],
-      api: APIGateway.projectAttendanceSheets.APIAdresses.project_sheets,
+      api: APIGateway.project.APIAdresses.attendanceSheets(projectId),
       table: {
         columns: [
           {

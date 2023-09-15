@@ -7,7 +7,8 @@ export default class ProjectAPI extends APIRepository {
     super('project', appApi, '/lma/projects', Project)
     this.APIAdresses = {
       base: '/lma/projects',
-      byId: (id) => '/lma/projects/' + id
+      byId: (id) => '/lma/projects/' + id,
+      attendanceSheets: (id) => '/lma/projects/' + id + '/attendance_sheets'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
