@@ -26,6 +26,7 @@ import ContentCategoryAPI from 'src/api/models/ContentCategory.js'
 import InstalmentOfferAPI from 'src/api/models/InstalmentOffer.js'
 import ClassroomRegistrationAPI from 'src/api/models/ClassroomRegistration.js'
 import ProjectAttendanceSheetsAPI from 'src/api/models/ProjectAttendanceSheets.js'
+import SessionAttendanceSheetsAPI from 'src/api/models/SessionAttendanceSheets.js'
 
 /* Exporting the APIGateway object. */
 export const APIGateway = {
@@ -56,5 +57,6 @@ export const APIGateway = {
   contentCategory: new ContentCategoryAPI(),
   instalmentOffer: new InstalmentOfferAPI(),
   classroomRegistration: new ClassroomRegistrationAPI(),
-  projectAttendanceSheets: new ProjectAttendanceSheetsAPI()
+  projectAttendanceSheets: new ProjectAttendanceSheetsAPI(),
+  sessionAttendanceSheets: new SessionAttendanceSheetsAPI()
 }

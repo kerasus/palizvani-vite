@@ -4,12 +4,51 @@ class SessionAttendanceSheets extends Model {
   constructor (data) {
     super(data, [
       { key: 'id' },
+      { key: 'is_answer_verified' },
+      { key: 'answer_status' },
       { key: 'session' },
       { key: 'is_listen_part1' },
       { key: 'is_listen_part2' },
       { key: 'is_present_read_part1' },
       { key: 'is_present_read_part2' }
-    ])
+    ], {
+      status: {
+        infoKey: 'is_answer_verified_info',
+        enumListKey: 'is_answer_verifiedEnums',
+        enums: [
+          {
+            label: 'تایید شده',
+            value: true
+          },
+          {
+            label: 'تایید نشده',
+            value: false
+          },
+          {
+            label: '-',
+            value: null
+          }
+        ]
+      },
+      type: {
+        infoKey: 'answer_status_info',
+        enumListKey: 'answer_statusEnums',
+        enums: [
+          {
+            label: 'ارسال نشده',
+            value: 'NOT_SENT'
+          },
+          {
+            label: 'ارسال شده',
+            value: 'SENT'
+          },
+          {
+            label: 'بررسی شده',
+            value: 'REVIEWED'
+          }
+        ]
+      }
+    })
   }
 
   getLabel () {

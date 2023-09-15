@@ -9,7 +9,7 @@
 import { mixinPageOptions } from 'src/mixin/Mixins.js'
 
 export default {
-  name: 'AdminPanel.Package.Show',
+  name: 'Admin.Content.Show',
   mixins: [mixinPageOptions],
   data: () => {
     return {
