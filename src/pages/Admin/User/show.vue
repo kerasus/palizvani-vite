@@ -302,7 +302,7 @@ export default {
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
-        { type: 'input', name: 'mobile_number', placeholder: ' ', label: 'تلفن همراه جهت تماس', responseKey: 'mobile_number', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'on_call_mobile_number', placeholder: ' ', label: 'تلفن همراه جهت تماس', responseKey: 'on_call_mobile_number', col: 'col-md-3 col-12' },
         { type: 'input', name: 'on_social_network_mobile_number', placeholder: ' ', label: 'تلفن همراه جهت شبکه های اجتماعی', responseKey: 'on_social_network_mobile_number', col: 'col-md-3 col-12' },
         { type: 'input', name: 'phone_number', placeholder: ' ', label: 'تلفن منزل', responseKey: 'phone_number', col: 'col-md-3 col-12' },
         {
