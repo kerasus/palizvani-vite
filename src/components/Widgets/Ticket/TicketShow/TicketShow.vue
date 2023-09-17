@@ -48,35 +48,117 @@
               class="q-mt-md">
         <q-card-section>
           <div class="row justify-center">
-            <div style="width: 100%;">
-              <q-chat-message v-for="message in repliesInfo"
-                              :key="message.id"
-                              :avatar="message.creator_info.picture ? message.creator_info.picture : '/assets/images/web/default-avatar.png'"
-                              :name="isUserMessage(authenticatedUser, message) ? message.creator_info.firstname + ' ' + message.creator_info.lastname : 'کارشناس'"
-                              :text="[message.body]"
-                              text-html
-                              :sent="!isUserMessage(authenticatedUser, message)">
-                <template v-slot:stamp>
-                  <div>
-                    {{ miladiToShamsi(message.creation_time) }}
+            <div class="full-width">
+              <q-skeleton v-if="entityLoading"
+                          type="rect"
+                          width="100%"
+                          height="200px" />
+              <template v-else>
+                <q-chat-message v-for="message in repliesInfo"
+                                :key="message.id"
+                                :avatar="message.creator_info.picture ? message.creator_info.picture : '/assets/images/web/default-avatar.png'"
+                                :name="isUserMessage(authenticatedUser, message) ? message.creator_info.firstname + ' ' + message.creator_info.lastname : 'کارشناس'"
+                                text-html
+                                :text="[message.body]"
+                                :sent="!isUserMessage(authenticatedUser, message)">
+                  <template v-slot:stamp>
+                    <div>
+                      {{ miladiToShamsi(message.creation_time) }}
+                    </div>
+                  </template>
+                </q-chat-message>
+                <div class="row">
+                  <div class="col-md-10 col-sm-9 col-12">
+                    <q-editor v-model="replyText"
+                              :toolbar="[
+                                [
+                                  {
+                                    label: $q.lang.editor.align,
+                                    icon: $q.iconSet.editor.align,
+                                    fixedLabel: true,
+                                    list: 'only-icons',
+                                    options: ['left', 'center', 'right', 'justify']
+                                  },
+                                  'bold', 'italic', 'strike', 'underline', 'quote', 'unordered', 'ordered'
+                                ],
+                                ['token', 'hr', 'link', 'custom_btn', 'print', 'fullscreen'],
+                                [
+                                  {
+                                    label: $q.lang.editor.formatting,
+                                    icon: $q.iconSet.editor.formatting,
+                                    list: 'no-icons',
+                                    options: [
+                                      'p',
+                                      'h1',
+                                      'h2',
+                                      'h3',
+                                      'h4',
+                                      'h5',
+                                      'h6',
+                                      'code'
+                                    ]
+                                  },
+                                  {
+                                    label: $q.lang.editor.fontSize,
+                                    icon: $q.iconSet.editor.fontSize,
+                                    fixedLabel: true,
+                                    fixedIcon: true,
+                                    list: 'no-icons',
+                                    options: [
+                                      'size-1',
+                                      'size-2',
+                                      'size-3',
+                                      'size-4',
+                                      'size-5',
+                                      'size-6',
+                                      'size-7'
+                                    ]
+                                  },
+                                  {
+                                    label: $q.lang.editor.defaultFont,
+                                    icon: $q.iconSet.editor.font,
+                                    fixedIcon: true,
+                                    list: 'no-icons',
+                                    options: [
+                                      'default_font',
+                                      'arial',
+                                      'arial_black',
+                                      'comic_sans',
+                                      'courier_new',
+                                      'impact',
+                                      'lucida_grande',
+                                      'times_new_roman',
+                                      'verdana'
+                                    ]
+                                  },
+                                  'removeFormat'
+                                ],
+
+                                ['undo', 'redo', 'viewsource']
+                              ]"
+                              :fonts="{
+                                arial: 'Arial',
+                                arial_black: 'Arial Black',
+                                comic_sans: 'Comic Sans MS',
+                                courier_new: 'Courier New',
+                                impact: 'Impact',
+                                lucida_grande: 'Lucida Grande',
+                                times_new_roman: 'Times New Roman',
+                                verdana: 'Verdana'
+                              }"
+                              min-height="5rem" />
                   </div>
-                </template>
-              </q-chat-message>
-              <div>
-                <q-input v-model="replyText"
-                         bottom-slots
-                         autogrow
-                         :loading="entityLoading">
-                  <template v-slot:after>
+                  <div class="col-md-2 col-sm-3 col-12 flex justify-center items-center">
                     <q-btn round
                            dense
                            flat
                            icon="send"
+                           label="ارسال پاسخ"
                            :loading="entityLoading"
                            @click="sendReply" />
-                  </template>
-                </q-input>
-              </div>
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
         </q-card-section>
@@ -147,10 +229,12 @@ export default {
           label: 'معاونت',
           placeholder: ' ',
           ignoreValue: true,
-          col: 'col-md-6 col-12'
+          col: 'col-md-4 col-12'
         },
-        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-6 col-12' },
-        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
+
+        { type: 'file', name: 'attachment', responseKey: 'attachment', placeholder: ' ', label: 'ضمیمه', readonly: true, col: 'col-md-6 col-12' },
         { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', placeholder: ' ', label: 'تاریخ ایجاد', readonly: true, col: 'col-md-6 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', col: 'col-md-12 col-12' },

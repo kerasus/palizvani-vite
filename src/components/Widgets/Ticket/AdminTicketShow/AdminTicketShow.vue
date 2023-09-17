@@ -97,11 +97,10 @@
                                     fixedLabel: true,
                                     list: 'only-icons',
                                     options: ['left', 'center', 'right', 'justify']
-                                  }
+                                  },
+                                  'bold', 'italic', 'strike', 'underline', 'quote', 'unordered', 'ordered'
                                 ],
-                                ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-                                ['token', 'hr', 'link', 'custom_btn'],
-                                ['print', 'fullscreen'],
+                                ['token', 'hr', 'link', 'custom_btn', 'print', 'fullscreen'],
                                 [
                                   {
                                     label: $q.lang.editor.formatting,
@@ -153,10 +152,8 @@
                                   },
                                   'removeFormat'
                                 ],
-                                ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-                                ['undo', 'redo'],
-                                ['viewsource']
+                                ['undo', 'redo', 'viewsource']
                               ]"
                               :fonts="{
                                 arial: 'Arial',
@@ -285,10 +282,12 @@ export default {
           options: (new TicketCategory()).typeEnums,
           label: 'معاونت',
           placeholder: ' ',
-          col: 'col-md-6 col-12'
+          col: 'col-md-4 col-12'
         },
-        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-6 col-12' },
-        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', readonly: true, col: 'col-md-6 col-12' },
+        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
+        { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', readonly: true, col: 'col-md-4 col-12' },
+
+        { type: 'file', name: 'attachment', responseKey: 'attachment', placeholder: ' ', label: 'ضمیمه', readonly: true, col: 'col-md-6 col-12' },
         { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', placeholder: ' ', label: 'تاریخ ایجاد', readonly: true, col: 'col-md-6 col-12' },
 
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', readonly: true, col: 'col-md-12 col-12' },
