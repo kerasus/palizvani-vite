@@ -41,7 +41,6 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
-import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
