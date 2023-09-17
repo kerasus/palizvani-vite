@@ -17,7 +17,7 @@
             </div>
             <div class="col-item">
               <q-icon name="mail" />
-              info@palizvani.com
+              info@shahidpalizvani.ir
             </div>
           </div>
         </div>
