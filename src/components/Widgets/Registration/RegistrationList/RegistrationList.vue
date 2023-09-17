@@ -5,9 +5,8 @@
       <q-banner class="q-mb-md">
         دوره های شما
       </q-banner>
-      <q-linear-progress v-if="registrations.loading"
-                         indeterminate />
-      <template v-else>
+
+      <template v-if="!registrations.loading && registrations.list.length > 0">
         <div class="row q-col-gutter-md">
           <div v-for="registration in registrations.list"
                :key="registration.id"
@@ -16,6 +15,14 @@
           </div>
         </div>
       </template>
+      <div v-else-if="!registrations.loading && registrations.list.length === 0">
+        دوره ای یافت نشد.
+      </div>
+      <div v-else-if="registrations.loading">
+        <q-linear-progress v-if="registrations.loading"
+                           indeterminate />
+        کمی صبر کنید ...
+      </div>
     </template>
   </div>
 </template>

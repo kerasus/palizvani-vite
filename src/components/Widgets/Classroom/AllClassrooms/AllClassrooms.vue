@@ -80,115 +80,37 @@
     <q-dialog v-model="filterDialog"
               :position="'top'"
               full-width>
-      <q-card class="filter-card all-classroom-widget">
-        <q-card-section class="filter-card-header filter-card-section">
-          <div class="flex justify-between">
-            <q-banner class="banner">
-              فیلتر
-            </q-banner>
-            <q-btn flat
-                   @click="cancelFilter">
-              <svg id="close_black_24dp"
-                   xmlns="http://www.w3.org/2000/svg"
-                   width="32"
-                   height="32"
-                   viewBox="0 0 32 32">
-                <path id="Path_29089"
-                      data-name="Path 29089"
-                      d="M0,0H32V32H0Z"
-                      fill="none" />
-                <path id="Path_29090"
-                      data-name="Path 29090"
-                      d="M22.412,5.806a1.314,1.314,0,0,0-1.86,0L14.1,12.243l-6.45-6.45a1.315,1.315,0,1,0-1.86,1.86l6.45,6.45-6.45,6.45a1.315,1.315,0,0,0,1.86,1.86l6.45-6.45,6.45,6.45a1.315,1.315,0,0,0,1.86-1.86l-6.45-6.45,6.45-6.45A1.322,1.322,0,0,0,22.412,5.806Z"
-                      transform="translate(1.897 1.897)"
-                      fill="#ababab" />
-              </svg>
-            </q-btn>
-          </div>
-        </q-card-section>
-        <q-card-section class="filter-card-filter-section filter-card-section">
-          <div class="row q-col-gutter-md">
-            <div class="col-md-3">
-              <select-control v-model:value="filter.category"
-                              :options="categories.list"
-                              :disable="categories.loading"
-                              :loading="categories.loading"
-                              optionValue="id"
-                              optionLabel="title"
-                              label="گروه آموزشی"
-                              @update:model-value="getUnits" />
-            </div>
-            <div class="col-md-3">
-              <select-control v-model:value="filter.unit"
-                              :options="units.list"
-                              :disable="units.loading"
-                              :loading="units.loading"
-                              optionValue="id"
-                              optionLabel="title"
-                              label="درس" />
-            </div>
-            <div class="col-md-3">
-              <select-control v-model:value="filter.classroomStatus"
-                              :options="classroomStatuses"
-                              optionValue="value"
-                              optionLabel="label"
-                              label="وضعیت دوره" />
-            </div>
-            <div class="col-md-3">
-              <select-control v-model:value="filter.classroomHoldingTypes"
-                              :options="classroomHoldingTypes"
-                              optionValue="value"
-                              optionLabel="label"
-                              label="نوع برگزاری" />
-            </div>
-            <div class="col-md-3">
-              <select-control v-model:value="filter.professor"
-                              :options="professors"
-                              :disable="professorsLoading"
-                              :loading="professorsLoading"
-                              optionValue="value"
-                              optionLabel="label"
-                              label="استاد" />
-            </div>
-          </div>
-        </q-card-section>
-        <q-card-actions class="filter-card-filter-actions filter-card-section">
-          <q-btn color="primary"
-                 outline
-                 label="لغو فیلتر"
-                 @click="cancelFilter" />
-          <q-btn color="primary"
-                 label="فیلتر کردن"
-                 @click="doFilter" />
-        </q-card-actions>
-      </q-card>
+      <filters v-model:filters="filter"
+               :units="units"
+               :professors="professors"
+               :categories="categories"
+               @doFilter="doFilter"
+               @cancelFilter="cancelFilter"
+               @onChangeCategory="onChangeCategory" />
     </q-dialog>
   </div>
 </template>
 
 <script>
-import { User } from 'src/models/User.js'
 import { UnitList } from 'src/models/Unit.js'
-import Enums from 'src/assets/Enums/Enums.js'
-import API_ADDRESS from 'src/api/Addresses.js'
-import ShamsiDate from 'src/assets/ShamsiDate.js'
+import Filters from './components/Filters.vue'
+import { mixinAuth } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { ClassroomList } from 'src/models/Classroom.js'
+import { Classroom, ClassroomList } from 'src/models/Classroom.js'
 import ClassroomItem from 'src/components/ClassroomItem.vue'
-import SelectControl from 'src/components/Control/Select.vue'
 import { UnitCategoryList } from 'src/models/UnitCategory.js'
 import { ClassroomRegistrationList } from 'src/models/ClassroomRegistration.js'
 
 export default {
   name: 'AllClassrooms',
-  components: { SelectControl, ClassroomItem },
+  components: { ClassroomItem, Filters },
+  mixins: [mixinAuth],
   data: () => ({
     loading: false,
-    user: new User(),
     units: new UnitList(),
     classroomsKey: Date.now(),
-    userRegistrations: new ClassroomRegistrationList(),
     categories: new UnitCategoryList(),
+    userRegistrations: new ClassroomRegistrationList(),
     professors: [],
     professorsLoading: false,
     filter: {
@@ -203,26 +125,32 @@ export default {
   }),
   computed: {
     classroomStatuses () {
-      return Enums.classroomStatuses
+      return (new Classroom()).statusEnums
     },
     classroomHoldingTypes () {
-      return Enums.classroomHoldingTypes
+      return (new Classroom()).holding_typeEnums
     },
     displayTitleFilters () {
       const filters = []
       if (this.filter.category) {
-        filters.push({
-          filterKey: 'category',
-          value: this.filter.category,
-          label: this.categories.list.find(item => item.id === this.filter.category).title
-        })
+        const targetCategory = this.categories.list.find(item => item.id === this.filter.category)
+        if (targetCategory) {
+          filters.push({
+            filterKey: 'category',
+            value: this.filter.category,
+            label: targetCategory.title
+          })
+        }
       }
       if (this.filter.unit) {
-        filters.push({
-          filterKey: 'unit',
-          value: this.filter.unit,
-          label: this.units.list.find(item => item.id === this.filter.unit).title
-        })
+        const targetUnit = this.units.list.find(item => item.id === this.filter.unit)
+        if (targetUnit) {
+          filters.push({
+            filterKey: 'unit',
+            value: this.filter.unit,
+            label: targetUnit.title
+          })
+        }
       }
       if (this.filter.classroomStatus) {
         filters.push({
@@ -239,11 +167,11 @@ export default {
         })
       }
       if (this.filter.professor) {
-        const fullname = this.getUserFullname(this.professors.find(item => item.id === this.filter.professor))
+        const targetProfessor = this.professors.find(item => item.value === this.filter.professor)
         filters.push({
           filterKey: 'professor',
           value: this.filter.professor,
-          label: fullname
+          label: targetProfessor.label
         })
       }
 
@@ -251,18 +179,15 @@ export default {
     }
   },
   mounted () {
-    this.loadAuthData()
     if (this.user && this.user.id !== null) {
       this.getUserRegistrations()
     }
     this.getClassrooms()
     this.getCategories()
     this.getUnits()
+    this.getProfessors()
   },
   methods: {
-    loadAuthData () {
-      this.user = this.$store.getters['Auth/user']
-    },
     getUserRegistrations () {
       this.userRegistrations.loading = true
       APIGateway.classroomRegistration.index()
@@ -278,53 +203,10 @@ export default {
     isClassroomRegistered (classroomId) {
       return !!this.userRegistrations.list.find(item => item.classroom === classroomId && (item.status === 'REGISTERED' || item.status === 'ENROLLED'))
     },
-    getTerm (classroom) {
-      if (!classroom.beginning_registration_period) {
-        return '-'
-      }
-      return ShamsiDate.getTerm(classroom.beginning_registration_period)
-    },
-    getProfessors () {
-      this.$axios.get(API_ADDRESS.user.base + '?per_page=9999&role=professor')
-        .then(response => {
-          this.professors = response.data.results.map(item => {
-            return {
-              value: item.id,
-              label: this.getUserFullname(item)
-            }
-          })
-        })
-    },
-    getUserFullname (user) {
-      return user.firstname + ' ' + user.lastname
-    },
-    getFilters () {
-      let filters = ''
-      if (this.filter.category) {
-        filters += '&category=' + this.filter.category
-      }
-      if (this.filter.unit) {
-        filters += '&unit=' + this.filter.unit
-      }
-      if (this.filter.classroomStatus) {
-        filters += '&classroomStatus=' + this.filter.classroomStatus
-      }
-      if (this.filter.classroomHoldingTypes) {
-        filters += '&holding_type=' + this.filter.classroomHoldingTypes
-      }
-      if (this.filter.professor) {
-        filters += '&professor=' + this.filter.professor
-      }
-
-      // if (filters) {
-      //   filters = filters.slice(1)
-      // }
-
-      return filters
-    },
     getClassrooms () {
       this.classrooms.loading = true
-      APIGateway.classroom.index({ per_page: 9999 })
+      this.filter.per_page = 9999
+      APIGateway.classroom.index(this.filter)
         .then(classroomList => {
           this.classrooms = new ClassroomList(classroomList.list)
           this.classrooms.loading = false
@@ -344,12 +226,22 @@ export default {
           this.categories.loading = false
         })
     },
+    getProfessors () {
+      APIGateway.user.index({ per_page: 9999, role: 'professor' })
+        .then(({ list }) => {
+          this.professors = list.list.map(item => {
+            return {
+              value: item.id,
+              label: this.getUserFullname(item)
+            }
+          })
+        })
+    },
+    getUserFullname (user) {
+      return user.firstname + ' ' + user.lastname
+    },
     getUnits (categoryId) {
       this.units.loading = true
-      // let address = API_ADDRESS.unit.base
-      // if (categoryId) {
-      //   address = API_ADDRESS.unit.base + '?category=' + categoryId
-      // }
       APIGateway.unit.index({ category: categoryId })
         .then(unitList => {
           this.units.loading = false
@@ -358,6 +250,10 @@ export default {
         .catch(() => {
           this.units.loading = false
         })
+    },
+    onChangeCategory () {
+      this.filter.unit = null
+      this.getUnits(this.filter.category)
     },
     openFilterDialog () {
       this.filterDialog = true
