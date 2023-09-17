@@ -247,6 +247,7 @@ import { Classroom } from 'src/models/Classroom'
 import { Registration } from 'src/models/Registration'
 import { Invoice } from 'src/models/Invoice'
 import { Payment } from 'src/models/Payment'
+import { Transaction } from 'src/models/Transaction'
 
 export default {
   name: 'Admin.User.Show',
@@ -758,6 +759,13 @@ export default {
             label: 'کد مرجع',
             align: 'left',
             field: row => row.reference_code
+          },
+          {
+            name: 'status',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Transaction(row)).status_info.label
           },
           {
             name: 'creation_time',
