@@ -6,13 +6,14 @@
       </div>
       <div v-if="showMessage"
            class="InvoicePaymentCard-head-caption">
-        خرید شما قطعی نشده است و در صورت عدم پرداخت تا پایان زمان، صورتحساب شما لغو خواهد شد
+        <!--        خرید شما قطعی نشده است و در صورت عدم پرداخت تا پایان زمان، صورتحساب شما لغو خواهد شد-->
+        خرید شما قطعی نشده است و در صورت عدم پرداخت تا ۲۴ ساعت بعد از ایجاد آن، صورتحساب شما لغو خواهد شد.
       </div>
       <div v-if="showTimer"
            class="InvoicePaymentCard-head-remaining-time">
-        <q-icon name="isax:clock" />
-        زمان باقی مانده :
-        {{ timerString }}
+           <!--        <q-icon name="schedule" />-->
+           <!--        زمان باقی مانده :-->
+           <!--        {{ timerString }}-->
       </div>
     </div>
     <div class="InvoicePaymentCard-body">
