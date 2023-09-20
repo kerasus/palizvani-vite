@@ -20,7 +20,7 @@
         <template v-else-if="inputData.col.name === 'action'">
           <q-btn color="primary"
                  :to="{name: 'UserPanel.Invoice.Show', params: {id: inputData.props.row.id}}">
-            مشاهده جزییات
+            جزییات
           </q-btn>
         </template>
         <template v-else>
