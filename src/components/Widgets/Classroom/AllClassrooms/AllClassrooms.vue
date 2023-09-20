@@ -227,7 +227,7 @@ export default {
         })
     },
     getProfessors () {
-      APIGateway.user.index({ per_page: 9999, role: 'professor' })
+      APIGateway.user.professors({ per_page: 9999 })
         .then(({ list }) => {
           this.professors = list.list.map(item => {
             return {

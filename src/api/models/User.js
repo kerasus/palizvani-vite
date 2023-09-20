@@ -7,6 +7,7 @@ export default class UserAPI extends APIRepository {
     super('user', appApi, '/uma/users', User)
     this.APIAdresses = {
       base: '/uma/users',
+      professors: '/uma/users/professors',
       exportReport: '/uma/users/export_report',
       verify: '/uma/users/verify',
       current: '/uma/users/current',
@@ -37,6 +38,38 @@ export default class UserAPI extends APIRepository {
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
         role: null, // String
+        per_page: 10, // Number
+        page: 1 // Number
+      }, data),
+      resolveCallback: (response) => {
+        const paginate = response.data
+        const results = response.data.results
+        delete paginate.results
+        return {
+          list: new UserList(results),
+          paginate
+          // {
+          //   "count": 1,
+          //   "num_pages": 1,
+          //   "per_page": 10,
+          //   "current": 1,
+          //   "next": null,
+          //   "previous": null,
+          // }
+        }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  professors(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.professors,
+      data: this.getNormalizedSendData({
         per_page: 10, // Number
         page: 1 // Number
       }, data),
