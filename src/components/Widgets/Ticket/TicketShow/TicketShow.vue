@@ -166,10 +166,10 @@
     </q-card>
 
     <invoice-show v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
-                  :options="{invoiceId: ticket.source_id, showBackBtn: false, showNeedInstallmentBtn: false}"
+                  :options="{invoiceId: ticket.source_id, canAction: false, showBackBtn: false, showNeedInstallmentBtn: false}"
                   class="q-mt-lg" />
 
-    <q-card v-if="ticket.source_type === 'INVOICE' && ticket.source_id"
+    <q-card v-if="ticket.source_type === 'INVOICE' && ticket.source_id && instalmentOffers.list.length > 0"
             class="q-mt-lg">
       <q-card-section>
         اقساط

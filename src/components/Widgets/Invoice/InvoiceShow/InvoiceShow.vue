@@ -97,6 +97,7 @@
           <invoice-payment-card :wallet="wallet"
                                 :invoice="invoice"
                                 class="payment-card"
+                                :can-action="localOptions.canAction"
                                 @onCancel="onCancel"
                                 @onAccept="onAccept"
                                 @onInstalmentPayed="onInstalmentPayed" />
@@ -132,6 +133,7 @@ export default {
       wallet: new Wallet(),
       invoice: new Invoice(),
       defaultOptions: {
+        canAction: true,
         showBackBtn: true,
         showNeedInstallmentBtn: true
       }
