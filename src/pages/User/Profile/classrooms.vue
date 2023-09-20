@@ -186,7 +186,7 @@ export default {
             required: true,
             label: 'تعداد جلسات',
             align: 'left',
-            field: row => row.classroom_info.sessions_info.length
+            field: row => row.classroom_info?.sessions_info?.length
           },
           {
             name: 'status',
