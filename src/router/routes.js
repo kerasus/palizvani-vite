@@ -414,6 +414,11 @@ const routes = [
                 component: () => import('src/pages/User/Payment/List.vue')
               },
               {
+                path: 'transactions',
+                name: 'UserPanel.Payment.TransactionList',
+                component: () => import('src/pages/User/Payment/TransactionList.vue')
+              },
+              {
                 name: 'UserPanel.Payment.Show',
                 path: ':id',
                 component: () => import('src/pages/User/Payment/Show.vue'),

@@ -82,6 +82,12 @@ export default {
               active: false
             },
             {
+              title: 'تاریخچه اتصال به درگاه بانک',
+              routeName: 'UserPanel.Payment.TransactionList',
+              show: true,
+              active: false
+            },
+            {
               title: 'کیف پول الکترونیک',
               routeName: 'UserPanel.Wallet',
               show: true,

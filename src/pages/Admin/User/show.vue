@@ -118,7 +118,8 @@
                     height="200px" />
       </q-tab-panel>
 
-      <q-tab-panel name="financial">
+      <q-tab-panel name="financial"
+                   class="q-pa-none">
         <q-tabs v-model="financialTab"
                 dense
                 class="text-grey"
@@ -136,7 +137,8 @@
         <q-separator />
         <q-tab-panels v-model="financialTab"
                       animated>
-          <q-tab-panel name="invoiceList">
+          <q-tab-panel name="invoiceList"
+                       class="q-pa-none">
             <entity-index v-if="mounted"
                           ref="invoiceList"
                           v-model:value="invoiceListInputs"
@@ -164,7 +166,8 @@
               </template>
             </entity-index>
           </q-tab-panel>
-          <q-tab-panel name="paymentList">
+          <q-tab-panel name="paymentList"
+                       class="q-pa-none">
             <entity-index v-if="mounted"
                           ref="paymentList"
                           v-model:value="paymentListInputs"
@@ -192,7 +195,8 @@
               </template>
             </entity-index>
           </q-tab-panel>
-          <q-tab-panel name="transactionList">
+          <q-tab-panel name="transactionList"
+                       class="q-pa-none">
             <entity-index v-if="mounted"
                           ref="transactionList"
                           v-model:value="transactionListInputs"

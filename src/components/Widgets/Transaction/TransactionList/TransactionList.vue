@@ -1,10 +1,10 @@
 <template>
-  <div class="PaymentList"
+  <div class="TransactionList"
        :style="localOptions.style">
     <entity-index v-if="mounted"
                   ref="entityIndex"
                   v-model:value="inputs"
-                  title="لیست پرداخت ها"
+                  title="لیست تراکنش های بانکی"
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
@@ -47,25 +47,26 @@
 </template>
 
 <script>
-import { shallowRef } from 'vue'
+// import { shallowRef } from 'vue'
 import Assist from 'assets/js/Assist.js'
 import { EntityIndex } from 'quasar-crud'
-import { Payment } from 'src/models/Payment.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+// import { Payment } from 'src/models/Payment.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
-import BtnControl from 'src/components/Control/btn.vue'
+import { Transaction } from 'src/models/Transaction.js'
+// import BtnControl from 'src/components/Control/btn.vue'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 
-const BtnControlComp = shallowRef(BtnControl)
+// const BtnControlComp = shallowRef(BtnControl)
 
 export default {
-  name: 'PaymentList',
+  name: 'TransactionList',
   components: { EntityIndex, EntityIndexGridItem },
   mixins: [mixinWidget],
   data: () => {
     return {
-      api: APIGateway.payment.APIAdresses.base,
+      api: APIGateway.transaction.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -74,23 +75,7 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        {
-          type: 'dateTime',
-          name: 'creation_time__gte',
-          label: 'از تاریخ',
-          placeholder: ' ',
-          col: 'col-md-3 col-12'
-        },
-        {
-          type: 'dateTime',
-          name: 'creation_time__lt',
-          label: 'تا تاریخ',
-          placeholder: ' ',
-          col: 'col-md-3 col-12'
-        },
-        { type: 'select', name: 'type', options: (new Payment()).typeEnums, label: 'نوع تراکنش', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'hidden', name: 'wallet__owner', value: null },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+        { type: 'hidden', name: 'owner', value: null }
       ],
       table: {
         columns: [
@@ -109,20 +94,6 @@ export default {
             field: row => row.id
           },
           {
-            name: 'invoice_info.title',
-            required: true,
-            label: 'عنوان',
-            align: 'left',
-            field: row => row.invoice_info?.title
-          },
-          {
-            name: 'type',
-            required: true,
-            label: 'نوع تراکنش',
-            align: 'left',
-            field: row => (new Payment(row)).type_info.label
-          },
-          {
             name: 'amount',
             required: true,
             label: 'مبلغ تراکنش (ریال)',
@@ -130,19 +101,40 @@ export default {
             field: row => row.amount.toLocaleString('fa')
           },
           {
-            name: 'creation_time',
+            name: 'description',
             required: true,
-            label: 'زمان',
+            label: 'توضیحات',
             align: 'left',
-            field: row => Assist.miladiToShamsi(row.creation_time)
+            field: row => row.description
           },
           {
-            name: 'action',
+            name: 'reference_code',
             required: true,
-            label: 'جزییات',
+            label: 'کد مرجع',
             align: 'left',
-            field: row => ''
+            field: row => row.reference_code
+          },
+          {
+            name: 'status',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Transaction(row)).status_info.label
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'تاریخ ایجاد',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.creation_time)
           }
+          // {
+          //   name: 'action',
+          //   required: true,
+          //   label: 'جزییات',
+          //   align: 'left',
+          //   field: row => ''
+          // }
         ]
       },
       mounted: false,
@@ -151,27 +143,27 @@ export default {
   },
   mounted() {
     this.setOwner()
-    this.setActionBtn()
+    // this.setActionBtn()
     this.$bus.on('ReloadUserPayments', this.search)
     this.mounted = true
   },
   methods: {
     setOwner () {
       const user = this.$store.getters['Auth/user']
-      FormBuilderAssist.setAttributeByName(this.inputs, 'wallet__owner', 'value', user.id)
-    },
-    setActionBtn () {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
-    },
-    search () {
-      this.$refs.entityIndex.search()
+      FormBuilderAssist.setAttributeByName(this.inputs, 'owner', 'value', user.id)
     }
+    // setActionBtn () {
+    //   FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
+    // },
+    // search () {
+    //   this.$refs.entityIndex.search()
+    // }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.PaymentList {
+.TransactionList {
   .title {
     font-style: normal;
     font-weight: 700;

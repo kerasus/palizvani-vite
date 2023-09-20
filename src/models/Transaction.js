@@ -40,9 +40,12 @@ class Transaction extends Model {
         enumListKey: 'statusEnums',
         enums: [
           { label: 'لغو شده', value: 'CANCELED' },
-          { label: 'در حال پرداخت', value: 'IN_PROGRESS' },
-          { label: 'پرداخت نقدی', value: 'PAID' },
-          { label: 'پرداخت قسطی', value: 'PAY_IN_INSTALMENT' }
+          { label: 'ناموفق', value: 'FAILED' },
+          { label: 'موفق', value: 'SUCCESS' },
+          { label: 'خطا', value: 'ERRORED' },
+          { label: 'ناشناخته', value: 'UNKNOWN' },
+          { label: 'در حال انجام', value: 'IN_PROGRESS' },
+          { label: 'در حال اعتبارسنجی', value: 'VERIFYING' }
         ]
       }
     })
