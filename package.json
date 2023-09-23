@@ -43,7 +43,7 @@
     "fs": "^0.0.1-security",
     "fslightbox-vue": "^2.0.2",
     "html2pdf.js": "^0.10.1",
-    "js-abstract-model": "^0.1.35",
+    "js-abstract-model": "^0.1.36",
     "leaflet": "^1.9.3",
     "moment": "^2.29.4",
     "moment-jalaali": "^0.9.6",

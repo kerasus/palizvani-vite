@@ -10,7 +10,7 @@
   <entity-edit v-if="mounted"
                ref="projectEntityEdit"
                v-model:value="inputs"
-               title="جزییات جلسه"
+               title="جزییات پروژه"
                :api="api"
                :show-close-button="false"
                :show-edit-button="false"
@@ -76,16 +76,7 @@ export default {
   methods: {
     updateSessionTemplates () {
       this.$refs.projectEntityEdit.editEntity(false)
-    },
-    getRemoveMessage (row) {
-      return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
     }
   }
 }
 </script>
-
-<style>
-.fit-to-card {
-  margin: -16px;
-}
-</style>

@@ -26,7 +26,7 @@
           <q-btn size="md"
                  color="primary"
                  label="جزییات"
-                 :to="{name: 'Admin.Classroom.Project.Show', params: {id: $route.params.id, project_id: inputData.props.row.id}}"
+                 :to="{name: 'Admin.Classroom.Project.Show', params: {classroom_id: $route.params.id, project_id: inputData.props.row.id}}"
                  class="q-mr-md" />
           <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
         </div>
@@ -37,7 +37,7 @@
                  color="primary"
                  outline
                  label="بررسی پروژه"
-                 :to="{name: 'Admin.Classroom.Project.Members', params: {id: $route.params.id, project_id: inputData.props.row.id}}"
+                 :to="{name: 'Admin.Classroom.Project.Members', params: {classroom_id: $route.params.id, project_id: inputData.props.row.id}}"
                  class="q-mr-md" />
         </div>
       </template>
@@ -154,18 +154,19 @@ export default {
   },
   methods: {
     addNewProject () {
-      this.addNewProjectLoading = true
-      APIGateway.project.create({
-        title: '-',
-        classroom: this.classroomId
-      })
-        .then(() => {
-          this.$refs.projectList.search()
-          this.addNewProjectLoading = false
-        })
-        .catch(() => {
-          this.addNewProjectLoading = false
-        })
+      this.$router.push({ name: 'Admin.Classroom.Project.Create', params: { classroom_id: this.classroomId } })
+      // this.addNewProjectLoading = true
+      // APIGateway.project.create({
+      //   title: '-',
+      //   classroom: this.classroomId
+      // })
+      //   .then(() => {
+      //     this.$refs.projectList.search()
+      //     this.addNewProjectLoading = false
+      //   })
+      //   .catch(() => {
+      //     this.addNewProjectLoading = false
+      //   })
     },
     getRemoveMessage (row) {
       return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'

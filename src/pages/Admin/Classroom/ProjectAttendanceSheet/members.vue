@@ -27,7 +27,7 @@
             <q-btn size="md"
                    color="primary"
                    :label="inputData.props.row.is_answer_verified === null ? 'بررسی پروژه' : 'ویرایش تصحیح'"
-                   :to="{name: 'Admin.Classroom.projectAttendanceSheets.Show', params: { classroom_id: $route.params.classroom_id, project_id: $route.params.project_id, project_attendance_sheets_id: inputData.props.row.id}}"
+                   :to="{name: 'Admin.User.Show', params: {id: inputData.props.row.id}}"
                    class="q-mr-md" />
           </div>
         </template>

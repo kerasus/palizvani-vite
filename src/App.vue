@@ -18,11 +18,6 @@ export default defineComponent({
     registration: null,
     updateExists: false
   }),
-  computed: {
-    accessToken () {
-      return this.$store.getters['Auth/accessToken']
-    }
-  },
   // created () {
   // this.setServiceWorker()
   // this.checkInternetConnection()

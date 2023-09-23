@@ -35,6 +35,24 @@ class ProjectAttendanceSheets extends Model {
             value: 'REVIEWED'
           }
         ]
+      },
+      is_answer_verified: {
+        infoKey: 'is_answer_verified_info',
+        enumListKey: 'is_answer_verifiedEnums',
+        enums: [
+          {
+            label: 'انجام شده',
+            value: true
+          },
+          {
+            label: 'انجام نشده',
+            value: false
+          },
+          {
+            label: 'بررسی نشده',
+            value: null
+          }
+        ]
       }
     })
   }

@@ -8,7 +8,9 @@ export default class ProjectAttendanceSheetsAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/project_attendance_sheets',
       project_sheets: '/lma/project_attendance_sheets/project_sheets',
-      byId: (id) => '/lma/project_attendance_sheets/' + id
+      byId: (id) => '/lma/project_attendance_sheets/' + id,
+      verify: (id) => '/lma/project_attendance_sheets/' + id + '/verify',
+      notVerify: (id) => '/lma/project_attendance_sheets/' + id + '/not_verify'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -16,7 +18,7 @@ export default class ProjectAttendanceSheetsAPI extends APIRepository {
     }
   }
 
-  index(data) {
+  index (data) {
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
@@ -49,11 +51,11 @@ export default class ProjectAttendanceSheetsAPI extends APIRepository {
     })
   }
 
-  projectSheets(data) {
+  projectSheets (data) {
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
-      request: this.APIAdresses.base,
+      request: this.APIAdresses.project_sheets,
       data: this.getNormalizedSendData({
         project: null, // Number
         per_page: 10, // Number
@@ -75,6 +77,34 @@ export default class ProjectAttendanceSheetsAPI extends APIRepository {
           //   "previous": null,
           // }
         }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  verify (projectAttendanceSheetsId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.verify(projectAttendanceSheetsId),
+      resolveCallback: (response) => {
+        return new ProjectAttendanceSheets(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  notVerify (projectAttendanceSheetsId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.notVerify(projectAttendanceSheetsId),
+      resolveCallback: (response) => {
+        return new ProjectAttendanceSheets(response.data)
       },
       rejectCallback: (error) => {
         return error
