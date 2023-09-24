@@ -302,7 +302,7 @@ export default {
           this.updateBreadcrumbs()
           this.classroom.loading = false
           this.submitAttendanceStatusMounted = true
-          this.updateAttendanceInputs(true, 'ONLINE')
+          this.updateAttendanceInputs(this.session.is_defined_syllabus, this.classroom.holding_type)
         })
         .catch(() => {
           this.classroom.loading = false
