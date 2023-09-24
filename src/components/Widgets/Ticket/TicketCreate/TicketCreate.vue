@@ -22,6 +22,7 @@
                      title="نقش جدید"
                      :api="api"
                      :default-layout="false"
+                     :before-send-data="beforeSendData"
                      :entity-id-key-in-response="entityIdKeyInResponse"
                      :show-route-param-key="showRouteParamKey"
                      :index-route-name="indexRouteName"
@@ -76,7 +77,7 @@ export default {
         { type: 'select', name: 'category', responseKey: 'category', options: [], label: 'دسته', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'separator', name: 'separator', size: '0', label: 'توضیحات عنوان اینجا قرار میگیرد', col: 'col-12' },
-        { type: 'inputEditor', name: 'body', label: 'متن درخواست', col: 'col-md-12 col-12' },
+        { type: 'input', name: 'body', label: 'متن درخواست', placeholder: ' ', autogrow: true, col: 'col-md-12 col-12' },
         { type: 'file', name: 'attachment', label: 'انتخاب فایل ضمیمه', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'owner', value: 1 },
         { type: 'hidden', name: 'source_type', value: null },
@@ -101,6 +102,10 @@ export default {
     })
   },
   methods: {
+    beforeSendData () {
+      const body = FormBuilderAssist.getInputsByName(this.inputs, 'body').value
+      FormBuilderAssist.setAttributeByName(this.inputs, 'body', 'value', body.replace(/\n/g, '<br>\n'))
+    },
     checkSource () {
       const sourceId = this.$route.query.source_id
       const sourceType = this.$route.query.source_type

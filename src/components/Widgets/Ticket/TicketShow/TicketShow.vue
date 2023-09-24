@@ -67,96 +67,20 @@
                     </div>
                   </template>
                 </q-chat-message>
-                <div class="row">
-                  <div class="col-md-10 col-sm-9 col-12">
-                    <q-editor v-model="replyText"
-                              :toolbar="[
-                                [
-                                  {
-                                    label: $q.lang.editor.align,
-                                    icon: $q.iconSet.editor.align,
-                                    fixedLabel: true,
-                                    list: 'only-icons',
-                                    options: ['left', 'center', 'right', 'justify']
-                                  },
-                                  'bold', 'italic', 'strike', 'underline', 'quote', 'unordered', 'ordered'
-                                ],
-                                ['token', 'hr', 'link', 'custom_btn', 'print', 'fullscreen'],
-                                [
-                                  {
-                                    label: $q.lang.editor.formatting,
-                                    icon: $q.iconSet.editor.formatting,
-                                    list: 'no-icons',
-                                    options: [
-                                      'p',
-                                      'h1',
-                                      'h2',
-                                      'h3',
-                                      'h4',
-                                      'h5',
-                                      'h6',
-                                      'code'
-                                    ]
-                                  },
-                                  {
-                                    label: $q.lang.editor.fontSize,
-                                    icon: $q.iconSet.editor.fontSize,
-                                    fixedLabel: true,
-                                    fixedIcon: true,
-                                    list: 'no-icons',
-                                    options: [
-                                      'size-1',
-                                      'size-2',
-                                      'size-3',
-                                      'size-4',
-                                      'size-5',
-                                      'size-6',
-                                      'size-7'
-                                    ]
-                                  },
-                                  {
-                                    label: $q.lang.editor.defaultFont,
-                                    icon: $q.iconSet.editor.font,
-                                    fixedIcon: true,
-                                    list: 'no-icons',
-                                    options: [
-                                      'default_font',
-                                      'arial',
-                                      'arial_black',
-                                      'comic_sans',
-                                      'courier_new',
-                                      'impact',
-                                      'lucida_grande',
-                                      'times_new_roman',
-                                      'verdana'
-                                    ]
-                                  },
-                                  'removeFormat'
-                                ],
-
-                                ['undo', 'redo', 'viewsource']
-                              ]"
-                              :fonts="{
-                                arial: 'Arial',
-                                arial_black: 'Arial Black',
-                                comic_sans: 'Comic Sans MS',
-                                courier_new: 'Courier New',
-                                impact: 'Impact',
-                                lucida_grande: 'Lucida Grande',
-                                times_new_roman: 'Times New Roman',
-                                verdana: 'Verdana'
-                              }"
-                              min-height="5rem" />
-                  </div>
-                  <div class="col-md-2 col-sm-3 col-12 flex justify-center items-center">
-                    <q-btn round
-                           dense
-                           flat
-                           icon="send"
-                           label="ارسال پاسخ"
-                           :loading="entityLoading"
-                           @click="sendReply" />
-                  </div>
+                <div>
+                  <q-input v-model="replyText"
+                           bottom-slots
+                           autogrow
+                           :loading="entityLoading">
+                    <template v-slot:after>
+                      <q-btn round
+                             dense
+                             flat
+                             icon="send"
+                             :loading="entityLoading"
+                             @click="sendReply" />
+                    </template>
+                  </q-input>
                 </div>
               </template>
             </div>
