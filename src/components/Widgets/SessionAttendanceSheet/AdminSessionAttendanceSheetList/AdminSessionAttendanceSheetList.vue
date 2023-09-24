@@ -27,8 +27,19 @@
         </template>
         <template v-else-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :to="{name: 'Admin.Content.Show', params: {id: inputData.props.row.id}}">
-            مشاهده جزییات
+                 outline
+                 :to="{name: 'Admin.Classroom.Session.AttendanceSheet.Attendance', params: {classroom_id: $route.params.classroom_id, session_id: $route.params.session_id, session_attendance_sheet_id: inputData.props.row.id}}">
+            حضور و غیاب
+          </q-btn>
+          <q-btn color="primary"
+                 :outline="inputData.props.row.assignment_status !== null"
+                 :to="{name: 'Admin.Classroom.Session.AttendanceSheet.Assignment', params: {classroom_id: $route.params.classroom_id, session_id: $route.params.session_id, session_attendance_sheet_id: inputData.props.row.id}}">
+            <template v-if="inputData.props.row.assignment_status !== null">
+              ویرایش تصحیح
+            </template>
+            <template v-else>
+              بررسی تکلیف
+            </template>
           </q-btn>
         </template>
         <template v-else>
@@ -97,25 +108,18 @@ export default {
             field: row => row.owner.national_code
           },
           {
-            name: 'status',
+            name: 'assignment_status',
             required: true,
             label: 'وضعیت تکلیف',
             align: 'left',
-            field: row => (new SessionAttendanceSheets(row)).answer_status_info.label
+            field: row => (new SessionAttendanceSheets(row)).assignment_status_info.label
           },
           {
-            name: 'status',
+            name: 'attendance_status',
             required: true,
-            label: 'نتیجه تکلیف',
+            label: 'وضعیت حضور و غیاب',
             align: 'left',
-            field: row => (new SessionAttendanceSheets(row)).is_answer_verified_info.label
-          },
-          {
-            name: 'status',
-            required: true,
-            label: 'حضور و غیاب',
-            align: 'left',
-            field: row => (new SessionAttendanceSheets(row)).is_answer_verified_info.label
+            field: row => (new SessionAttendanceSheets(row)).attendance_status_info.label
           },
           {
             name: 'action',
