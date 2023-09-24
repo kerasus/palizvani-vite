@@ -9,6 +9,7 @@ export default class ClassroomAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/classrooms',
       byId: (id) => '/lma/classrooms/' + id,
+      moreDetails: (id) => '/lma/classrooms/' + id + '/more_details',
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
       drop: (id) => '/lma/classrooms/' + id + '/drop',
       members: '/lma/registrations',
@@ -60,6 +61,20 @@ export default class ClassroomAPI extends APIRepository {
       apiMethod: 'get',
       api: this.api,
       request: this.APIAdresses.byId(id),
+      resolveCallback: (response) => {
+        return new Classroom(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  moreDetails (id) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.moreDetails(id),
       resolveCallback: (response) => {
         return new Classroom(response.data)
       },

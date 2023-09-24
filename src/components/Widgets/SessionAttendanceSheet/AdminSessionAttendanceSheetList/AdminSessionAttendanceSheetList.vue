@@ -111,6 +111,13 @@ export default {
             field: row => (new SessionAttendanceSheets(row)).is_answer_verified_info.label
           },
           {
+            name: 'status',
+            required: true,
+            label: 'حضور و غیاب',
+            align: 'left',
+            field: row => (new SessionAttendanceSheets(row)).is_answer_verified_info.label
+          },
+          {
             name: 'action',
             required: true,
             label: 'جزییات',

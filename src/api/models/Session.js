@@ -7,6 +7,7 @@ export default class SessionAPI extends APIRepository {
     super('Session', appApi, '/lma/categories', Session)
     this.APIAdresses = {
       base: '/lma/sessions',
+      attendanceSheets: '/lma/sessions/attendance_sheets',
       byId: (id) => '/lma/sessions/' + id
     }
     this.CacheList = {

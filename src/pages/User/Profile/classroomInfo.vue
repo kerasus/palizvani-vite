@@ -159,6 +159,7 @@ import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
+import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -179,8 +180,8 @@ export default {
       sessionsInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId }
       ],
-      api: APIGateway.classroom.APIAdresses.byId(classroomId),
-      sessionsApi: APIGateway.session.APIAdresses.base,
+      api: APIGateway.classroom.APIAdresses.moreDetails(classroomId),
+      sessionsApi: APIGateway.session.APIAdresses.attendanceSheets,
       classroom: new Classroom(),
       table: {
         columns: [
@@ -264,6 +265,20 @@ export default {
             label: 'زمان پایان',
             align: 'left',
             field: row => row.ending_time ? ShamsiDate.getDateTime(row.ending_time) : '-'
+          },
+          {
+            name: 'assignment_status',
+            required: true,
+            label: 'وضعیت تکلیف',
+            align: 'left',
+            field: row => (new SessionAttendanceSheets(row.current_user_attendance_sheet)).assignment_status_info.label
+          },
+          {
+            name: 'attendance_status',
+            required: true,
+            label: 'وضعیت حضور و غیاب',
+            align: 'left',
+            field: row => (new SessionAttendanceSheets(row.current_user_attendance_sheet)).attendance_status_info.label
           },
           {
             name: 'action',

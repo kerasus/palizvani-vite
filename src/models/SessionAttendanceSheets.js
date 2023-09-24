@@ -7,6 +7,8 @@ class SessionAttendanceSheets extends Model {
       { key: 'is_answer_verified' },
       { key: 'answer_status' },
       { key: 'session' },
+      { key: 'assignment_status' },
+      { key: 'attendance_status' },
       { key: 'is_listen_part1' },
       { key: 'is_listen_part2' },
       { key: 'is_present_read_part1' },
@@ -45,6 +47,54 @@ class SessionAttendanceSheets extends Model {
           {
             label: 'بررسی شده',
             value: 'REVIEWED'
+          }
+        ]
+      },
+      assignment_status: {
+        infoKey: 'assignment_status_info',
+        enumListKey: 'assignment_statusEnums',
+        enums: [
+          {
+            label: 'ارسال نشده',
+            value: null
+          },
+          {
+            label: 'ارسال شده',
+            value: 'SENT'
+          },
+          {
+            label: 'انجام شده',
+            value: 'VERIFIED'
+          },
+          {
+            label: 'انجام نشده',
+            value: 'NOT_VERIFIED'
+          }
+        ]
+      },
+      attendance_status: {
+        infoKey: 'attendance_status_info',
+        enumListKey: 'attendance_statusEnums',
+        enums: [
+          {
+            label: 'ارسال نشده',
+            value: 'NOT_SENT'
+          },
+          {
+            label: 'غایب',
+            value: 'ABSENT'
+          },
+          {
+            label: 'قسمت اول',
+            value: 'PART1'
+          },
+          {
+            label: 'قسمت دوم',
+            value: 'PART2'
+          },
+          {
+            label: 'حاضر',
+            value: 'PRESENT'
           }
         ]
       }
