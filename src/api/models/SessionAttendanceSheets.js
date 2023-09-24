@@ -8,7 +8,7 @@ export default class SessionAttendanceSheetsAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/session_attendance_sheets',
       submitAssignment: '/lma/session_attendance_sheets/submit_assignment',
-      submitAssignmentStatus: '/lma/session_attendance_sheets/submit_attendance_status',
+      submitAttendanceStatus: '/lma/session_attendance_sheets/submit_attendance_status',
       byId: (id) => '/lma/project_attendance_sheets/' + id
     }
     this.CacheList = {

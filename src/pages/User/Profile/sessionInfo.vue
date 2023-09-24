@@ -14,7 +14,7 @@
       </q-btn>
     </div>
     <entity-show v-if="mounted"
-                 v-model:value="inputs"
+                 v-model:value="sessionInfoInputs"
                  title="جزییات جلسه"
                  :api="api"
                  :show-expand-button="false"
@@ -84,31 +84,64 @@
           </div>
         </div>
       </template>
+      <template #after-form-builder>
+        <q-inner-loading :showing="submitAttendanceStatusLoading || submitAssignmentLoading">
+          <q-spinner-ball color="primary"
+                          size="50px" />
+        </q-inner-loading>
+        <entity-create v-if="submitAttendanceStatusMounted"
+                       ref="entityCreateSubmitAssignment"
+                       v-model:value="submitAssignmentInputs"
+                       :api="submitAssignmentApi"
+                       :default-layout="false"
+                       :show-expand-button="false"
+                       :show-edit-button="false"
+                       :show-index-button="false"
+                       :show-reload-button="false" />
+        <q-separator class="q-my-lg" />
+        <entity-create v-if="mounted"
+                       ref="entityCreateSubmitAttendanceStatus"
+                       v-model:value="submitAttendanceStatusInputs"
+                       :api="submitAttendanceStatusApi"
+                       :default-layout="false"
+                       :show-expand-button="false"
+                       :show-edit-button="false"
+                       :show-index-button="false"
+                       :show-reload-button="false" />
+      </template>
     </entity-show>
   </div>
 </template>
 
 <script>
-import { EntityShow } from 'quasar-crud'
+import { shallowRef } from 'vue'
 import { Session } from 'src/models/Session.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { EntityShow, EntityCreate } from 'quasar-crud'
+import BtnControl from 'src/components/Control/btn.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'UserPanel.Profile.SessionInfo',
   components: {
     EntityShow,
+    EntityCreate,
     Breadcrumbs
   },
   data () {
+    const sessionId = parseInt(this.$route.params.id)
     return {
       classroom: new Classroom(),
       session: new Session(),
       mounted: false,
-      api: null,
-      inputs: [
+      submitAttendanceStatusMounted: false,
+      api: APIGateway.session.APIAdresses.byId(sessionId),
+      sessionInfoInputs: [
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12' },
         { type: 'separator', name: 'space', size: '1px', col: 'col-md-12' },
         { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری جلسه', col: 'col-md-12' },
@@ -119,15 +152,50 @@ export default {
         { type: 'hidden', name: 'beginning_time', responseKey: 'beginning_time', label: 'زمان شروع جلسه', col: 'col-md-1' },
         { type: 'hidden', name: 'ending_time', responseKey: 'ending_time', label: 'زمان پایان جلسه', col: 'col-md-1' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-1' }
-      ]
+      ],
+      submitAttendanceStatusLoading: false,
+      submitAttendanceStatusInputsReadPart: {
+        type: 'formBuilder',
+        name: 'is_read_part',
+        value: [
+          { type: 'separator', name: 'space', label: 'مطالعه', className: 'custom-separator', col: 'col-12' },
+          { type: 'checkbox', name: 'is_read_part1', responseKey: 'is_read_part1', value: false, label: 'نیمه اول را مطالعه کردم', col: 'col-md-12' },
+          { type: 'checkbox', name: 'is_read_part2', responseKey: 'is_read_part2', value: false, label: 'نیمه دوم را مطالعه کردم', col: 'col-md-12' }
+        ],
+        col: 'col-md-4 col-12'
+      },
+      submitAttendanceStatusInputsPresentListenPart: {
+        type: 'formBuilder',
+        name: 'is_present_listen_part',
+        value: [
+          { type: 'separator', name: 'space', label: 'حضور', className: 'custom-separator', col: 'col-12' },
+          { type: 'checkbox', name: 'is_present_listen_part1', responseKey: 'is_present_listen_part1', value: false, label: 'در نیمه اول حضور داشته‌ام', col: 'col-md-12' },
+          { type: 'checkbox', name: 'is_present_listen_part2', responseKey: 'is_present_listen_part2', value: false, label: 'در نیمه دوم حضور داشته‌ام', col: 'col-md-12' }
+        ],
+        col: 'col-md-4 col-12'
+      },
+      submitAttendanceStatusAction: { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت حضور و غیاب', placeholder: ' ', customClass: 'flex justify-end', atClick: this.submitAttendanceStatus, col: 'col-12' },
+      submitAttendanceStatusInputs: [
+        { type: 'hidden', name: 'session', responseKey: 'session', value: sessionId }
+      ],
+      submitAttendanceStatusApi: APIGateway.sessionAttendanceSheets.APIAdresses.submitAttendanceStatus,
+
+      submitAssignmentLoading: false,
+      submitAssignmentInputs: [
+        { type: 'InputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'پاسخ به تکلیف', col: 'col-md-12 col-12' },
+        { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'انتخاب فایل ضمیمه', col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ارسال تکلیف', customClass: 'flex justify-end', atClick: this.submitAssignment, col: 'col-md-9 col-12' },
+        { type: 'hidden', name: 'session', responseKey: 'session', value: sessionId }
+      ],
+      submitAssignmentApi: APIGateway.sessionAttendanceSheets.APIAdresses.submitAssignment
     }
   },
   computed: {
     title () {
-      return this.getInputValue('title')
+      return this.getSessionInfoInputValue('title')
     },
     endingTime () {
-      const data = this.getInputValue('ending_time')
+      const data = this.getSessionInfoInputValue('ending_time')
       if (!data) {
         return '-'
       }
@@ -135,7 +203,7 @@ export default {
       return ShamsiDate.getDateTime(data)
     },
     startingTime () {
-      const data = this.getInputValue('beginning_time')
+      const data = this.getSessionInfoInputValue('beginning_time')
       if (!data) {
         return '-'
       }
@@ -144,10 +212,55 @@ export default {
     }
   },
   mounted() {
-    this.api = APIGateway.session.APIAdresses.byId(this.$route.params.id)
     this.mounted = true
   },
   methods: {
+    updateAttendanceInputs (isDefinedSyllabus, classroomHoldingType) {
+      this.updateAttendancePresentInputs(classroomHoldingType)
+      this.updateAttendanceReadInputs(isDefinedSyllabus)
+      this.updateAttendanceActionBtn(isDefinedSyllabus, classroomHoldingType)
+    },
+    updateAttendanceReadInputs (isDefinedSyllabus) {
+      if (isDefinedSyllabus) {
+        this.submitAttendanceStatusInputs.unshift(this.submitAttendanceStatusInputsReadPart)
+      } else {
+        this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_read_part1', value: null })
+        this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_read_part2', value: null })
+      }
+    },
+    updateAttendancePresentInputs (classroomHoldingType) {
+      if (classroomHoldingType === 'OFFLINE') {
+        this.submitAttendanceStatusInputs.unshift(this.submitAttendanceStatusInputsPresentListenPart)
+      } else {
+        this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_present_listen_part1', value: null })
+        this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_present_listen_part2', value: null })
+      }
+    },
+    updateAttendanceActionBtn (isDefinedSyllabus, classroomHoldingType) {
+      if (isDefinedSyllabus || classroomHoldingType === 'OFFLINE') {
+        this.submitAttendanceStatusInputs.push(this.submitAttendanceStatusAction)
+      }
+    },
+    submitAttendanceStatus () {
+      this.submitAttendanceStatusLoading = true
+      this.$refs.entityCreateSubmitAttendanceStatus.createEntity(false)
+        .then(() => {
+          this.submitAttendanceStatusLoading = false
+        })
+        .catch(() => {
+          this.submitAttendanceStatusLoading = false
+        })
+    },
+    submitAssignment () {
+      this.submitAssignmentLoading = true
+      this.$refs.entityCreateSubmitAssignment.createEntity(false)
+        .then(() => {
+          this.submitAssignmentLoading = false
+        })
+        .catch(() => {
+          this.submitAssignmentLoading = false
+        })
+    },
     updateBreadcrumbs () {
       this.$store.commit('AppLayout/updateBreadcrumbs', {
         visible: true,
@@ -168,8 +281,13 @@ export default {
         ]
       })
     },
-    getInputValue (name) {
-      return this.inputs.find(input => input.name === name).value
+    getSessionInfoInputValue (name) {
+      const target = FormBuilderAssist.getInputsByName(this.sessionInfoInputs, name)
+      if (!target) {
+        return null
+      }
+
+      return target.value
     },
     beforeLoadInputData (data) {
       this.session = new Session(data)
@@ -183,6 +301,8 @@ export default {
           this.classroom = new Classroom(classroom)
           this.updateBreadcrumbs()
           this.classroom.loading = false
+          this.submitAttendanceStatusMounted = true
+          this.updateAttendanceInputs(true, 'ONLINE')
         })
         .catch(() => {
           this.classroom.loading = false

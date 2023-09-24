@@ -137,7 +137,7 @@ export default {
             required: true,
             label: 'شناسه',
             align: 'left',
-            field: row => row.id
+            field: row => row.classroom_info.id
           },
           {
             name: 'classroom_info.title',

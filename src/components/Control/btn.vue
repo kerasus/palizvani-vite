@@ -1,12 +1,14 @@
 <template>
-  <div v-if="placeholder && label"
-       class="outside-label" />
-  <q-btn :label="label"
-         :color="color"
-         :class="btnClass"
-         :disable="disable"
-         :loading="loading"
-         @click="onClick" />
+  <div :class="customClass">
+    <div v-if="placeholder && label"
+         class="outside-label" />
+    <q-btn :label="label"
+           :color="color"
+           :class="btnClass"
+           :disable="disable"
+           :loading="loading"
+           @click="onClick" />
+  </div>
 </template>
 
 <script>
@@ -40,6 +42,10 @@ export default {
     loading: {
       default: false,
       type: Boolean
+    },
+    customClass: {
+      default: '',
+      type: String
     },
     atClick: {
       type: Function,

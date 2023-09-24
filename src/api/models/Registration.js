@@ -8,6 +8,7 @@ export default class RegistrationAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/registrations',
       exportReport: '/lma/registrations/export_report',
+      classroomDetail: (registrationId) => '/lma/registrations/' + registrationId + '/classroom_detail',
       byId: (id) => '/lma/registrations/' + id
     }
     this.CacheList = {

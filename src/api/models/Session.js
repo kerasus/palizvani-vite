@@ -22,6 +22,7 @@ export default class SessionAPI extends APIRepository {
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
         category: null, // Number
+        classroom: null, // Number
         per_page: 10, // Number
         page: 1 // Number
       }, data),

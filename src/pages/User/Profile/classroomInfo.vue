@@ -43,11 +43,11 @@
                    class="q-pa-none">
         <entity-index v-if="mounted"
                       ref="entityIndex"
-                      v-model:value="inputs"
+                      v-model:value="sessionsInputs"
                       title="لیست جلسات"
-                      :api="api"
-                      :table="table"
-                      :table-keys="tableKeys"
+                      :api="sessionsApi"
+                      :table="sessionsTable"
+                      :table-keys="sessionsTableKeys"
                       :table-grid-size="$q.screen.lt.sm"
                       :show-expand-button="false"
                       :show-reload-button="false"
@@ -157,6 +157,7 @@ import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
 
 export default {
@@ -175,7 +176,11 @@ export default {
       mounted: false,
       tab: 'classroomInfo',
       inputs: [],
+      sessionsInputs: [
+        { type: 'hidden', name: 'classroom', value: classroomId }
+      ],
       api: APIGateway.classroom.APIAdresses.byId(classroomId),
+      sessionsApi: APIGateway.session.APIAdresses.base,
       classroom: new Classroom(),
       table: {
         columns: [
@@ -223,20 +228,7 @@ export default {
           }
         ]
       },
-      tableKeys: {
-        data: 'sessions_info',
-        total: 'count',
-        currentPage: 'current',
-        perPage: 'per_page',
-        pageKey: 'page'
-      },
-
-      projectListInputs: [
-        { type: 'hidden', name: 'classroom', value: classroomId },
-        { type: 'hidden', name: 'owner', value: userId }
-      ],
-      projectListApi: APIGateway.project.APIAdresses.base,
-      projectListTable: {
+      sessionsTable: {
         columns: [
           {
             name: 'number',
@@ -255,30 +247,96 @@ export default {
           {
             name: 'title',
             required: true,
-            label: 'عنوان پروژه',
+            label: 'عنوان',
             align: 'left',
             field: row => row.title
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'زمان شروع',
+            align: 'left',
+            field: row => row.beginning_time ? ShamsiDate.getDateTime(row.beginning_time) : '-'
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'زمان پایان',
+            align: 'left',
+            field: row => row.ending_time ? ShamsiDate.getDateTime(row.ending_time) : '-'
+          },
+          {
+            name: 'action',
+            required: true,
+            label: 'جزییات',
+            align: 'left',
+            field: ''
+          }
+        ]
+      },
+      sessionsTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+      tableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      projectListInputs: [
+        { type: 'hidden', name: 'project__classroom', value: classroomId },
+        { type: 'hidden', name: 'owner', value: userId }
+      ],
+      projectListApi: APIGateway.projectAttendanceSheets.APIAdresses.base,
+      projectListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.project_info.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'عنوان پروژه',
+            align: 'left',
+            field: row => row.project_info.title
           },
           {
             name: 'creation_time',
             required: true,
             label: 'زمان شروع',
             align: 'left',
-            field: row => row.beginning_doing_period ? ShamsiDate.getDateTime(row.beginning_doing_period) : '-'
+            field: row => row.project_info?.beginning_doing_period ? ShamsiDate.getDateTime(row.project_info.beginning_doing_period) : '-'
           },
           {
             name: 'creation_time',
             required: true,
             label: 'زمان پایان',
             align: 'left',
-            field: row => row.ending_doing_period ? ShamsiDate.getDateTime(row.ending_doing_period) : '-'
+            field: row => row.project_info?.ending_doing_period ? ShamsiDate.getDateTime(row.project_info.ending_doing_period) : '-'
           },
           {
             name: 'status',
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: '-'
+            field: row => (new ProjectAttendanceSheets(row)).is_answer_verified_info.label
           },
           {
             name: 'actions',

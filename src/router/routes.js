@@ -252,7 +252,7 @@ const routes = [
                   middlewares: [HasOverdueInstalment]
                 }
               },
-              { name: 'UserPanel.Profile.Classroom.Project.Show', path: 'classroom/:classroom_id/project/:project_id', component: () => import('src/pages/User/Profile/projectInfo.vue'), breadcrumbs: { title: 'مشاهده اطلاعات دوره آموزشی' } },
+              { name: 'UserPanel.Profile.Classroom.Project.Show', path: 'classroom/:classroom_id/project/:project_id', component: () => import('src/pages/User/Profile/projectInfo.vue') },
               {
                 name: 'UserPanel.Profile.SessionInfo',
                 path: 'session/:id',
