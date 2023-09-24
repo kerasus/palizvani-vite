@@ -36,10 +36,14 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityCreate } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import FormBuilderInputEditor from 'src/components/FormBuilderCustumComponents/FormBuilderInputEditor.vue'
+
+const FormBuilderInputEditorComp = shallowRef(FormBuilderInputEditor)
 
 export default {
   name: 'Admin.Classroom.Create',
@@ -68,7 +72,7 @@ export default {
         { type: 'select', name: 'holding_type', responseKey: 'holding_type', options: Enums.classroomHoldingTypes, value: null, placeholder: ' ', label: 'نوع برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'price', responseKey: 'price', placeholder: ' ', label: 'هزینه برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'live_streaming_url', responseKey: 'live_streaming_url', placeholder: ' ', label: 'لینک مکان مجازی دوره', col: 'col-12' },
-        { type: 'inputEditor', name: 'classroom_address', responseKey: 'classroom_address', placeholder: ' ', label: 'آدرس مکان فیزیکی دوره', col: 'col-12' },
+        { type: FormBuilderInputEditorComp, name: 'classroom_address', responseKey: 'classroom_address', placeholder: ' ', label: 'آدرس مکان فیزیکی دوره', col: 'col-12' },
         {
           type: 'select',
           name: 'holding_year',
@@ -142,11 +146,11 @@ export default {
         { type: 'dateTime', name: 'publish_time', responseKey: 'publish_time', placeholder: ' ', label: 'تاریخ انتشار', col: 'col-md-6 col-12' },
 
         { type: 'separator', name: 'space', label: 'قوانین', className: 'custom-separator', col: 'col-12' },
-        { type: 'inputEditor', name: 'rules', responseKey: 'rules', label: 'قوانین دوره آموزشی', col: 'col-12' },
+        { type: FormBuilderInputEditorComp, name: 'rules', responseKey: 'rules', label: 'قوانین دوره آموزشی', col: 'col-12' },
 
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
-        { type: 'inputEditor', name: 'specification', responseKey: 'specification', label: 'مشخصات', col: 'col-12' },
-        { type: 'inputEditor', name: 'bulletin', responseKey: 'bulletin', label: 'تابلو اعلانات', col: 'col-12' },
+        { type: FormBuilderInputEditorComp, name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
+        { type: FormBuilderInputEditorComp, name: 'specification', responseKey: 'specification', label: 'مشخصات', col: 'col-12' },
+        { type: FormBuilderInputEditorComp, name: 'bulletin', responseKey: 'bulletin', label: 'تابلو اعلانات', col: 'col-12' },
 
         // -----------------------------------------------------------------------------------------------------------
 
