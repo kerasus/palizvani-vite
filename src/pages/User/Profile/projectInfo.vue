@@ -138,7 +138,7 @@ export default {
     getClassroomInfo () {
       const classroomId = this.$route.params.classroom_id
       this.classroom.loading = true
-      APIGateway.classroom.get(classroomId)
+      APIGateway.classroom.moreDetails(classroomId)
         .then((classroom) => {
           this.classroom = new Classroom(classroom)
           this.classroom.loading = false
