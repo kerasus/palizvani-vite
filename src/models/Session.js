@@ -20,6 +20,7 @@ class Session extends Model {
       { key: 'questions_info' },
       { key: 'creation_time' },
       { key: 'last_modification_time' },
+      { key: 'is_defined_syllabus' },
       { key: 'current_user_attendance_sheet' }
     ])
   }
