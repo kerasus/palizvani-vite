@@ -13,7 +13,7 @@
     </div>
     <entity-index v-if="mounted"
                   v-model:value="inputs"
-                  title="لیست محتواها"
+                  title="لیست حضور و غیاب"
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
@@ -28,6 +28,7 @@
         <template v-else-if="inputData.col.name === 'action'">
           <q-btn color="primary"
                  outline
+                 class="q-mr-md"
                  :to="{name: 'Admin.Classroom.Session.AttendanceSheet.Attendance', params: {classroom_id: $route.params.classroom_id, session_id: $route.params.session_id, session_attendance_sheet_id: inputData.props.row.id}}">
             حضور و غیاب
           </q-btn>
@@ -124,7 +125,7 @@ export default {
           {
             name: 'action',
             required: true,
-            label: 'جزییات',
+            label: 'عملیات',
             align: 'left',
             field: row => ''
           }

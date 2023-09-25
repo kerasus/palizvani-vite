@@ -8,7 +8,8 @@ export default class SessionAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/sessions',
       attendanceSheets: '/lma/sessions/attendance_sheets',
-      byId: (id) => '/lma/sessions/' + id
+      byId: (id) => '/lma/sessions/' + id,
+      sessionAndCurrentUserAttendanceSheet: (id) => '/lma/sessions/' + id + '/session_and_current_user_attendance_sheet'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -60,6 +61,20 @@ export default class SessionAPI extends APIRepository {
         classroom: null, // Number
         unit: null // Number
       }, data),
+      resolveCallback: (response) => {
+        return new Session(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  get (id) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.byId(id),
       resolveCallback: (response) => {
         return new Session(response.data)
       },

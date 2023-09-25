@@ -26,6 +26,15 @@
         <div class="session-title-and-time-row">
           <div class="item">
             <div class="icon">
+              <q-icon name="person" />
+            </div>
+            <div class="title">
+              {{ sessionAttendanceSheets.owner_info.firstname }}
+              {{ sessionAttendanceSheets.owner_info.lastname }}
+            </div>
+          </div>
+          <div class="item">
+            <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg"
                    width="18.165"
                    height="19.91"
@@ -85,73 +94,83 @@
         </div>
       </template>
       <template #after-form-builder>
-        <q-inner-loading :showing="submitAttendanceStatusLoading || submitAssignmentLoading">
-          <q-spinner-ball color="primary"
-                          size="50px" />
-        </q-inner-loading>
-        <q-separator class="q-my-lg" />
-        <entity-create v-if="submitAttendanceStatusMounted && session.current_user_attendance_sheet?.assignment_status === null"
-                       ref="entityCreateSubmitAssignment"
-                       v-model:value="submitAssignmentInputs"
-                       :api="submitAssignmentApi"
-                       :default-layout="false"
-                       :show-expand-button="false"
-                       :show-edit-button="false"
-                       :show-index-button="false"
-                       :show-reload-button="false" />
-        <entity-show v-if="submitAttendanceStatusMounted && session.current_user_attendance_sheet?.assignment_status !== null"
+        <div>
+          <div v-for="(question, questionIndex) in session.questions_info"
+               :key="questionIndex"
+               class="row">
+            <div class="col-12">
+              <div>
+                سوال:
+              </div>
+              <div v-html="question.text" />
+              <div v-if="question.attachment">
+                <q-btn color="primary"
+                       :href="question.attachment"
+                       target="_blank">ضمیمه سوال</q-btn>
+              </div>
+              <q-separator />
+              <div>
+                پاسخ صحیح:
+              </div>
+              <div v-html="question.correct_answer" />
+            </div>
+          </div>
+        </div>
+        <entity-show v-if="mounted && sessionAttendanceSheets.assignment_status !== null"
+                     :key="entityShowSessionAssignment"
                      v-model:value="sessionAssignmentInfoInputs"
                      title="پاسخ کاربر"
-                     :loaded-data="session.current_user_attendance_sheet"
+                     :loaded-data="sessionAttendanceSheets"
                      :default-layout="false"
                      :show-expand-button="false"
                      :show-edit-button="false"
                      :show-index-button="false"
                      :show-reload-button="false" />
-        <q-separator class="q-my-lg" />
-        <entity-create v-if="mounted"
-                       ref="entityCreateSubmitAttendanceStatus"
-                       v-model:value="submitAttendanceStatusInputs"
-                       :api="submitAttendanceStatusApi"
-                       :default-layout="false"
-                       :show-expand-button="false"
-                       :show-edit-button="false"
-                       :show-index-button="false"
-                       :show-reload-button="false" />
+
+        <div class="flex justify-end">
+          <q-btn color="red"
+                 outline
+                 :loading="verifyLoading"
+                 class="q-mr-md"
+                 @click="notVerify">
+            تایید نشده
+          </q-btn>
+          <q-btn color="primary"
+                 :loading="verifyLoading"
+                 @click="verify">
+            تایید شده
+          </q-btn>
+        </div>
       </template>
     </entity-show>
   </div>
 </template>
 
 <script>
-import { shallowRef } from 'vue'
 import { Session } from 'src/models/Session.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
-import { EntityShow, EntityCreate } from 'quasar-crud'
-import BtnControl from 'src/components/Control/btn.vue'
+import { EntityShow } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
-
-const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'UserPanel.Profile.SessionInfo',
   components: {
     EntityShow,
-    EntityCreate,
     Breadcrumbs
   },
   data () {
-    const sessionId = parseInt(this.$route.params.id)
+    const sessionId = parseInt(this.$route.params.session_id)
     return {
       classroom: new Classroom(),
       session: new Session(),
+      sessionAttendanceSheets: new SessionAttendanceSheets(),
+      entityShowSessionAssignment: Date.now(),
       mounted: false,
-      submitAttendanceStatusMounted: false,
-      api: APIGateway.session.APIAdresses.sessionAndCurrentUserAttendanceSheet(sessionId),
+      api: APIGateway.session.APIAdresses.byId(sessionId),
       sessionInfoInputs: [
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12' },
         { type: 'separator', name: 'space', size: '1px', col: 'col-md-12' },
@@ -164,41 +183,7 @@ export default {
         { type: 'hidden', name: 'ending_time', responseKey: 'ending_time', label: 'زمان پایان جلسه', col: 'col-md-1' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-1' }
       ],
-      submitAttendanceStatusLoading: false,
-      submitAttendanceStatusInputsReadPart: {
-        type: 'formBuilder',
-        name: 'is_read_part',
-        value: [
-          { type: 'separator', name: 'space', label: 'مطالعه', className: 'custom-separator', col: 'col-12' },
-          { type: 'checkbox', name: 'is_read_part1', responseKey: 'is_read_part1', value: false, label: 'نیمه اول را مطالعه کردم', col: 'col-md-12' },
-          { type: 'checkbox', name: 'is_read_part2', responseKey: 'is_read_part2', value: false, label: 'نیمه دوم را مطالعه کردم', col: 'col-md-12' }
-        ],
-        col: 'col-md-4 col-12'
-      },
-      submitAttendanceStatusInputsPresentListenPart: {
-        type: 'formBuilder',
-        name: 'is_present_listen_part',
-        value: [
-          { type: 'separator', name: 'space', label: 'حضور', className: 'custom-separator', col: 'col-12' },
-          { type: 'checkbox', name: 'is_present_listen_part1', responseKey: 'is_present_listen_part1', value: false, label: 'در نیمه اول حضور داشته‌ام', col: 'col-md-12' },
-          { type: 'checkbox', name: 'is_present_listen_part2', responseKey: 'is_present_listen_part2', value: false, label: 'در نیمه دوم حضور داشته‌ام', col: 'col-md-12' }
-        ],
-        col: 'col-md-4 col-12'
-      },
-      submitAttendanceStatusAction: { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت حضور و غیاب', placeholder: ' ', customClass: 'flex justify-end', atClick: this.submitAttendanceStatus, col: 'col-12' },
-      submitAttendanceStatusInputs: [
-        { type: 'hidden', name: 'session', responseKey: 'session', value: sessionId }
-      ],
-      submitAttendanceStatusApi: APIGateway.sessionAttendanceSheets.APIAdresses.submitAttendanceStatus,
-
-      submitAssignmentLoading: false,
-      submitAssignmentInputs: [
-        { type: 'InputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'پاسخ به تکلیف', placeholder: ' ', col: 'col-md-12 col-12' },
-        { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'انتخاب فایل ضمیمه', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ارسال تکلیف', customClass: 'flex justify-end', atClick: this.submitAssignment, col: 'col-md-9 col-12' },
-        { type: 'hidden', name: 'session', responseKey: 'session', value: sessionId }
-      ],
-      submitAssignmentApi: APIGateway.sessionAttendanceSheets.APIAdresses.submitAssignment,
+      verifyLoading: false,
 
       sessionAssignmentInfoInputs: [
         { type: 'InputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'پاسخ کاربر', placeholder: ' ', col: 'col-md-12 col-12' },
@@ -230,71 +215,34 @@ export default {
     }
   },
   mounted() {
-    this.mounted = true
+    this.getSessionAttendanceSheetsInfo(this.$route.params.session_attendance_sheet_id)
+      .then(() => {
+        this.mounted = true
+      })
+      .catch(() => {
+      })
   },
   methods: {
-    updateAttendanceInputs (isDefinedSyllabus, classroomHoldingType) {
-      this.updateAttendancePresentInputs(classroomHoldingType)
-      this.updateAttendanceReadInputs(isDefinedSyllabus)
-      this.updateAttendanceActionBtn(isDefinedSyllabus, classroomHoldingType)
-    },
-    updateAttendanceReadInputs (isDefinedSyllabus) {
-      if (isDefinedSyllabus) {
-        this.submitAttendanceStatusInputs.unshift(this.submitAttendanceStatusInputsReadPart)
-      } else {
-        this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_read_part1', value: null })
-        this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_read_part2', value: null })
-      }
-    },
-    updateAttendancePresentInputs (classroomHoldingType) {
-      if (classroomHoldingType === 'OFFLINE') {
-        this.submitAttendanceStatusInputs.unshift(this.submitAttendanceStatusInputsPresentListenPart)
-      } else {
-        this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_present_listen_part1', value: null })
-        this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_present_listen_part2', value: null })
-      }
-    },
-    updateAttendanceActionBtn (isDefinedSyllabus, classroomHoldingType) {
-      if (isDefinedSyllabus || classroomHoldingType === 'OFFLINE') {
-        this.submitAttendanceStatusInputs.push(this.submitAttendanceStatusAction)
-      }
-    },
-    submitAttendanceStatus () {
-      this.submitAttendanceStatusLoading = true
-      this.$refs.entityCreateSubmitAttendanceStatus.createEntity(false)
-        .then(() => {
-          this.submitAttendanceStatusLoading = false
-        })
-        .catch(() => {
-          this.submitAttendanceStatusLoading = false
-        })
-    },
-    submitAssignment () {
-      this.submitAssignmentLoading = true
-      this.$refs.entityCreateSubmitAssignment.createEntity(false)
-        .then(() => {
-          this.submitAssignmentLoading = false
-        })
-        .catch(() => {
-          this.submitAssignmentLoading = false
-        })
-    },
     updateBreadcrumbs () {
       this.$store.commit('AppLayout/updateBreadcrumbs', {
         visible: true,
         loading: false,
         path: [
           {
-            label: 'دوره های من',
-            to: { name: 'UserPanel.Profile.AllClassrooms' }
+            label: 'دوره های آموزشی',
+            to: { name: 'Admin.Classroom.Index' }
           },
           {
             label: this.classroom.title,
-            to: { name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } }
+            to: { name: 'Admin.Classroom.Show', params: { id: this.$route.params.classroom_id } }
           },
           {
-            label: 'جزییات جلسه',
-            to: { name: 'UserPanel.Profile.SessionInfo', params: { id: this.$route.params.id } }
+            label: 'لیست حضور و غیاب',
+            to: { name: 'Admin.Classroom.Session.AttendanceSheetList', params: { classroom_id: this.$route.params.classroom_id, session_id: this.$route.params.session_id } }
+          },
+          {
+            label: 'تکلیف',
+            to: { name: 'Admin.Classroom.Session.AttendanceSheet.Attendance', params: { classroom_id: this.$route.params.classroom_id, session_id: this.$route.params.session_id, session_attendance_sheet_id: this.$route.params.session_attendance_sheet_id } }
           }
         ]
       })
@@ -310,7 +258,6 @@ export default {
     beforeLoadInputData (data) {
       this.session = new Session(data)
       this.classroom.loading = true
-      this.submitAttendanceStatusMounted = true
       this.getClassInfo(this.session.classroom)
     },
     getClassInfo (classroomId) {
@@ -320,10 +267,58 @@ export default {
           this.classroom = new Classroom(classroom)
           this.updateBreadcrumbs()
           this.classroom.loading = false
-          this.updateAttendanceInputs(this.session.is_defined_syllabus, this.classroom.holding_type)
         })
         .catch(() => {
           this.classroom.loading = false
+        })
+    },
+    getSessionAttendanceSheetsInfo (sessionAttendanceSheetsId) {
+      return new Promise((resolve, reject) => {
+        this.sessionAttendanceSheets.loading = true
+        APIGateway.sessionAttendanceSheets.get(sessionAttendanceSheetsId)
+          .then(sessionAttendanceSheets => {
+            this.sessionAttendanceSheets = new SessionAttendanceSheets(sessionAttendanceSheets)
+            this.sessionAttendanceSheets.loading = false
+            resolve(this.sessionAttendanceSheets)
+          })
+          .catch(() => {
+            this.sessionAttendanceSheets.loading = false
+            reject()
+          })
+      })
+    },
+    verify () {
+      this.verifyLoading = true
+      APIGateway.sessionAttendanceSheets.verify(this.sessionAttendanceSheets.id)
+        .then(() => {
+          this.getSessionAttendanceSheetsInfo(this.$route.params.session_attendance_sheet_id)
+            .then(() => {
+              this.verifyLoading = false
+              this.entityShowSessionAssignment = Date.now()
+            })
+            .catch(() => {
+              this.verifyLoading = false
+            })
+        })
+        .catch(() => {
+          this.verifyLoading = false
+        })
+    },
+    notVerify () {
+      this.verifyLoading = true
+      APIGateway.sessionAttendanceSheets.notVerify(this.sessionAttendanceSheets.id)
+        .then(() => {
+          this.getSessionAttendanceSheetsInfo(this.$route.params.session_attendance_sheet_id)
+            .then(() => {
+              this.verifyLoading = false
+              this.entityShowSessionAssignment = Date.now()
+            })
+            .catch(() => {
+              this.verifyLoading = false
+            })
+        })
+        .catch(() => {
+          this.verifyLoading = false
         })
     }
   }

@@ -6,13 +6,23 @@ class SessionAttendanceSheets extends Model {
       { key: 'id' },
       { key: 'is_answer_verified' },
       { key: 'answer_status' },
+      { key: 'answer_text' },
+      { key: 'answer_attachment' },
+      { key: 'answer_info' },
       { key: 'session' },
       { key: 'assignment_status' },
       { key: 'attendance_status' },
       { key: 'is_listen_part1' },
       { key: 'is_listen_part2' },
       { key: 'is_present_read_part1' },
-      { key: 'is_present_read_part2' }
+      { key: 'is_present_read_part2' },
+      { key: 'owner' },
+      { key: 'owner_info' },
+      { key: 'creator' },
+      { key: 'creator_info' },
+      { key: 'session' },
+      { key: 'session_info' },
+      { key: 'creation_time' }
     ], {
       status: {
         infoKey: 'is_answer_verified_info',

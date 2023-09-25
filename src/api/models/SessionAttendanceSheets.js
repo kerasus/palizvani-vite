@@ -9,7 +9,9 @@ export default class SessionAttendanceSheetsAPI extends APIRepository {
       base: '/lma/session_attendance_sheets',
       submitAssignment: '/lma/session_attendance_sheets/submit_assignment',
       submitAttendanceStatus: '/lma/session_attendance_sheets/submit_attendance_status',
-      byId: (id) => '/lma/project_attendance_sheets/' + id
+      verify: (id) => '/lma/session_attendance_sheets/' + id + '/verify',
+      notVerify: (id) => '/lma/session_attendance_sheets/' + id + '/not_verify',
+      byId: (id) => '/lma/session_attendance_sheets/' + id
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -43,6 +45,48 @@ export default class SessionAttendanceSheetsAPI extends APIRepository {
           //   "previous": null,
           // }
         }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  get (id) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.byId(id),
+      resolveCallback: (response) => {
+        return new SessionAttendanceSheets(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  verify (sessionAttendanceSheetsId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.verify(sessionAttendanceSheetsId),
+      resolveCallback: (response) => {
+        return new SessionAttendanceSheets(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  notVerify (sessionAttendanceSheetsId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.notVerify(sessionAttendanceSheetsId),
+      resolveCallback: (response) => {
+        return new SessionAttendanceSheets(response.data)
       },
       rejectCallback: (error) => {
         return error

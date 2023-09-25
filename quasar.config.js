@@ -48,8 +48,8 @@ module.exports = configure(function (ctx) {
       'registerQPageBuilder',
       'routesLayoutConfigs',
       'GetRouteSettingFromServer',
-      'enums',
-      'gtm'
+      'enums'
+      // 'gtm'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css

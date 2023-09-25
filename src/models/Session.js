@@ -16,10 +16,11 @@ class Session extends Model {
       { key: 'description' },
       { key: 'beginning_time' },
       { key: 'ending_time' },
-      { key: 'question' },
-      { key: 'question_info' },
+      { key: 'questions' },
+      { key: 'questions_info' },
       { key: 'creation_time' },
-      { key: 'last_modification_time' }
+      { key: 'last_modification_time' },
+      { key: 'current_user_attendance_sheet' }
     ])
   }
 }
