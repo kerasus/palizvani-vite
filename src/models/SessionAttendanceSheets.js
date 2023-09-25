@@ -11,7 +11,10 @@ class SessionAttendanceSheets extends Model {
       { key: 'answer_info' },
       { key: 'session' },
       { key: 'assignment_status' },
-      { key: 'attendance_status' },
+      {
+        key: 'attendance_status',
+        default: 'NOT_SENT'
+      },
       { key: 'is_listen_part1' },
       { key: 'is_listen_part2' },
       { key: 'is_present_read_part1' },

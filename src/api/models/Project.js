@@ -7,6 +7,7 @@ export default class ProjectAPI extends APIRepository {
     super('project', appApi, '/lma/projects', Project)
     this.APIAdresses = {
       base: '/lma/projects',
+      attendanceSheetsList: '/lma/projects/attendance_sheets',
       byId: (id) => '/lma/projects/' + id,
       attendanceSheets: (id) => '/lma/projects/' + id + '/attendance_sheets'
     }
@@ -16,11 +17,44 @@ export default class ProjectAPI extends APIRepository {
     }
   }
 
-  index(data) {
+  index (data) {
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
       request: this.APIAdresses.base,
+      data: this.getNormalizedSendData({
+        category: null, // Number
+        per_page: 10, // Number
+        page: 1 // Number
+      }, data),
+      resolveCallback: (response) => {
+        const paginate = response.data
+        const results = response.data.results
+        delete paginate.results
+        return {
+          list: new ProjectList(results),
+          paginate
+          // {
+          //   "count": 1,
+          //   "num_pages": 1,
+          //   "per_page": 10,
+          //   "current": 1,
+          //   "next": null,
+          //   "previous": null,
+          // }
+        }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  attendanceSheetsList (data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.attendanceSheetsList,
       data: this.getNormalizedSendData({
         category: null, // Number
         per_page: 10, // Number

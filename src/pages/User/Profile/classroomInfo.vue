@@ -180,7 +180,7 @@ export default {
       sessionsInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId }
       ],
-      api: APIGateway.classroom.APIAdresses.get(classroomId),
+      api: APIGateway.classroom.get(classroomId),
       sessionsApi: APIGateway.session.APIAdresses.attendanceSheets,
       classroom: new Classroom(),
       table: {
@@ -271,14 +271,14 @@ export default {
             required: true,
             label: 'وضعیت تکلیف',
             align: 'left',
-            field: row => (new SessionAttendanceSheets(row.current_user_attendance_sheet)).assignment_status_info.label
+            field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).assignment_status_info.label
           },
           {
             name: 'attendance_status',
             required: true,
             label: 'وضعیت حضور و غیاب',
             align: 'left',
-            field: row => (new SessionAttendanceSheets(row.current_user_attendance_sheet)).attendance_status_info.label
+            field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).attendance_status_info.label
           },
           {
             name: 'action',
@@ -386,6 +386,13 @@ export default {
     this.mounted = true
   },
   methods: {
+    getCurrentUserAttendanceSheet (session) {
+      if (!session?.session_attendance_sheets || session.session_attendance_sheets.length === 0) {
+        return null
+      }
+
+      return session.session_attendance_sheets[0]
+    },
     goToLiveStreamUrl () {
       window.open(this.classroom.live_streaming_url, '_blank')
     },
