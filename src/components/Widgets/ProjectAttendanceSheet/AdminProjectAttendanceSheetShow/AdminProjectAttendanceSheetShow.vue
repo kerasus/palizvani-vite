@@ -112,7 +112,6 @@ export default {
   },
   mounted () {
     this.mounted = true
-    console.log('gg', (new ProjectAttendanceSheets()))
   },
   methods: {
     afterLoadInputData (data) {
