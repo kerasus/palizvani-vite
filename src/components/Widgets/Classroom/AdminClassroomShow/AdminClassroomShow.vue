@@ -1,4 +1,9 @@
 <template>
+  <q-skeleton v-if="classroom.loading"
+              type="text"
+              width="200px" />
+  <breadcrumbs v-else
+               style="margin-top: 29px; margin-bottom: 19px;" />
   <div class="flex justify-end">
     <q-btn flat
            color="grey"
@@ -61,7 +66,7 @@
         <activity-sheet-list :classroom-id="$route.params.id" />
       </q-tab-panel>
       <q-tab-panel name="live_streaming_url">
-        <live-streaming v-model:classroom="classroom" />
+        <live-streaming :classroom="classroom" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
@@ -75,6 +80,7 @@ import MembersList from './components/MembersList.vue'
 import ClassroomInfo from './components/ClassroomInfo.vue'
 import LiveStreaming from './components/LiveStreaming.vue'
 import ActivitySheetList from './components/ActivitySheetList.vue'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'Admin.Classroom.Show',
@@ -82,6 +88,7 @@ export default {
     SessionList,
     ProjectList,
     MembersList,
+    Breadcrumbs,
     ClassroomInfo,
     LiveStreaming,
     ActivitySheetList
@@ -90,6 +97,38 @@ export default {
     return {
       tab: 'classroomInfo',
       classroom: new Classroom()
+    }
+  },
+  computed: {
+    classroomId () {
+      return this.classroom.id
+    }
+  },
+  watch: {
+    classroomId (newValue) {
+      if (!newValue) {
+        return
+      }
+
+      this.updateBreadcrumbs()
+    }
+  },
+  methods: {
+    updateBreadcrumbs () {
+      this.$store.commit('AppLayout/updateBreadcrumbs', {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'دوره های آموزشی',
+            to: { name: 'Admin.Classroom.Index' }
+          },
+          {
+            label: this.classroom.title,
+            to: { name: 'Admin.Classroom.Show', params: { id: this.$route.params.id } }
+          }
+        ]
+      })
     }
   }
 }

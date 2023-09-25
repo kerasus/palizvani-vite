@@ -108,7 +108,7 @@ export default {
             required: true,
             label: 'نوع',
             align: 'left',
-            field: row => (new Project(row)).typeEnums
+            field: row => (new Project(row)).type_info.label
           },
           {
             name: 'creation_time',

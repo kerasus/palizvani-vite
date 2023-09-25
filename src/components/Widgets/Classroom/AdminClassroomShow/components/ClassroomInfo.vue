@@ -163,7 +163,7 @@ export default {
       get () {
         return this.classroom
       },
-      det (newValue) {
+      set (newValue) {
         this.$emit('update:classroom', newValue)
       }
     }
