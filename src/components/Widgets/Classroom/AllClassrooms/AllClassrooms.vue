@@ -114,10 +114,10 @@ export default {
     professors: [],
     professorsLoading: false,
     filter: {
-      category: null,
+      unit__category: null,
       unit: null,
       classroomStatus: null,
-      classroomHoldingTypes: null,
+      holding_type: null,
       professor: null
     },
     filterDialog: false,
@@ -127,17 +127,17 @@ export default {
     classroomStatuses () {
       return (new Classroom()).statusEnums
     },
-    classroomHoldingTypes () {
+    classroomHoldingTypeOptions () {
       return (new Classroom()).holding_typeEnums
     },
     displayTitleFilters () {
       const filters = []
-      if (this.filter.category) {
-        const targetCategory = this.categories.list.find(item => item.id === this.filter.category)
+      if (this.filter.unit__category) {
+        const targetCategory = this.categories.list.find(item => item.id === this.filter.unit__category)
         if (targetCategory) {
           filters.push({
-            filterKey: 'category',
-            value: this.filter.category,
+            filterKey: 'unit__category',
+            value: this.filter.unit__category,
             label: targetCategory.title
           })
         }
@@ -159,11 +159,11 @@ export default {
           label: this.classroomStatuses.find(item => item.value === this.filter.classroomStatus).label
         })
       }
-      if (this.filter.classroomHoldingTypes) {
+      if (this.filter.holding_type) {
         filters.push({
-          filterKey: 'classroomHoldingTypes',
-          value: this.filter.classroomHoldingTypes,
-          label: this.classroomHoldingTypes.find(item => item.value === this.filter.classroomHoldingTypes).label
+          filterKey: 'holding_type',
+          value: this.filter.holding_type,
+          label: this.classroomHoldingTypeOptions.find(item => item.value === this.filter.holding_type).label
         })
       }
       if (this.filter.professor) {
@@ -253,7 +253,7 @@ export default {
     },
     onChangeCategory () {
       this.filter.unit = null
-      this.getUnits(this.filter.category)
+      this.getUnits(this.filter.unit__category)
     },
     openFilterDialog () {
       this.filterDialog = true

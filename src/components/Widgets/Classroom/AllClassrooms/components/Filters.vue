@@ -29,7 +29,7 @@
       <div class="row q-col-gutter-md">
         <div class="col-md-3">
           <div>گروه آموزشی</div>
-          <select-control v-model:value="localFilters.category"
+          <select-control v-model:value="localFilters.unit__category"
                           :options="categories.list"
                           :disable="categories.loading"
                           :loading="categories.loading"
@@ -55,8 +55,8 @@
         </div>
         <div class="col-md-3">
           <div>نوع برگزاری</div>
-          <select-control v-model:value="localFilters.classroomHoldingTypes"
-                          :options="classroomHoldingTypes"
+          <select-control v-model:value="localFilters.holding_type"
+                          :options="classroomHoldingTypeOptions"
                           optionValue="value"
                           optionLabel="label" />
         </div>
@@ -89,6 +89,7 @@ import { UnitList } from 'src/models/Unit.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
 import { UnitCategoryList } from 'src/models/UnitCategory.js'
 import SelectControl from 'src/components/Control/Select.vue'
+import { Classroom } from 'src/models/Classroom'
 
 export default {
   name: 'Filters',
@@ -99,10 +100,10 @@ export default {
       type: Object,
       default () {
         return {
-          category: null,
+          unit__category: null,
           unit: null,
           classroomStatus: null,
-          classroomHoldingTypes: null,
+          holding_type: null,
           professor: null
         }
       }
@@ -136,10 +137,10 @@ export default {
       }
     },
     classroomStatuses () {
-      return Enums.classroomStatuses
+      return Enums.classroomStatuses.filter(item => item.showInUserFilters)
     },
-    classroomHoldingTypes () {
-      return Enums.classroomHoldingTypes
+    classroomHoldingTypeOptions () {
+      return (new Classroom()).holding_typeEnums
     }
   },
   methods: {
