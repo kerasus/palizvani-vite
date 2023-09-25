@@ -172,7 +172,7 @@ export default {
   mixins: [mixinAuth],
   data () {
     const classroomId = this.$route.params.id
-    const userId = this.$store.getters['Auth/user'].id
+    // const userId = this.$store.getters['Auth/user'].id
     return {
       mounted: false,
       tab: 'classroomInfo',
@@ -305,10 +305,11 @@ export default {
       },
 
       projectListInputs: [
-        { type: 'hidden', name: 'project__classroom', value: classroomId },
-        { type: 'hidden', name: 'owner', value: userId }
+        { type: 'hidden', name: 'classroom', value: classroomId }
+        // { type: 'hidden', name: 'owner', value: userId }
       ],
-      projectListApi: APIGateway.projectAttendanceSheets.APIAdresses.base,
+      // projectListApi: APIGateway.projectAttendanceSheets.APIAdresses.base,
+      projectListApi: APIGateway.project.APIAdresses.attendanceSheetsList,
       projectListTable: {
         columns: [
           {
@@ -323,35 +324,35 @@ export default {
             required: true,
             label: 'شناسه',
             align: 'left',
-            field: row => row.project_info.id
+            field: row => row.id
           },
           {
             name: 'title',
             required: true,
             label: 'عنوان پروژه',
             align: 'left',
-            field: row => row.project_info.title
+            field: row => row.title
           },
           {
             name: 'creation_time',
             required: true,
             label: 'زمان شروع',
             align: 'left',
-            field: row => row.project_info?.beginning_doing_period ? ShamsiDate.getDateTime(row.project_info.beginning_doing_period) : '-'
+            field: row => row?.beginning_doing_period ? ShamsiDate.getDateTime(row.beginning_doing_period) : '-'
           },
           {
             name: 'creation_time',
             required: true,
             label: 'زمان پایان',
             align: 'left',
-            field: row => row.project_info?.ending_doing_period ? ShamsiDate.getDateTime(row.project_info.ending_doing_period) : '-'
+            field: row => row?.ending_doing_period ? ShamsiDate.getDateTime(row.ending_doing_period) : '-'
           },
           {
             name: 'status',
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => (new ProjectAttendanceSheets(row)).is_answer_verified_info.label
+            field: row => (new ProjectAttendanceSheets(this.getProjectAttendanceSheets(row))).is_answer_verified_info.label
           },
           {
             name: 'actions',
@@ -392,6 +393,13 @@ export default {
       }
 
       return session.session_attendance_sheets[0]
+    },
+    getProjectAttendanceSheets (project) {
+      if (!project?.project_attendance_sheets || project.project_attendance_sheets.length === 0) {
+        return null
+      }
+
+      return project.project_attendance_sheets[0]
     },
     goToLiveStreamUrl () {
       window.open(this.classroom.live_streaming_url, '_blank')
