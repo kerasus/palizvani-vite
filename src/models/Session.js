@@ -21,7 +21,11 @@ class Session extends Model {
       { key: 'creation_time' },
       { key: 'last_modification_time' },
       { key: 'is_defined_syllabus' },
-      { key: 'current_user_attendance_sheet' }
+      { key: 'current_user_attendance_sheet' },
+      {
+        key: 'session_attendance_sheets',
+        defalut: []
+      }
     ])
   }
 }

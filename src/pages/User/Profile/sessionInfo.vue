@@ -99,10 +99,10 @@
                        :show-edit-button="false"
                        :show-index-button="false"
                        :show-reload-button="false" />
-        <entity-show v-if="submitAttendanceStatusMounted && session.current_user_attendance_sheet?.assignment_status !== null"
+        <entity-show v-if="submitAttendanceStatusMounted && currentUserAttendanceSheet && currentUserAttendanceSheet.assignment_status !== null"
                      v-model:value="sessionAssignmentInfoInputs"
                      title="پاسخ کاربر"
-                     :loaded-data="session.current_user_attendance_sheet"
+                     :loaded-data="currentUserAttendanceSheet"
                      :default-layout="false"
                      :show-expand-button="false"
                      :show-edit-button="false"
@@ -150,7 +150,6 @@ export default {
       classroom: new Classroom(),
       session: new Session(),
       mounted: false,
-      submitAttendanceStatusMounted: false,
       api: APIGateway.session.APIAdresses.sessionAndCurrentUserAttendanceSheet(sessionId),
       sessionInfoInputs: [
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12' },
@@ -191,6 +190,7 @@ export default {
       ],
       submitAttendanceStatusApi: APIGateway.sessionAttendanceSheets.APIAdresses.submitAttendanceStatus,
 
+      submitAttendanceStatusMounted: false,
       submitAssignmentLoading: false,
       submitAssignmentInputs: [
         { type: 'InputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'پاسخ به تکلیف', placeholder: ' ', col: 'col-md-12 col-12' },
@@ -227,6 +227,13 @@ export default {
       }
 
       return ShamsiDate.getDateTime(data)
+    },
+    currentUserAttendanceSheet () {
+      if (!this.session?.session_attendance_sheets || this.session.session_attendance_sheets.length === 0) {
+        return null
+      }
+
+      return this.session.session_attendance_sheets[0]
     }
   },
   mounted() {
