@@ -180,7 +180,7 @@ export default {
       sessionsInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId }
       ],
-      api: APIGateway.classroom.APIAdresses.moreDetails(classroomId),
+      api: APIGateway.classroom.APIAdresses.get(classroomId),
       sessionsApi: APIGateway.session.APIAdresses.attendanceSheets,
       classroom: new Classroom(),
       table: {

@@ -401,7 +401,7 @@ export default {
     },
     getClassroom () {
       this.loading = true
-      return APIGateway.classroom.moreDetails(this.$route.params.id)
+      return APIGateway.classroom.get(this.$route.params.id)
     }
   }
 }
