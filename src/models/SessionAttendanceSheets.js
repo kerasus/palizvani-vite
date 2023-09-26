@@ -99,6 +99,10 @@ class SessionAttendanceSheets extends Model {
             value: 'NOT_SENT'
           },
           {
+            label: 'ارسال شده',
+            value: 'SENT'
+          },
+          {
             label: 'غایب',
             value: 'ABSENT'
           },
