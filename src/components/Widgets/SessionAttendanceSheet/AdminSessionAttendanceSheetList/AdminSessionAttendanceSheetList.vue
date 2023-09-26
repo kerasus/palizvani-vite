@@ -33,9 +33,9 @@
             حضور و غیاب
           </q-btn>
           <q-btn color="primary"
-                 :outline="inputData.props.row.assignment_status !== null"
+                 :outline="inputData.props.row.assignment_status !== 'NOT_SENT'"
                  :to="{name: 'Admin.Classroom.Session.AttendanceSheet.Assignment', params: {classroom_id: $route.params.classroom_id, session_id: $route.params.session_id, session_attendance_sheet_id: inputData.props.row.id}}">
-            <template v-if="inputData.props.row.assignment_status !== null">
+            <template v-if="inputData.props.row.assignment_status !== 'NOT_SENT'">
               ویرایش تصحیح
             </template>
             <template v-else>

@@ -352,7 +352,7 @@ export default {
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => (new ProjectAttendanceSheets(this.getProjectAttendanceSheets(row))).is_answer_verified_info.label
+            field: row => (new ProjectAttendanceSheets(this.getProjectAttendanceSheets(row))).answer_status_info.label
           },
           {
             name: 'actions',

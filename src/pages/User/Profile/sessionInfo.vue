@@ -91,7 +91,7 @@
         </q-inner-loading>
         <template v-if="session.assignment_description">
           <q-separator class="q-my-lg" />
-          <entity-create v-if="submitAttendanceStatusMounted && (!currentUserAttendanceSheet || currentUserAttendanceSheet.assignment_status === null)"
+          <entity-create v-if="submitAttendanceStatusMounted && (!currentUserAttendanceSheet || currentUserAttendanceSheet.assignment_status === 'NOT_SENT')"
                          ref="entityCreateSubmitAssignment"
                          v-model:value="submitAssignmentInputs"
                          :api="submitAssignmentApi"
@@ -100,7 +100,7 @@
                          :show-edit-button="false"
                          :show-index-button="false"
                          :show-reload-button="false" />
-          <entity-show v-if="submitAttendanceStatusMounted && currentUserAttendanceSheet && currentUserAttendanceSheet.assignment_status !== null"
+          <entity-show v-if="submitAttendanceStatusMounted && currentUserAttendanceSheet && currentUserAttendanceSheet.assignment_status !== 'NOT_SENT'"
                        v-model:value="sessionAssignmentInfoInputs"
                        title="پاسخ کاربر"
                        :loaded-data="currentUserAttendanceSheet"
@@ -151,6 +151,7 @@ export default {
     return {
       classroom: new Classroom(),
       session: new Session(),
+      sessionAttendanceSheets: new SessionAttendanceSheets(),
       mounted: false,
       api: APIGateway.session.APIAdresses.sessionAndCurrentUserAttendanceSheet(sessionId),
       sessionInfoInputs: [
@@ -231,11 +232,11 @@ export default {
       return ShamsiDate.getDateTime(data)
     },
     currentUserAttendanceSheet () {
-      if (!this.session?.session_attendance_sheets || this.session.session_attendance_sheets.length === 0) {
+      if (!this.sessionAttendanceSheets?.session_attendance_sheets || this.sessionAttendanceSheets.session_attendance_sheets.length === 0) {
         return null
       }
 
-      return this.session.session_attendance_sheets[0]
+      return this.sessionAttendanceSheets.session_attendance_sheets[0]
     }
   },
   mounted() {
@@ -320,6 +321,7 @@ export default {
     },
     beforeLoadInputData (data) {
       this.session = new Session(data)
+      this.sessionAttendanceSheets = new SessionAttendanceSheets(data)
       this.classroom.loading = true
       this.submitAttendanceStatusMounted = true
       this.getClassInfo(this.session.classroom)

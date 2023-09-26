@@ -10,6 +10,10 @@ class SessionAttendanceSheets extends Model {
       { key: 'answer_attachment' },
       { key: 'answer_info' },
       { key: 'session' },
+      {
+        key: 'session_attendance_sheets',
+        default: []
+      },
       { key: 'assignment_status' },
       {
         key: 'attendance_status',
@@ -25,6 +29,7 @@ class SessionAttendanceSheets extends Model {
       { key: 'creator_info' },
       { key: 'session' },
       { key: 'session_info' },
+      { key: 'assignment_status' },
       { key: 'creation_time' }
     ], {
       status: {
@@ -69,7 +74,7 @@ class SessionAttendanceSheets extends Model {
         enums: [
           {
             label: 'ارسال نشده',
-            value: null
+            value: 'NOT_SENT'
           },
           {
             label: 'ارسال شده',

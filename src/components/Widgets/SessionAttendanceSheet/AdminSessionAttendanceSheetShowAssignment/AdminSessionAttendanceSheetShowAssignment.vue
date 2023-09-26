@@ -116,7 +116,7 @@
             </div>
           </div>
         </div>
-        <entity-show v-if="mounted && sessionAttendanceSheets.assignment_status !== null"
+        <entity-show v-if="mounted && sessionAttendanceSheets.assignment_status !== 'NOT_SENT'"
                      :key="entityShowSessionAssignment"
                      v-model:value="sessionAssignmentInfoInputs"
                      title="پاسخ کاربر"
