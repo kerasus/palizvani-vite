@@ -67,7 +67,7 @@ export default {
     const sessionId = this.$route.params.session_id
     return {
       classroom: new Classroom(),
-      api: APIGateway.sessionAttendanceSheets.APIAdresses.base,
+      api: APIGateway.sessionAttendanceSheets.APIAdresses.sessionSheets,
       tableKeys: {
         data: 'results',
         total: 'count',
