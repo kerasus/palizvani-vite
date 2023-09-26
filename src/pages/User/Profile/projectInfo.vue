@@ -63,7 +63,7 @@ export default {
     EntityCreate
   },
   data () {
-    const projectId = this.$route.params.project_id
+    const projectId = parseInt(this.$route.params.project_id)
     return {
       mounted: false,
       projectLoaded: false,
