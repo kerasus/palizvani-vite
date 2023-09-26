@@ -69,7 +69,7 @@
           <template #entity-index-table-item-cell="{inputData}">
             <entity-index-grid-item :input-data="inputData">
               <template #col="{col, row}">
-                <template v-if="inputData.col.name === 'number'">
+                <template v-if="col.name === 'number'">
                   {{ inputData.rowNumber }}
                 </template>
                 <template v-else-if="col.name === 'action'">
