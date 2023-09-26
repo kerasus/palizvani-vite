@@ -22,10 +22,20 @@
                :after-load-input-data="afterLoadProject">
     <template #after-form-builder>
       <q-separator class="q-my-lg" />
-      <entity-create ref="entityCreate"
+      <entity-create v-if="(!currentUserAttendanceSheet || currentUserAttendanceSheet.answer_status === 'NOT_SENT')"
+                     ref="entityCreate"
                      v-model:value="attendanceSheetsInputs"
                      :api="attendanceSheetsApi"
                      :default-layout="false" />
+      <entity-show v-if="currentUserAttendanceSheet && currentUserAttendanceSheet.answer_status !== 'NOT_SENT'"
+                   v-model:value="attendanceSheetsShowInputs"
+                   title="پاسخ کاربر"
+                   :loaded-data="currentUserAttendanceSheet"
+                   :default-layout="false"
+                   :show-expand-button="false"
+                   :show-edit-button="false"
+                   :show-index-button="false"
+                   :show-reload-button="false" />
     </template>
   </entity-show>
 </template>
@@ -40,6 +50,7 @@ import BtnControl from 'src/components/Control/btn.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets'
 
 const BtnControlComp = shallowRef(BtnControl)
 const ContentsSelectorComp = shallowRef(ContentsSelector)
@@ -58,8 +69,9 @@ export default {
       projectLoaded: false,
       classroomLoaded: false,
       project: new Project(),
+      projectAttendanceSheets: new ProjectAttendanceSheets(),
       classroom: new Classroom(),
-      api: APIGateway.project.APIAdresses.byId(projectId),
+      api: APIGateway.project.APIAdresses.projectAndCurrentUserAttendanceSheet(projectId),
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان پروژه', placeholder: ' ', col: 'col-md-6 col-12' },
         {
@@ -87,10 +99,23 @@ export default {
         { type: 'file', name: 'answer_attachment', label: 'فای ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ارسال پروژه', placeholder: ' ', atClick: () => {}, col: 'col-12' },
         { type: 'hidden', name: 'project', value: projectId }
+      ],
+
+      attendanceSheetsShowInputs: [
+        { type: 'separator', name: 'space', label: 'انجام پروژه', className: 'custom-separator', col: 'col-12' },
+        { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
+        { type: 'file', name: 'answer_attachment', label: 'فای ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' }
       ]
     }
   },
   computed: {
+    currentUserAttendanceSheet () {
+      if (!this.projectAttendanceSheets?.project_attendance_sheets || this.projectAttendanceSheets.project_attendance_sheets.length === 0) {
+        return null
+      }
+
+      return this.projectAttendanceSheets.project_attendance_sheets[0]
+    },
     projectAndClassroomLoaded () {
       return this.projectLoaded && this.classroomLoaded
     }
@@ -150,6 +175,7 @@ export default {
     },
     afterLoadProject (data) {
       this.project = new Project(data)
+      this.projectAttendanceSheets = new ProjectAttendanceSheets(data)
       this.projectLoaded = true
     },
     reloadProject () {

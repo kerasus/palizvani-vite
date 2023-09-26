@@ -12,6 +12,10 @@ class ProjectAttendanceSheets extends Model {
       { key: 'answer_attachment' },
       { key: 'creation_time' },
       { key: 'last_modification_time' },
+      {
+        key: 'project_attendance_sheets',
+        default: []
+      },
       { key: 'owner' },
       {
         key: 'owner_info',

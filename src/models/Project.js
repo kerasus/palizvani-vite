@@ -11,6 +11,10 @@ class Project extends Model {
       { key: 'type' },
       { key: 'beginning_doing_period' },
       { key: 'ending_doing_period' },
+      {
+        key: 'project_attendance_sheets',
+        default: []
+      },
       { key: 'classroom' },
       {
         key: 'classroom_info',
