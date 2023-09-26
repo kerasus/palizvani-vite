@@ -256,6 +256,8 @@ export default {
     updateAttendancePresentInputs (classroomHoldingType) {
       if (classroomHoldingType === 'OFFLINE') {
         this.submitAttendanceStatusInputs.unshift(this.submitAttendanceStatusInputsPresentListenPart)
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'label', 'در نیمه اول استماع داشته‌ام')
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'label', 'در نیمه دوم استماع داشته‌ام')
       } else {
         this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_present_listen_part1', value: null })
         this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_present_listen_part2', value: null })
