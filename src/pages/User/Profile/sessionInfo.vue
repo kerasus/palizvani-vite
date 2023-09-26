@@ -89,25 +89,27 @@
           <q-spinner-ball color="primary"
                           size="50px" />
         </q-inner-loading>
-        <q-separator class="q-my-lg" />
-        <entity-create v-if="submitAttendanceStatusMounted && session.current_user_attendance_sheet?.assignment_status === null"
-                       ref="entityCreateSubmitAssignment"
-                       v-model:value="submitAssignmentInputs"
-                       :api="submitAssignmentApi"
+        <template v-if="session.assignment_description">
+          <q-separator class="q-my-lg" />
+          <entity-create v-if="submitAttendanceStatusMounted && (!currentUserAttendanceSheet || currentUserAttendanceSheet.assignment_status === null)"
+                         ref="entityCreateSubmitAssignment"
+                         v-model:value="submitAssignmentInputs"
+                         :api="submitAssignmentApi"
+                         :default-layout="false"
+                         :show-expand-button="false"
+                         :show-edit-button="false"
+                         :show-index-button="false"
+                         :show-reload-button="false" />
+          <entity-show v-if="submitAttendanceStatusMounted && currentUserAttendanceSheet && currentUserAttendanceSheet.assignment_status !== null"
+                       v-model:value="sessionAssignmentInfoInputs"
+                       title="پاسخ کاربر"
+                       :loaded-data="currentUserAttendanceSheet"
                        :default-layout="false"
                        :show-expand-button="false"
                        :show-edit-button="false"
                        :show-index-button="false"
                        :show-reload-button="false" />
-        <entity-show v-if="submitAttendanceStatusMounted && currentUserAttendanceSheet && currentUserAttendanceSheet.assignment_status !== null"
-                     v-model:value="sessionAssignmentInfoInputs"
-                     title="پاسخ کاربر"
-                     :loaded-data="currentUserAttendanceSheet"
-                     :default-layout="false"
-                     :show-expand-button="false"
-                     :show-edit-button="false"
-                     :show-index-button="false"
-                     :show-reload-button="false" />
+        </template>
         <q-separator class="q-my-lg" />
         <entity-create v-if="mounted"
                        ref="entityCreateSubmitAttendanceStatus"

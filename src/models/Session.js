@@ -22,6 +22,7 @@ class Session extends Model {
       { key: 'last_modification_time' },
       { key: 'is_defined_syllabus' },
       { key: 'current_user_attendance_sheet' },
+      { key: 'assignment_description' },
       {
         key: 'session_attendance_sheets',
         defalut: []
