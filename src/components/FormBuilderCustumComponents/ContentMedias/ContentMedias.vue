@@ -1,6 +1,6 @@
 <template>
   <div class="ContentMedias">
-    <div v-if="canAddMedia"
+    <div v-if="canAddMedia && !readonly"
          class="q-mb-md">
       <entity-create ref="entityCreate"
                      v-model:value="inputs"
@@ -85,6 +85,10 @@ export default {
     sourceType: {
       type: String,
       default: 'CONTENT'
+    },
+    readonly: {
+      default: false,
+      type: Boolean
     }
   },
   emits: ['update:value'],

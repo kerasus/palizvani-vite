@@ -136,7 +136,11 @@ import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
+import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
+import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
 
+const ContentMediasComp = shallowRef(ContentMedias)
+const ContentsSelectorComp = shallowRef(ContentsSelector)
 const BtnControlComp = shallowRef(BtnControl)
 
 export default {
@@ -160,6 +164,8 @@ export default {
         { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری جلسه', col: 'col-md-12' },
         { type: 'separator', name: 'space', size: '1px', col: 'col-md-12' },
         { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف جلسه', col: 'col-md-12' },
+        { type: ContentsSelectorComp, name: 'contents', responseKey: 'contents_info', col: 'col-12' },
+        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', sourceType: 'SESSION', col: 'col-12' },
 
         { type: 'hidden', name: 'title', responseKey: 'title', label: 'نام جلسه', col: 'col-md-1' },
         { type: 'hidden', name: 'beginning_time', responseKey: 'beginning_time', label: 'زمان شروع جلسه', col: 'col-md-1' },
