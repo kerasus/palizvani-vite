@@ -249,6 +249,12 @@ export default {
     this.mounted = true
   },
   methods: {
+    updateAttendanceInputsValues () {
+      FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part1', 'value', !!this.currentUserAttendanceSheet.is_read_part1)
+      FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part2', 'value', !!this.currentUserAttendanceSheet.is_read_part2)
+      FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'value', !!this.currentUserAttendanceSheet.is_present_listen_part1)
+      FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'value', !!this.currentUserAttendanceSheet.is_present_listen_part2)
+    },
     updateAttendanceInputs (isDefinedSyllabus, classroomHoldingType) {
       this.updateAttendancePresentInputs(classroomHoldingType)
       this.updateAttendanceReadInputs(isDefinedSyllabus)
@@ -340,6 +346,7 @@ export default {
           this.updateBreadcrumbs()
           this.classroom.loading = false
           this.updateAttendanceInputs(this.session.is_defined_syllabus, this.classroom.holding_type)
+          this.updateAttendanceInputsValues()
         })
         .catch(() => {
           this.classroom.loading = false
