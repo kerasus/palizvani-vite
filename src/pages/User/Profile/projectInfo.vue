@@ -27,7 +27,6 @@
                      v-model:value="attendanceSheetsInputs"
                      :api="attendanceSheetsApi"
                      :default-layout="false" />
-<!--      {{ currentUserAttendanceSheet?.answer_attachment }}-->
       <entity-show v-else-if="currentUserAttendanceSheet && currentUserAttendanceSheet.answer_status !== 'NOT_SENT' && !currentUserAttendanceSheet?.is_enabled_answering"
                    v-model:value="attendanceSheetsShowInputs"
                    title="پاسخ کاربر"
