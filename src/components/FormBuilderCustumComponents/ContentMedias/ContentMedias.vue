@@ -159,7 +159,11 @@ export default {
         return
       }
       if (this.showDownloadLink) {
-        const source = media.file || media.url
+        if (media.url) {
+          window.open(media.url, '_blank')
+        }
+
+        const source = media.file
         if (!source) {
           return
         }
