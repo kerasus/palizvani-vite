@@ -43,7 +43,7 @@ export default {
       default: true
     }
   },
-  emits: ['update:value'],
+  emits: ['update:value', 'onView', 'onDelete'],
   data () {
     return {
       entityCreateLoading: false

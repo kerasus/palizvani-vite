@@ -1,5 +1,7 @@
 <template>
   <div class="ContentMedias">
+    <q-linear-progress v-if="fetchLoading"
+                       indeterminate />
     <div v-if="canAddMedia && !readonly"
          class="q-mb-md">
       <entity-create ref="entityCreate"
@@ -89,11 +91,20 @@ export default {
     readonly: {
       default: false,
       type: Boolean
+    },
+    showPageLink: {
+      default: true,
+      type: Boolean
+    },
+    showDownloadLink: {
+      default: false,
+      type: Boolean
     }
   },
   emits: ['update:value'],
   data () {
     return {
+      fetchLoading: false,
       medias: new MediaList(),
       api: APIGateway.media.APIAdresses.base,
       entityIdKey: 'id',
@@ -142,8 +153,29 @@ export default {
   },
   methods: {
     onView (media) {
-      const routeData = this.$router.resolve({ name: 'Admin.Media.Show', params: { id: media.id } })
-      window.open(routeData.href, '_blank')
+      if (this.showPageLink) {
+        const routeData = this.$router.resolve({ name: 'Admin.Media.Show', params: { id: media.id } })
+        window.open(routeData.href, '_blank')
+        return
+      }
+      if (this.showDownloadLink) {
+        if (media.file) {
+          const fileName = (media.file.match(/(?<=\/)[^/?#]+(?=[^/]*$)/gm) || [media.title])[0]
+          this.fetchLoading = true
+          fetch(media.file)
+            .then(response => response.blob())
+            .then(blob => {
+              const link = document.createElement('a')
+              link.href = URL.createObjectURL(blob)
+              link.download = fileName
+              link.click()
+              this.fetchLoading = false
+            })
+            .catch(() => {
+              this.fetchLoading = false
+            })
+        }
+      }
     },
     onDelete (media) {
       this.removeMedia(media.id)

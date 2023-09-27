@@ -28,7 +28,8 @@ class Media extends Model {
       {
         key: 'hashtags_info',
         relatedModel: MediaHashtagList
-      }
+      },
+      { key: 'file' }
     ])
 
     this.typeEnums = [

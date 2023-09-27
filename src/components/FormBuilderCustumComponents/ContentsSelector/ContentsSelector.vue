@@ -13,6 +13,8 @@
                     :key="selectedContentIndex"
                     :content="selectedContent"
                     :readonly="readonly"
+                    :show-page-link="showPageLink"
+                    :show-download-link="showDownloadLink"
                     @onView="onView"
                     @onDelete="onDelete" />
     </div>
@@ -36,6 +38,14 @@ export default {
       type: [Array, String, Number, Boolean]
     },
     readonly: {
+      default: false,
+      type: Boolean
+    },
+    showPageLink: {
+      default: true,
+      type: Boolean
+    },
+    showDownloadLink: {
       default: false,
       type: Boolean
     }

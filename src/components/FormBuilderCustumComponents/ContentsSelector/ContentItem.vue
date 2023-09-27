@@ -16,7 +16,8 @@
               </div>
             </div>
             <div class="actions">
-              <q-btn icon="visibility"
+              <q-btn v-if="showPageLink"
+                     icon="visibility"
                      outline
                      color="primary"
                      class="viewBtn"
@@ -32,7 +33,9 @@
           <div class="content-medias">
             <content-medias :value="content.medias_info"
                             :can-delete="false"
-                            :can-add-media="false" />
+                            :can-add-media="false"
+                            :show-page-link="showPageLink"
+                            :show-download-link="showDownloadLink" />
           </div>
         </q-card-section>
       </q-card>
@@ -53,6 +56,14 @@ export default {
       default: new Content()
     },
     readonly: {
+      default: false,
+      type: Boolean
+    },
+    showPageLink: {
+      default: true,
+      type: Boolean
+    },
+    showDownloadLink: {
       default: false,
       type: Boolean
     }

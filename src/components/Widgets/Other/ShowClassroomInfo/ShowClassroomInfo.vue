@@ -86,6 +86,7 @@
                    outline
                    color="primary"
                    class="btn-register q-ml-md"
+                   :loading="fetchCodesLoading"
                    @click="openCodeLink">
               آیین نامه دوره
             </q-btn>
@@ -306,6 +307,7 @@ export default {
       profileMode: false
     },
     acceptClassType: 'register', // accept - enrollment - rules
+    fetchCodesLoading: false,
     dropLoading: false,
     rulesAccept: false,
     rulesDialog: false,
@@ -370,7 +372,24 @@ export default {
       this.rulesDialog = true
     },
     openCodeLink () {
-      window.open(this.classroom.codes)
+      if (!this.classroom.codes) {
+        return
+      }
+
+      const fileName = (this.classroom.codes.match(/(?<=\/)[^/?#]+(?=[^/]*$)/gm) || [this.classroom.title])[0]
+      this.fetchCodesLoading = true
+      fetch(this.classroom.codes)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = document.createElement('a')
+          link.href = URL.createObjectURL(blob)
+          link.download = fileName
+          link.click()
+          this.fetchCodesLoading = false
+        })
+        .catch(() => {
+          this.fetchCodesLoading = false
+        })
     },
     openRegisterDialog () {
       this.acceptClassType = 'register'
