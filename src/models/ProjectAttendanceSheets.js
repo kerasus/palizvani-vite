@@ -7,6 +7,7 @@ class ProjectAttendanceSheets extends Model {
       { key: 'id' },
       { key: 'project' },
       { key: 'is_answer_verified' },
+      { key: 'is_enabled_answering' },
       { key: 'answer_text' },
       { key: 'answer_status' },
       { key: 'answer_attachment' },

@@ -22,13 +22,13 @@
                :after-load-input-data="afterLoadProject">
     <template #after-form-builder>
       <q-separator class="q-my-lg" />
-      <entity-create v-if="(!currentUserAttendanceSheet || currentUserAttendanceSheet.answer_status === 'NOT_SENT')"
+      <entity-create v-if="((!currentUserAttendanceSheet || currentUserAttendanceSheet.answer_status === 'NOT_SENT') && currentUserAttendanceSheet?.is_enabled_answering)"
                      ref="entityCreate"
                      v-model:value="attendanceSheetsInputs"
                      :api="attendanceSheetsApi"
                      :default-layout="false" />
       {{ currentUserAttendanceSheet?.answer_attachment }}
-      <entity-show v-if="currentUserAttendanceSheet && currentUserAttendanceSheet.answer_status !== 'NOT_SENT'"
+      <entity-show v-if="currentUserAttendanceSheet && currentUserAttendanceSheet.answer_status !== 'NOT_SENT' && !currentUserAttendanceSheet?.is_enabled_answering"
                    v-model:value="attendanceSheetsShowInputs"
                    title="پاسخ کاربر"
                    :loaded-data="currentUserAttendanceSheet"
@@ -177,7 +177,12 @@ export default {
     afterLoadProject (data) {
       this.project = new Project(data)
       this.projectAttendanceSheets = new ProjectAttendanceSheets(data)
+      this.setAttendanceSheetsInputsValues()
       this.projectLoaded = true
+    },
+    setAttendanceSheetsInputsValues () {
+      FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_text', 'value', this.currentUserAttendanceSheet.answer_text)
+      FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_attachment', 'value', this.currentUserAttendanceSheet.answer_attachment)
     },
     reloadProject () {
       this.$refs.projectEntityEdit.getData()
