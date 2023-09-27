@@ -27,6 +27,7 @@
                      v-model:value="attendanceSheetsInputs"
                      :api="attendanceSheetsApi"
                      :default-layout="false" />
+      {{ currentUserAttendanceSheet?.answer_attachment }}
       <entity-show v-if="currentUserAttendanceSheet && currentUserAttendanceSheet.answer_status !== 'NOT_SENT'"
                    v-model:value="attendanceSheetsShowInputs"
                    title="پاسخ کاربر"
@@ -103,8 +104,8 @@ export default {
 
       attendanceSheetsShowInputs: [
         { type: 'separator', name: 'space', label: 'انجام پروژه', className: 'custom-separator', col: 'col-12' },
-        { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
-        { type: 'file', name: 'answer_attachment', label: 'فای ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' }
+        { type: 'inputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
+        { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فای ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' }
       ]
     }
   },
