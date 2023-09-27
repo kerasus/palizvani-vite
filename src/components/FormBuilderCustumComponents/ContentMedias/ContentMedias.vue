@@ -159,22 +159,25 @@ export default {
         return
       }
       if (this.showDownloadLink) {
-        if (media.file) {
-          const fileName = (media.file.match(/(?<=\/)[^/?#]+(?=[^/]*$)/gm) || [media.title])[0]
-          this.fetchLoading = true
-          fetch(media.file)
-            .then(response => response.blob())
-            .then(blob => {
-              const link = document.createElement('a')
-              link.href = URL.createObjectURL(blob)
-              link.download = fileName
-              link.click()
-              this.fetchLoading = false
-            })
-            .catch(() => {
-              this.fetchLoading = false
-            })
+        const source = media.file || media.url
+        if (!source) {
+          return
         }
+
+        const fileName = (source.match(/(?<=\/)[^/?#]+(?=[^/]*$)/gm) || [media.title])[0]
+        this.fetchLoading = true
+        fetch(source)
+          .then(response => response.blob())
+          .then(blob => {
+            const link = document.createElement('a')
+            link.href = URL.createObjectURL(blob)
+            link.download = fileName
+            link.click()
+            this.fetchLoading = false
+          })
+          .catch(() => {
+            this.fetchLoading = false
+          })
       }
     },
     onDelete (media) {
