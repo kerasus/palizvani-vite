@@ -27,6 +27,8 @@ class SessionAttendanceSheets extends Model {
       { key: 'is_read_part2' },
       { key: 'is_present_listen_part1' },
       { key: 'is_present_listen_part2' },
+      { key: 'is_enabled_answering' },
+      { key: 'is_enabled_changing_attendance_status' },
       { key: 'owner' },
       { key: 'owner_info' },
       { key: 'creator' },

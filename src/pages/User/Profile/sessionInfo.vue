@@ -91,7 +91,7 @@
         </q-inner-loading>
         <template v-if="session.assignment_description">
           <q-separator class="q-my-lg" />
-          <entity-create v-if="submitAttendanceStatusMounted && (!currentUserAttendanceSheet || currentUserAttendanceSheet.assignment_status === 'NOT_SENT')"
+          <entity-create v-if="submitAttendanceStatusMounted && (!currentUserAttendanceSheet || currentUserAttendanceSheet.assignment_status === 'NOT_SENT') && currentUserAttendanceSheet?.is_enabled_answering"
                          ref="entityCreateSubmitAssignment"
                          v-model:value="submitAssignmentInputs"
                          :api="submitAssignmentApi"
@@ -100,7 +100,7 @@
                          :show-edit-button="false"
                          :show-index-button="false"
                          :show-reload-button="false" />
-          <entity-show v-if="submitAttendanceStatusMounted && currentUserAttendanceSheet && currentUserAttendanceSheet.assignment_status !== 'NOT_SENT'"
+          <entity-show v-else-if="submitAttendanceStatusMounted && currentUserAttendanceSheet && currentUserAttendanceSheet.assignment_status !== 'NOT_SENT'"
                        v-model:value="sessionAssignmentInfoInputs"
                        title="پاسخ کاربر"
                        :loaded-data="currentUserAttendanceSheet"
@@ -249,11 +249,22 @@ export default {
     this.mounted = true
   },
   methods: {
+    setAssignmentInputsValues () {
+      FormBuilderAssist.setAttributeByName(this.submitAssignmentInputs, 'answer_text', 'value', this.currentUserAttendanceSheet.answer_text)
+      FormBuilderAssist.setAttributeByName(this.submitAssignmentInputs, 'answer_attachment', 'value', this.currentUserAttendanceSheet.answer_attachment)
+    },
     updateAttendanceInputsValues () {
       FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part1', 'value', !!this.currentUserAttendanceSheet.is_read_part1)
       FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part2', 'value', !!this.currentUserAttendanceSheet.is_read_part2)
       FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'value', !!this.currentUserAttendanceSheet.is_present_listen_part1)
       FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'value', !!this.currentUserAttendanceSheet.is_present_listen_part2)
+      if (!this.currentUserAttendanceSheet.is_enabled_changing_attendance_status) {
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part1', 'readonly', true)
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part2', 'readonly', true)
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'readonly', true)
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'readonly', true)
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'btn', 'type', 'hidden')
+      }
     },
     updateAttendanceInputs (isDefinedSyllabus, classroomHoldingType) {
       this.updateAttendancePresentInputs(classroomHoldingType)
