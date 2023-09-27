@@ -99,14 +99,14 @@ export default {
             required: true,
             label: 'نام و نام خانوادگی',
             align: 'left',
-            field: row => row.owner.firstname + ' ' + row.owner.lastname
+            field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
           },
           {
             name: 'sender',
             required: true,
             label: 'کد ملی',
             align: 'left',
-            field: row => row.owner.national_code
+            field: row => row.owner_info.national_code
           },
           {
             name: 'assignment_status',
