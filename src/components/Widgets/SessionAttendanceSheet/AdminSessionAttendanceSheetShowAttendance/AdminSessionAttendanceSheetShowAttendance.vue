@@ -94,12 +94,19 @@ export default {
         .then(() => {
           this.updateBreadcrumbs()
           this.updateAttendanceInputs()
+          this.updateAttendanceInputsValues()
           this.mounted = true
           this.loading = false
         })
         .catch(() => {
           this.loading = false
         })
+    },
+    updateAttendanceInputsValues () {
+      FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part1', 'value', !!this.sessionAttendanceSheets.is_read_part1)
+      FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part2', 'value', !!this.sessionAttendanceSheets.is_read_part2)
+      FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'value', !!this.sessionAttendanceSheets.is_present_listen_part1)
+      FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'value', !!this.sessionAttendanceSheets.is_present_listen_part2)
     },
     updateAttendanceInputs () {
       const isDefinedSyllabus = this.session.is_defined_syllabus
