@@ -192,7 +192,7 @@ export default {
         })
     },
     onChangeBakhsh () {
-      this.localContents = []
+      // this.localContents = []
     }
   }
 
