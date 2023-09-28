@@ -91,7 +91,7 @@
         </q-inner-loading>
         <template v-if="session.assignment_description">
           <q-separator class="q-my-lg" />
-          <entity-create v-if="submitAttendanceStatusMounted && (!currentUserAttendanceSheet || currentUserAttendanceSheet.assignment_status === 'NOT_SENT') && currentUserAttendanceSheet?.is_enabled_answering"
+          <entity-create v-if="currentUserAttendanceSheet?.is_show_answer_input"
                          ref="entityCreateSubmitAssignment"
                          v-model:value="submitAssignmentInputs"
                          :api="submitAssignmentApi"
@@ -100,7 +100,7 @@
                          :show-edit-button="false"
                          :show-index-button="false"
                          :show-reload-button="false" />
-          <entity-show v-else-if="submitAttendanceStatusMounted && currentUserAttendanceSheet && currentUserAttendanceSheet.assignment_status !== 'NOT_SENT'"
+          <entity-show v-else
                        v-model:value="sessionAssignmentInfoInputs"
                        title="پاسخ کاربر"
                        :loaded-data="currentUserAttendanceSheet"
@@ -254,6 +254,7 @@ export default {
       FormBuilderAssist.setAttributeByName(this.submitAssignmentInputs, 'answer_attachment', 'value', this.currentUserAttendanceSheet.answer_attachment)
     },
     updateAttendanceInputsValues () {
+      this.setAssignmentInputsValues()
       FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part1', 'value', !!this.currentUserAttendanceSheet.is_read_part1)
       FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part2', 'value', !!this.currentUserAttendanceSheet.is_read_part2)
       FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'value', !!this.currentUserAttendanceSheet.is_present_listen_part1)
@@ -266,31 +267,33 @@ export default {
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'btn', 'type', 'hidden')
       }
     },
-    updateAttendanceInputs (isDefinedSyllabus, classroomHoldingType) {
-      this.updateAttendancePresentInputs(classroomHoldingType)
-      this.updateAttendanceReadInputs(isDefinedSyllabus)
-      this.updateAttendanceActionBtn(isDefinedSyllabus, classroomHoldingType)
+    updateAttendanceInputs (isShowSyllabusInput, isShowPresentListenInput, classroomHoldingType) {
+      this.updateAttendancePresentInputs(isShowPresentListenInput)
+      this.updateAttendanceReadInputs(isShowSyllabusInput)
+      this.updateAttendanceActionBtn(isShowSyllabusInput, isShowPresentListenInput)
+      if (classroomHoldingType === 'OFFLINE') {
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'label', 'در نیمه اول استماع داشته‌ام')
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'label', 'در نیمه دوم استماع داشته‌ام')
+      }
     },
-    updateAttendanceReadInputs (isDefinedSyllabus) {
-      if (isDefinedSyllabus) {
+    updateAttendanceReadInputs (isShowSyllabusInput) {
+      if (isShowSyllabusInput) {
         this.submitAttendanceStatusInputs.unshift(this.submitAttendanceStatusInputsReadPart)
       } else {
         this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_read_part1', value: null })
         this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_read_part2', value: null })
       }
     },
-    updateAttendancePresentInputs (classroomHoldingType) {
-      if (classroomHoldingType === 'OFFLINE') {
+    updateAttendancePresentInputs (isShowPresentListenInput) {
+      if (isShowPresentListenInput) {
         this.submitAttendanceStatusInputs.unshift(this.submitAttendanceStatusInputsPresentListenPart)
-        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'label', 'در نیمه اول استماع داشته‌ام')
-        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'label', 'در نیمه دوم استماع داشته‌ام')
       } else {
         this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_present_listen_part1', value: null })
         this.submitAttendanceStatusInputs.unshift({ type: 'hidden', name: 'is_present_listen_part2', value: null })
       }
     },
-    updateAttendanceActionBtn (isDefinedSyllabus, classroomHoldingType) {
-      if (isDefinedSyllabus || classroomHoldingType === 'OFFLINE') {
+    updateAttendanceActionBtn (isShowSyllabusInput, isShowPresentListenInput) {
+      if (isShowSyllabusInput || isShowPresentListenInput === 'OFFLINE') {
         this.submitAttendanceStatusInputs.push(this.submitAttendanceStatusAction)
       }
     },
@@ -356,7 +359,8 @@ export default {
           this.classroom = new Classroom(classroom)
           this.updateBreadcrumbs()
           this.classroom.loading = false
-          this.updateAttendanceInputs(this.session.is_defined_syllabus, this.classroom.holding_type)
+          // this.updateAttendanceInputs(this.session.is_defined_syllabus, this.classroom.holding_type)
+          this.updateAttendanceInputs(this.session.is_show_syllabus_input, this.session.is_show_present_listen_input, this.classroom.holding_type)
           this.updateAttendanceInputsValues()
         })
         .catch(() => {
