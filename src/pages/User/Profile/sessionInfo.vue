@@ -272,8 +272,8 @@ export default {
       this.updateAttendanceReadInputs(isShowSyllabusInput)
       this.updateAttendanceActionBtn(isShowSyllabusInput, isShowPresentListenInput)
       if (classroomHoldingType === 'OFFLINE') {
-        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'label', 'در نیمه اول استماع داشته‌ام')
-        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'label', 'در نیمه دوم استماع داشته‌ام')
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'label', 'نیمه اول صوت را گوش کردم')
+        FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'label', 'نیمه دوم صوت را گوش کردم')
       }
     },
     updateAttendanceReadInputs (isShowSyllabusInput) {
