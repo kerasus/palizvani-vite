@@ -127,7 +127,7 @@
                      :show-index-button="false"
                      :show-reload-button="false" />
 
-        <div class="flex justify-end">
+        <div class="flex justify-end q-mt-md">
           <q-btn color="red"
                  outline
                  :loading="verifyLoading"
