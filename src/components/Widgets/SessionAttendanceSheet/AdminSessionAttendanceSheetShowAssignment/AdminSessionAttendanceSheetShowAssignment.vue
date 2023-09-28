@@ -108,7 +108,7 @@
                        :href="question.attachment"
                        target="_blank">ضمیمه سوال</q-btn>
               </div>
-              <q-separator />
+              <q-separator class="q-my-md" />
               <div>
                 پاسخ صحیح:
               </div>
