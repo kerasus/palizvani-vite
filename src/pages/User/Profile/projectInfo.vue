@@ -22,12 +22,12 @@
                :after-load-input-data="afterLoadProject">
     <template #after-form-builder>
       <q-separator class="q-my-lg" />
-      <entity-create v-if="((!currentUserAttendanceSheet || currentUserAttendanceSheet.answer_status === 'NOT_SENT') && currentUserAttendanceSheet?.is_enabled_answering)"
+      <entity-create v-if="currentUserAttendanceSheet?.is_enabled_answering"
                      ref="entityCreate"
                      v-model:value="attendanceSheetsInputs"
                      :api="attendanceSheetsApi"
                      :default-layout="false" />
-      <entity-show v-else-if="currentUserAttendanceSheet && currentUserAttendanceSheet.answer_status !== 'NOT_SENT' && !currentUserAttendanceSheet?.is_enabled_answering"
+      <entity-show v-else
                    v-model:value="attendanceSheetsShowInputs"
                    title="پاسخ کاربر"
                    :loaded-data="currentUserAttendanceSheet"
