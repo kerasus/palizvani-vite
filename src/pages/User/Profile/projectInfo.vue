@@ -22,12 +22,12 @@
                :after-load-input-data="afterLoadProject">
     <template #after-form-builder>
       <q-separator class="q-my-lg" />
-      <entity-create v-if="currentUserAttendanceSheet?.is_enabled_answering"
+      <entity-create v-if="projectLoaded && project.is_enabled_answering"
                      ref="entityCreate"
                      v-model:value="attendanceSheetsInputs"
                      :api="attendanceSheetsApi"
                      :default-layout="false" />
-      <entity-show v-else
+      <entity-show v-else-if="projectLoaded"
                    v-model:value="attendanceSheetsShowInputs"
                    title="پاسخ کاربر"
                    :loaded-data="currentUserAttendanceSheet"
@@ -47,10 +47,10 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { EntityShow, EntityCreate } from 'quasar-crud'
 import BtnControl from 'src/components/Control/btn.vue'
-import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
-import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
+import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 const ContentsSelectorComp = shallowRef(ContentsSelector)
@@ -180,8 +180,8 @@ export default {
       this.projectLoaded = true
     },
     setAttendanceSheetsInputsValues () {
-      FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_text', 'value', this.currentUserAttendanceSheet.answer_text)
-      FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_attachment', 'value', this.currentUserAttendanceSheet.answer_attachment)
+      FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_text', 'value', this.currentUserAttendanceSheet?.answer_text)
+      FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_attachment', 'value', this.currentUserAttendanceSheet?.answer_attachment)
     },
     reloadProject () {
       this.$refs.projectEntityEdit.getData()
