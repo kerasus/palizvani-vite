@@ -91,7 +91,7 @@
         </q-inner-loading>
         <template v-if="session.assignment_description">
           <q-separator class="q-my-lg" />
-          <entity-create v-if="currentUserAttendanceSheet?.is_show_answer_input"
+          <entity-create v-if="session?.is_show_answer_input"
                          ref="entityCreateSubmitAssignment"
                          v-model:value="submitAssignmentInputs"
                          :api="submitAssignmentApi"
