@@ -108,7 +108,7 @@
                        :href="question.attachment"
                        target="_blank">ضمیمه سوال</q-btn>
               </div>
-              <q-separator />
+              <q-separator class="q-my-md" />
               <div>
                 پاسخ صحیح:
               </div>
@@ -127,7 +127,7 @@
                      :show-index-button="false"
                      :show-reload-button="false" />
 
-        <div class="flex justify-end">
+        <div class="flex justify-end q-mt-md">
           <q-btn color="red"
                  outline
                  :loading="verifyLoading"
