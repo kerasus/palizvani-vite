@@ -96,7 +96,7 @@ export default {
       attendanceSheetsInputs: [
         { type: 'separator', name: 'space', label: 'انجام پروژه', className: 'custom-separator', col: 'col-12' },
         { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
-        { type: 'file', name: 'answer_attachment', label: 'فای ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'file', name: 'answer_attachment', label: 'فایل ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ارسال پروژه', placeholder: ' ', atClick: () => {}, col: 'col-12' },
         { type: 'hidden', name: 'project', value: projectId }
       ],
@@ -104,7 +104,7 @@ export default {
       attendanceSheetsShowInputs: [
         { type: 'separator', name: 'space', label: 'انجام پروژه', className: 'custom-separator', col: 'col-12' },
         { type: 'inputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
-        { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فای ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' }
+        { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' }
       ]
     }
   },
