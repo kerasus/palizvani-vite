@@ -38,6 +38,14 @@ class ProjectAttendanceSheets extends Model {
           {
             label: 'بررسی شده',
             value: 'REVIEWED'
+          },
+          {
+            label: 'تایید شده',
+            value: 'VERIFIED'
+          },
+          {
+            label: 'رد شده',
+            value: 'NOT_VERIFIED'
           }
         ]
       },
