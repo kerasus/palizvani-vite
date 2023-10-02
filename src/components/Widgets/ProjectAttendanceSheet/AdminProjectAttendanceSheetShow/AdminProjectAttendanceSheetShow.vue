@@ -125,7 +125,8 @@ export default {
       APIGateway.projectAttendanceSheets.verify(this.$route.params.project_attendance_sheets_id)
         .then(() => {
           this.loading = false
-          this.reloadData()
+          // this.reloadData()
+          this.$router.go(-1)
         })
         .catch(() => {
           this.loading = false
@@ -137,7 +138,8 @@ export default {
       APIGateway.projectAttendanceSheets.notVerify(this.$route.params.project_attendance_sheets_id)
         .then(() => {
           this.loading = false
-          this.reloadData()
+          // this.reloadData()
+          this.$router.go(-1)
         })
         .catch(() => {
           this.loading = false
