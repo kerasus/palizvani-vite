@@ -32,22 +32,33 @@ const AxiosHooks = (function () {
     if (statusCode >= 500 && statusCode <= 599) {
       messages.push('مشکلی رخ داده است. مجدد تلاش کنید.')
     } else if (statusCode === 404) {
-      messages.push('موردی یافت نشد.')
+      if (error.response.data.detail) {
+        messages.push(error.response.data.detail)
+      } else {
+        messages.push('موردی یافت نشد.')
+      }
     } else if (statusCode === 401) {
-      const message = error.response.data.message
-      messages.push(message)
+      if (error.response.data.detail) {
+        messages.push(error.response.data.detail)
+      }
+      // const message = error.response.data.message
+      // messages.push(message)
       deAuthorizeUser(router, store)
     } else if (statusCode === 403) {
       const message = error.response.data.detail
       messages.push(message)
     } else if (error.response.data) {
-      for (const key of Object.keys(error.response.data)) {
-        if (typeof error.response.data[key] === 'string') {
-          messages.push(key + ': ' + error.response.data[key])
-        } else if (Array.isArray(error.response.data[key])) {
-          error.response.data[key].forEach(message => {
-            messages.push(key + ': ' + message)
-          })
+      if (error.response.data.detail) {
+        messages.push(error.response.data.detail)
+      } else {
+        for (const key of Object.keys(error.response.data)) {
+          if (typeof error.response.data[key] === 'string') {
+            messages.push(key + ': ' + error.response.data[key])
+          } else if (Array.isArray(error.response.data[key])) {
+            error.response.data[key].forEach(message => {
+              messages.push(key + ': ' + message)
+            })
+          }
         }
       }
     }
