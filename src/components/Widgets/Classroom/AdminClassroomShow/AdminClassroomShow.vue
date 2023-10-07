@@ -30,6 +30,12 @@
              label="آزمون" />
       <q-tab name="members"
              label="اندیشه جویان" />
+      <q-tab name="teams"
+             label="گروه" />
+      <q-tab name="graders"
+             label="مصححین" />
+      <q-tab name="leaders"
+             label="سرگروه ها" />
       <q-tab name="activity_sheet"
              label="فعالیت کلاسی" />
       <q-tab name="live_streaming_url"
@@ -61,6 +67,18 @@
                    class="q-pa-none">
         <members-list :classroom-id="$route.params.id" />
       </q-tab-panel>
+      <q-tab-panel name="teams"
+                   class="q-pa-none">
+        <team-list :classroom-id="$route.params.id" />
+      </q-tab-panel>
+      <q-tab-panel name="graders"
+                   class="q-pa-none">
+        <grader-list :classroom-id="$route.params.id" />
+      </q-tab-panel>
+      <q-tab-panel name="leaders"
+                   class="q-pa-none">
+        <leader-list :classroom-id="$route.params.id" />
+      </q-tab-panel>
       <q-tab-panel name="activity_sheet"
                    class="q-pa-none">
         <activity-sheet-list :classroom-id="$route.params.id" />
@@ -74,6 +92,9 @@
 
 <script>
 import { Classroom } from 'src/models/Classroom.js'
+import TeamList from './components/TeamList.vue'
+import LeaderList from './components/LeaderList.vue'
+import GraderList from './components/GraderList.vue'
 import SessionList from './components/SessionList.vue'
 import ProjectList from './components/ProjectList.vue'
 import MembersList from './components/MembersList.vue'
@@ -85,6 +106,9 @@ import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 export default {
   name: 'Admin.Classroom.Show',
   components: {
+    TeamList,
+    LeaderList,
+    GraderList,
     SessionList,
     ProjectList,
     MembersList,
