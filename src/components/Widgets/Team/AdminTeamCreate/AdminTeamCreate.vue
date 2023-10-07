@@ -153,9 +153,9 @@ export default {
           ],
           itemIndicatorKey: row => row.leader_info.firstname + ' ' + row.leader_info.lastname,
           // itemIndicatorKey: 'firstname',
-          itemIdentifyKey: 'id',
+          itemIdentifyKey: 'leader',
           indexConfig: {
-            itemIdentifyKey: 'id'
+            itemIdentifyKey: 'leader'
           },
 
           value: null,
