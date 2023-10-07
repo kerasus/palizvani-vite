@@ -9,15 +9,7 @@
                 :show-search-button="false"
                 :show-reload-button="false"
                 :show-expand-button="false">
-    <template #toolbar>
-      <q-btn color="primary"
-             outline
-             :loading="exportReportLoading"
-             :to="{name: 'Admin.Classroom.Team.Create', params: {classroom_id: classroomId}}">
-        ایجاد گروه جدید
-      </q-btn>
-    </template>
-    <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+    <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'number'">
         {{ inputData.rowNumber }}
       </template>
@@ -26,10 +18,9 @@
           <q-btn size="md"
                  color="primary"
                  label="جزییات"
-                 :to="{name: 'Admin.Classroom.Team.Show', params: {classroom_id: classroomId, team_id:inputData.props.row.id}}"
+                 :to="{name: 'Admin.Leader.Teams.Show', params: {team_id:inputData.props.row.id}}"
                  :loading="createInvoiceLoading"
                  class="q-mr-md" />
-          <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
         </div>
       </template>
       <template v-else>
@@ -46,23 +37,16 @@
 import { EntityIndex } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { mixinAuthData } from 'src/mixin/Mixins.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
-import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
 export default {
-  name: 'TeamList',
+  name: 'LeaderTeamsShow',
   components: {
-    DeleteBtn,
     EntityIndex
   },
-  props: {
-    classroomId: {
-      type: Number,
-      default: null
-    }
-  },
+  mixins: [mixinAuthData],
   data () {
-    const classroomId = this.classroomId
     return {
       mounted: false,
       createInvoiceLoading: false,
@@ -71,7 +55,7 @@ export default {
       dropClassroomByAdminLoading: false,
       exportReportLoading: false,
       teamsListInputs: [
-        { type: 'hidden', name: 'classroom', value: classroomId }
+        { type: 'hidden', name: 'leader', value: null }
       ],
       teamsListApi: APIGateway.team.APIAdresses.base,
       teamsListTable: {
@@ -139,6 +123,7 @@ export default {
   },
   mounted () {
     this.setMembersListActionBtn()
+    FormBuilderAssist.setAttributeByName(this.teamsListInputs, 'leader', 'value', this.user.id)
     this.mounted = true
   },
   methods: {
@@ -147,9 +132,6 @@ export default {
     },
     searchMembersList () {
       this.$refs.teamsList.search()
-    },
-    getRemoveMessage (row) {
-      return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
     }
   }
 }

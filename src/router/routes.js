@@ -573,7 +573,8 @@ const routes = [
             path: 'leader',
             component: () => import('layouts/bareLayout.vue'),
             children: [
-              { name: 'Admin.Leader.MyClassrooms.Index', path: 'my_classrooms', component: () => import('src/pages/Admin/Classroom/LeaderMyClassrooms.vue') }
+              { name: 'Admin.Leader.Teams.Index', path: 'teams', component: () => import('pages/Admin/Leader/MyTeams.vue') },
+              { name: 'Admin.Leader.Teams.Show', path: 'teams/:team_id', component: () => import('pages/Admin/Leader/ShowTeam.vue') }
             ]
           },
           {

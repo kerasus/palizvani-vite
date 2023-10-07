@@ -95,9 +95,9 @@ export default {
           active: false
         },
         {
-          title: 'دوره های من',
-          roles: ['superuser', 'team_leader'],
-          routeName: 'Admin.Leader.MyClassrooms.Index',
+          title: 'گروه های من',
+          roles: ['team_leader'],
+          routeName: 'Admin.Leader.Teams.Index',
           icon: 'diversity_3',
           show: true,
           active: false

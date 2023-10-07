@@ -109,7 +109,7 @@
           <span class="btn-label">
             حساب کاربری
           </span>
-          <q-menu v-if="user.isAdmin() || user.isSuperUser()"
+          <q-menu v-if="user.isAdmin() || user.isSuperUser() || user.isEducationalDepartmentHead() || user.isFinancialDepartmentHead()"
                   fit>
             <q-list>
               <q-item v-close-popup
@@ -198,7 +198,7 @@ export default {
       this.user = this.$store.getters['Auth/user']
     },
     goToProperPanel () {
-      if (this.user.isSuperUser()) {
+      if (this.user.isAdmin() || this.user.isSuperUser() || this.user.isEducationalDepartmentHead() || this.user.isFinancialDepartmentHead()) {
         // this.$router.push({ name: 'Admin.User.Index' })
       } else {
         this.$router.push({ name: 'UserPanel.Profile.UserInfo' })
