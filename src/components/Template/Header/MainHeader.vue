@@ -109,7 +109,7 @@
           <span class="btn-label">
             حساب کاربری
           </span>
-          <q-menu v-if="user.isAdmin() || user.isSuperUser() || user.isEducationalDepartmentHead() || user.isFinancialDepartmentHead()"
+          <q-menu v-if="canSeeAdminPanel"
                   fit>
             <q-list>
               <q-item v-close-popup
@@ -173,6 +173,9 @@ export default {
     }
   },
   computed: {
+    canSeeAdminPanel () {
+      return this.user.isAdmin() || this.user.isSuperUser() || this.user.isTeamLeader() || this.user.isEducationalDepartmentHead() || this.user.isFinancialDepartmentHead()
+    },
     isAdminPage () {
       return this.$route.name && this.$route.name.includes('Admin.')
     },
@@ -198,7 +201,7 @@ export default {
       this.user = this.$store.getters['Auth/user']
     },
     goToProperPanel () {
-      if (this.user.isAdmin() || this.user.isSuperUser() || this.user.isEducationalDepartmentHead() || this.user.isFinancialDepartmentHead()) {
+      if (this.canSeeAdminPanel) {
         // this.$router.push({ name: 'Admin.User.Index' })
       } else {
         this.$router.push({ name: 'UserPanel.Profile.UserInfo' })
