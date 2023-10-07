@@ -52,7 +52,7 @@
     "process": "^0.11.10",
     "quasar": "^2.12.0",
     "quasar-app-extension-q-page-builder": "^0.1.63",
-    "quasar-crud": "^0.3.53",
+    "quasar-crud": "^0.3.55",
     "quasar-form-builder": "^0.1.110",
     "quasar-template-builder": "^1.0.23",
     "quasar-ui-q-page-builder": "^0.1.63",

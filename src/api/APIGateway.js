@@ -3,6 +3,7 @@ import AuthAPI from 'src/api/models/Auth.js'
 import UserAPI from 'src/api/models/User.js'
 import PostAPI from 'src/api/models/Post.js'
 import UnitAPI from 'src/api/models/Unit.js'
+import TeamAPI from 'src/api/models/Team.js'
 import MediaAPI from 'src/api/models/Media.js'
 import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
@@ -24,6 +25,9 @@ import TicketCategoryAPI from 'src/api/models/TicketCategory.js'
 import SessionTemplateAPI from 'src/api/models/SessionTemplate.js'
 import ContentCategoryAPI from 'src/api/models/ContentCategory.js'
 import InstalmentOfferAPI from 'src/api/models/InstalmentOffer.js'
+import ClassroomGraderAPI from 'src/api/models/ClassroomGraders.js'
+import ClassroomLeadersAPI from 'src/api/models/ClassroomLeaders.js'
+import TeamRegistrationsAPI from 'src/api/models/TeamRegistrations.js'
 import ClassroomRegistrationAPI from 'src/api/models/ClassroomRegistration.js'
 import ProjectAttendanceSheetsAPI from 'src/api/models/ProjectAttendanceSheets.js'
 import SessionAttendanceSheetsAPI from 'src/api/models/SessionAttendanceSheets.js'
@@ -35,6 +39,7 @@ export const APIGateway = {
   user: new UserAPI(),
   unit: new UnitAPI(),
   post: new PostAPI(),
+  team: new TeamAPI(),
   media: new MediaAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
@@ -56,6 +61,9 @@ export const APIGateway = {
   sessionTemplate: new SessionTemplateAPI(),
   contentCategory: new ContentCategoryAPI(),
   instalmentOffer: new InstalmentOfferAPI(),
+  classroomGrader: new ClassroomGraderAPI(),
+  classroomLeaders: new ClassroomLeadersAPI(),
+  teamRegistrations: new TeamRegistrationsAPI(),
   classroomRegistration: new ClassroomRegistrationAPI(),
   projectAttendanceSheets: new ProjectAttendanceSheetsAPI(),
   sessionAttendanceSheets: new SessionAttendanceSheetsAPI()

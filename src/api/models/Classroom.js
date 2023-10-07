@@ -11,6 +11,7 @@ export default class ClassroomAPI extends APIRepository {
       byId: (id) => '/lma/classrooms/' + id,
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
       drop: (id) => '/lma/classrooms/' + id + '/drop',
+      leaders: (id) => '/lma/classrooms/' + id + '/leaders',
       members: '/lma/registrations',
       activitySheet: '/lma/registrations/activity_sheet',
       enrollByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/enrolll?user_id=' + userId,
@@ -88,6 +89,23 @@ export default class ClassroomAPI extends APIRepository {
       apiMethod: 'put',
       api: this.api,
       request: this.APIAdresses.drop(id),
+      resolveCallback: (response) => {
+        return new Classroom(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  appendLeaders (data) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.leaders(data.classroomId),
+      data: {
+        leaders: data.leaders // array of numbers
+      },
       resolveCallback: (response) => {
         return new Classroom(response.data)
       },

@@ -560,11 +560,12 @@ const routes = [
               { name: 'Admin.Classroom.Session.AttendanceSheetList', path: ':classroom_id/session/:session_id/session_attendance_sheets', component: () => import('pages/Admin/Classroom/SessionActivitySheets/sessionActivitySheets.vue') },
               { name: 'Admin.Classroom.Session.AttendanceSheet.Assignment', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/assignment', component: () => import('pages/Admin/Classroom/SessionActivitySheets/Assignment.vue') },
               { name: 'Admin.Classroom.Session.AttendanceSheet.Attendance', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/attendance', component: () => import('pages/Admin/Classroom/SessionActivitySheets/Attendance.vue') },
-              { name: 'Admin.Classroom.Project.Create', path: ':classroom_id/project/create', component: () => import('src/pages/Admin/Classroom/project/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
+              { name: 'Admin.Classroom.Project.Create', path: ':classroom_id/project/create', component: () => import('src/pages/Admin/Classroom/project/create.vue') },
               { name: 'Admin.Classroom.Project.Show', path: ':classroom_id/project/:project_id', component: () => import('src/pages/Admin/Classroom/project/show.vue') },
               { name: 'Admin.Classroom.Project.Members', path: ':classroom_id/project/:project_id/members', component: () => import('src/pages/Admin/Classroom/project/members.vue') },
               { name: 'Admin.Classroom.projectAttendanceSheets.Show', path: ':classroom_id/project/:project_id/projectAttendanceSheet/:project_attendance_sheets_id', component: () => import('src/pages/Admin/Classroom/ProjectAttendanceSheet/show.vue') },
-              { name: 'Admin.Classroom.Project', path: ':id', component: () => import('src/pages/Admin/Classroom/show.vue') },
+              { name: 'Admin.Classroom.Team.Create', path: ':classroom_id/team/create', component: () => import('src/pages/Admin/Classroom/Team/create.vue') },
+              { name: 'Admin.Classroom.Team.Show', path: ':classroom_id/team/:team_id', component: () => import('src/pages/Admin/Classroom/Team/show.vue') },
               { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
             ]
           },
