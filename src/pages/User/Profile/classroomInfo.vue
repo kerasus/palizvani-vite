@@ -18,13 +18,16 @@
             narrow-indicator>
       <q-tab name="classroomInfo"
              label="اطلاعات دوره آموزشی" />
-      <q-tab name="educations"
+      <q-tab v-if="canShowOtherTabsOfClassroom"
+             name="educations"
              label="جدول آموزشی" />
-      <q-tab name="movies1"
+      <q-tab v-if="canShowOtherTabsOfClassroom"
+             name="movies1"
              label="آزمون" />
-      <q-tab name="projects"
+      <q-tab v-if="canShowOtherTabsOfClassroom"
+             name="projects"
              label="پروژه" />
-      <q-tab v-if="classroom.live_streaming_url"
+      <q-tab v-if="canShowOtherTabsOfClassroom && classroom.live_streaming_url"
              name="live_streaming_url"
              label="بخش آنلاین" />
     </q-tabs>
@@ -87,6 +90,7 @@
       <q-tab-panel name="movies1">
         آزمون
       </q-tab-panel>
+
       <q-tab-panel name="projects"
                    class="q-pa-none">
         <entity-index v-if="mounted"
@@ -150,16 +154,17 @@
 <script>
 import { EntityIndex } from 'quasar-crud'
 import Enums from 'src/assets/Enums/Enums.js'
+import { mixinAuth } from 'src/mixin/Mixins.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { mixinAuth } from 'src/mixin/Mixins.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
+import { Registration, RegistrationList } from 'src/models/Registration.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
+import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
-import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -369,10 +374,16 @@ export default {
         currentPage: 'current',
         perPage: 'per_page',
         pageKey: 'page'
-      }
+      },
+
+      registrations: new RegistrationList(),
+      classroomRegistration: new Registration()
     }
   },
   computed: {
+    canShowOtherTabsOfClassroom () {
+      return !this.classroomRegistration.loading && (this.classroomRegistration.status === 'REGISTERED' || this.classroomRegistration.status === 'ENROLLED')
+    },
     selectedCategoryId () {
       return FormBuilderAssist.getInputsByName(this.inputs, 'category')?.value
     }
@@ -384,9 +395,27 @@ export default {
     }
   },
   mounted () {
+    this.getRegistrationInfo()
     this.mounted = true
   },
   methods: {
+    getRegistrationInfo () {
+      this.registrations.loading = true
+      this.classroomRegistration.loading = true
+      APIGateway.registration.index({ classroom: this.$route.params.id })
+        .then(({ list }) => {
+          this.registrations = new RegistrationList(list)
+          if (this.registrations.list.length > 0) {
+            this.classroomRegistration = this.registrations.list[0]
+          }
+          this.registrations.loading = false
+          this.classroomRegistration.loading = false
+        })
+        .catch(() => {
+          this.registrations.loading = false
+          this.classroomRegistration.loading = false
+        })
+    },
     getCurrentUserAttendanceSheet (session) {
       if (!session?.session_attendance_sheets || session.session_attendance_sheets.length === 0) {
         return null

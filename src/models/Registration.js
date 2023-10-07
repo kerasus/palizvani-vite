@@ -43,6 +43,10 @@ class Registration extends Model {
           {
             label: 'حذف توسط ادمین',
             value: 'DROPPED_BY_ADMIN'
+          },
+          {
+            label: 'حذف سیستمی (شرایط غیر مجاز)',
+            value: 'DROPPED_FOR_CONDITION'
           }
         ]
       },
