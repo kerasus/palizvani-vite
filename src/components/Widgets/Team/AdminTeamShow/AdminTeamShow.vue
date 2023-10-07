@@ -95,8 +95,8 @@ export default {
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان گروه', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'capacity', responseKey: 'capacity', label: 'ظرفیت', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'separator', name: 'space', label: 'مشخصات سرگروه', className: 'custom-separator', col: 'col-12' },
-        { type: 'input', name: 'leader_info.firstname', responseKey: 'leader_info.firstname', label: 'نام سرگروه', placeholder: ' ', ignoreValue: true, col: 'col-md-3 col-12' },
-        { type: 'input', name: 'leader_info.lastname', responseKey: 'leader_info.lastname', label: 'نام خانوادگی سرگروه', placeholder: ' ', ignoreValue: true, col: 'col-md-3 col-12' },
+        { type: 'input', name: 'leader_info.firstname', responseKey: 'leader_info.firstname', label: 'نام سرگروه', placeholder: ' ', readonly: true, ignoreValue: true, col: 'col-md-3 col-12' },
+        { type: 'input', name: 'leader_info.lastname', responseKey: 'leader_info.lastname', label: 'نام خانوادگی سرگروه', placeholder: ' ', readonly: true, ignoreValue: true, col: 'col-md-3 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-12' },
         {
           type: 'entity',
