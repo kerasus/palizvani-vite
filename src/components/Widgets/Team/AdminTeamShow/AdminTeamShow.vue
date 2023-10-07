@@ -266,6 +266,7 @@ export default {
             ]
           },
           inputs: [
+            { type: 'hidden', name: 'teams__isnull', value: true },
             { type: 'hidden', name: 'classroom', value: classroomId }
           ],
           itemIndicatorKey: row => row.owner_info.firstname + ' ' + row.owner_info.lastname,
