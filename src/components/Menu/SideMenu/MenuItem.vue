@@ -2,7 +2,7 @@
   <div v-for="(item , index) in computedMenu"
        :key="index"
        class="menu-item">
-    <q-expansion-item v-if="!loading && item.children && item.children.length > 0 && item.show"
+    <q-expansion-item v-if="!loading && item.children && item.children.length > 0 && item.show && hasOneOfThisRoles(item.roles)"
                       :header-style="{height:'40px', borderRadius: '14px'}"
                       :label="item.title"
                       :icon="item.icon"
@@ -18,6 +18,7 @@
                :key="i">
             <menu-item v-if="subItem.children && subItem.children.length > 0"
                        :items="[subItem]"
+                       :user="user"
                        @item-selected="itemSelected(item)" />
             <q-item v-else
                     v-ripple
@@ -46,7 +47,7 @@
       </div>
     </q-expansion-item>
     <!--    (item.title === clickedItem.title) || -->
-    <q-item v-else-if="!loading && !item.children"
+    <q-item v-else-if="!loading && !item.children && hasOneOfThisRoles(item.roles)"
             v-ripple
             clickable
             :to="redirectRoute(item)"
@@ -70,12 +71,18 @@
 </template>
 
 <script>
+import { User } from 'src/models/User.js'
+
 export default {
   name: 'MenuItem',
   props: {
     menuItemsColor: {
       type: String,
       default: ''
+    },
+    user: {
+      type: User,
+      default: new User()
     },
     menu: {
       // ToDO: will be deprecate
@@ -149,6 +156,9 @@ export default {
     },
     inactiveAllItems () {
 
+    },
+    hasOneOfThisRoles (roles) {
+      return !roles || roles.find(role => this.user.hasRole(role))
     }
   }
 }

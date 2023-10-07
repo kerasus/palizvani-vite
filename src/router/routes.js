@@ -552,7 +552,6 @@ const routes = [
             name: 'Admin.Classroom',
             path: 'classrooms',
             component: () => import('layouts/bareLayout.vue'),
-            breadcrumbs: { title: 'دوره های آموزشی', route: { name: 'Admin.Classroom.Index' } },
             children: [
               { name: 'Admin.Classroom.Index', path: '', component: () => import('src/pages/Admin/Classroom/index.vue') },
               { name: 'Admin.Classroom.Create', path: 'create', component: () => import('src/pages/Admin/Classroom/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
@@ -567,6 +566,14 @@ const routes = [
               { name: 'Admin.Classroom.Team.Create', path: ':classroom_id/team/create', component: () => import('src/pages/Admin/Classroom/Team/create.vue') },
               { name: 'Admin.Classroom.Team.Show', path: ':classroom_id/team/:team_id', component: () => import('src/pages/Admin/Classroom/Team/show.vue') },
               { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+            ]
+          },
+          {
+            name: 'Admin.Leader',
+            path: 'leader',
+            component: () => import('layouts/bareLayout.vue'),
+            children: [
+              { name: 'Admin.Leader.MyClassrooms.Index', path: 'my_classrooms', component: () => import('src/pages/Admin/Classroom/LeaderMyClassrooms.vue') }
             ]
           },
           {
