@@ -266,8 +266,8 @@ export default {
             ]
           },
           inputs: [
-            { type: 'hidden', name: 'teams__isnull', value: true },
-            { type: 'hidden', name: 'classroom', value: classroomId }
+            // { type: 'hidden', name: 'teams__isnull', value: true },
+            // { type: 'hidden', name: 'classroom', value: classroomId }
           ],
           itemIndicatorKey: row => row.owner_info.firstname + ' ' + row.owner_info.lastname,
           // itemIndicatorKey: 'firstname',
@@ -370,9 +370,13 @@ export default {
       APIGateway.team.appendRegistrations({ teamId: this.$route.params.team_id, registrations })
         .then(() => {
           this.$refs.teamRegistrationList.search()
+          this.addTeamRegistrationInputs[0].value = []
+          this.addTeamRegistrationInputs[0].selected = []
           this.addNewLeaderLoading = false
         })
         .catch(() => {
+          this.addTeamRegistrationInputs[0].value = []
+          this.addTeamRegistrationInputs[0].selected = []
           this.addNewLeaderLoading = false
         })
     },
