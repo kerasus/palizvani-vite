@@ -121,7 +121,7 @@
               </q-item>
               <q-item v-close-popup
                       clickable
-                      :to="{ name: 'Admin.User.Index' }">
+                      :to="{ name: 'Admin' }">
                 <q-item-section>
                   پنل ادمین
                 </q-item-section>
