@@ -12,7 +12,6 @@
     <template #toolbar>
       <q-btn color="primary"
              outline
-             :loading="exportReportLoading"
              :to="{name: 'Admin.Classroom.Team.Create', params: {classroom_id: classroomId}}">
         ایجاد گروه جدید
       </q-btn>
@@ -27,7 +26,6 @@
                  color="primary"
                  label="جزییات"
                  :to="{name: 'Admin.Classroom.Team.Show', params: {classroom_id: classroomId, team_id:inputData.props.row.id}}"
-                 :loading="createInvoiceLoading"
                  class="q-mr-md" />
           <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
         </div>
@@ -45,7 +43,6 @@
 <script>
 import { EntityIndex } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
@@ -65,11 +62,7 @@ export default {
     const classroomId = this.classroomId
     return {
       mounted: false,
-      createInvoiceLoading: false,
-      classroom: new Classroom(),
 
-      dropClassroomByAdminLoading: false,
-      exportReportLoading: false,
       teamsListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId }
       ],

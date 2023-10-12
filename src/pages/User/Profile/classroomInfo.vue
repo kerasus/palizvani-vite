@@ -22,6 +22,9 @@
              name="educations"
              label="جدول آموزشی" />
       <q-tab v-if="canShowOtherTabsOfClassroom"
+             name="team"
+             label="گروه" />
+      <q-tab v-if="canShowOtherTabsOfClassroom"
              name="movies1"
              label="آزمون" />
       <q-tab v-if="canShowOtherTabsOfClassroom"
@@ -85,6 +88,44 @@
             </entity-index-grid-item>
           </template>
         </entity-index>
+      </q-tab-panel>
+
+      <q-tab-panel name="team"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="teamsList"
+                      v-model:value="teamsListInputs"
+                      title="لیست گروه ها"
+                      :api="teamsListApi"
+                      :table="teamsListTable"
+                      :table-keys="teamsListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'action'">
+              <div class="action-column-entity-index">
+                <q-btn size="md"
+                       color="primary"
+                       :flat="inputData.props.row.join_status !== 'ENABLED'"
+                       :disable="inputData.props.row.join_status !== 'ENABLED'"
+                       :label="getTeamJoinStatusLabel(inputData.props.row)"
+                       class="q-mr-md"
+                       :loading="joinTeamLoading"
+                       @click="joinTeam(inputData.props.row)" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
       </q-tab-panel>
 
       <q-tab-panel name="movies1">
@@ -165,6 +206,7 @@ import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
+import { Team } from 'src/models/Team'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -377,10 +419,80 @@ export default {
       },
 
       registrations: new RegistrationList(),
-      classroomRegistration: new Registration()
+      classroomRegistration: new Registration(),
+
+      joinTeamLoading: false,
+      teamsListInputs: [
+        { type: 'hidden', name: 'classroom', value: classroomId }
+      ],
+      teamsListApi: APIGateway.team.APIAdresses.classroomTeamsWithJoinStatus,
+      teamsListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'عنوان گروه',
+            align: 'left',
+            field: row => row.title
+          },
+          {
+            name: 'leader_info',
+            required: true,
+            label: 'سرگروه',
+            align: 'left',
+            field: row => row.leader_info?.firstname + ' ' + row.leader_info?.lastname
+          },
+          {
+            name: 'used_capacity',
+            required: true,
+            label: 'ظرفیت استفاده شده',
+            align: 'left',
+            field: row => row.used_capacity
+          },
+          {
+            name: 'capacity',
+            required: true,
+            label: 'ظرفیت',
+            align: 'left',
+            field: row => row.capacity
+          },
+          {
+            name: 'action',
+            required: true,
+            label: ' ',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      teamsListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      }
     }
   },
   computed: {
+    classroomId () {
+      return this.$route.params.id
+    },
     canShowOtherTabsOfClassroom () {
       return !this.classroomRegistration.loading && (this.classroomRegistration.status === 'REGISTERED' || this.classroomRegistration.status === 'ENROLLED')
     },
@@ -399,6 +511,24 @@ export default {
     this.mounted = true
   },
   methods: {
+    getTeamJoinStatusLabel (team) {
+      if (team.join_status === 'ENABLED') {
+        return 'عضو شوید'
+      }
+      return (new Team(team)).join_status_info.label
+    },
+    joinTeam (team) {
+      this.joinTeamLoading = true
+      APIGateway.team.register(team.id)
+        .then(() => {
+          this.joinTeamLoading = false
+          this.$refs.teamsList.search()
+        })
+        .catch(() => {
+          this.joinTeamLoading = false
+          this.$refs.teamsList.search()
+        })
+    },
     getRegistrationInfo () {
       this.registrations.loading = true
       this.classroomRegistration.loading = true
