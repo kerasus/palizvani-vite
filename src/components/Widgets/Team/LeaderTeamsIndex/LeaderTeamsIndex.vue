@@ -57,7 +57,7 @@ export default {
       teamsListInputs: [
         { type: 'hidden', name: 'leader', value: null }
       ],
-      teamsListApi: APIGateway.team.APIAdresses.base,
+      teamsListApi: APIGateway.team.APIAdresses.myLeadingTeams,
       teamsListTable: {
         columns: [
           {

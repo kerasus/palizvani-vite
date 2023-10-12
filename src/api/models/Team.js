@@ -6,6 +6,7 @@ export default class TeamAPI extends APIRepository {
     super('teams', appApi, '/lma/teams')
     this.APIAdresses = {
       base: '/lma/teams',
+      myLeadingTeams: '/lma/teams/my_leading_teams',
       byId: (id) => '/lma/teams/' + id,
       registrations: (id) => '/lma/teams/' + id + '/registrations'
     }
