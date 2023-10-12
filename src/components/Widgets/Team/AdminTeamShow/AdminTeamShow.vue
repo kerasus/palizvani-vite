@@ -38,6 +38,7 @@
                   :show-expand-button="false">
       <template #toolbar>
         <form-builder ref="formBuilder"
+                      :key="addTeamRegistrationKey"
                       v-model:value="addTeamRegistrationInputs"
                       :loading="addNewTeamRegistrationLoading" />
       </template>
@@ -205,6 +206,7 @@ export default {
       ],
 
       addNewTeamRegistrationLoading: false,
+      addTeamRegistrationKey: Date.now(),
       addTeamRegistrationInputs: [
         {
           type: EntityInputComp,
@@ -373,11 +375,13 @@ export default {
           this.$refs.teamRegistrationList.search()
           this.addTeamRegistrationInputs[0].value = []
           this.addTeamRegistrationInputs[0].selected = []
+          this.addTeamRegistrationKey = Date.now()
           this.addNewLeaderLoading = false
         })
         .catch(() => {
           this.addTeamRegistrationInputs[0].value = []
           this.addTeamRegistrationInputs[0].selected = []
+          this.addTeamRegistrationKey = Date.now()
           this.addNewLeaderLoading = false
         })
     },
