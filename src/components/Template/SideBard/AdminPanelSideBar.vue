@@ -95,14 +95,6 @@ export default {
           active: false
         },
         {
-          title: 'گروه های من',
-          roles: ['team_leader'],
-          routeName: 'Admin.Leader.Teams.Index',
-          icon: 'diversity_3',
-          show: true,
-          active: false
-        },
-        {
           title: 'محتوا',
           roles: ['superuser'],
           icon: 'live_tv',

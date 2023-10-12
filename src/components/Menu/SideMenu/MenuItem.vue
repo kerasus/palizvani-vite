@@ -20,7 +20,7 @@
                        :items="[subItem]"
                        :user="user"
                        @item-selected="itemSelected(item)" />
-            <q-item v-else
+            <q-item v-else-if="hasOneOfThisRoles(subItem.roles)"
                     v-ripple
                     clickable
                     :to="redirectRoute(subItem)"
@@ -33,7 +33,9 @@
                 {{ subItem.title }}
               </q-tooltip>
               <q-item-section class="list-child-section">
-                <q-item-label lines="1">{{ subItem.title }}</q-item-label>
+                <q-item-label lines="1">
+                  {{ subItem.title }}
+                </q-item-label>
               </q-item-section>
               <q-badge v-if="subItem.badge"
                        class="badge q-py-xs"

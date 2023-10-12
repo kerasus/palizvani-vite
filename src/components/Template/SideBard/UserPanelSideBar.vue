@@ -11,7 +11,8 @@
     </div>
     <q-list class="side-menu-list"
             padding>
-      <menu-item :menu="userProfileMenuItems" />
+      <menu-item :menu="userProfileMenuItems"
+                 :user="user" />
     </q-list>
   </div>
 </template>
@@ -55,6 +56,14 @@ export default {
             {
               title: 'دوره های من',
               routeName: 'UserPanel.Profile.AllClassrooms',
+              show: true,
+              active: false
+            },
+            {
+              title: 'گروه های من',
+              roles: ['team_leader'],
+              routeName: 'Admin.Leader.Teams.Index',
+              icon: 'diversity_3',
               show: true,
               active: false
             }

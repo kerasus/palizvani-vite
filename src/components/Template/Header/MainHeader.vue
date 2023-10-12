@@ -174,7 +174,7 @@ export default {
   },
   computed: {
     canSeeAdminPanel () {
-      return this.user.isAdmin() || this.user.isSuperUser() || this.user.isTeamLeader() || this.user.isEducationalDepartmentHead() || this.user.isFinancialDepartmentHead()
+      return this.user.isAdmin() || this.user.isSuperUser() || this.user.isEducationalDepartmentHead() || this.user.isFinancialDepartmentHead()
     },
     isAdminPage () {
       return this.$route.name && this.$route.name.includes('Admin.')
