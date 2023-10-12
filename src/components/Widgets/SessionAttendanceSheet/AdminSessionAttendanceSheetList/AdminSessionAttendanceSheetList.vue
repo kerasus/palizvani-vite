@@ -12,6 +12,7 @@
       </q-btn>
     </div>
     <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست حضور و غیاب"
                   :api="api"
@@ -52,12 +53,18 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { Registration } from 'src/models/Registration.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
+import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
+import BtnControl from 'src/components/Control/btn.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminSessionAttendanceSheetList',
@@ -76,7 +83,9 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'session', value: sessionId }
+        { type: 'hidden', name: 'session', value: sessionId },
+        { type: 'select', name: 'registration__status', label: 'وضعیت ثبت نام', placeholder: ' ', value: null, options: (new Registration()).statusEnums, col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
       ],
       table: {
         columns: [
@@ -137,30 +146,40 @@ export default {
   },
   mounted() {
     this.mounted = true
+    this.setActionBtn()
     this.getClassroom()
       .then(classroom => {
-        this.classroom = new Classroom(classroom)
-        this.$store.commit('AppLayout/updateBreadcrumbs', {
-          visible: true,
-          loading: false,
-          path: [
-            {
-              label: 'دوره های آموزشی',
-              to: { name: 'Admin.Classroom.Index' }
-            },
-            {
-              label: this.classroom.title,
-              to: { name: 'Admin.Classroom.Show', params: { id: this.$route.params.classroom_id } }
-            },
-            {
-              label: 'لیست حضور و غیاب',
-              to: { name: 'Admin.Classroom.Session.AttendanceSheetList', params: { classroom_id: this.$route.params.classroom_id, session_id: this.$route.params.session_id } }
-            }
-          ]
-        })
+        this.updateBreadcrumbs(classroom)
       })
   },
   methods: {
+    updateBreadcrumbs (classroom) {
+      this.classroom = new Classroom(classroom)
+      this.$store.commit('AppLayout/updateBreadcrumbs', {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'دوره های آموزشی',
+            to: { name: 'Admin.Classroom.Index' }
+          },
+          {
+            label: this.classroom.title,
+            to: { name: 'Admin.Classroom.Show', params: { id: this.$route.params.classroom_id } }
+          },
+          {
+            label: 'لیست حضور و غیاب',
+            to: { name: 'Admin.Classroom.Session.AttendanceSheetList', params: { classroom_id: this.$route.params.classroom_id, session_id: this.$route.params.session_id } }
+          }
+        ]
+      })
+    },
+    search () {
+      this.$refs.entityIndex.search()
+    },
+    setActionBtn () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
+    },
     getClassroom () {
       return APIGateway.classroom.get(this.$route.params.classroom_id)
     }

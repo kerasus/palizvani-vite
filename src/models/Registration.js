@@ -27,6 +27,7 @@ class Registration extends Model {
     ], {
       status: {
         infoKey: 'status_info',
+        enumListKey: 'statusEnums',
         enums: [
           {
             label: 'پیش ثبت نام',
@@ -52,6 +53,7 @@ class Registration extends Model {
       },
       time_status: {
         infoKey: 'time_status_info',
+        enumListKey: 'time_statusEnums',
         enums: [
           {
             label: 'فعال',
