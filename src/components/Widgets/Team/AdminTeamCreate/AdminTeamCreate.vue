@@ -53,6 +53,7 @@ export default {
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان گروه', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'capacity', responseKey: 'capacity', label: 'ظرفیت', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'checkbox', name: 'is_joinable', responseKey: 'is_joinable', label: 'قابل پیوستن', placeholder: ' ', value: false, col: 'col-md-3 col-12' },
         {
           type: 'entity',
           name: 'leader',
