@@ -58,11 +58,11 @@ import { EntityIndex } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
+import BtnControl from 'src/components/Control/btn.vue'
 import { Registration } from 'src/models/Registration.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
-import BtnControl from 'src/components/Control/btn.vue'
-import { FormBuilderAssist } from 'quasar-form-builder'
 
 const BtnControlComp = shallowRef(BtnControl)
 

@@ -47,12 +47,15 @@
 </template>
 
 <script>
-// import { shallowRef } from 'vue'
+import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
-// import BtnControl from 'src/components/Control/btn.vue'
-import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets'
+import BtnControl from 'src/components/Control/btn.vue'
+import { Registration } from 'src/models/Registration.js'
+import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 // const BtnControlComp = shallowRef(BtnControl)
 
@@ -67,7 +70,9 @@ export default {
       mounted: false,
       exportReportLoading: false,
       inputs: [
-        { type: 'hidden', name: 'project', value: projectId }
+        { type: 'hidden', name: 'project', value: projectId },
+        { type: 'select', name: 'registration__status', label: 'وضعیت ثبت نام', placeholder: ' ', value: null, options: (new Registration()).statusEnums, col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
       ],
       api: APIGateway.projectAttendanceSheets.APIAdresses.project_sheets,
       table: {
