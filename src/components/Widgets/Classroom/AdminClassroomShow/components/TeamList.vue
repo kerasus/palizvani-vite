@@ -107,9 +107,9 @@ export default {
           {
             name: 'used_capacity',
             required: true,
-            label: 'ظرفیت باقی مانده',
+            label: 'ظرفیت استفاده شده',
             align: 'left',
-            field: row => row.capacity - row.used_capacity
+            field: row => row.used_capacity
           },
           {
             name: 'capacity',
