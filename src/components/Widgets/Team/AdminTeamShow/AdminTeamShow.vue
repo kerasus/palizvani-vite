@@ -61,13 +61,14 @@
 
 <script>
 import { shallowRef } from 'vue'
-import { EntityEdit, EntityIndex } from 'quasar-crud'
+import { Team } from 'src/models/Team.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { EntityEdit, EntityIndex } from 'quasar-crud'
 import BtnControl from 'src/components/Control/btn.vue'
+import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 import { FormBuilder, inputMixin, FormBuilderAssist } from 'quasar-form-builder'
 import EntityInput from 'quasar-crud/src/components/Entity/Attachment/EntityInput.vue'
-import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 import FormBuilderInputEditor from 'src/components/FormBuilderCustumComponents/FormBuilderInputEditor.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
@@ -88,6 +89,7 @@ export default {
     const classroomId = this.$route.params.classroom_id
     return {
       mounted: false,
+      team: new Team(),
       entityLoading: true,
       api: APIGateway.team.APIAdresses.byId(teamId),
       entityIdKey: 'id',
@@ -388,8 +390,11 @@ export default {
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.edit)
     },
-    afterLoadInputData () {
+    afterLoadInputData (responseData) {
+      this.team = new Team(responseData)
       this.entityLoading = false
+      FormBuilderAssist.setAttributeByName(this.inputs, 'leader', 'value', this.team.leader)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'leader', 'selected', this.team.leader_info)
     },
     edit() {
       this.entityLoading = true
