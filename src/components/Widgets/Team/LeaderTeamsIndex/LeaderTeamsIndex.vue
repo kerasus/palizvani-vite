@@ -18,7 +18,7 @@
           <q-btn size="md"
                  color="primary"
                  label="جزییات"
-                 :to="{name: 'Admin.Leader.Teams.Show', params: {team_id:inputData.props.row.id}}"
+                 :to="{name: 'UserPanel.Leader.Teams.Show', params: {team_id:inputData.props.row.id}}"
                  :loading="createInvoiceLoading"
                  class="q-mr-md" />
         </div>

@@ -265,6 +265,15 @@ const routes = [
                 name: 'UserPanel.Profile.UserInfo',
                 path: 'user-info',
                 component: () => import('src/pages/User/Profile/profile.vue')
+              },
+              {
+                name: 'UserPanel.Leader',
+                path: 'leader',
+                component: () => import('layouts/bareLayout.vue'),
+                children: [
+                  { name: 'UserPanel.Leader.Teams.Index', path: 'teams', component: () => import('pages/Admin/Leader/MyTeams.vue') },
+                  { name: 'UserPanel.Leader.Teams.Show', path: 'teams/:team_id', component: () => import('pages/Admin/Leader/ShowTeam.vue') }
+                ]
               }
             ]
           },
@@ -566,15 +575,6 @@ const routes = [
               { name: 'Admin.Classroom.Team.Create', path: ':classroom_id/team/create', component: () => import('src/pages/Admin/Classroom/Team/create.vue') },
               { name: 'Admin.Classroom.Team.Show', path: ':classroom_id/team/:team_id', component: () => import('src/pages/Admin/Classroom/Team/show.vue') },
               { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
-            ]
-          },
-          {
-            name: 'Admin.Leader',
-            path: 'leader',
-            component: () => import('layouts/bareLayout.vue'),
-            children: [
-              { name: 'Admin.Leader.Teams.Index', path: 'teams', component: () => import('pages/Admin/Leader/MyTeams.vue') },
-              { name: 'Admin.Leader.Teams.Show', path: 'teams/:team_id', component: () => import('pages/Admin/Leader/ShowTeam.vue') }
             ]
           },
           {

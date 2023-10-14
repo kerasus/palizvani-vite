@@ -62,7 +62,7 @@ export default {
             {
               title: 'گروه های من',
               roles: ['team_leader'],
-              routeName: 'Admin.Leader.Teams.Index',
+              routeName: 'UserPanel.Leader.Teams.Index',
               icon: 'diversity_3',
               show: true,
               active: false
