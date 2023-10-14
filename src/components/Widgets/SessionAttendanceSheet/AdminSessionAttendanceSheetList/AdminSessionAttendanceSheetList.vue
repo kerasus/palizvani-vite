@@ -22,6 +22,13 @@
                   :show-search-button="false"
                   :show-expand-button="false"
                   :show-reload-button="false">
+      <template #toolbar>
+        <q-btn color="primary"
+               :loading="exportReportLoading"
+               @click="getReportExcel">
+          خروجی اکسل
+        </q-btn>
+      </template>
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -63,6 +70,7 @@ import BtnControl from 'src/components/Control/btn.vue'
 import { Registration } from 'src/models/Registration.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
+import Assist from 'assets/js/Assist'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -141,6 +149,7 @@ export default {
         ]
       },
       mounted: false,
+      exportReportLoading: false,
       createRouteName: ''
     }
   },
@@ -176,6 +185,22 @@ export default {
     },
     search () {
       this.$refs.entityIndex.search()
+    },
+    getReportExcel () {
+      this.exportReportLoading = true
+      const status = FormBuilderAssist.getInputsByName(this.inputs, 'registration__status').value ? FormBuilderAssist.getInputsByName(this.inputs, 'registration__status').value : null
+      APIGateway.sessionAttendanceSheets.exportReport({
+        session: this.$route.params.session_id,
+        type: 'list',
+        registration__status: status
+      })
+        .then((xlsxData) => {
+          Assist.saveXlsx(xlsxData, this.classroom.title)
+          this.exportReportLoading = false
+        })
+        .catch((e) => {
+          this.exportReportLoading = false
+        })
     },
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)

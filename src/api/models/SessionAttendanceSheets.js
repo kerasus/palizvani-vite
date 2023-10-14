@@ -7,6 +7,7 @@ export default class SessionAttendanceSheetsAPI extends APIRepository {
     super('session', appApi, '/lma/session_attendance_sheets', SessionAttendanceSheets)
     this.APIAdresses = {
       base: '/lma/session_attendance_sheets',
+      exportReport: '/lma/session_attendance_sheets/export_report',
       sessionSheets: '/lma/session_attendance_sheets/session_sheets',
       submitAssignment: '/lma/session_attendance_sheets/submit_assignment',
       submitAttendanceStatus: '/lma/session_attendance_sheets/submit_attendance_status',
@@ -121,6 +122,26 @@ export default class SessionAttendanceSheetsAPI extends APIRepository {
       request: this.APIAdresses.notVerify(sessionAttendanceSheetsId),
       resolveCallback: (response) => {
         return new SessionAttendanceSheets(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  exportReport(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.exportReport,
+      data: this.getNormalizedSendData({
+        session: null, // Number
+        type: 'list', // String
+        registration__status: null // String -> ex: REGISTERED
+      }, data),
+      responseType: 'blob',
+      resolveCallback: (response) => {
+        return response.data // xlsxData
       },
       rejectCallback: (error) => {
         return error
