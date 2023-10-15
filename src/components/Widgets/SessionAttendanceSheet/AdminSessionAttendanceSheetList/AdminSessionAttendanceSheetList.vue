@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminContentList"
+  <div class="AdminSessionAttendanceSheetList"
        :style="localOptions.style">
     <breadcrumbs class="q-mb-xl"
                  style="margin-top: 29px; margin-bottom: 19px;" />
@@ -28,6 +28,18 @@
                @click="getReportExcel">
           خروجی اکسل
         </q-btn>
+      </template>
+      <template #after-index-table>
+        <q-separator class="q-my-lg" />
+        <entity-edit ref="uploadExcelEntity"
+                     v-model:value="uploadInputs"
+                     title="ارسال لیست حضور و غیاب"
+                     :loaded-data="{}"
+                     :api="uploadAPI"
+                     :show-reload-button="false"
+                     :show-expand-button="false"
+                     :show-save-button="false"
+                     :show-close-button="false" />
       </template>
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
@@ -61,7 +73,7 @@
 
 <script>
 import { shallowRef } from 'vue'
-import { EntityIndex } from 'quasar-crud'
+import { EntityIndex, EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
@@ -76,7 +88,11 @@ const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminSessionAttendanceSheetList',
-  components: { EntityIndex, Breadcrumbs },
+  components: {
+    EntityIndex,
+    EntityEdit,
+    Breadcrumbs
+  },
   mixins: [mixinWidget],
   data () {
     const sessionId = this.$route.params.session_id
@@ -95,6 +111,12 @@ export default {
         { type: 'select', name: 'registration__status', label: 'وضعیت ثبت نام', placeholder: ' ', value: null, options: (new Registration()).statusEnums, col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
       ],
+      uploadInputs: [
+        { type: 'hidden', name: 'type', value: 'excel' },
+        { type: 'file', name: 'file', label: 'انتخاب فایل', placeholder: ' ', value: null, col: 'col-md-8 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ارسال', placeholder: ' ', atClick: () => {}, col: 'col-md-4 col-12' }
+      ],
+      uploadAPI: APIGateway.sessionAttendanceSheets.APIAdresses.importList,
       table: {
         columns: [
           {
@@ -204,21 +226,30 @@ export default {
     },
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
+      FormBuilderAssist.setAttributeByName(this.uploadInputs, 'btn', 'atClick', this.uploadExcelEntity)
     },
     getClassroom () {
       return APIGateway.classroom.get(this.$route.params.classroom_id)
+    },
+    uploadExcelEntity () {
+      this.$refs.uploadExcelEntity.editEntity(false)
+        .then(() => {
+          this.search()
+        })
+        .catch(() => {
+          this.search()
+        })
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.AdminContentList {
-  .more-action {
-    display: flex;
-    flex-flow: row;
-    justify-content: flex-end;
-    margin-bottom: 10px;
+.AdminSessionAttendanceSheetList {
+  :deep(.entity-edit) {
+    .q-item {
+      display: none;
+    }
   }
 }
 </style>

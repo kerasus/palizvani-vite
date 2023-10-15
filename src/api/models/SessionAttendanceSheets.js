@@ -8,6 +8,7 @@ export default class SessionAttendanceSheetsAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/session_attendance_sheets',
       exportReport: '/lma/session_attendance_sheets/export_report',
+      importList: '/lma/session_attendance_sheets/import_list',
       sessionSheets: '/lma/session_attendance_sheets/session_sheets',
       submitAssignment: '/lma/session_attendance_sheets/submit_assignment',
       submitAttendanceStatus: '/lma/session_attendance_sheets/submit_attendance_status',
@@ -129,7 +130,7 @@ export default class SessionAttendanceSheetsAPI extends APIRepository {
     })
   }
 
-  exportReport(data) {
+  exportReport (data) {
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
