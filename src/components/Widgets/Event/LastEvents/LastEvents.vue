@@ -3,6 +3,7 @@
     <div class="eventCarousel-title">
       <div>
         <q-banner class="banner">
+          آخرین
           رویدادها
         </q-banner>
       </div>
