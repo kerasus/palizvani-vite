@@ -41,8 +41,10 @@ import { EntityCreate } from 'quasar-crud'
 import { Event } from 'src/models/Event.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
 import FormBuilderInputEditor from 'src/components/FormBuilderCustumComponents/FormBuilderInputEditor.vue'
 
+const ContentMediasComp = shallowRef(ContentMedias)
 const FormBuilderInputEditorComp = shallowRef(FormBuilderInputEditor)
 
 export default {
@@ -79,6 +81,8 @@ export default {
         { type: 'select', name: 'category1', responseKey: 'category1', options: [], placeholder: ' ', label: 'مجموعه(؟)', col: 'col-md-3 col-12' },
         { type: 'select', name: 'audience_gender_type', responseKey: 'audience_gender_type', options: (new Event()).audience_gender_typeEnums, placeholder: ' ', label: 'جنسیت', col: 'col-md-3 col-12' },
         { type: 'select', name: 'audience_bashgah_wwwww', responseKey: 'audience_bashgah_wwwww', options: [], placeholder: ' ', label: 'باشگاه(؟)', col: 'col-md-3 col-12' },
+
+        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', sourceType: 'EVENT', col: 'col-md-12 col-12' },
 
         { type: 'separator', name: 'space', label: 'تنظیمات رویداد', className: 'custom-separator', col: 'col-12' },
         { type: 'input', name: 'capacity', responseKey: 'capacity', placeholder: ' ', label: 'ظرفیت گروه درسی', col: 'col-md-3 col-12' },
