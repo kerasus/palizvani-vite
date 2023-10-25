@@ -232,16 +232,58 @@ export default {
       this.$refs.entityEdit.editEntity(false)
         .then(() => {
           if (this.$route.query.type === 'register') {
-            this.createInvoice()
-              .then(() => {
-                this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
-              })
-              .catch(() => {})
+            this.createInvoiceForClassroomOrRegisterEvent()
           } else {
             this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
           }
         })
         .catch(() => {})
+    },
+    createInvoiceForClassroomOrRegisterEvent () {
+      if (this.$route.query.source === 'event') {
+        this.registerEvent()
+          .then((data) => {
+            if (data === 'Invoice') {
+              this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
+            }
+          })
+          .catch(() => {})
+      } else {
+        this.createInvoice()
+          .then(() => {
+            this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
+          })
+          .catch(() => {})
+      }
+    },
+    registerEvent () {
+      return new Promise((resolve, reject) => {
+        this.invoice.loading = true
+        APIGateway.event.register(this.classroom.id)
+          .then((data) => {
+            if (data.type === 'Invoice') {
+              this.invoice = new Invoice(data.model)
+              this.invoice.loading = false
+              this.$store.commit('Shop/updateRegisterClassroomInvoice', this.invoice)
+              this.$q.notify({
+                message: 'صورت حساب شما ایجاد شد',
+                type: 'positive'
+              })
+              resolve('Invoice')
+            } else if (data.type === 'EventRegistration') {
+              this.$q.notify({
+                message: 'ثبت نام شما با موفقیت انجام شد.',
+                type: 'positive'
+              })
+              const eventRegistrationId = data.model.id
+              this.$router.push({ name: 'UserPanel.Profile.EventInfo', params: { id: eventRegistrationId } })
+            }
+          })
+          .catch(() => {
+            this.invoice.loading = false
+            reject()
+          })
+      })
     },
     createInvoice () {
       return new Promise((resolve, reject) => {
@@ -275,14 +317,7 @@ export default {
       this.rulesDialog = true
     },
     getHoldingType (type) {
-      const target = Enums.classroomHoldingTypes.find(item => item.value === type)
-      if (target) {
-        return target.label
-      }
-      return '-'
-    },
-    getAudienceGenderType (type) {
-      const target = Enums.genders.find(item => item.value === type)
+      const target = (new Classroom()).holding_typeEnums.find(item => item.value === type)
       if (target) {
         return target.label
       }

@@ -340,8 +340,8 @@ export default {
       return ShamsiDate.getTitledDateTime(dateTime)
     },
     acceptAndContinue () {
-      this.$store.commit('Shop/updateOnRegisterEvent', this.event)
-      this.$router.push({ name: 'UserPanel.ShopCompleteInfo', query: { type: this.acceptClassType } })
+      this.$store.commit('Shop/updateOnRegisterClassroom', this.event)
+      this.$router.push({ name: 'UserPanel.ShopCompleteInfo', query: { type: this.acceptClassType, source: 'event' } })
     },
     onEnrolment () {
       this.acceptClassType = 'enrollment'

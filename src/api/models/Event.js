@@ -2,6 +2,7 @@ import { appApi } from 'src/boot/axios.js'
 import { Invoice } from 'src/models/Invoice.js'
 import APIRepository from '../classes/APIRepository.js'
 import { Event, EventList } from 'src/models/Event.js'
+import { EventRegistration } from 'src/models/EventRegistration'
 
 export default class EventAPI extends APIRepository {
   constructor() {
@@ -11,6 +12,7 @@ export default class EventAPI extends APIRepository {
       byId: (id) => '/ema/events/' + id,
       enroll: (id) => '/ema/events/' + id + '/enroll',
       drop: (id) => '/ema/events/' + id + '/drop',
+      register: (id) => '/ema/events/' + id + '/register',
       members: '/ema/registrations',
       activitySheet: '/ema/registrations/activity_sheet',
       enrollByAdmin: (classroomId, userId) => '/ema/events/' + classroomId + '/enrolll?user_id=' + userId,
@@ -107,6 +109,32 @@ export default class EventAPI extends APIRepository {
       },
       resolveCallback: (response) => {
         return new Event(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  register (id) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.register(id),
+      resolveCallback: (response) => {
+        const data = {
+          type: null,
+          model: response.data
+        }
+        if (response.data.status === 'PAYING') {
+          data.type = 'Invoice'
+          data.model = new Invoice(response.data)
+        } else if (response.data.status === 'REGISTERED') {
+          data.type = 'EventRegistration'
+          data.model = new EventRegistration(response.data)
+        }
+
+        return data
       },
       rejectCallback: (error) => {
         return error
