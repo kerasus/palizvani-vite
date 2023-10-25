@@ -65,41 +65,6 @@ export default {
         { type: 'input', name: 'price', responseKey: 'price', placeholder: ' ', label: 'هزینه برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'live_streaming_url', responseKey: 'live_streaming_url', placeholder: ' ', label: 'لینک مکان مجازی رویدادها', col: 'col-12' },
         { type: FormBuilderInputEditorComp, name: 'event_address', responseKey: 'event_address', placeholder: ' ', label: 'آدرس مکان فیزیکی رویدادها', col: 'col-12' },
-        {
-          type: 'select',
-          name: 'holding_year',
-          responseKey: 'holding_year',
-          options: [1402, 1403, 1404, 1405, 1406, 1407, 1408, 1409, 1410],
-          value: null,
-          label: 'انتخاب سال رویدادها',
-          placeholder: ' ',
-          col: 'col-md-3'
-        },
-        {
-          type: 'select',
-          name: 'holding_month',
-          responseKey: 'holding_month',
-          options: [
-            'فروردین',
-            'اردیبهشت',
-            'خرداد',
-            'تیر',
-            'مرداد',
-            'شهریور',
-            'مهر',
-            'آبان',
-            'آذر',
-            'دی',
-            'بهمن',
-            'اسفند'
-          ],
-          value: null,
-          label: 'انتخاب ماه رویدادها',
-          placeholder: ' ',
-          col: 'col-md-3'
-        },
-        { type: 'input', name: 'sessions_frequency', responseKey: 'sessions_frequency', placeholder: ' ', label: 'رویدادها تناوب', col: 'col-12' },
-        { type: 'select', name: 'professor', responseKey: 'professor', options: [], value: null, placeholder: ' ', label: 'استاد رویدادها', col: 'col-md-3 col-12' },
 
         { type: 'separator', name: 'space', label: 'مشخصات اندیشه جو', className: 'custom-separator', col: 'col-12' },
         { type: 'select', name: 'audience_status_wwwww', responseKey: 'audience_status_wwwww', options: [], placeholder: ' ', label: 'وضعیت(؟)', col: 'col-md-3 col-12' },

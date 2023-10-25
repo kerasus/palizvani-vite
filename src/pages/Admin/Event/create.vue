@@ -14,7 +14,7 @@
                    ref="eventEntityCreate"
                    :key="eventEntityCreateKey"
                    v-model:value="inputs"
-                   title="مشخصات دوره آموزشی"
+                   title="مشخصات رویداد"
                    :api="api"
                    :entity-id-key="entityIdKey"
                    :entity-param-key="entityParamKey"
@@ -63,51 +63,16 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'Admin.Event.Show',
       inputs: [
-        { type: 'separator', name: 'space', label: 'مشخصات دوره', className: 'custom-separator', col: 'col-12' },
+        { type: 'separator', name: 'space', label: 'مشخصات رویداد', className: 'custom-separator', col: 'col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان رویداد', placeholder: ' ', col: 'col-12' },
-        { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'آپلود عکس دوره', col: 'col-md-3 col-12' },
-        { type: 'file', name: 'codes', responseKey: 'codes', label: 'آیین نامه دوره', col: 'col-md-3 col-12' },
+        { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'آپلود عکس رویداد', col: 'col-md-3 col-12' },
+        { type: 'file', name: 'codes', responseKey: 'codes', label: 'آیین نامه رویداد', col: 'col-md-3 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
         { type: 'select', name: 'category', responseKey: 'category', options: (new Event()).categoryEnums, value: null, placeholder: ' ', label: 'دسته بندی', col: 'col-md-3 col-12' },
         { type: 'select', name: 'holding_type', responseKey: 'holding_type', options: (new Event()).holding_typeEnums, value: null, placeholder: ' ', label: 'نوع برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'price', responseKey: 'price', placeholder: ' ', label: 'هزینه برگزاری', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'live_streaming_url', responseKey: 'live_streaming_url', placeholder: ' ', label: 'لینک مکان مجازی دوره', col: 'col-12' },
-        { type: FormBuilderInputEditorComp, name: 'event_address', responseKey: 'event_address', placeholder: ' ', label: 'آدرس مکان فیزیکی دوره', col: 'col-12' },
-        {
-          type: 'select',
-          name: 'holding_year',
-          responseKey: 'holding_year',
-          options: [1402, 1403, 1404, 1405, 1406, 1407, 1408, 1409, 1410],
-          value: null,
-          label: 'انتخاب سال دوره',
-          placeholder: ' ',
-          col: 'col-md-3'
-        },
-        {
-          type: 'select',
-          name: 'holding_month',
-          responseKey: 'holding_month',
-          options: [
-            'فروردین',
-            'اردیبهشت',
-            'خرداد',
-            'تیر',
-            'مرداد',
-            'شهریور',
-            'مهر',
-            'آبان',
-            'آذر',
-            'دی',
-            'بهمن',
-            'اسفند'
-          ],
-          value: null,
-          label: 'انتخاب ماه دوره',
-          placeholder: ' ',
-          col: 'col-md-3'
-        },
-        { type: 'input', name: 'sessions_frequency', responseKey: 'sessions_frequency', placeholder: ' ', label: 'دوره تناوب', col: 'col-12' },
-        { type: 'select', name: 'professor', responseKey: 'professor', options: [], value: null, placeholder: ' ', label: 'استاد دوره', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'live_streaming_url', responseKey: 'live_streaming_url', placeholder: ' ', label: 'لینک مکان مجازی رویداد', col: 'col-12' },
+        { type: FormBuilderInputEditorComp, name: 'event_address', responseKey: 'event_address', placeholder: ' ', label: 'آدرس مکان فیزیکی رویداد', col: 'col-12' },
 
         { type: 'separator', name: 'space', label: 'مشخصات اندیشه جو', className: 'custom-separator', col: 'col-12' },
         { type: 'select', name: 'audience_status_wwwww', responseKey: 'audience_status_wwwww', options: [], placeholder: ' ', label: 'وضعیت(؟)', col: 'col-md-3 col-12' },
@@ -115,7 +80,7 @@ export default {
         { type: 'select', name: 'audience_gender_type', responseKey: 'audience_gender_type', options: (new Event()).audience_gender_typeEnums, placeholder: ' ', label: 'جنسیت', col: 'col-md-3 col-12' },
         { type: 'select', name: 'audience_bashgah_wwwww', responseKey: 'audience_bashgah_wwwww', options: [], placeholder: ' ', label: 'باشگاه(؟)', col: 'col-md-3 col-12' },
 
-        { type: 'separator', name: 'space', label: 'تنظیمات دوره', className: 'custom-separator', col: 'col-12' },
+        { type: 'separator', name: 'space', label: 'تنظیمات رویداد', className: 'custom-separator', col: 'col-12' },
         { type: 'input', name: 'capacity', responseKey: 'capacity', placeholder: ' ', label: 'ظرفیت گروه درسی', col: 'col-md-3 col-12' },
         { type: 'input', name: 'allowed_absence_count', responseKey: 'allowed_absence_count', placeholder: ' ', label: 'تعداد مجاز غیبت', col: 'col-md-3 col-12' },
         { type: 'input', name: 'effective_absence_coefficient', responseKey: 'effective_absence_coefficient', placeholder: ' ', label: 'ضریب نمره حضور و غیاب', col: 'col-md-3 col-12' },
@@ -146,7 +111,7 @@ export default {
         { type: 'dateTime', name: 'publish_time', responseKey: 'publish_time', placeholder: ' ', label: 'تاریخ انتشار', col: 'col-md-6 col-12' },
 
         { type: 'separator', name: 'space', label: 'قوانین', className: 'custom-separator', col: 'col-12' },
-        { type: FormBuilderInputEditorComp, name: 'rules', responseKey: 'rules', label: 'قوانین دوره آموزشی', col: 'col-12' },
+        { type: FormBuilderInputEditorComp, name: 'rules', responseKey: 'rules', label: 'قوانین رویداد', col: 'col-12' },
 
         { type: FormBuilderInputEditorComp, name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
         { type: FormBuilderInputEditorComp, name: 'specification', responseKey: 'specification', label: 'مشخصات', col: 'col-12' },
