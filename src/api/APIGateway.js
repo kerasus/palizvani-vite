@@ -3,6 +3,7 @@ import AuthAPI from 'src/api/models/Auth.js'
 import UserAPI from 'src/api/models/User.js'
 import PostAPI from 'src/api/models/Post.js'
 import UnitAPI from 'src/api/models/Unit.js'
+import EventAPI from 'src/api/models/Event.js'
 import MediaAPI from 'src/api/models/Media.js'
 import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
@@ -35,6 +36,7 @@ export const APIGateway = {
   user: new UserAPI(),
   unit: new UnitAPI(),
   post: new PostAPI(),
+  event: new EventAPI(),
   media: new MediaAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
