@@ -67,8 +67,6 @@ import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
-import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
 import ShowEventInfo from 'src/components/Widgets/Event/ShowEventInfo/ShowEventInfo.vue'
 
 export default {
