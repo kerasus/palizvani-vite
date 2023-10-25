@@ -151,7 +151,7 @@
 import { EntityIndex } from 'quasar-crud'
 import { Event } from 'src/models/Event.js'
 import Enums from 'src/assets/Enums/Enums.js'
-import {Invoice} from "src/models/Invoice.js";
+import { Invoice } from 'src/models/Invoice.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
@@ -443,7 +443,6 @@ export default {
     },
     getInvoiceStatusTitle (type) {
       const target = (new Invoice()).statusEnums.find(item => item.value === type)
-      const target = Enums.invoiceStatus.find(item => item.value === type)
       if (!target) {
         return '-'
       }

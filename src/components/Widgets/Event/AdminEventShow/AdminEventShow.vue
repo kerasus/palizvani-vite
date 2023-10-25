@@ -68,9 +68,9 @@
 
 <script>
 import { Event } from 'src/models/Event.js'
+import EventInfo from './components/EventInfo.vue'
 import ProjectList from './components/ProjectList.vue'
 import MembersList from './components/MembersList.vue'
-import EventInfo from './components/EventInfo.vue'
 import LiveStreaming from './components/LiveStreaming.vue'
 import ActivitySheetList from './components/ActivitySheetList.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'

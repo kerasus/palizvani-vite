@@ -39,7 +39,6 @@
 import { shallowRef } from 'vue'
 import { EntityCreate } from 'quasar-crud'
 import { Event } from 'src/models/Event.js'
-import Enums from 'src/assets/Enums/Enums.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import FormBuilderInputEditor from 'src/components/FormBuilderCustumComponents/FormBuilderInputEditor.vue'
@@ -69,8 +68,7 @@ export default {
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'آپلود عکس دوره', col: 'col-md-3 col-12' },
         { type: 'file', name: 'codes', responseKey: 'codes', label: 'آیین نامه دوره', col: 'col-md-3 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
-        { type: 'select', name: 'category', responseKey: 'unit_info.category', options: (new Event()).categoryEnums, value: null, placeholder: ' ', label: 'دسته بندی', col: 'col-md-3 col-12' },
-        { type: 'select', name: 'unit', responseKey: 'unit', options: [], value: null, placeholder: ' ', label: 'درس', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'category', responseKey: 'category', options: (new Event()).categoryEnums, value: null, placeholder: ' ', label: 'دسته بندی', col: 'col-md-3 col-12' },
         { type: 'select', name: 'holding_type', responseKey: 'holding_type', options: (new Event()).holding_typeEnums, value: null, placeholder: ' ', label: 'نوع برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'price', responseKey: 'price', placeholder: ' ', label: 'هزینه برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'live_streaming_url', responseKey: 'live_streaming_url', placeholder: ' ', label: 'لینک مکان مجازی دوره', col: 'col-12' },
@@ -163,18 +161,6 @@ export default {
       ]
     }
   },
-  // computed: {
-  //   selectedCategoryId () {
-  //     return FormBuilderAssist.getInputsByName(this.inputs, 'category')?.value
-  //   }
-  // },
-  // watch: {
-  //   selectedCategoryId () {
-  //     FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'value', null)
-  //     FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'options', [])
-  //     this.getUnits(this.selectedCategoryId)
-  //   }
-  // },
   mounted () {
     this.preLoadData()
       .then(() => {
@@ -190,9 +176,8 @@ export default {
     preLoadData () {
       return new Promise((resolve, reject) => {
         const promise1 = this.getProfessors()
-        const promise2 = this.getUnits()
         this.$nextTick(() => {
-          Promise.all([promise1, promise2])
+          Promise.all([promise1])
             .then(() => {
               resolve()
             })
@@ -213,22 +198,6 @@ export default {
           }))
         })
         .catch(() => {})
-    },
-    getUnits (selectedcategoryId = null) {
-      this.unitsLoading = true
-      APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
-        .then((units) => {
-          FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'options', units.list.list.map(item => {
-            return {
-              value: item.id,
-              label: item.title
-            }
-          }))
-          this.unitsLoading = false
-        })
-        .catch(() => {
-          this.unitsLoading = false
-        })
     },
     getUserFullname (user) {
       return user.firstname + ' ' + user.lastname

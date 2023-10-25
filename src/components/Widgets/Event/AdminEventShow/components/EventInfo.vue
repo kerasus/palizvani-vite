@@ -60,8 +60,7 @@ export default {
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'آپلود عکس رویدادها', col: 'col-md-3 col-12' },
         { type: 'file', name: 'codes', responseKey: 'codes', label: 'آیین نامه رویدادها', col: 'col-md-3 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
-        { type: 'select', name: 'category', responseKey: 'unit_info.category_info.id', options: (new Event()).categoryEnums, value: null, placeholder: ' ', label: 'دسته بندی', col: 'col-md-3 col-12' },
-        { type: 'select', name: 'unit', responseKey: 'unit', options: [], value: null, placeholder: ' ', label: 'درس', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'category', responseKey: 'category', options: (new Event()).categoryEnums, value: null, placeholder: ' ', label: 'دسته بندی', col: 'col-md-3 col-12' },
         { type: 'select', name: 'holding_type', responseKey: 'holding_type', options: (new Event()).holding_typeEnums, value: null, placeholder: ' ', label: 'نوع برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'price', responseKey: 'price', placeholder: ' ', label: 'هزینه برگزاری', col: 'col-md-3 col-12' },
         { type: 'input', name: 'live_streaming_url', responseKey: 'live_streaming_url', placeholder: ' ', label: 'لینک مکان مجازی رویدادها', col: 'col-12' },
@@ -158,9 +157,6 @@ export default {
     }
   },
   computed: {
-    // selectedCategoryId () {
-    //   return FormBuilderAssist.getInputsByName(this.inputs, 'category').value
-    // },
     localClassroom: {
       get () {
         return this.event
@@ -170,15 +166,6 @@ export default {
       }
     }
   },
-  // watch: {
-  //   selectedCategoryId () {
-  //     if (!this.mounted) {
-  //       return
-  //     }
-  //     FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'value', null)
-  //     this.getUnits(this.selectedCategoryId)
-  //   }
-  // },
   mounted () {
     this.localClassroom.loading = true
     this.preLoadData()
@@ -204,7 +191,6 @@ export default {
         APIGateway.event.get(this.eventId)
           .then((event) => {
             this.setInputAttr('category', 'value', event.category)
-            this.setInputAttr('unit', 'value', event.unit)
             this.beforeLoadInputData(event)
               .then((event) => {
                 resolve(event)
@@ -221,14 +207,10 @@ export default {
     beforeLoadInputData (/* responseData */) {
       return new Promise((resolve, reject) => {
         const promise1 = this.getProfessors()
-        const promise2 = this.getCategories()
-        const promise3 = this.getUnits()
-        // const promise3 = this.getUnits(responseData.unit_info.category)
         this.$nextTick(() => {
-          Promise.all([promise1, promise2, promise3])
+          Promise.all([promise1])
             .then(() => {
               // this.setInputAttr('category', 'value', responseData.unit_info.category)
-              // this.setInputAttr('unit', 'value', responseData.unit)
               this.eventEntityEditKey = Date.now()
               resolve()
             })
@@ -245,30 +227,6 @@ export default {
             return {
               value: item.id,
               label: this.getUserFullname(item)
-            }
-          }))
-        })
-        .catch(() => {})
-    },
-    getCategories () {
-      return APIGateway.unitCategory.index({ per_page: 9999 })
-        .then((categories) => {
-          this.setInputAttr('category', 'options', categories.list.list.map(item => {
-            return {
-              value: item.id,
-              label: item.title
-            }
-          }))
-        })
-        .catch(() => {})
-    },
-    getUnits (selectedcategoryId) {
-      return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
-        .then((units) => {
-          this.setInputAttr('unit', 'options', units.list.list.map(item => {
-            return {
-              value: item.id,
-              label: item.title
             }
           }))
         })
