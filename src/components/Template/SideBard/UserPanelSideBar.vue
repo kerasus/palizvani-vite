@@ -70,6 +70,22 @@ export default {
           ]
         },
         {
+          title: 'رویدادها',
+          routeName: null,
+          icon: 'auto_stories',
+          show: true,
+          open: true,
+          active: false,
+          children: [
+            {
+              title: 'رویدادهای من',
+              routeName: 'UserPanel.Profile.AllEvents',
+              show: true,
+              active: false
+            }
+          ]
+        },
+        {
           title: 'درخواست ها',
           routeName: 'UserPanel.Ticket.List',
           icon: 'email',

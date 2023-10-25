@@ -62,6 +62,22 @@ export default {
           ]
         },
         {
+          title: 'رویدادها',
+          icon: 'import_contacts',
+          routeName: null,
+          show: true,
+          open: true,
+          active: false,
+          children: [
+            {
+              title: 'لیست رویدادها',
+              routeName: 'Admin.Event.Index',
+              show: true,
+              active: false
+            }
+          ]
+        },
+        {
           title: 'حلقه های مباحثاتی',
           roles: ['superuser', 'educational_department_head'],
           icon: 'diversity_2',

@@ -46,6 +46,7 @@ export default {
 .AdminLayout {
   background: #F9F9F9;
   padding: 35px 35px 35px 61px;
+  min-height: calc( 100vh - 51px - 60px );
   @media screen and (max-width: 1023px) {
     padding: 15px 10px !important;
   }
