@@ -22,14 +22,8 @@
             narrow-indicator>
       <q-tab name="eventInfo"
              label="مشخصات" />
-      <q-tab name="projects"
-             label="پروژه‌ها" />
-      <q-tab name="movies2"
-             label="آزمون" />
       <q-tab name="members"
              label="اندیشه جویان" />
-      <q-tab name="activity_sheet"
-             label="فعالیت کلاسی" />
       <q-tab name="live_streaming_url"
              label="بخش آنلاین" />
     </q-tabs>
@@ -43,21 +37,9 @@
         <event-info v-model:event="event"
                     :event-id="$route.params.id" />
       </q-tab-panel>
-
-      <q-tab-panel name="projects"
-                   class="q-pa-none">
-        <project-list :event-id="$route.params.id" />
-      </q-tab-panel>
-      <q-tab-panel name="movies2">
-        آزمون
-      </q-tab-panel>
       <q-tab-panel name="members"
                    class="q-pa-none">
         <members-list :event-id="$route.params.id" />
-      </q-tab-panel>
-      <q-tab-panel name="activity_sheet"
-                   class="q-pa-none">
-        <activity-sheet-list :event-id="$route.params.id" />
       </q-tab-panel>
       <q-tab-panel name="live_streaming_url">
         <live-streaming :event="event" />
@@ -69,21 +51,17 @@
 <script>
 import { Event } from 'src/models/Event.js'
 import EventInfo from './components/EventInfo.vue'
-import ProjectList from './components/ProjectList.vue'
 import MembersList from './components/MembersList.vue'
 import LiveStreaming from './components/LiveStreaming.vue'
-import ActivitySheetList from './components/ActivitySheetList.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'Admin.Event.Show',
   components: {
-    ProjectList,
+    EventInfo,
     MembersList,
     Breadcrumbs,
-    EventInfo,
-    LiveStreaming,
-    ActivitySheetList
+    LiveStreaming
   },
   data () {
     return {
