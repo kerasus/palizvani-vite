@@ -80,15 +80,6 @@ export default {
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
-        {
-          type: 'select',
-          name: 'unit',
-          options: [],
-          value: null,
-          label: 'درس',
-          placeholder: ' ',
-          col: 'col-md-2 col-12'
-        },
         { type: 'hidden', name: 'unit__category__type', value: 'TRAINING' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
@@ -117,41 +108,32 @@ export default {
             field: row => row.title
           },
           {
-            name: 'audience_gender_type',
+            name: 'category',
             required: true,
-            label: 'جنسیت',
+            label: 'دسته بندی',
             align: 'left',
-            field: row => (row.audience_gender_type === 'FEMALE') ? 'خواهران' : (row.audience_gender_type === 'MALE') ? 'برادران' : 'خواهران و برادران'
-          },
-          {
-            name: 'status',
-            required: true,
-            label: 'وضعیت',
-            align: 'left',
-            // field: row => this.getEventStatusesTitle(row.status)
-            field: row => (new Event(row)).status_info.label
+            field: row => (new Event(row)).category_info.label
           },
           {
             name: 'title',
             required: true,
             label: 'نوع برگزاری',
             align: 'left',
-            // field: row => this.getEventHoldingTypeTitle(row.holding_type)
             field: row => (new Event(row)).holding_type_info.label
+          },
+          {
+            name: 'status',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Event(row)).status_info.label
           },
           {
             name: 'title',
             required: true,
             label: 'هزینه(ریال)',
             align: 'left',
-            field: row => row.price
-          },
-          {
-            name: 'title',
-            required: true,
-            label: 'استاد مربوطه',
-            align: 'left',
-            field: row => row.professor_info?.firstname + ' ' + row.professor_info?.lastname
+            field: row => (row.price === 0) ? 'رایگان' : row.price
           },
           {
             name: 'title',
@@ -159,13 +141,6 @@ export default {
             label: 'تاریخ و زمان ثبت نام',
             align: 'left',
             field: row => row.beginning_registration_period ? ShamsiDate.getDateTime(row.beginning_registration_period) : '-'
-          },
-          {
-            name: 'title',
-            required: true,
-            label: 'ترم برگزاری',
-            align: 'left',
-            field: row => (row.beginning_registration_period) ? ShamsiDate.getTerm(row.beginning_registration_period) : '-'
           },
           {
             name: 'action',
@@ -189,7 +164,6 @@ export default {
   mounted () {
     this.setActionBtn()
     this.mounted = true
-    this.getUnits()
   },
   methods: {
     setActionBtn () {
@@ -201,15 +175,6 @@ export default {
     },
     search () {
       this.$refs.entityIndex.search()
-    },
-    getUnits () {
-      APIGateway.unit.index({ per_page: 9999 })
-        .then((units) => {
-          this.loadSelectOptions('unit', this.getSelectOptions(units.list.list, 'id', 'title'))
-        })
-        .catch(() => {
-
-        })
     },
     loadSelectOptions (name, value) {
       const inputIndex = this.inputs.findIndex(input => input.name === name)
