@@ -225,42 +225,6 @@ const routes = [
                 component: () => import('src/pages/User/Profile/OverdueInstalment.vue')
               },
               {
-                name: 'UserPanel.Profile.AllClassrooms',
-                path: 'all-classrooms',
-                component: () => import('src/pages/User/Profile/classrooms.vue'),
-                meta: {
-                  breadcrumbs: {
-                    visible: true,
-                    loading: false,
-                    path: [
-                      {
-                        label: 'دوره های من',
-                        to: { name: 'UserPanel.Profile.AllClassrooms' }
-                      }
-                    ]
-                  },
-                  middlewares: [HasOverdueInstalment]
-                }
-              },
-              {
-                name: 'UserPanel.Profile.AllEvents',
-                path: 'all-events',
-                component: () => import('src/pages/User/Profile/Events.vue'),
-                meta: {
-                  breadcrumbs: {
-                    visible: true,
-                    loading: false,
-                    path: [
-                      {
-                        label: 'رویدادهای من',
-                        to: { name: 'UserPanel.Profile.AllEvents' }
-                      }
-                    ]
-                  },
-                  middlewares: [HasOverdueInstalment]
-                }
-              },
-              {
                 name: 'UserPanel.Profile.AllDiscussionCirclesClassrooms',
                 path: 'all-discussion-circles-classrooms',
                 component: () => import('src/pages/User/Profile/DiscussionCirclesClassrooms.vue'),
@@ -279,10 +243,46 @@ const routes = [
                 }
               },
               {
+                name: 'UserPanel.Profile.AllClassrooms',
+                path: 'all-classrooms',
+                component: () => import('src/pages/User/Profile/classrooms.vue'),
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'دوره های من',
+                        to: { name: 'UserPanel.Profile.AllClassrooms' }
+                      }
+                    ]
+                  },
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
                 name: 'UserPanel.Profile.ClassroomInfo',
                 path: 'classroom/:id',
                 component: () => import('src/pages/User/Profile/classroomInfo.vue'),
                 meta: {
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
+                name: 'UserPanel.Profile.AllEvents',
+                path: 'all-events',
+                component: () => import('src/pages/User/Profile/Events.vue'),
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'رویدادهای من',
+                        to: { name: 'UserPanel.Profile.AllEvents' }
+                      }
+                    ]
+                  },
                   middlewares: [HasOverdueInstalment]
                 }
               },

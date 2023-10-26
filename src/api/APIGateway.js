@@ -29,6 +29,7 @@ import InstalmentOfferAPI from 'src/api/models/InstalmentOffer.js'
 import ClassroomGraderAPI from 'src/api/models/ClassroomGraders.js'
 import ClassroomLeadersAPI from 'src/api/models/ClassroomLeaders.js'
 import TeamRegistrationsAPI from 'src/api/models/TeamRegistrations.js'
+import EventRegistrationApi from 'src/api/models/EventRegistration.js'
 import ClassroomRegistrationAPI from 'src/api/models/ClassroomRegistration.js'
 import ProjectAttendanceSheetsAPI from 'src/api/models/ProjectAttendanceSheets.js'
 import SessionAttendanceSheetsAPI from 'src/api/models/SessionAttendanceSheets.js'
@@ -66,6 +67,7 @@ export const APIGateway = {
   classroomGrader: new ClassroomGraderAPI(),
   classroomLeaders: new ClassroomLeadersAPI(),
   teamRegistrations: new TeamRegistrationsAPI(),
+  eventRegistration: new EventRegistrationApi(),
   classroomRegistration: new ClassroomRegistrationAPI(),
   projectAttendanceSheets: new ProjectAttendanceSheetsAPI(),
   sessionAttendanceSheets: new SessionAttendanceSheetsAPI()

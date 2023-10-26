@@ -90,21 +90,11 @@ export default {
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
-        {
-          type: 'select',
-          name: 'unit',
-          responseKey: 'unit',
-          options: [],
-          value: null,
-          label: 'درس',
-          placeholder: ' ',
-          col: 'col-md-2 col-12'
-        },
         { type: 'hidden', name: 'owner', value: null },
         { type: 'input', name: 'search', label: 'جستجو', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
-      api: APIGateway.registration.APIAdresses.base,
+      api: APIGateway.eventRegistration.APIAdresses.base,
       table: {
         columns: [
           {
@@ -203,21 +193,9 @@ export default {
       }
     }
   },
-  // computed: {
-  //   selectedCategoryId () {
-  //     return this.getInputValue('category')
-  //   }
-  // },
-  // watch: {
-  //   selectedCategoryId () {
-  //     this.setInputValue('unit', null)
-  //     this.getUnits(this.selectedCategoryId)
-  //   }
-  // },
   mounted () {
     this.setOwner()
     this.setActionBtn()
-    this.loadInputDataOptions()
     this.mounted = true
   },
   methods: {
@@ -254,17 +232,6 @@ export default {
       }
 
       return target.label
-    },
-    loadInputDataOptions () {
-      this.getUnits()
-    },
-    getUnits (selectedcategoryId) {
-      APIGateway.unit.index({ category: selectedcategoryId })
-        .then(unitList => {
-          this.loadSelectOptions('unit', this.getSelectOptions(unitList.list.list, 'id', 'title'))
-        })
-        .catch(() => {
-        })
     },
     getInputValue (name) {
       const inputIndex = this.inputs.findIndex(input => input.name === name)

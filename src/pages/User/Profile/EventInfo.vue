@@ -17,7 +17,7 @@
             align="justify"
             narrow-indicator>
       <q-tab name="eventInfo"
-             label="اطلاعات دوره آموزشی" />
+             label="اطلاعات رویداد" />
       <q-tab v-if="event.live_streaming_url"
              name="live_streaming_url"
              label="بخش آنلاین" />
