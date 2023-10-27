@@ -172,7 +172,7 @@ export default {
     getMembersExcel () {
       this.exportReportLoading = true
       const status = FormBuilderAssist.getInputsByName(this.membersListInputs, 'status').value ? FormBuilderAssist.getInputsByName(this.membersListInputs, 'status').value : null
-      APIGateway.registration.exportReport({
+      APIGateway.eventRegistration.exportReport({
         event: this.$route.params.id,
         type: 'users',
         status
