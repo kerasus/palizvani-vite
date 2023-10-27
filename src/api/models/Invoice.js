@@ -4,7 +4,7 @@ import { Invoice, InvoiceList } from 'src/models/Invoice.js'
 
 export default class InvoiceAPI extends APIRepository {
   constructor() {
-    super('invoice', appApi)
+    super('invoice', appApi, '/accounting/invoices', Invoice)
     this.APIAdresses = {
       base: '/accounting/invoices',
       byId: (id) => '/accounting/invoices/' + id,

@@ -133,6 +133,8 @@ export default {
       wallet: new Wallet(),
       invoice: new Invoice(),
       defaultOptions: {
+        invoice: null,
+        invoiceId: null,
         canAction: true,
         showBackBtn: true,
         showNeedInstallmentBtn: true
@@ -227,16 +229,20 @@ export default {
       return this.localOptions.invoiceId || this.$route.params.id
     },
     getInvoice () {
-      this.invoice.loading = true
-      const invoiceId = this.getInvoiceId()
-      APIGateway.invoice.get({ data: { id: invoiceId } })
-        .then((invoice) => {
-          this.invoice = new Invoice(invoice)
-          this.invoice.loading = false
-        })
-        .catch(() => {
-          this.invoice.loading = false
-        })
+      if (this.localOptions.invoice) {
+        this.invoice = new Invoice(this.localOptions.invoice)
+      } else {
+        this.invoice.loading = true
+        const invoiceId = this.getInvoiceId()
+        APIGateway.invoice.get({ data: { id: invoiceId } })
+          .then((invoice) => {
+            this.invoice = new Invoice(invoice)
+            this.invoice.loading = false
+          })
+          .catch(() => {
+            this.invoice.loading = false
+          })
+      }
     }
   }
 }
