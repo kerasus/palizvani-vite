@@ -15,7 +15,7 @@
       </div>
     </div>
     <q-card v-if="invoice.item_info"
-            class="q-mt-lg">
+            class="invoice-info q-mt-lg">
       <q-linear-progress v-if="invoice.loading"
                          indeterminate />
       <q-card-section>
@@ -31,10 +31,9 @@
       </q-card-section>
       <q-separator />
       <q-card-section>
-        <div class="row">
+        <div class="main-items row">
           <div class="col-md-3 col-12">
             <q-banner>
-              <q-icon name="isax:stickynote" />
               {{ getDateTime(invoice.creation_time) }}
             </q-banner>
           </div>
@@ -63,17 +62,25 @@
         <div class="row q-col-gutter-lg">
           <div class="col-md-4 col-12 flex items-center justify-start">
             <q-img :src="invoice.item_info.thumbnail"
+                   class="q-mr-md q-mb-md"
                    width="100px" />
             {{ invoice.item_info.title }}
           </div>
-          <div class="col-md-4 col-12 flex items-center justify-start">
-            <q-icon name="isax:user" />
+          <div v-if="invoice.type === 'CLASSROOM'"
+               class="col-md-4 col-12 flex items-center justify-start">
+            <q-icon name="co_present"
+                    size="20px"
+                    color="grey-6"
+                    class="q-mr-md" />
             استاد:
             {{ invoice.item_info.professor_info.firstname }}
             {{ invoice.item_info.professor_info.lastname }}
           </div>
           <div class="col-md-4 col-12 flex items-center justify-start">
-            <q-icon name="isax:card" />
+            <q-icon name="payment"
+                    size="20px"
+                    color="grey-6"
+                    class="q-mr-md" />
             قیمت:
             {{ invoice.item_info?.price ? invoice.item_info.price.toLocaleString('fa') : 0 }}
             ریال
@@ -270,6 +277,16 @@ export default {
       position: absolute;
       right: 0;
       top: 0;
+    }
+  }
+  .invoice-info {
+    .main-items {
+      :deep(.q-banner) {
+        padding: 8px 4px;
+        .q-banner__content {
+          font-size: 14px;
+        }
+      }
     }
   }
   .btn-need-installment {
