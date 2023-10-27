@@ -38,14 +38,14 @@
                         fill="#eac38a" />
                 </g>
               </g>
-              <text id="دوره_های_من"
-                    data-name="دوره‌های من"
+              <text id="رویداد_های_من"
+                    data-name="رویداد‌های من"
                     transform="translate(445.063 1135.174) rotate(-45)"
                     fill="#fff"
                     font-size="18"
                     font-family="SegoeUI-Bold, Segoe UI"
                     font-weight="700"><tspan x="0"
-                                             y="0">دوره‌های من</tspan></text>
+                                             y="0">رویداد‌های من</tspan></text>
             </g>
           </svg>
         </div>
@@ -176,8 +176,8 @@ export default defineComponent({
       z-index: 1;
       .RegisteredSign {
         position: absolute;
-        right: 5px;
-        top: 7px;
+        right: -13px;
+        top: -13px;
         z-index: 2;
         display: block;
       }
