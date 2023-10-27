@@ -328,7 +328,11 @@ export default {
         .then((message) => {
           this.payMessage = message
           this.invoice.loading = false
-          this.$router.push({ name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } })
+          if (this.$route.query.source === 'event') {
+            this.$router.push({ name: 'UserPanel.Profile.EventInfo', params: { id: this.classroom.id } })
+          } else {
+            this.$router.push({ name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } })
+          }
         })
         .catch(() => {
           this.invoice.loading = false
