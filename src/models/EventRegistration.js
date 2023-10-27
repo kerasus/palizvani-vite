@@ -17,28 +17,34 @@ class EventRegistration extends Model {
         relatedModel: Classroom
       },
       { key: 'status' }
-    ])
-
-    this.statusEnums = [
-      {
-        label: 'ثبت نام شده',
-        value: 'REGISTERED'
+    ], {
+      status: {
+        infoKey: 'status_info',
+        enumListKey: 'statusEnums',
+        enums: [
+          {
+            label: 'پیش ثبت نام',
+            value: 'ENROLLED'
+          },
+          {
+            label: 'ثبت نام',
+            value: 'REGISTERED'
+          },
+          {
+            label: 'حذف توسط کاربر',
+            value: 'DROPPED_BY_ITSELF'
+          },
+          {
+            label: 'حذف توسط ادمین',
+            value: 'DROPPED_BY_ADMIN'
+          },
+          {
+            label: 'حذف سیستمی (شرایط غیر مجاز)',
+            value: 'DROPPED_FOR_CONDITION'
+          }
+        ]
       }
-    ]
-
-    this.loadStatusInfo()
-  }
-
-  loadStatusInfo () {
-    const target = this.statusEnums.find(type => type.value === this.status)
-    if (!target) {
-      this.status_info = {
-        label: null,
-        value: null
-      }
-    } else {
-      this.status_info = target
-    }
+    })
   }
 }
 

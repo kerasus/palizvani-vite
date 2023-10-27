@@ -54,7 +54,7 @@ import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
-import { Registration } from 'src/models/Registration.js'
+import { EventRegistration } from 'src/models/EventRegistration.js'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
@@ -118,19 +118,19 @@ export default {
             align: 'left',
             field: row => row.event_info?.title
           },
-          // {
-          //   name: 'title',
-          //   required: true,
-          //   label: 'نام درس',
-          //   align: 'left',
-          //   field: row => row.event_info.unit_info.title
-          // },
           {
             name: 'audience_gender_type',
             required: true,
             label: 'جنسیت',
             align: 'left',
             field: row => (new Event(row.event_info)).audience_gender_type_info.label
+          },
+          {
+            name: 'category',
+            required: true,
+            label: 'دسته بندی',
+            align: 'left',
+            field: row => (new Event(row.event_info)).category_info.label
           },
           {
             name: 'title',
@@ -140,25 +140,11 @@ export default {
             field: row => this.getEventHoldingTypeTitle(row.event_info.holding_type)
           },
           {
-            name: 'title',
-            required: true,
-            label: 'استاد',
-            align: 'left',
-            field: row => row.event_info?.professor_info?.firstname + ' ' + row.event_info?.professor_info?.lastname
-          },
-          {
-            name: 'status',
-            required: true,
-            label: 'تعداد جلسات',
-            align: 'left',
-            field: row => row.event_info?.sessions_info?.length
-          },
-          {
             name: 'status',
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => (new Registration(row)).status_info.label
+            field: row => (new EventRegistration(row)).status_info.label
             // field: row => this.getEventStatusTitle(row.event_info.status)
           },
           {
