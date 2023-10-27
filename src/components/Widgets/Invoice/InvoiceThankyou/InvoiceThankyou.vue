@@ -26,7 +26,7 @@
       </div>
     </div>
     <div v-if="!invoice.loading"
-         class="flex justify-center">
+         class="flex justify-center q-mt-md">
       <q-btn v-if="invoice.type === 'CLASSROOM'"
              color="primary"
              :to="{name: 'UserPanel.Profile.AllClassrooms'}">
