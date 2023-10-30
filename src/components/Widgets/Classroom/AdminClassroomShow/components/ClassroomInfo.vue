@@ -205,7 +205,8 @@ export default {
       if (this.classroomType === 'EVENT') {
         FormBuilderAssist.setAttributeByName(this.inputs, 'professor', 'label', 'برگزار کننده')
         FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'label', 'دسته')
-        FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'type', 'hidden') // unit -> category__type filter
+        FormBuilderAssist.setAttributeByName(this.inputs, 'sessions_frequency', 'label', 'عنوان')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'type', 'hidden')
         FormBuilderAssist.setAttributeByName(this.inputs, 'allowed_absence_count', 'type', 'hidden')
         FormBuilderAssist.setAttributeByName(this.inputs, 'effective_absence_coefficient', 'type', 'hidden')
         FormBuilderAssist.setAttributeByName(this.inputs, 'mandatory_assignment_count', 'type', 'hidden')
@@ -288,7 +289,7 @@ export default {
         .catch(() => {})
     },
     getUnits (selectedcategoryId = null, categoryType = null) {
-      return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId, category__typ: categoryType })
+      return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId, category__type: categoryType })
         .then((units) => {
           this.setInputAttr('unit', 'options', units.list.list.map(item => {
             return {
