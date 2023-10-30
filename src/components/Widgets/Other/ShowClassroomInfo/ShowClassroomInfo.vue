@@ -2,7 +2,7 @@
   <div class="classroom">
     <q-banner v-if="!loading && !defaultOptions.profileMode"
               class="banner classroom-banner">
-      دوره های آموزشی
+      {{ classroomTypeTitle }}
       {{classroom.title}}
     </q-banner>
     <q-card v-if="!loading"
@@ -23,7 +23,7 @@
           </div>
           <div class="col-md-4 col-12 classroom-top-attributes">
             <div class="title">
-              دوره آموزشی
+              {{ classroomTypeTitle }}
               {{classroom.title}}:
             </div>
             <div class="attributes">
@@ -72,7 +72,8 @@
                    color="primary"
                    class="btn-register q-ml-md"
                    :to="{name: 'UserPanel.Profile.ClassroomInfo', params: {id: classroom.id}}">
-              مشاهده دوره
+              مشاهده
+              {{ classroomTypeTitle }}
             </q-btn>
             <q-btn v-if="classroom.is_enabled_dropping"
                    outline
@@ -88,7 +89,8 @@
                    class="btn-register q-ml-md"
                    :loading="fetchCodesLoading"
                    @click="openCodeLink">
-              آیین نامه دوره
+              آیین نامه
+              {{ classroomTypeTitle }}
             </q-btn>
           </div>
         </div>
@@ -258,7 +260,7 @@
           <div v-if="(!classroom.is_enabled_enrolment || !classroom.is_enabled_adding) && acceptClassType !== 'rules'"
                class="rulesDialog-accept-chk">
             <q-checkbox v-model="rulesAccept"
-                        label="قوانین دوره آموزشی را خواندم و قصد ثبت نام در دوره را دارم" />
+                        :label="'قوانین '+classroomTypeTitle+' را خواندم و قصد ثبت نام در '+classroomTypeTitle+' را دارم'" />
           </div>
           <div class="rulesDialog-btns q-gutter-md">
             <q-btn v-if="acceptClassType === 'rules'"
@@ -289,6 +291,7 @@ import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { mixinPrefetchServerData, mixinWidget } from 'src/mixin/Mixins.js'
+import { UnitCategory } from 'src/models/UnitCategory'
 
 export default {
   name: 'ShowClassroomInfo',
@@ -299,6 +302,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    classroomType: {
+      type: String,
+      default: 'TRAINING'
     }
   },
   emits: ['onloadn'],
@@ -314,6 +321,12 @@ export default {
     loading: true,
     classroom: new Classroom()
   }),
+  computed: {
+    classroomTypeTitle () {
+      const unitCategory = new UnitCategory({ type: this.localOptions.classroomType })
+      return unitCategory.type_info.label
+    }
+  },
   methods: {
     prefetchServerDataPromise () {
       return this.getClassroom()
