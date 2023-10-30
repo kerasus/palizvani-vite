@@ -73,16 +73,17 @@
 
 <script>
 import { shallowRef } from 'vue'
-import { EntityIndex, EntityEdit } from 'quasar-crud'
+import Assist from 'assets/js/Assist.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { EntityIndex, EntityEdit } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { Registration } from 'src/models/Registration.js'
+import { UnitCategory } from 'src/models/UnitCategory.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
-import Assist from 'assets/js/Assist'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -175,6 +176,12 @@ export default {
       createRouteName: ''
     }
   },
+  computed: {
+    classroomTypeTitle () {
+      const unitCategory = new UnitCategory({ type: this.localOptions.classroomType })
+      return unitCategory.type_info.label
+    }
+  },
   mounted() {
     this.mounted = true
     this.setActionBtn()
@@ -191,7 +198,7 @@ export default {
         loading: false,
         path: [
           {
-            label: 'دوره های آموزشی',
+            label: 'لیست ' + this.classroomTypeTitle,
             to: { name: 'Admin.Classroom.Index' }
           },
           {

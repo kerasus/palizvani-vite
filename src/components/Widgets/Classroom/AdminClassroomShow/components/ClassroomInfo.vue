@@ -3,7 +3,7 @@
                ref="classroomEntityEdit"
                :key="classroomEntityEditKey"
                v-model:value="inputs"
-               title="مشخصات دوره آموزشی"
+               :title="'مشخصات ' + classroomTypeTitle"
                :api="api"
                :show-close-button="false"
                :show-edit-button="false"
@@ -31,6 +31,7 @@ import Enums from 'src/assets/Enums/Enums.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import { UnitCategory } from 'src/models/UnitCategory.js'
 import FormBuilderInputEditor from 'src/components/FormBuilderCustumComponents/FormBuilderInputEditor.vue'
 
 const FormBuilderInputEditorComp = shallowRef(FormBuilderInputEditor)
@@ -44,6 +45,10 @@ export default {
     classroomId: {
       type: Number,
       default: null
+    },
+    classroomType: {
+      type: String,
+      default: 'TRAINING'
     },
     classroom: {
       type: Classroom,
@@ -159,6 +164,10 @@ export default {
     selectedCategoryId () {
       return FormBuilderAssist.getInputsByName(this.inputs, 'category').value
     },
+    classroomTypeTitle () {
+      const unitCategory = new UnitCategory({ type: this.classroomType })
+      return unitCategory.type_info.label
+    },
     localClassroom: {
       get () {
         return this.classroom
@@ -178,6 +187,7 @@ export default {
     }
   },
   mounted () {
+    this.setClassroomTypeOfInputs()
     this.localClassroom.loading = true
     this.preLoadData()
       .then(() => {
@@ -188,6 +198,22 @@ export default {
       })
   },
   methods: {
+    setClassroomTypeOfInputs () {
+      if (this.classroomType === 'TRAINING') {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'professor', 'label', 'استاد')
+      }
+      if (this.classroomType === 'EVENT') {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'professor', 'label', 'برگزار کننده')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'label', 'دسته')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'type', 'hidden') // unit -> category__type filter
+        FormBuilderAssist.setAttributeByName(this.inputs, 'allowed_absence_count', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'effective_absence_coefficient', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'mandatory_assignment_count', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'special_passing_mark', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'minimum_conditional_passing_mark', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'minimum_clean_passing_mark', 'type', 'hidden')
+      }
+    },
     afterLoadInputData (data) {
       this.localClassroom = new Classroom(data)
       this.localClassroom.loading = false
@@ -201,7 +227,9 @@ export default {
       return new Promise((resolve, reject) => {
         APIGateway.classroom.get(this.classroomId)
           .then((classroom) => {
-            this.setInputAttr('category', 'value', classroom.unit_info.category_info.id)
+            if (this.classroomType === 'TRAINING') {
+              this.setInputAttr('category', 'value', classroom.unit_info.category_info.id)
+            }
             this.setInputAttr('unit', 'value', classroom.unit)
             this.beforeLoadInputData(classroom)
               .then((classroom) => {
@@ -220,7 +248,7 @@ export default {
       return new Promise((resolve, reject) => {
         const promise1 = this.getProfessors()
         const promise2 = this.getCategories()
-        const promise3 = this.getUnits(responseData.unit_info.category)
+        const promise3 = (this.classroomType === 'EVENT') ? this.getUnits(null, this.classroomType) : this.getUnits(responseData.unit_info.category)
         this.$nextTick(() => {
           Promise.all([promise1, promise2, promise3])
             .then(() => {
@@ -259,8 +287,8 @@ export default {
         })
         .catch(() => {})
     },
-    getUnits (selectedcategoryId) {
-      return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId })
+    getUnits (selectedcategoryId = null, categoryType = null) {
+      return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId, category__typ: categoryType })
         .then((units) => {
           this.setInputAttr('unit', 'options', units.list.list.map(item => {
             return {
