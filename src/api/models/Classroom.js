@@ -1,8 +1,8 @@
 import { appApi } from 'src/boot/axios.js'
 import { Invoice } from 'src/models/Invoice.js'
 import APIRepository from '../classes/APIRepository.js'
+import { Registration } from 'src/models/Registration.js'
 import { Classroom, ClassroomList } from 'src/models/Classroom.js'
-import { EventRegistration } from 'src/models/EventRegistration.js'
 
 export default class ClassroomAPI extends APIRepository {
   constructor() {
@@ -87,8 +87,8 @@ export default class ClassroomAPI extends APIRepository {
           data.type = 'Invoice'
           data.model = new Invoice(response.data)
         } else if (response.data.status === 'REGISTERED') {
-          data.type = 'EventRegistration'
-          data.model = new EventRegistration(response.data)
+          data.type = 'Registration'
+          data.model = new Registration(response.data)
         }
 
         return data

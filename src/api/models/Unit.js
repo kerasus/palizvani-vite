@@ -22,6 +22,7 @@ export default class UnitAPI extends APIRepository {
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
         category: null, // Number
+        category__type: null, // String
         per_page: 10, // Number
         page: 1 // Number
       }, data),

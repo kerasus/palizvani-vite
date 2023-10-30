@@ -155,7 +155,7 @@ export default {
       if (this.localOptions.classroomType === 'EVENT') {
         return 'لیست برنامه ها'
       }
-      return 'Admin.Classroom.Create'
+      return 'لیست جلسات'
     },
     indexPageRouteName () {
       if (this.localOptions.classroomType === 'TRAINING') {

@@ -240,23 +240,15 @@ export default {
         .catch(() => {})
     },
     createInvoiceForClassroomOrRegisterEvent () {
-      if (this.$route.query.source === 'event') {
-        this.registerEvent()
-          .then((data) => {
-            if (data === 'Invoice') {
-              this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
-            }
-          })
-          .catch(() => {})
-      } else {
-        this.createInvoice()
-          .then(() => {
+      this.register()
+        .then((data) => {
+          if (data === 'Invoice') {
             this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
-          })
-          .catch(() => {})
-      }
+          }
+        })
+        .catch(() => {})
     },
-    registerEvent () {
+    register () {
       return new Promise((resolve, reject) => {
         this.invoice.loading = true
         APIGateway.classroom.register(this.classroom.id)
@@ -270,13 +262,17 @@ export default {
                 type: 'positive'
               })
               resolve('Invoice')
-            } else if (data.type === 'EventRegistration') {
+            } else if (data.type === 'Registration') {
               this.$q.notify({
                 message: 'ثبت نام شما با موفقیت انجام شد.',
                 type: 'positive'
               })
               const eventRegistrationId = data.model.id
-              this.$router.push({ name: 'UserPanel.Profile.EventInfo', params: { id: eventRegistrationId } })
+              if (this.$route.query.source === 'event') {
+                this.$router.push({ name: 'UserPanel.Profile.EventInfo', params: { id: eventRegistrationId } })
+              } else {
+                this.$router.push({ name: 'UserPanel.Profile.ClassroomInfo', params: { id: eventRegistrationId } })
+              }
             }
           })
           .catch(() => {
