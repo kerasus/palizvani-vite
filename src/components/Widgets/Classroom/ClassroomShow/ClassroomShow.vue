@@ -22,16 +22,16 @@
       <q-tab v-if="canShowOtherTabsOfClassroom && canShowTabPageForClassroomType('educations')"
              name="educations"
              :label="educationsTabTitle" />
-      <q-tab v-if="canShowOtherTabsOfClassroom && canShowTabPageForClassroomType('educations')"
+      <q-tab v-if="canShowOtherTabsOfClassroom && canShowTabPageForClassroomType('team')"
              name="team"
              label="گروه" />
-      <q-tab v-if="canShowOtherTabsOfClassroom && canShowTabPageForClassroomType('educations')"
+      <q-tab v-if="canShowOtherTabsOfClassroom && canShowTabPageForClassroomType('exams')"
              name="exams"
              label="آزمون" />
-      <q-tab v-if="canShowOtherTabsOfClassroom && canShowTabPageForClassroomType('educations')"
+      <q-tab v-if="canShowOtherTabsOfClassroom && canShowTabPageForClassroomType('projects')"
              name="projects"
              label="پروژه" />
-      <q-tab v-if="canShowOtherTabsOfClassroom && classroom.live_streaming_url && canShowTabPageForClassroomType('educations')"
+      <q-tab v-if="canShowOtherTabsOfClassroom && classroom.live_streaming_url && canShowTabPageForClassroomType('live_streaming_url')"
              name="live_streaming_url"
              label="بخش آنلاین" />
     </q-tabs>
@@ -616,7 +616,7 @@ export default {
           this.registrations.loading = false
           this.classroomRegistration.loading = false
         })
-        .catch(() => title{
+        .catch(() => {
           this.registrations.loading = false
           this.classroomRegistration.loading = false
         })
