@@ -139,35 +139,35 @@ export default {
             field: row => this.getClassroomStatusesTitle(row.status)
           },
           {
-            name: 'title',
+            name: 'holding_type',
             required: true,
             label: 'نوع برگزاری',
             align: 'left',
             field: row => this.getClassroomHoldingTypeTitle(row.holding_type)
           },
           {
-            name: 'title',
+            name: 'price',
             required: true,
             label: 'هزینه(ریال)',
             align: 'left',
             field: row => row.price
           },
           {
-            name: 'title',
+            name: 'professor_info',
             required: true,
             label: 'استاد مربوطه',
             align: 'left',
             field: row => row.professor_info?.firstname + ' ' + row.professor_info?.lastname
           },
           {
-            name: 'title',
+            name: 'beginning_registration_period',
             required: true,
             label: 'تاریخ و زمان ثبت نام',
             align: 'left',
             field: row => row.beginning_registration_period ? ShamsiDate.getDateTime(row.beginning_registration_period) : '-'
           },
           {
-            name: 'title',
+            name: 'beginning_registration_period',
             required: true,
             label: 'ترم برگزاری',
             align: 'left',
