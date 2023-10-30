@@ -197,11 +197,9 @@
 <script>
 import { EntityIndex } from 'quasar-crud'
 import { Team } from 'src/models/Team.js'
-import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
-import { FormBuilderAssist } from 'quasar-form-builder'
 import { mixinAuth, mixinWidget } from 'src/mixin/Mixins.js'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import { Registration, RegistrationList } from 'src/models/Registration.js'
@@ -548,44 +546,13 @@ export default {
     },
     canShowOtherTabsOfClassroom () {
       return !this.classroomRegistration.loading && (this.classroomRegistration.status === 'REGISTERED' || this.classroomRegistration.status === 'ENROLLED')
-    },
-    selectedCategoryId () {
-      return FormBuilderAssist.getInputsByName(this.inputs, 'category')?.value
-    }
-  },
-  watch: {
-    selectedCategoryId () {
-      this.setInputValue('unit', null)
-      this.getUnits(this.selectedCategoryId)
     }
   },
   mounted () {
-    this.setClassroomTypeOfInputs()
     this.getRegistrationInfo()
     this.mounted = true
   },
   methods: {
-    setClassroomTypeOfInputs () {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'classroom__unit__category__type', 'value', this.localOptions.classroomType)
-
-      // if (this.localOptions.classroomType === 'TRAINING') {
-      // }
-      if (this.localOptions.classroomType === 'EVENT') {
-        FormBuilderAssist.setAttributeByName(this.inputs, 'classroom__unit__category__type', 'type', 'hidden')
-        FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'type', 'hidden')
-        FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'label', 'دسته')
-        FormBuilderAssist.setAttributeByName(this.inputs, 'status', 'label', 'وضعیت رویداد')
-
-        this.table.columns.forEach(col => {
-          if (col.name === 'professor_info') {
-            col.label = 'برگزار کننده'
-          }
-          if (col.name === 'sessions_info') {
-            col.label = 'تعداد برنامه ها'
-          }
-        })
-      }
-    },
     getTeamJoinStatusLabel (team) {
       if (team.join_status === 'ENABLED') {
         return 'عضو شوید'
@@ -654,53 +621,6 @@ export default {
           }
         ]
       })
-    },
-    search () {
-      this.$refs.entityIndex.search()
-    },
-    getClassroomHoldingTypeTitle (type) {
-      const target = Enums.classroomHoldingTypes.find(item => item.value === type)
-      if (!target) {
-        return '-'
-      }
-
-      return target.label
-    },
-    getClassroomStatusTitle (type) {
-      const target = Enums.classroomStatuses.find(item => item.value === type)
-      if (!target) {
-        return '-'
-      }
-
-      return target.label
-    },
-    getInvoiceStatusTitle (type) {
-      const target = Enums.invoiceStatus.find(item => item.value === type)
-      if (!target) {
-        return '-'
-      }
-
-      return target.label
-    },
-    loadInputDataOptions () {
-      this.getCategories()
-      this.getUnits()
-    },
-    setInputValue (name, value) {
-      const inputIndex = this.inputs.findIndex(input => input.name === name)
-      this.inputs[inputIndex].value = value
-    },
-    getSelectOptions (result, value, label) {
-      return result.map(item => {
-        return {
-          value: item[value],
-          label: item[label]
-        }
-      })
-    },
-    loadSelectOptions (name, value) {
-      const inputIndex = this.inputs.findIndex(input => input.name === name)
-      this.inputs[inputIndex].options = value
     }
   }
 }
