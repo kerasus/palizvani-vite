@@ -1,7 +1,7 @@
 <template>
   <div class="complete-info">
     <q-banner class="banner complete-info-top-banner">
-      ثبت نام در دوره آموزشی
+      {{ mainTitle }}
     </q-banner>
     <q-card class="complete-info-steps-card">
       <div class="complete-info-step">
@@ -19,7 +19,7 @@
           </g>
         </svg>
         <span class="title">
-          مشاهده جزییات و قوانین دوره
+          {{ step1Title }}
           <svg xmlns="http://www.w3.org/2000/svg"
                width="15"
                height="15"
@@ -272,6 +272,20 @@ export default {
     loading: true
   }),
   computed: {
+    mainTitle () {
+      if (this.$route.query.source === 'event') {
+        return 'ثبت نام در رویداد'
+      } else {
+        return 'ثبت نام در دوره آموزشی'
+      }
+    },
+    step1Title () {
+      if (this.$route.query.source === 'event') {
+        return 'مشاهده جزییات و قوانین رویداد'
+      } else {
+        return 'مشاهده جزییات و قوانین دوره'
+      }
+    },
     isRegisterPage () {
       return this.$route.query.type === 'register'
     },
@@ -459,7 +473,7 @@ export default {
         position: relative;
         background-color: #F5F5F5;
         z-index: 2;
-        padding-right: 24px;
+        padding-right: 20px;
       }
       svg {
         width: 17px;
