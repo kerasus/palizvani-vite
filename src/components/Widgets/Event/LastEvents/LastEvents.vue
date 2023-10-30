@@ -144,7 +144,10 @@ export default {
     },
     getEvents () {
       this.events.loading = true
-      return APIGateway.event.index()
+      // return APIGateway.event.index()
+      return APIGateway.classroom.index({
+        unit__category__type: 'EVENT'
+      })
     }
   }
 }

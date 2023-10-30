@@ -419,7 +419,7 @@ export default {
     },
     getEvent () {
       this.loading = true
-      return APIGateway.event.get(this.$route.params.id)
+      return APIGateway.classroom.get(this.$route.params.id)
     }
   }
 }

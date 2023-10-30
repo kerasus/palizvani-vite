@@ -259,7 +259,7 @@ export default {
     registerEvent () {
       return new Promise((resolve, reject) => {
         this.invoice.loading = true
-        APIGateway.event.register(this.classroom.id)
+        APIGateway.classroom.register(this.classroom.id)
           .then((data) => {
             if (data.type === 'Invoice') {
               this.invoice = new Invoice(data.model)

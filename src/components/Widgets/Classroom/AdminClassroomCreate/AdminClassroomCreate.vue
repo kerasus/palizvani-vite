@@ -214,6 +214,7 @@ export default {
       }
       if (this.localOptions.classroomType === 'EVENT') {
         FormBuilderAssist.setAttributeByName(this.inputs, 'professor', 'label', 'برگزار کننده')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'sessions_frequency', 'label', 'عنوان')
         FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'label', 'دسته')
         FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'type', 'hidden') // unit -> category__type filter
         FormBuilderAssist.setAttributeByName(this.inputs, 'allowed_absence_count', 'type', 'hidden')
@@ -256,7 +257,7 @@ export default {
         .catch(() => {})
     },
     getCategories () {
-      return APIGateway.unitCategory.index({ per_page: 9999, type: 'TRAINING' })
+      return APIGateway.unitCategory.index({ per_page: 9999, type: this.localOptions.classroomType })
         .then((categories) => {
           FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', categories.list.list.map(item => {
             return {
@@ -269,7 +270,7 @@ export default {
     },
     getUnits (selectedcategoryId = null, categoryType = null) {
       this.unitsLoading = true
-      APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId, category__typ: categoryType })
+      APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId, category__type: categoryType })
         .then((units) => {
           FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'options', units.list.list.map(item => {
             return {
