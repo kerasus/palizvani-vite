@@ -3,7 +3,7 @@
        :style="localOptions.style">
     <template v-if="isUserLogin">
       <q-banner class="q-mb-md">
-        دوره های شما
+        {{ mainTitle }}
       </q-banner>
 
       <template v-if="!registrations.loading && registrations.list.length > 0">
@@ -16,7 +16,7 @@
         </div>
       </template>
       <div v-else-if="!registrations.loading && registrations.list.length === 0">
-        دوره ای یافت نشد.
+        {{ notFoundMessage }}
       </div>
       <div v-else-if="registrations.loading">
         <q-linear-progress v-if="registrations.loading"
@@ -39,7 +39,30 @@ export default {
   mixins: [mixinWidget, mixinAuth],
   data: () => {
     return {
+      defaultOptions: {
+        classroomType: 'TRAINING'
+      },
       registrations: new RegistrationList()
+    }
+  },
+  computed: {
+    mainTitle () {
+      if (this.localOptions.classroomType === 'TRAINING') {
+        return 'دوره های شما'
+      }
+      if (this.localOptions.classroomType === 'EVENT') {
+        return 'رویداد های شما'
+      }
+      return 'دوره های شما'
+    },
+    notFoundMessage () {
+      if (this.localOptions.classroomType === 'TRAINING') {
+        return 'دوره ای یافت نشد.'
+      }
+      if (this.localOptions.classroomType === 'EVENT') {
+        return 'رویدادی یافت نشد.'
+      }
+      return 'دوره ای یافت نشد.'
     }
   },
   mounted() {
@@ -48,7 +71,11 @@ export default {
   methods: {
     getRegistrations () {
       this.registrations.loading = true
-      APIGateway.registration.index({ per_page: 9999, owner: this.user.id })
+      APIGateway.registration.index({
+        per_page: 9999,
+        owner: this.user.id,
+        classroom__unit__category__type: this.localOptions.classroomType
+      })
         .then((registrations) => {
           this.registrations = new RegistrationList(registrations.list)
           this.registrations.loading = false

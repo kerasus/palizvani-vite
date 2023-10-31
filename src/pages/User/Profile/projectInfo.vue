@@ -154,7 +154,8 @@ export default {
     createAttendanceSheet () {
       this.$refs.entityCreate.createEntity(false)
         .then(() => {
-          this.reloadProject()
+          // this.reloadProject()
+          this.$router.go(-1)
         })
         .catch(() => {
           this.reloadProject()

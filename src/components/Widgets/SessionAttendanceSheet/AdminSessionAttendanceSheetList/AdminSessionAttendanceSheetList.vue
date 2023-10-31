@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminContentList"
+  <div class="AdminSessionAttendanceSheetList"
        :style="localOptions.style">
     <breadcrumbs class="q-mb-xl"
                  style="margin-top: 29px; margin-bottom: 19px;" />
@@ -12,6 +12,7 @@
       </q-btn>
     </div>
     <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست حضور و غیاب"
                   :api="api"
@@ -21,6 +22,25 @@
                   :show-search-button="false"
                   :show-expand-button="false"
                   :show-reload-button="false">
+      <template #toolbar>
+        <q-btn color="primary"
+               :loading="exportReportLoading"
+               @click="getReportExcel">
+          خروجی اکسل
+        </q-btn>
+      </template>
+      <template #after-index-table>
+        <q-separator class="q-my-lg" />
+        <entity-edit ref="uploadExcelEntity"
+                     v-model:value="uploadInputs"
+                     title="ارسال لیست حضور و غیاب"
+                     :loaded-data="{}"
+                     :api="uploadAPI"
+                     :show-reload-button="false"
+                     :show-expand-button="false"
+                     :show-save-button="false"
+                     :show-close-button="false" />
+      </template>
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -52,16 +72,28 @@
 </template>
 
 <script>
-import { EntityIndex } from 'quasar-crud'
+import { shallowRef } from 'vue'
+import Assist from 'assets/js/Assist.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { EntityIndex, EntityEdit } from 'quasar-crud'
+import { FormBuilderAssist } from 'quasar-form-builder'
+import BtnControl from 'src/components/Control/btn.vue'
+import { Registration } from 'src/models/Registration.js'
+import { UnitCategory } from 'src/models/UnitCategory.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
+import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminSessionAttendanceSheetList',
-  components: { EntityIndex, Breadcrumbs },
+  components: {
+    EntityIndex,
+    EntityEdit,
+    Breadcrumbs
+  },
   mixins: [mixinWidget],
   data () {
     const sessionId = this.$route.params.session_id
@@ -76,8 +108,16 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'session', value: sessionId }
+        { type: 'hidden', name: 'session', value: sessionId },
+        { type: 'select', name: 'registration__status', label: 'وضعیت ثبت نام', placeholder: ' ', value: null, options: (new Registration()).statusEnums, col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
       ],
+      uploadInputs: [
+        { type: 'hidden', name: 'type', value: 'excel' },
+        { type: 'file', name: 'file', label: 'انتخاب فایل', placeholder: ' ', value: null, col: 'col-md-8 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ارسال', placeholder: ' ', atClick: () => {}, col: 'col-md-4 col-12' }
+      ],
+      uploadAPI: APIGateway.sessionAttendanceSheets.APIAdresses.importList,
       table: {
         columns: [
           {
@@ -132,49 +172,91 @@ export default {
         ]
       },
       mounted: false,
+      exportReportLoading: false,
       createRouteName: ''
+    }
+  },
+  computed: {
+    classroomTypeTitle () {
+      const unitCategory = new UnitCategory({ type: this.localOptions.classroomType })
+      return unitCategory.type_info.label
     }
   },
   mounted() {
     this.mounted = true
+    this.setActionBtn()
     this.getClassroom()
       .then(classroom => {
-        this.classroom = new Classroom(classroom)
-        this.$store.commit('AppLayout/updateBreadcrumbs', {
-          visible: true,
-          loading: false,
-          path: [
-            {
-              label: 'دوره های آموزشی',
-              to: { name: 'Admin.Classroom.Index' }
-            },
-            {
-              label: this.classroom.title,
-              to: { name: 'Admin.Classroom.Show', params: { id: this.$route.params.classroom_id } }
-            },
-            {
-              label: 'لیست حضور و غیاب',
-              to: { name: 'Admin.Classroom.Session.AttendanceSheetList', params: { classroom_id: this.$route.params.classroom_id, session_id: this.$route.params.session_id } }
-            }
-          ]
-        })
+        this.updateBreadcrumbs(classroom)
       })
   },
   methods: {
+    updateBreadcrumbs (classroom) {
+      this.classroom = new Classroom(classroom)
+      this.$store.commit('AppLayout/updateBreadcrumbs', {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'لیست ' + this.classroomTypeTitle,
+            to: { name: 'Admin.Classroom.Index' }
+          },
+          {
+            label: this.classroom.title,
+            to: { name: 'Admin.Classroom.Show', params: { id: this.$route.params.classroom_id } }
+          },
+          {
+            label: 'لیست حضور و غیاب',
+            to: { name: 'Admin.Classroom.Session.AttendanceSheetList', params: { classroom_id: this.$route.params.classroom_id, session_id: this.$route.params.session_id } }
+          }
+        ]
+      })
+    },
+    search () {
+      this.$refs.entityIndex.search()
+    },
+    getReportExcel () {
+      this.exportReportLoading = true
+      const status = FormBuilderAssist.getInputsByName(this.inputs, 'registration__status').value ? FormBuilderAssist.getInputsByName(this.inputs, 'registration__status').value : null
+      APIGateway.sessionAttendanceSheets.exportReport({
+        session: this.$route.params.session_id,
+        type: 'list',
+        registration__status: status
+      })
+        .then((xlsxData) => {
+          Assist.saveXlsx(xlsxData, this.classroom.title)
+          this.exportReportLoading = false
+        })
+        .catch((e) => {
+          this.exportReportLoading = false
+        })
+    },
+    setActionBtn () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
+      FormBuilderAssist.setAttributeByName(this.uploadInputs, 'btn', 'atClick', this.uploadExcelEntity)
+    },
     getClassroom () {
       return APIGateway.classroom.get(this.$route.params.classroom_id)
+    },
+    uploadExcelEntity () {
+      this.$refs.uploadExcelEntity.editEntity(false)
+        .then(() => {
+          this.search()
+        })
+        .catch(() => {
+          this.search()
+        })
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.AdminContentList {
-  .more-action {
-    display: flex;
-    flex-flow: row;
-    justify-content: flex-end;
-    margin-bottom: 10px;
+.AdminSessionAttendanceSheetList {
+  :deep(.entity-edit) {
+    .q-item {
+      display: none;
+    }
   }
 }
 </style>

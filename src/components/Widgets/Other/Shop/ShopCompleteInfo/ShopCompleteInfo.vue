@@ -1,7 +1,7 @@
 <template>
   <div class="complete-info">
     <q-banner class="banner complete-info-top-banner">
-      ثبت نام در دوره آموزشی
+      {{ mainTitle }}
     </q-banner>
     <q-card class="complete-info-steps-card">
       <div class="complete-info-step">
@@ -19,7 +19,7 @@
           </g>
         </svg>
         <span class="title">
-          مشاهده جزییات و قوانین دوره
+          {{ step1Title }}
           <svg xmlns="http://www.w3.org/2000/svg"
                width="15"
                height="15"
@@ -220,6 +220,22 @@ export default {
       { type: 'hidden', name: 'id', responseKey: 'id' }
     ]
   }),
+  computed: {
+    mainTitle () {
+      if (this.$route.query.source === 'event') {
+        return 'ثبت نام در رویداد'
+      } else {
+        return 'ثبت نام در دوره آموزشی'
+      }
+    },
+    step1Title () {
+      if (this.$route.query.source === 'event') {
+        return 'مشاهده جزییات و قوانین رویداد'
+      } else {
+        return 'مشاهده جزییات و قوانین دوره'
+      }
+    }
+  },
   mounted () {
     this.loadClassroomFromStore()
     this.mounted = true
@@ -232,16 +248,54 @@ export default {
       this.$refs.entityEdit.editEntity(false)
         .then(() => {
           if (this.$route.query.type === 'register') {
-            this.createInvoice()
-              .then(() => {
-                this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
-              })
-              .catch(() => {})
+            this.createInvoiceForClassroomOrRegisterEvent()
           } else {
             this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
           }
         })
         .catch(() => {})
+    },
+    createInvoiceForClassroomOrRegisterEvent () {
+      this.register()
+        .then((data) => {
+          if (data === 'Invoice') {
+            this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
+          }
+        })
+        .catch(() => {})
+    },
+    register () {
+      return new Promise((resolve, reject) => {
+        this.invoice.loading = true
+        APIGateway.classroom.register(this.classroom.id)
+          .then((data) => {
+            if (data.type === 'Invoice') {
+              this.invoice = new Invoice(data.model)
+              this.invoice.loading = false
+              this.$store.commit('Shop/updateRegisterClassroomInvoice', this.invoice)
+              this.$q.notify({
+                message: 'صورت حساب شما ایجاد شد',
+                type: 'positive'
+              })
+              resolve('Invoice')
+            } else if (data.type === 'Registration') {
+              this.$q.notify({
+                message: 'ثبت نام شما با موفقیت انجام شد.',
+                type: 'positive'
+              })
+              const eventRegistrationId = data.model.classroom_info.id
+              if (this.$route.query.source === 'event') {
+                this.$router.push({ name: 'UserPanel.Profile.EventInfo', params: { id: eventRegistrationId } })
+              } else {
+                this.$router.push({ name: 'UserPanel.Profile.ClassroomInfo', params: { id: eventRegistrationId } })
+              }
+            }
+          })
+          .catch(() => {
+            this.invoice.loading = false
+            reject()
+          })
+      })
     },
     createInvoice () {
       return new Promise((resolve, reject) => {
@@ -275,14 +329,7 @@ export default {
       this.rulesDialog = true
     },
     getHoldingType (type) {
-      const target = Enums.classroomHoldingTypes.find(item => item.value === type)
-      if (target) {
-        return target.label
-      }
-      return '-'
-    },
-    getAudienceGenderType (type) {
-      const target = Enums.genders.find(item => item.value === type)
+      const target = (new Classroom()).holding_typeEnums.find(item => item.value === type)
       if (target) {
         return target.label
       }
@@ -346,7 +393,7 @@ export default {
         position: relative;
         background-color: #F5F5F5;
         z-index: 2;
-        padding-right: 24px;
+        padding-right: 20px;
       }
       svg {
         width: 17px;

@@ -16,11 +16,31 @@ class UnitCategory extends Model {
         key: 'units_info',
         relatedModel: UnitList
       },
+      { key: 'type' },
       { key: 'creation_time' },
       { key: 'last_modification_time' },
       { key: 'is_active' },
       { key: 'is_deleted' }
-    ])
+    ], {
+      type: {
+        infoKey: 'type_info',
+        enumListKey: 'typeEnums',
+        enums: [
+          {
+            label: 'دوره آموزشی',
+            value: 'TRAINING'
+          },
+          {
+            label: 'حلقه مباحثاتی',
+            value: 'DiscussionCircles'
+          },
+          {
+            label: 'رویداد',
+            value: 'EVENT'
+          }
+        ]
+      }
+    })
   }
 }
 

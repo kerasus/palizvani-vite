@@ -113,6 +113,22 @@ const routes = [
             component: () => import('src/pages/Public/ShowClassroomInfo.vue')
           },
           {
+            name: 'Public.AllEvents',
+            path: 'all-events',
+            meta: {
+              hasDynamicSetting: true
+            },
+            component: () => import('src/pages/Public/Events.vue')
+          },
+          {
+            name: 'Public.ShowEventInfo',
+            path: 'event/:id',
+            meta: {
+              hasDynamicSetting: true
+            },
+            component: () => import('src/pages/Public/ShowEventInfo.vue')
+          },
+          {
             name: 'Public.FAQ',
             path: 'faq',
             meta: {
@@ -209,24 +225,6 @@ const routes = [
                 component: () => import('src/pages/User/Profile/OverdueInstalment.vue')
               },
               {
-                name: 'UserPanel.Profile.AllClassrooms',
-                path: 'all-classrooms',
-                component: () => import('src/pages/User/Profile/classrooms.vue'),
-                meta: {
-                  breadcrumbs: {
-                    visible: true,
-                    loading: false,
-                    path: [
-                      {
-                        label: 'دوره های من',
-                        to: { name: 'UserPanel.Profile.AllClassrooms' }
-                      }
-                    ]
-                  },
-                  middlewares: [HasOverdueInstalment]
-                }
-              },
-              {
                 name: 'UserPanel.Profile.AllDiscussionCirclesClassrooms',
                 path: 'all-discussion-circles-classrooms',
                 component: () => import('src/pages/User/Profile/DiscussionCirclesClassrooms.vue'),
@@ -245,9 +243,53 @@ const routes = [
                 }
               },
               {
+                name: 'UserPanel.Profile.AllClassrooms',
+                path: 'all-classrooms',
+                component: () => import('src/pages/User/Profile/classrooms.vue'),
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'دوره های من',
+                        to: { name: 'UserPanel.Profile.AllClassrooms' }
+                      }
+                    ]
+                  },
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
                 name: 'UserPanel.Profile.ClassroomInfo',
                 path: 'classroom/:id',
                 component: () => import('src/pages/User/Profile/classroomInfo.vue'),
+                meta: {
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
+                name: 'UserPanel.Profile.AllEvents',
+                path: 'all-events',
+                component: () => import('src/pages/User/Profile/Events.vue'),
+                meta: {
+                  breadcrumbs: {
+                    visible: true,
+                    loading: false,
+                    path: [
+                      {
+                        label: 'رویدادهای من',
+                        to: { name: 'UserPanel.Profile.AllEvents' }
+                      }
+                    ]
+                  },
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
+                name: 'UserPanel.Profile.EventInfo',
+                path: 'event/:id',
+                component: () => import('src/pages/User/Profile/EventInfo.vue'),
                 meta: {
                   middlewares: [HasOverdueInstalment]
                 }
@@ -265,6 +307,15 @@ const routes = [
                 name: 'UserPanel.Profile.UserInfo',
                 path: 'user-info',
                 component: () => import('src/pages/User/Profile/profile.vue')
+              },
+              {
+                name: 'UserPanel.Leader',
+                path: 'leader',
+                component: () => import('layouts/bareLayout.vue'),
+                children: [
+                  { name: 'UserPanel.Leader.Teams.Index', path: 'teams', component: () => import('pages/Admin/Leader/MyTeams.vue') },
+                  { name: 'UserPanel.Leader.Teams.Show', path: 'teams/:team_id', component: () => import('pages/Admin/Leader/ShowTeam.vue') }
+                ]
               }
             ]
           },
@@ -552,7 +603,6 @@ const routes = [
             name: 'Admin.Classroom',
             path: 'classrooms',
             component: () => import('layouts/bareLayout.vue'),
-            breadcrumbs: { title: 'دوره های آموزشی', route: { name: 'Admin.Classroom.Index' } },
             children: [
               { name: 'Admin.Classroom.Index', path: '', component: () => import('src/pages/Admin/Classroom/index.vue') },
               { name: 'Admin.Classroom.Create', path: 'create', component: () => import('src/pages/Admin/Classroom/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
@@ -560,12 +610,33 @@ const routes = [
               { name: 'Admin.Classroom.Session.AttendanceSheetList', path: ':classroom_id/session/:session_id/session_attendance_sheets', component: () => import('pages/Admin/Classroom/SessionActivitySheets/sessionActivitySheets.vue') },
               { name: 'Admin.Classroom.Session.AttendanceSheet.Assignment', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/assignment', component: () => import('pages/Admin/Classroom/SessionActivitySheets/Assignment.vue') },
               { name: 'Admin.Classroom.Session.AttendanceSheet.Attendance', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/attendance', component: () => import('pages/Admin/Classroom/SessionActivitySheets/Attendance.vue') },
-              { name: 'Admin.Classroom.Project.Create', path: ':classroom_id/project/create', component: () => import('src/pages/Admin/Classroom/project/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
+              { name: 'Admin.Classroom.Project.Create', path: ':classroom_id/project/create', component: () => import('src/pages/Admin/Classroom/project/create.vue') },
               { name: 'Admin.Classroom.Project.Show', path: ':classroom_id/project/:project_id', component: () => import('src/pages/Admin/Classroom/project/show.vue') },
               { name: 'Admin.Classroom.Project.Members', path: ':classroom_id/project/:project_id/members', component: () => import('src/pages/Admin/Classroom/project/members.vue') },
               { name: 'Admin.Classroom.projectAttendanceSheets.Show', path: ':classroom_id/project/:project_id/projectAttendanceSheet/:project_attendance_sheets_id', component: () => import('src/pages/Admin/Classroom/ProjectAttendanceSheet/show.vue') },
-              { name: 'Admin.Classroom.Project', path: ':id', component: () => import('src/pages/Admin/Classroom/show.vue') },
+              { name: 'Admin.Classroom.Team.Create', path: ':classroom_id/team/create', component: () => import('src/pages/Admin/Classroom/Team/create.vue') },
+              { name: 'Admin.Classroom.Team.Show', path: ':classroom_id/team/:team_id', component: () => import('src/pages/Admin/Classroom/Team/show.vue') },
               { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+            ]
+          },
+          {
+            name: 'Admin.Event',
+            path: 'events',
+            component: () => import('layouts/bareLayout.vue'),
+            breadcrumbs: { title: 'دوره های آموزشی', route: { name: 'Admin.Event.Index' } },
+            children: [
+              { name: 'Admin.Event.Index', path: '', component: () => import('src/pages/Admin/Event/index.vue') },
+              { name: 'Admin.Event.Create', path: 'create', component: () => import('src/pages/Admin/Event/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
+              { name: 'Admin.Event.Show', path: ':id', component: () => import('src/pages/Admin/Event/show.vue') },
+              { name: 'Admin.Event.Session.AttendanceSheetList', path: ':classroom_id/session/:session_id/session_attendance_sheets', component: () => import('pages/Admin/Event/SessionActivitySheets/sessionActivitySheets.vue') },
+              { name: 'Admin.Event.Session.AttendanceSheet.Assignment', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/assignment', component: () => import('pages/Admin/Event/SessionActivitySheets/Assignment.vue') },
+              { name: 'Admin.Event.Session.AttendanceSheet.Attendance', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/attendance', component: () => import('pages/Admin/Event/SessionActivitySheets/Attendance.vue') },
+              { name: 'Admin.Event.Project.Create', path: ':classroom_id/project/create', component: () => import('src/pages/Admin/Event/project/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
+              { name: 'Admin.Event.Project.Show', path: ':classroom_id/project/:project_id', component: () => import('src/pages/Admin/Event/project/show.vue') },
+              { name: 'Admin.Event.Project.Members', path: ':classroom_id/project/:project_id/members', component: () => import('src/pages/Admin/Event/project/members.vue') },
+              { name: 'Admin.Event.projectAttendanceSheets.Show', path: ':classroom_id/project/:project_id/projectAttendanceSheet/:project_attendance_sheets_id', component: () => import('src/pages/Admin/Event/ProjectAttendanceSheet/show.vue') },
+              { name: 'Admin.Event.Project', path: ':id', component: () => import('src/pages/Admin/Event/show.vue') },
+              { name: 'Admin.Event.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Event/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
             ]
           },
           {

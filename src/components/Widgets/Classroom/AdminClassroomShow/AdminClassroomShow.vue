@@ -12,7 +12,8 @@
       >
     </q-btn>
   </div>
-  <q-card class="AdminClassroomShow">
+  <q-card v-if="mounted"
+          class="AdminClassroomShow">
     <q-tabs v-model="tab"
             dense
             class="text-grey"
@@ -20,19 +21,35 @@
             indicator-color="primary"
             align="justify"
             narrow-indicator>
-      <q-tab name="classroomInfo"
+      <q-tab v-if="canShowTabPage('classroomInfo')"
+             name="classroomInfo"
              label="مشخصات" />
-      <q-tab name="sessions"
-             label="لیست جلسات" />
-      <q-tab name="projects"
+      <q-tab v-if="canShowTabPage('sessions')"
+             name="sessions"
+             :label="sessionsTabTitle" />
+      <q-tab v-if="canShowTabPage('projects')"
+             name="projects"
              label="پروژه‌ها" />
-      <q-tab name="movies2"
+      <q-tab v-if="canShowTabPage('exams')"
+             name="exams"
              label="آزمون" />
-      <q-tab name="members"
+      <q-tab v-if="canShowTabPage('members')"
+             name="members"
              label="اندیشه جویان" />
-      <q-tab name="activity_sheet"
+      <q-tab v-if="canShowTabPage('teams')"
+             name="teams"
+             label="گروه" />
+      <q-tab v-if="canShowTabPage('graders')"
+             name="graders"
+             label="مصححین" />
+      <q-tab v-if="canShowTabPage('leaders')"
+             name="leaders"
+             label="سرگروه ها" />
+      <q-tab v-if="canShowTabPage('activity_sheet')"
+             name="activity_sheet"
              label="فعالیت کلاسی" />
-      <q-tab name="live_streaming_url"
+      <q-tab v-if="canShowTabPage('live_streaming_url')"
+             name="live_streaming_url"
              label="بخش آنلاین" />
     </q-tabs>
 
@@ -43,23 +60,37 @@
       <q-tab-panel name="classroomInfo"
                    class="q-pa-none">
         <classroom-info v-model:classroom="classroom"
+                        :classroom-type="localOptions.classroomType"
                         :classroom-id="$route.params.id" />
       </q-tab-panel>
       <q-tab-panel name="sessions"
                    class="q-pa-none">
-        <session-list :classroom-id="$route.params.id" />
+        <session-list :classroom-id="$route.params.id"
+                      :classroom-type="localOptions.classroomType" />
       </q-tab-panel>
 
       <q-tab-panel name="projects"
                    class="q-pa-none">
         <project-list :classroom-id="$route.params.id" />
       </q-tab-panel>
-      <q-tab-panel name="movies2">
+      <q-tab-panel name="exams">
         آزمون
       </q-tab-panel>
       <q-tab-panel name="members"
                    class="q-pa-none">
         <members-list :classroom-id="$route.params.id" />
+      </q-tab-panel>
+      <q-tab-panel name="teams"
+                   class="q-pa-none">
+        <team-list :classroom-id="$route.params.id" />
+      </q-tab-panel>
+      <q-tab-panel name="graders"
+                   class="q-pa-none">
+        <grader-list :classroom-id="$route.params.id" />
+      </q-tab-panel>
+      <q-tab-panel name="leaders"
+                   class="q-pa-none">
+        <leader-list :classroom-id="$route.params.id" />
       </q-tab-panel>
       <q-tab-panel name="activity_sheet"
                    class="q-pa-none">
@@ -73,10 +104,15 @@
 </template>
 
 <script>
+import TeamList from './components/TeamList.vue'
+import { mixinWidget } from 'src/mixin/Mixins.js'
 import { Classroom } from 'src/models/Classroom.js'
+import LeaderList from './components/LeaderList.vue'
+import GraderList from './components/GraderList.vue'
 import SessionList from './components/SessionList.vue'
 import ProjectList from './components/ProjectList.vue'
 import MembersList from './components/MembersList.vue'
+import { UnitCategory } from 'src/models/UnitCategory.js'
 import ClassroomInfo from './components/ClassroomInfo.vue'
 import LiveStreaming from './components/LiveStreaming.vue'
 import ActivitySheetList from './components/ActivitySheetList.vue'
@@ -85,6 +121,9 @@ import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 export default {
   name: 'Admin.Classroom.Show',
   components: {
+    TeamList,
+    LeaderList,
+    GraderList,
     SessionList,
     ProjectList,
     MembersList,
@@ -93,8 +132,10 @@ export default {
     LiveStreaming,
     ActivitySheetList
   },
+  mixins: [mixinWidget],
   data () {
     return {
+      mounted: false,
       tab: 'classroomInfo',
       classroom: new Classroom()
     }
@@ -102,6 +143,63 @@ export default {
   computed: {
     classroomId () {
       return this.classroom.id
+    },
+    classroomTypeTitle () {
+      const unitCategory = new UnitCategory({ type: this.localOptions.classroomType })
+      return unitCategory.type_info.label
+    },
+    sessionsTabTitle () {
+      if (this.localOptions.classroomType === 'TRAINING') {
+        return 'لیست جلسات'
+      }
+      if (this.localOptions.classroomType === 'EVENT') {
+        return 'لیست برنامه ها'
+      }
+      return 'لیست جلسات'
+    },
+    indexPageRouteName () {
+      if (this.localOptions.classroomType === 'TRAINING') {
+        return 'Admin.Classroom.Index'
+      }
+      if (this.localOptions.classroomType === 'EVENT') {
+        return 'Admin.Event.Index'
+      }
+      return 'Admin.Classroom.Index'
+    },
+    showPageRouteName () {
+      if (this.localOptions.classroomType === 'TRAINING') {
+        return 'Admin.Classroom.Show'
+      }
+      if (this.localOptions.classroomType === 'EVENT') {
+        return 'Admin.Event.Show'
+      }
+      return 'Admin.Classroom.Show'
+    },
+    canShowTabPage () {
+      return (tabName) => {
+        const tabs = {
+          TRAINING: [
+            'classroomInfo',
+            'sessions',
+            'projects',
+            'exams',
+            'members',
+            'teams',
+            'graders',
+            'leaders',
+            'activity_sheet',
+            'live_streaming_url'
+          ],
+          EVENT: [
+            'classroomInfo',
+            'sessions',
+            'members',
+            'live_streaming_url'
+          ]
+        }
+
+        return tabs[this.localOptions.classroomType].includes(tabName)
+      }
     }
   },
   watch: {
@@ -113,6 +211,9 @@ export default {
       this.updateBreadcrumbs()
     }
   },
+  mounted () {
+    this.mounted = true
+  },
   methods: {
     updateBreadcrumbs () {
       this.$store.commit('AppLayout/updateBreadcrumbs', {
@@ -120,12 +221,12 @@ export default {
         loading: false,
         path: [
           {
-            label: 'دوره های آموزشی',
-            to: { name: 'Admin.Classroom.Index' }
+            label: 'لیست ' + this.classroomTypeTitle,
+            to: { name: this.indexPageRouteName }
           },
           {
             label: this.classroom.title,
-            to: { name: 'Admin.Classroom.Show', params: { id: this.$route.params.id } }
+            to: { name: this.showPageRouteName, params: { id: this.$route.params.id } }
           }
         ]
       })

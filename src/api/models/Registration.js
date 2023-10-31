@@ -23,6 +23,8 @@ export default class RegistrationAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
+        classroom: null, // Number
+        classroom__unit__category__type: null, // String
         owner: null, // Number
         per_page: 10, // Number
         page: 1 // Number

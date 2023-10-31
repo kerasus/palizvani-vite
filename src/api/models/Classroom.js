@@ -1,6 +1,7 @@
 import { appApi } from 'src/boot/axios.js'
 import { Invoice } from 'src/models/Invoice.js'
 import APIRepository from '../classes/APIRepository.js'
+import { Registration } from 'src/models/Registration.js'
 import { Classroom, ClassroomList } from 'src/models/Classroom.js'
 
 export default class ClassroomAPI extends APIRepository {
@@ -11,6 +12,8 @@ export default class ClassroomAPI extends APIRepository {
       byId: (id) => '/lma/classrooms/' + id,
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
       drop: (id) => '/lma/classrooms/' + id + '/drop',
+      register: (id) => '/lma/classrooms/' + id + '/register',
+      leaders: (id) => '/lma/classrooms/' + id + '/leaders',
       members: '/lma/registrations',
       activitySheet: '/lma/registrations/activity_sheet',
       enrollByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/enrolll?user_id=' + userId,
@@ -29,6 +32,7 @@ export default class ClassroomAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
+        unit__category__type: null, // String
         per_page: 10, // Number
         page: 1 // Number
       }, data),
@@ -69,6 +73,32 @@ export default class ClassroomAPI extends APIRepository {
     })
   }
 
+  register (id) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.register(id),
+      resolveCallback: (response) => {
+        const data = {
+          type: null,
+          model: response.data
+        }
+        if (response.data.status === 'PAYING') {
+          data.type = 'Invoice'
+          data.model = new Invoice(response.data)
+        } else if (response.data.status === 'REGISTERED') {
+          data.type = 'Registration'
+          data.model = new Registration(response.data)
+        }
+
+        return data
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
   enrollByUser (id) {
     return this.sendRequest({
       apiMethod: 'put',
@@ -88,6 +118,23 @@ export default class ClassroomAPI extends APIRepository {
       apiMethod: 'put',
       api: this.api,
       request: this.APIAdresses.drop(id),
+      resolveCallback: (response) => {
+        return new Classroom(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  appendLeaders (data) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.leaders(data.classroomId),
+      data: {
+        leaders: data.leaders // array of numbers
+      },
       resolveCallback: (response) => {
         return new Classroom(response.data)
       },

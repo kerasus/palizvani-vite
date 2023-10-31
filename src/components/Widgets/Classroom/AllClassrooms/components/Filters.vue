@@ -27,7 +27,8 @@
     </q-card-section>
     <q-card-section class="filter-card-filter-section filter-card-section">
       <div class="row q-col-gutter-md">
-        <div class="col-md-3">
+        <div v-if="classroomType === 'TRAINING'"
+             class="col-md-3">
           <div>گروه آموزشی</div>
           <select-control v-model:value="localFilters.unit__category"
                           :options="categories.list"
@@ -38,7 +39,7 @@
                           @update:model-value="onChangeCategory" />
         </div>
         <div class="col-md-3">
-          <div>درس</div>
+          <div>{{ unitTitle }}</div>
           <select-control v-model:value="localFilters.unit"
                           :options="units.list"
                           :disable="units.loading"
@@ -119,6 +120,10 @@ export default {
     units: {
       type: UnitList,
       default: new UnitList()
+    },
+    classroomType: {
+      type: String,
+      default: 'TRAINING'
     }
   },
   emits: ['doFilter', 'cancelFilter', 'onChangeCategory', 'update:filters'],
@@ -128,6 +133,15 @@ export default {
     }
   },
   computed: {
+    unitTitle () {
+      if (this.classroomType === 'TRAINING') {
+        return 'درس'
+      }
+      if (this.classroomType === 'EVENT') {
+        return 'برنامه'
+      }
+      return 'درس'
+    },
     localFilters: {
       get () {
         return this.filters

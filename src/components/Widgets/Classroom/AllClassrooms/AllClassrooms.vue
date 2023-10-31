@@ -3,7 +3,7 @@
     <div class="all-classroom-title">
       <div>
         <q-banner class="banner">
-          دوره های آموزشی
+          {{ classroomTypeTitle }}
         </q-banner>
       </div>
       <div class="all-classroom-filter">
@@ -68,7 +68,10 @@
       <div v-for="classroom in classrooms.list"
            :key="classroom.id"
            class="classroom-col col-md-4">
-        <classroom-item :classroom="classroom" />
+        <classroom-item v-if="localOptions.classroomType === 'TRAINING'"
+                        :classroom="classroom" />
+        <event-item v-else-if="localOptions.classroomType === 'EVENT'"
+                    :event="classroom" />
       </div>
     </div>
     <div v-else-if="!classrooms.loading && classrooms.list.length === 0">
@@ -84,6 +87,7 @@
                :units="units"
                :professors="professors"
                :categories="categories"
+               :classroom-type="localOptions.classroomType"
                @doFilter="doFilter"
                @cancelFilter="cancelFilter"
                @onChangeCategory="onChangeCategory" />
@@ -94,17 +98,18 @@
 <script>
 import { UnitList } from 'src/models/Unit.js'
 import Filters from './components/Filters.vue'
-import { mixinAuth } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { Classroom, ClassroomList } from 'src/models/Classroom.js'
+import { mixinAuth, mixinWidget } from 'src/mixin/Mixins.js'
 import ClassroomItem from 'src/components/ClassroomItem.vue'
 import { UnitCategoryList } from 'src/models/UnitCategory.js'
+import EventItem from 'src/components/EventItem.vue'
+import { Classroom, ClassroomList } from 'src/models/Classroom.js'
 import { ClassroomRegistrationList } from 'src/models/ClassroomRegistration.js'
 
 export default {
   name: 'AllClassrooms',
-  components: { ClassroomItem, Filters },
-  mixins: [mixinAuth],
+  components: { ClassroomItem, EventItem, Filters },
+  mixins: [mixinAuth, mixinWidget],
   data: () => ({
     loading: false,
     units: new UnitList(),
@@ -121,9 +126,21 @@ export default {
       professor: null
     },
     filterDialog: false,
-    classrooms: new ClassroomList()
+    classrooms: new ClassroomList(),
+    defaultOptions: {
+      classroomType: 'TRAINING'
+    }
   }),
   computed: {
+    classroomTypeTitle () {
+      if (this.localOptions.classroomType === 'TRAINING') {
+        return 'دوره های آموزشی'
+      }
+      if (this.localOptions.classroomType === 'EVENT') {
+        return 'رویدادها'
+      }
+      return 'دوره های آموزشی'
+    },
     classroomStatuses () {
       return (new Classroom()).statusEnums
     },
@@ -206,6 +223,7 @@ export default {
     getClassrooms () {
       this.classrooms.loading = true
       this.filter.per_page = 9999
+      this.filter.unit__category__type = this.localOptions.classroomType
       APIGateway.classroom.index(this.filter)
         .then(classroomList => {
           this.classrooms = new ClassroomList(classroomList.list)
@@ -217,7 +235,9 @@ export default {
     },
     getCategories () {
       this.categories.loading = true
-      APIGateway.unitCategory.index()
+      APIGateway.unitCategory.index({
+        type: this.localOptions.classroomType
+      })
         .then(unitCategoryList => {
           this.categories.loading = false
           this.categories = new UnitCategoryList(unitCategoryList.list)
@@ -240,9 +260,12 @@ export default {
     getUserFullname (user) {
       return user.firstname + ' ' + user.lastname
     },
-    getUnits (categoryId) {
+    getUnits (categoryId = null) {
       this.units.loading = true
-      APIGateway.unit.index({ category: categoryId })
+      APIGateway.unit.index({
+        category: categoryId,
+        category__type: this.localOptions.classroomType
+      })
         .then(unitList => {
           this.units.loading = false
           this.units = new UnitList(unitList.list)

@@ -61,8 +61,22 @@ class User extends Model {
       { key: 'address' },
       { key: 'moballegh_info' },
       { key: 'user_permissions' }
-
-    ])
+    ], {
+      gender: {
+        infoKey: 'gender_info',
+        enumListKey: 'genderEnums',
+        enums: [
+          {
+            label: 'مذکر',
+            value: 1
+          },
+          {
+            label: 'مونث',
+            value: 0
+          }
+        ]
+      }
+    })
 
     if (this.user_id !== null) {
       this.id = this.user_id

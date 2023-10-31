@@ -145,8 +145,7 @@ export default {
             align: 'left',
             field: ''
           }
-        ],
-        data: []
+        ]
       },
       tableKeys: {
         data: 'results',

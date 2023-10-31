@@ -9,6 +9,7 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { UnitCategory } from 'src/models/UnitCategory.js'
 import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
 import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
 
@@ -20,16 +21,7 @@ export default defineComponent({
   mixins: [mixinOptionPanel],
   data () {
     return {
-      classroomTypeOptions: [
-        {
-          label: 'دوره آموزشی',
-          value: 'Classroom'
-        },
-        {
-          label: 'حلقه مباحثاتی',
-          value: 'DiscussionCircles'
-        }
-      ]
+      classroomTypeOptions: (new UnitCategory()).typeEnums
     }
   }
 })

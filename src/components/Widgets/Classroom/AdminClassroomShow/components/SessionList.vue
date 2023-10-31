@@ -2,7 +2,7 @@
   <entity-index v-if="mounted"
                 ref="sessionList"
                 v-model:value="sessionListInputs"
-                title="لیست جلسات"
+                :title="listTitle"
                 :api="sessionListApi"
                 :table="sessionListTable"
                 :table-keys="sessionListTableKeys"
@@ -14,7 +14,7 @@
              outline
              :loading="addNewSessionLoading"
              @click="addNewSession">
-        افزودن جلسه
+        {{ addBtnTitle }}
       </q-btn>
     </template>
     <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
@@ -27,7 +27,7 @@
                  outline
                  color="primary"
                  label="بررسی"
-                 :to="{name: 'Admin.Classroom.Session.AttendanceSheetList', params: {classroom_id: classroomId, session_id: inputData.props.row.id}}"
+                 :to="{name: sessionAttendanceSheetList, params: {classroom_id: classroomId, session_id: inputData.props.row.id}}"
                  class="q-mr-md" />
           <q-btn size="md"
                  color="primary"
@@ -63,12 +63,18 @@ export default {
     classroomId: {
       type: Number,
       default: null
+    },
+    classroomType: {
+      type: String,
+      default: 'TRAINING'
     }
   },
   data () {
     const classroomId = this.classroomId
     return {
       mounted: false,
+      listTitle: 'لیست جلسات',
+      addBtnTitle: 'افزودن جلسه',
       addNewSessionLoading: false,
 
       sessionListInputs: [
@@ -99,14 +105,14 @@ export default {
             field: row => row.title
           },
           {
-            name: 'creation_time',
+            name: 'beginning_time',
             required: true,
             label: 'زمان شروع جلسه',
             align: 'left',
             field: row => row.beginning_time ? ShamsiDate.getDateTime(row.beginning_time) : '-'
           },
           {
-            name: 'last_modification_time',
+            name: 'ending_time',
             required: true,
             label: 'زمان پایان جلسه',
             align: 'left',
@@ -130,10 +136,43 @@ export default {
       }
     }
   },
+  computed: {
+    sessionAttendanceSheetList () {
+      if (this.classroomType === 'TRAINING') {
+        return 'Admin.Classroom.Session.AttendanceSheetList'
+      }
+      if (this.classroomType === 'EVENT') {
+        return 'Admin.Event.Session.AttendanceSheetList'
+      }
+      return 'Admin.Classroom.Session.AttendanceSheetList'
+    }
+  },
   mounted () {
+    this.setClassroomTypeOfInputs()
     this.mounted = true
   },
   methods: {
+    setClassroomTypeOfInputs () {
+      if (this.classroomType === 'TRAINING') {
+        this.listTitle = 'لیست جلسات'
+        this.addBtnTitle = 'افزودن جلسه'
+      }
+      if (this.classroomType === 'EVENT') {
+        this.listTitle = 'لیست برنامه ها'
+        this.addBtnTitle = 'افزودن برنامه'
+        this.sessionListTable.columns.forEach(col => {
+          if (col.name === 'title') {
+            col.label = 'عنوان برنامه'
+          }
+          if (col.name === 'beginning_time') {
+            col.label = 'زمان شروع برنامه'
+          }
+          if (col.name === 'ending_time') {
+            col.label = 'زمان پایان برنامه'
+          }
+        })
+      }
+    },
     addNewSession () {
       this.addNewSessionLoading = true
       APIGateway.session.create({

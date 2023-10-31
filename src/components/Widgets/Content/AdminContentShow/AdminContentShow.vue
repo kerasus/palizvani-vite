@@ -33,7 +33,7 @@ import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
-import ContentMedias from 'components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
+import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
 import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
