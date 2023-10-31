@@ -356,7 +356,7 @@ export default {
       }).onOk(() => {
         this.dropLoading = true
         const eventId = this.$route.params.id
-        APIGateway.event.dropByUser(eventId)
+        APIGateway.classroom.dropByUser(eventId)
           .then(() => {
             this.dropLoading = false
             this.reloadEvent()

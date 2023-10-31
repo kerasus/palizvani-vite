@@ -283,7 +283,7 @@ export default {
                 message: 'ثبت نام شما با موفقیت انجام شد.',
                 type: 'positive'
               })
-              const eventRegistrationId = data.model.id
+              const eventRegistrationId = data.model.classroom_info.id
               if (this.$route.query.source === 'event') {
                 this.$router.push({ name: 'UserPanel.Profile.EventInfo', params: { id: eventRegistrationId } })
               } else {
