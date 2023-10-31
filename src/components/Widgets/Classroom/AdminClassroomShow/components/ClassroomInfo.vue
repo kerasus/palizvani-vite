@@ -182,7 +182,9 @@ export default {
       if (!this.mounted) {
         return
       }
-      FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'value', null)
+      if (this.classroomType === 'TRAINING') {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'value', null)
+      }
       this.getUnits(this.selectedCategoryId)
     }
   },
@@ -228,11 +230,14 @@ export default {
       return new Promise((resolve, reject) => {
         APIGateway.classroom.get(this.classroomId)
           .then((classroom) => {
-            if (this.classroomType === 'TRAINING') {
-              this.setInputAttr('category', 'value', classroom.unit_info.category_info.id)
-            }
-            this.setInputAttr('unit', 'value', classroom.unit)
-            this.beforeLoadInputData(classroom)
+            this.beforeLoadInputData(classroom, () => {
+              this.$nextTick(() => {
+                if (this.classroomType === 'TRAINING') {
+                  this.setInputAttr('category', 'value', classroom.unit_info.category_info.id)
+                }
+                this.setInputAttr('unit', 'value', classroom.unit)
+              })
+            })
               .then((classroom) => {
                 resolve(classroom)
               })
@@ -245,7 +250,7 @@ export default {
           })
       })
     },
-    beforeLoadInputData (responseData) {
+    beforeLoadInputData (responseData, callback) {
       return new Promise((resolve, reject) => {
         const promise1 = this.getProfessors()
         const promise2 = this.getCategories()
@@ -256,6 +261,7 @@ export default {
               // this.setInputAttr('category', 'value', responseData.unit_info.category)
               // this.setInputAttr('unit', 'value', responseData.unit)
               this.classroomEntityEditKey = Date.now()
+              callback()
               resolve()
             })
             .catch(() => {
