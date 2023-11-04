@@ -54,8 +54,10 @@
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import Assist from 'src/assets/js/Assist.js'
+import { Invoice } from 'src/models/Invoice.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { Registration } from 'src/models/Registration.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 
@@ -83,8 +85,9 @@ export default {
       exportReportLoading: false,
       membersListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId },
-        { type: 'select', name: 'status', options: [{ label: 'ثبت نام شده', value: 'REGISTERED' }, { label: 'پیش ثبت نام شده', value: 'ENROLLED' }, { label: 'حذف توسط اندیشه جو', value: 'DROPPED_BY_ITSELF' }, { label: 'حذف توسط ادمین', value: 'DROPPED_BY_ADMIN' }], label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'select', name: 'invoice__status', options: [{ label: 'پرداخت کامل', value: 'PAID_FULL' }, { label: 'پرداخت قسطی', value: 'PAYING_IN_INSTALMENT' }], label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'owner__national_code', label: 'کد ملی', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'status', options: (new Registration()).statusEnums, label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'invoice__status', options: (new Invoice()).statusEnums, label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       membersListApi: APIGateway.classroom.APIAdresses.members,
