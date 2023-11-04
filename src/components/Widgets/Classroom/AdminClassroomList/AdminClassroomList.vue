@@ -230,6 +230,9 @@ export default {
         if (col.name === 'title') {
           col.label = 'نام ' + this.classroomTypeTitle
         }
+        if (col.name === 'professor_info') {
+          col.label = (this.localOptions.classroomType === 'TRAINING') ? 'استاد مربوطه' : 'برگزار کننده'
+        }
       })
     },
     setActionBtn () {
