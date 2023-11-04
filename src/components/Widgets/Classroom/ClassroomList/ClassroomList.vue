@@ -314,15 +314,22 @@ export default {
       this.getUnits()
     },
     getCategories () {
-      APIGateway.classroom.index({ per_page: 9999 })
-        .then(classroomList => {
-          this.loadSelectOptions('category', this.getSelectOptions(classroomList.list.list, 'id', 'title'))
+      APIGateway.unitCategory.index({ per_page: 9999, type: this.localOptions.classroomType })
+        .then((categories) => {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', categories.list.list.map(item => {
+            return {
+              value: item.id,
+              label: item.title
+            }
+          }))
         })
-        .catch(() => {
-        })
+        .catch(() => {})
     },
     getUnits (selectedcategoryId) {
-      APIGateway.unit.index({ category: selectedcategoryId })
+      APIGateway.unit.index({
+        category: selectedcategoryId,
+        category__type: this.localOptions.classroomType
+      })
         .then(unitList => {
           this.loadSelectOptions('unit', this.getSelectOptions(unitList.list.list, 'id', 'title'))
         })

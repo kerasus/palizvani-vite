@@ -144,7 +144,7 @@ export default {
     getClassrooms () {
       this.classrooms.loading = true
       return APIGateway.classroom.index({
-        unit__category__type: 'EVENT'
+        unit__category__type: 'TRAINING'
       })
     }
   }
