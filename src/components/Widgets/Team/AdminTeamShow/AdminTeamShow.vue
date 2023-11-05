@@ -70,6 +70,7 @@ import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 import { FormBuilder, inputMixin, FormBuilderAssist } from 'quasar-form-builder'
 import EntityInput from 'quasar-crud/src/components/Entity/Attachment/EntityInput.vue'
 import FormBuilderInputEditor from 'src/components/FormBuilderCustumComponents/FormBuilderInputEditor.vue'
+import { User } from 'src/models/User'
 
 const BtnControlComp = shallowRef(BtnControl)
 const EntityInputComp = shallowRef(EntityInput)
@@ -285,7 +286,12 @@ export default {
         }
       ],
       teamRegistrationListInputs: [
-        { type: 'hidden', name: 'team', value: teamId }
+        { type: 'hidden', name: 'team', value: teamId },
+        { type: 'select', name: 'owner__gender', value: null, options: (new User()).genderEnums, col: 'col-md-2 col-12', label: 'جنسیت', placeholder: ' ' },
+        { type: 'input', name: 'owner__living_province', value: null, col: 'col-md-2 col-12', label: 'استان', placeholder: ' ' },
+        { type: 'input', name: 'owner__living_city', value: null, col: 'col-md-2 col-12', label: 'شهر', placeholder: ' ' },
+        { type: 'input', name: 'search', value: null, col: 'col-md-2 col-12', label: 'جست و جو', placeholder: ' ' },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       teamRegistrationListApi: APIGateway.teamRegistrations.APIAdresses.base,
       teamRegistrationListTable: {
@@ -364,7 +370,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.setActionBtn()
     this.mounted = true
   },
@@ -374,7 +380,7 @@ export default {
       this.addNewLeaderLoading = true
       APIGateway.team.appendRegistrations({ teamId: this.$route.params.team_id, registrations })
         .then(() => {
-          this.$refs.teamRegistrationList.search()
+          this.search()
           this.addTeamRegistrationInputs[0].value = []
           this.addTeamRegistrationInputs[0].selected = []
           this.addTeamRegistrationKey = Date.now()
@@ -389,6 +395,10 @@ export default {
     },
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.edit)
+      FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'btn', 'atClick', this.search)
+    },
+    search () {
+      this.$refs.teamRegistrationList.search()
     },
     afterLoadInputData (responseData) {
       this.team = new Team(responseData)

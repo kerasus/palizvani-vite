@@ -236,11 +236,7 @@ export default {
       })
     },
     setActionBtn () {
-      this.inputs.forEach((item, index) => {
-        if (item.name === 'btn') {
-          this.inputs[index].atClick = this.search
-        }
-      })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     },
     search () {
       this.$refs.entityIndex.search()
