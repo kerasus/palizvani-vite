@@ -141,6 +141,7 @@ export default {
             { type: 'input', name: 'email', value: null, label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
             { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-3 col-12' },
             { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'input', name: 'search', value: null, label: 'جست و جو', placeholder: ' ', col: 'col-md-3 col-12' },
             { type: 'hidden', name: 'role', value: 'team_leader' },
             { type: 'hidden', name: 'classroom_leaders__classroom__ne', value: classroomId }
           ],
