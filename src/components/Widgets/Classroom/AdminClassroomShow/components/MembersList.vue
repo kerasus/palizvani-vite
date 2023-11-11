@@ -20,6 +20,16 @@
       <template v-if="inputData.col.name === 'number'">
         {{ inputData.rowNumber }}
       </template>
+      <template v-if="inputData.col.name === 'UserRegisterStatus'">
+        <q-btn v-if="inputData.col.value === 'DROPPED_FOR_CONDITION'"
+               color="primary"
+               class="q-mr-md"
+               :loading="revertDroppedForConditionLoading"
+               @click="revertDroppedForCondition(inputData.props.row.id)">
+          بازگرداندن ثبت نام
+        </q-btn>
+        {{ inputData.col.value }}
+      </template>
       <template v-else-if="inputData.col.name === 'action'">
         <div class="action-column-entity-index">
           <q-btn v-if="inputData.props.row.status !== 'DROPPED_BY_ADMIN' && inputData.props.row.status !== 'DROPPED_BY_ITSELF'"
@@ -136,7 +146,7 @@ export default {
             field: row => row.owner_info.email
           },
           {
-            name: 'owner_info.email',
+            name: 'UserRegisterStatus',
             required: true,
             label: 'وضعیت',
             align: 'left',
@@ -158,7 +168,9 @@ export default {
         currentPage: 'current',
         perPage: 'per_page',
         pageKey: 'page'
-      }
+      },
+
+      revertDroppedForConditionLoading: false
     }
   },
   mounted () {
@@ -166,6 +178,18 @@ export default {
     this.mounted = true
   },
   methods: {
+    revertDroppedForCondition (id) {
+      this.revertDroppedForConditionLoading = true
+      APIGateway.registration.revertDroppedForCondition(id)
+        .then(() => {
+          this.revertDroppedForConditionLoading = false
+          this.searchMembersList()
+        })
+        .catch(() => {
+          this.revertDroppedForConditionLoading = false
+          this.searchMembersList()
+        })
+    },
     setMembersListActionBtn () {
       FormBuilderAssist.setAttributeByName(this.membersListInputs, 'btn', 'atClick', this.searchMembersList)
     },
