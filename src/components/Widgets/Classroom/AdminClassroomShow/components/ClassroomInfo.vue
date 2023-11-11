@@ -252,9 +252,10 @@ export default {
     },
     beforeLoadInputData (responseData, callback) {
       return new Promise((resolve, reject) => {
+        const selectedCategoryId = responseData.unit_info.category || null
         const promise1 = this.getProfessors()
         const promise2 = this.getCategories()
-        const promise3 = (this.classroomType === 'EVENT') ? this.getUnits(null, this.classroomType) : this.getUnits(responseData.unit_info.category)
+        const promise3 = this.getUnits(selectedCategoryId, this.classroomType)
         this.$nextTick(() => {
           Promise.all([promise1, promise2, promise3])
             .then(() => {
@@ -283,7 +284,10 @@ export default {
         .catch(() => {})
     },
     getCategories () {
-      return APIGateway.unitCategory.index({ per_page: 9999 })
+      return APIGateway.unitCategory.index({
+        type: this.classroomType,
+        per_page: 9999
+      })
         .then((categories) => {
           this.setInputAttr('category', 'options', categories.list.list.map(item => {
             return {
@@ -294,8 +298,8 @@ export default {
         })
         .catch(() => {})
     },
-    getUnits (selectedcategoryId = null, categoryType = null) {
-      return APIGateway.unit.index({ per_page: 9999, category: selectedcategoryId, category__type: categoryType })
+    getUnits (selectedCategoryId = null, categoryType = null) {
+      return APIGateway.unit.index({ per_page: 9999, category: selectedCategoryId, category__type: categoryType })
         .then((units) => {
           this.setInputAttr('unit', 'options', units.list.list.map(item => {
             return {
