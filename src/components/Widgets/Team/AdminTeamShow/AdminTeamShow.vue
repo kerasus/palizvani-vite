@@ -272,6 +272,8 @@ export default {
             ]
           },
           inputs: [
+            { type: 'input', name: 'search', value: null },
+            { type: 'hidden', name: 'status', value: 'REGISTERED' },
             { type: 'hidden', name: 'teams__isnull', value: true },
             { type: 'hidden', name: 'classroom', value: classroomId }
           ],
