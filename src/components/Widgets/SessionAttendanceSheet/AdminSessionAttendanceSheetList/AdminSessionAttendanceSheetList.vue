@@ -111,6 +111,7 @@ export default {
       inputs: [
         { type: 'hidden', name: 'session', value: sessionId },
         { type: 'select', name: 'registration__status', label: 'وضعیت ثبت نام', placeholder: ' ', value: null, options: (new Registration()).statusEnums, col: 'col-md-3 col-12' },
+        { type: 'select', name: 'assignment_status', label: 'وضعیت انجام تکلیف', placeholder: ' ', value: null, options: (new SessionAttendanceSheets()).assignment_statusEnums, col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
       ],
       uploadInputs: [
