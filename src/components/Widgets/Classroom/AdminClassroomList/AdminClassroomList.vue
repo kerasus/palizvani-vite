@@ -230,14 +230,13 @@ export default {
         if (col.name === 'title') {
           col.label = 'نام ' + this.classroomTypeTitle
         }
+        if (col.name === 'professor_info') {
+          col.label = (this.localOptions.classroomType === 'TRAINING') ? 'استاد مربوطه' : 'برگزار کننده'
+        }
       })
     },
     setActionBtn () {
-      this.inputs.forEach((item, index) => {
-        if (item.name === 'btn') {
-          this.inputs[index].atClick = this.search
-        }
-      })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     },
     search () {
       this.$refs.entityIndex.search()

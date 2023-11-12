@@ -52,7 +52,8 @@
                  :to="{name: 'Admin.Classroom.Session.AttendanceSheet.Attendance', params: {classroom_id: $route.params.classroom_id, session_id: $route.params.session_id, session_attendance_sheet_id: inputData.props.row.id}}">
             حضور و غیاب
           </q-btn>
-          <q-btn color="primary"
+          <q-btn v-if="localOptions.classroomType === 'TRAINING'"
+                 color="primary"
                  :outline="inputData.props.row.assignment_status !== 'NOT_SENT'"
                  :to="{name: 'Admin.Classroom.Session.AttendanceSheet.Assignment', params: {classroom_id: $route.params.classroom_id, session_id: $route.params.session_id, session_attendance_sheet_id: inputData.props.row.id}}">
             <template v-if="inputData.props.row.assignment_status !== 'NOT_SENT'">
@@ -110,6 +111,7 @@ export default {
       inputs: [
         { type: 'hidden', name: 'session', value: sessionId },
         { type: 'select', name: 'registration__status', label: 'وضعیت ثبت نام', placeholder: ' ', value: null, options: (new Registration()).statusEnums, col: 'col-md-3 col-12' },
+        { type: 'select', name: 'assignment_status', label: 'وضعیت انجام تکلیف', placeholder: ' ', value: null, options: (new SessionAttendanceSheets()).assignment_statusEnums, col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
       ],
       uploadInputs: [
@@ -118,7 +120,7 @@ export default {
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ارسال', placeholder: ' ', atClick: () => {}, col: 'col-md-4 col-12' }
       ],
       uploadAPI: APIGateway.sessionAttendanceSheets.APIAdresses.importList,
-      table: {
+      tableForClassroom: {
         columns: [
           {
             name: 'number',
@@ -171,6 +173,55 @@ export default {
           }
         ]
       },
+      tableForEvent: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'sender',
+            required: true,
+            label: 'نام و نام خانوادگی',
+            align: 'left',
+            field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
+          },
+          {
+            name: 'sender',
+            required: true,
+            label: 'کد ملی',
+            align: 'left',
+            field: row => row.owner_info.national_code
+          },
+          {
+            name: 'attendance_status',
+            required: true,
+            label: 'وضعیت حضور و غیاب',
+            align: 'left',
+            field: row => (new SessionAttendanceSheets(row)).attendance_status_info.label
+          },
+          {
+            name: 'action',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: row => ''
+          }
+        ]
+      },
+      table: {
+        columns: []
+      },
       mounted: false,
       exportReportLoading: false,
       createRouteName: ''
@@ -183,6 +234,7 @@ export default {
     }
   },
   mounted() {
+    this.setClassroomTypeOfInputs()
     this.mounted = true
     this.setActionBtn()
     this.getClassroom()
@@ -191,6 +243,14 @@ export default {
       })
   },
   methods: {
+    setClassroomTypeOfInputs () {
+      if (this.localOptions.classroomType === 'TRAINING') {
+        this.table = this.tableForClassroom
+      }
+      if (this.localOptions.classroomType === 'EVENT') {
+        this.table = this.tableForEvent
+      }
+    },
     updateBreadcrumbs (classroom) {
       this.classroom = new Classroom(classroom)
       this.$store.commit('AppLayout/updateBreadcrumbs', {

@@ -9,6 +9,7 @@ export default class RegistrationAPI extends APIRepository {
       base: '/lma/registrations',
       exportReport: '/lma/registrations/export_report',
       classroomDetail: (registrationId) => '/lma/registrations/' + registrationId + '/classroom_detail',
+      revertDroppedForCondition: (registrationId) => '/lma/registrations/' + registrationId + '/revert_dropped_for_condition',
       byId: (id) => '/lma/registrations/' + id
     }
     this.CacheList = {
@@ -65,6 +66,20 @@ export default class RegistrationAPI extends APIRepository {
       responseType: 'blob',
       resolveCallback: (response) => {
         return response.data // xlsxData
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  revertDroppedForCondition(id) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.revertDroppedForCondition(id),
+      resolveCallback: () => {
+        return null
       },
       rejectCallback: (error) => {
         return error
