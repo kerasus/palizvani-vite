@@ -1,4 +1,4 @@
-FROM node:16.16.0-alpine as prebuild
+FROM node:18.18.2-alpine as prebuild
 
 # Set working directory
 WORKDIR /var/www/app
