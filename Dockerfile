@@ -8,7 +8,7 @@ COPY ./package*.json ./
 # Install dependencies
 RUN yarn install --production --frozen-lockfile
 
-ARG APP_API_SERVER=http://palizvani.hghweb.ir/api
+ARG APP_API_SERVER=http://shahidpalizvani.ir/api
 ARG VUEX_PERSISTED_STATE_KEY=vuex
 ARG GET_TIME_SERVER=/time
 ARG APP_API=/api
