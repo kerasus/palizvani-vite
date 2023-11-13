@@ -39,7 +39,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^9.9.0",
     "express-requests-logger": "^4.0.0",
-    "firebase": "^10.5.0",
     "fs": "^0.0.1-security",
     "fslightbox-vue": "^2.0.2",
     "html2pdf.js": "^0.10.1",
