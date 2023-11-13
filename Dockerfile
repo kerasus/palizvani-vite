@@ -30,7 +30,7 @@ RUN yarn build:ssr
 ##############################################
 
 
-FROM node:18.18.2-alpine
+FROM node:20.9-alpine
 
 
 COPY --from=prebuild /var/www/app/dist/ssr /var/www/app/dist/ssr
