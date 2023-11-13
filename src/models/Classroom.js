@@ -121,7 +121,8 @@ class Classroom extends Model {
     })
 
     if (!this.thumbnail) {
-      this.thumbnail = '/assets/images/web/sample-class-thumbnail.jpg'
+      // this.thumbnail = '/assets/images/web/sample-class-thumbnail.jpg'
+      this.thumbnail = '/img/sample-post-thumbnail.jpg'
     }
   }
 
