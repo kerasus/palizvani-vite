@@ -184,7 +184,7 @@ export default {
   .scroll {
     height: 100%;
   }
-  @media screen and(max-width: 1400px) {
+  @media screen and (max-width: 1400px) {
     width: 200px;
     .scroll {
       height: 200px;
