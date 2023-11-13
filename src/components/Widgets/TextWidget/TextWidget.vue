@@ -58,13 +58,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.text-widget-container {
-  @media screen and(max-width: 599px) {
-    //display: flex;
-    //width: 100%;
-  }
-}
-
 .text {
   line-height: v-bind('localOptions.xl.lineHeight');
   color: v-bind('localOptions.color');
