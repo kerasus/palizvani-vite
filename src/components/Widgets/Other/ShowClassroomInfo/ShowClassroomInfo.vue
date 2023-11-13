@@ -311,7 +311,8 @@ export default {
   emits: ['onloadn'],
   data: () => ({
     defaultOptions: {
-      profileMode: false
+      profileMode: false,
+      classroomType: 'TRAINING'
     },
     acceptClassType: 'register', // accept - enrollment - rules
     fetchCodesLoading: false,

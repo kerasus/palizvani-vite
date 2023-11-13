@@ -18,7 +18,7 @@
                   :show-expand-button="false"
                   :show-reload-button="false">
       <template #entity-index-table-item-cell="{inputData}">
-        <post-item :post="inputData.props.row" />
+        <post-item :post="getPost(inputData.props.row)" />
       </template>
     </entity-index>
   </div>
@@ -26,6 +26,7 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
+import { Post } from 'src/models/Post.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import PostItem from 'src/components/PostItem.vue'
@@ -94,7 +95,7 @@ export default {
       return null
     }
   },
-  mounted() {
+  mounted () {
     this.mounted = true
     this.$store.commit('AppLayout/updateBreadcrumbs', this.breadcrumbs)
 
@@ -121,6 +122,9 @@ export default {
     }
   },
   methods: {
+    getPost (data) {
+      return new Post(data)
+    },
     getPostCategoryInfo (postCategoryId) {
       this.postCategory.loading = true
       APIGateway.postCategory.get({ data: { id: postCategoryId } })

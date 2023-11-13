@@ -28,7 +28,7 @@ class Post extends Model {
     ])
 
     if (!this.thumbnail) {
-      this.thumbnail = '/img/custom/Mask_group2.png'
+      this.thumbnail = '/img/sample-post-thumbnail.jpg'
     }
   }
 }
