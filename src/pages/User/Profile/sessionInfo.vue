@@ -196,8 +196,8 @@ export default {
       },
       submitAttendanceStatusAction: { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت حضور و غیاب', placeholder: ' ', customClass: 'flex justify-end', atClick: this.submitAttendanceStatus, col: 'col-12' },
       submitAttendanceStatusInputs: [
-        { type: 'hidden', name: 'session', responseKey: 'session', value: sessionId },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت', customClass: 'flex justify-end', atClick: this.submitAttendanceStatus, col: 'col-12' }
+        { type: 'hidden', name: 'session', responseKey: 'session', value: sessionId }
+        // { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت', customClass: 'flex justify-end', atClick: this.submitAttendanceStatus, col: 'col-12' }
       ],
       submitAttendanceStatusApi: APIGateway.sessionAttendanceSheets.APIAdresses.submitAttendanceStatus,
 
@@ -266,6 +266,7 @@ export default {
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part2', 'readonly', true)
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'readonly', true)
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'readonly', true)
+        this.submitAttendanceStatusInputs.push(this.submitAttendanceStatusAction)
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'btn', 'type', 'hidden')
       }
     },
