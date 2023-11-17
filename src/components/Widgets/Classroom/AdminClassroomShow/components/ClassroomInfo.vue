@@ -252,7 +252,7 @@ export default {
     },
     beforeLoadInputData (responseData, callback) {
       return new Promise((resolve, reject) => {
-        const selectedCategoryId = responseData.unit_info.category || null
+        const selectedCategoryId = responseData.unit_info.category_info.id || null
         const promise1 = this.getProfessors()
         const promise2 = this.getCategories()
         const promise3 = this.getUnits(selectedCategoryId, this.classroomType)
