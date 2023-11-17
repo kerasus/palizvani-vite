@@ -71,6 +71,7 @@ export default {
       exportReportLoading: false,
       inputs: [
         { type: 'hidden', name: 'project', value: projectId },
+        { type: 'input', name: 'owner__national_code', label: 'کد ملی', placeholder: ' ', value: null, col: 'col-md-3 col-12' },
         { type: 'select', name: 'registration__status', label: 'وضعیت ثبت نام', placeholder: ' ', value: null, options: (new Registration()).statusEnums, col: 'col-md-3 col-12' },
         { type: 'select', name: 'answer_status', label: 'وضعیت انجام پروژه', placeholder: ' ', value: null, options: (new ProjectAttendanceSheets()).answer_statusEnums, col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
