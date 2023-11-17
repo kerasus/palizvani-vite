@@ -196,7 +196,8 @@ export default {
       },
       submitAttendanceStatusAction: { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت حضور و غیاب', placeholder: ' ', customClass: 'flex justify-end', atClick: this.submitAttendanceStatus, col: 'col-12' },
       submitAttendanceStatusInputs: [
-        { type: 'hidden', name: 'session', responseKey: 'session', value: sessionId }
+        { type: 'hidden', name: 'session', responseKey: 'session', value: sessionId },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت', customClass: 'flex justify-end', atClick: this.submitAttendanceStatus, col: 'col-12' }
       ],
       submitAttendanceStatusApi: APIGateway.sessionAttendanceSheets.APIAdresses.submitAttendanceStatus,
 
