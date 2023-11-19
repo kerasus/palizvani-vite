@@ -266,8 +266,9 @@ export default {
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_read_part2', 'readonly', true)
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part1', 'readonly', true)
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'is_present_listen_part2', 'readonly', true)
-        this.submitAttendanceStatusInputs.push(this.submitAttendanceStatusAction)
         FormBuilderAssist.setAttributeByName(this.submitAttendanceStatusInputs, 'btn', 'type', 'hidden')
+      } else {
+        this.submitAttendanceStatusInputs.push(this.submitAttendanceStatusAction)
       }
     },
     updateAttendanceInputs (isShowSyllabusInput, isShowPresentListenInput, classroomHoldingType) {
