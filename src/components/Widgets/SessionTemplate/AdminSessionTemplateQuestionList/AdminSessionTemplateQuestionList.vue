@@ -1,11 +1,11 @@
 <template>
   <div class="AdminSessionTemplateQuestionList"
        :style="localOptions.style">
-    <q-skeleton v-if="mounted"
-                type="text"
-                width="200px" />
-    <breadcrumbs v-else
-                 style="margin-top: 29px; margin-bottom: 19px;" />
+    <!--    <q-skeleton v-if="mounted"-->
+    <!--                type="text"-->
+    <!--                width="200px" />-->
+    <!--    <breadcrumbs v-else-->
+    <!--                 style="margin-top: 29px; margin-bottom: 19px;" />-->
     <div class="flex justify-end q-mb-md">
       <q-btn label="ایجاد سوال جدید"
              color="primary"
@@ -38,7 +38,7 @@
                    outline
                    round
                    icon="drive_file_rename_outline"
-                   :to="{name: 'Admin.Category.Show', params: {id: inputData.props.row.id}}"
+                   :to="{ name: 'Admin.Unit.Questions.Show', params: { session_template_id: this.$route.params.session_template_id, id: inputData.props.row.id } }"
                    class="q-mr-md" />
             <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
           </div>
@@ -57,11 +57,15 @@ import { Question } from 'src/models/Question.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
-import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+// import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'AdminSessionTemplateQuestionList',
-  components: { EntityIndex, Breadcrumbs, DeleteBtn },
+  components: {
+    EntityIndex,
+    // Breadcrumbs,
+    DeleteBtn
+  },
   mixins: [mixinWidget],
   data () {
     return {
@@ -74,8 +78,8 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        // { type: 'hidden', name: 'type', value: 'QUESTION_BANK' },
-        // { type: 'hidden', name: 'session_template_questions__session_template', value: this.$route.params.session_template_id }
+        { type: 'hidden', name: 'type', value: 'QUESTION_BANK' },
+        { type: 'hidden', name: 'session_template_questions__session_template', value: this.$route.params.session_template_id }
       ],
       table: {
         columns: [
