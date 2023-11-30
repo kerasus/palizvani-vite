@@ -558,7 +558,17 @@ const routes = [
             children: [
               // { name: 'Admin.Category.Index', path: '', component: () => import('src/pages/Admin/Category/index.vue') },
               // { name: 'Admin.Category.Create', path: 'create', component: () => import('src/pages/Admin/Category/create.vue') },
-              { name: 'Admin.Unit.Show', path: ':id', component: () => import('src/pages/Admin/Unit/show.vue'), breadcrumbs: { title: 'درس' } }
+              { name: 'Admin.Unit.Show', path: ':id', component: () => import('src/pages/Admin/Unit/show.vue') },
+              {
+                name: 'Admin.Unit.Questions',
+                path: ':session_template_id/questions',
+                component: () => import('src/layouts/bareLayout.vue'),
+                children: [
+                  { name: 'Admin.Unit.Questions.Index', path: '', component: () => import('src/pages/Admin/Unit/QuestionsList.vue') },
+                  { name: 'Admin.Unit.Questions.Create', path: 'create', component: () => import('src/pages/Admin/Unit/QuestionsCreate.vue') },
+                  { name: 'Admin.Unit.Questions.Show', path: ':id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') }
+                ]
+              }
             ]
           },
           {

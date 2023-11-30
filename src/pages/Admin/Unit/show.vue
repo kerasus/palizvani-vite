@@ -79,7 +79,7 @@
                            outline
                            label="بانک سوالات"
                            class="btn-go-to-question-bank"
-                           :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}" />
+                           :to="{name: 'Admin.Unit.Questions', params: {session_template_id: inputData.props.row.id}}" />
                     <q-btn size="md"
                            color="primary"
                            label="تعیین جزییات"

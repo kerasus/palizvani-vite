@@ -13,6 +13,7 @@ import PaymentAPI from 'src/api/models/Payment.js'
 import SessionAPI from 'src/api/models/Session.js'
 import ContentAPI from 'src/api/models/Content.js'
 import ProjectAPI from 'src/api/models/Project.js'
+import QuestionApi from 'src/api/models/Question.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
 import InstalmentAPI from 'src/api/models/Instalment.js'
 import TransactionAPI from 'src/api/models/Transaction.js'
@@ -51,6 +52,7 @@ export const APIGateway = {
   payment: new PaymentAPI(),
   session: new SessionAPI(),
   content: new ContentAPI(),
+  question: new QuestionApi(),
   classroom: new ClassroomAPI(),
   instalment: new InstalmentAPI(),
   transaction: new TransactionAPI(),
