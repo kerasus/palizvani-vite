@@ -1,6 +1,14 @@
 <template>
   <div class="AdminSessionTemplateQuestionShow"
        :style="localOptions.style">
+    <div class="flex justify-end">
+      <q-btn flat
+             color="grey"
+             @click="$router.go(-1)">
+        بازگشت
+        >
+      </q-btn>
+    </div>
     <entity-edit v-if="mounted"
                  ref="entityEdit"
                  v-model:value="inputs"

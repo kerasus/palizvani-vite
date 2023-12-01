@@ -26,7 +26,8 @@
     <q-tab-panels v-if="mounted"
                   v-model="tab"
                   animated>
-      <q-tab-panel name="UnitInfo">
+      <q-tab-panel name="UnitInfo"
+                   class="q-pa-none">
         <entity-edit v-if="mounted"
                      ref="categoryEntityEdit"
                      v-model:value="inputs"
@@ -49,53 +50,96 @@
           </template>
         </entity-edit>
       </q-tab-panel>
-      <q-tab-panel name="sessions">
-        <div class="q-mt-md">
-          <entity-index v-if="mounted"
-                        ref="sessionEntityIndex"
-                        v-model:value="sessionFilterInputs"
-                        title="لیست جلسات"
-                        :api="sessionApi"
-                        :table="sessionTable"
-                        :table-keys="sessionTableKeys"
-                        :show-reload-button="false"
-                        :show-search-button="false"
-                        :show-expand-button="false">
-            <template #toolbar>
-              <div class="flex justify-end">
-                <q-btn color="primary"
-                       outline
-                       label="افزودن جلسه"
-                       :loading="newSessionLoading"
-                       @click="createSession" />
+      <q-tab-panel name="sessions"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="sessionEntityIndex"
+                      v-model:value="sessionFilterInputs"
+                      title="لیست جلسات"
+                      :api="sessionApi"
+                      :table="sessionTable"
+                      :table-keys="sessionTableKeys"
+                      :show-reload-button="false"
+                      :show-search-button="false"
+                      :show-expand-button="false">
+          <template #toolbar>
+            <div class="flex justify-end">
+              <q-btn color="primary"
+                     outline
+                     label="افزودن جلسه"
+                     :loading="newSessionLoading"
+                     @click="createSession" />
+            </div>
+          </template>
+          <template #entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+            <template v-if="inputData.col.name === 'actions'">
+              <div class="q-gutter-md">
+                <div class="action-column-entity-index">
+                  <q-btn size="md"
+                         color="primary"
+                         outline
+                         label="بانک سوالات"
+                         class="btn-go-to-question-bank"
+                         :to="{name: 'Admin.Unit.Questions.Index', params: {session_template_id: inputData.props.row.id}}" />
+                  <q-btn size="md"
+                         color="primary"
+                         label="تعیین جزییات"
+                         :to="{name: 'Admin.SessionTemplate.Show', params: {id: inputData.props.row.id}}" />
+                  <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+                </div>
               </div>
             </template>
-            <template #entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
-              <template v-if="inputData.col.name === 'actions'">
-                <div class="q-gutter-md">
-                  <div class="action-column-entity-index">
-                    <q-btn size="md"
-                           color="primary"
-                           outline
-                           label="بانک سوالات"
-                           class="btn-go-to-question-bank"
-                           :to="{name: 'Admin.Unit.Questions', params: {session_template_id: inputData.props.row.id}}" />
-                    <q-btn size="md"
-                           color="primary"
-                           label="تعیین جزییات"
-                           :to="{name: 'Admin.SessionTemplate.Show', params: {id: inputData.props.row.id}}" />
-                    <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
-                  </div>
-                </div>
-              </template>
-              <template v-else>
-                {{ inputData.col.value }}
-              </template>
+            <template v-else>
+              {{ inputData.col.value }}
             </template>
-          </entity-index>
-        </div>
+          </template>
+        </entity-index>
       </q-tab-panel>
-      <q-tab-panel name="quiz" />
+      <q-tab-panel name="quiz"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="sessionEntityIndex"
+                      v-model:value="sessionFilterInputs"
+                      title="لیست آزمون ها"
+                      :api="sessionApi"
+                      :table="sessionTable"
+                      :table-keys="sessionTableKeys"
+                      :show-reload-button="false"
+                      :show-search-button="false"
+                      :show-expand-button="false">
+          <template #toolbar>
+            <div class="flex justify-end">
+              <q-btn color="primary"
+                     outline
+                     label="ایجاد آزمون جدید"
+                     :loading="newSessionLoading"
+                     @click="createSession" />
+            </div>
+          </template>
+          <template #entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+            <template v-if="inputData.col.name === 'actions'">
+              <div class="q-gutter-md">
+                <div class="action-column-entity-index">
+                  <q-btn size="md"
+                         color="primary"
+                         outline
+                         label="بانک سوالات"
+                         class="btn-go-to-question-bank"
+                         :to="{name: 'Admin.Unit.Questions.Index', params: {session_template_id: inputData.props.row.id}}" />
+                  <q-btn size="md"
+                         color="primary"
+                         label="تعیین جزییات"
+                         :to="{name: 'Admin.SessionTemplate.Show', params: {id: inputData.props.row.id}}" />
+                  <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+      </q-tab-panel>
     </q-tab-panels>
   </q-card>
 </template>
