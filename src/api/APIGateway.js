@@ -4,6 +4,7 @@ import UserAPI from 'src/api/models/User.js'
 import PostAPI from 'src/api/models/Post.js'
 import UnitAPI from 'src/api/models/Unit.js'
 import TeamAPI from 'src/api/models/Team.js'
+import TestAPI from 'src/api/models/Test.js'
 import EventAPI from 'src/api/models/Event.js'
 import MediaAPI from 'src/api/models/Media.js'
 import TicketAPI from 'src/api/models/Ticket.js'
@@ -43,6 +44,7 @@ export const APIGateway = {
   unit: new UnitAPI(),
   post: new PostAPI(),
   team: new TeamAPI(),
+  test: new TestAPI(),
   event: new EventAPI(),
   media: new MediaAPI(),
   ticket: new TicketAPI(),

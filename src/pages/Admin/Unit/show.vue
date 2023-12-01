@@ -80,7 +80,7 @@
                          outline
                          label="بانک سوالات"
                          class="btn-go-to-question-bank"
-                         :to="{name: 'Admin.Unit.Questions.Index', params: {session_template_id: inputData.props.row.id}}" />
+                         :to="{name: 'Admin.Unit.Questions.Index', params: {unit_id: $route.params.id, session_template_id: inputData.props.row.id}}" />
                   <q-btn size="md"
                          color="primary"
                          label="تعیین جزییات"
@@ -98,12 +98,12 @@
       <q-tab-panel name="quiz"
                    class="q-pa-none">
         <entity-index v-if="mounted"
-                      ref="sessionEntityIndex"
-                      v-model:value="sessionFilterInputs"
+                      ref="testEntityIndex"
+                      v-model:value="testFilterInputs"
                       title="لیست آزمون ها"
-                      :api="sessionApi"
-                      :table="sessionTable"
-                      :table-keys="sessionTableKeys"
+                      :api="testApi"
+                      :table="testTable"
+                      :table-keys="testTableKeys"
                       :show-reload-button="false"
                       :show-search-button="false"
                       :show-expand-button="false">
@@ -113,7 +113,7 @@
                      outline
                      label="ایجاد آزمون جدید"
                      :loading="newSessionLoading"
-                     @click="createSession" />
+                     :to="{name: 'Admin.Unit.Test.Create', params: {unit_id: $route.params.id}}" />
             </div>
           </template>
           <template #entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
@@ -122,14 +122,8 @@
                 <div class="action-column-entity-index">
                   <q-btn size="md"
                          color="primary"
-                         outline
-                         label="بانک سوالات"
-                         class="btn-go-to-question-bank"
-                         :to="{name: 'Admin.Unit.Questions.Index', params: {session_template_id: inputData.props.row.id}}" />
-                  <q-btn size="md"
-                         color="primary"
                          label="تعیین جزییات"
-                         :to="{name: 'Admin.SessionTemplate.Show', params: {id: inputData.props.row.id}}" />
+                         :to="{name: 'Admin.Unit.Test.Show', params: {unit_id: $route.params.id, id: inputData.props.row.id}}" />
                   <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
                 </div>
               </div>
@@ -169,7 +163,7 @@ export default {
       newSessionLoading: false,
       newSessionName: '-',
       newSessionSessionCount: null,
-      api: null,
+      api: APIGateway.unit.APIAdresses.byId(this.$route.params.id),
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Unit.Show',
@@ -178,7 +172,7 @@ export default {
         { type: 'inputEditor', name: 'rules', responseKey: 'rules', label: 'قوانین درس', col: 'col-12' },
         { type: PostRequisitesComp, name: 'prerequisites', responseKey: 'prerequisites', col: 'col-12' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-3 col-12' },
-        { type: 'hidden', name: 'category', responseKey: 'category_info.id', label: 'id', col: 'col-md-3 col-12' }
+        { type: 'hidden', name: 'category', responseKey: 'category_info.id' }
       ],
 
       categories: new UnitCategoryList(),
@@ -188,9 +182,7 @@ export default {
         unit: null
       },
 
-      sessionFilterInputs: [],
-
-      sessionApi: null,
+      sessionApi: APIGateway.sessionTemplate.APIAdresses.base,
       sessionTable: {
         columns: [
           {
@@ -238,7 +230,69 @@ export default {
         ],
         data: []
       },
+      sessionFilterInputs: [
+        { type: 'hidden', name: 'unit', value: this.$route.params.id }
+      ],
       sessionTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      testApi: APIGateway.test.APIAdresses.base,
+      testTable: {
+        columns: [
+          {
+            name: 'id',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'عنوان آزمون',
+            align: 'left',
+            field: row => row.title
+          },
+          {
+            name: 'count',
+            required: true,
+            label: 'تعداد سوالات',
+            align: 'left',
+            field: () => '...'
+          },
+          {
+            name: 'level',
+            required: true,
+            label: 'درجه سختی',
+            align: 'left',
+            field: row => row.level
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'تاریخ ایجاد',
+            align: 'left',
+            field: row => ShamsiDate.getDateTime(row.creation_time)
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      testFilterInputs: [
+        { type: 'hidden', name: 'unit', value: this.$route.params.id }
+      ],
+      testTableKeys: {
         data: 'results',
         total: 'count',
         currentPage: 'current',
@@ -248,8 +302,6 @@ export default {
     }
   },
   mounted () {
-    this.api = APIGateway.unit.APIAdresses.byId(this.$route.params.id)
-    this.sessionApi = APIGateway.sessionTemplate.APIAdresses.base + '?unit=' + this.$route.params.id
     // this.getCategories()
     this.mounted = true
   },

@@ -1,19 +1,25 @@
 import { appApi } from 'src/boot/axios.js'
 import APIRepository from '../classes/APIRepository.js'
-import { SessionTemplate, SessionTemplateList } from 'src/models/SessionTemplate.js'
+import { Test, TestList } from 'src/models/Test.js'
 
-export default class SessionTemplateAPI extends APIRepository {
+export default class TestAPI extends APIRepository {
   constructor() {
-    super('SessionTemplate', appApi, '/lma/categories', SessionTemplate)
+    super('test_sets', appApi)
     this.APIAdresses = {
-      base: '/lma/session_templates',
-      byId: (id) => '/lma/session_templates/' + id,
-      appendQuestion: (id) => '/lma/session_templates/' + id + '/append_question'
+      base: '/lma/test_sets',
+      byId: (id) => '/lma/test_sets/' + id
     }
     this.CacheList = {
-      base: this.name + this.APIAdresses.base,
-      byId: (id) => this.name + this.APIAdresses.byId(id)
+      base: this.name + this.APIAdresses.base
     }
+    this.restUrl = (id) => this.APIAdresses.base + '/' + id
+    /* Setting the callback functions for the CRUD operations. */
+    this.setCrudCallbacks({
+      get: (response) => { return new Test(response.data) },
+      post: (response) => { return new Test(response.data) },
+      put: (response) => { return new Test(response.data) },
+      delete: (response) => { return response.data }
+    })
   }
 
   index(data) {
@@ -22,7 +28,6 @@ export default class SessionTemplateAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
-        unit: null, // Number
         category: null, // Number
         per_page: 10, // Number
         page: 1 // Number
@@ -32,7 +37,7 @@ export default class SessionTemplateAPI extends APIRepository {
         const results = response.data.results
         delete paginate.results
         return {
-          list: new SessionTemplateList(results),
+          list: new TestList(results),
           paginate
           // {
           //   "count": 1,
@@ -50,17 +55,13 @@ export default class SessionTemplateAPI extends APIRepository {
     })
   }
 
-  create (data) {
+  get(id) {
     return this.sendRequest({
-      apiMethod: 'post',
+      apiMethod: 'get',
       api: this.api,
-      request: this.APIAdresses.base,
-      data: this.getNormalizedSendData({
-        title: null, // String
-        unit: null // Number
-      }, data),
+      request: this.APIAdresses.byId(id),
       resolveCallback: (response) => {
-        return new SessionTemplate(response.data)
+        return new Test(response.data)
       },
       rejectCallback: (error) => {
         return error

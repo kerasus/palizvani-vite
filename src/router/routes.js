@@ -561,12 +561,21 @@ const routes = [
               { name: 'Admin.Unit.Show', path: ':id', component: () => import('src/pages/Admin/Unit/show.vue') },
               {
                 name: 'Admin.Unit.Questions',
-                path: ':session_template_id/questions',
+                path: ':unit_id/session_template/:session_template_id/questions',
                 component: () => import('src/layouts/bareLayout.vue'),
                 children: [
                   { name: 'Admin.Unit.Questions.Index', path: '', component: () => import('src/pages/Admin/Unit/QuestionsList.vue') },
                   { name: 'Admin.Unit.Questions.Create', path: 'create', component: () => import('src/pages/Admin/Unit/QuestionsCreate.vue') },
                   { name: 'Admin.Unit.Questions.Show', path: ':id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') }
+                ]
+              },
+              {
+                name: 'Admin.Unit.Test',
+                path: ':unit_id/tests',
+                component: () => import('src/layouts/bareLayout.vue'),
+                children: [
+                  { name: 'Admin.Unit.Test.Show', path: ':id', component: () => import('src/pages/Admin/Test/Show.vue') },
+                  { name: 'Admin.Unit.Test.Create', path: 'create', component: () => import('src/pages/Admin/Test/Create.vue') }
                 ]
               }
             ]

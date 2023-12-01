@@ -10,7 +10,7 @@
       <q-btn label="ایجاد سوال جدید"
              color="primary"
              class="q-mr-md"
-             :to="{ name: 'Admin.Unit.Questions.Create', pragma: { session_template_id: $route.params.session_template_id } }" />
+             :to="{ name: 'Admin.Unit.Questions.Create', pragma: { unit_id: $route.params.unit_id, session_template_id: $route.params.session_template_id } }" />
       <q-btn flat
              color="grey"
              @click="$router.go(-1)">
@@ -20,7 +20,7 @@
     </div>
     <entity-index v-if="mounted"
                   v-model:value="inputs"
-                  title="لیست سوالات جلسه افتتاحیه"
+                  title="لیست سوالات"
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
@@ -38,7 +38,7 @@
                    outline
                    round
                    icon="drive_file_rename_outline"
-                   :to="{ name: 'Admin.Unit.Questions.Show', params: { session_template_id: this.$route.params.session_template_id, id: inputData.props.row.id } }"
+                   :to="{ name: 'Admin.Unit.Questions.Show', params: { unit_id: this.$route.params.unit_id, session_template_id: this.$route.params.session_template_id, id: inputData.props.row.id } }"
                    class="q-mr-md" />
             <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
           </div>

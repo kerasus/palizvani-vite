@@ -79,7 +79,7 @@ export default {
       this.entityLoading = true
       this.$refs.entityEdit.editEntity(true)
         .then((response) => {
-          this.$router.push({ name: 'Admin.Unit.Questions.Show', params: { session_template_id: this.$route.params.session_template_id, id: response.data.id } })
+          this.$router.push({ name: 'Admin.Unit.Questions.Show', params: { unit_id: this.$route.params.unit_id, session_template_id: this.$route.params.session_template_id, id: response.data.id } })
           this.entityLoading = false
         })
         .catch(() => {
