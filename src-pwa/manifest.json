@@ -1,10 +1,10 @@
 {
-  "name": "مدرسه آنلاین آلاء",
-  "short_name": "آلاء",
+  "name": "بنیاد فرهنگی شهید پالیزوانی",
+  "short_name": "شهید پالیزوانی",
   "start_url": "/",
   "background_color": "#FFFFFF",
   "theme_color": "#ffc107",
-  "description": "آموزش مجازی آلاء",
+  "description": "بنیاد فرهنگی شهید پالیزوانی",
   "display": "standalone",
   "orientation": "portrait",
   "icons": [
