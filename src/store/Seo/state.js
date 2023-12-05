@@ -6,6 +6,6 @@ export default function () {
     ogTitle: null,
     ogUrl: null,
     ogDescription: null,
-    ogImage: 'https://nodes.alaatv.com/upload/footer-alaaLogo.png'
+    ogImage: 'https://www.shahidpalizvani.ir/icons/logo.png'
   }
 }
