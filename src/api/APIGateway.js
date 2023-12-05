@@ -9,6 +9,7 @@ import EventAPI from 'src/api/models/Event.js'
 import MediaAPI from 'src/api/models/Media.js'
 import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
+import TestSetAPI from 'src/api/models/TestSet.js'
 import InvoiceAPI from 'src/api/models/Invoice.js'
 import PaymentAPI from 'src/api/models/Payment.js'
 import SessionAPI from 'src/api/models/Session.js'
@@ -49,6 +50,7 @@ export const APIGateway = {
   media: new MediaAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
+  testSet: new TestSetAPI(),
   project: new ProjectAPI(),
   invoice: new InvoiceAPI(),
   payment: new PaymentAPI(),

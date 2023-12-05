@@ -570,12 +570,12 @@ const routes = [
                 ]
               },
               {
-                name: 'Admin.Unit.Test',
-                path: ':unit_id/tests',
+                name: 'Admin.Unit.TestSet',
+                path: ':unit_id/test_set',
                 component: () => import('src/layouts/bareLayout.vue'),
                 children: [
-                  { name: 'Admin.Unit.Test.Show', path: ':id', component: () => import('src/pages/Admin/Test/Show.vue') },
-                  { name: 'Admin.Unit.Test.Create', path: 'create', component: () => import('src/pages/Admin/Test/Create.vue') }
+                  { name: 'Admin.Unit.TestSet.Show', path: ':id', component: () => import('src/pages/Admin/Test/Show.vue') },
+                  { name: 'Admin.Unit.TestSet.Create', path: 'create', component: () => import('src/pages/Admin/Test/Create.vue') }
                 ]
               }
             ]

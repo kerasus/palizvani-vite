@@ -48,7 +48,7 @@ export default {
       api: APIGateway.test.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'Admin.Unit.Test.Show',
+      showRouteName: 'Admin.Unit.TestSet.Show',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-md-12 col-12' },
@@ -70,7 +70,7 @@ export default {
       this.entityLoading = true
       this.$refs.entityCreate.createEntity()
         .then((response) => {
-          this.$router.push({ name: 'Admin.Unit.Test.Show', params: { unit_id: this.$route.params.unit_id, id: response.data.id } })
+          this.$router.push({ name: 'Admin.Unit.TestSet.Show', params: { unit_id: this.$route.params.unit_id, id: response.data.id } })
           this.entityLoading = false
         })
         .catch(() => {

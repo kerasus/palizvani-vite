@@ -73,8 +73,11 @@
                    class="q-pa-none">
         <project-list :classroom-id="$route.params.id" />
       </q-tab-panel>
-      <q-tab-panel name="exams">
-        آزمون
+      <q-tab-panel name="exams"
+                   class="q-pa-none">
+        <test-list :classroom-id="$route.params.id"
+                   :classroom="classroom"
+                   :classroom-type="localOptions.classroomType" />
       </q-tab-panel>
       <q-tab-panel name="members"
                    class="q-pa-none">
@@ -105,6 +108,7 @@
 
 <script>
 import TeamList from './components/TeamList.vue'
+import TestList from './components/TestList.vue'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { Classroom } from 'src/models/Classroom.js'
 import LeaderList from './components/LeaderList.vue'
@@ -122,6 +126,7 @@ export default {
   name: 'Admin.Classroom.Show',
   components: {
     TeamList,
+    TestList,
     LeaderList,
     GraderList,
     SessionList,

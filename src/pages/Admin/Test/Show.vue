@@ -9,7 +9,7 @@
 import { mixinPageOptions } from 'src/mixin/Mixins.js'
 
 export default {
-  name: 'Admin.Unit.Test.Show',
+  name: 'Admin.Unit.TestSet.Show',
   mixins: [mixinPageOptions],
   data: () => {
     return {

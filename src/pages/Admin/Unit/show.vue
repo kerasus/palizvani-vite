@@ -113,7 +113,7 @@
                      outline
                      label="ایجاد آزمون جدید"
                      :loading="newSessionLoading"
-                     :to="{name: 'Admin.Unit.Test.Create', params: {unit_id: $route.params.id}}" />
+                     :to="{name: 'Admin.Unit.TestSet.Create', params: {unit_id: $route.params.id}}" />
             </div>
           </template>
           <template #entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
@@ -123,7 +123,7 @@
                   <q-btn size="md"
                          color="primary"
                          label="تعیین جزییات"
-                         :to="{name: 'Admin.Unit.Test.Show', params: {unit_id: $route.params.id, id: inputData.props.row.id}}" />
+                         :to="{name: 'Admin.Unit.TestSet.Show', params: {unit_id: $route.params.id, id: inputData.props.row.id}}" />
                   <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
                 </div>
               </div>
