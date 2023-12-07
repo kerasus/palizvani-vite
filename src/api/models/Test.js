@@ -4,10 +4,10 @@ import { Test, TestList } from 'src/models/Test.js'
 
 export default class TestAPI extends APIRepository {
   constructor() {
-    super('test_sets', appApi)
+    super('tests', appApi)
     this.APIAdresses = {
-      base: '/lma/test_sets',
-      byId: (id) => '/lma/test_sets/' + id
+      base: '/lma/tests',
+      byId: (id) => '/lma/tests/' + id
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base

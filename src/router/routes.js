@@ -574,8 +574,8 @@ const routes = [
                 path: ':unit_id/test_set',
                 component: () => import('src/layouts/bareLayout.vue'),
                 children: [
-                  { name: 'Admin.Unit.TestSet.Show', path: ':id', component: () => import('src/pages/Admin/Test/Show.vue') },
-                  { name: 'Admin.Unit.TestSet.Create', path: 'create', component: () => import('src/pages/Admin/Test/Create.vue') }
+                  { name: 'Admin.Unit.TestSet.Show', path: ':id', component: () => import('src/pages/Admin/TestSet/Show.vue') },
+                  { name: 'Admin.Unit.TestSet.Create', path: 'create', component: () => import('src/pages/Admin/TestSet/Create.vue') }
                 ]
               }
             ]
@@ -635,7 +635,24 @@ const routes = [
               { name: 'Admin.Classroom.projectAttendanceSheets.Show', path: ':classroom_id/project/:project_id/projectAttendanceSheet/:project_attendance_sheets_id', component: () => import('src/pages/Admin/Classroom/ProjectAttendanceSheet/show.vue') },
               { name: 'Admin.Classroom.Team.Create', path: ':classroom_id/team/create', component: () => import('src/pages/Admin/Classroom/Team/create.vue') },
               { name: 'Admin.Classroom.Team.Show', path: ':classroom_id/team/:team_id', component: () => import('src/pages/Admin/Classroom/Team/show.vue') },
-              { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+              { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } },
+              {
+                name: 'Admin.Classroom.TestSet',
+                path: ':classroom_id',
+                component: () => import('src/layouts/bareLayout.vue'),
+                children: [
+                  {
+                    name: 'Admin.Classroom.TestSet.Index',
+                    path: 'test_set',
+                    component: () => import('src/layouts/bareLayout.vue'),
+                    children: [
+                      { name: 'Admin.Classroom.TestSet.Index', path: '', component: () => import('src/pages/Admin/TestSet/Index.vue') },
+                      { name: 'Admin.Classroom.TestSet.Test.Show', path: ':test_set_id/test/:id', component: () => import('src/pages/Admin/Test/Show.vue') },
+                      { name: 'Admin.Classroom.TestSet.Test.Create', path: ':test_set_id/test/create', component: () => import('src/pages/Admin/Test/Create.vue') }
+                    ]
+                  }
+                ]
+              }
             ]
           },
           {

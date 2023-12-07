@@ -32,10 +32,10 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
-import UsersOfTestSelector from 'src/components/FormBuilderCustumComponents/UsersOfTestSelector/UsersOfTestSelector.vue'
+import QuestionsSelector from 'src/components/FormBuilderCustumComponents/QuestionsSelector/QuestionsSelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
-const UsersOfTestSelectorComp = shallowRef(UsersOfTestSelector)
+const QuestionsSelectorComp = shallowRef(QuestionsSelector)
 
 export default {
   name: 'AdminTestShow',
@@ -49,18 +49,12 @@ export default {
       entityIdKey: 'id',
       entityParamKey: 'id',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
-        { type: 'inputEditor', name: 'detail', responseKey: 'detail', label: 'توضیحات آزمون', col: 'col-12' },
-        { type: 'dateTime', name: 'start_time', responseKey: 'start_time', label: 'زمان شروع آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'end_time', responseKey: 'end_time', label: 'زمان پایان آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'input', name: 'duration_deadline', responseKey: 'duration_deadline', label: 'مدت زمان پاسخ دهی (دقیقه)', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'announcement_time', responseKey: 'announcement_time', label: 'زمان اعلام نتایج', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'objection_start_time', responseKey: 'objection_start_time', label: 'زمان شروع اعتراض', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'objection_end_time', responseKey: 'objection_end_time', label: 'زمان پایان اعتراض', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'hidden', name: 'test_set', responseKey: 'test_set', value: this.$route.params.test_set_id },
-        { type: 'hidden', name: 'classroom', responseKey: 'classroom', value: this.$route.params.classroom_id },
-        { type: UsersOfTestSelectorComp, name: 'examinees', responseKey: 'examinees', classroomId: this.$route.params.classroom_id, col: 'col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تعیین جزییات', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان آزمون', placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-md-12 col-12' },
+        { type: 'hidden', name: 'id', responseKey: 'id' },
+        { type: 'hidden', name: 'unit', responseKey: 'unit' },
+        { type: QuestionsSelectorComp, name: 'test_questions', responseKey: 'test_questions', unitId: this.$route.params.unit_id, col: 'col-md-12 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید نهایی', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
       ]
     }
   },

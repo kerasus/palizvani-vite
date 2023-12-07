@@ -8,6 +8,7 @@ export default class RegistrationAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/registrations',
       exportReport: '/lma/registrations/export_report',
+      examineeSheet: '/lma/registrations/examinee_sheet',
       classroomDetail: (registrationId) => '/lma/registrations/' + registrationId + '/classroom_detail',
       revertDroppedForCondition: (registrationId) => '/lma/registrations/' + registrationId + '/revert_dropped_for_condition',
       byId: (id) => '/lma/registrations/' + id

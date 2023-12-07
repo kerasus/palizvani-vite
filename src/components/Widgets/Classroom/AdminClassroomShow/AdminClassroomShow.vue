@@ -76,7 +76,6 @@
       <q-tab-panel name="exams"
                    class="q-pa-none">
         <test-list :classroom-id="$route.params.id"
-                   :classroom="classroom"
                    :classroom-type="localOptions.classroomType" />
       </q-tab-panel>
       <q-tab-panel name="members"

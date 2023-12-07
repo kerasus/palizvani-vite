@@ -1,5 +1,5 @@
 <template>
-  <entity-index v-if="classroomLoaded"
+  <entity-index v-if="mounted"
                 ref="testList"
                 v-model:value="testListInputs"
                 :title="listTitle"
@@ -13,7 +13,7 @@
       <q-btn color="primary"
              outline
              :loading="addNewSessionLoading"
-             @click="addNewSession">
+             :to="{name: 'Admin.Classroom.TestSet.Index', params: {classroom_id: classroomId}}">
         {{ addBtnTitle }}
       </q-btn>
     </template>
@@ -51,9 +51,7 @@
 import { EntityIndex } from 'quasar-crud'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { Classroom } from 'src/models/Classroom.js'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
-import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'TestList',
@@ -62,9 +60,9 @@ export default {
     EntityIndex
   },
   props: {
-    classroom: {
-      type: Classroom,
-      default: new Classroom()
+    classroomId: {
+      type: Number,
+      default: null
     },
     classroomType: {
       type: String,
@@ -73,13 +71,13 @@ export default {
   },
   data () {
     return {
-      classroomLoaded: false,
+      mounted: false,
       listTitle: 'لیست آزمون ها',
       addBtnTitle: 'افزودن آزمون',
       addNewSessionLoading: false,
 
       testListInputs: [
-        { type: 'hidden', name: 'unit', value: null }
+        { type: 'hidden', name: 'classroom', value: this.classroomId }
       ],
       testListApi: APIGateway.session.APIAdresses.base,
       testListTable: {
@@ -138,9 +136,6 @@ export default {
     }
   },
   computed: {
-    classroomId () {
-      return this.classroom.id
-    },
     sessionAttendanceSheetList () {
       if (this.classroomType === 'TRAINING') {
         return 'Admin.Classroom.Session.AttendanceSheetList'
@@ -151,19 +146,9 @@ export default {
       return 'Admin.Classroom.Session.AttendanceSheetList'
     }
   },
-  watch: {
-    classroomId (newValue) {
-      if (!newValue) {
-        return
-      }
-
-      const unitId = newValue.unit || newValue.unit_info.id
-      FormBuilderAssist.setAttributeByName(this.testListInputs, 'unit', 'value', unitId)
-      this.classroomLoaded = true
-    }
-  },
   mounted () {
     this.setClassroomTypeOfInputs()
+    this.mounted = true
   },
   methods: {
     setClassroomTypeOfInputs () {
