@@ -21,7 +21,7 @@
         {{ inputData.rowNumber }}
       </template>
       <template v-if="inputData.col.name === 'UserRegisterStatus'">
-        <q-btn v-if="inputData.col.value === 'DROPPED_FOR_CONDITION'"
+        <q-btn v-if="inputData.props.row.status === 'DROPPED_FOR_CONDITION'"
                color="primary"
                class="q-mr-md"
                :loading="revertDroppedForConditionLoading"
