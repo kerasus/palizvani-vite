@@ -8,36 +8,40 @@
       >
     </q-btn>
   </div>
-  <entity-show v-if="mounted"
-               ref="projectEntityEdit"
-               v-model:value="inputs"
-               title="جزییات پروژه"
-               :api="api"
-               :show-index-button="false"
-               :show-close-button="false"
-               :show-edit-button="false"
-               :show-expand-button="false"
-               :show-save-button="false"
-               :show-reload-button="false"
-               :after-load-input-data="afterLoadProject">
-    <template #after-form-builder>
-      <q-separator class="q-my-lg" />
-      <entity-create v-if="projectLoaded && project.is_enabled_answering"
-                     ref="entityCreate"
-                     v-model:value="attendanceSheetsInputs"
-                     :api="attendanceSheetsApi"
-                     :default-layout="false" />
-      <entity-show v-else-if="projectLoaded"
-                   v-model:value="attendanceSheetsShowInputs"
-                   title="پاسخ کاربر"
-                   :loaded-data="currentUserAttendanceSheet"
-                   :default-layout="false"
-                   :show-expand-button="false"
-                   :show-edit-button="false"
-                   :show-index-button="false"
-                   :show-reload-button="false" />
-    </template>
-  </entity-show>
+  <div>
+    <q-inner-loading :showing="entityLoading"
+                     label="کمی صبر کنید..." />
+    <entity-show v-if="mounted"
+                 ref="projectEntityEdit"
+                 v-model:value="inputs"
+                 title="جزییات پروژه"
+                 :api="api"
+                 :show-index-button="false"
+                 :show-close-button="false"
+                 :show-edit-button="false"
+                 :show-expand-button="false"
+                 :show-save-button="false"
+                 :show-reload-button="false"
+                 :after-load-input-data="afterLoadProject">
+      <template #after-form-builder>
+        <q-separator class="q-my-lg" />
+        <entity-create v-if="projectLoaded && project.is_enabled_answering"
+                       ref="entityCreate"
+                       v-model:value="attendanceSheetsInputs"
+                       :api="attendanceSheetsApi"
+                       :default-layout="false" />
+        <entity-show v-else-if="projectLoaded"
+                     v-model:value="attendanceSheetsShowInputs"
+                     title="پاسخ کاربر"
+                     :loaded-data="currentUserAttendanceSheet"
+                     :default-layout="false"
+                     :show-expand-button="false"
+                     :show-edit-button="false"
+                     :show-index-button="false"
+                     :show-reload-button="false" />
+      </template>
+    </entity-show>
+  </div>
 </template>
 
 <script>
@@ -66,6 +70,7 @@ export default {
     const projectId = parseInt(this.$route.params.project_id)
     return {
       mounted: false,
+      entityLoading: false,
       projectLoaded: false,
       classroomLoaded: false,
       project: new Project(),
@@ -152,12 +157,24 @@ export default {
   },
   methods: {
     createAttendanceSheet () {
+      const answerText = FormBuilderAssist.getInputsByName(this.attendanceSheetsInputs, 'answer_text').value
+      if (!answerText) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'متن پاسخ را کامل کنید.',
+          position: 'top'
+        })
+        return
+      }
+      this.entityLoading = true
       this.$refs.entityCreate.createEntity(false)
         .then(() => {
+          this.entityLoading = false
           // this.reloadProject()
           this.$router.go(-1)
         })
         .catch(() => {
+          this.entityLoading = false
           this.reloadProject()
         })
     },
