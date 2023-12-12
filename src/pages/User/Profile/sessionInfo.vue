@@ -13,115 +13,119 @@
         >
       </q-btn>
     </div>
-    <entity-show v-if="mounted"
-                 v-model:value="sessionInfoInputs"
-                 title="جزییات جلسه"
-                 :api="api"
-                 :show-expand-button="false"
-                 :show-edit-button="false"
-                 :show-index-button="false"
-                 :show-reload-button="false"
-                 :before-load-input-data="beforeLoadInputData">
-      <template #before-form-builder>
-        <div class="session-title-and-time-row">
-          <div class="item">
-            <div class="icon">
-              <svg xmlns="http://www.w3.org/2000/svg"
-                   width="18.165"
-                   height="19.91"
-                   viewBox="0 0 18.165 19.91">
-                <g id="Document"
-                   transform="translate(0)">
+    <div>
+      <q-inner-loading :showing="entityShowLoading"
+                       label="کمی صبر کنید..." />
+      <entity-show v-if="mounted"
+                   v-model:value="sessionInfoInputs"
+                   title="جزییات جلسه"
+                   :api="api"
+                   :show-expand-button="false"
+                   :show-edit-button="false"
+                   :show-index-button="false"
+                   :show-reload-button="false"
+                   :before-load-input-data="beforeLoadInputData">
+        <template #before-form-builder>
+          <div class="session-title-and-time-row">
+            <div class="item">
+              <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="18.165"
+                     height="19.91"
+                     viewBox="0 0 18.165 19.91">
+                  <g id="Document"
+                     transform="translate(0)">
+                    <path id="Combined_Shape"
+                          data-name="Combined Shape"
+                          d="M0,14.553v-9.2A4.973,4.973,0,0,1,5.215,0l7.693,0a5.025,5.025,0,0,1,5.257,5.357v9.2a4.973,4.973,0,0,1-5.215,5.354l-7.693,0A5.025,5.025,0,0,1,0,14.553ZM5.22,1.5A3.494,3.494,0,0,0,1.5,5.357v9.2A3.5,3.5,0,0,0,5.256,18.41l7.689,0a3.494,3.494,0,0,0,3.721-3.854v-9.2A3.5,3.5,0,0,0,12.909,1.5ZM5.5,14.973a.75.75,0,1,1,0-1.5h7.22a.75.75,0,1,1,0,1.5Zm0-4.186a.75.75,0,1,1,0-1.5h7.22a.75.75,0,0,1,0,1.5Zm0-4.177a.75.75,0,0,1,0-1.5H8.251a.75.75,0,0,1,0,1.5Z"
+                          transform="translate(0 0)"
+                          fill="#aaa095" />
+                  </g>
+                </svg>
+              </div>
+              <div class="title">
+                {{ title }}
+              </div>
+            </div>
+            <div class="item">
+              <div class="icon">
+                <svg id="Calendar"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="19.5"
+                     height="21.5"
+                     viewBox="0 0 19.5 21.5">
                   <path id="Combined_Shape"
                         data-name="Combined Shape"
-                        d="M0,14.553v-9.2A4.973,4.973,0,0,1,5.215,0l7.693,0a5.025,5.025,0,0,1,5.257,5.357v9.2a4.973,4.973,0,0,1-5.215,5.354l-7.693,0A5.025,5.025,0,0,1,0,14.553ZM5.22,1.5A3.494,3.494,0,0,0,1.5,5.357v9.2A3.5,3.5,0,0,0,5.256,18.41l7.689,0a3.494,3.494,0,0,0,3.721-3.854v-9.2A3.5,3.5,0,0,0,12.909,1.5ZM5.5,14.973a.75.75,0,1,1,0-1.5h7.22a.75.75,0,1,1,0,1.5Zm0-4.186a.75.75,0,1,1,0-1.5h7.22a.75.75,0,0,1,0,1.5Zm0-4.177a.75.75,0,0,1,0-1.5H8.251a.75.75,0,0,1,0,1.5Z"
+                        d="M5.521,21.5C2.115,21.5,0,19.4,0,16.023V6.973A5,5,0,0,1,4.965,1.6V.75a.75.75,0,0,1,1.5,0v.83h6.578V.75a.75.75,0,0,1,1.5,0V1.6a5.382,5.382,0,0,1,3.532,1.46A5.379,5.379,0,0,1,19.5,6.976V16.1c0,3.332-2.116,5.4-5.522,5.4ZM1.5,16.023C1.5,18.588,2.928,20,5.521,20h8.458C16.572,20,18,18.615,18,16.1V8.9H1.5ZM18,7.4V6.973a3.862,3.862,0,0,0-.987-2.855A3.867,3.867,0,0,0,14.543,3.1v.938a.75.75,0,1,1-1.5,0V3.08H6.466v.961a.75.75,0,0,1-1.5,0V3.1A3.486,3.486,0,0,0,1.5,6.973V7.4Zm-4.553,8.542a.746.746,0,0,1,.745-.75H14.2a.75.75,0,1,1-.754.75Zm-4.437,0a.746.746,0,0,1,.745-.75h.009a.75.75,0,1,1-.754.75Zm-4.448,0a.747.747,0,0,1,.746-.75h.009a.75.75,0,1,1-.755.75Zm8.885-3.886a.747.747,0,0,1,.745-.751H14.2a.75.75,0,1,1-.754.751Zm-4.437,0a.747.747,0,0,1,.745-.751h.009a.75.75,0,1,1-.754.751Zm-4.448,0a.747.747,0,0,1,.746-.751h.009a.75.75,0,1,1-.755.751Z"
                         transform="translate(0 0)"
                         fill="#aaa095" />
-                </g>
-              </svg>
+                </svg>
+              </div>
+              <div class="title">
+                شروع:
+                {{ startingTime }}
+              </div>
             </div>
-            <div class="title">
-              {{ title }}
-            </div>
-          </div>
-          <div class="item">
-            <div class="icon">
-              <svg id="Calendar"
-                   xmlns="http://www.w3.org/2000/svg"
-                   width="19.5"
-                   height="21.5"
-                   viewBox="0 0 19.5 21.5">
-                <path id="Combined_Shape"
-                      data-name="Combined Shape"
-                      d="M5.521,21.5C2.115,21.5,0,19.4,0,16.023V6.973A5,5,0,0,1,4.965,1.6V.75a.75.75,0,0,1,1.5,0v.83h6.578V.75a.75.75,0,0,1,1.5,0V1.6a5.382,5.382,0,0,1,3.532,1.46A5.379,5.379,0,0,1,19.5,6.976V16.1c0,3.332-2.116,5.4-5.522,5.4ZM1.5,16.023C1.5,18.588,2.928,20,5.521,20h8.458C16.572,20,18,18.615,18,16.1V8.9H1.5ZM18,7.4V6.973a3.862,3.862,0,0,0-.987-2.855A3.867,3.867,0,0,0,14.543,3.1v.938a.75.75,0,1,1-1.5,0V3.08H6.466v.961a.75.75,0,0,1-1.5,0V3.1A3.486,3.486,0,0,0,1.5,6.973V7.4Zm-4.553,8.542a.746.746,0,0,1,.745-.75H14.2a.75.75,0,1,1-.754.75Zm-4.437,0a.746.746,0,0,1,.745-.75h.009a.75.75,0,1,1-.754.75Zm-4.448,0a.747.747,0,0,1,.746-.75h.009a.75.75,0,1,1-.755.75Zm8.885-3.886a.747.747,0,0,1,.745-.751H14.2a.75.75,0,1,1-.754.751Zm-4.437,0a.747.747,0,0,1,.745-.751h.009a.75.75,0,1,1-.754.751Zm-4.448,0a.747.747,0,0,1,.746-.751h.009a.75.75,0,1,1-.755.751Z"
-                      transform="translate(0 0)"
-                      fill="#aaa095" />
-              </svg>
-            </div>
-            <div class="title">
-              شروع:
-              {{ startingTime }}
-            </div>
-          </div>
-          <div class="item">
-            <div class="icon">
-              <svg id="Calendar"
-                   xmlns="http://www.w3.org/2000/svg"
-                   width="19.5"
-                   height="21.5"
-                   viewBox="0 0 19.5 21.5">
-                <path id="Combined_Shape"
-                      data-name="Combined Shape"
-                      d="M5.521,21.5C2.115,21.5,0,19.4,0,16.023V6.973A5,5,0,0,1,4.965,1.6V.75a.75.75,0,0,1,1.5,0v.83h6.578V.75a.75.75,0,0,1,1.5,0V1.6a5.382,5.382,0,0,1,3.532,1.46A5.379,5.379,0,0,1,19.5,6.976V16.1c0,3.332-2.116,5.4-5.522,5.4ZM1.5,16.023C1.5,18.588,2.928,20,5.521,20h8.458C16.572,20,18,18.615,18,16.1V8.9H1.5ZM18,7.4V6.973a3.862,3.862,0,0,0-.987-2.855A3.867,3.867,0,0,0,14.543,3.1v.938a.75.75,0,1,1-1.5,0V3.08H6.466v.961a.75.75,0,0,1-1.5,0V3.1A3.486,3.486,0,0,0,1.5,6.973V7.4Zm-4.553,8.542a.746.746,0,0,1,.745-.75H14.2a.75.75,0,1,1-.754.75Zm-4.437,0a.746.746,0,0,1,.745-.75h.009a.75.75,0,1,1-.754.75Zm-4.448,0a.747.747,0,0,1,.746-.75h.009a.75.75,0,1,1-.755.75Zm8.885-3.886a.747.747,0,0,1,.745-.751H14.2a.75.75,0,1,1-.754.751Zm-4.437,0a.747.747,0,0,1,.745-.751h.009a.75.75,0,1,1-.754.751Zm-4.448,0a.747.747,0,0,1,.746-.751h.009a.75.75,0,1,1-.755.751Z"
-                      transform="translate(0 0)"
-                      fill="#aaa095" />
-              </svg>
-            </div>
-            <div class="title">
-              پایان:
-              {{ endingTime }}
+            <div class="item">
+              <div class="icon">
+                <svg id="Calendar"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="19.5"
+                     height="21.5"
+                     viewBox="0 0 19.5 21.5">
+                  <path id="Combined_Shape"
+                        data-name="Combined Shape"
+                        d="M5.521,21.5C2.115,21.5,0,19.4,0,16.023V6.973A5,5,0,0,1,4.965,1.6V.75a.75.75,0,0,1,1.5,0v.83h6.578V.75a.75.75,0,0,1,1.5,0V1.6a5.382,5.382,0,0,1,3.532,1.46A5.379,5.379,0,0,1,19.5,6.976V16.1c0,3.332-2.116,5.4-5.522,5.4ZM1.5,16.023C1.5,18.588,2.928,20,5.521,20h8.458C16.572,20,18,18.615,18,16.1V8.9H1.5ZM18,7.4V6.973a3.862,3.862,0,0,0-.987-2.855A3.867,3.867,0,0,0,14.543,3.1v.938a.75.75,0,1,1-1.5,0V3.08H6.466v.961a.75.75,0,0,1-1.5,0V3.1A3.486,3.486,0,0,0,1.5,6.973V7.4Zm-4.553,8.542a.746.746,0,0,1,.745-.75H14.2a.75.75,0,1,1-.754.75Zm-4.437,0a.746.746,0,0,1,.745-.75h.009a.75.75,0,1,1-.754.75Zm-4.448,0a.747.747,0,0,1,.746-.75h.009a.75.75,0,1,1-.755.75Zm8.885-3.886a.747.747,0,0,1,.745-.751H14.2a.75.75,0,1,1-.754.751Zm-4.437,0a.747.747,0,0,1,.745-.751h.009a.75.75,0,1,1-.754.751Zm-4.448,0a.747.747,0,0,1,.746-.751h.009a.75.75,0,1,1-.755.751Z"
+                        transform="translate(0 0)"
+                        fill="#aaa095" />
+                </svg>
+              </div>
+              <div class="title">
+                پایان:
+                {{ endingTime }}
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-      <template #after-form-builder>
-        <q-inner-loading :showing="submitAttendanceStatusLoading || submitAssignmentLoading">
-          <q-spinner-ball color="primary"
-                          size="50px" />
-        </q-inner-loading>
-        <template v-if="session?.is_show_answer_input">
-          <q-separator class="q-my-lg" />
-          <entity-create v-if="session?.is_enabled_answering"
-                         ref="entityCreateSubmitAssignment"
-                         v-model:value="submitAssignmentInputs"
-                         :api="submitAssignmentApi"
+        </template>
+        <template #after-form-builder>
+          <q-inner-loading :showing="submitAttendanceStatusLoading || submitAssignmentLoading">
+            <q-spinner-ball color="primary"
+                            size="50px" />
+          </q-inner-loading>
+          <template v-if="session?.is_show_answer_input">
+            <q-separator class="q-my-lg" />
+            <entity-create v-if="session?.is_enabled_answering"
+                           ref="entityCreateSubmitAssignment"
+                           v-model:value="submitAssignmentInputs"
+                           :api="submitAssignmentApi"
+                           :default-layout="false"
+                           :show-expand-button="false"
+                           :show-edit-button="false"
+                           :show-index-button="false"
+                           :show-reload-button="false" />
+            <entity-show v-else-if="sessionLoaded"
+                         v-model:value="sessionAssignmentInfoInputs"
+                         title="پاسخ کاربر"
+                         :loaded-data="currentUserAttendanceSheet"
                          :default-layout="false"
                          :show-expand-button="false"
                          :show-edit-button="false"
                          :show-index-button="false"
                          :show-reload-button="false" />
-          <entity-show v-else-if="sessionLoaded"
-                       v-model:value="sessionAssignmentInfoInputs"
-                       title="پاسخ کاربر"
-                       :loaded-data="currentUserAttendanceSheet"
-                       :default-layout="false"
-                       :show-expand-button="false"
-                       :show-edit-button="false"
-                       :show-index-button="false"
-                       :show-reload-button="false" />
+          </template>
+          <q-separator class="q-my-lg" />
+          <entity-create v-if="mounted"
+                         ref="entityCreateSubmitAttendanceStatus"
+                         v-model:value="submitAttendanceStatusInputs"
+                         :api="submitAttendanceStatusApi"
+                         :default-layout="false"
+                         :show-expand-button="false"
+                         :show-edit-button="false"
+                         :show-index-button="false"
+                         :show-reload-button="false" />
         </template>
-        <q-separator class="q-my-lg" />
-        <entity-create v-if="mounted"
-                       ref="entityCreateSubmitAttendanceStatus"
-                       v-model:value="submitAttendanceStatusInputs"
-                       :api="submitAttendanceStatusApi"
-                       :default-layout="false"
-                       :show-expand-button="false"
-                       :show-edit-button="false"
-                       :show-index-button="false"
-                       :show-reload-button="false" />
-      </template>
-    </entity-show>
+      </entity-show>
+    </div>
   </div>
 </template>
 
@@ -153,6 +157,7 @@ export default {
   data () {
     const sessionId = parseInt(this.$route.params.id)
     return {
+      entityShowLoading: false,
       classroom: new Classroom(),
       session: new Session(),
       sessionLoaded: false,
@@ -247,7 +252,8 @@ export default {
       return new SessionAttendanceSheets(this.sessionAttendanceSheets.session_attendance_sheets[0])
     }
   },
-  mounted() {
+  mounted () {
+    this.entityLoading = true
     this.mounted = true
   },
   methods: {
@@ -296,23 +302,29 @@ export default {
       }
     },
     submitAttendanceStatus () {
+      this.entityLoading = true
       this.submitAttendanceStatusLoading = true
       this.$refs.entityCreateSubmitAttendanceStatus.createEntity(false)
         .then(() => {
+          this.entityLoading = false
           this.submitAttendanceStatusLoading = false
         })
         .catch(() => {
+          this.entityLoading = false
           this.submitAttendanceStatusLoading = false
         })
     },
     submitAssignment () {
+      this.entityLoading = true
       this.submitAssignmentLoading = true
       this.$refs.entityCreateSubmitAssignment.createEntity(false)
         .then(() => {
           this.submitAssignmentLoading = false
+          this.entityLoading = false
         })
         .catch(() => {
           this.submitAssignmentLoading = false
+          this.entityLoading = false
         })
     },
     updateBreadcrumbs () {
@@ -350,6 +362,7 @@ export default {
       this.submitAttendanceStatusMounted = true
       this.sessionLoaded = true
       this.getClassInfo(this.session.classroom)
+      this.entityLoading = false
     },
     getClassInfo (classroomId) {
       this.classroom.loading = true
