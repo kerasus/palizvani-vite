@@ -47,7 +47,7 @@ export default {
     return {
       mounted: false,
       entityLoading: false,
-      api: APIGateway.test.APIAdresses.byId(testSetId),
+      api: APIGateway.testSet.APIAdresses.byId(testSetId),
       entityIdKey: 'id',
       entityParamKey: 'id',
       inputs: [

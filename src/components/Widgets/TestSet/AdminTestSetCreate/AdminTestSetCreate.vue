@@ -46,7 +46,7 @@ export default {
     return {
       mounted: false,
       entityLoading: false,
-      api: APIGateway.test.APIAdresses.base,
+      api: APIGateway.testSet.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Unit.TestSet.Show',
