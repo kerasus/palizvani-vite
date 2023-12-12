@@ -28,6 +28,7 @@
 <script>
 import { shallowRef } from 'vue'
 import { EntityCreate } from 'quasar-crud'
+import { TestSet } from 'src/models/TestSet.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
@@ -44,6 +45,7 @@ export default {
   data () {
     return {
       mounted: false,
+      testSet: new TestSet(),
       entityLoading: false,
       api: APIGateway.test.APIAdresses.base,
       entityIdKey: 'id',
@@ -51,7 +53,7 @@ export default {
       showRouteName: 'Admin.Unit.TestSet.Show',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
-        { type: 'inputEditor', name: 'detail', responseKey: 'detail', label: 'توضیحات آزمون', col: 'col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-12' },
         { type: 'dateTime', name: 'start_time', responseKey: 'start_time', label: 'زمان شروع آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'dateTime', name: 'end_time', responseKey: 'end_time', label: 'زمان پایان آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'input', name: 'duration_deadline', responseKey: 'duration_deadline', label: 'مدت زمان پاسخ دهی (دقیقه)', placeholder: ' ', col: 'col-md-6 col-12' },
@@ -67,9 +69,23 @@ export default {
   },
   mounted() {
     this.setActionBtn()
+    this.getTestSet()
     this.mounted = true
   },
   methods: {
+    getTestSet () {
+      this.testSet.loading = true
+      APIGateway.testSet.get(this.$route.params.test_set_id)
+        .then((testSet) => {
+          this.testSet.loading = false
+          this.testSet = new TestSet(testSet)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'title', 'value', this.testSet.title)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'description', 'value', this.testSet.description)
+        })
+        .catch(() => {
+          this.testSet.loading = false
+        })
+    },
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.create)
     },

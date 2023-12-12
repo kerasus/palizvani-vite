@@ -50,7 +50,7 @@ export default {
       entityParamKey: 'id',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
-        { type: 'inputEditor', name: 'detail', responseKey: 'detail', label: 'توضیحات آزمون', col: 'col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-12' },
         { type: 'dateTime', name: 'start_time', responseKey: 'start_time', label: 'زمان شروع آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'dateTime', name: 'end_time', responseKey: 'end_time', label: 'زمان پایان آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'input', name: 'duration_deadline', responseKey: 'duration_deadline', label: 'مدت زمان پاسخ دهی (دقیقه)', placeholder: ' ', col: 'col-md-6 col-12' },

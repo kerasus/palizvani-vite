@@ -26,8 +26,7 @@
           <q-btn size="md"
                  outline
                  color="grey"
-                 label="تصحیح"
-                 :to="{name: sessionAttendanceSheetList, params: {classroom_id: classroomId, session_id: inputData.props.row.id}}" />
+                 label="تصحیح" />
         </div>
       </template>
       <template v-else-if="inputData.col.name === 'actions'">
@@ -108,14 +107,14 @@ export default {
             required: true,
             label: 'تعداد سوالات',
             align: 'left',
-            field: row => row.test_questions ? row.test_questions.length : '-'
+            field: row => row.test_set_info?.test_set_questions ? row.test_set_info.test_set_questions.length : '-'
           },
           {
             name: 'level',
             required: true,
             label: 'درچه سختی',
             align: 'left',
-            field: row => ''
+            field: row => (new Test(row.test_set_info)).level_info.label
           },
           {
             name: 'title',
