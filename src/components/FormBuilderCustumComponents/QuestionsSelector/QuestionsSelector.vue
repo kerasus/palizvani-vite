@@ -27,7 +27,7 @@
     <div class="content-list q-mt-lg">
       <entity-index ref="entityIndexQuestions"
                     v-model:value="inputs"
-                    :title="'لیست سوالات ' + selectedSession?.title"
+                    :title="'لیست سوالات ' + selectedSessionTitle"
                     :api="api"
                     :table="table"
                     :table-keys="tableKeys"
@@ -214,6 +214,12 @@ export default {
     }
   },
   computed: {
+    selectedSessionTitle () {
+      if (!this.selectedSession?.title) {
+        return ''
+      }
+      return this.selectedSession?.title
+    },
     countOfForceQuestions () {
       return this.selectedQuestions.filter(item => !item.is_extra_mark).length
     },

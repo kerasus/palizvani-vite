@@ -573,10 +573,11 @@ const routes = [
                 component: () => import('src/layouts/bareLayout.vue'),
                 children: [
                   { name: 'Admin.Unit.Questions.Index', path: '', component: () => import('src/pages/Admin/Unit/QuestionsList.vue') },
-                  { name: 'Admin.Unit.Questions.Create', path: 'create', component: () => import('src/pages/Admin/Unit/QuestionsCreate.vue') },
-                  { name: 'Admin.Unit.Questions.Show', path: ':id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') }
+                  { name: 'Admin.Unit.Questions.Create', path: 'create', component: () => import('src/pages/Admin/Unit/QuestionsCreate.vue') }
+                  // { name: 'Admin.Unit.Questions.Show', path: ':id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') }
                 ]
               },
+              { name: 'Admin.Unit.Questions.Show', path: ':unit_id/questions/:id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') },
               {
                 name: 'Admin.Unit.TestSet',
                 path: ':unit_id/test_set',
