@@ -148,7 +148,7 @@
               <q-btn size="md"
                      color="primary"
                      label="جزییات"
-                     :to="{name: 'UserPanel.Profile.Test', params: {id: inputData.props.row.id}}" />
+                     :to="{name: 'UserPanel.Profile.SessionInfo', params: {id: inputData.props.row.id}}" />
             </template>
             <template v-else>
               {{ inputData.col.value }}

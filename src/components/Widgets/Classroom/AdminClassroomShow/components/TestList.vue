@@ -17,24 +17,26 @@
         {{ addBtnTitle }}
       </q-btn>
     </template>
-    <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+    <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'number'">
         {{ inputData.rowNumber }}
+      </template>
+      <template v-else-if="inputData.col.name === 'answer'">
+        <div class="action-column-entity-index">
+          <q-btn size="md"
+                 outline
+                 color="grey"
+                 label="تصحیح"
+                 :to="{name: sessionAttendanceSheetList, params: {classroom_id: classroomId, session_id: inputData.props.row.id}}" />
+        </div>
       </template>
       <template v-else-if="inputData.col.name === 'actions'">
         <div class="action-column-entity-index">
           <q-btn size="md"
-                 outline
-                 color="primary"
-                 label="بررسی"
-                 :to="{name: sessionAttendanceSheetList, params: {classroom_id: classroomId, session_id: inputData.props.row.id}}"
-                 class="q-mr-md" />
-          <q-btn size="md"
                  color="primary"
                  label="جزییات"
-                 :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}"
+                 :to="{name: 'Admin.Classroom.TestSet.Test.Show', params: {classroom_id: classroomId, test_set_id: inputData.props.row.test_set_info.id, id: inputData.props.row.id}}"
                  class="q-mr-md" />
-          <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
         </div>
       </template>
       <template v-else>
@@ -49,14 +51,11 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
-import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
 export default {
   name: 'TestList',
   components: {
-    DeleteBtn,
     EntityIndex
   },
   props: {
@@ -79,7 +78,7 @@ export default {
       testListInputs: [
         { type: 'hidden', name: 'classroom', value: this.classroomId }
       ],
-      testListApi: APIGateway.session.APIAdresses.base,
+      testListApi: APIGateway.test.APIAdresses.base,
       testListTable: {
         columns: [
           {
@@ -104,18 +103,32 @@ export default {
             field: row => row.title
           },
           {
-            name: 'beginning_time',
+            name: 'title',
             required: true,
-            label: 'زمان شروع آزمون',
+            label: 'تعداد سوالات',
             align: 'left',
-            field: row => row.beginning_time ? ShamsiDate.getDateTime(row.beginning_time) : '-'
+            field: row => row.test_questions ? row.test_questions.length : '-'
           },
           {
-            name: 'ending_time',
+            name: 'level',
             required: true,
-            label: 'زمان پایان آزمون',
+            label: 'درچه سختی',
             align: 'left',
-            field: row => row.ending_time ? ShamsiDate.getDateTime(row.ending_time) : '-'
+            field: row => ''
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => row.title
+          },
+          {
+            name: 'answer',
+            required: true,
+            label: 'تصحییح',
+            align: 'left',
+            field: row => ''
           },
           {
             name: 'actions',

@@ -269,6 +269,14 @@ const routes = [
                 }
               },
               {
+                name: 'UserPanel.Profile.Test',
+                path: 'test/:id',
+                component: () => import('src/pages/User/Profile/test.vue'),
+                meta: {
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
                 name: 'UserPanel.Profile.AllEvents',
                 path: 'all-events',
                 component: () => import('src/pages/User/Profile/Events.vue'),
@@ -642,7 +650,7 @@ const routes = [
                 component: () => import('src/layouts/bareLayout.vue'),
                 children: [
                   {
-                    name: 'Admin.Classroom.TestSet.Index',
+                    name: 'Admin.Classroom.TestSet',
                     path: 'test_set',
                     component: () => import('src/layouts/bareLayout.vue'),
                     children: [
