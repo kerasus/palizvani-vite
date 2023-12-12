@@ -241,7 +241,7 @@ export default {
         pageKey: 'page'
       },
 
-      testApi: APIGateway.test.APIAdresses.base,
+      testApi: APIGateway.testSet.APIAdresses.base,
       testTable: {
         columns: [
           {
