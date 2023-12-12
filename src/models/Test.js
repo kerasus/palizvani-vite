@@ -1,4 +1,5 @@
 import { Collection, Model } from 'js-abstract-model'
+import { TestSet } from 'src/models/TestSet.js'
 
 class Test extends Model {
   constructor (data) {
@@ -9,9 +10,10 @@ class Test extends Model {
       { key: 'level' },
       { key: 'unit' },
       { key: 'status' },
+      { key: 'test_set' },
       {
-        key: 'test_questions',
-        default: []
+        key: 'test_set_info',
+        relatedModel: TestSet
       }
     ], {
       level: {

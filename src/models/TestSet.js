@@ -9,7 +9,7 @@ class TestSet extends Model {
       { key: 'level' },
       { key: 'unit' },
       {
-        key: 'test_questions',
+        key: 'test_set_questions',
         default: []
       }
     ], {

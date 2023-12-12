@@ -150,7 +150,8 @@ export default {
       },
       inputs: [
         { type: 'hidden', name: 'type', value: 'QUESTION_BANK' },
-        { type: 'hidden', name: 'session_template_questions__session_template', value: null }
+        { type: 'hidden', name: 'session_template_questions__session_template', value: null },
+        { type: 'hidden', name: 'session_template_questions__session_template__unit', value: null }
       ],
       table: {
         columns: [
@@ -321,6 +322,9 @@ export default {
       this.updateloadedQuestionsByArray(response.data.results)
     },
     updateloadedQuestionsByArray (array, allSelected = false) {
+      if (!array || !Array.isArray(array)) {
+        return
+      }
       array.forEach(item => {
         const questionId = item.id || item.question
         const mark = item.mark || 0
