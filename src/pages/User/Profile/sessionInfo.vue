@@ -315,6 +315,15 @@ export default {
         })
     },
     submitAssignment () {
+      const answerText = FormBuilderAssist.getInputsByName(this.submitAssignmentInputs, 'answer_text').value
+      if (!answerText) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'متن پاسخ را کامل کنید.',
+          position: 'top'
+        })
+        return
+      }
       this.entityLoading = true
       this.submitAssignmentLoading = true
       this.$refs.entityCreateSubmitAssignment.createEntity(false)
