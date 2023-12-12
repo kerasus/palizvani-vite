@@ -8,6 +8,7 @@ class Test extends Model {
       { key: 'description' },
       { key: 'level' },
       { key: 'unit' },
+      { key: 'status' },
       {
         key: 'test_questions',
         default: []
@@ -36,6 +37,44 @@ class Test extends Model {
           {
             label: 'سطح پنج',
             value: 'LEVEL5'
+          }
+        ]
+      },
+      status: {
+        infoKey: 'status_info',
+        enumListKey: 'statusEnums',
+        enums: [
+          {
+            label: 'ساخته شده',
+            value: 'CREATED'
+          },
+          {
+            label: 'قبل از برگزاری',
+            value: 'BEFORE_HOLDING'
+          },
+          {
+            label: 'برگزاری',
+            value: 'HOLDING'
+          },
+          {
+            label: 'قبل از اعلام نتایج',
+            value: 'BEFORE_ANNOUNCEMENT'
+          },
+          {
+            label: 'اعلام نتایج',
+            value: 'ANNOUNCEMENT'
+          },
+          {
+            label: 'ریافت اعتراضات',
+            value: 'OBJECTION'
+          },
+          {
+            label: 'رسیدگی به اعتراضات',
+            value: 'OBJECTION_ANNOUNCEMENT'
+          },
+          {
+            label: 'خاتمه',
+            value: 'CLOSED'
           }
         ]
       }

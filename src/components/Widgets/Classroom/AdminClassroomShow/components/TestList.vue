@@ -51,6 +51,7 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
+import { Test } from 'src/models/Test.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
@@ -121,7 +122,7 @@ export default {
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => row.title
+            field: row => (new Test(row)).status_info.label
           },
           {
             name: 'answer',
