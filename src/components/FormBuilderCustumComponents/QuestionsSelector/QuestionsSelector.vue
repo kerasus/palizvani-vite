@@ -150,7 +150,6 @@ export default {
       },
       inputs: [
         { type: 'hidden', name: 'type', value: 'QUESTION_BANK' },
-        { type: 'hidden', name: 'session_template_questions__session_template', value: null },
         { type: 'hidden', name: 'session_template_questions__session_template__unit', value: null }
       ],
       table: {
