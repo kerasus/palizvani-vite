@@ -25,8 +25,7 @@
       </div>
     </div>
     <div class="content-list q-mt-lg">
-      <entity-index v-if="selectedSessionId"
-                    ref="entityIndexQuestions"
+      <entity-index ref="entityIndexQuestions"
                     v-model:value="inputs"
                     :title="'لیست سوالات ' + selectedSession?.title"
                     :api="api"
@@ -282,10 +281,10 @@ export default {
       this.localValue = this.selectedQuestions
     },
     filterQuestionList () {
-      if (!this.selectedSessionId) {
-        return
+      if (this.selectedSessionId) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'session_template_questions__session_template__unit', 'value', this.selectedSessionId)
       }
-      FormBuilderAssist.setAttributeByName(this.inputs, 'session_template_questions__session_template', 'value', this.selectedSessionId)
+
       this.$refs.entityIndexQuestions.search()
     },
     getSessions () {
@@ -294,9 +293,9 @@ export default {
         .then((data) => {
           this.sessions = new SessionTemplateList(data.list)
           if (this.sessions.list.length > 0) {
-            this.selectedSession = this.sessions.list[0]
-            this.filterQuestionList()
+            // this.selectedSession = this.sessions.list[0]
           }
+          this.filterQuestionList()
           this.sessions.loading = false
         })
         .catch(() => {

@@ -42,6 +42,7 @@ export default {
   components: { EntityCreate },
   mixins: [mixinWidget],
   data () {
+    const unitId = this.$route.params.unit_id
     return {
       mounted: false,
       entityLoading: false,
@@ -52,8 +53,8 @@ export default {
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-md-12 col-12' },
-        { type: 'hidden', name: 'unit', responseKey: 'unit', value: this.$route.params.unit_id },
-        { type: QuestionsSelectorComp, name: 'test_set_questions', responseKey: 'test_set_questions', unitId: this.$route.params.unit_id, col: 'col-md-12 col-12' },
+        { type: 'hidden', name: 'unit', responseKey: 'unit', value: unitId },
+        { type: QuestionsSelectorComp, name: 'test_set_questions', responseKey: 'test_set_questions', unitId, col: 'col-md-12 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید نهایی', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
       ]
     }
