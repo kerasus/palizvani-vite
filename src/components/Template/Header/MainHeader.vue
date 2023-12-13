@@ -57,6 +57,12 @@
                           clickable>
                     <q-item-section>کتب جریان‌شناسی</q-item-section>
                   </q-item>
+                  <q-item v-close-popup
+                          href="https://formafzar.com/form/j3x1d"
+                          target="_blank"
+                          clickable>
+                    <q-item-section>کتاب تشکیلات بهشتی</q-item-section>
+                  </q-item>
                 </q-list>
               </q-menu>
             </q-btn>
