@@ -77,6 +77,10 @@ class Test extends Model {
           {
             label: 'خاتمه',
             value: 'CLOSED'
+          },
+          {
+            label: 'خاتمه یافته',
+            value: 'FINISHED'
           }
         ]
       }

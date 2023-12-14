@@ -128,7 +128,8 @@
                     height="200px" />
       </q-tab-panel>
 
-      <q-tab-panel name="tests">
+      <q-tab-panel name="tests"
+                   class="q-pa-none">
         <entity-index v-if="mounted"
                       ref="entityIndex"
                       v-model:value="testListInputs"
@@ -249,7 +250,8 @@ import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
-import { Team } from 'src/models/Team'
+import { Team } from 'src/models/Team.js'
+import { AnswerBook } from 'src/models/AnswerBook.js'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -534,7 +536,7 @@ export default {
       testListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId }
       ],
-      testListApi: APIGateway.test.APIAdresses.base,
+      testListApi: APIGateway.answerBook.APIAdresses.base,
       testListTable: {
         columns: [
           {
@@ -556,35 +558,35 @@ export default {
             required: true,
             label: 'عنوان آزمون',
             align: 'left',
-            field: row => row.title
+            field: row => row.test_info?.title
           },
           {
             name: 'start_time',
             required: true,
             label: 'زمان شروع',
             align: 'left',
-            field: row => row.start_time ? ShamsiDate.getDateTime(row.start_time) : '-'
+            field: row => row.test_info?.start_time ? ShamsiDate.getDateTime(row.test_info.start_time) : '-'
           },
           {
             name: 'end_time',
             required: true,
             label: 'زمان پایان',
             align: 'left',
-            field: row => row.end_time ? ShamsiDate.getDateTime(row.end_time) : '-'
+            field: row => row.test_info?.end_time ? ShamsiDate.getDateTime(row.test_info.end_time) : '-'
           },
           {
             name: 'duration_deadline',
             required: true,
             label: 'مدت آزمون(دقیقه)',
             align: 'left',
-            field: row => row.duration_deadline
+            field: row => row.duration
           },
           {
             name: 'test_questions.length',
             required: true,
             label: 'تعداد سوالات',
             align: 'left',
-            field: row => row.test_questions ? row.test_questions.length : '-'
+            field: row => row.test_info?.test_set_questions_length
           },
           {
             name: 'grade',
@@ -598,7 +600,7 @@ export default {
             required: true,
             label: 'وضعیت تصحیح',
             align: 'left',
-            field: row => '...'
+            field: row => (new AnswerBook(row)).status_info.label
           },
           {
             name: 'action',
