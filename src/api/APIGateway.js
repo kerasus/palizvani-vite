@@ -19,6 +19,7 @@ import QuestionApi from 'src/api/models/Question.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
 import AnswerBookApi from 'src/api/models/AnswerBook.js'
 import InstalmentAPI from 'src/api/models/Instalment.js'
+import AnswerSheetApi from 'src/api/models/AnswerSheet.js'
 import TransactionAPI from 'src/api/models/Transaction.js'
 import PageSettingAPI from 'src/api/models/PageSetting.js'
 import PostCategoryAPI from 'src/api/models/PostCategory.js'
@@ -61,6 +62,7 @@ export const APIGateway = {
   classroom: new ClassroomAPI(),
   answerBook: new AnswerBookApi(),
   instalment: new InstalmentAPI(),
+  answerSheet: new AnswerSheetApi(),
   transaction: new TransactionAPI(),
   pageSetting: new PageSettingAPI(),
   registration: new RegistrationAPI(),

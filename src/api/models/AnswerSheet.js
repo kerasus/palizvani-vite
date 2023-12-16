@@ -1,15 +1,15 @@
 import { appApi } from 'src/boot/axios.js'
 import APIRepository from '../classes/APIRepository.js'
-import { AnswerBook, AnswerBookList } from 'src/models/AnswerBook.js'
+import { AnswerSheet, AnswerSheetList } from 'src/models/AnswerSheet.js'
 
-export default class AnswerBookAPI extends APIRepository {
+export default class AnswerSheetAPI extends APIRepository {
   constructor() {
-    super('answer_books', appApi)
+    super('answer_sheets', appApi)
     this.APIAdresses = {
-      base: '/lma/answer_books',
-      byId: (id) => '/lma/answer_books/' + id,
-      getTestQuestions: (id) => '/lma/answer_books/' + id + '/get_test_questions',
-      submitOverallAnswer: (id) => '/lma/answer_books/' + id + '/submit_overall_answer'
+      base: '/lma/answer_sheets',
+      byId: (id) => '/lma/answer_sheets/' + id,
+      getTestQuestions: (id) => '/lma/answer_sheets/' + id + '/get_test_questions',
+      submitOverallAnswer: (id) => '/lma/answer_sheets/' + id + '/submit_overall_answer'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -19,9 +19,9 @@ export default class AnswerBookAPI extends APIRepository {
     this.restUrl = (id) => this.APIAdresses.base + '/' + id
     /* Setting the callback functions for the CRUD operations. */
     this.setCrudCallbacks({
-      get: (response) => { return new AnswerBook(response.data) },
-      post: (response) => { return new AnswerBook(response.data) },
-      put: (response) => { return new AnswerBook(response.data) },
+      get: (response) => { return new AnswerSheet(response.data) },
+      post: (response) => { return new AnswerSheet(response.data) },
+      put: (response) => { return new AnswerSheet(response.data) },
       delete: (response) => { return response.data }
     })
   }
@@ -42,7 +42,7 @@ export default class AnswerBookAPI extends APIRepository {
         const results = response.data.results
         delete paginate.results
         return {
-          list: new AnswerBookList(results),
+          list: new AnswerSheetList(results),
           paginate
           // {
           //   "count": 1,
@@ -66,7 +66,7 @@ export default class AnswerBookAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.byId(id),
       resolveCallback: (response) => {
-        return new AnswerBook(response.data)
+        return new AnswerSheet(response.data)
       },
       rejectCallback: (error) => {
         return error
@@ -80,7 +80,7 @@ export default class AnswerBookAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.getTestQuestions(id),
       resolveCallback: (response) => {
-        return new AnswerBook(response.data)
+        return new AnswerSheet(response.data)
       },
       rejectCallback: (error) => {
         return error

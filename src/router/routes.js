@@ -324,6 +324,18 @@ const routes = [
                   { name: 'UserPanel.Leader.Teams.Index', path: 'teams', component: () => import('pages/Admin/Leader/MyTeams.vue') },
                   { name: 'UserPanel.Leader.Teams.Show', path: 'teams/:team_id', component: () => import('pages/Admin/Leader/ShowTeam.vue') }
                 ]
+              },
+              {
+                name: 'UserPanel.Test',
+                path: 'test/:test_id',
+                component: () => import('layouts/bareLayout.vue'),
+                children: [
+                  { name: 'UserPanel.Test.AnswerBook.Confirmation', path: 'answer_book/:answer_book_id/confirmation', component: () => import('src/pages/User/Test/Confirmation.vue') },
+                  { name: 'UserPanel.Test.AnswerBook.Participate.AllQuestions', path: 'answer_book/:answer_book_id/participate/all_questions', component: () => import('src/pages/User/Test/ParticipateAllQuestions.vue') },
+                  { name: 'UserPanel.Test.AnswerBook.Participate.SingleQuestion', path: 'answer_book/:answer_book_id/participate/question/:question_number', component: () => import('src/pages/User/Test/ParticipateSingleQuestion.vue') },
+                  { name: 'UserPanel.Test.AnswerBook.Show', path: 'answer_book/:answer_book_id/show', component: () => import('src/pages/User/Test/Show.vue') },
+                  { name: 'UserPanel.Test.AnswerBook.SendObjection', path: 'answer_book/:answer_book_id/sendObjection', component: () => import('src/pages/User/Test/SendObjection.vue') }
+                ]
               }
             ]
           },

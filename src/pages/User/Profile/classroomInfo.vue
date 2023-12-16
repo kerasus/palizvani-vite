@@ -146,10 +146,25 @@
               {{ inputData.rowNumber }}
             </template>
             <template v-else-if="inputData.col.name === 'action'">
-              <q-btn size="md"
+              <q-btn v-if="inputData.props.row.is_enabled_attending"
+                     size="md"
                      color="primary"
-                     label="جزییات"
-                     :to="{name: 'UserPanel.Profile.Test', params: {id: inputData.props.row.id}}" />
+                     label="شرکت در آزمون"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
+              <q-btn v-if="inputData.props.row.is_enabled_continuing"
+                     size="md"
+                     color="primary"
+                     label="ادامه آزمون"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
+              <q-btn v-if="inputData.props.row.is_enabled_objecting"
+                     size="md"
+                     color="primary"
+                     label="ثبت اعتراض" />
+              <q-btn v-if="inputData.props.row.is_enabled_viewing"
+                     size="md"
+                     color="primary"
+                     label="مشاهده"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
             </template>
             <template v-else>
               {{ inputData.col.value }}
@@ -165,7 +180,7 @@
                   <q-btn size="md"
                          color="primary"
                          label="جزییات"
-                         :to="{name: 'UserPanel.Profile.SessionInfo', params: {id: row.id}}" />
+                         :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: row.test, answer_book_id: row.id}}" />
                 </template>
               </template>
             </entity-index-grid-item>
@@ -238,11 +253,13 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
+import { Team } from 'src/models/Team.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { AnswerBook } from 'src/models/AnswerBook.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import { Registration, RegistrationList } from 'src/models/Registration.js'
@@ -250,8 +267,6 @@ import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
-import { Team } from 'src/models/Team.js'
-import { AnswerBook } from 'src/models/AnswerBook.js'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -534,7 +549,8 @@ export default {
       },
 
       testListInputs: [
-        { type: 'hidden', name: 'classroom', value: classroomId }
+        { type: 'hidden', name: 'test__classroom', value: classroomId },
+        { type: 'hidden', name: 'owner', value: null }
       ],
       testListApi: APIGateway.answerBook.APIAdresses.base,
       testListTable: {
@@ -640,6 +656,7 @@ export default {
   mounted () {
     this.getRegistrationInfo()
     this.mounted = true
+    FormBuilderAssist.setAttributeByName(this.testListInputs, 'owner', 'value', this.user.id)
   },
   methods: {
     getTeamJoinStatusLabel (team) {

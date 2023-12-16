@@ -1,9 +1,15 @@
 <template>
-  <div class="TestShow"
+  <div class="TestParticipation"
        :style="localOptions.style">
-    <q-card v-if="!answerBook.loading && answerBook.id">
+    <completion-page v-if="isCompletionPage"
+                     :answer-book="answerBook" />
+    <q-card v-else-if="!answerBook.loading && answerBook.id">
       <q-card-section class="flex justify-between">
         <div>{{ answerBook.test_info.title }}</div>
+        <div>
+          زمان باقیمانده تا پایان آزمون
+          {{ formattedRemainingTime }}
+        </div>
       </q-card-section>
       <q-separator />
       <q-banner>
@@ -21,23 +27,54 @@
           </div>
         </div>
       </q-banner>
-      <q-list separator>
-        <q-item v-for="(question, questionIndex) in answerBook.test_info.test_set_info.test_set_questions"
-                :key="questionIndex"
-                clickable>
-          <q-item-section v-html="question.question_info.text" />
-          <q-item-section side>
-            <q-badge>
-              {{ question.mark }}
-              نمره
-            </q-badge>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <template v-if="mounted">
+        <all-questions v-if="$route.name === 'UserPanel.Test.AnswerBook.Participate.AllQuestions'"
+                       :answer-book="answerBook"
+                       @sending="onAllQuestionsSending"
+                       @sentSuccess="onAllQuestionsSentSuccess"
+                       @sentFailed="onAllQuestionsSentFailed" />
+        <single-question v-else-if="$route.name === 'UserPanel.Test.AnswerBook.Participate.SingleQuestion'"
+                         :answer-book="answerBook"
+                         :question-number="parseInt($route.params.question_number)"
+                         @sending="onSingleQuestionsSending"
+                         @sentSuccess="onSingleQuestionsSentSuccess"
+                         @sentFailed="onSingleQuestionsSentFailed" />
+      </template>
     </q-card>
     <div v-else>
       کمی صبر کنید...
     </div>
+    <q-dialog v-model="participateTypeDialog">
+      <q-card>
+        <q-card-actions>
+          نحوه پاسخ به آزمون
+        </q-card-actions>
+        <q-separator />
+        <q-card-actions>
+          <div>
+            اندیشه جوی عزیز لطفا نحوه پاسخ به سوالات آزمون را مشخص کنید
+          </div>
+          <div>
+            <q-radio v-model="participateType"
+                     val="UserPanel.Test.AnswerBook.Participate.AllQuestions"
+                     label="مایلم پاسخ سوالات را به صورت یک فایل جامع بارگزاری کنم" />
+            <q-radio v-model="participateType"
+                     val="UserPanel.Test.AnswerBook.Participate.SingleQuestion"
+                     label="مایلم پاسخ سوالات را به صورت جداگانه ذیل همان سوال وارد کنم" />
+          </div>
+        </q-card-actions>
+        <q-card-actions>
+          <q-btn v-close-popup
+                 outline
+                 label="انصراف از آزمون"
+                 color="red" />
+          <q-btn :disable="!participateType"
+                 label="تایید و شروع آزمون"
+                 color="primary"
+                 @click="startTest" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -46,9 +83,13 @@ import Assist from 'src/assets/js/Assist.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { AnswerBook } from 'src/models/AnswerBook.js'
+import AllQuestions from './components/AllQuestions.vue'
+import SingleQuestion from './components/SingleQuestion.vue'
+import CompletionPage from './components/CompletionPage.vue'
 
 export default {
-  name: 'TestShow',
+  name: 'TestParticipation',
+  components: { AllQuestions, SingleQuestion, CompletionPage },
   mixins: [mixinWidget],
   data () {
     return {
@@ -61,6 +102,9 @@ export default {
     }
   },
   computed: {
+    isCompletionPage () {
+      return this.$route.name === 'UserPanel.Test.AnswerBook.Participate.SingleQuestion' && this.$route.params.question_number === 'complete'
+    },
     formattedRemainingTime () {
       const hours = Math.floor(this.remainingTime / 3600)
       const minutes = Math.floor((this.remainingTime % 3600) / 60)
@@ -105,7 +149,7 @@ export default {
     },
 
     startTest () {
-      this.$router.push({ name: this.participateType, params: { question_id: 1 } })
+      this.$router.push({ name: this.participateType, params: { question_number: 1 } })
     },
     getRemainingTimeInSeconds (serverTimeStr, attendingStartTimeStr, durationInMinutes) {
       // Convert the strings to Date objects
@@ -138,13 +182,20 @@ export default {
       clearInterval(this.timerInterval)
     },
     backToClassList () {
-      // this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
+      this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
     },
     getAnswerBook () {
       this.answerBook.loading = true
       APIGateway.answerBook.get(this.$route.params.answer_book_id)
         .then((answerBook) => {
           this.answerBook = new AnswerBook(answerBook)
+          if (this.answerBook.test_info.test_set_questions_length === 0) {
+            this.$q.notify({
+              type: 'negative',
+              message: 'لیست سوالات آزمون خالی است.'
+            })
+            this.backToClassList()
+          }
           this.answerBook.loading = false
         })
         .catch(() => {
@@ -173,7 +224,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.TestShow {
+.TestParticipation {
   :deep(.q-banner) {
     background: #FCF9F4 0 0 no-repeat padding-box;
     padding: 20px;
