@@ -146,7 +146,6 @@
               {{ inputData.rowNumber }}
             </template>
             <template v-else-if="inputData.col.name === 'action'">
-
               <q-btn flat
                      icon="more_vert">
                 <q-menu>
@@ -272,6 +271,7 @@
 <script>
 import { EntityIndex } from 'quasar-crud'
 import { Team } from 'src/models/Team.js'
+import { Test } from 'src/models/Test.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
@@ -628,6 +628,13 @@ export default {
             label: 'نمره نهایی',
             align: 'left',
             field: row => '...'
+          },
+          {
+            name: 'result_status',
+            required: true,
+            label: 'وضعیت آزمون',
+            align: 'left',
+            field: row => (new Test(row.test_info)).status_info.label
           },
           {
             name: 'result_status',
