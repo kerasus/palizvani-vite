@@ -22,18 +22,54 @@
         </div>
       </q-banner>
       <q-list separator>
-        <q-item v-for="(question, questionIndex) in answerBook.test_info.test_set_info.test_set_questions"
-                :key="questionIndex"
+        <q-item v-for="(answerSheet, answerSheetIndex) in answerBook.answer_sheet_info.list"
+                :key="answerSheetIndex"
                 clickable>
-          <q-item-section v-html="question.question_info.text" />
+          <q-item-section>
+            <q-item-label v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_set_question_info.question_info.text" />
+            <q-item-label>
+              <entity-show v-if="mounted"
+                           ref="entityShow"
+                           v-model:value="questionInputs[answerSheetIndex]"
+                           :loaded-data="answerSheet"
+                           :show-close-button="false"
+                           :show-edit-button="false"
+                           :show-expand-button="false"
+                           :show-save-button="false"
+                           :show-index-button="false"
+                           :show-reload-button="false"
+                           :default-layout="false" />
+            </q-item-label>
+          </q-item-section>
+
           <q-item-section side>
-            <q-badge>
-              {{ question.mark }}
+            <q-badge v-if="answerSheet.score !== null">
+              {{ answerSheet.score }}
+              از
+              {{ answerSheet.test_set_question_info.question_info.mark }}
+              نمره
+            </q-badge>
+            <q-badge v-else>
+              {{ answerSheet.test_set_question_info.question_info.mark }}
               نمره
             </q-badge>
           </q-item-section>
         </q-item>
       </q-list>
+      <q-separator class="q-my-lg" />
+      <div class="q-pa-lg">
+        <entity-show v-if="mounted"
+                     ref="entityShow"
+                     v-model:value="overallAnswerInput"
+                     :loaded-data="answerBook"
+                     :show-close-button="false"
+                     :show-edit-button="false"
+                     :show-expand-button="false"
+                     :show-save-button="false"
+                     :show-index-button="false"
+                     :show-reload-button="false"
+                     :default-layout="false" />
+      </div>
     </q-card>
     <div v-else>
       کمی صبر کنید...
@@ -43,16 +79,27 @@
 
 <script>
 import Assist from 'src/assets/js/Assist.js'
+import { EntityShow } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { AnswerBook } from 'src/models/AnswerBook.js'
 
 export default {
   name: 'TestShow',
+  components: { EntityShow },
   mixins: [mixinWidget],
   data () {
     return {
       mounted: false,
+      overallAnswerInput: [
+        { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
+        { type: 'file', name: 'overall_answer_attachment', responseKey: 'overall_answer_attachment', label: 'فایل پیوست جامع', placeholder: ' ', col: 'col-12' }
+      ],
+      questionInput: [
+        { type: 'input', name: 'answer_text', responseKey: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
+        { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' }
+      ],
+      questionInputs: [],
       participateType: null,
       participateTypeDialog: false,
       answerBook: new AnswerBook(),
@@ -158,8 +205,9 @@ export default {
         .then((answerBook) => {
           this.answerBook = new AnswerBook(answerBook)
           this.answerBook.loading = false
-          this.answerBook.server_time = '2023-12-15T23:57:46.909211'
-          this.answerBook.attending_start_time = '2023-12-15T23:27:46.909211'
+          this.answerBook.answer_sheet_info.list.forEach(() => {
+            this.questionInputs.push(this.questionInput)
+          })
           this.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
           this.startTimer()
         })
@@ -180,6 +228,25 @@ export default {
     .q-banner__content {
       font-size: 16px;
       font-weight: normal;
+    }
+  }
+  :deep(.q-list) {
+    .q-item {
+      .q-item__section {
+        display: inline-block;
+        .entity-crud-formBuilder {
+          margin-top: 8px;
+          .outsideLabel {
+            margin-bottom: 8px;
+          }
+        }
+      }
+      .q-badge {
+        background: #ACBCAE 0 0 no-repeat padding-box;
+        border-radius: 18px;
+        height: 32px;
+        padding: 4px 16px;
+      }
     }
   }
 }
