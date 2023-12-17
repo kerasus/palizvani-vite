@@ -209,8 +209,8 @@ export default {
     initPageFromAnswerBook (answerBook) {
       this.answerBook = new AnswerBook(answerBook)
       this.answerBook.loading = false
-      this.answerBook.server_time = '2023-12-15T23:57:46.909211'
-      this.answerBook.attending_start_time = '2023-12-15T23:27:46.909211'
+      // this.answerBook.server_time = '2023-12-15T23:57:46.909211'
+      // this.answerBook.attending_start_time = '2023-12-15T23:27:46.909211'
       this.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
       this.$store.commit('Test/updateAnswerBook', this.answerBook)
       this.startTimer()
