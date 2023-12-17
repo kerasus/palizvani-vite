@@ -8,6 +8,7 @@ export default class AnswerBookAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/answer_books',
       byId: (id) => '/lma/answer_books/' + id,
+      confirmAnswers: (id) => '/lma/answer_books/' + id + '/confirm_answers',
       getTestQuestions: (id) => '/lma/answer_books/' + id + '/get_test_questions',
       submitOverallAnswer: (id) => '/lma/answer_books/' + id + '/submit_overall_answer'
     }
@@ -79,6 +80,20 @@ export default class AnswerBookAPI extends APIRepository {
       apiMethod: 'get',
       api: this.api,
       request: this.APIAdresses.getTestQuestions(id),
+      resolveCallback: (response) => {
+        return new AnswerBook(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  confirmAnswers (id) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.confirmAnswers(id),
       resolveCallback: (response) => {
         return new AnswerBook(response.data)
       },

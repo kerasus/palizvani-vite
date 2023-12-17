@@ -83,7 +83,8 @@ export default {
       return this.answerBook.test_info.test_set_info.test_set_questions.length === this.questionNumber
     },
     question () {
-      return this.answerBook.test_info.test_set_info.test_set_questions[this.questionNumber - 1]
+      // return this.answerBook.test_info.test_set_info.test_set_questions[this.questionNumber - 1]
+      return this.answerBook.answer_sheet_info.list[this.questionNumber - 1].test_set_question_info.question_info
     }
   },
   mounted () {
@@ -111,6 +112,10 @@ export default {
         FormBuilderAssist.setAttributeByName(this.inputs, 'btnNext', 'col', 'col-12 flex justify-end')
       }
 
+      const questionIndex = this.questionNumber - 1
+      FormBuilderAssist.setAttributeByName(this.inputs, 'answer_text', 'value', this.answerBook.answer_sheet_info.list[questionIndex].answer_text)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', this.answerBook.answer_sheet_info.list[questionIndex].answer_attachment)
+
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnFinal', 'atClick', () => { this.sendAnswer('final') })
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnNext', 'atClick', () => { this.sendAnswer('next') })
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnPrev', 'atClick', () => { this.sendAnswer('prev') })
@@ -128,7 +133,13 @@ export default {
 
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)
-        .then(() => {
+        .then((response) => {
+          const answerBook = this.answerBook
+          const questionIndex = this.questionNumber - 1
+          answerBook.answer_sheet_info.list[questionIndex].answer_text = response.data.answer_text
+          answerBook.answer_sheet_info.list[questionIndex].answer_attachment = response.data.answer_attachment
+          this.$store.commit('Test/updateAnswerBook', answerBook)
+
           this.$emit('sentSuccess', actionType)
           if (actionType === 'next') {
             this.goToQuestion(this.questionNumber + 1)
@@ -137,12 +148,18 @@ export default {
             this.goToQuestion(this.questionNumber - 1)
           }
           if (actionType === 'final') {
-            this.$q.notify({
-              message: 'پاسخ شما با موفقیت ارسال شد.',
-              type: 'positive'
-            })
-            // this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
-            this.goToQuestion('complete')
+            APIGateway.answerBook.confirmAnswers(this.answerBook.id)
+              .then(() => {
+                this.$q.notify({
+                  message: 'پاسخ شما با موفقیت ارسال شد.',
+                  type: 'positive'
+                })
+                // this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
+                this.goToQuestion('complete')
+              })
+              .catch(() => {
+                this.$emit('sentfailed')
+              })
           }
         })
         .catch(() => {

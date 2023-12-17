@@ -30,9 +30,9 @@
       <template v-if="mounted">
         <all-questions v-if="$route.name === 'UserPanel.Test.AnswerBook.Participate.AllQuestions'"
                        :answer-book="answerBook"
+                       @sentsuccess="onAllQuestionsSentSuccess"
                        @sending="onAllQuestionsSending"
-                       @sentSuccess="onAllQuestionsSentSuccess"
-                       @sentFailed="onAllQuestionsSentFailed" />
+                       @sentfailed="onAllQuestionsSentFailed" />
         <single-question v-else-if="$route.name === 'UserPanel.Test.AnswerBook.Participate.SingleQuestion'"
                          :answer-book="answerBook"
                          :question-number="parseInt($route.params.question_number)"
@@ -133,7 +133,6 @@ export default {
     },
     onAllQuestionsSentSuccess () {
       this.answerBook.loading = false
-      this.backToClassList()
     },
     onAllQuestionsSentFailed () {
       this.answerBook.loading = false

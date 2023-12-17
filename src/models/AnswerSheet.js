@@ -1,4 +1,5 @@
 import { Collection, Model } from 'js-abstract-model'
+import { TestSetQuestion } from 'src/models/TestSetQuestion.js'
 
 class AnswerSheet extends Model {
   constructor (data) {
@@ -8,7 +9,10 @@ class AnswerSheet extends Model {
       { key: 'answer_attachment' },
       { key: 'score' },
       { key: 'test_set_question' },
-      { key: 'test_set_question_info' }
+      {
+        key: 'test_set_question_info',
+        relatedModel: TestSetQuestion
+      }
     ])
   }
 }

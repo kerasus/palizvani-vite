@@ -48,7 +48,7 @@ export default {
       default: new AnswerBook()
     }
   },
-  emits: ['sending', 'sentSuccess', 'sentFailed'],
+  emits: ['sending', 'sentsuccess', 'sentfailed'],
   data () {
     return {
       mounted: false,
@@ -84,10 +84,24 @@ export default {
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)
         .then(() => {
-          this.$emit('sentSuccess')
+          APIGateway.answerBook.confirmAnswers(this.answerBook.id)
+            .then(() => {
+              this.$emit('sentsuccess')
+              this.$router.push({
+                name: 'UserPanel.Test.AnswerBook.Participate.SingleQuestion',
+                params: {
+                  test_id: this.$route.params.test_id,
+                  answer_book_id: this.$route.params.answer_book_id,
+                  question_number: 'complete'
+                }
+              })
+            })
+            .catch(() => {
+              this.$emit('sentfailed')
+            })
         })
         .catch(() => {
-          this.$emit('sentFailed')
+          this.$emit('sentfailed')
         })
     }
   }
