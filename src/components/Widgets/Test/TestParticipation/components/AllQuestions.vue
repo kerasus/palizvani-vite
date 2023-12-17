@@ -14,7 +14,7 @@
       </q-item>
     </q-list>
     <q-separator class="q-my-lg" />
-    <q-card-actions class="flex justify-end">
+    <q-card-actions class="flex justify-end AllQuestionsForm">
       <entity-create v-if="mounted"
                      ref="entityCreate"
                      v-model:value="inputs"
@@ -54,19 +54,22 @@ export default {
       mounted: false,
       api: APIGateway.answerBook.APIAdresses.submitOverallAnswer(this.$route.params.answer_book_id),
       inputs: [
-        { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
+        // { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
+        { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'answer_attachment', label: 'فایل جامع پاسخ سوالات', placeholder: ' ', col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'اتمام آزمون', placeholder: ' ', atClick: () => {}, col: 'col-12' }
       ]
     }
   },
   mounted () {
-    this.setBtnAction()
+    this.setInputs()
     this.mounted = true
   },
   methods: {
-    setBtnAction () {
+    setInputs () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.sendAnswers)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'answer_text', 'value', this.answerBook.overall_answer_text)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', this.answerBook.overall_answer_attachment)
     },
     sendAnswers () {
       const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value
@@ -101,6 +104,11 @@ export default {
         height: 32px;
         padding: 4px 16px;
       }
+    }
+  }
+  .AllQuestionsForm {
+    & > div {
+      width: 100%;
     }
   }
 }

@@ -96,6 +96,7 @@ export default {
       mounted: false,
       participateType: null,
       participateTypeDialog: false,
+      storeAnswerBook: null,
       answerBook: new AnswerBook(),
       remainingTime: 0,
       timerInterval: null
@@ -124,6 +125,9 @@ export default {
     this.mounted = true
   },
   methods: {
+    loadAnswerBookFromStore () {
+      this.storeAnswerBook = this.$store.getters['Test/answerBook']
+    },
     onAllQuestionsSending () {
       this.answerBook.loading = true
     },
@@ -203,16 +207,25 @@ export default {
           this.backToClassList()
         })
     },
+    initPageFromAnswerBook (answerBook) {
+      this.answerBook = new AnswerBook(answerBook)
+      this.answerBook.loading = false
+      this.answerBook.server_time = '2023-12-15T23:57:46.909211'
+      this.answerBook.attending_start_time = '2023-12-15T23:27:46.909211'
+      this.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
+      this.$store.commit('Test/updateAnswerBook', this.answerBook)
+      this.startTimer()
+    },
     getTestQuestions () {
+      this.loadAnswerBookFromStore()
+      if (this.storeAnswerBook && this.storeAnswerBook.id) {
+        this.initPageFromAnswerBook(this.storeAnswerBook)
+        return
+      }
       this.answerBook.loading = true
       APIGateway.answerBook.getTestQuestions(this.$route.params.answer_book_id)
         .then((answerBook) => {
-          this.answerBook = new AnswerBook(answerBook)
-          this.answerBook.loading = false
-          this.answerBook.server_time = '2023-12-15T23:57:46.909211'
-          this.answerBook.attending_start_time = '2023-12-15T23:27:46.909211'
-          this.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
-          this.startTimer()
+          this.initPageFromAnswerBook(answerBook)
         })
         .catch(() => {
           this.answerBook.loading = false

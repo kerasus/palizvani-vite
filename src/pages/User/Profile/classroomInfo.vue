@@ -146,25 +146,43 @@
               {{ inputData.rowNumber }}
             </template>
             <template v-else-if="inputData.col.name === 'action'">
-              <q-btn v-if="inputData.props.row.is_enabled_attending"
-                     size="md"
-                     color="primary"
-                     label="شرکت در آزمون"
-                     :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
-              <q-btn v-if="inputData.props.row.is_enabled_continuing"
-                     size="md"
-                     color="primary"
-                     label="ادامه آزمون"
-                     :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
-              <q-btn v-if="inputData.props.row.is_enabled_objecting"
-                     size="md"
-                     color="primary"
-                     label="ثبت اعتراض" />
-              <q-btn v-if="inputData.props.row.is_enabled_viewing"
-                     size="md"
-                     color="primary"
-                     label="مشاهده"
-                     :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
+
+              <q-btn flat
+                     icon="more_vert">
+                <q-menu>
+                  <q-list separator>
+                    <q-item v-if="inputData.props.row.is_enabled_attending"
+                            v-close-popup
+                            :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}"
+                            clickable>
+                      <q-item-section>شرکت در آزمون</q-item-section>
+                    </q-item>
+                    <q-item v-if="inputData.props.row.is_enabled_continuing"
+                            v-close-popup
+                            clickable
+                            :to="{name: 'UserPanel.Test.AnswerBook.Participate.AllQuestions', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}">
+                      <q-item-section>ادامه آزمون(تمام سوالها)</q-item-section>
+                    </q-item>
+                    <q-item v-if="inputData.props.row.is_enabled_continuing"
+                            v-close-popup
+                            clickable
+                            :to="{name: 'UserPanel.Test.AnswerBook.Participate.SingleQuestion', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id, question_number: 1}}">
+                      <q-item-section>ادامه آزمون(تک سوال)</q-item-section>
+                    </q-item>
+                    <q-item v-if="inputData.props.row.is_enabled_objecting"
+                            v-close-popup
+                            clickable>
+                      <q-item-section>ثبت اعتراض</q-item-section>
+                    </q-item>
+                    <q-item v-if="inputData.props.row.is_enabled_viewing"
+                            v-close-popup
+                            clickable
+                            :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}">
+                      <q-item-section>مشاهده</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
             </template>
             <template v-else>
               {{ inputData.col.value }}

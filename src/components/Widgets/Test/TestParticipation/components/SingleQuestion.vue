@@ -17,7 +17,7 @@
               v-html="question.question_info.text" />
       </div>
       <q-separator class="q-my-lg" />
-      <q-card-actions class="flex justify-end">
+      <q-card-actions class="flex justify-end SingleQuestionForm">
         <entity-create v-if="mounted"
                        ref="entityCreate"
                        v-model:value="inputs"
@@ -65,8 +65,8 @@ export default {
       btnNext: { type: BtnControlComp, name: 'btnNext', label: 'سوال بعدی', placeholder: ' ', atClick: () => {}, col: 'col-md-6 col-12 flex justify-end' },
       btnFinal: { type: BtnControlComp, name: 'btnFinal', label: 'اتمام آزمون', placeholder: ' ', atClick: () => {}, col: 'col-md-6 col-12 flex justify-end' },
       inputs: [
-        { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
-        { type: 'file', name: 'answer_attachment', label: 'فایل جامع پاسخ سوالات', placeholder: ' ', col: 'col-12' },
+        { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
+        { type: 'file', name: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' },
         { type: 'hidden', name: 'answer_book', value: this.answerBook.id },
         { type: 'hidden', name: 'test_set_question', value: null }
       ]
@@ -170,6 +170,11 @@ export default {
     border-radius: 18px;
     height: 32px;
     padding: 4px 16px;
+  }
+  .SingleQuestionForm {
+    & > div {
+      width: 100%;
+    }
   }
 }
 </style>

@@ -1,6 +1,7 @@
 import SEO from './Seo'
 import Auth from './Auth'
 import Shop from './Shop'
+import Test from './Test'
 import process from 'process'
 import Widgets from './Widgets'
 import { createStore } from 'vuex'
@@ -42,6 +43,7 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       SEO,
       Shop,
+      Test,
       Auth,
       Widgets,
       AppLayout,
