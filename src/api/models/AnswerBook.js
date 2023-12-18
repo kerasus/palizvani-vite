@@ -9,6 +9,7 @@ export default class AnswerBookAPI extends APIRepository {
       base: '/lma/answer_books',
       byId: (id) => '/lma/answer_books/' + id,
       confirmAnswers: (id) => '/lma/answer_books/' + id + '/confirm_answers',
+      submitObjectionRequest: (id) => '/lma/answer_books/' + id + '/submit_objection_request',
       getTestQuestions: (id) => '/lma/answer_books/' + id + '/get_test_questions',
       submitOverallAnswer: (id) => '/lma/answer_books/' + id + '/submit_overall_answer'
     }

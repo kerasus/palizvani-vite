@@ -170,7 +170,8 @@
                     </q-item>
                     <q-item v-if="inputData.props.row.is_enabled_objecting"
                             v-close-popup
-                            clickable>
+                            clickable
+                            :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}, query: { send_objection: 1}}">
                       <q-item-section>ثبت اعتراض</q-item-section>
                     </q-item>
                     <q-item v-if="inputData.props.row.is_enabled_viewing"

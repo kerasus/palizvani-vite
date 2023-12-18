@@ -70,6 +70,30 @@
                      :show-reload-button="false"
                      :default-layout="false" />
       </div>
+      <template v-if="$route.query.send_objection && $route.query.send_objection.toString() === '1'">
+        <q-separator class="q-my-xl" />
+        <q-card-section>
+          <entity-edit v-if="mounted"
+                       ref="objectionEntityEdit"
+                       v-model:value="objectionInputs"
+                       title="ثبت اعتراض"
+                       :api="objectionApi"
+                       :loaded-data="{}"
+                       :show-close-button="false"
+                       :show-edit-button="false"
+                       :show-expand-button="false"
+                       :show-save-button="false"
+                       :show-reload-button="false">
+            <template #after-form-builder>
+              <div class="flex justify-end q-mt-md">
+                <q-btn color="primary"
+                       label="ثبت اعتراض"
+                       @click="sendObjection" />
+              </div>
+            </template>
+          </entity-edit>
+        </q-card-section>
+      </template>
     </q-card>
     <div v-else>
       کمی صبر کنید...
@@ -79,14 +103,15 @@
 
 <script>
 import Assist from 'src/assets/js/Assist.js'
-import { EntityShow } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { EntityShow, EntityEdit } from 'quasar-crud'
 import { AnswerBook } from 'src/models/AnswerBook.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'TestShow',
-  components: { EntityShow },
+  components: { EntityShow, EntityEdit },
   mixins: [mixinWidget],
   data () {
     return {
@@ -100,6 +125,10 @@ export default {
         { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' }
       ],
       questionInputs: [],
+      objectionInputs: [
+        { type: 'input', name: 'text', responseKey: 'text', label: 'متن اعتراض', placeholder: ' ', inputType: 'textarea', col: 'col-12' }
+      ],
+      objectionApi: APIGateway.answerBook.APIAdresses.submitObjectionRequest(this.$route.params.answer_book_id),
       participateType: null,
       participateTypeDialog: false,
       answerBook: new AnswerBook(),
@@ -127,6 +156,16 @@ export default {
     this.mounted = true
   },
   methods: {
+    sendObjection () {
+      this.answerBook.loading = true
+      this.$refs.objectionEntityEdit.editEntity(false)
+        .then(() => {
+          this.getTestQuestions()
+        })
+        .catch(() => {
+          this.getTestQuestions()
+        })
+    },
     onAllQuestionsSending () {
       this.answerBook.loading = true
     },
@@ -168,22 +207,6 @@ export default {
       // Calculate the remaining time in seconds considering the duration
       return (durationInMinutes * 60) - timeDiffInSeconds
     },
-    startTimer () {
-      this.timerInterval = setInterval(() => {
-        if (this.remainingTime <= 0) {
-          this.stopTimer()
-        } else {
-          this.remainingTime--
-        }
-      }, 1000)
-    },
-    stopTimer () {
-      if (!this.timerInterval) {
-        return
-      }
-
-      clearInterval(this.timerInterval)
-    },
     backToClassList () {
       // this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
     },
@@ -209,7 +232,7 @@ export default {
             this.questionInputs.push(this.questionInput)
           })
           this.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
-          this.startTimer()
+          FormBuilderAssist.setAttributeByName(this.objectionInputs, 'text', 'value', this.answerBook.objection_request)
         })
         .catch(() => {
           this.answerBook.loading = false
