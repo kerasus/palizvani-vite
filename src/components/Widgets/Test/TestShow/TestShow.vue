@@ -94,6 +94,18 @@
           </entity-edit>
         </q-card-section>
       </template>
+      <template v-else-if="answerBook.objection_request">
+        <div>
+          متن اعتراض:
+        </div>
+        <div v-html="answerBook.objection_request" />
+      </template>
+      <template v-if="answerBook.objection_result">
+        <div>
+          نتیجه اعتراض:
+        </div>
+        <div v-html="answerBook.objection_result" />
+      </template>
     </q-card>
     <div v-else>
       کمی صبر کنید...
@@ -126,7 +138,7 @@ export default {
       ],
       questionInputs: [],
       objectionInputs: [
-        { type: 'input', name: 'text', responseKey: 'text', label: 'متن اعتراض', placeholder: ' ', inputType: 'textarea', col: 'col-12' }
+        { type: 'input', name: 'objection_request', responseKey: 'objection_request', label: 'متن اعتراض', placeholder: ' ', inputType: 'textarea', col: 'col-12' }
       ],
       objectionApi: APIGateway.answerBook.APIAdresses.submitObjectionRequest(this.$route.params.answer_book_id),
       participateType: null,
@@ -232,7 +244,7 @@ export default {
             this.questionInputs.push(this.questionInput)
           })
           this.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
-          FormBuilderAssist.setAttributeByName(this.objectionInputs, 'text', 'value', this.answerBook.objection_request)
+          FormBuilderAssist.setAttributeByName(this.objectionInputs, 'objection_request', 'value', this.answerBook.objection_request)
         })
         .catch(() => {
           this.answerBook.loading = false
