@@ -103,7 +103,7 @@ export default {
             field: row => row.title
           },
           {
-            name: 'title',
+            name: 'test_set_questions_length',
             required: true,
             label: 'تعداد سوالات',
             align: 'left',

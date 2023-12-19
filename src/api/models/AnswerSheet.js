@@ -87,4 +87,21 @@ export default class AnswerSheetAPI extends APIRepository {
       }
     })
   }
+
+  submitScore (answerSheetsId, score) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.byId(answerSheetsId),
+      data: {
+        score
+      },
+      resolveCallback: (response) => {
+        return new AnswerSheet(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
 }

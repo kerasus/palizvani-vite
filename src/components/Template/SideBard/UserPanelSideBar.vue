@@ -70,6 +70,14 @@ export default {
           ]
         },
         {
+          title: 'تصحیح های من',
+          roles: ['superuser', 'grader'],
+          icon: 'quiz',
+          show: true,
+          active: false,
+          routeName: 'UserPanel.Classroom.MyAsGraderClassroom.Index'
+        },
+        {
           title: 'رویدادها',
           routeName: null,
           icon: 'auto_stories',

@@ -69,6 +69,10 @@ class AnswerBook extends Model {
         enumListKey: 'statusEnums',
         enums: [
           {
+            label: 'جاری',
+            value: 'ONGOING'
+          },
+          {
             label: 'حذف شده',
             value: 'DELETED'
           },

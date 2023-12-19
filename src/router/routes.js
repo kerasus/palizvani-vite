@@ -336,6 +336,17 @@ const routes = [
                   { name: 'UserPanel.Test.AnswerBook.Show', path: 'answer_book/:answer_book_id/show', component: () => import('src/pages/User/Test/Show.vue') },
                   { name: 'UserPanel.Test.AnswerBook.SendObjection', path: 'answer_book/:answer_book_id/sendObjection', component: () => import('src/pages/User/Test/SendObjection.vue') }
                 ]
+              },
+              {
+                name: 'UserPanel.Classroom.MyAsGraderClassroom',
+                path: 'my_as_a_grader_classrooms',
+                component: () => import('src/layouts/bareLayout.vue'),
+                children: [
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.Index', path: '', component: () => import('src/pages/Admin/Classroom/MyAsGraderClassrooms.vue') },
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks', path: ':classroom_id/answer_books', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBooks.vue') },
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', path: ':classroom_id/answer_books/:answer_book_id/show_grades', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookShowGrade.vue') },
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.SubmitGrade', path: ':classroom_id/answer_books/:answer_book_id/submit_grade', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookSubmitGrade.vue') }
+                ]
               }
             ]
           },
@@ -658,7 +669,7 @@ const routes = [
               { name: 'Admin.Classroom.Team.Show', path: ':classroom_id/team/:team_id', component: () => import('src/pages/Admin/Classroom/Team/show.vue') },
               { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } },
               {
-                name: 'Admin.Classroom.TestSet',
+                name: 'Admin.Classroom.Group',
                 path: ':classroom_id',
                 component: () => import('src/layouts/bareLayout.vue'),
                 children: [

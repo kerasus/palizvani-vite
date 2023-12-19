@@ -9,6 +9,7 @@ export default class ClassroomAPI extends APIRepository {
     super('classrooms', appApi, '/lma/classrooms', Classroom)
     this.APIAdresses = {
       base: '/lma/classrooms',
+      myAsGraderClassrooms: '/lma/classrooms/my_as_a_grader_classrooms',
       byId: (id) => '/lma/classrooms/' + id,
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
       drop: (id) => '/lma/classrooms/' + id + '/drop',
