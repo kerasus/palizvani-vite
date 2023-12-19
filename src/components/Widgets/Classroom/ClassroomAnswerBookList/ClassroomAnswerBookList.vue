@@ -16,12 +16,6 @@
         </template>
         <template v-else-if="inputData.col.name === 'actions'">
           <div class="action-column-entity-index">
-            <q-btn v-if="inputData.props.row.status === 'SUBMITTED' || inputData.props.row.status === 'GRADING'"
-                   size="md"
-                   color="primary"
-                   label="تصحیح توسط من"
-                   :to="{name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.SubmitGrade', params: {classroom_id: $route.params.classroom_id, answer_book_id: inputData.props.row.id}}"
-                   class="q-mr-md" />
             <q-btn size="md"
                    color="primary"
                    label="جزییات"
