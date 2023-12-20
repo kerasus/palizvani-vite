@@ -10,12 +10,12 @@
         وضعیت آزمون:
         {{ answerBook.status_info.label }}
       </q-banner>
-      <q-btn v-if="!this.answerBook.grader"
-             color="primary"
-             class="full-width"
-             @click="setGraderToMe">
-        تصحیح توسط شما
-      </q-btn>
+      <q-banner v-if="answerBook.grader">
+        مصحح:
+        {{ answerBook.grader_info.firstname }}
+        {{ answerBook.grader_info.lastname }}
+        ({{ answerBook.grader_info.mobile_number }})
+      </q-banner>
       <q-separator />
       <q-banner>
         <div class="row">
@@ -51,15 +51,15 @@
                            :show-reload-button="false"
                            :default-layout="false" />
             </q-item-label>
-            <q-item-label v-if="currentUserIsGrader">
-              <q-input v-model="questionInputs[answerSheetIndex].score"
-                       :loading="questionInputs[answerSheetIndex].loading"
+            <q-item-label>
+              <q-input v-model="scores[answerSheetIndex].score"
+                       :loading="scores[answerSheetIndex].loading"
                        label="نمره">
                 <template v-slot:append>
                   <q-btn color="primary"
                          flat
                          label="ثبت نمره"
-                         :loading="questionInputs[answerSheetIndex].loading"
+                         :loading="scores[answerSheetIndex].loading"
                          @click="submitScore(answerSheetIndex)" />
                 </template>
               </q-input>
@@ -94,13 +94,19 @@
                      :show-reload-button="false"
                      :default-layout="false" />
       </div>
-      <template v-if="$route.query.send_objection && $route.query.send_objection.toString() === '1'">
+      <template v-if="answerBook.objection_request">
+        <div>
+          متن اعتراض:
+        </div>
+        <div v-html="answerBook.objection_request" />
+      </template>
+      <template v-if="answerBook.objection_request && !answerBook.objection_result">
         <q-separator class="q-my-xl" />
         <q-card-section>
           <entity-edit v-if="mounted"
                        ref="objectionEntityEdit"
                        v-model:value="objectionInputs"
-                       title="ثبت اعتراض"
+                       title="پاسخ به اعتراض"
                        :api="objectionApi"
                        :loaded-data="{}"
                        :show-close-button="false"
@@ -118,13 +124,7 @@
           </entity-edit>
         </q-card-section>
       </template>
-      <template v-else-if="answerBook.objection_request">
-        <div>
-          متن اعتراض:
-        </div>
-        <div v-html="answerBook.objection_request" />
-      </template>
-      <template v-if="answerBook.objection_result">
+      <template v-else-if="answerBook.objection_result">
         <div>
           نتیجه اعتراض:
         </div>
@@ -151,7 +151,6 @@ export default {
   data () {
     return {
       mounted: false,
-      currentUserIsGrader: false,
       overallAnswerInput: [
         { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'overall_answer_attachment', responseKey: 'overall_answer_attachment', label: 'فایل پیوست جامع', placeholder: ' ', col: 'col-12' }
@@ -161,14 +160,12 @@ export default {
         { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' }
       ],
       questionInputs: [],
+      scores: [],
       objectionInputs: [
-        { type: 'input', name: 'objection_request', responseKey: 'objection_request', label: 'متن اعتراض', placeholder: ' ', inputType: 'textarea', col: 'col-12' }
+        { type: 'input', name: 'objection_result', responseKey: 'objection_result', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' }
       ],
-      objectionApi: APIGateway.answerBook.APIAdresses.submitObjectionRequest(this.$route.params.answer_book_id),
-      participateType: null,
-      participateTypeDialog: false,
-      answerBook: new AnswerBook(),
-      timerInterval: null
+      objectionApi: APIGateway.answerBook.APIAdresses.submitObjectionResult(this.$route.params.answer_book_id),
+      answerBook: new AnswerBook()
     }
   },
   mounted () {
@@ -180,10 +177,10 @@ export default {
       this.answerBook.loading = true
       this.$refs.objectionEntityEdit.editEntity(false)
         .then(() => {
-          this.getTestQuestions()
+          this.getAnswerBook()
         })
         .catch(() => {
-          this.getTestQuestions()
+          this.getAnswerBook()
         })
     },
     toShamsi (miladi) {
@@ -191,10 +188,13 @@ export default {
     },
     loadAnswerBook (answerBook) {
       this.answerBook = new AnswerBook(answerBook)
-      this.answerBook.answer_sheet_info.list.forEach(() => {
+      this.answerBook.answer_sheet_info.list.forEach((answerSheetItem) => {
         this.questionInputs.push(this.questionInput)
+        this.scores.push({
+          score: answerSheetItem.score,
+          loading: false
+        })
       })
-      this.currentUserIsGrader = this.answerBook.grader === this.user.id
     },
     setGraderToMe () {
       this.answerBook.loading = true
@@ -209,14 +209,14 @@ export default {
         })
     },
     submitScore (index) {
-      this.questionInputs[index].loading = true
-      APIGateway.answerSheet.submitScore(this.$route.params.answer_book_id, this.questionInputs[index])
+      this.scores[index].loading = true
+      APIGateway.answerSheet.submitScore(this.$route.params.answer_book_id, this.scores[index].score)
         .then(() => {
-          this.questionInputs[index].loading = false
+          this.scores[index].loading = false
           this.getAnswerBook()
         })
         .catch(() => {
-          this.questionInputs[index].loading = false
+          this.scores[index].loading = false
         })
     },
     getAnswerBook () {

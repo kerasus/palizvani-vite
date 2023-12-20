@@ -10,7 +10,7 @@
         وضعیت آزمون:
         {{ answerBook.status_info.label }}
       </q-banner>
-      <q-btn v-if="!this.answerBook.grader"
+      <q-btn v-if="!answerBook.grader"
              color="primary"
              class="full-width"
              @click="setGraderToMe">
@@ -52,14 +52,14 @@
                            :default-layout="false" />
             </q-item-label>
             <q-item-label v-if="currentUserIsGrader">
-              <q-input v-model="questionInputs[answerSheetIndex].score"
-                       :loading="questionInputs[answerSheetIndex].loading"
+              <q-input v-model="scores[answerSheetIndex].score"
+                       :loading="scores[answerSheetIndex].loading"
                        label="نمره">
                 <template v-slot:append>
                   <q-btn color="primary"
                          flat
                          label="ثبت نمره"
-                         :loading="questionInputs[answerSheetIndex].loading"
+                         :loading="scores[answerSheetIndex].loading"
                          @click="submitScore(answerSheetIndex)" />
                 </template>
               </q-input>
@@ -161,6 +161,7 @@ export default {
         { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' }
       ],
       questionInputs: [],
+      scores: [],
       objectionInputs: [
         { type: 'input', name: 'objection_request', responseKey: 'objection_request', label: 'متن اعتراض', placeholder: ' ', inputType: 'textarea', col: 'col-12' }
       ],
@@ -180,10 +181,10 @@ export default {
       this.answerBook.loading = true
       this.$refs.objectionEntityEdit.editEntity(false)
         .then(() => {
-          this.getTestQuestions()
+          this.getAnswerBook()
         })
         .catch(() => {
-          this.getTestQuestions()
+          this.getAnswerBook()
         })
     },
     toShamsi (miladi) {
@@ -191,8 +192,12 @@ export default {
     },
     loadAnswerBook (answerBook) {
       this.answerBook = new AnswerBook(answerBook)
-      this.answerBook.answer_sheet_info.list.forEach(() => {
+      this.answerBook.answer_sheet_info.list.forEach((answerSheetItem) => {
         this.questionInputs.push(this.questionInput)
+        this.scores.push({
+          score: answerSheetItem.score,
+          loading: false
+        })
       })
       this.currentUserIsGrader = this.answerBook.grader === this.user.id
     },
@@ -209,14 +214,14 @@ export default {
         })
     },
     submitScore (index) {
-      this.questionInputs[index].loading = true
-      APIGateway.answerSheet.submitScore(this.$route.params.answer_book_id, this.questionInputs[index])
+      this.scores[index].loading = true
+      APIGateway.answerSheet.submitScore(this.$route.params.answer_book_id, this.scores[index].score)
         .then(() => {
-          this.questionInputs[index].loading = false
+          this.scores[index].loading = false
           this.getAnswerBook()
         })
         .catch(() => {
-          this.questionInputs[index].loading = false
+          this.scores[index].loading = false
         })
     },
     getAnswerBook () {

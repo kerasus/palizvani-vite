@@ -10,6 +10,7 @@ export default class AnswerBookAPI extends APIRepository {
       byId: (id) => '/lma/answer_books/' + id,
       confirmAnswers: (id) => '/lma/answer_books/' + id + '/confirm_answers',
       setGraderToMe: (id) => '/lma/answer_books/' + id + '/set_grader_to_me',
+      submitObjectionResult: (id) => '/lma/answer_books/' + id + '/submit_objection_result',
       submitObjectionRequest: (id) => '/lma/answer_books/' + id + '/submit_objection_request',
       getTestQuestions: (id) => '/lma/answer_books/' + id + '/get_test_questions',
       submitOverallAnswer: (id) => '/lma/answer_books/' + id + '/submit_overall_answer'

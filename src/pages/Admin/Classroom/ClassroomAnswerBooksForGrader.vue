@@ -13,7 +13,7 @@ export default {
   mixins: [mixinPageOptions],
   data: () => {
     return {
-      sections: [{ data: { rows: [{ cols: [{ widgets: [{ name: 'AdminClassroomAnswerBookList' }] }] }] } }]
+      sections: [{ data: { rows: [{ cols: [{ widgets: [{ name: 'ClassroomAnswerBookList' }] }] }] } }]
     }
   },
   created() {

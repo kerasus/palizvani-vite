@@ -26,8 +26,8 @@
           <q-btn size="md"
                  outline
                  color="grey"
-                 label="تصحیح" />
-          <!--          :to="{name: 'Admin.Classroom.TestSet.Test.AnswerBooks.ShowGrade', params: {classroom_id: classroomId, answer_book_id: inputData.props.row.id}}"-->
+                 label="تصحیح"
+                 :to="{name: 'Admin.Classroom.Test.AnswerBooks.Index', params: {classroom_id: classroomId, test_id: inputData.props.row.id}}" />
         </div>
       </template>
       <template v-else-if="inputData.col.name === 'actions'">
