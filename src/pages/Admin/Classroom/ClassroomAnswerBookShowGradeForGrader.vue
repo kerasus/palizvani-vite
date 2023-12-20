@@ -9,11 +9,11 @@
 import { mixinPageOptions } from 'src/mixin/Mixins.js'
 
 export default {
-  name: 'Admin.Classroom.TestSet.Test.AnswerBooks.ShowGrade',
+  name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade',
   mixins: [mixinPageOptions],
   data: () => {
     return {
-      sections: [{ data: { rows: [{ cols: [{ widgets: [{ name: 'AdminAnswerBookShow' }] }] }] } }]
+      sections: [{ data: { rows: [{ cols: [{ widgets: [{ name: 'ShowTestGradeForGrader' }] }] }] } }]
     }
   },
   created() {

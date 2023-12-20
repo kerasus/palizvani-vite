@@ -27,6 +27,7 @@
                  outline
                  color="grey"
                  label="تصحیح" />
+          <!--          :to="{name: 'Admin.Classroom.TestSet.Test.AnswerBooks.ShowGrade', params: {classroom_id: classroomId, answer_book_id: inputData.props.row.id}}"-->
         </div>
       </template>
       <template v-else-if="inputData.col.name === 'actions'">

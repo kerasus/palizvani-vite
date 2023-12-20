@@ -344,7 +344,7 @@ const routes = [
                 children: [
                   { name: 'UserPanel.Classroom.MyAsGraderClassroom.Index', path: '', component: () => import('src/pages/Admin/Classroom/MyAsGraderClassrooms.vue') },
                   { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks', path: ':classroom_id/answer_books', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBooks.vue') },
-                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', path: ':classroom_id/answer_books/:answer_book_id/show_grades', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookShowGrade.vue') },
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', path: ':classroom_id/answer_books/:answer_book_id/show_grades', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookShowGradeForGrader.vue') },
                   { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.SubmitGrade', path: ':classroom_id/answer_books/:answer_book_id/submit_grade', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookSubmitGrade.vue') }
                 ]
               }
@@ -680,7 +680,9 @@ const routes = [
                     children: [
                       { name: 'Admin.Classroom.TestSet.Index', path: '', component: () => import('src/pages/Admin/TestSet/Index.vue') },
                       { name: 'Admin.Classroom.TestSet.Test.Show', path: ':test_set_id/test/:id', component: () => import('src/pages/Admin/Test/Show.vue') },
-                      { name: 'Admin.Classroom.TestSet.Test.Create', path: ':test_set_id/test/create', component: () => import('src/pages/Admin/Test/Create.vue') }
+                      { name: 'Admin.Classroom.TestSet.Test.Create', path: ':test_set_id/test/create', component: () => import('src/pages/Admin/Test/Create.vue') },
+                      { name: 'Admin.Classroom.TestSet.Test.AnswerBooks.Index', path: 'answer_books', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookShowGrade.vue') },
+                      { name: 'Admin.Classroom.TestSet.Test.AnswerBooks.ShowGrade', path: 'answer_books/:answer_book_id/show_grades', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookShowGrade.vue') }
                     ]
                   }
                 ]

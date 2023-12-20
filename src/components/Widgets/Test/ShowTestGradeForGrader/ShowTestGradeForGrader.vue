@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminShowTestGrade"
+  <div class="ShowTestGradeForGrader"
        :style="localOptions.style">
     <q-card v-if="!answerBook.loading && answerBook.id">
       <q-card-section class="flex justify-between">
@@ -145,7 +145,7 @@ import { AnswerBook } from 'src/models/AnswerBook.js'
 import { mixinWidget, mixinAuth } from 'src/mixin/Mixins.js'
 
 export default {
-  name: 'AdminShowTestGrade',
+  name: 'ShowTestGradeForGrader',
   components: { EntityShow, EntityEdit },
   mixins: [mixinWidget, mixinAuth],
   data () {
@@ -235,7 +235,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminShowTestGrade {
+.ShowTestGradeForGrader {
   :deep(.q-banner) {
     background: #FCF9F4 0 0 no-repeat padding-box;
     padding: 20px;
