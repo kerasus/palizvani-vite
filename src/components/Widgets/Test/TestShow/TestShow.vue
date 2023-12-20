@@ -70,7 +70,7 @@
                      :show-reload-button="false"
                      :default-layout="false" />
       </div>
-      <template v-if="$route.query.send_objection && $route.query.send_objection.toString() === '1'">
+      <template v-if="$route.query.send_objection && $route.query.send_objection.toString() === '1' && answerBook.is_enabled_objecting">
         <q-separator class="q-my-xl" />
         <q-card-section>
           <entity-edit v-if="mounted"
@@ -106,6 +106,7 @@
         </div>
         <div v-html="answerBook.objection_result" />
       </template>
+
     </q-card>
     <div v-else>
       کمی صبر کنید...

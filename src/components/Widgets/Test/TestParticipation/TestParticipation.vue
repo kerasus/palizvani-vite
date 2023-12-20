@@ -107,9 +107,9 @@ export default {
       return this.$route.name === 'UserPanel.Test.AnswerBook.Participate.SingleQuestion' && this.$route.params.question_number === 'complete'
     },
     formattedRemainingTime () {
-      const hours = Math.floor(this.remainingTime / 3600)
-      const minutes = Math.floor((this.remainingTime % 3600) / 60)
-      const seconds = this.remainingTime % 60
+      const hours = Math.max(Math.floor(this.remainingTime / 3600), 0)
+      const minutes = Math.max(Math.floor((this.remainingTime % 3600) / 60), 0)
+      const seconds = Math.max(this.remainingTime % 60, 0)
 
       // Add zero padding for hours, minutes, and seconds
       const formattedHours = hours.toString().padStart(2, '0')
@@ -166,7 +166,7 @@ export default {
       const timeDiffInSeconds = timeDiffInMilliseconds / 1000
 
       // Calculate the remaining time in seconds considering the duration
-      return (durationInMinutes * 60) - timeDiffInSeconds
+      return Math.floor((durationInMinutes * 60) - timeDiffInSeconds)
     },
     startTimer () {
       this.timerInterval = setInterval(() => {
@@ -210,7 +210,9 @@ export default {
       this.answerBook = new AnswerBook(answerBook)
       this.answerBook.loading = false
       // this.answerBook.server_time = '2023-12-15T23:57:46.909211'
+      // this.answerBook.server_time = '2023-12-20T07:08:42.923512'
       // this.answerBook.attending_start_time = '2023-12-15T23:27:46.909211'
+      // this.answerBook.attending_start_time = '2023-12-19T21:22:14.384151'
       this.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
       this.$store.commit('Test/updateAnswerBook', this.answerBook)
       this.startTimer()
