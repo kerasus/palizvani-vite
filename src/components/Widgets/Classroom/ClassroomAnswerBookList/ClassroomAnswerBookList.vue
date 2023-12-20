@@ -36,12 +36,12 @@ import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { Test } from 'src/models/Test.js'
 import Enums from 'src/assets/Enums/Enums.js'
-// import ShamsiDate from 'src/assets/ShamsiDate.js'
-import { mixinWidget } from 'src/mixin/Mixins.js'
+import { mixinWidget, mixinAuth } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+// import ShamsiDate from 'src/assets/ShamsiDate.js'
+import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { UnitCategory } from 'src/models/UnitCategory.js'
-import { FormBuilderAssist } from 'quasar-form-builder'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -50,7 +50,7 @@ export default {
   components: {
     EntityIndex
   },
-  mixins: [mixinWidget],
+  mixins: [mixinWidget, mixinAuth],
   data () {
     return {
       mounted: false,
@@ -74,6 +74,7 @@ export default {
           col: 'col-md-4 col-12'
         },
         { type: 'hidden', name: 'test__classroom', value: this.$route.params.classroom_id },
+        { type: 'hidden', name: 'grader', value: null },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       table: {
@@ -153,6 +154,10 @@ export default {
     }
   },
   computed: {
+    selectedStatus () {
+      const target = FormBuilderAssist.getInputsByName(this.inputs, 'status')
+      return target?.value
+    },
     classroomTypeTitle () {
       const unitCategory = new UnitCategory({ type: this.localOptions.classroomType })
       return unitCategory.type_info.label
@@ -174,6 +179,16 @@ export default {
         return 'Admin.Event.Show'
       }
       return 'Admin.Classroom.Show'
+    }
+  },
+  watch: {
+    selectedStatus (newValue) {
+      let grader = this.user.id
+      if (newValue === 'ONGOING') {
+        grader = null
+      }
+
+      FormBuilderAssist.setAttributeByName(this.inputs, 'grader', 'value', grader)
     }
   },
   mounted () {
