@@ -609,6 +609,13 @@ export default {
             field: row => row.id
           },
           {
+            name: 'id',
+            required: true,
+            label: 'شناسه آزمون',
+            align: 'left',
+            field: row => row.test_info.id
+          },
+          {
             name: 'title',
             required: true,
             label: 'عنوان آزمون',
