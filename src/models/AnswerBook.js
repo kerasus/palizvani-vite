@@ -47,6 +47,7 @@ class AnswerBook extends Model {
       { key: 'server_time' },
       { key: 'attending_start_time' },
       { key: 'status' },
+      { key: 'remainingTime' },
       {
         key: 'is_enabled_attending',
         default: false

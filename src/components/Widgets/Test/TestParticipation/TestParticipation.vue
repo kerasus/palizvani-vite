@@ -119,9 +119,6 @@ export default {
       return formattedHours + ':' + formattedMinutes + ':' + formattedSeconds
     }
   },
-  beforeUnmount() {
-    this.$store.commit('Test/updateAnswerBook', null)
-  },
   mounted () {
     // this.getAnswerBook()
     this.getTestQuestions()
@@ -177,6 +174,8 @@ export default {
           this.stopTimer()
         } else {
           this.remainingTime--
+          this.answerBook.remainingTime = this.remainingTime
+          this.$store.commit('Test/updateAnswerBook', this.answerBook)
         }
       }, 1000)
     },
@@ -209,21 +208,20 @@ export default {
           this.backToClassList()
         })
     },
-    initPageFromAnswerBook (answerBook) {
+    initPageFromAnswerBook (answerBook, setRemainingTime = true) {
       this.answerBook = new AnswerBook(answerBook)
       this.answerBook.loading = false
-      // this.answerBook.server_time = '2023-12-15T23:57:46.909211'
-      // this.answerBook.server_time = '2023-12-20T07:08:42.923512'
-      // this.answerBook.attending_start_time = '2023-12-15T23:27:46.909211'
-      // this.answerBook.attending_start_time = '2023-12-19T21:22:14.384151'
-      this.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
+      if (this.answerBook.remainingTime === null) {
+        this.answerBook.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
+      }
+      this.remainingTime = this.answerBook.remainingTime
       this.$store.commit('Test/updateAnswerBook', this.answerBook)
       this.startTimer()
     },
     getTestQuestions () {
       this.loadAnswerBookFromStore()
       if (this.storeAnswerBook && this.storeAnswerBook.id) {
-        this.initPageFromAnswerBook(this.storeAnswerBook)
+        this.initPageFromAnswerBook(this.storeAnswerBook, false)
         return
       }
       this.answerBook.loading = true
