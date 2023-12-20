@@ -119,6 +119,9 @@ export default {
       return formattedHours + ':' + formattedMinutes + ':' + formattedSeconds
     }
   },
+  beforeUnmount() {
+    this.$store.commit('Test/updateAnswerBook', null)
+  },
   mounted () {
     // this.getAnswerBook()
     this.getTestQuestions()

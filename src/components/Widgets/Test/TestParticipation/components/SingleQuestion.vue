@@ -13,8 +13,8 @@
           </q-badge>
         </span>
 
-        <span v-if="question?.question_info"
-              v-html="question.question_info.text" />
+        <span v-if="question.text"
+              v-html="question.text" />
       </div>
       <q-separator class="q-my-lg" />
       <q-card-actions class="flex justify-end SingleQuestionForm">
@@ -82,9 +82,13 @@ export default {
     isLastQuestion () {
       return this.answerBook.test_info.test_set_info.test_set_questions.length === this.questionNumber
     },
+    testSetQuestion () {
+      // return this.answerBook.test_info.test_set_info.test_set_questions[this.questionNumber - 1]
+      return this.answerBook.answer_sheet_info.list[this.questionNumber - 1].test_set_question_info
+    },
     question () {
       // return this.answerBook.test_info.test_set_info.test_set_questions[this.questionNumber - 1]
-      return this.answerBook.answer_sheet_info.list[this.questionNumber - 1].test_set_question_info.question_info
+      return this.testSetQuestion.question_info
     }
   },
   mounted () {
@@ -119,7 +123,7 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnFinal', 'atClick', () => { this.sendAnswer('final') })
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnNext', 'atClick', () => { this.sendAnswer('next') })
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnPrev', 'atClick', () => { this.sendAnswer('prev') })
-      FormBuilderAssist.setAttributeByName(this.inputs, 'test_set_question', 'value', this.question?.id)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'test_set_question', 'value', this.testSetQuestion?.id)
     },
     sendAnswer (actionType) {
       const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value

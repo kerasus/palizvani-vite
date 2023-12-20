@@ -146,43 +146,26 @@
               {{ inputData.rowNumber }}
             </template>
             <template v-else-if="inputData.col.name === 'action'">
-              <q-btn flat
-                     icon="more_vert">
-                <q-menu>
-                  <q-list separator>
-                    <q-item v-if="inputData.props.row.is_enabled_attending"
-                            v-close-popup
-                            :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}"
-                            clickable>
-                      <q-item-section>شرکت در آزمون</q-item-section>
-                    </q-item>
-                    <q-item v-if="inputData.props.row.is_enabled_continuing"
-                            v-close-popup
-                            clickable
-                            :to="{name: 'UserPanel.Test.AnswerBook.Participate.AllQuestions', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}">
-                      <q-item-section>ادامه آزمون(تمام سوالها)</q-item-section>
-                    </q-item>
-                    <q-item v-if="inputData.props.row.is_enabled_continuing"
-                            v-close-popup
-                            clickable
-                            :to="{name: 'UserPanel.Test.AnswerBook.Participate.SingleQuestion', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id, question_number: 1}}">
-                      <q-item-section>ادامه آزمون(تک سوال)</q-item-section>
-                    </q-item>
-                    <q-item v-if="inputData.props.row.is_enabled_objecting"
-                            v-close-popup
-                            clickable
-                            :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}, query: { send_objection: 1}}">
-                      <q-item-section>ثبت اعتراض</q-item-section>
-                    </q-item>
-                    <q-item v-if="inputData.props.row.is_enabled_viewing"
-                            v-close-popup
-                            clickable
-                            :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}">
-                      <q-item-section>مشاهده</q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </q-btn>
+              <q-btn v-if="inputData.props.row.is_enabled_attending"
+                     size="md"
+                     color="primary"
+                     label="شرکت در آزمون"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
+              <q-btn v-if="inputData.props.row.is_enabled_continuing"
+                     size="md"
+                     color="primary"
+                     label="ادامه آزمون"
+                     @click="showParticipateTypeDialog(inputData.props.row.test, inputData.props.row.id)" />
+              <q-btn v-if="inputData.props.row.is_enabled_objecting"
+                     size="md"
+                     color="primary"
+                     label="ثبت اعتراض"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}, query: { send_objection: 1}}" />
+              <q-btn v-if="inputData.props.row.is_enabled_viewing"
+                     size="md"
+                     color="primary"
+                     label="مشاهده"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
             </template>
             <template v-else>
               {{ inputData.col.value }}
@@ -207,6 +190,37 @@
         <q-skeleton v-else
                     type="rect"
                     height="200px" />
+        <q-dialog v-model="participateTypeDialog">
+          <q-card>
+            <q-card-actions>
+              نحوه پاسخ به آزمون
+            </q-card-actions>
+            <q-separator />
+            <q-card-actions>
+              <div>
+                اندیشه جوی عزیز لطفا نحوه پاسخ به سوالات آزمون را مشخص کنید
+              </div>
+              <div>
+                <q-radio v-model="participateType"
+                         val="UserPanel.Test.AnswerBook.Participate.AllQuestions"
+                         label="مایلم پاسخ سوالات را به صورت یک فایل جامع بارگزاری کنم" />
+                <q-radio v-model="participateType"
+                         val="UserPanel.Test.AnswerBook.Participate.SingleQuestion"
+                         label="مایلم پاسخ سوالات را به صورت جداگانه ذیل همان سوال وارد کنم" />
+              </div>
+            </q-card-actions>
+            <q-card-actions>
+              <q-btn v-close-popup
+                     outline
+                     label="انصراف از آزمون"
+                     color="red" />
+              <q-btn :disable="!participateType"
+                     label="تایید و شروع آزمون"
+                     color="primary"
+                     @click="startTest" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </q-tab-panel>
 
       <q-tab-panel name="projects"
@@ -301,6 +315,12 @@ export default {
     // const userId = this.$store.getters['Auth/user'].id
     return {
       mounted: false,
+      selectedTest: {
+        testId: null,
+        answerBookId: null
+      },
+      participateTypeDialog: false,
+      participateType: null,
       tab: 'classroomInfo',
       inputs: [],
       sessionsInputs: [
@@ -685,6 +705,15 @@ export default {
     FormBuilderAssist.setAttributeByName(this.testListInputs, 'owner', 'value', this.user.id)
   },
   methods: {
+    showParticipateTypeDialog (testId, answerBookId) {
+      this.$store.commit('Test/updateAnswerBook', null)
+      this.selectedTest.testId = testId
+      this.selectedTest.answerBookId = answerBookId
+      this.participateTypeDialog = true
+    },
+    startTest () {
+      this.$router.push({ name: this.participateType, params: { test_id: this.selectedTest.testId, answer_book_id: this.selectedTest.answerBookId, question_number: 1 } })
+    },
     getTeamJoinStatusLabel (team) {
       if (team.join_status === 'ENABLED') {
         return 'عضو شوید'

@@ -70,7 +70,7 @@
                      :show-reload-button="false"
                      :default-layout="false" />
       </div>
-      <template v-if="$route.query.send_objection && $route.query.send_objection.toString() === '1' && answerBook.is_enabled_objecting">
+      <template v-if="$route.query.send_objection && $route.query.send_objection.toString() === '1' && !answerBook.objection_request && answerBook.is_enabled_objecting">
         <q-separator class="q-my-xl" />
         <q-card-section>
           <entity-edit v-if="mounted"
@@ -95,10 +95,13 @@
         </q-card-section>
       </template>
       <template v-else-if="answerBook.objection_request">
-        <div>
-          متن اعتراض:
-        </div>
-        <div v-html="answerBook.objection_request" />
+        <q-separator class="q-my-lg" />
+        <q-card-section>
+          <div>
+            متن اعتراض:
+          </div>
+          <div v-html="answerBook.objection_request.toString().replace(/(?:\r\n|\r|\n)/g, '<br>')" />
+        </q-card-section>
       </template>
       <template v-if="answerBook.objection_result">
         <div>
