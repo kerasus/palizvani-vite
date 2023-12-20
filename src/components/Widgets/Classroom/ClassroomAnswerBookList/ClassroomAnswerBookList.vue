@@ -64,13 +64,13 @@ export default {
           name: 'status',
           clearable: false,
           options: [
-            { label: 'جاری', value: 'ONGOING' },
+            { label: 'جاری', value: 'CREATED,FETCHED,SUBMITTED' },
             { label: 'در حال تصحیح', value: 'GRADING' },
             { label: 'تصحیح شده', value: 'GRADED' }
           ],
           label: 'وضعیت',
           placeholder: ' ',
-          value: 'ONGOING',
+          value: 'CREATED,FETCHED,SUBMITTED',
           col: 'col-md-4 col-12'
         },
         { type: 'hidden', name: 'test__classroom', value: this.$route.params.classroom_id },
@@ -184,7 +184,7 @@ export default {
   watch: {
     selectedStatus (newValue) {
       let grader = this.user.id
-      if (newValue === 'ONGOING') {
+      if (newValue === 'CREATED,FETCHED,SUBMITTED') {
         grader = null
       }
 
