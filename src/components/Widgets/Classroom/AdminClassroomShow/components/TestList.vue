@@ -160,26 +160,11 @@ export default {
       return 'Admin.Classroom.Session.AttendanceSheetList'
     }
   },
-  created() {
-    this.setInputs()
-  },
   mounted () {
     this.setClassroomTypeOfInputs()
     this.mounted = true
   },
   methods: {
-    setInputs () {
-      if (this.classroomType === 'TRAINING') {
-        this.testListInputs = [
-          { type: 'hidden', name: 'classroom', value: this.classroomId }
-        ]
-      }
-      if (this.classroomType === 'EVENT') {
-        this.testListInputs = [
-          { type: 'hidden', name: 'event', value: this.classroomId }
-        ]
-      }
-    },
     setClassroomTypeOfInputs () {
       if (this.classroomType === 'TRAINING') {
         this.listTitle = 'لیست آزمون ها'
