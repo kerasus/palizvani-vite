@@ -13,7 +13,7 @@
       <q-btn color="primary"
              outline
              :loading="addNewSessionLoading"
-             :to="{name: 'Admin.Classroom.TestSet.Index', params: {classroom_id: classroomId}}">
+             :to="{name: 'Admin.Classroom.TestSet.Index', params: {classroom_id: classroomId, unit_id: classroom.unit}}">
         {{ addBtnTitle }}
       </q-btn>
     </template>
@@ -53,6 +53,7 @@
 import { EntityIndex } from 'quasar-crud'
 import { Test } from 'src/models/Test.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom'
 
 export default {
   name: 'TestList',
@@ -67,6 +68,10 @@ export default {
     classroomType: {
       type: String,
       default: 'TRAINING'
+    },
+    classroom: {
+      type: Classroom,
+      default: new Classroom()
     }
   },
   data () {

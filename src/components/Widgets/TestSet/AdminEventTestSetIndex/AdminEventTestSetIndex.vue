@@ -33,10 +33,16 @@
           <div class="action-column-entity-index">
             <q-btn size="md"
                    color="primary"
-                   label="انتخاب"
+                   label="مشاهده"
                    :to="{name: 'Admin.Event.TestSet.Show', params: {test_set_id:inputData.props.row.id}}"
-                   :loading="createInvoiceLoading"
+                   :loading="loading"
                    class="q-mr-md" />
+            <!--            <q-btn size="md"-->
+            <!--                   color="primary"-->
+            <!--                   label="انتخاب"-->
+            <!--                   :loading="loading"-->
+            <!--                   class="q-mr-md"-->
+            <!--                   @click="selectTestSet(inputData.props.row.id)" />-->
           </div>
         </template>
         <template v-else>
@@ -67,7 +73,7 @@ export default {
   data () {
     return {
       mounted: false,
-      createInvoiceLoading: false,
+      loading: false,
       classroom: new Classroom(),
 
       dropClassroomByAdminLoading: false,
@@ -146,6 +152,13 @@ export default {
   methods: {
     setMembersListActionBtn () {
       FormBuilderAssist.setAttributeByName(this.testSetListInputs, 'btn', 'atClick', this.searchMembersList)
+    },
+    selectTestSet () {
+      // this.loading = true
+      // APIGateway.test.createTestForEvent (testTitle, eventId, tstSetId)
+      // .then(()=>{
+      //   this.loading = false
+      // })
     },
     searchMembersList () {
       this.$refs.testSetList.search()

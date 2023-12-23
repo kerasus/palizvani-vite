@@ -61,42 +61,43 @@
                    class="q-pa-none">
         <classroom-info v-model:classroom="classroom"
                         :classroom-type="localOptions.classroomType"
-                        :classroom-id="$route.params.id" />
+                        :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="sessions"
                    class="q-pa-none">
-        <session-list :classroom-id="$route.params.id"
+        <session-list :classroom-id="parseInt($route.params.id)"
                       :classroom-type="localOptions.classroomType" />
       </q-tab-panel>
 
       <q-tab-panel name="projects"
                    class="q-pa-none">
-        <project-list :classroom-id="$route.params.id" />
+        <project-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="exams"
                    class="q-pa-none">
-        <test-list :classroom-id="$route.params.id"
+        <test-list :classroom="classroom"
+                   :classroom-id="parseInt($route.params.id)"
                    :classroom-type="localOptions.classroomType" />
       </q-tab-panel>
       <q-tab-panel name="members"
                    class="q-pa-none">
-        <members-list :classroom-id="$route.params.id" />
+        <members-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="teams"
                    class="q-pa-none">
-        <team-list :classroom-id="$route.params.id" />
+        <team-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="graders"
                    class="q-pa-none">
-        <grader-list :classroom-id="$route.params.id" />
+        <grader-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="leaders"
                    class="q-pa-none">
-        <leader-list :classroom-id="$route.params.id" />
+        <leader-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="activity_sheet"
                    class="q-pa-none">
-        <activity-sheet-list :classroom-id="$route.params.id" />
+        <activity-sheet-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="live_streaming_url">
         <live-streaming :classroom="classroom" />

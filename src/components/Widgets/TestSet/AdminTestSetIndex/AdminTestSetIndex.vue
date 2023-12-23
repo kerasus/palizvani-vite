@@ -67,6 +67,7 @@ export default {
       dropClassroomByAdminLoading: false,
       exportReportLoading: false,
       testSetListInputs: [
+        { type: 'hidden', name: 'unit', value: this.$route.params.unit_id },
         { type: 'hidden', name: 'classroom', value: this.$route.params.classroom_id }
       ],
       testSetListApi: APIGateway.testSet.APIAdresses.base,

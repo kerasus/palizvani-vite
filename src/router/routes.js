@@ -669,7 +669,7 @@ const routes = [
               { name: 'Admin.Classroom.Team.Show', path: ':classroom_id/team/:team_id', component: () => import('src/pages/Admin/Classroom/Team/show.vue') },
               { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } },
 
-              { name: 'Admin.Classroom.TestSet.Index', path: ':classroom_id/test_set', component: () => import('src/pages/Admin/TestSet/Index.vue') },
+              { name: 'Admin.Classroom.TestSet.Index', path: ':classroom_id/unit/:unit_id/test_set', component: () => import('src/pages/Admin/TestSet/Index.vue') },
               { name: 'Admin.Classroom.TestSet.Test.Show', path: ':classroom_id/test_set/:test_set_id/test/:id', component: () => import('src/pages/Admin/Test/Show.vue') },
               { name: 'Admin.Classroom.TestSet.Test.Create', path: ':classroom_id/test_set/:test_set_id/test/create', component: () => import('src/pages/Admin/Test/Create.vue') },
 
@@ -702,7 +702,9 @@ const routes = [
 
               { name: 'Admin.Event.TestSet.Questions.Index', path: 'test_set/:test_set_id/questions', component: () => import('src/pages/Admin/Event/Question/Index.vue') },
               { name: 'Admin.Event.TestSet.Questions.Create', path: 'test_set/questions/create', component: () => import('src/pages/Admin/Event/Question/Create.vue') },
-              { name: 'Admin.Event.TestSet.Questions.Show', path: 'test_set/questions/:question_id', component: () => import('src/pages/Admin/Event/Question/Show.vue') }
+              { name: 'Admin.Event.TestSet.Questions.Show', path: 'test_set/questions/:question_id', component: () => import('src/pages/Admin/Event/Question/Show.vue') },
+
+              { name: 'Admin.Event.TestSet.Test.Create', path: ':event_id/test_set/:test_set_id/test/create', component: () => import('src/pages/Admin/Event/Question/Show.vue') }
             ]
           },
           {

@@ -68,4 +68,23 @@ export default class TestAPI extends APIRepository {
       }
     })
   }
+
+  createTestForEvent (testTitle, eventId, tstSetId) {
+    return this.sendRequest({
+      apiMethod: 'post',
+      api: this.api,
+      request: this.APIAdresses.base,
+      data: {
+        title: testTitle,
+        event: eventId,
+        test_set: tstSetId
+      },
+      resolveCallback: (response) => {
+        return new Test(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
 }
