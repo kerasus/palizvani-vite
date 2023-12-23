@@ -12,7 +12,7 @@
     <entity-edit v-if="mounted"
                  ref="entityEdit"
                  v-model:value="inputs"
-                 title="مشخصات آزمون"
+                 title="مشخصات پرسشنامه"
                  :api="api"
                  :entity-id-key="entityIdKey"
                  :entity-param-key="entityParamKey"
@@ -50,8 +50,8 @@ export default {
       entityIdKey: 'id',
       entityParamKey: 'id',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان آزمون', placeholder: ' ', col: 'col-md-12 col-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-md-12 col-12' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان پرسشنامه', placeholder: ' ', col: 'col-md-12 col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات پرسشنامه', col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'id', responseKey: 'id' },
         { type: 'hidden', name: 'type', responseKey: 'type', value: 'QUESTIONNAIRE' },
         { type: BtnControlComp, name: 'btnCreateQuestion', responseKey: 'btnCreateQuestion', label: 'تعریف سوال جدید', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
