@@ -68,6 +68,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit('Test/updateAnswerBook', null)
     this.getAnswerBook()
   },
   methods: {

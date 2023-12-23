@@ -707,6 +707,7 @@ export default {
     }
   },
   mounted () {
+    this.$store.commit('Test/updateAnswerBook', null)
     this.getRegistrationInfo()
     this.mounted = true
     FormBuilderAssist.setAttributeByName(this.testListInputs, 'owner', 'value', this.user.id)
