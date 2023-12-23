@@ -74,6 +74,12 @@ export default {
               routeName: 'Admin.Event.Index',
               show: true,
               active: false
+            },
+            {
+              title: 'پرسش نامه ها',
+              routeName: 'Admin.Event.TestSet.Index',
+              show: true,
+              active: false
             }
           ]
         },

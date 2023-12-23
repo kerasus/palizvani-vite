@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminSessionTemplateQuestionShow"
+  <div class="AdminEventQuestionCreate"
        :style="localOptions.style">
     <div class="flex justify-end">
       <q-btn flat
@@ -9,27 +9,27 @@
         >
       </q-btn>
     </div>
-    <entity-edit v-if="mounted"
-                 ref="entityEdit"
-                 v-model:value="inputs"
-                 title="ایجاد سوال جدید"
-                 :api="api"
-                 :entity-id-key="entityIdKey"
-                 :entity-param-key="entityParamKey"
-                 :show-route-name="showRouteName"
-                 :show-close-button="false"
-                 :show-edit-button="false"
-                 :show-expand-button="false"
-                 :show-save-button="false"
-                 :show-reload-button="false"
-                 :redirect-after-edit="false"
-                 :after-load-input-data="afterLoadInputData" />
+    <entity-create v-if="mounted"
+                   ref="entityEdit"
+                   v-model:value="inputs"
+                   title="ایجاد سوال جدید"
+                   :api="api"
+                   :entity-id-key="entityIdKey"
+                   :entity-param-key="entityParamKey"
+                   :show-route-name="showRouteName"
+                   :show-close-button="false"
+                   :show-edit-button="false"
+                   :show-expand-button="false"
+                   :show-save-button="false"
+                   :show-reload-button="false"
+                   :redirect-after-edit="false"
+                   :after-load-input-data="afterLoadInputData" />
   </div>
 </template>
 
 <script>
 import { shallowRef } from 'vue'
-import { EntityEdit } from 'quasar-crud'
+import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { Question } from 'src/models/Question.js'
 import { APIGateway } from 'src/api/APIGateway.js'
@@ -39,26 +39,25 @@ import { FormBuilderAssist } from 'quasar-form-builder'
 const BtnControlComp = shallowRef(BtnControl)
 
 export default {
-  name: 'AdminSessionTemplateQuestionShow',
+  name: 'AdminEventQuestionCreate',
   components: {
-    EntityEdit
+    EntityCreate
   },
   mixins: [mixinWidget],
   data () {
     return {
       mounted: false,
       entityLoading: true,
-      api: APIGateway.question.APIAdresses.byId(this.$route.params.id),
+      api: APIGateway.question.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'Admin.Unit.Questions.Show',
+      showRouteName: 'Admin.Event.TestSet.Questions.Show',
+      loadedData: new Question(),
       inputs: [
         { type: 'input', name: 'text', responseKey: 'text', label: 'سوال', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'correct_answer', responseKey: 'correct_answer', label: 'پاسخ', placeholder: ' ', col: 'col-12' },
-        { type: 'input', name: 'mark', responseKey: 'mark', label: 'بارم پیشنهادی سوال', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'select', name: 'level', responseKey: 'level', label: 'سطح سوال', placeholder: ' ', options: (new Question()).levelEnums, col: 'col-md-3 col-12' },
-        { type: BtnControlComp, name: 'btn', label: 'ویرایش سوال', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
-        { type: 'hidden', name: 'type', responseKey: 'type', value: 'QUESTION_BANK' }
+        { type: BtnControlComp, name: 'btn', label: 'ذخیره سوال', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
+        { type: 'hidden', name: 'type', responseKey: 'type', value: 'EVENT' }
       ]
     }
   },
@@ -75,13 +74,12 @@ export default {
     },
     edit() {
       this.entityLoading = true
-      this.$refs.entityEdit.editEntity(false)
-        .then(() => {
-          this.$refs.entityEdit.getData()
+      this.$refs.entityEdit.createEntity(false)
+        .then((response) => {
+          this.$router.push({ name: 'Admin.Event.TestSet.Questions.Show', params: { question_id: response.data.id } })
           this.entityLoading = false
         })
         .catch(() => {
-          this.$refs.entityEdit.getData()
           this.entityLoading = false
         })
     }
@@ -90,7 +88,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminSessionTemplateQuestionShow {
+.AdminEventQuestionCreate {
   .title {
     font-style: normal;
     font-weight: 700;

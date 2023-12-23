@@ -3,7 +3,7 @@
     <q-banner>
       انتخاب سوال
     </q-banner>
-    <div v-if="!readonly">
+    <div v-if="!readonly && unitId !== false">
       <div class="row q-col-gutter-md q-mt-xs">
         <div class="col-md-4">
           <div>
@@ -59,7 +59,7 @@
             <div class="action-column-entity-index">
               <q-btn color="primary"
                      outline
-                     :to="{ name: 'Admin.Unit.Questions.Show', params: { unit_id: $route.params.unit_id, session_template_id: selectedSessionId, id: inputData.props.row.id } }">
+                     :to="getShowQuestionRoute (inputData.props.row.id, $route.params.unit_id, selectedSessionId)">
                 مشاهده پاسخ
                 <q-icon name="visibility"
                         class="q-ml-md" />
@@ -73,25 +73,35 @@
       </entity-index>
     </div>
     <div class="content-list q-mt-lg">
-      <div class="row">
-        <div class="col-md-4 col-12">
-          تعداد سوالات اجباری انتخاب شده:
-          {{ countOfForceQuestions }}
+      <template v-if="questionType === 'QUESTION_BANK'">
+        <div class="row">
+          <div class="col-md-4 col-12">
+            تعداد سوالات اجباری انتخاب شده:
+            {{ countOfForceQuestions }}
+          </div>
+          <div class="col-md-4 col-12">
+            مجموع بارم‌ها:
+            {{ sumOfTotalMarks }}
+          </div>
+          <div class="col-12" />
+          <div class="col-md-4 col-12">
+            تعداد سوالات اختیاری انتخاب شده:
+            {{ countOfExtraQuestions }}
+          </div>
+          <div class="col-md-4 col-12">
+            مجموع بارم سوالات اختیاری:
+            {{ sumOfExtraMarks }}
+          </div>
         </div>
-        <div class="col-md-4 col-12">
-          مجموع بارم‌ها:
-          {{ sumOfTotalMarks }}
+      </template>
+      <template v-else-if="questionType === 'EVENT'">
+        <div class="row">
+          <div class="col-md-4 col-12">
+            تعداد سوالات انتخاب شده:
+            {{ selectedQuestions.length }}
+          </div>
         </div>
-        <div class="col-12" />
-        <div class="col-md-4 col-12">
-          تعداد سوالات اختیاری انتخاب شده:
-          {{ countOfExtraQuestions }}
-        </div>
-        <div class="col-md-4 col-12">
-          مجموع بارم سوالات اختیاری:
-          {{ sumOfExtraMarks }}
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -126,14 +136,19 @@ export default {
       default: false,
       type: Boolean
     },
+    questionType: {
+      default: 'QUESTION_BANK',
+      type: String
+    },
     unitId: {
       default: null,
-      type: [Number, String]
+      type: [Number, String, Boolean]
     }
   },
   emits: ['update:value'],
   data () {
     return {
+      mounted: false,
       selectedSession: null,
       sessions: new SessionTemplateList(),
       sessionQuestions: new QuestionList(),
@@ -148,68 +163,11 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'type', value: 'QUESTION_BANK' },
+        { type: 'hidden', name: 'type', value: this.questionType },
         { type: 'hidden', name: 'session_template_questions__session_template__unit', value: null }
       ],
       table: {
-        columns: [
-          {
-            name: 'choice',
-            required: true,
-            label: 'انتخاب',
-            align: 'left',
-            field: () => ''
-          },
-          {
-            name: 'number',
-            required: true,
-            label: 'شماره',
-            align: 'left',
-            field: () => ''
-          },
-          {
-            name: 'id',
-            required: true,
-            label: 'شناسه',
-            align: 'left',
-            field: row => row.id
-          },
-          {
-            name: 'text',
-            required: true,
-            label: 'عنوان سوال',
-            align: 'left',
-            field: row => row.text
-          },
-          {
-            name: 'mark',
-            required: true,
-            label: 'بارم',
-            align: 'left',
-            field: row => row.mark
-          },
-          {
-            name: 'level',
-            required: true,
-            label: 'سطح سوال',
-            align: 'left',
-            field: row => new Question(row).level_info.label
-          },
-          {
-            name: 'is_extra_mark',
-            required: true,
-            label: 'سوال امتیازی',
-            align: 'left',
-            field: row => ''
-          },
-          {
-            name: 'action',
-            required: true,
-            label: 'عملیات',
-            align: 'left',
-            field: row => ''
-          }
-        ]
+        columns: []
       }
     }
   },
@@ -279,10 +237,121 @@ export default {
       this.updateloadedQuestionsByArray(newValue, true)
     }
   },
-  mounted() {
-    this.getSessions()
+  created () {
+    if (this.questionType === 'QUESTION_BANK') {
+      this.table.columns = [
+        {
+          name: 'choice',
+          required: true,
+          label: 'انتخاب',
+          align: 'left',
+          field: () => ''
+        },
+        {
+          name: 'number',
+          required: true,
+          label: 'شماره',
+          align: 'left',
+          field: () => ''
+        },
+        {
+          name: 'id',
+          required: true,
+          label: 'شناسه',
+          align: 'left',
+          field: row => row.id
+        },
+        {
+          name: 'text',
+          required: true,
+          label: 'عنوان سوال',
+          align: 'left',
+          field: row => row.text
+        },
+        {
+          name: 'mark',
+          required: true,
+          label: 'بارم',
+          align: 'left',
+          field: row => row.mark
+        },
+        {
+          name: 'level',
+          required: true,
+          label: 'سطح سوال',
+          align: 'left',
+          field: row => new Question(row).level_info.label
+        },
+        {
+          name: 'is_extra_mark',
+          required: true,
+          label: 'سوال امتیازی',
+          align: 'left',
+          field: row => ''
+        },
+        {
+          name: 'action',
+          required: true,
+          label: 'عملیات',
+          align: 'left',
+          field: row => ''
+        }
+      ]
+    } else if (this.questionType === 'EVENT') {
+      this.table.columns = [
+        {
+          name: 'choice',
+          required: true,
+          label: 'انتخاب',
+          align: 'left',
+          field: () => ''
+        },
+        {
+          name: 'number',
+          required: true,
+          label: 'شماره',
+          align: 'left',
+          field: () => ''
+        },
+        {
+          name: 'id',
+          required: true,
+          label: 'شناسه',
+          align: 'left',
+          field: row => row.id
+        },
+        {
+          name: 'text',
+          required: true,
+          label: 'عنوان سوال',
+          align: 'left',
+          field: row => row.text
+        },
+        {
+          name: 'action',
+          required: true,
+          label: 'عملیات',
+          align: 'left',
+          field: row => ''
+        }
+      ]
+    }
+  },
+  mounted () {
+    if (this.questionType === 'QUESTION_BANK') {
+      this.getSessions()
+    } else {
+      this.mounted = true
+    }
   },
   methods: {
+    getShowQuestionRoute (questionId, unitId, selectedSessionId) {
+      if (this.questionType === 'QUESTION_BANK') {
+        return { name: 'Admin.Unit.Questions.Show', params: { unit_id: unitId, session_template_id: selectedSessionId, id: questionId } }
+      } else if (this.questionType === 'EVENT') {
+        return { name: 'Admin.Event.TestSet.Questions.Show', params: { question_id: questionId } }
+      }
+    },
     emitValues () {
       this.localValue = this.selectedQuestions
     },
@@ -295,7 +364,7 @@ export default {
     },
     getSessions () {
       this.sessions.loading = true
-      APIGateway.sessionTemplate.index({ unit: this.unitId, per_page: 999999 })
+      APIGateway.sessionTemplate.index({ unit: this.unitId || null, per_page: 999999 })
         .then((data) => {
           this.sessions = new SessionTemplateList(data.list)
           if (this.sessions.list.length > 0) {
@@ -303,14 +372,16 @@ export default {
           }
           this.filterQuestionList()
           this.sessions.loading = false
+          this.mounted = true
         })
         .catch(() => {
           this.sessions.loading = false
+          this.mounted = true
         })
     },
     getSessionQuestions () {
       this.sessions.loading = true
-      APIGateway.sessionTemplate.index({ unit: this.unitId, per_page: 999999 })
+      APIGateway.sessionTemplate.index({ unit: this.unitId || null, per_page: 999999 })
         .then((data) => {
           this.sessions = new SessionTemplateList(data.list)
           if (this.sessionOptions.length > 0) {
@@ -330,7 +401,7 @@ export default {
         return
       }
       array.forEach(item => {
-        const questionId = item.id || item.question
+        const questionId = item.question || item.id
         const mark = item.mark || 0
         const isExtraMark = item.is_extra_mark || false
         const selected = allSelected

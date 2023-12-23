@@ -160,28 +160,43 @@ export default {
       return 'Admin.Classroom.Session.AttendanceSheetList'
     }
   },
+  created() {
+    this.setInputs()
+  },
   mounted () {
     this.setClassroomTypeOfInputs()
     this.mounted = true
   },
   methods: {
+    setInputs () {
+      if (this.classroomType === 'TRAINING') {
+        this.testListInputs = [
+          { type: 'hidden', name: 'classroom', value: this.classroomId }
+        ]
+      }
+      if (this.classroomType === 'EVENT') {
+        this.testListInputs = [
+          { type: 'hidden', name: 'event', value: this.classroomId }
+        ]
+      }
+    },
     setClassroomTypeOfInputs () {
       if (this.classroomType === 'TRAINING') {
         this.listTitle = 'لیست آزمون ها'
         this.addBtnTitle = 'افزودن آزمون'
       }
       if (this.classroomType === 'EVENT') {
-        this.listTitle = 'لیست برنامه ها'
-        this.addBtnTitle = 'افزودن برنامه'
+        this.listTitle = 'لیست پرسشنامه ها'
+        this.addBtnTitle = 'افزودن پرسشنامه'
         this.testListTable.columns.forEach(col => {
           if (col.name === 'title') {
-            col.label = 'عنوان برنامه'
+            col.label = 'عنوان پرسشنامه'
           }
           if (col.name === 'beginning_time') {
-            col.label = 'زمان شروع برنامه'
+            col.label = 'زمان شروع پرسشنامه'
           }
           if (col.name === 'ending_time') {
-            col.label = 'زمان پایان برنامه'
+            col.label = 'زمان پایان پرسشنامه'
           }
         })
       }

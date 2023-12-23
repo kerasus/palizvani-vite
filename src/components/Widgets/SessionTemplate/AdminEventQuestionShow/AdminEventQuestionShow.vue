@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminSessionTemplateQuestionShow"
+  <div class="AdminEventQuestionShow"
        :style="localOptions.style">
     <div class="flex justify-end">
       <q-btn flat
@@ -31,15 +31,14 @@
 import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
-import { Question } from 'src/models/Question.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import BtnControl from 'src/components/Control/btn.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 
 export default {
-  name: 'AdminSessionTemplateQuestionShow',
+  name: 'AdminEventQuestionShow',
   components: {
     EntityEdit
   },
@@ -48,17 +47,15 @@ export default {
     return {
       mounted: false,
       entityLoading: true,
-      api: APIGateway.question.APIAdresses.byId(this.$route.params.id),
+      api: APIGateway.question.APIAdresses.byId(this.$route.params.question_id),
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'Admin.Unit.Questions.Show',
+      showRouteName: 'Admin.Event.TestSet.Questions.Show',
       inputs: [
         { type: 'input', name: 'text', responseKey: 'text', label: 'سوال', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'correct_answer', responseKey: 'correct_answer', label: 'پاسخ', placeholder: ' ', col: 'col-12' },
-        { type: 'input', name: 'mark', responseKey: 'mark', label: 'بارم پیشنهادی سوال', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'select', name: 'level', responseKey: 'level', label: 'سطح سوال', placeholder: ' ', options: (new Question()).levelEnums, col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', label: 'ویرایش سوال', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
-        { type: 'hidden', name: 'type', responseKey: 'type', value: 'QUESTION_BANK' }
+        { type: 'hidden', name: 'type', responseKey: 'type', value: 'EVENT' }
       ]
     }
   },
@@ -90,7 +87,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminSessionTemplateQuestionShow {
+.AdminEventQuestionShow {
   .title {
     font-style: normal;
     font-weight: 700;

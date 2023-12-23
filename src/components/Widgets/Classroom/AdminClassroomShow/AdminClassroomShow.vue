@@ -198,6 +198,7 @@ export default {
             'classroomInfo',
             'sessions',
             'members',
+            'exams',
             'live_streaming_url'
           ]
         }

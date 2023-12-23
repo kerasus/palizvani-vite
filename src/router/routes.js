@@ -693,41 +693,16 @@ const routes = [
               { name: 'Admin.Event.Project.Show', path: ':classroom_id/project/:project_id', component: () => import('src/pages/Admin/Event/project/show.vue') },
               { name: 'Admin.Event.Project.Members', path: ':classroom_id/project/:project_id/members', component: () => import('src/pages/Admin/Event/project/members.vue') },
               { name: 'Admin.Event.projectAttendanceSheets.Show', path: ':classroom_id/project/:project_id/projectAttendanceSheet/:project_attendance_sheets_id', component: () => import('src/pages/Admin/Event/ProjectAttendanceSheet/show.vue') },
-              { name: 'Admin.Event.Project', path: ':id', component: () => import('src/pages/Admin/Event/show.vue') },
-              { name: 'Admin.Event.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Event/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+              // { name: 'Admin.Event.Project', path: ':id', component: () => import('src/pages/Admin/Event/show.vue') },
+              { name: 'Admin.Event.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Event/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } },
 
-              // {
-              //   name: 'Admin.Event.TestSet',
-              //   path: ':event_id/test_set',
-              //   component: () => import('src/layouts/bareLayout.vue'),
-              //   children: [
-              //     { name: 'Admin.Event.TestSet.Show', path: ':id', component: () => import('src/pages/Admin/TestSet/Show.vue') },
-              //     { name: 'Admin.Event.TestSet.Create', path: 'create', component: () => import('src/pages/Admin/TestSet/Create.vue') },
-              //     {
-              //       name: 'Admin.Event.TestSet.Questions',
-              //       path: ':test_set_id/questions',
-              //       component: () => import('src/layouts/bareLayout.vue'),
-              //       children: [
-              //         { name: 'Admin.Event.TestSet.Questions.Index', path: '', component: () => import('src/pages/Admin/Unit/QuestionsList.vue') },
-              //         { name: 'Admin.Event.TestSet.Questions.Create', path: 'create', component: () => import('src/pages/Admin/Unit/QuestionsCreate.vue') },
-              //         { name: 'Admin.Event.TestSet.Questions.Show', path: ':id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') }
-              //       ]
-              //     }
-              //   ]
-              // }
+              { name: 'Admin.Event.TestSet.Index', path: 'test_set', component: () => import('src/pages/Admin/Event/Test/Index.vue') },
+              { name: 'Admin.Event.TestSet.Create', path: 'test_set/create', component: () => import('src/pages/Admin/Event/Test/Create.vue') },
+              { name: 'Admin.Event.TestSet.Show', path: 'test_set/:test_set_id', component: () => import('src/pages/Admin/Event/Test/Show.vue') },
 
-              // {
-              //   name: 'Admin.Event.Questions',
-              //   path: ':event_id/test_set/:test_set_id/questions',
-              //   component: () => import('src/layouts/bareLayout.vue'),
-              //   children: [
-              //     { name: 'Admin.Event.Questions.Index', path: '', component: () => import('src/pages/Admin/Unit/QuestionsList.vue') },
-              //     { name: 'Admin.Event.Questions.Create', path: 'create', component: () => import('src/pages/Admin/Unit/QuestionsCreate.vue') }
-              //     // { name: 'Admin.Unit.Questions.Show', path: ':id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') }
-              //   ]
-              // },
-              // { name: 'Admin.Event.Questions.Show', path: ':event_id/questions/:id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') }
-
+              { name: 'Admin.Event.TestSet.Questions.Index', path: 'test_set/:test_set_id/questions', component: () => import('src/pages/Admin/Event/Question/Index.vue') },
+              { name: 'Admin.Event.TestSet.Questions.Create', path: 'test_set/questions/create', component: () => import('src/pages/Admin/Event/Question/Create.vue') },
+              { name: 'Admin.Event.TestSet.Questions.Show', path: 'test_set/questions/:question_id', component: () => import('src/pages/Admin/Event/Question/Show.vue') }
             ]
           },
           {
