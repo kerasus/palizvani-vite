@@ -11,7 +11,7 @@
     <entity-index v-if="mounted"
                   ref="testSetList"
                   v-model:value="testSetListInputs"
-                  title="لیست آزمون ها"
+                  :title="$route.query.classroom_type === 'EVENT' ? 'لیست پرسشنامه ها' : 'لیست آزمون ها'"
                   :api="testSetListApi"
                   :table="testSetListTable"
                   :table-keys="testSetListTableKeys"
@@ -67,7 +67,8 @@ export default {
       dropClassroomByAdminLoading: false,
       exportReportLoading: false,
       testSetListInputs: [
-        { type: 'hidden', name: 'unit', value: this.$route.params.unit_id },
+        { type: 'hidden', name: 'type', value: this.$route.query.classroom_type === 'EVENT' ? 'QUESTIONNAIRE' : 'EXAM' },
+        { type: 'hidden', name: 'unit', value: this.$route.query.classroom_type === 'EVENT' ? null : this.$route.params.unit_id },
         { type: 'hidden', name: 'classroom', value: this.$route.params.classroom_id }
       ],
       testSetListApi: APIGateway.testSet.APIAdresses.base,
@@ -90,7 +91,7 @@ export default {
           {
             name: 'title',
             required: true,
-            label: 'عنوان آزمون',
+            label: this.$route.query.classroom_type === 'EVENT' ? 'عنوان پرسشنامه' : 'عنوان آزمون',
             align: 'left',
             field: row => row.title
           },

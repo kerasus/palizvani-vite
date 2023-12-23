@@ -13,7 +13,7 @@
       <q-btn color="primary"
              outline
              :loading="addNewSessionLoading"
-             :to="{name: 'Admin.Classroom.TestSet.Index', params: {classroom_id: classroomId, unit_id: classroom.unit}}">
+             :to="{name: 'Admin.Classroom.TestSet.Index', params: {classroom_id: classroomId, unit_id: classroom.unit}, query: { classroom_type: classroomType}}">
         {{ addBtnTitle }}
       </q-btn>
     </template>
