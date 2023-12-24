@@ -5,7 +5,6 @@
     </div>
     <div class="contents">
       <q-input v-model="textInput"
-               :placeholder="placeholder"
                :disable="disable"
                :loading="loading"
                :class="{'verified': state === 'verified'}"
