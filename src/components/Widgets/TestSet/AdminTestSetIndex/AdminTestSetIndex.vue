@@ -27,7 +27,7 @@
             <q-btn size="md"
                    color="primary"
                    label="انتخاب"
-                   :to="{name: 'Admin.Classroom.TestSet.Test.Create', params: {classroom_id: $route.params.classroom_id, test_set_id:inputData.props.row.id}}"
+                   :to="{name: 'Admin.Classroom.TestSet.Test.Create', params: {classroom_id: $route.params.classroom_id, test_set_id:inputData.props.row.id}, query: $route.query}"
                    :loading="createInvoiceLoading"
                    class="q-mr-md" />
           </div>

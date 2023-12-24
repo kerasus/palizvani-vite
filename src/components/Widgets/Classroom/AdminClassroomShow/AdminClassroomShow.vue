@@ -32,7 +32,7 @@
              label="پروژه‌ها" />
       <q-tab v-if="canShowTabPage('exams')"
              name="exams"
-             label="آزمون" />
+             :label="localOptions.classroomType === 'TRAINING' ? 'آزمون' : 'پرسشنامه'" />
       <q-tab v-if="canShowTabPage('members')"
              name="members"
              label="اندیشه جویان" />

@@ -12,7 +12,7 @@
     <entity-create v-if="mounted"
                    ref="entityCreate"
                    v-model:value="inputs"
-                   title="مشخصات آزمون"
+                   :title="$route.query.classroom_type === 'EVENT' ? 'مشخصات پرسشنامه' : 'مشخصات آزمون'"
                    :api="api"
                    :entity-id-key="entityIdKey"
                    :entity-param-key="entityParamKey"
@@ -51,7 +51,7 @@ export default {
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Unit.TestSet.Show',
-      inputs: [
+      classroomInputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-12' },
         { type: 'dateTime', name: 'start_time', responseKey: 'start_time', label: 'زمان شروع آزمون', placeholder: ' ', col: 'col-md-6 col-12' },
@@ -64,7 +64,23 @@ export default {
         { type: 'hidden', name: 'classroom', responseKey: 'classroom', value: this.$route.params.classroom_id },
         { type: UsersOfTestSelectorComp, name: 'examinees', responseKey: 'examinees', classroomId: this.$route.params.classroom_id, col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تعیین جزییات', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
-      ]
+      ],
+      eventInputs: [
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-12' },
+        { type: 'hidden', name: 'event', responseKey: 'event', value: this.$route.params.classroom_id },
+        { type: 'hidden', name: 'test_set', responseKey: 'test_set', value: this.$route.params.test_set_id },
+        { type: 'hidden', name: 'classroom', responseKey: 'classroom', value: this.$route.params.classroom_id },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تعیین جزییات', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
+      ],
+      inputs: []
+    }
+  },
+  created() {
+    if (this.$route.query.classroom_type === 'EVENT') {
+      this.inputs = this.eventInputs
+    } else {
+      this.inputs = this.classroomInputs
     }
   },
   mounted() {
@@ -93,7 +109,11 @@ export default {
       this.entityLoading = true
       this.$refs.entityCreate.createEntity(false)
         .then((response) => {
-          this.$router.push({ name: 'Admin.Classroom.TestSet.Test.Show', params: { classroom_id: this.$route.params.classroom_id, test_set_id: this.$route.params.test_set_id, id: response.data.id } })
+          this.$router.push({
+            name: 'Admin.Classroom.TestSet.Test.Show',
+            params: { classroom_id: this.$route.params.classroom_id, test_set_id: this.$route.params.test_set_id, id: response.data.id },
+            query: this.$route.query
+          })
           this.entityLoading = false
         })
         .catch(() => {

@@ -27,7 +27,7 @@
                  outline
                  color="grey"
                  label="تصحیح"
-                 :to="{name: 'Admin.Classroom.Test.AnswerBooks.Index', params: {classroom_id: classroomId, test_id: inputData.props.row.id}}" />
+                 :to="{name: 'Admin.Classroom.Test.AnswerBooks.Index', params: {classroom_id: classroomId, test_id: inputData.props.row.id}, query: { classroom_type: classroomType}}" />
         </div>
       </template>
       <template v-else-if="inputData.col.name === 'actions'">
@@ -35,7 +35,7 @@
           <q-btn size="md"
                  color="primary"
                  label="جزییات"
-                 :to="{name: 'Admin.Classroom.TestSet.Test.Show', params: {classroom_id: classroomId, test_set_id: inputData.props.row.test_set_info.id, id: inputData.props.row.id}}"
+                 :to="{name: 'Admin.Classroom.TestSet.Test.Show', params: {classroom_id: classroomId, test_set_id: inputData.props.row.test_set_info.id, id: inputData.props.row.id}, query: { classroom_type: classroomType}}"
                  class="q-mr-md" />
         </div>
       </template>
