@@ -5,21 +5,29 @@
       <q-item v-for="(answerSheet, answerSheetIndex) in answerBook.answer_sheet_info.list"
               :key="answerSheetIndex"
               clickable>
-        <q-item-section v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_set_question_info.question_info.text" />
+        <q-item-section>
+          <q-item-label v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_set_question_info.question_info.text" />
+          <q-item-label>
+            <entity-create v-if="mounted"
+                           :ref="'entityCreate_' + answerSheetIndex.toString()"
+                           v-model:value="questionInputs[answerSheetIndex]"
+                           :api="singleQuestionSendAnswerApi"
+                           :default-layout="false"
+                           :show-close-button="false"
+                           :show-edit-button="false"
+                           :show-expand-button="false"
+                           :show-save-button="false"
+                           :show-reload-button="false" />
+          </q-item-label>
+        </q-item-section>
       </q-item>
     </q-list>
     <q-separator class="q-my-lg" />
     <q-card-actions class="flex justify-end AllQuestionsForm">
-      <entity-create v-if="mounted"
-                     ref="entityCreate"
-                     v-model:value="inputs"
-                     :api="api"
-                     :default-layout="false"
-                     :show-close-button="false"
-                     :show-edit-button="false"
-                     :show-expand-button="false"
-                     :show-save-button="false"
-                     :show-reload-button="false" />
+      <q-btn color="primary"
+             @click="confirmAnswers">
+        ارسال پرسشنامه
+      </q-btn>
     </q-card-actions>
   </div>
 </template>
@@ -47,6 +55,8 @@ export default {
   data () {
     return {
       mounted: false,
+      questionInputs: [],
+      singleQuestionSendAnswerApi: APIGateway.answerSheet.APIAdresses.base,
       api: APIGateway.answerBook.APIAdresses.submitOverallAnswer(this.$route.params.answer_book_id),
       inputs: [
         // { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
@@ -65,6 +75,45 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.sendAnswers)
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_text', 'value', this.answerBook.overall_answer_text)
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', this.answerBook.overall_answer_attachment)
+
+      this.answerBook.answer_sheet_info.list.forEach((answerSheetItem, answerSheetIndex) => {
+        this.questionInputs.push([
+          { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
+          { type: 'file', name: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' },
+          { type: 'hidden', name: 'answer_book', value: this.answerBook.id },
+          { type: 'hidden', name: 'test_set_question', value: answerSheetItem.test_set_question },
+          {
+            type: BtnControlComp,
+            name: 'btn',
+            responseKey: 'btn',
+            label: 'ثبت پاسخ',
+            placeholder: ' ',
+            atClick: () => {
+              const entityCreate = this.$refs['entityCreate_' + answerSheetIndex.toString()][0]
+              entityCreate.entityLoading = true
+              entityCreate.createEntity(false)
+                .then(() => {
+                  entityCreate.entityLoading = false
+                })
+                .catch(() => {
+                  entityCreate.entityLoading = false
+                })
+            },
+            col: 'col-12 flex justify-end'
+          }
+        ])
+      })
+    },
+    confirmAnswers () {
+      this.$emit('sending')
+      APIGateway.answerBook.confirmAnswers(this.answerBook.id)
+        .then(() => {
+          this.$emit('sentsuccess')
+        })
+        .catch(() => {
+          debugger
+          this.$emit('sentfailed')
+        })
     },
     sendAnswers () {
       const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value

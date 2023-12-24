@@ -128,8 +128,9 @@
           پرسشنامه
         </q-banner>
         <show-event-test v-if="!eventTestAnswerBook.loading"
-                         :answer-book="eventTestAnswerBook"
-                         @sentsuccess="editEntity" />
+                         :answer-book-id="eventTestAnswerBook.id"
+                         @sentsuccess="editEntity"
+                         @sentfailed="sentTestFailed" />
         <div v-else>
           کمی صبر کنید...
         </div>
@@ -142,7 +143,6 @@
 
 <script>
 import { EntityEdit } from 'quasar-crud'
-import { Test } from 'src/models/Test.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
@@ -166,7 +166,6 @@ export default {
     loading: true,
     classroom: new Classroom(),
     invoice: new Invoice(),
-    eventTest: new Test(),
     eventTestAnswerBook: new AnswerBook(),
 
     api: APIGateway.user.APIAdresses.current,
@@ -272,24 +271,14 @@ export default {
   },
   methods: {
     getEventTest () {
-      this.eventTest.loading = true
-      APIGateway.test.index({ event: this.classroom.id })
-        .then(({ list }) => {
-          this.eventTest = new Test(list.list[0])
-          this.eventTest.loading = false
-          this.getEventTestAnswerBook()
-        })
-        .catch(() => {
-          this.eventTest.loading = false
-        })
-    },
-    getEventTestAnswerBook () {
-      if (!this.eventTest.id) {
+      if (this.classroom.tests && this.classroom.tests.length === 0) {
         return
       }
-
+      this.getEventTestAnswerBook(this.classroom.tests[0])
+    },
+    getEventTestAnswerBook (eventTestId) {
       this.eventTestAnswerBook.loading = true
-      APIGateway.answerBook.getOrCreate({ owner: this.user.id, test: this.eventTest.id })
+      APIGateway.answerBook.getOrCreate(this.user.id, eventTestId)
         .then((answerBook) => {
           this.eventTestAnswerBook = new AnswerBook(answerBook)
           this.eventTestAnswerBook.loading = false
@@ -300,6 +289,10 @@ export default {
     },
     loadClassroomFromStore () {
       this.classroom = this.$store.getters['Shop/onRegisterClassroom']
+    },
+    sentTestFailed () {
+      debugger
+      this.panel = 'userInfo'
     },
     editEntity () {
       if (this.eventTestAnswerBook.id && this.panel !== 'eventTest') {

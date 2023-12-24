@@ -1,6 +1,5 @@
 <template>
-  <div class="ShowEventTest"
-       :style="localOptions.style">
+  <div class="ShowEventTest">
     <q-card v-if="!localAnswerBook.loading && localAnswerBook.id">
       <q-card-section class="flex justify-between">
         <div>{{ localAnswerBook.test_info.title }}</div>
@@ -28,9 +27,9 @@ export default {
   name: 'ShowEventTest',
   components: { AllQuestions },
   props: {
-    answerBook: {
-      type: AnswerBook,
-      default: new AnswerBook()
+    answerBookId: {
+      type: Number,
+      default: null
     }
   },
   emits: ['sending', 'sentsuccess', 'sentfailed'],
@@ -38,6 +37,7 @@ export default {
     return {
       mounted: false,
       participateType: null,
+      localAnswerBook: new AnswerBook(),
       participateTypeDialog: false,
       storeAnswerBook: null,
       remainingTime: 0,
@@ -45,7 +45,6 @@ export default {
     }
   },
   mounted () {
-    this.localAnswerBook = this.answerBook
     this.getTestQuestions()
     this.mounted = true
   },
@@ -59,14 +58,16 @@ export default {
       this.localAnswerBook.loading = false
     },
     onAllQuestionsSentFailed () {
+      debugger
       this.$emit('sentfailed')
       this.localAnswerBook.loading = false
     },
     backToClassList () {
+      this.$emit('sentfailed')
     },
     getAnswerBook () {
       this.localAnswerBook.loading = true
-      APIGateway.answerBook.get(this.$route.params.answer_book_id)
+      APIGateway.answerBook.get(this.answerBookId)
         .then((answerBook) => {
           this.localAnswerBook = new AnswerBook(answerBook)
           if (this.localAnswerBook.test_info.test_set_questions_length === 0) {
@@ -83,13 +84,13 @@ export default {
           this.backToClassList()
         })
     },
-    initPageFromAnswerBook (answerBook, setRemainingTime = true) {
+    initPageFromAnswerBook (answerBook) {
       this.localAnswerBook = new AnswerBook(answerBook)
       this.localAnswerBook.loading = false
     },
     getTestQuestions () {
       this.localAnswerBook.loading = true
-      APIGateway.answerBook.getTestQuestions(this.$route.params.answer_book_id)
+      APIGateway.answerBook.getTestQuestions(this.answerBookId)
         .then((answerBook) => {
           this.initPageFromAnswerBook(answerBook)
         })
