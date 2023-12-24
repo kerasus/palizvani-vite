@@ -80,67 +80,94 @@
       </div>
     </q-card>
 
-    <q-banner class="banner complete-info-form-banner">
-      تکمیل اطلاعات
-    </q-banner>
-    <q-card class="complete-info-form-card">
-      <entity-edit v-if="mounted"
-                   ref="entityEdit"
-                   v-model:value="inputs"
-                   title="اطلاعات کاربری"
-                   :api="api"
-                   :entity-id-key="entityIdKey"
-                   :entity-param-key="entityParamKey"
-                   :show-route-name="showRouteName"
-                   :show-close-button="false"
-                   :show-edit-button="false"
-                   :show-expand-button="false"
-                   :show-save-button="false"
-                   :show-reload-button="false"
-                   :redirect-after-edit="false"
-                   :after-load-input-data="afterLoadInputData" />
-    </q-card>
+    <q-tab-panels v-model="panel"
+                  animated
+                  class="panels">
+      <q-tab-panel name="userInfo">
+        <q-banner class="banner complete-info-form-banner">
+          تکمیل اطلاعات
+        </q-banner>
+        <q-card class="complete-info-form-card">
+          <entity-edit v-if="mounted"
+                       ref="entityEdit"
+                       v-model:value="inputs"
+                       title="اطلاعات کاربری"
+                       :api="api"
+                       :entity-id-key="entityIdKey"
+                       :entity-param-key="entityParamKey"
+                       :show-route-name="showRouteName"
+                       :show-close-button="false"
+                       :show-edit-button="false"
+                       :show-expand-button="false"
+                       :show-save-button="false"
+                       :show-reload-button="false"
+                       :redirect-after-edit="false"
+                       :after-load-input-data="afterLoadInputData" />
+        </q-card>
 
-    <div class="flex justify-end section-edit-btn">
-      <q-btn color="primary"
-             @click="editEntity">
-        تایید و ادامه
-        <svg xmlns="http://www.w3.org/2000/svg"
-             width="18.387"
-             height="11.502"
-             viewBox="0 0 18.387 11.502">
-          <path id="Combined_Shape"
-                data-name="Combined Shape"
-                d="M-9.338,11.408a.748.748,0,0,0,.388-.656V6.5h8.2A.751.751,0,0,0,0,5.75.75.75,0,0,0-.75,5h-8.2V.75A.751.751,0,0,0-9.338.093.769.769,0,0,0-9.7,0a.735.735,0,0,0-.4.115l-7.938,5a.747.747,0,0,0-.35.635.742.742,0,0,0,.35.634l7.938,5a.751.751,0,0,0,.4.116A.746.746,0,0,0-9.338,11.408ZM-10.45,9.392l-5.78-3.641,5.78-3.642Z"
-                transform="translate(18.387)"
-                fill="#fff" />
-        </svg>
-      </q-btn>
-    </div>
+        <div class="flex justify-end section-edit-btn">
+          <q-btn color="primary"
+                 @click="editEntity">
+            تایید و ادامه
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="18.387"
+                 height="11.502"
+                 viewBox="0 0 18.387 11.502">
+              <path id="Combined_Shape"
+                    data-name="Combined Shape"
+                    d="M-9.338,11.408a.748.748,0,0,0,.388-.656V6.5h8.2A.751.751,0,0,0,0,5.75.75.75,0,0,0-.75,5h-8.2V.75A.751.751,0,0,0-9.338.093.769.769,0,0,0-9.7,0a.735.735,0,0,0-.4.115l-7.938,5a.747.747,0,0,0-.35.635.742.742,0,0,0,.35.634l7.938,5a.751.751,0,0,0,.4.116A.746.746,0,0,0-9.338,11.408ZM-10.45,9.392l-5.78-3.641,5.78-3.642Z"
+                    transform="translate(18.387)"
+                    fill="#fff" />
+            </svg>
+          </q-btn>
+        </div>
+      </q-tab-panel>
+
+      <q-tab-panel name="eventTest">
+        <q-banner class="banner complete-info-form-banner">
+          پرسشنامه
+        </q-banner>
+        <show-event-test v-if="!eventTestAnswerBook.loading"
+                         :answer-book="eventTestAnswerBook"
+                         @sentsuccess="editEntity" />
+        <div v-else>
+          کمی صبر کنید...
+        </div>
+      </q-tab-panel>
+
+    </q-tab-panels>
 
   </div>
 </template>
 
 <script>
 import { EntityEdit } from 'quasar-crud'
+import { Test } from 'src/models/Test.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import { Invoice } from 'src/models/Invoice.js'
+import { mixinAuth } from 'src/mixin/Mixins.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { AnswerBook } from 'src/models/AnswerBook.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import ShowEventTest from './components/ShowEventTest.vue'
 
 export default {
   name: 'ShopCompleteInfo',
-  components: { EntityEdit },
+  components: { EntityEdit, ShowEventTest },
+  mixins: [mixinAuth],
   data: () => ({
     mounted: false,
+    panel: 'userInfo',
     step: false,
     rulesAccept: false,
     rulesDialog: false,
     loading: true,
     classroom: new Classroom(),
     invoice: new Invoice(),
+    eventTest: new Test(),
+    eventTestAnswerBook: new AnswerBook(),
 
     api: APIGateway.user.APIAdresses.current,
     entityIdKey: 'id',
@@ -238,13 +265,47 @@ export default {
   },
   mounted () {
     this.loadClassroomFromStore()
+    if (this.$route.query.source === 'event') {
+      this.getEventTest()
+    }
     this.mounted = true
   },
   methods: {
+    getEventTest () {
+      this.eventTest.loading = true
+      APIGateway.test.index({ event: this.classroom.id })
+        .then(({ list }) => {
+          this.eventTest = new Test(list.list[0])
+          this.eventTest.loading = false
+          this.getEventTestAnswerBook()
+        })
+        .catch(() => {
+          this.eventTest.loading = false
+        })
+    },
+    getEventTestAnswerBook () {
+      if (!this.eventTest.id) {
+        return
+      }
+
+      this.eventTestAnswerBook.loading = true
+      APIGateway.answerBook.getOrCreate({ owner: this.user.id, test: this.eventTest.id })
+        .then((answerBook) => {
+          this.eventTestAnswerBook = new AnswerBook(answerBook)
+          this.eventTestAnswerBook.loading = false
+        })
+        .catch(() => {
+          this.eventTestAnswerBook.loading = false
+        })
+    },
     loadClassroomFromStore () {
       this.classroom = this.$store.getters['Shop/onRegisterClassroom']
     },
     editEntity () {
+      if (this.eventTestAnswerBook.id && this.panel !== 'eventTest') {
+        this.panel = 'eventTest'
+        return
+      }
       this.$refs.entityEdit.editEntity(false)
         .then(() => {
           if (this.$route.query.type === 'register') {
@@ -420,6 +481,9 @@ export default {
         }
       }
     }
+  }
+  :deep(.panels) {
+    background: transparent;
   }
   .section-edit-btn {
     margin-top: 50px;

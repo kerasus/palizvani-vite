@@ -28,7 +28,7 @@ export default class TestAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
-        category: null, // Number
+        event: null, // Number
         per_page: 10, // Number
         page: 1 // Number
       }, data),
