@@ -58,7 +58,6 @@ export default {
       this.localAnswerBook.loading = false
     },
     onAllQuestionsSentFailed () {
-      debugger
       this.$emit('sentfailed')
       this.localAnswerBook.loading = false
     },
