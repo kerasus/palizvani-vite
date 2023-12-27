@@ -291,7 +291,6 @@ export default {
       this.classroom = this.$store.getters['Shop/onRegisterClassroom']
     },
     sentTestFailed () {
-      debugger
       this.panel = 'userInfo'
     },
     editEntity () {

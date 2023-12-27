@@ -111,7 +111,6 @@ export default {
           this.$emit('sentsuccess')
         })
         .catch(() => {
-          debugger
           this.$emit('sentfailed')
         })
     },
