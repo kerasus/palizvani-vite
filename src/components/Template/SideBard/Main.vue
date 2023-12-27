@@ -78,6 +78,11 @@ export default {
               title: 'کتب جریان‌شناسی',
               externalLink: 'https://formafzar.com/form/ch1om',
               show: true
+            },
+            {
+              title: 'کتاب تشکیلات بهشتی',
+              externalLink: 'https://formafzar.com/form/j3x1d',
+              show: true
             }
           ],
           show: false,
