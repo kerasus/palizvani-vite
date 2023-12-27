@@ -46,6 +46,12 @@
                     <q-item-section>کتب سطح یک</q-item-section>
                   </q-item>
                   <q-item v-close-popup
+                          href="https://formafzar.com/form/zmvhh"
+                          target="_blank"
+                          clickable>
+                    <q-item-section>کتب سطح دو</q-item-section>
+                  </q-item>
+                  <q-item v-close-popup
                           href="https://formafzar.com/form/dttpf"
                           target="_blank"
                           clickable>
@@ -58,10 +64,10 @@
                     <q-item-section>کتب جریان‌شناسی</q-item-section>
                   </q-item>
                   <q-item v-close-popup
-                          href="https://formafzar.com/form/j3x1d"
+                          href="https://formafzar.com/form/xskmo"
                           target="_blank"
                           clickable>
-                    <q-item-section>کتاب تشکیلات بهشتی</q-item-section>
+                    <q-item-section>جریان‌شناسی سطح دو</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
