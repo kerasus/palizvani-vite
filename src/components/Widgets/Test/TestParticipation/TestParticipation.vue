@@ -208,11 +208,11 @@ export default {
           this.backToClassList()
         })
     },
-    initPageFromAnswerBook (answerBook, setRemainingTime = true) {
+    initPageFromAnswerBook (answerBook) {
       this.answerBook = new AnswerBook(answerBook)
       this.answerBook.loading = false
       if (this.answerBook.remainingTime === null) {
-        this.answerBook.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.duration)
+        this.answerBook.remainingTime = this.getRemainingTimeInSeconds(this.answerBook.server_time, this.answerBook.attending_start_time, this.answerBook.test_info.duration_deadline)
       }
       this.remainingTime = this.answerBook.remainingTime
       this.$store.commit('Test/updateAnswerBook', this.answerBook)

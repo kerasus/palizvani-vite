@@ -9,6 +9,9 @@ class Test extends Model {
       { key: 'description' },
       { key: 'level' },
       { key: 'unit' },
+      { key: 'start_time' },
+      { key: 'end_time' },
+      { key: 'duration_deadline' },
       { key: 'status' },
       { key: 'test_set' },
       {

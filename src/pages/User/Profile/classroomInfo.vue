@@ -641,7 +641,7 @@ export default {
             required: true,
             label: 'مدت آزمون(دقیقه)',
             align: 'left',
-            field: row => row.duration
+            field: row => row.test_info.duration_deadline
           },
           {
             name: 'test_questions.length',
