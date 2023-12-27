@@ -4,7 +4,8 @@
       لیست کاربران
     </q-banner>
     <div class="content-list q-mt-lg">
-      <entity-index ref="entityIndexQuestions"
+      <entity-index v-if="mounted"
+                    ref="entityIndexQuestions"
                     v-model:value="inputs"
                     :title="'لیست کاربران'"
                     :api="api"
@@ -75,6 +76,7 @@ export default {
   data () {
     return {
       loadedItems: {},
+      mounted: false,
 
       api: APIGateway.registration.APIAdresses.examineeSheet,
       tableKeys: {
@@ -180,6 +182,9 @@ export default {
       this.updateloadedItemsByArray(newValue, true)
     }
   },
+  mounted() {
+    this.mounted = true
+  },
   methods: {
     emitValues () {
       this.localValue = this.selectedItems.map(item => item.id)
@@ -197,6 +202,8 @@ export default {
             id: itemId,
             selected
           }
+        } else {
+          this.loadedItems[itemId].selected = selected
         }
       })
     }
