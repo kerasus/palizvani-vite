@@ -48,6 +48,10 @@ class Registration extends Model {
           {
             label: 'حذف سیستمی (شرایط غیر مجاز)',
             value: 'DROPPED_FOR_CONDITION'
+          },
+          {
+            label: 'حذف سیستمی (نهایی نشده)',
+            value: 'DROPPED_FOR_NOT_FINALIZING'
           }
         ]
       },
