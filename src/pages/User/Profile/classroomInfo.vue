@@ -655,7 +655,7 @@ export default {
             required: true,
             label: 'نمره نهایی',
             align: 'left',
-            field: row => '...'
+            field: row => row.total_score
           },
           {
             name: 'result_status',
