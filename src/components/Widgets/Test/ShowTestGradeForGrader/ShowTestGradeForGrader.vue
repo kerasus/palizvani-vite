@@ -26,10 +26,6 @@
             {{ answerBook.test_info.test_set_info.test_set_questions.length }}
             سوال
           </div>
-          <div class="col-md-4 col-12">
-            {{ answerBook.duration }}
-            دقیقه
-          </div>
         </div>
       </q-banner>
       <q-list separator>
@@ -138,6 +134,17 @@
         </div>
         <div v-html="answerBook.objection_result" />
       </template>
+      <q-card-actions>
+        <q-btn color="primary"
+               class="q-mr-lg"
+               @click="confirmScores">
+          تایید نهایی نمرات
+        </q-btn>
+        <q-btn color="red"
+               @click="confirmUngradable">
+          قابل تصحیح نمی باشد
+        </q-btn>
+      </q-card-actions>
     </q-card>
     <div v-else>
       کمی صبر کنید...
@@ -237,6 +244,28 @@ export default {
     getAnswerBook () {
       this.answerBook.loading = true
       APIGateway.answerBook.get(this.$route.params.answer_book_id)
+        .then((answerBook) => {
+          this.loadAnswerBook(answerBook)
+          this.answerBook.loading = false
+        })
+        .catch(() => {
+          this.answerBook.loading = false
+        })
+    },
+    confirmScores () {
+      this.answerBook.loading = true
+      APIGateway.answerBook.confirmScores(this.$route.params.answer_book_id)
+        .then((answerBook) => {
+          this.loadAnswerBook(answerBook)
+          this.answerBook.loading = false
+        })
+        .catch(() => {
+          this.answerBook.loading = false
+        })
+    },
+    confirmUngradable () {
+      this.answerBook.loading = true
+      APIGateway.answerBook.confirmUngradable(this.$route.params.answer_book_id)
         .then((answerBook) => {
           this.loadAnswerBook(answerBook)
           this.answerBook.loading = false

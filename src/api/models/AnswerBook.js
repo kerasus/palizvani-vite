@@ -10,6 +10,8 @@ export default class AnswerBookAPI extends APIRepository {
       getOrCreate: '/lma/answer_books/get_or_create',
       byId: (id) => '/lma/answer_books/' + id,
       confirmAnswers: (id) => '/lma/answer_books/' + id + '/confirm_answers',
+      confirmScores: (id) => '/lma/answer_books/' + id + '/confirm_scores',
+      confirmUngradable: (id) => '/lma/answer_books/' + id + '/confirm_ungradable',
       setGraderToMe: (id) => '/lma/answer_books/' + id + '/set_grader_to_me',
       submitObjectionResult: (id) => '/lma/answer_books/' + id + '/submit_objection_result',
       submitObjectionRequest: (id) => '/lma/answer_books/' + id + '/submit_objection_request',
@@ -116,6 +118,34 @@ export default class AnswerBookAPI extends APIRepository {
       apiMethod: 'put',
       api: this.api,
       request: this.APIAdresses.confirmAnswers(id),
+      resolveCallback: (response) => {
+        return new AnswerBook(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  confirmScores (id) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.confirmScores(id),
+      resolveCallback: (response) => {
+        return new AnswerBook(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  confirmUngradable (id) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.confirmUngradable(id),
       resolveCallback: (response) => {
         return new AnswerBook(response.data)
       },
