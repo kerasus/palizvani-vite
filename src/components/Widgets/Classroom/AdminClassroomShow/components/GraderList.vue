@@ -143,7 +143,6 @@ export default {
             { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
             { type: 'hidden', name: 'role', value: 'grader' },
             { type: 'hidden', name: 'classroom_leaders__classroom__ne', value: classroomId }
-            // { type: 'hidden', name: 'classroom_graders__classroom__ne', value: classroomId }
           ],
           itemIndicatorKey: row => row.firstname + ' ' + row.lastname,
           // itemIndicatorKey: 'firstname',

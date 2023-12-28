@@ -39,17 +39,25 @@
           <q-item-section>
             <q-item-label v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_set_question_info.question_info.text" />
             <q-item-label>
-              <entity-show v-if="mounted"
-                           ref="entityShow"
-                           v-model:value="questionInputs[answerSheetIndex]"
-                           :loaded-data="answerSheet"
-                           :show-close-button="false"
-                           :show-edit-button="false"
-                           :show-expand-button="false"
-                           :show-save-button="false"
-                           :show-index-button="false"
-                           :show-reload-button="false"
-                           :default-layout="false" />
+              <q-card class="q-mt-sm">
+                <q-card-section>
+                  <div>
+                    متن پاسخ:
+                  </div>
+                  <div>
+                    {{ answerSheet.answer_text }}
+                  </div>
+                  <div v-if="answerSheet.answer_attachment">
+                    <q-separator class="q-my-md" />
+                    <q-btn outline
+                           color="primary"
+                           icon="attachment"
+                           label="فایل پیوست"
+                           :href="answerSheet.answer_attachment"
+                           target="_blank" />
+                  </div>
+                </q-card-section>
+              </q-card>
             </q-item-label>
             <q-item-label>
               <q-input v-model="scores[answerSheetIndex].score"
@@ -191,6 +199,7 @@ export default {
       this.answerBook.answer_sheet_info.list.forEach((answerSheetItem) => {
         this.questionInputs.push(this.questionInput)
         this.scores.push({
+          answerSheetId: answerSheetItem.id,
           score: answerSheetItem.score,
           loading: false
         })
@@ -210,7 +219,7 @@ export default {
     },
     submitScore (index) {
       this.scores[index].loading = true
-      APIGateway.answerSheet.submitScore(this.$route.params.answer_book_id, this.scores[index].score)
+      APIGateway.answerSheet.submitScore(this.scores[index].answerSheetId, this.scores[index].score)
         .then(() => {
           this.scores[index].loading = false
           this.getAnswerBook()
