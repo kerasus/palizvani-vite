@@ -209,7 +209,7 @@ import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
 
 export default {
-  name: 'UserPanel.Profile.ClassroomInfo',
+  name: 'ClassroomShow',
   components: {
     EntityIndex,
     Breadcrumbs,
