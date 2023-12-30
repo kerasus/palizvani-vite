@@ -648,7 +648,7 @@ export default {
             required: true,
             label: 'تعداد سوالات',
             align: 'left',
-            field: row => row.test_info?.test_set_questions_length
+            field: row => row.test_info?.test_questions_length
           },
           {
             name: 'grade',

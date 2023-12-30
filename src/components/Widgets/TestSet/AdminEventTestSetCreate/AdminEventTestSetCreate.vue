@@ -54,7 +54,7 @@ export default {
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات پرسشنامه', col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'type', responseKey: 'type', value: 'QUESTIONNAIRE' },
         { type: BtnControlComp, name: 'btnCreateQuestion', responseKey: 'btnCreateQuestion', label: 'تعریف سوال جدید', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
-        { type: QuestionsSelectorComp, name: 'test_set_questions', responseKey: 'test_set_questions', unitId: false, questionType: 'EVENT', col: 'col-md-12 col-12' },
+        { type: QuestionsSelectorComp, name: 'test_questions', responseKey: 'test_questions', unitId: false, questionType: 'EVENT', col: 'col-md-12 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید نهایی', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
       ]
     }

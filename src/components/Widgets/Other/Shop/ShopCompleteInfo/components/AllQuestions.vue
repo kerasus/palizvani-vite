@@ -38,7 +38,7 @@
       <q-tab-panel v-for="(answerSheet, answerSheetIndex) in answerBook.answer_sheet_info.list"
                    :key="answerSheetIndex"
                    :name="(answerSheetIndex + 1)">
-        <div v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_set_question_info.question_info.text" />
+        <div v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
         <div>
           <entity-create v-if="mounted"
                          :ref="'entityCreate_' + answerSheetIndex.toString()"
@@ -105,7 +105,7 @@ export default {
           { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', value: answerSheetItem.answer_text, inputType: 'textarea', col: 'col-12' },
           { type: 'file', name: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', value: answerSheetItem.answer_attachment, col: 'col-12' },
           { type: 'hidden', name: 'answer_book', value: this.answerBook.id },
-          { type: 'hidden', name: 'test_set_question', value: answerSheetItem.test_set_question },
+          { type: 'hidden', name: 'test_question', value: answerSheetItem.test_question },
           {
             type: BtnControlComp,
             name: 'btn',

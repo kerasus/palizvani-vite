@@ -1,14 +1,14 @@
 <template>
   <div class="AllQuestions">
     <q-list separator>
-      <!--      <q-item v-for="(question, questionIndex) in answerBook.test_info.test_set_info.test_set_questions"-->
+      <!--      <q-item v-for="(question, questionIndex) in answerBook.test_info.test_set_info.test_questions"-->
       <q-item v-for="(answerSheet, answerSheetIndex) in answerBook.answer_sheet_info.list"
               :key="answerSheetIndex"
               clickable>
-        <q-item-section v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_set_question_info.question_info.text" />
+        <q-item-section v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
         <q-item-section side>
           <q-badge>
-            {{ answerSheet.test_set_question_info.question_info.mark }}
+            {{ answerSheet.test_question_info.question_info.mark }}
             نمره
           </q-badge>
         </q-item-section>

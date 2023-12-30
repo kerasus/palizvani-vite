@@ -55,7 +55,7 @@ export default {
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'id', responseKey: 'id' },
         { type: 'hidden', name: 'unit', responseKey: 'unit' },
-        { type: QuestionsSelectorComp, name: 'test_set_questions', responseKey: 'test_set_questions', unitId, col: 'col-md-12 col-12' },
+        { type: QuestionsSelectorComp, name: 'test_questions', responseKey: 'test_questions', unitId, col: 'col-md-12 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید نهایی', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
       ]
     }

@@ -8,9 +8,9 @@ class AnswerSheet extends Model {
       { key: 'answer_text' },
       { key: 'answer_attachment' },
       { key: 'score' },
-      { key: 'test_set_question' },
+      { key: 'test_question' },
       {
-        key: 'test_set_question_info',
+        key: 'test_question_info',
         relatedModel: TestSetQuestion
       }
     ])

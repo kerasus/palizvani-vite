@@ -18,7 +18,7 @@
             {{ toShamsi(answerBook.attending_start_time) }}
           </div>
           <div class="col-md-4 col-12">
-            {{ answerBook.test_info.test_set_info.test_set_questions.length }}
+            {{ answerBook.test_info.test_set_info.test_questions.length }}
             سوال
           </div>
           <div class="col-md-4 col-12">
@@ -194,7 +194,7 @@ export default {
       APIGateway.answerBook.get(this.$route.params.answer_book_id)
         .then((answerBook) => {
           this.answerBook = new AnswerBook(answerBook)
-          if (this.answerBook.test_info.test_set_questions_length === 0) {
+          if (this.answerBook.test_info.test_questions_length === 0) {
             this.$q.notify({
               type: 'negative',
               message: 'لیست سوالات آزمون خالی است.'

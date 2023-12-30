@@ -109,11 +109,11 @@ export default {
             field: row => row.title
           },
           {
-            name: 'test_set_questions_length',
+            name: 'test_questions_length',
             required: true,
             label: 'تعداد سوالات',
             align: 'left',
-            field: row => row.test_set_info?.test_set_questions ? row.test_set_info.test_set_questions.length : '-'
+            field: row => row.test_set_info?.test_questions ? row.test_set_info.test_questions.length : '-'
           },
           {
             name: 'level',

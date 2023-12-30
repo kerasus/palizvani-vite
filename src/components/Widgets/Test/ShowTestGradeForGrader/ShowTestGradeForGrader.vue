@@ -23,7 +23,7 @@
             {{ toShamsi(answerBook.attending_start_time) }}
           </div>
           <div class="col-md-4 col-12">
-            {{ answerBook.test_info.test_set_info.test_set_questions.length }}
+            {{ answerBook.test_info.test_set_info.test_questions.length }}
             سوال
           </div>
         </div>
@@ -33,7 +33,7 @@
                 :key="answerSheetIndex"
                 clickable>
           <q-item-section>
-            <q-item-label v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_set_question_info.question_info.text" />
+            <q-item-label v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
             <q-item-label>
               <q-card class="q-mt-sm">
                 <q-card-section>
@@ -74,11 +74,11 @@
             <q-badge v-if="answerSheet.score !== null">
               {{ answerSheet.score }}
               از
-              {{ answerSheet.test_set_question_info.question_info.mark }}
+              {{ answerSheet.test_question_info.question_info.mark }}
               نمره
             </q-badge>
             <q-badge v-else>
-              {{ answerSheet.test_set_question_info.question_info.mark }}
+              {{ answerSheet.test_question_info.question_info.mark }}
               نمره
             </q-badge>
           </q-item-section>

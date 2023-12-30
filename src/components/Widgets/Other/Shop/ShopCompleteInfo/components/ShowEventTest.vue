@@ -71,7 +71,7 @@ export default {
       APIGateway.answerBook.get(this.answerBookId)
         .then((answerBook) => {
           this.localAnswerBook = new AnswerBook(answerBook)
-          if (this.localAnswerBook.test_info.test_set_questions_length === 0) {
+          if (this.localAnswerBook.test_info.test_questions_length === 0) {
             this.$q.notify({
               type: 'negative',
               message: 'لیست سوالات پرسشنامه خالی است.'

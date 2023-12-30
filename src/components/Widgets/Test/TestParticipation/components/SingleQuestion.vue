@@ -68,33 +68,33 @@ export default {
         { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' },
         { type: 'hidden', name: 'answer_book', value: this.answerBook.id },
-        { type: 'hidden', name: 'test_set_question', value: null }
+        { type: 'hidden', name: 'test_question', value: null }
       ]
     }
   },
   computed: {
     hasNextQuestion () {
-      return this.answerBook.test_info.test_set_info.test_set_questions.length > this.questionNumber
+      return this.answerBook.test_info.test_set_info.test_questions.length > this.questionNumber
     },
     hasPrevQuestion () {
       return this.questionNumber > 1
     },
     isLastQuestion () {
-      return this.answerBook.test_info.test_set_info.test_set_questions.length === this.questionNumber
+      return this.answerBook.test_info.test_set_info.test_questions.length === this.questionNumber
     },
     testSetQuestion () {
-      // return this.answerBook.test_info.test_set_info.test_set_questions[this.questionNumber - 1]
-      return this.answerBook.answer_sheet_info.list[this.questionNumber - 1].test_set_question_info
+      // return this.answerBook.test_info.test_set_info.test_questions[this.questionNumber - 1]
+      return this.answerBook.answer_sheet_info.list[this.questionNumber - 1].test_question_info
     },
     question () {
-      // return this.answerBook.test_info.test_set_info.test_set_questions[this.questionNumber - 1]
+      // return this.answerBook.test_info.test_set_info.test_questions[this.questionNumber - 1]
       return this.testSetQuestion.question_info
     }
   },
   mounted () {
     this.setInputs()
     this.mounted = true
-    if (this.answerBook.test_info.test_set_info.test_set_questions.length < this.questionNumber || this.questionNumber < 1) {
+    if (this.answerBook.test_info.test_set_info.test_questions.length < this.questionNumber || this.questionNumber < 1) {
       this.$router.push({ name: 'UserPanel.Test.AnswerBook.Participate.AllQuestions', params: this.$route.params })
     }
   },
@@ -123,7 +123,7 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnFinal', 'atClick', () => { this.sendAnswer('final') })
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnNext', 'atClick', () => { this.sendAnswer('next') })
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnPrev', 'atClick', () => { this.sendAnswer('prev') })
-      FormBuilderAssist.setAttributeByName(this.inputs, 'test_set_question', 'value', this.testSetQuestion?.id)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'test_question', 'value', this.testSetQuestion?.id)
     },
     sendAnswer (actionType) {
       const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value
