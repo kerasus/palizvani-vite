@@ -23,7 +23,7 @@
             {{ toShamsi(answerBook.attending_start_time) }}
           </div>
           <div class="col-md-4 col-12">
-            {{ answerBook.test_info.test_set_info.test_questions.length }}
+            {{ answerBook.test_info.test_questions_info.list.length }}
             سوال
           </div>
           <div class="col-md-4 col-12">

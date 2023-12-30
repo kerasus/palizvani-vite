@@ -74,27 +74,25 @@ export default {
   },
   computed: {
     hasNextQuestion () {
-      return this.answerBook.test_info.test_set_info.test_questions.length > this.questionNumber
+      return this.answerBook.test_info.test_questions_info.list.length > this.questionNumber
     },
     hasPrevQuestion () {
       return this.questionNumber > 1
     },
     isLastQuestion () {
-      return this.answerBook.test_info.test_set_info.test_questions.length === this.questionNumber
+      return this.answerBook.test_info.test_questions_info.list.length === this.questionNumber
     },
     testSetQuestion () {
-      // return this.answerBook.test_info.test_set_info.test_questions[this.questionNumber - 1]
       return this.answerBook.answer_sheet_info.list[this.questionNumber - 1].test_question_info
     },
     question () {
-      // return this.answerBook.test_info.test_set_info.test_questions[this.questionNumber - 1]
       return this.testSetQuestion.question_info
     }
   },
   mounted () {
     this.setInputs()
     this.mounted = true
-    if (this.answerBook.test_info.test_set_info.test_questions.length < this.questionNumber || this.questionNumber < 1) {
+    if (this.answerBook.test_info.test_questions_info.list.length < this.questionNumber || this.questionNumber < 1) {
       this.$router.push({ name: 'UserPanel.Test.AnswerBook.Participate.AllQuestions', params: this.$route.params })
     }
   },

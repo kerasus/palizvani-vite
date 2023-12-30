@@ -720,6 +720,7 @@ export default {
       this.participateTypeDialog = true
     },
     startTest () {
+      this.$store.commit('Test/updateAnswerBook', null)
       this.$router.push({ name: this.participateType, params: { test_id: this.selectedTest.testId, answer_book_id: this.selectedTest.answerBookId, question_number: 1 } })
     },
     getTeamJoinStatusLabel (team) {

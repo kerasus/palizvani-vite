@@ -1,7 +1,6 @@
 <template>
   <div class="AllQuestions">
     <q-list separator>
-      <!--      <q-item v-for="(question, questionIndex) in answerBook.test_info.test_set_info.test_questions"-->
       <q-item v-for="(answerSheet, answerSheetIndex) in answerBook.answer_sheet_info.list"
               :key="answerSheetIndex"
               clickable>
