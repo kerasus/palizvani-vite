@@ -128,9 +128,7 @@
           پرسشنامه
         </q-banner>
         <show-event-test v-if="!eventTestAnswerBook.loading"
-                         :answer-book-id="eventTestAnswerBook.id"
-                         @sentsuccess="editEntity"
-                         @sentfailed="sentTestFailed" />
+                         :answer-book-id="eventTestAnswerBook.id" />
         <div v-else>
           کمی صبر کنید...
         </div>
@@ -268,6 +266,15 @@ export default {
       this.getEventTest()
     }
     this.mounted = true
+
+    this.$bus.on('event-confirmation-step-test-sent-answer-sending', () => {
+    })
+    this.$bus.on('event-confirmation-step-test-sent-answer-success', () => {
+      this.successSentTest()
+    })
+    this.$bus.on('event-confirmation-step-test-sent-answer-failed', () => {
+      this.sentTestFailed()
+    })
   },
   methods: {
     getEventTest () {
@@ -292,6 +299,9 @@ export default {
     },
     sentTestFailed () {
       this.panel = 'userInfo'
+    },
+    successSentTest () {
+      this.editEntity()
     },
     editEntity () {
       if (this.eventTestAnswerBook.id && this.panel !== 'eventTest') {

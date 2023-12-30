@@ -6,10 +6,7 @@
       </q-card-section>
       <q-separator />
       <template v-if="mounted">
-        <all-questions :answer-book="localAnswerBook"
-                       @sentsuccess="onAllQuestionsSentSuccess"
-                       @sending="onAllQuestionsSending"
-                       @sentfailed="onAllQuestionsSentFailed" />
+        <all-questions :answer-book="localAnswerBook" />
       </template>
     </q-card>
     <div v-else>
@@ -32,7 +29,6 @@ export default {
       default: null
     }
   },
-  emits: ['sending', 'sentsuccess', 'sentfailed'],
   data () {
     return {
       mounted: false,
@@ -47,22 +43,28 @@ export default {
   mounted () {
     this.getTestQuestions()
     this.mounted = true
+    this.$bus.on('event-confirmation-step-test-sent-answer-sending', () => {
+      this.onAllQuestionsSending()
+    })
+    this.$bus.on('event-confirmation-step-test-sent-answer-success', () => {
+      this.onAllQuestionsSentSuccess()
+    })
+    this.$bus.on('event-confirmation-step-test-sent-answer-failed', () => {
+      this.onAllQuestionsSentFailed()
+    })
   },
   methods: {
     onAllQuestionsSending () {
-      this.$emit('sending')
       this.localAnswerBook.loading = true
     },
     onAllQuestionsSentSuccess () {
-      this.$emit('sentsuccess')
       this.localAnswerBook.loading = false
     },
     onAllQuestionsSentFailed () {
-      this.$emit('sentfailed')
       this.localAnswerBook.loading = false
     },
     backToClassList () {
-      this.$emit('sentfailed')
+      this.$bus.emit('event-confirmation-step-get-test-failed')
     },
     getAnswerBook () {
       this.localAnswerBook.loading = true
