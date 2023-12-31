@@ -301,6 +301,7 @@ export default {
       this.panel = 'userInfo'
     },
     successSentTest () {
+      debugger
       this.editEntity()
     },
     editEntity () {
@@ -308,15 +309,18 @@ export default {
         this.panel = 'eventTest'
         return
       }
-      this.$refs.entityEdit.editEntity(false)
-        .then(() => {
-          if (this.$route.query.type === 'register') {
-            this.createInvoiceForClassroomOrRegisterEvent()
-          } else {
-            this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
-          }
-        })
-        .catch(() => {})
+      this.panel = 'userInfo'
+      this.$nextTick(() => {
+        this.$refs.entityEdit.editEntity(false)
+          .then(() => {
+            if (this.$route.query.type === 'register') {
+              this.createInvoiceForClassroomOrRegisterEvent()
+            } else {
+              this.$router.push({ name: 'UserPanel.ShopPaymentFromWallet', query: this.$route.query })
+            }
+          })
+          .catch(() => {})
+      })
     },
     createInvoiceForClassroomOrRegisterEvent () {
       this.register()
