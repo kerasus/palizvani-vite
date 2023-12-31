@@ -305,6 +305,10 @@ export default {
       this.enrolmentLoading = true
       APIGateway.classroom.enrollByUser(this.classroom.id)
         .then(() => {
+          this.$q.notify({
+            message: 'پیش ثبت نام با موفقیت انجام شد.',
+            type: 'positive'
+          })
           this.enrolmentLoading = false
           this.$route.push({ name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } })
         })
