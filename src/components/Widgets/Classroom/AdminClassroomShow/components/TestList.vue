@@ -113,7 +113,7 @@ export default {
             required: true,
             label: 'تعداد سوالات',
             align: 'left',
-            field: row => row.test_set_info?.test_questions ? row.test_set_info.test_questions.length : '-'
+            field: row => row.test_questions.length
           },
           {
             name: 'level',
