@@ -52,12 +52,14 @@ import { Test } from 'src/models/Test.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { AnswerBook } from 'src/models/AnswerBook.js'
 // import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { UnitCategory } from 'src/models/UnitCategory.js'
 import { mixinWidget, mixinAuth } from 'src/mixin/Mixins.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import Assist from 'assets/js/Assist'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -120,33 +122,61 @@ export default {
             field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
           },
           {
-            name: 'owner_info.mobile_number',
+            name: 'owner_info.national_code',
             required: true,
-            label: 'موبایل',
+            label: 'کد ملی',
             align: 'left',
-            field: row => row.owner_info.mobile_number
+            field: row => row.owner_info.national_code
           },
           {
-            name: 'title',
+            name: 'attending_start_time',
             required: true,
-            label: 'عنوان آزمون',
+            label: 'زمان شروع',
             align: 'left',
-            field: row => row.test_info.title
+            field: row => row.attending_start_time ? this.toShamsi(row.attending_start_time) : '-'
           },
           {
-            name: 'test_questions_length',
+            name: 'attending_start_time',
             required: true,
-            label: 'تعداد سوالات',
+            label: 'زمان پایان',
             align: 'left',
-            field: row => row.test_info.test_questions_length
+            field: row => row.attending_end_time ? this.toShamsi(row.attending_end_time) : '-'
+          },
+          {
+            name: 'grader_info',
+            required: true,
+            label: 'مصحح',
+            align: 'left',
+            field: row => row.grader_info ? row.grader_info.firstname + ' ' + row.grader_info.lastname : '-'
+          },
+          {
+            name: 'last_modification_time',
+            required: true,
+            label: 'زمان آخرین ویرایش تصحیح',
+            align: 'left',
+            field: row => row.last_modification_time ? this.toShamsi(row.last_modification_time) : '-'
           },
           // {
-          //   name: 'level',
+          //   name: 'title',
           //   required: true,
-          //   label: 'درچه سختی',
+          //   label: 'عنوان آزمون',
           //   align: 'left',
-          //   field: row => (new Test(row.test_set_info)).level_info.label
+          //   field: row => row.test_info.title
           // },
+          // {
+          //   name: 'test_questions_length',
+          //   required: true,
+          //   label: 'تعداد سوالات',
+          //   align: 'left',
+          //   field: row => row.test_info.test_questions_length
+          // },
+          {
+            name: 'status_info',
+            required: true,
+            label: 'وضعیت تصحیح',
+            align: 'left',
+            field: row => (new AnswerBook(row)).status_info.label
+          },
           {
             name: 'test_info_status_info',
             required: true,
@@ -202,6 +232,9 @@ export default {
     this.mounted = true
   },
   methods: {
+    toShamsi (miladi) {
+      return Assist.miladiToShamsi(miladi)
+    },
     onPageChanged () {
       if (!this.classroom.id) {
         this.getClassroom()
