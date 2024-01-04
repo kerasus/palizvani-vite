@@ -1,5 +1,18 @@
 <template>
   <div class="AdminClassroomAnswerBookList">
+    <q-skeleton v-if="!classroom.id"
+                type="text"
+                width="200px" />
+    <breadcrumbs v-else
+                 style="margin-top: 29px; margin-bottom: 19px;" />
+    <div class="flex justify-end">
+      <q-btn flat
+             color="grey"
+             @click="$router.go(-1)">
+        بازگشت
+        >
+      </q-btn>
+    </div>
     <entity-index v-if="mounted"
                   ref="entityIndex"
                   v-model:value="inputs"
@@ -9,7 +22,8 @@
                   :table-keys="tableKeys"
                   :show-expand-button="false"
                   :show-reload-button="false"
-                  :show-search-button="false">
+                  :show-search-button="false"
+                  @onPageChanged="onPageChanged">
       <template v-slot:entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -36,24 +50,30 @@ import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { Test } from 'src/models/Test.js'
 import Enums from 'src/assets/Enums/Enums.js'
-import { mixinWidget, mixinAuth } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 // import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { UnitCategory } from 'src/models/UnitCategory.js'
+import { mixinWidget, mixinAuth } from 'src/mixin/Mixins.js'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminClassroomAnswerBookList',
   components: {
-    EntityIndex
+    EntityIndex,
+    Breadcrumbs
   },
   mixins: [mixinWidget, mixinAuth],
   data () {
     return {
       mounted: false,
+      entityLoading: true,
+      test: new Test(),
+      classroom: new Classroom(),
       defaultOptions: {
         classroomType: 'TRAINING'
       },
@@ -182,6 +202,45 @@ export default {
     this.mounted = true
   },
   methods: {
+    onPageChanged () {
+      if (!this.classroom.id) {
+        this.getClassroom()
+      }
+    },
+    getClassroom () {
+      this.classroom.loading = true
+      APIGateway.classroom.get(this.$route.params.classroom_id)
+        .then((classroom) => {
+          this.classroom = new Classroom(classroom)
+          this.classroom.loading = false
+          this.updateBreadcrumbs()
+        })
+        .catch(() => {
+          this.classroom.loading = false
+        })
+    },
+    updateBreadcrumbs () {
+      this.$store.commit('AppLayout/updateBreadcrumbs', {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'لیست ' + this.classroomTypeTitle,
+            to: { name: this.indexPageRouteName }
+          },
+          {
+            label: this.classroom.title,
+            to: { name: this.showPageRouteName, params: { id: this.$route.params.classroom_id } }
+          },
+          {
+            label: 'تصحیح آزمون'
+          },
+          {
+            label: 'لیست شرکت کنندگان'
+          }
+        ]
+      })
+    },
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
     },
