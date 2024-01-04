@@ -265,7 +265,7 @@ export default {
             required: true,
             label: 'تعداد سوالات',
             align: 'left',
-            field: () => '...'
+            field: (row) => row.test_set_questions.length
           },
           {
             name: 'level',
