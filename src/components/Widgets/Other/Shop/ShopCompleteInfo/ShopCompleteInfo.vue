@@ -301,7 +301,6 @@ export default {
       this.panel = 'userInfo'
     },
     successSentTest () {
-      debugger
       this.editEntity()
     },
     editEntity () {
