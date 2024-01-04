@@ -1,6 +1,11 @@
 <template>
   <div class="AdminTestShow"
        :style="localOptions.style">
+    <q-skeleton v-if="!classroom.id"
+                type="text"
+                width="200px" />
+    <breadcrumbs v-else
+                 style="margin-top: 29px; margin-bottom: 19px;" />
     <div class="flex justify-end">
       <q-btn flat
              color="grey"
@@ -16,6 +21,7 @@
                  :api="api"
                  :entity-id-key="entityIdKey"
                  :entity-param-key="entityParamKey"
+                 :after-load-input-data="afterLoadInputData"
                  :show-close-button="false"
                  :show-edit-button="false"
                  :show-expand-button="false"
@@ -30,21 +36,27 @@ import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import UsersOfTestSelector from 'src/components/FormBuilderCustumComponents/UsersOfTestSelector/UsersOfTestSelector.vue'
+import { Test } from 'src/models/Test'
+import { UnitCategory } from 'src/models/UnitCategory'
 
 const BtnControlComp = shallowRef(BtnControl)
 const UsersOfTestSelectorComp = shallowRef(UsersOfTestSelector)
 
 export default {
   name: 'AdminTestShow',
-  components: { EntityEdit },
+  components: { Breadcrumbs, EntityEdit },
   mixins: [mixinWidget],
   data () {
     return {
       mounted: false,
-      entityLoading: false,
+      entityLoading: true,
+      test: new Test(),
+      classroom: new Classroom(),
       api: APIGateway.test.APIAdresses.byId(this.$route.params.id),
       entityIdKey: 'id',
       entityParamKey: 'id',
@@ -73,14 +85,38 @@ export default {
       inputs: []
     }
   },
-  created() {
+  computed: {
+    classroomTypeTitle () {
+      const unitCategory = new UnitCategory({ type: this.$route.query.classroom_type })
+      return unitCategory.type_info.label
+    },
+    indexPageRouteName () {
+      if (this.$route.query.classroom_type === 'TRAINING') {
+        return 'Admin.Classroom.Index'
+      }
+      if (this.$route.query.classroom_type === 'EVENT') {
+        return 'Admin.Event.Index'
+      }
+      return 'Admin.Classroom.Index'
+    },
+    showPageRouteName () {
+      if (this.$route.query.classroom_type === 'TRAINING') {
+        return 'Admin.Classroom.Show'
+      }
+      if (this.$route.query.classroom_type === 'EVENT') {
+        return 'Admin.Event.Show'
+      }
+      return 'Admin.Classroom.Show'
+    }
+  },
+  created () {
     if (this.$route.query.classroom_type === 'EVENT') {
       this.inputs = this.eventInputs
     } else {
       this.inputs = this.classroomInputs
     }
   },
-  mounted() {
+  mounted () {
     this.setActionBtn()
     this.mounted = true
   },
@@ -98,6 +134,45 @@ export default {
         .catch(() => {
           this.entityLoading = false
         })
+    },
+    afterLoadInputData (responseData) {
+      this.test = new Test(responseData)
+      this.getClassroom()
+      this.entityLoading = false
+    },
+    getClassroom () {
+      this.classroom.loading = true
+      APIGateway.classroom.get(this.$route.params.classroom_id)
+        .then((classroom) => {
+          this.classroom = new Classroom(classroom)
+          this.classroom.loading = false
+          this.updateBreadcrumbs()
+        })
+        .catch(() => {
+          this.classroom.loading = false
+        })
+    },
+    updateBreadcrumbs () {
+      this.$store.commit('AppLayout/updateBreadcrumbs', {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'لیست ' + this.classroomTypeTitle,
+            to: { name: this.indexPageRouteName }
+          },
+          {
+            label: this.classroom.title,
+            to: { name: this.showPageRouteName, params: { id: this.$route.params.classroom_id } }
+          },
+          {
+            label: 'آزمون ها'
+          },
+          {
+            label: this.test.title
+          }
+        ]
+      })
     }
   }
 }
