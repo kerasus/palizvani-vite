@@ -15,11 +15,18 @@
                     :show-expand-button="false"
                     :show-reload-button="false"
                     @onPageChanged="onChangeQuestionListPage">
+        <template #toolbar>
+          <q-btn color="primary"
+                 @click="selectAllAllowedUser">
+            انتخاب تمام افراد مجاز
+          </q-btn>
+        </template>
         <template #entity-index-table-cell="{inputData}">
           <template v-if="inputData.col.name === 'choice'">
             <q-checkbox v-model="loadedItems[inputData.props.row.owner].selected"
                         color="primary"
                         @update:model-value="emitValues" />
+            {{ inputData.col.value }}
           </template>
           <template v-else-if="inputData.col.name === 'number'">
             {{ inputData.rowNumber }}
@@ -96,7 +103,12 @@ export default {
             required: true,
             label: 'انتخاب',
             align: 'left',
-            field: () => ''
+            field: (row) => {
+              this.loadedItems[row.owner].is_passed_project_condition = row.is_passed_project_condition
+              this.loadedItems[row.owner].is_passed_assignment_condition = row.is_passed_assignment_condition
+              this.loadedItems[row.owner].is_passed_attendance_condition = row.is_passed_attendance_condition
+              return ''
+            }
           },
           {
             name: 'number',
@@ -186,6 +198,18 @@ export default {
     this.mounted = true
   },
   methods: {
+    selectAllAllowedUser () {
+      Object.keys(this.loadedItems)
+        .forEach(itemId => {
+          if (
+            this.loadedItems[itemId].is_passed_project_condition &&
+            this.loadedItems[itemId].is_passed_assignment_condition &&
+            this.loadedItems[itemId].is_passed_attendance_condition
+          ) {
+            this.loadedItems[itemId].selected = true
+          }
+        })
+    },
     emitValues () {
       this.localValue = this.selectedItems.map(item => item.id)
     },
