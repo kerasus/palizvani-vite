@@ -21,10 +21,6 @@
             {{ answerBook.test_info.test_questions_info.list.length }}
             سوال
           </div>
-          <div class="col-md-4 col-12">
-            {{ answerBook.duration }}
-            دقیقه
-          </div>
         </div>
       </q-banner>
       <template v-if="mounted">
