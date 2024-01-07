@@ -32,7 +32,7 @@
           <div class="action-column-entity-index">
             <q-btn size="md"
                    color="primary"
-                   label="جزییات"
+                   :label="inputData.props.row.grader ? 'ویرایش تصحیح' : 'تصحیح آزمون'"
                    :to="{name: 'Admin.Classroom.Test.AnswerBooks.ShowGrade', params: {classroom_id: $route.params.classroom_id, test_id: $route.params.test_id, answer_book_id: inputData.props.row.id}}"
                    class="q-mr-md" />
           </div>
