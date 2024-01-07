@@ -124,15 +124,6 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'test_question', 'value', this.testSetQuestion?.id)
     },
     sendAnswer (actionType) {
-      const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value
-      if (!answerText) {
-        this.$q.notify({
-          type: 'negative',
-          message: 'لطفا متن پاسخ را کامل کنید.'
-        })
-        return
-      }
-
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)
         .then((response) => {
