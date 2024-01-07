@@ -2209,6 +2209,15 @@ axios@^1.6.2:
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
+axios@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.5.tgz#2c090da14aeeab3770ad30c3a1461bc970fb0cd8"
+  integrity sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==
+  dependencies:
+    follow-redirects "^1.15.4"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
 babel-plugin-polyfill-corejs2@^0.4.6:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.4.6.tgz#b2df0251d8e99f229a8e60fc4efa9a68b41c8313"
@@ -3680,6 +3689,11 @@ follow-redirects@^1.15.0:
   version "1.15.3"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.3.tgz#fe2f3ef2690afce7e82ed0b44db08165b207123a"
   integrity sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==
+
+follow-redirects@^1.15.4:
+  version "1.15.4"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.4.tgz#cdc7d308bf6493126b17ea2191ea0ccf3e535adf"
+  integrity sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -5558,13 +5572,13 @@ quasar-app-extension-q-page-builder@^0.4.4:
   dependencies:
     quasar-ui-q-page-builder "^0.4.4"
 
-quasar-crud@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/quasar-crud/-/quasar-crud-1.0.3.tgz#4e056a49857e6d3a416d94735cae9e0f4516ee8c"
-  integrity sha512-ub5tYILpfFbr6e6X4pILTRYoekpv65tZO9H+13/58G3gUZF0XjrZ/05JK/ksZiBH1JmUcNtcAQYlYlGo7VMw1g==
+quasar-crud@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/quasar-crud/-/quasar-crud-1.0.5.tgz#64952c120bc6a28b4461776a24c961479e0f6fa7"
+  integrity sha512-u/3WsiJpOJT3EYRklo4mE9O2ZnJSHvWmDLhW4UaXyAumATrNb5rf58V3xckBXG81kKFqBC8uC9TovfN7NQm3tw==
   dependencies:
     "@quasar/extras" "^1.16.9"
-    axios "^1.6.2"
+    axios "^1.6.5"
     moment-jalaali "^0.10.0"
     quasar "^2.14.2"
     quasar-form-builder "^1.0.2"

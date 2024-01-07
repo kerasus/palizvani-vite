@@ -116,7 +116,7 @@ export default {
   computed: {
     currentUserAttendanceSheet () {
       if (!this.projectAttendanceSheets?.project_attendance_sheets || this.projectAttendanceSheets.project_attendance_sheets.length === 0) {
-        return null
+        return {}
       }
 
       return this.projectAttendanceSheets.project_attendance_sheets[0]
