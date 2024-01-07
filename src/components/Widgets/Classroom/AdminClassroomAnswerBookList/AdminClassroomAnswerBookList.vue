@@ -87,7 +87,23 @@ export default {
           options: [
             { label: 'جاری', value: 'CREATED,FETCHED,SUBMITTED' },
             { label: 'در حال تصحیح', value: 'GRADING' },
-            { label: 'تصحیح شده', value: 'GRADED' }
+            { label: 'تصحیح شده', value: 'GRADED' },
+            {
+              label: 'حذف شده',
+              value: 'DELETED'
+            },
+            {
+              label: 'نیاز به رفع مشکل',
+              value: 'UNGRADABLE'
+            },
+            {
+              label: 'تصحیح شده',
+              value: 'GRADED'
+            },
+            {
+              label: 'اعتراض شده',
+              value: 'OBJECTED'
+            }
           ],
           label: 'وضعیت',
           placeholder: ' ',
