@@ -34,6 +34,7 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import UsersOfTestSelector from 'src/components/FormBuilderCustumComponents/UsersOfTestSelector/UsersOfTestSelector.vue'
+import { Test } from 'src/models/Test'
 
 const BtnControlComp = shallowRef(BtnControl)
 const UsersOfTestSelectorComp = shallowRef(UsersOfTestSelector)
@@ -60,6 +61,7 @@ export default {
         { type: 'dateTime', name: 'announcement_time', responseKey: 'announcement_time', label: 'زمان اعلام نتایج', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'dateTime', name: 'objection_start_time', responseKey: 'objection_start_time', label: 'زمان شروع اعتراض', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'dateTime', name: 'objection_end_time', responseKey: 'objection_end_time', label: 'زمان پایان اعتراض', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'select', name: 'level', responseKey: 'level', label: 'سطح آزمون', placeholder: ' ', options: (new Test()).levelEnums, col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'test_set', responseKey: 'test_set', value: this.$route.params.test_set_id },
         { type: 'hidden', name: 'classroom', responseKey: 'classroom', value: this.$route.params.classroom_id },
         { type: UsersOfTestSelectorComp, name: 'examinees', responseKey: 'examinees', classroomId: this.$route.params.classroom_id, col: 'col-12' },
