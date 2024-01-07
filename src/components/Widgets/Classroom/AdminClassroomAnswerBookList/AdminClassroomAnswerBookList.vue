@@ -165,13 +165,13 @@ export default {
             align: 'left',
             field: row => row.grader_info ? row.grader_info.firstname + ' ' + row.grader_info.lastname : '-'
           },
-          {
-            name: 'last_modification_time',
-            required: true,
-            label: 'زمان آخرین ویرایش تصحیح',
-            align: 'left',
-            field: row => row.last_modification_time ? this.toShamsi(row.last_modification_time) : '-'
-          },
+          // {
+          //   name: 'last_modification_time',
+          //   required: true,
+          //   label: 'زمان آخرین ویرایش تصحیح',
+          //   align: 'left',
+          //   field: row => row.last_modification_time ? this.toShamsi(row.last_modification_time) : '-'
+          // },
           // {
           //   name: 'title',
           //   required: true,
@@ -199,6 +199,13 @@ export default {
             label: 'وضعیت آزمون',
             align: 'left',
             field: row => (new Test(row.test_info)).status_info.label
+          },
+          {
+            name: 'total_score',
+            required: true,
+            label: 'نمره آزمون',
+            align: 'left',
+            field: row => row.total_score
           },
           {
             name: 'actions',
