@@ -27,7 +27,7 @@
             سوال
           </div>
           <div class="col-md-4 col-12">
-            {{ answerBook.duration }}
+            {{ answerBook.test_info.duration_deadline }}
             دقیقه
           </div>
         </div>
@@ -36,9 +36,9 @@
         <q-item v-for="(answerSheet, answerSheetIndex) in answerBook.answer_sheet_info.list"
                 :key="answerSheetIndex"
                 clickable>
-          <q-item-section>
-            <q-item-label v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
-            <q-item-label>
+          <div class="row full-width q-col-gutter-md">
+            <div class="col-md-10 col-12">
+              <div v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
               <q-card class="q-mt-sm">
                 <q-card-section>
                   <div>
@@ -58,34 +58,33 @@
                   </div>
                 </q-card-section>
               </q-card>
-            </q-item-label>
-            <q-item-label>
-              <q-input v-model="scores[answerSheetIndex].score"
-                       :loading="scores[answerSheetIndex].loading"
-                       label="نمره">
-                <template v-slot:append>
-                  <q-btn color="primary"
-                         flat
-                         label="ثبت نمره"
+            </div>
+            <div class="col-md-2 col-12">
+              <q-badge v-if="answerSheet.score !== null">
+                {{ answerSheet.score }}
+                از
+                {{ answerSheet.test_question_info.question_info.mark }}
+                نمره
+              </q-badge>
+              <q-badge v-else>
+                {{ answerSheet.test_question_info.question_info.mark }}
+                نمره
+              </q-badge>
+              <div class="q-mt-md input-grate-question">
+                <q-input v-model="scores[answerSheetIndex].score"
                          :loading="scores[answerSheetIndex].loading"
-                         @click="submitScore(answerSheetIndex)" />
-                </template>
-              </q-input>
-            </q-item-label>
-          </q-item-section>
-
-          <q-item-section side>
-            <q-badge v-if="answerSheet.score !== null">
-              {{ answerSheet.score }}
-              از
-              {{ answerSheet.test_question_info.question_info.mark }}
-              نمره
-            </q-badge>
-            <q-badge v-else>
-              {{ answerSheet.test_question_info.question_info.mark }}
-              نمره
-            </q-badge>
-          </q-item-section>
+                         dense>
+                  <template v-slot:append>
+                    <q-btn color="primary"
+                           label="ثبت نمره"
+                           outline
+                           :loading="scores[answerSheetIndex].loading"
+                           @click="submitScore(answerSheetIndex)" />
+                  </template>
+                </q-input>
+              </div>
+            </div>
+          </div>
         </q-item>
       </q-list>
       <q-separator class="q-my-lg" />
@@ -255,12 +254,11 @@ export default {
   }
   :deep(.q-list) {
     .q-item {
-      .q-item__section {
-        display: inline-block;
-        .entity-crud-formBuilder {
-          margin-top: 8px;
-          .outsideLabel {
-            margin-bottom: 8px;
+      .input-grate-question {
+        .q-input {
+          .q-field__inner .q-field__control {
+            height: 40px;
+            min-height: 40px;
           }
         }
       }

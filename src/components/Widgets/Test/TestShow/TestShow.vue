@@ -16,7 +16,7 @@
             سوال
           </div>
           <div class="col-md-4 col-12">
-            {{ answerBook.duration }}
+            {{ answerBook.test_info.duration_deadline }}
             دقیقه
           </div>
         </div>
@@ -25,35 +25,36 @@
         <q-item v-for="(answerSheet, answerSheetIndex) in answerBook.answer_sheet_info.list"
                 :key="answerSheetIndex"
                 clickable>
-          <q-item-section>
-            <q-item-label v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
-            <q-item-label>
-              <entity-show v-if="mounted"
-                           ref="entityShow"
-                           v-model:value="questionInputs[answerSheetIndex]"
-                           :loaded-data="answerSheet"
-                           :show-close-button="false"
-                           :show-edit-button="false"
-                           :show-expand-button="false"
-                           :show-save-button="false"
-                           :show-index-button="false"
-                           :show-reload-button="false"
-                           :default-layout="false" />
-            </q-item-label>
-          </q-item-section>
-
-          <q-item-section side>
-            <q-badge v-if="answerSheet.score !== null">
-              {{ answerSheet.score }}
-              از
-              {{ answerSheet.test_question_info.question_info.mark }}
-              نمره
-            </q-badge>
-            <q-badge v-else>
-              {{ answerSheet.test_question_info.question_info.mark }}
-              نمره
-            </q-badge>
-          </q-item-section>
+          <div class="full-width">
+            <div class="flex justify-end">
+              <q-badge v-if="answerSheet.score !== null">
+                {{ answerSheet.score }}
+                از
+                {{ answerSheet.test_question_info.question_info.mark }}
+                نمره
+              </q-badge>
+              <q-badge v-else>
+                {{ answerSheet.test_question_info.question_info.mark }}
+                نمره
+              </q-badge>
+            </div>
+            <div>
+              <div v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
+              <div>
+                <entity-show v-if="mounted"
+                             ref="entityShow"
+                             v-model:value="questionInputs[answerSheetIndex]"
+                             :loaded-data="answerSheet"
+                             :show-close-button="false"
+                             :show-edit-button="false"
+                             :show-expand-button="false"
+                             :show-save-button="false"
+                             :show-index-button="false"
+                             :show-reload-button="false"
+                             :default-layout="false" />
+              </div>
+            </div>
+          </div>
         </q-item>
       </q-list>
       <q-separator class="q-my-lg" />
