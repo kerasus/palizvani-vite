@@ -218,6 +218,7 @@ export default {
             this.loadedItems[itemId].selected = true
           }
         })
+      this.emitValues()
     },
     searchList () {
       this.$refs.entityIndexUsers.search()
