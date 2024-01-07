@@ -24,7 +24,7 @@
           </q-btn>
           <q-btn color="primary"
                  icon="search"
-                 @click="selectAllAllowedUser" />
+                 @click="searchList" />
         </template>
         <template #entity-index-table-cell="{inputData}">
           <template v-if="inputData.col.name === 'choice'">
@@ -100,7 +100,6 @@ export default {
       },
       inputs: [
         { type: 'input', name: 'owner__national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'owner__mobile_number', value: null, label: 'شماره همراه', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'owner__firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'owner__lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'classroom', value: this.classroomId }
