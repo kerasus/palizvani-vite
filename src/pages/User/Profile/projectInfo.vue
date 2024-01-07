@@ -10,6 +10,7 @@
   </div>
   <div>
     <q-inner-loading :showing="entityLoading"
+                     class="z-top"
                      label="کمی صبر کنید..." />
     <entity-show v-if="mounted"
                  ref="projectEntityEdit"
