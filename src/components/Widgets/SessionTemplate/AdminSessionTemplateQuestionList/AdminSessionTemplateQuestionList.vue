@@ -1,11 +1,11 @@
 <template>
   <div class="AdminSessionTemplateQuestionList"
        :style="localOptions.style">
-    <!--    <q-skeleton v-if="mounted"-->
-    <!--                type="text"-->
-    <!--                width="200px" />-->
-    <!--    <breadcrumbs v-else-->
-    <!--                 style="margin-top: 29px; margin-bottom: 19px;" />-->
+    <q-skeleton v-if="!unit.id || !sessionTemplate.id"
+                type="text"
+                width="200px" />
+    <breadcrumbs v-else
+                 style="margin-top: 29px; margin-bottom: 19px;" />
     <div class="flex justify-end q-mb-md">
       <q-btn label="ایجاد سوال جدید"
              color="primary"
@@ -53,22 +53,26 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
+import { Unit } from 'src/models/Unit.js'
 import { Question } from 'src/models/Question.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
-// import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { SessionTemplate } from 'src/models/SessionTemplate.js'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'AdminSessionTemplateQuestionList',
   components: {
-    EntityIndex,
-    // Breadcrumbs,
-    DeleteBtn
+    DeleteBtn,
+    Breadcrumbs,
+    EntityIndex
   },
   mixins: [mixinWidget],
   data () {
     return {
+      unit: new Unit(),
+      sessionTemplate: new SessionTemplate(),
       api: APIGateway.question.APIAdresses.base,
       tableKeys: {
         data: 'results',
@@ -133,22 +137,71 @@ export default {
   },
   mounted() {
     this.mounted = true
-    // this.updateBreadcrumbs()
+    Promise.all([
+      this.getUnit(),
+      this.getSessionTemplate()
+    ])
+      .then(() => {
+        this.updateBreadcrumbs()
+      })
+      .catch(() => {
+      })
   },
   methods: {
+    getUnit () {
+      return new Promise((resolve, reject) => {
+        this.unit.loading = true
+        APIGateway.unit.get(this.$route.params.unit_id)
+          .then((unit) => {
+            this.unit = new Unit(unit)
+            this.unit.loading = false
+            resolve()
+          })
+          .catch(() => {
+            this.unit.loading = false
+            reject()
+          })
+      })
+    },
+    getSessionTemplate () {
+      return new Promise((resolve, reject) => {
+        this.sessionTemplate.loading = true
+        APIGateway.sessionTemplate.get(this.$route.params.session_template_id)
+          .then((sessionTemplate) => {
+            this.sessionTemplate = new SessionTemplate(sessionTemplate)
+            this.sessionTemplate.loading = false
+            resolve()
+          })
+          .catch(() => {
+            this.sessionTemplate.loading = false
+            reject()
+          })
+      })
+    },
     updateBreadcrumbs () {
       this.$store.commit('AppLayout/updateBreadcrumbs', {
         visible: true,
         loading: false,
         path: [
-          // {
-          //   label: 'لیست ',
-          //   to: { name: this.indexPageRouteName }
-          // },
-          // {
-          //   label: 'this.classroom.title',
-          //   to: { name: this.showPageRouteName, params: { id: 12 } }
-          // }
+          {
+            label: 'درس ها و چارت آموزشی',
+            to: { name: 'Admin.Category.Index' }
+          },
+          {
+            label: this.unit.category_info.title,
+            to: { name: 'Admin.Category.Show', params: { id: this.unit.category_info.id } }
+          },
+          {
+            label: this.unit.title,
+            to: { name: 'Admin.Unit.Show', params: { id: this.unit.id } }
+          },
+          {
+            label: this.sessionTemplate.title,
+            to: { name: 'Admin.SessionTemplate.Show', params: { id: this.sessionTemplate.id } }
+          },
+          {
+            label: 'لیست سوالات'
+          }
         ]
       })
     },

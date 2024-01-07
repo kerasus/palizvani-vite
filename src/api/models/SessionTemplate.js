@@ -50,6 +50,20 @@ export default class SessionTemplateAPI extends APIRepository {
     })
   }
 
+  get (id) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.byId(id),
+      resolveCallback: (response) => {
+        return new SessionTemplate(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
   create (data) {
     return this.sendRequest({
       apiMethod: 'post',
