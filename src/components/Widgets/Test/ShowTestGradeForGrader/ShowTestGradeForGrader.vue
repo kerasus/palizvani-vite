@@ -23,8 +23,12 @@
             {{ toShamsi(answerBook.attending_start_time) }}
           </div>
           <div class="col-md-4 col-12">
-            {{ answerBook.test_info.test_questions_info.list.length }}
+            {{ answerBook.answer_sheet_info.list.length }}
             سوال
+          </div>
+          <div class="col-md-4 col-12">
+            نمره نهایی
+            {{ totalScore }}
           </div>
         </div>
       </q-banner>
@@ -195,6 +199,17 @@ export default {
       participateTypeDialog: false,
       answerBook: new AnswerBook(),
       timerInterval: null
+    }
+  },
+  computed: {
+    totalScore () {
+      let totalScore = 0
+      this.scores.forEach(item => {
+        if (item.score) {
+          totalScore += item.score
+        }
+      })
+      return totalScore
     }
   },
   mounted () {
