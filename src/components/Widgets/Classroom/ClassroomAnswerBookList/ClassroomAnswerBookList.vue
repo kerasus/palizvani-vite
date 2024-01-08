@@ -77,10 +77,6 @@ export default {
               value: 'UNGRADABLE'
             },
             {
-              label: 'تصحیح شده',
-              value: 'GRADED'
-            },
-            {
               label: 'اعتراض شده',
               value: 'OBJECTED'
             }
