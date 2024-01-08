@@ -85,7 +85,7 @@ export default {
           type: 'select',
           name: 'status',
           options: [
-            { label: 'جاری', value: 'CREATED,FETCHED,SUBMITTED' },
+            { label: 'جاری', value: 'WAITING_FOR_GRADING' },
             { label: 'در حال تصحیح', value: 'GRADING' },
             { label: 'تصحیح شده', value: 'GRADED' },
             {

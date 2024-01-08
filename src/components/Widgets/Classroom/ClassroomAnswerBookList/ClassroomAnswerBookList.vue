@@ -64,13 +64,29 @@ export default {
           name: 'status',
           clearable: false,
           options: [
-            { label: 'جاری', value: 'CREATED,FETCHED,SUBMITTED' },
+            { label: 'جاری', value: 'WAITING_FOR_GRADING' },
             { label: 'در حال تصحیح', value: 'GRADING' },
-            { label: 'تصحیح شده', value: 'GRADED' }
+            { label: 'تصحیح شده', value: 'GRADED' },
+            {
+              label: 'حذف شده',
+              value: 'DELETED'
+            },
+            {
+              label: 'نیاز به رفع مشکل',
+              value: 'UNGRADABLE'
+            },
+            {
+              label: 'تصحیح شده',
+              value: 'GRADED'
+            },
+            {
+              label: 'اعتراض شده',
+              value: 'OBJECTED'
+            }
           ],
           label: 'وضعیت',
           placeholder: ' ',
-          value: 'CREATED,FETCHED,SUBMITTED',
+          value: 'WAITING_FOR_GRADING',
           col: 'col-md-4 col-12'
         },
         { type: 'hidden', name: 'test__classroom', value: this.$route.params.classroom_id },
@@ -184,7 +200,7 @@ export default {
   watch: {
     selectedStatus (newValue) {
       let grader = this.user.id
-      if (newValue === 'CREATED,FETCHED,SUBMITTED') {
+      if (newValue === 'WAITING_FOR_GRADING') {
         grader = null
       }
 
