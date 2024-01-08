@@ -242,7 +242,7 @@ export default {
     },
     submitScore (index) {
       this.scores[index].loading = true
-      APIGateway.answerSheet.submitScore(this.$route.params.answer_book_id, this.scores[index].score)
+      APIGateway.answerSheet.submitScore(this.answerBook.answer_sheet_info.list[index].id, this.scores[index].score)
         .then(() => {
           this.scores[index].loading = false
           this.getAnswerBook()
