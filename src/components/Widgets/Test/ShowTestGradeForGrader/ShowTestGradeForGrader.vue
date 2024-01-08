@@ -280,22 +280,24 @@ export default {
     confirmScores () {
       this.answerBook.loading = true
       APIGateway.answerBook.confirmScores(this.$route.params.answer_book_id)
-        .then((answerBook) => {
-          this.loadAnswerBook(answerBook)
+        .then(() => {
+          this.getAnswerBook()
           this.answerBook.loading = false
         })
         .catch(() => {
+          this.getAnswerBook()
           this.answerBook.loading = false
         })
     },
     confirmUngradable () {
       this.answerBook.loading = true
       APIGateway.answerBook.confirmUngradable(this.$route.params.answer_book_id)
-        .then((answerBook) => {
-          this.loadAnswerBook(answerBook)
+        .then(() => {
+          this.getAnswerBook()
           this.answerBook.loading = false
         })
         .catch(() => {
+          this.getAnswerBook()
           this.answerBook.loading = false
         })
     }
