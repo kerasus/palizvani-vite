@@ -84,25 +84,11 @@ export default {
             field: row => (row.audience_gender_type === 'FEMALE') ? 'خواهران' : (row.audience_gender_type === 'MALE') ? 'برادران' : 'خواهران و برادران'
           },
           {
-            name: 'status',
-            required: true,
-            label: 'وضعیت',
-            align: 'left',
-            field: row => this.getClassroomStatusesTitle(row.status)
-          },
-          {
             name: 'holding_type',
             required: true,
             label: 'نوع برگزاری',
             align: 'left',
             field: row => this.getClassroomHoldingTypeTitle(row.holding_type)
-          },
-          {
-            name: 'price',
-            required: true,
-            label: 'هزینه(ریال)',
-            align: 'left',
-            field: row => row.price
           },
           {
             name: 'professor_info',
