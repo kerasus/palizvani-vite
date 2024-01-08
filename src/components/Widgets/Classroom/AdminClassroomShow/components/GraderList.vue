@@ -176,13 +176,6 @@ export default {
             field: row => row.grader_info.id
           },
           {
-            name: 'title',
-            required: true,
-            label: 'جنسیت',
-            align: 'left',
-            field: row => (row.grader_info.gender === 1) ? 'مذکر' : ((row.grader_info.gender === 2) ? 'مونث' : '-')
-          },
-          {
             name: 'creation_time',
             required: true,
             label: 'نام و نام خانوادگی',
