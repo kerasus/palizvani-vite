@@ -3,7 +3,7 @@
     <entity-index v-if="mounted"
                   ref="entityIndex"
                   v-model:value="inputs"
-                  :title="'لیست ' + classroomTypeTitle"
+                  title="لیست نتایج"
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
@@ -42,6 +42,7 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { UnitCategory } from 'src/models/UnitCategory.js'
+import { AnswerBook } from 'src/models/AnswerBook'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -150,6 +151,13 @@ export default {
             label: 'وضعیت آزمون',
             align: 'left',
             field: row => (new Test(row.test_info)).status_info.label
+          },
+          {
+            name: 'status_info',
+            required: true,
+            label: 'وضعیت تصحیح',
+            align: 'left',
+            field: row => (new AnswerBook(row)).status_info.label
           },
           {
             name: 'actions',
