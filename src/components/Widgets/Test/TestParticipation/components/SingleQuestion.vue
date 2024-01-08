@@ -155,8 +155,11 @@ export default {
               })
           }
         })
-        .catch(() => {
-          this.$emit('sentSuccess', actionType)
+        .catch((error) => {
+          this.$emit('sentfailed', actionType)
+          if (error.response && error.response.status === 422) {
+            this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
+          }
         })
     },
     goToQuestion (questionNumber) {

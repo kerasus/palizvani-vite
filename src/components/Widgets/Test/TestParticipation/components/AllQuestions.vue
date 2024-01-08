@@ -102,8 +102,11 @@ export default {
               this.$emit('sentfailed')
             })
         })
-        .catch(() => {
+        .catch((error) => {
           this.$emit('sentfailed')
+          if (error.response && error.response.status === 422) {
+            this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
+          }
         })
     }
   }
