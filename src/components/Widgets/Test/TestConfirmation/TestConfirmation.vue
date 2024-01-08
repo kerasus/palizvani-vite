@@ -67,7 +67,7 @@ export default {
       answerBook: new AnswerBook()
     }
   },
-  mounted() {
+  mounted () {
     this.$store.commit('Test/updateAnswerBook', null)
     this.getAnswerBook()
   },

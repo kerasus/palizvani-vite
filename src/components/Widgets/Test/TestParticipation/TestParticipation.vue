@@ -119,6 +119,9 @@ export default {
     this.getTestQuestions()
     this.mounted = true
   },
+  beforeUnmount() {
+    this.stopTimer()
+  },
   methods: {
     loadAnswerBookFromStore () {
       this.storeAnswerBook = this.$store.getters['Test/answerBook']

@@ -178,10 +178,26 @@
                   {{ inputData.rowNumber }}
                 </template>
                 <template v-else-if="col.name === 'action'">
-                  <q-btn size="md"
+                  <q-btn v-if="row.is_enabled_attending"
+                         size="md"
                          color="primary"
-                         label="جزییات"
+                         label="شرکت در آزمون"
                          :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: row.test, answer_book_id: row.id}}" />
+                  <q-btn v-if="row.is_enabled_continuing"
+                         size="md"
+                         color="primary"
+                         label="ادامه آزمون"
+                         @click="showParticipateTypeDialog(row.test, row.id)" />
+                  <q-btn v-if="row.is_enabled_objecting"
+                         size="md"
+                         color="primary"
+                         label="ثبت اعتراض"
+                         :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: row.test, answer_book_id: row.id}, query: { send_objection: 1}}" />
+                  <q-btn v-if="row.is_enabled_viewing"
+                         size="md"
+                         color="primary"
+                         label="مشاهده"
+                         :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: row.test, answer_book_id: row.id}}" />
                 </template>
               </template>
             </entity-index-grid-item>
