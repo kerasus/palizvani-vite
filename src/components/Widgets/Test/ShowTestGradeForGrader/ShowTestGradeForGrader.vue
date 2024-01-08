@@ -80,7 +80,7 @@
                   نمره
                 </q-badge>
               </div>
-              <div v-if="currentUserIsGrader"
+              <div v-if="currentUserIsGrader && answerBook.status === 'GRADING'"
                    class="q-mt-md input-grate-question">
                 <q-input v-model="scores[answerSheetIndex].score"
                          :loading="scores[answerSheetIndex].loading"
@@ -148,7 +148,7 @@
         </div>
         <div v-html="answerBook.objection_result" />
       </template>
-      <q-card-actions>
+      <q-card-actions v-if="answerBook.status === 'GRADING'">
         <q-btn color="primary"
                class="q-mr-lg"
                @click="confirmScores">
