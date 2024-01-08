@@ -19,16 +19,20 @@
       <q-separator />
       <q-banner>
         <div class="row">
-          <div class="col-md-4 col-12">
+          <div class="col-md-3 col-12">
             {{ toShamsi(answerBook.attending_start_time) }}
           </div>
-          <div class="col-md-4 col-12">
-            {{ answerBook.test_info.test_questions_info.list.length }}
+          <div class="col-md-3 col-12">
+            {{ answerBook.answer_sheet_info.list.length }}
             سوال
           </div>
-          <div class="col-md-4 col-12">
+          <div class="col-md-3 col-12">
             {{ answerBook.test_info.duration_deadline }}
             دقیقه
+          </div>
+          <div class="col-md-3 col-12">
+            نمره نهایی
+            {{ totalScore }}
           </div>
         </div>
       </q-banner>
@@ -173,6 +177,17 @@ export default {
       ],
       objectionApi: APIGateway.answerBook.APIAdresses.submitObjectionResult(this.$route.params.answer_book_id),
       answerBook: new AnswerBook()
+    }
+  },
+  computed: {
+    totalScore () {
+      let totalScore = 0
+      this.scores.forEach(item => {
+        if (item.score) {
+          totalScore += item.score
+        }
+      })
+      return totalScore
     }
   },
   mounted () {
