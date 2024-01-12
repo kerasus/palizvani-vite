@@ -79,7 +79,7 @@ class Test extends Model {
             value: 'ANNOUNCEMENT'
           },
           {
-            label: 'ریافت اعتراضات',
+            label: 'دریافت اعتراضات',
             value: 'OBJECTION'
           },
           {
