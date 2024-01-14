@@ -671,10 +671,10 @@ export default {
             required: true,
             label: 'نمره نهایی',
             align: 'left',
-            field: row => row.total_score
+            field: row => (row.status_info === 'GRADED' || row.status_info === 'OBJECTED' || row.status_info === 'FINALIZED') ? row.total_score : ''
           },
           {
-            name: 'result_status',
+            name: 'test_info_status',
             required: true,
             label: 'وضعیت آزمون',
             align: 'left',
