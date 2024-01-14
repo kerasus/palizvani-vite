@@ -104,8 +104,9 @@ export default {
           label: 'وضعیت',
           placeholder: ' ',
           value: null,
-          col: 'col-md-4 col-12'
+          col: 'col-md-3 col-12'
         },
+        { type: 'input', name: 'owner__national_code', label: 'کدملی', placeholder: ' ', col: ' col-md-3 col-12' },
         { type: 'hidden', name: 'test', value: this.$route.params.test_id },
         { type: 'hidden', name: 'test__classroom', value: this.$route.params.classroom_id },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
