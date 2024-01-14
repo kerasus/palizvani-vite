@@ -6,9 +6,7 @@
         {{ answerBook.test_info.title }}
       </q-card-section>
       <q-separator />
-      <q-card-section>
-        {{ answerBook.test_info.description }}
-      </q-card-section>
+      <q-card-section v-html="answerBook.test_info.description" />
       <q-card-actions class="flex justify-end">
         <q-btn color="primary"
                label="شرکت در آزمون"
