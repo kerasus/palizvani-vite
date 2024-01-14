@@ -148,6 +148,18 @@
         </div>
         <div v-html="answerBook.objection_result" />
       </template>
+      <q-banner v-if="currentUserIsGrader && answerBook.status === 'GRADING'">
+        <q-input v-model="answerBook.grader_description"
+                 type="textarea"
+                 label="توضیحات مصحح"
+                 :loading="graderDescriptionLoading" />
+        <q-btn color="primary"
+               label="ثبت توضیحات مصحح"
+               outline
+               class="full-width"
+               :loading="graderDescriptionLoading"
+               @click="submitGraderDescription" />
+      </q-banner>
       <q-card-actions v-if="answerBook.status === 'GRADING'">
         <q-btn color="primary"
                class="q-mr-lg"
@@ -180,9 +192,10 @@ export default {
   data () {
     return {
       mounted: false,
+      graderDescriptionLoading: false,
       currentUserIsGrader: false,
       overallAnswerInput: [
-        { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
+        // { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'overall_answer_attachment', responseKey: 'overall_answer_attachment', label: 'فایل پیوست جامع', placeholder: ' ', col: 'col-12' }
       ],
       questionInput: [
@@ -253,6 +266,17 @@ export default {
         .catch(() => {
           this.getAnswerBook()
           this.answerBook.loading = false
+        })
+    },
+    submitGraderDescription () {
+      this.graderDescriptionLoading = true
+      APIGateway.answerBook.submitGraderDescription(this.answerBook.id, this.answerBook.grader_description)
+        .then(() => {
+          this.graderDescriptionLoading = false
+          this.getAnswerBook()
+        })
+        .catch(() => {
+          this.graderDescriptionLoading = false
         })
     },
     submitScore (index) {
