@@ -57,7 +57,7 @@ export default {
       api: APIGateway.answerBook.APIAdresses.submitOverallAnswer(this.$route.params.answer_book_id),
       inputs: [
         // { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
-        { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
+        // { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'answer_attachment', label: 'فایل جامع پاسخ سوالات', placeholder: ' ', col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'اتمام آزمون', placeholder: ' ', atClick: () => {}, col: 'col-12' }
       ]
@@ -74,14 +74,14 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', this.answerBook.overall_answer_attachment)
     },
     sendAnswers () {
-      const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value
-      if (!answerText) {
-        this.$q.notify({
-          type: 'negative',
-          message: 'لطفا متن پاسخ را کامل کنید.'
-        })
-        return
-      }
+      // const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value
+      // if (!answerText) {
+      //   this.$q.notify({
+      //     type: 'negative',
+      //     message: 'لطفا متن پاسخ را کامل کنید.'
+      //   })
+      //   return
+      // }
 
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)
