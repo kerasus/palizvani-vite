@@ -20,15 +20,22 @@
       <q-banner>
         <div class="row">
           <div class="col-md-4 col-12">
+            زمان شروع:
             {{ toShamsi(answerBook.attending_start_time) }}
           </div>
           <div class="col-md-4 col-12">
-            {{ answerBook.answer_sheet_info.list.length }}
-            سوال
+            {{ answerBook.owner_info.firstname }}
+            {{ answerBook.owner_info.lastname }}
+            (کدملی: {{ answerBook.owner_info.national_code }})
           </div>
           <div class="col-md-4 col-12">
             نمره نهایی
-            {{ totalScore }}
+            <template v-if="currentUserIsGrader && answerBook.status === 'GRADING'">
+              {{ totalScore }}
+            </template>
+            <template v-else>
+              {{ answerBook.total_score }}
+            </template>
           </div>
         </div>
       </q-banner>

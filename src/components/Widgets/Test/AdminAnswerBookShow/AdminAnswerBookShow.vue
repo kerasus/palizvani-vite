@@ -32,7 +32,12 @@
           </div>
           <div class="col-md-3 col-12">
             نمره نهایی
-            {{ totalScore }}
+            <template v-if="answerBook.status === 'GRADING'">
+              {{ totalScore }}
+            </template>
+            <template v-else>
+              {{ answerBook.total_score }}
+            </template>
           </div>
         </div>
       </q-banner>
