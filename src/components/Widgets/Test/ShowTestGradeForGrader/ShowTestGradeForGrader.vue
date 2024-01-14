@@ -226,7 +226,7 @@ export default {
       let totalScore = 0
       this.scores.forEach(item => {
         if (item.score) {
-          totalScore += item.score
+          totalScore += parseFloat(item.score)
         }
       })
       return totalScore
