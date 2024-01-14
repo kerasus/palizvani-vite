@@ -156,7 +156,7 @@
         </q-btn>
         <q-btn color="red"
                @click="confirmUngradable">
-          قابل تصحیح نمی باشد
+          نیاز به رفع مشکل
         </q-btn>
       </q-card-actions>
     </q-card>
