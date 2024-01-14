@@ -8,16 +8,20 @@
       <q-separator />
       <q-banner>
         <div class="row">
-          <div class="col-md-4 col-12">
+          <div class="col-md-3 col-12">
             {{ toShamsi(answerBook.attending_start_time) }}
           </div>
-          <div class="col-md-4 col-12">
+          <div class="col-md-3 col-12">
             {{ answerBook.test_info.test_questions_info.list.length }}
             سوال
           </div>
-          <div class="col-md-4 col-12">
+          <div class="col-md-3 col-12">
             {{ answerBook.test_info.duration_deadline }}
             دقیقه
+          </div>
+          <div class="col-md-3 col-12">
+            نمره نهایی:
+            {{ answerBook.total_score }}
           </div>
         </div>
       </q-banner>
@@ -134,7 +138,7 @@ export default {
     return {
       mounted: false,
       overallAnswerInput: [
-        { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
+        // { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'overall_answer_attachment', responseKey: 'overall_answer_attachment', label: 'فایل پیوست جامع', placeholder: ' ', col: 'col-12' }
       ],
       questionInput: [

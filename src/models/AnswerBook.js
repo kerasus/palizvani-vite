@@ -27,6 +27,7 @@ class AnswerBook extends Model {
         relatedModel: Test
       },
       { key: 'duration' },
+      { key: 'total_score' },
       { key: 'grader' },
       { key: 'grader_description' },
       { key: 'grader_info' },
