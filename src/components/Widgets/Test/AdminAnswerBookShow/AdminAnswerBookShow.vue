@@ -7,30 +7,33 @@
       </q-card-section>
       <q-separator />
       <q-banner>
-        وضعیت آزمون:
-        {{ answerBook.status_info.label }}
-      </q-banner>
-      <q-banner v-if="answerBook.grader">
-        مصحح:
-        {{ answerBook.grader_info.firstname }}
-        {{ answerBook.grader_info.lastname }}
-        ({{ answerBook.grader_info.mobile_number }})
+        <div class="row">
+          <div class="col-md-6 col-12">
+            وضعیت آزمون:
+            {{ answerBook.status_info.label }}
+          </div>
+          <div v-if="answerBook.grader_info"
+               class="col-md-6 col-12">
+            مصحح:
+            {{ answerBook.grader_info.firstname }}
+            {{ answerBook.grader_info.lastname }}
+            (کدملی: {{ answerBook.grader_info.national_code }})
+          </div>
+        </div>
       </q-banner>
       <q-separator />
       <q-banner>
         <div class="row">
-          <div class="col-md-3 col-12">
+          <div class="col-md-4 col-12">
+            زمان شروع:
             {{ toShamsi(answerBook.attending_start_time) }}
           </div>
-          <div class="col-md-3 col-12">
-            {{ answerBook.answer_sheet_info.list.length }}
-            سوال
+          <div class="col-md-4 col-12">
+            {{ answerBook.owner_info.firstname }}
+            {{ answerBook.owner_info.lastname }}
+            (کدملی: {{ answerBook.owner_info.national_code }})
           </div>
-          <div class="col-md-3 col-12">
-            {{ answerBook.test_info.duration_deadline }}
-            دقیقه
-          </div>
-          <div class="col-md-3 col-12">
+          <div class="col-md-4 col-12">
             نمره نهایی
             <template v-if="answerBook.status === 'GRADING'">
               {{ totalScore }}
@@ -168,7 +171,7 @@ export default {
     return {
       mounted: false,
       overallAnswerInput: [
-        { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
+        // { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'overall_answer_attachment', responseKey: 'overall_answer_attachment', label: 'فایل پیوست جامع', placeholder: ' ', col: 'col-12' }
       ],
       questionInput: [
@@ -189,7 +192,7 @@ export default {
       let totalScore = 0
       this.scores.forEach(item => {
         if (item.score) {
-          totalScore += item.score
+          totalScore += parseFloat(item.score)
         }
       })
       return totalScore
