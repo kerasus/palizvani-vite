@@ -8,6 +8,9 @@ class Question extends Model {
       { key: 'correct_answer' },
       { key: 'mark' },
       { key: 'level' },
+      { key: 'model_type' },
+      { key: 'choices' },
+      { key: 'correct_choice_index' },
       {
         key: 'type',
         default: 'QUESTION_BANK'
@@ -46,6 +49,20 @@ class Question extends Model {
           {
             label: 'بانک سوال',
             value: 'QUESTION_BANK'
+          }
+        ]
+      },
+      model_type: {
+        infoKey: 'model_type_info',
+        enumListKey: 'model_typeEnums',
+        enums: [
+          {
+            label: 'تشریحی',
+            value: 'OPEN_ENDED'
+          },
+          {
+            label: 'چند گزینه ای',
+            value: 'MULTI_CHOICE'
           }
         ]
       }

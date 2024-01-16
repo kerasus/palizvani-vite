@@ -23,7 +23,7 @@
                  :show-save-button="false"
                  :show-reload-button="false"
                  :redirect-after-edit="false"
-                 :after-load-input-data="afterLoadInputData" />
+                 :before-load-input-data="beforeLoadInputData" />
   </div>
 </template>
 
@@ -34,8 +34,10 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
+import QuestionChoices from 'src/components/FormBuilderCustumComponents/QuestionChoices/QuestionChoices.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const QuestionChoicesComp = shallowRef(QuestionChoices)
 
 export default {
   name: 'AdminEventQuestionShow',
@@ -54,7 +56,9 @@ export default {
       inputs: [
         { type: 'input', name: 'text', responseKey: 'text', label: 'سوال', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'correct_answer', responseKey: 'correct_answer', label: 'پاسخ', placeholder: ' ', col: 'col-12' },
+        { type: QuestionChoicesComp, name: 'choices', responseKey: 'choices_info', correctChoiceIndex: 0, col: 'col-12 flex justify-end' },
         { type: BtnControlComp, name: 'btn', label: 'ویرایش سوال', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
+        { type: 'hidden', name: 'correct_choice_index', responseKey: 'correct_choice_index' },
         { type: 'hidden', name: 'type', responseKey: 'type', value: 'EVENT' }
       ]
     }
@@ -62,12 +66,16 @@ export default {
   mounted() {
     this.setActionBtn()
     this.mounted = true
+    this.$bus.on('onChangeCorrectChoiceIndexInQuestionChoicesInput', (correctChoiceIndex) => {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'correct_choice_index', 'value', correctChoiceIndex)
+    })
   },
   methods: {
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.edit)
     },
-    afterLoadInputData () {
+    beforeLoadInputData (responseData) {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'choices', 'correctChoiceIndex', responseData.correct_choice_index)
       this.entityLoading = false
     },
     edit() {

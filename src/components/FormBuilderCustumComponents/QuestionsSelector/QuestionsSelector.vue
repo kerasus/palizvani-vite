@@ -164,8 +164,8 @@ export default {
       },
       inputs: [
         { type: 'hidden', name: 'type', value: this.questionType },
-        { type: 'hidden', name: 'session_template_questions__session_template', value: null },
-        { type: 'hidden', name: 'session_template_questions__session_template__unit', value: this.unitId }
+        { type: 'hidden', name: 'session_template_questions__session_template', value: null }
+        // { type: 'hidden', name: 'session_template_questions__session_template__unit', value: this.unitId }
       ],
       table: {
         columns: []

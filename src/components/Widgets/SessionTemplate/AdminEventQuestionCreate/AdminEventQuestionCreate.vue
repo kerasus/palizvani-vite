@@ -35,8 +35,10 @@ import { Question } from 'src/models/Question.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import QuestionChoices from 'src/components/FormBuilderCustumComponents/QuestionChoices/QuestionChoices.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const QuestionChoicesComp = shallowRef(QuestionChoices)
 
 export default {
   name: 'AdminEventQuestionCreate',
@@ -56,6 +58,7 @@ export default {
       inputs: [
         { type: 'input', name: 'text', responseKey: 'text', label: 'سوال', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'correct_answer', responseKey: 'correct_answer', label: 'پاسخ', placeholder: ' ', col: 'col-12' },
+        { type: QuestionChoicesComp, name: 'choices', placeholder: ' ', col: 'col-12 flex justify-end' },
         { type: BtnControlComp, name: 'btn', label: 'ذخیره سوال', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
         { type: 'hidden', name: 'type', responseKey: 'type', value: 'EVENT' }
       ]

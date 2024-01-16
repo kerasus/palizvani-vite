@@ -27,6 +27,7 @@ import MediaHashtagAPI from 'src/api/models/MediaHashtag.js'
 import RegistrationAPI from 'src/api/models/Registration.js'
 import UnitCategoryAPI from 'src/api/models/UnitCategory.js'
 import MediaCategoryAPI from 'src/api/models/MediaCategory.js'
+import QuestionChoiceApi from 'src/api/models/QuestionChoice.js'
 import TicketCategoryAPI from 'src/api/models/TicketCategory.js'
 import SessionTemplateAPI from 'src/api/models/SessionTemplate.js'
 import ContentCategoryAPI from 'src/api/models/ContentCategory.js'
@@ -71,6 +72,7 @@ export const APIGateway = {
   mediaHashtag: new MediaHashtagAPI(),
   mediaCategory: new MediaCategoryAPI(),
   ticketCategory: new TicketCategoryAPI(),
+  questionChoice: new QuestionChoiceApi(),
   sessionTemplate: new SessionTemplateAPI(),
   contentCategory: new ContentCategoryAPI(),
   instalmentOffer: new InstalmentOfferAPI(),
