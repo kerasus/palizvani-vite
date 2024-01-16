@@ -7,6 +7,7 @@ class AnswerSheet extends Model {
       { key: 'id' },
       { key: 'answer_text' },
       { key: 'answer_attachment' },
+      { key: 'answer_choice_index' },
       { key: 'score' },
       { key: 'test_question' },
       {

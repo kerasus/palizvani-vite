@@ -1,24 +1,29 @@
 <template>
   <div class="ChoicesItem">
-    <div class="title">
-      <q-input v-model="choiceText"
-               class="full-width"
-               type="textarea"
-               @update:model-value="onChangeChoiceText" />
-    </div>
-    <div class="actions">
-      <q-btn icon="edit"
-             outline
-             class="viewBtn"
-             color="primary"
-             @click="onEdit" />
-      <q-btn v-if="canDelete"
-             class="deleteBtn"
-             icon="delete"
-             outline
-             color="red"
-             @click="onDelete" />
-    </div>
+    <template v-if="canEdit || canDelete">
+      <div class="title">
+        <q-input v-model="choiceText"
+                 class="full-width"
+                 type="textarea"
+                 @update:model-value="onChangeChoiceText" />
+      </div>
+      <div class="actions">
+        <q-btn v-if="canEdit"
+               icon="edit"
+               outline
+               class="viewBtn"
+               color="primary"
+               @click="onEdit" />
+        <q-btn v-if="canDelete"
+               class="deleteBtn"
+               icon="delete"
+               outline
+               color="red"
+               @click="onDelete" />
+      </div>
+    </template>
+    <div v-else
+         v-html="choiceText" />
   </div>
 </template>
 
@@ -31,6 +36,10 @@ export default {
     choice: {
       type: QuestionChoice,
       default: new QuestionChoice()
+    },
+    canEdit: {
+      type: Boolean,
+      default: true
     },
     canDelete: {
       type: Boolean,
@@ -45,7 +54,11 @@ export default {
     }
   },
   mounted() {
-    this.choiceText = this.choice.text.replace(/<br>/g, '\n')
+    if (this.canEdit || this.canDelete) {
+      this.choiceText = this.choice.text.replace(/<br>/g, '\n')
+    } else {
+      this.choiceText = this.choice.text.replace(/\n/g, '<br>')
+    }
   },
   methods: {
     onChangeChoiceText () {

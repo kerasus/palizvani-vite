@@ -9,7 +9,14 @@ class Question extends Model {
       { key: 'mark' },
       { key: 'level' },
       { key: 'model_type' },
-      { key: 'choices' },
+      {
+        key: 'choices',
+        default: []
+      },
+      {
+        key: 'choices_info',
+        default: []
+      },
       { key: 'correct_choice_index' },
       {
         key: 'type',

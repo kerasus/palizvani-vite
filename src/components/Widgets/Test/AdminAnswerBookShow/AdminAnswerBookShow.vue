@@ -49,10 +49,25 @@
                 :key="answerSheetIndex"
                 clickable>
           <div class="row full-width q-col-gutter-md">
-            <div class="col-md-10 col-12">
+            <div class="col-12"
+                 :class="{'col-md-10': $route.query.classroom_type !== 'EVENT'}">
               <div v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
               <q-card class="q-mt-sm">
-                <q-card-section>
+                <q-card-section v-if="Array.isArray(answerSheet.test_question_info.question_info.choices_info) && answerSheet.test_question_info.question_info.choices_info.length > 0">
+                  <div v-for="(choice, choiceIndex) in answerSheet.test_question_info.question_info.choices_info"
+                       :key="choiceIndex">
+                    <q-banner>
+                      <template v-slot:avatar>
+                        <q-icon :name="answerSheet.answer_choice_index === choiceIndex ? 'check_box' : 'check_box_outline_blank'"
+                                size="sm"
+                                color="primary" />
+                      </template>
+                      <div v-html="choice.text.replace(/\n/g, '<br>')" />
+                    </q-banner>
+                    <q-separator />
+                  </div>
+                </q-card-section>
+                <q-card-section v-else>
                   <div>
                     متن پاسخ:
                   </div>
@@ -71,7 +86,8 @@
                 </q-card-section>
               </q-card>
             </div>
-            <div class="col-md-2 col-12">
+            <div v-if="$route.query.classroom_type !== 'EVENT'"
+                 class="col-md-2 col-12">
               <q-badge v-if="answerSheet.score !== null">
                 {{ answerSheet.score }}
                 از

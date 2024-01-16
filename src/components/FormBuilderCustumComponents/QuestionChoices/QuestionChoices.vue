@@ -32,6 +32,7 @@
       </div>
       <div class="choice-item-component">
         <choices-item :choice="choice"
+                      :can-edit="canEdit"
                       :can-delete="canDelete"
                       @onEdit="onEdit(choice)"
                       @onDelete="onDelete(choice)" />
@@ -55,6 +56,10 @@ export default {
       default: () => [],
       type: [Array, String, Number, Boolean]
     },
+    choicesInfo: {
+      default: () => [],
+      type: [Array, String, Number, Boolean]
+    },
     correctChoiceIndex: {
       default: 0,
       type: Number
@@ -62,6 +67,14 @@ export default {
     disable: {
       default: false,
       type: Boolean
+    },
+    participateMode: {
+      type: Boolean,
+      default: false
+    },
+    canEdit: {
+      type: Boolean,
+      default: true
     },
     canDelete: {
       type: Boolean,
@@ -106,6 +119,11 @@ export default {
   watch: {
     value: {
       handler () {
+        if (this.participateMode) {
+          this.localCorrectChoiceIndex = this.value
+          return
+        }
+
         this.inputData = this.value
         if (this.value.length > 0 && this.value[0].id) {
           this.choices = new QuestionChoiceList(this.value)
@@ -119,9 +137,14 @@ export default {
     }
   },
   created () {
+    this.choices = new QuestionChoiceList(this.choicesInfo)
     FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.sourceType)
     this.inputData = this.value
-    this.localCorrectChoiceIndex = this.correctChoiceIndex
+    if (this.participateMode) {
+      this.localCorrectChoiceIndex = this.value || 0
+    } else {
+      this.localCorrectChoiceIndex = this.correctChoiceIndex
+    }
   },
   methods: {
     emitValue (value) {
@@ -129,6 +152,9 @@ export default {
     },
     onChangeCorrectChoiceIndex () {
       // this.$emit('update:correctChoiceIndex', this.localCorrectChoiceIndex)
+      if (this.participateMode) {
+        this.emitValue(this.localCorrectChoiceIndex)
+      }
       this.$bus.emit('onChangeCorrectChoiceIndexInQuestionChoicesInput', this.localCorrectChoiceIndex)
     },
     onEdit (choice) {
@@ -181,6 +207,7 @@ export default {
   width: 100%;
   .choice-item {
     display: flex;
+    margin-top: 16px;
     .choice-item-radio {
       width: 60px;
     }

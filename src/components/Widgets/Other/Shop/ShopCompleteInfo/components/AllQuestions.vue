@@ -70,8 +70,10 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { AnswerBook } from 'src/models/AnswerBook.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import QuestionChoices from 'src/components/FormBuilderCustumComponents/QuestionChoices/QuestionChoices.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const QuestionChoicesComp = shallowRef(QuestionChoices)
 
 export default {
   name: 'AllQuestions',
@@ -101,7 +103,8 @@ export default {
     },
     setInputs () {
       this.answerBook.answer_sheet_info.list.forEach((answerSheetItem, answerSheetIndex) => {
-        this.questionInputs.push([
+        const hasChoise = Array.isArray(answerSheetItem.test_question_info.question_info.choices) && answerSheetItem.test_question_info.question_info.choices.length > 0
+        const inputs = [
           { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', value: answerSheetItem.answer_text, inputType: 'textarea', col: 'col-12' },
           { type: 'file', name: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', value: answerSheetItem.answer_attachment, col: 'col-12' },
           { type: 'hidden', name: 'answer_book', value: this.answerBook.id },
@@ -114,7 +117,7 @@ export default {
             placeholder: ' ',
             atClick: () => {
               const answerText = FormBuilderAssist.getInputsByName(this.questionInputs[answerSheetIndex], 'answer_text').value
-              if (!answerText) {
+              if (!answerText && !hasChoise) {
                 this.$q.notify({
                   type: 'negative',
                   message: 'لطفا متن پاسخ را کامل کنید.'
@@ -138,7 +141,28 @@ export default {
             },
             col: 'col-12 flex justify-end'
           }
-        ])
+        ]
+
+        if (hasChoise) {
+          inputs[0].type = 'hidden'
+          inputs[0].value = null
+          inputs[1].type = 'hidden'
+          inputs[1].value = null
+          inputs.splice(2, 0,
+            {
+              type: QuestionChoicesComp,
+              name: 'answer_choice_index',
+              participateMode: true,
+              canAddChoice: false,
+              canEdit: false,
+              canDelete: false,
+              choicesInfo: answerSheetItem.test_question_info.question_info.choices_info,
+              value: isNaN(answerSheetItem.answer_choice_index) ? 0 : parseInt(answerSheetItem.answer_choice_index),
+              col: 'col-12 flex justify-end'
+            })
+        }
+
+        this.questionInputs.push(inputs)
       })
     },
     confirmAnswers () {
