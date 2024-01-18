@@ -205,10 +205,18 @@ export default {
       // Calculate the remaining time in seconds considering the duration
       return Math.floor((durationInMinutes * 60) - timeDiffInSeconds)
     },
+    onTimeout () {
+      this.$q.notify({
+        type: 'negative',
+        message: 'زمان آزمون به اتمام رسیده است.'
+      })
+      this.stopTimer()
+      this.backToClassList()
+    },
     startTimer () {
       this.timerInterval = setInterval(() => {
         if (this.remainingTime <= 0) {
-          this.stopTimer()
+          this.onTimeout()
         } else {
           this.remainingTime--
           this.answerBook.remainingTime = this.remainingTime
