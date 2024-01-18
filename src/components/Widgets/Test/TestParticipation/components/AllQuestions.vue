@@ -73,7 +73,30 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_text', 'value', this.answerBook.overall_answer_text)
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', this.answerBook.overall_answer_attachment)
     },
+    isFileSizeGtThan (targetSize) {
+      const file = FormBuilderAssist.getInputsByName(this.inputs, 'answer_attachment').value
+      const fileSizeinMb = file.size ? file.size / 1000000 : 0
+      return fileSizeinMb > targetSize
+    },
+    isPdfFile () {
+      const file = FormBuilderAssist.getInputsByName(this.inputs, 'answer_attachment').value
+      return file.type ? file.type === 'application/pdf' : true
+    },
     sendAnswers () {
+      if (this.isFileSizeGtThan(10)) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'حجم فایل نباید بیشتر از 10 مگابایت باشد.'
+        })
+        return
+      }
+      if (!this.isPdfFile()) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'تنها امکان ارسال فایل pdf وجود دارد.'
+        })
+        return
+      }
       // const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value
       // if (!answerText) {
       //   this.$q.notify({

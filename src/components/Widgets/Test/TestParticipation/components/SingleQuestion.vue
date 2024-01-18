@@ -133,7 +133,31 @@ export default {
     goToPrevQuestion () {
       this.goToQuestion(this.questionNumber - 1)
     },
+    isFileSizeGtThan (targetSize) {
+      const file = FormBuilderAssist.getInputsByName(this.inputs, 'answer_attachment').value
+      const fileSizeinMb = file.size ? file.size / 1000000 : 0
+      return fileSizeinMb > targetSize
+    },
+    isImageFile () {
+      const file = FormBuilderAssist.getInputsByName(this.inputs, 'answer_attachment').value
+      const fileType = file.type ? file.type : 'image/'
+      return fileType.startsWith('image/')
+    },
     sendAnswer () {
+      if (this.isFileSizeGtThan(3)) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'حجم فایل نباید بیشتر از 10 مگابایت باشد.'
+        })
+        return
+      }
+      if (!this.isImageFile()) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'تنها امکان ارسال فایل تصویری وجود دارد.'
+        })
+        return
+      }
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)
         .then((response) => {
