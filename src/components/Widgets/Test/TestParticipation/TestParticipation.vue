@@ -127,9 +127,15 @@ export default {
     this.mounted = true
 
     this.$bus.on('test-participate-single-question-sent-success', () => {
-      this.onAllQuestionsSentSuccess()
+      this.onSingleQuestionsSentSuccess()
     })
     this.$bus.on('test-participate-single-question-sent-failed', () => {
+      this.onSingleQuestionsSentFailed()
+    })
+    this.$bus.on('test-participate-all-question-sent-success', () => {
+      this.onAllQuestionsSentSuccess()
+    })
+    this.$bus.on('test-participate-all-question-sent-failed', () => {
       this.onAllQuestionsSentFailed()
     })
   },

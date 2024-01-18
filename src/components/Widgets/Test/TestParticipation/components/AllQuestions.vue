@@ -85,11 +85,17 @@ export default {
 
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)
-        .then(() => {
+        .then((response) => {
+          const answerBook = new AnswerBook(response.data)
+          this.$store.commit('Test/updateAnswerBook', answerBook)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'answer_text', 'value', answerBook.overall_answer_text)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', answerBook.overall_answer_attachment)
           this.$emit('sentsuccess')
+          this.$bus.emit('test-participate-all-question-sent-success')
         })
         .catch((error) => {
           this.$emit('sentfailed')
+          this.$bus.emit('test-participate-all-question-sent-failed')
           if (error.response && error.response.status === 422) {
             this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
           }
