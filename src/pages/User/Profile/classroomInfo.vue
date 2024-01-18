@@ -219,7 +219,7 @@
               <div>
                 <q-radio v-model="participateType"
                          val="UserPanel.Test.AnswerBook.Participate.AllQuestions"
-                         label="مایلم پاسخ سوالات را به صورت یک فایل جامع بارگزاری کنم" />
+                         label="مایلم پاسخ سوالات را به صورت یک فایل جامع بارگذاری کنم" />
                 <q-radio v-model="participateType"
                          val="UserPanel.Test.AnswerBook.Participate.SingleQuestion"
                          label="مایلم پاسخ سوالات را به صورت جداگانه ذیل همان سوال وارد کنم" />

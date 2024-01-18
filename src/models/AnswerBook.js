@@ -95,7 +95,7 @@ class AnswerBook extends Model {
             value: 'GRADING'
           },
           {
-            label: 'غیر قابل تصحیح',
+            label: 'نیاز به رفع مشکل',
             value: 'UNGRADABLE'
           },
           {
