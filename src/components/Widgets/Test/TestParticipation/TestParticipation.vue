@@ -35,6 +35,13 @@
                          @sending="onSingleQuestionsSending"
                          @sentSuccess="onSingleQuestionsSentSuccess"
                          @sentFailed="onSingleQuestionsSentFailed" />
+        <div class="flex justify-end q-pa-lg">
+          <q-btn color="primary"
+                 outline
+                 @click="confirmAnswers">
+            اتمام آزمون
+          </q-btn>
+        </div>
       </template>
     </q-card>
     <div v-else>
@@ -151,6 +158,31 @@ export default {
 
     startTest () {
       this.$router.push({ name: this.participateType, params: { question_number: 1 } })
+    },
+    confirmAnswers () {
+      this.$q.dialog({
+        title: 'اتمام آزمون',
+        message: 'آیا از اتمام آزمون و تایید پاسخ های خود اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        APIGateway.answerBook.confirmAnswers(this.answerBook.id)
+          .then(() => {
+            this.$q.notify({
+              message: 'تایید آزمون با موفقیت انجام شد.',
+              type: 'positive'
+            })
+            this.$router.push({
+              name: 'UserPanel.Test.AnswerBook.Participate.SingleQuestion',
+              params: {
+                test_id: this.$route.params.test_id,
+                answer_book_id: this.$route.params.answer_book_id,
+                question_number: 'complete'
+              }
+            })
+          })
+          .catch(() => {})
+      }).onCancel(() => {})
     },
     getRemainingTimeInSeconds (serverTimeStr, attendingStartTimeStr, durationInMinutes) {
       // Convert the strings to Date objects
