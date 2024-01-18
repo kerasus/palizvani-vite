@@ -56,17 +56,18 @@ export default {
       default: 1
     }
   },
-  emits: ['sending', 'sentSuccess', 'sentFailed'],
+  emits: ['sending', 'sentsuccess', 'sentfailed'],
   data () {
     return {
       mounted: false,
       api: APIGateway.answerSheet.APIAdresses.base,
       btnPrev: { type: BtnControlComp, name: 'btnPrev', label: 'سوال قبلی', placeholder: ' ', outline: true, atClick: () => {}, col: 'col-md-6 col-12' },
       btnNext: { type: BtnControlComp, name: 'btnNext', label: 'سوال بعدی', placeholder: ' ', atClick: () => {}, col: 'col-md-6 col-12 flex justify-end' },
-      btnFinal: { type: BtnControlComp, name: 'btnFinal', label: 'اتمام آزمون', placeholder: ' ', atClick: () => {}, col: 'col-md-6 col-12 flex justify-end' },
+      // btnFinal: { type: BtnControlComp, name: 'btnFinal', label: 'اتمام آزمون', placeholder: ' ', atClick: () => {}, col: 'col-md-6 col-12 flex justify-end' },
       inputs: [
         { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' },
+        { type: BtnControlComp, name: 'btnSendAnswer', label: 'ثبت پاسخ این سوال', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-center' },
         { type: 'hidden', name: 'answer_book', value: this.answerBook.id },
         { type: 'hidden', name: 'test_question', value: null }
       ]
@@ -104,9 +105,9 @@ export default {
       if (this.hasNextQuestion) {
         this.inputs.push(this.btnNext)
       }
-      if (this.isLastQuestion) {
-        this.inputs.push(this.btnFinal)
-      }
+      // if (this.isLastQuestion) {
+      //   this.inputs.push(this.btnFinal)
+      // }
       if (this.hasPrevQuestion && !this.hasNextQuestion) {
         FormBuilderAssist.setAttributeByName(this.inputs, 'btnPrev', 'col', 'col-md-6 col-12 flex justify-start')
       }
@@ -118,12 +119,21 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_text', 'value', this.answerBook.answer_sheet_info.list[questionIndex].answer_text)
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', this.answerBook.answer_sheet_info.list[questionIndex].answer_attachment)
 
-      FormBuilderAssist.setAttributeByName(this.inputs, 'btnFinal', 'atClick', () => { this.sendAnswer('final') })
-      FormBuilderAssist.setAttributeByName(this.inputs, 'btnNext', 'atClick', () => { this.sendAnswer('next') })
-      FormBuilderAssist.setAttributeByName(this.inputs, 'btnPrev', 'atClick', () => { this.sendAnswer('prev') })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btnSendAnswer', 'atClick', () => { this.sendAnswer() })
+
+      // FormBuilderAssist.setAttributeByName(this.inputs, 'btnFinal', 'atClick', () => { this.sendAnswer('final') })
+
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btnNext', 'atClick', () => { this.goToNextQuestion() })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btnPrev', 'atClick', () => { this.goToPrevQuestion() })
       FormBuilderAssist.setAttributeByName(this.inputs, 'test_question', 'value', this.testSetQuestion?.id)
     },
-    sendAnswer (actionType) {
+    goToNextQuestion () {
+      this.goToQuestion(this.questionNumber + 1)
+    },
+    goToPrevQuestion () {
+      this.goToQuestion(this.questionNumber - 1)
+    },
+    sendAnswer () {
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)
         .then((response) => {
@@ -132,31 +142,12 @@ export default {
           answerBook.answer_sheet_info.list[questionIndex].answer_text = response.data.answer_text
           answerBook.answer_sheet_info.list[questionIndex].answer_attachment = response.data.answer_attachment
           this.$store.commit('Test/updateAnswerBook', answerBook)
-
-          this.$emit('sentSuccess', actionType)
-          if (actionType === 'next') {
-            this.goToQuestion(this.questionNumber + 1)
-          }
-          if (actionType === 'prev') {
-            this.goToQuestion(this.questionNumber - 1)
-          }
-          if (actionType === 'final') {
-            APIGateway.answerBook.confirmAnswers(this.answerBook.id)
-              .then(() => {
-                this.$q.notify({
-                  message: 'پاسخ شما با موفقیت ارسال شد.',
-                  type: 'positive'
-                })
-                // this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
-                this.goToQuestion('complete')
-              })
-              .catch(() => {
-                this.$emit('sentfailed')
-              })
-          }
+          this.$emit('sentsuccess')
+          this.$bus.emit('test-participate-single-question-sent-success')
         })
         .catch((error) => {
-          this.$emit('sentfailed', actionType)
+          this.$emit('sentfailed')
+          this.$bus.emit('test-participate-single-question-sent-failed')
           if (error.response && error.response.status === 422) {
             this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
           }

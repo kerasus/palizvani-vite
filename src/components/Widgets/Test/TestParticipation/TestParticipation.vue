@@ -125,6 +125,13 @@ export default {
   mounted () {
     this.getTestQuestions()
     this.mounted = true
+
+    this.$bus.on('test-participate-single-question-sent-success', () => {
+      this.onAllQuestionsSentSuccess()
+    })
+    this.$bus.on('test-participate-single-question-sent-failed', () => {
+      this.onAllQuestionsSentFailed()
+    })
   },
   beforeUnmount() {
     this.stopTimer()
