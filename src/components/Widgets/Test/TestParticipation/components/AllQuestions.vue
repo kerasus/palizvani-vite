@@ -59,7 +59,7 @@ export default {
         // { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
         // { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'answer_attachment', label: 'فایل جامع پاسخ سوالات', placeholder: ' ', col: 'col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'اتمام آزمون', placeholder: ' ', atClick: () => {}, col: 'col-12' }
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت پاسخ جامع', placeholder: ' ', atClick: () => {}, col: 'col-12' }
       ]
     }
   },
@@ -86,21 +86,7 @@ export default {
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)
         .then(() => {
-          APIGateway.answerBook.confirmAnswers(this.answerBook.id)
-            .then(() => {
-              this.$emit('sentsuccess')
-              this.$router.push({
-                name: 'UserPanel.Test.AnswerBook.Participate.SingleQuestion',
-                params: {
-                  test_id: this.$route.params.test_id,
-                  answer_book_id: this.$route.params.answer_book_id,
-                  question_number: 'complete'
-                }
-              })
-            })
-            .catch(() => {
-              this.$emit('sentfailed')
-            })
+          this.$emit('sentsuccess')
         })
         .catch((error) => {
           this.$emit('sentfailed')
