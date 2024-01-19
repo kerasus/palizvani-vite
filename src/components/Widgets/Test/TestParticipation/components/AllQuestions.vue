@@ -58,7 +58,8 @@ export default {
       inputs: [
         // { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
         // { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
-        { type: 'file', name: 'answer_attachment', label: 'فایل جامع پاسخ سوالات', placeholder: ' ', col: 'col-12' },
+        { type: 'file', name: 'answer_attachment', label: 'فایل جامع پاسخ سوالات', placeholder: ' ', sendNull: true, col: 'col-9' },
+        { type: BtnControlComp, name: 'btnRemoveAnswerAttachment', label: 'حذف فایل پیوست', placeholder: ' ', atClick: () => {}, col: 'col-3 flex justify-center' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت پاسخ جامع', placeholder: ' ', atClick: () => {}, col: 'col-12' }
       ]
     }
@@ -70,8 +71,13 @@ export default {
   methods: {
     setInputs () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.sendAnswers)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btnRemoveAnswerAttachment', 'atClick', () => { this.removeAnswerAttachment() })
+
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_text', 'value', this.answerBook.overall_answer_text)
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', this.answerBook.overall_answer_attachment)
+    },
+    removeAnswerAttachment () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', null)
     },
     isFileSizeGtThan (targetSize) {
       const file = FormBuilderAssist.getInputsByName(this.inputs, 'answer_attachment').value
@@ -97,14 +103,6 @@ export default {
         })
         return
       }
-      // const answerText = FormBuilderAssist.getInputsByName(this.inputs, 'answer_text').value
-      // if (!answerText) {
-      //   this.$q.notify({
-      //     type: 'negative',
-      //     message: 'لطفا متن پاسخ را کامل کنید.'
-      //   })
-      //   return
-      // }
 
       this.$emit('sending')
       this.$refs.entityCreate.createEntity(false)

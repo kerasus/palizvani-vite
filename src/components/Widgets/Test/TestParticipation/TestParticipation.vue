@@ -151,6 +151,7 @@ export default {
     },
     onAllQuestionsSentSuccess () {
       this.answerBook.loading = false
+      this.getTestQuestions(true)
     },
     onAllQuestionsSentFailed () {
       this.answerBook.loading = false
@@ -250,9 +251,9 @@ export default {
       this.$store.commit('Test/updateAnswerBook', this.answerBook)
       this.startTimer()
     },
-    getTestQuestions () {
+    getTestQuestions (fresh = false) {
       this.loadAnswerBookFromStore()
-      if (this.storeAnswerBook && this.storeAnswerBook.id) {
+      if (this.storeAnswerBook && this.storeAnswerBook.id && !fresh) {
         this.initPageFromAnswerBook(this.storeAnswerBook, false)
         return
       }
