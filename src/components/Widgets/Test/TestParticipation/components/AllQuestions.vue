@@ -75,12 +75,12 @@ export default {
     },
     isFileSizeGtThan (targetSize) {
       const file = FormBuilderAssist.getInputsByName(this.inputs, 'answer_attachment').value
-      const fileSizeinMb = file.size ? file.size / 1000000 : 0
+      const fileSizeinMb = file?.size ? file.size / 1000000 : 0
       return fileSizeinMb > targetSize
     },
     isPdfFile () {
       const file = FormBuilderAssist.getInputsByName(this.inputs, 'answer_attachment').value
-      return file.type ? file.type === 'application/pdf' : true
+      return file?.type ? file.type === 'application/pdf' : true
     },
     sendAnswers () {
       if (this.isFileSizeGtThan(10)) {

@@ -160,7 +160,7 @@ export default {
     },
     onSingleQuestionsSentSuccess () {
       this.answerBook.loading = false
-      this.backToClassList()
+      // this.backToClassList()
     },
     onSingleQuestionsSentFailed () {
       this.answerBook.loading = false
