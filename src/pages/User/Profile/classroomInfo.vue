@@ -671,7 +671,7 @@ export default {
             required: true,
             label: 'نمره نهایی',
             align: 'left',
-            field: row => (row.status_info === 'GRADED' || row.status_info === 'OBJECTED' || row.status_info === 'FINALIZED') ? row.total_score : ''
+            field: row => (row.status === 'GRADED' || row.status === 'OBJECTED' || row.status === 'FINALIZED') ? row.total_score : ''
           },
           {
             name: 'test_info_status',
