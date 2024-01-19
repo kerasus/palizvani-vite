@@ -229,6 +229,7 @@ export default {
           totalScore += parseFloat(item.score)
         }
       })
+
       return totalScore
     }
   },
@@ -251,6 +252,7 @@ export default {
       return Assist.miladiToShamsi(miladi)
     },
     loadAnswerBook (answerBook) {
+      this.scores = []
       this.answerBook = new AnswerBook(answerBook)
       this.answerBook.answer_sheet_info.list.forEach((answerSheetItem) => {
         this.questionInputs.push(this.questionInput)
