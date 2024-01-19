@@ -66,7 +66,8 @@ export default {
       // btnFinal: { type: BtnControlComp, name: 'btnFinal', label: 'اتمام آزمون', placeholder: ' ', atClick: () => {}, col: 'col-md-6 col-12 flex justify-end' },
       inputs: [
         { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
-        { type: 'file', name: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', col: 'col-12' },
+        { type: 'file', name: 'answer_attachment', label: 'فایل پیوست', placeholder: ' ', sendNull: true, col: 'col-9' },
+        { type: BtnControlComp, name: 'btnRemoveAnswerAttachment', label: 'حذف فایل پیوست', placeholder: ' ', atClick: () => {}, col: 'col-3 flex justify-center' },
         { type: BtnControlComp, name: 'btnSendAnswer', label: 'ثبت پاسخ این سوال', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-center' },
         { type: 'hidden', name: 'answer_book', value: this.answerBook.id },
         { type: 'hidden', name: 'test_question', value: null }
@@ -120,12 +121,16 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', this.answerBook.answer_sheet_info.list[questionIndex].answer_attachment)
 
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnSendAnswer', 'atClick', () => { this.sendAnswer() })
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btnRemoveAnswerAttachment', 'atClick', () => { this.removeAnswerAttachment() })
 
       // FormBuilderAssist.setAttributeByName(this.inputs, 'btnFinal', 'atClick', () => { this.sendAnswer('final') })
 
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnNext', 'atClick', () => { this.goToNextQuestion() })
       FormBuilderAssist.setAttributeByName(this.inputs, 'btnPrev', 'atClick', () => { this.goToPrevQuestion() })
       FormBuilderAssist.setAttributeByName(this.inputs, 'test_question', 'value', this.testSetQuestion?.id)
+    },
+    removeAnswerAttachment () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'answer_attachment', 'value', null)
     },
     goToNextQuestion () {
       this.goToQuestion(this.questionNumber + 1)
