@@ -81,6 +81,7 @@ export default {
       eventInputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-12' },
+        { type: QuestionsCreateAndAppendComp, name: 'test_questions', responseKey: 'test_questions_info', testId: this.$route.params.id, questionType: 'EVENT', ignoreValue: true, col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'event', responseKey: 'event', value: this.$route.params.classroom_id },
         { type: 'hidden', name: 'test_set', responseKey: 'test_set', value: this.$route.params.test_set_id },
         { type: 'hidden', name: 'classroom', responseKey: 'classroom', value: this.$route.params.classroom_id },

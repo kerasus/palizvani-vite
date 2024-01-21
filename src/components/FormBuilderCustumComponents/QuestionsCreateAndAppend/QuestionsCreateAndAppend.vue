@@ -1,14 +1,13 @@
 <template>
   <div class="ContentsSelector q-mt-md">
-    <q-table title="سوالات"
-             :rows="testQuestionList"
+    <q-table :rows="testQuestionList"
              :columns="table.columns"
              row-key="name">
       <template #top>
         <q-banner class="full-width">
-          <div class="flex justify-between">
+          <div class="flex justify-between items-center">
             <span>
-              انتخاب سوال
+              سوالات
             </span>
             <q-btn color="primary"
                    class="q-mr-md"
@@ -49,7 +48,8 @@
                  @click="openDialogEditQuestion(props.row.question_info.id)">
             ویرایش سوال
           </q-btn>
-          <q-btn color="primary"
+          <q-btn v-if="questionType === 'QUESTION_BANK'"
+                 color="primary"
                  class="q-mr-lg"
                  size="sm"
                  outline
@@ -102,6 +102,7 @@
               transition-show="slide-up"
               transition-hide="slide-down">
       <edit-question-form :question-id="selectedQuestionIdForEdit"
+                          :question-type="questionType"
                           @onQuestionEdited="onQuestionEdited" />
     </q-dialog>
     <q-dialog v-model="createNewQuestionDialog"
@@ -109,6 +110,7 @@
               transition-show="slide-up"
               transition-hide="slide-down">
       <create-question-form :test-id="testId"
+                            :question-type="questionType"
                             @onQuestionCreated="onQuestionCreated" />
     </q-dialog>
   </div>
@@ -316,14 +318,14 @@ export default {
           required: true,
           label: 'شناسه',
           align: 'left',
-          field: row => row.id
+          field: row => row.question_info.id
         },
         {
           name: 'text',
           required: true,
           label: 'عنوان سوال',
           align: 'left',
-          field: row => row.text
+          field: row => row.question_info.text
         },
         {
           name: 'action',

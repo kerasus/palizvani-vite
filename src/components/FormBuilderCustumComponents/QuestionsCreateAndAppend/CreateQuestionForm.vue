@@ -44,6 +44,10 @@ export default {
     testId: {
       type: Number,
       default: null
+    },
+    questionType: {
+      default: 'QUESTION_BANK',
+      type: String
     }
   },
   emits: ['onQuestionCreated'],
@@ -67,12 +71,16 @@ export default {
     }
   },
   mounted() {
-    this.setActionBtn()
+    this.setInputs()
     this.mounted = true
   },
   methods: {
-    setActionBtn () {
+    setInputs () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.edit)
+      if (this.questionType === 'EVENT') {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'mark', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'level', 'type', 'hidden')
+      }
     },
     afterLoadInputData () {
       this.entityLoading = false
