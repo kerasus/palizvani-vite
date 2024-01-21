@@ -14,7 +14,7 @@
         >
       </q-btn>
     </div>
-    <entity-edit v-if="mounted"
+    <entity-edit v-if="mounted && classroom.id"
                  ref="entityEdit"
                  v-model:value="inputs"
                  :title="$route.query.classroom_type === 'EVENT' ? 'مشخصات پرسشنامه' : 'مشخصات آزمون'"
@@ -42,9 +42,11 @@ import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { UnitCategory } from 'src/models/UnitCategory.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import QuestionsSelector from 'src/components/FormBuilderCustumComponents/QuestionsSelector/QuestionsSelector.vue'
 import UsersOfTestSelector from 'src/components/FormBuilderCustumComponents/UsersOfTestSelector/UsersOfTestSelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const QuestionsSelectorComp = shallowRef(QuestionsSelector)
 const UsersOfTestSelectorComp = shallowRef(UsersOfTestSelector)
 
 export default {
@@ -72,6 +74,7 @@ export default {
         { type: 'select', name: 'level', responseKey: 'level', label: 'سطح آزمون', placeholder: ' ', options: (new Test()).levelEnums, col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'test_set', responseKey: 'test_set', value: this.$route.params.test_set_id },
         { type: 'hidden', name: 'classroom', responseKey: 'classroom', value: this.$route.params.classroom_id },
+        { type: QuestionsSelectorComp, name: 'test_questions', responseKey: 'test_questions', unitId: false, questionType: 'QUESTION_BANK', col: 'col-md-12 col-12' },
         { type: UsersOfTestSelectorComp, name: 'examinees', responseKey: 'examinees', classroomId: this.$route.params.classroom_id, col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تعیین جزییات', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
       ],
@@ -118,6 +121,7 @@ export default {
     }
   },
   mounted () {
+    this.getClassroom()
     this.setActionBtn()
     this.mounted = true
   },
@@ -138,7 +142,6 @@ export default {
     },
     afterLoadInputData (responseData) {
       this.test = new Test(responseData)
-      this.getClassroom()
       this.entityLoading = false
     },
     getClassroom () {
@@ -148,6 +151,7 @@ export default {
           this.classroom = new Classroom(classroom)
           this.classroom.loading = false
           this.updateBreadcrumbs()
+          FormBuilderAssist.setAttributeByName(this.classroomInputs, 'test_questions', 'unitId', this.classroom.unit)
         })
         .catch(() => {
           this.classroom.loading = false

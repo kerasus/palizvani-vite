@@ -57,9 +57,10 @@
           </template>
           <template v-else-if="inputData.col.name === 'action'">
             <div class="action-column-entity-index">
-              <q-btn color="primary"
+              <q-btn v-if="$route.params.unit_id"
+                     color="primary"
                      outline
-                     :to="getShowQuestionRoute (inputData.props.row.id, $route.params.unit_id, selectedSessionId)">
+                     :to="getShowQuestionRoute(inputData.props.row.id, $route.params.unit_id, selectedSessionId)">
                 مشاهده پاسخ
                 <q-icon name="visibility"
                         class="q-ml-md" />
@@ -405,7 +406,7 @@ export default {
         const questionId = item.question || item.id
         const mark = item.mark || 0
         const isExtraMark = item.is_extra_mark || false
-        const selected = allSelected
+        const selected = allSelected || this.value.includes(questionId)
         const target = this.loadedQuestions[questionId]
         if (!target) {
           this.loadedQuestions[questionId] = {
