@@ -4,7 +4,7 @@ import { Question, QuestionList } from 'src/models/Question.js'
 
 export default class QuestionAPI extends APIRepository {
   constructor() {
-    super('questions', appApi)
+    super('questions', appApi, '/lma/questions', Question, '/lma/questions')
     this.APIAdresses = {
       base: '/lma/questions',
       byId: (id) => '/lma/questions/' + id

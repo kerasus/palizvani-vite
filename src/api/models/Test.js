@@ -7,7 +7,9 @@ export default class TestAPI extends APIRepository {
     super('tests', appApi)
     this.APIAdresses = {
       base: '/lma/tests',
-      byId: (id) => '/lma/tests/' + id
+      byId: (id) => '/lma/tests/' + id,
+      testQuestionById: (id) => '/lma/test_questions/' + id,
+      appendQuestion: (id) => '/lma/tests/' + id + '/append_question'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base
@@ -81,6 +83,24 @@ export default class TestAPI extends APIRepository {
       },
       resolveCallback: (response) => {
         return new Test(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  editTestQuestion (data) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.testQuestionById(data.id),
+      data: {
+        mark: data.mark,
+        is_extra_mark: data.is_extra_mark
+      },
+      resolveCallback: () => {
+        return null
       },
       rejectCallback: (error) => {
         return error
