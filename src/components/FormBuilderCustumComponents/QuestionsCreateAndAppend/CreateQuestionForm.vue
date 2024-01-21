@@ -55,7 +55,7 @@ export default {
     return {
       mounted: false,
       entityLoading: true,
-      api: APIGateway.test.APIAdresses.appendQuestion(this.testId),
+      api: null,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Unit.Questions.Show',
@@ -70,6 +70,13 @@ export default {
       ]
     }
   },
+  created() {
+    if (this.questionType === 'QUESTION_BANK') {
+      this.api = APIGateway.test.APIAdresses.appendQuestion(this.testId)
+    } else if (this.questionType === 'EVENT') {
+      this.api = APIGateway.testSet.APIAdresses.appendQuestion(this.testId)
+    }
+  },
   mounted() {
     this.setInputs()
     this.mounted = true
@@ -79,7 +86,9 @@ export default {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.edit)
       if (this.questionType === 'EVENT') {
         FormBuilderAssist.setAttributeByName(this.inputs, 'mark', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'mark', 'ignoreValue', true)
         FormBuilderAssist.setAttributeByName(this.inputs, 'level', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'level', 'ignoreValue', true)
       }
     },
     afterLoadInputData () {

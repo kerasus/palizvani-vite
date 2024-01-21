@@ -32,10 +32,10 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
-import QuestionsSelector from 'src/components/FormBuilderCustumComponents/QuestionsSelector/QuestionsSelector.vue'
+// import QuestionsSelector from 'src/components/FormBuilderCustumComponents/QuestionsSelector/QuestionsSelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
-const QuestionsSelectorComp = shallowRef(QuestionsSelector)
+// const QuestionsSelectorComp = shallowRef(QuestionsSelector)
 
 export default {
   name: 'AdminEventTestSetCreate',
@@ -53,8 +53,8 @@ export default {
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان پرسشنامه', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات پرسشنامه', col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'type', responseKey: 'type', value: 'QUESTIONNAIRE' },
-        { type: BtnControlComp, name: 'btnCreateQuestion', responseKey: 'btnCreateQuestion', label: 'تعریف سوال جدید', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
-        { type: QuestionsSelectorComp, name: 'test_set_questions', responseKey: 'test_set_questions', unitId: false, questionType: 'EVENT', col: 'col-md-12 col-12' },
+        // { type: BtnControlComp, name: 'btnCreateQuestion', responseKey: 'btnCreateQuestion', label: 'تعریف سوال جدید', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
+        // { type: QuestionsSelectorComp, name: 'test_set_questions', responseKey: 'test_set_questions', unitId: false, questionType: 'EVENT', col: 'col-md-12 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید نهایی', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
       ]
     }
@@ -66,7 +66,7 @@ export default {
   methods: {
     setActionBtn () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.create)
-      FormBuilderAssist.setAttributeByName(this.inputs, 'btnCreateQuestion', 'atClick', this.goToCreateQuestionPage)
+      // FormBuilderAssist.setAttributeByName(this.inputs, 'btnCreateQuestion', 'atClick', this.goToCreateQuestionPage)
     },
     goToCreateQuestionPage () {
       this.$router.push({ name: 'Admin.Event.TestSet.Questions.Create', params: { test_set_id: this.$route.params.test_set_id } })

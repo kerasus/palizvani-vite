@@ -7,7 +7,8 @@ export default class TestSetAPI extends APIRepository {
     super('test_sets', appApi)
     this.APIAdresses = {
       base: '/lma/test_sets',
-      byId: (id) => '/lma/test_sets/' + id
+      byId: (id) => '/lma/test_sets/' + id,
+      appendQuestion: (id) => '/lma/test_sets/' + id + '/append_question'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base

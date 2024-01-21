@@ -88,7 +88,7 @@
           </div>
         </div>
       </template>
-      <template v-else-if="questionType === 'EVENT'">
+      <template v-else-if="questionType === 'EVENT' && localValue">
         <div class="row">
           <div class="col-md-4 col-12">
             تعداد سوالات انتخاب شده:
@@ -117,12 +117,12 @@
 </template>
 
 <script>
+import { Test } from 'src/models/Test.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import EditQuestionForm from './EditQuestionForm.vue'
 import CreateQuestionForm from './CreateQuestionForm.vue'
 import NormalizeNumber from 'src/assets/js/NormalizeNumber.js'
-import { Test } from 'src/models/Test.js'
 import { Question, QuestionList } from 'src/models/Question.js'
 import { SessionTemplateList } from 'src/models/SessionTemplate.js'
 
@@ -176,7 +176,6 @@ export default {
       sessionQuestions: new QuestionList(),
       loadedQuestions: {},
 
-      api: APIGateway.question.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -247,7 +246,7 @@ export default {
     }
   },
   watch: {
-    value () {
+    value (newValue) {
       this.reFreshTestQuestionList()
     }
   },
@@ -372,7 +371,7 @@ export default {
 
     },
     reFreshTestQuestionList () {
-      if (!Array.isArray(this.localValue)) {
+      if (!this.localValue || !Array.isArray(this.localValue)) {
         return
       }
       this.testQuestionList = JSON.parse(JSON.stringify(this.localValue))
@@ -408,15 +407,27 @@ export default {
     },
     refreshTestQuestions () {
       this.test.loading = true
-      APIGateway.test.get(this.testId)
-        .then((test) => {
-          this.test.loading = false
-          this.localValue = test.inputData.test_questions_info
-          this.reFreshTestQuestionList()
-        })
-        .catch(() => {
-          this.test.loading = false
-        })
+      if (this.questionType === 'QUESTION_BANK') {
+        APIGateway.test.get(this.testId)
+          .then((test) => {
+            this.test.loading = false
+            this.localValue = test.inputData.test_questions_info
+            this.reFreshTestQuestionList()
+          })
+          .catch(() => {
+            this.test.loading = false
+          })
+      } else if (this.questionType === 'EVENT') {
+        APIGateway.testSet.get(this.testId)
+          .then((testSet) => {
+            this.test.loading = false
+            this.localValue = testSet.inputData.test_set_questions
+            this.reFreshTestQuestionList()
+          })
+          .catch(() => {
+            this.test.loading = false
+          })
+      }
     },
     filterQuestionList () {
       if (this.selectedSessionId) {

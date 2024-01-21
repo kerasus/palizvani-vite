@@ -42,8 +42,8 @@ import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { UnitCategory } from 'src/models/UnitCategory.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import QuestionsCreateAndAppend from 'src/components/FormBuilderCustumComponents/QuestionsCreateAndAppend/QuestionsCreateAndAppend.vue'
 import UsersOfTestSelector from 'src/components/FormBuilderCustumComponents/UsersOfTestSelector/UsersOfTestSelector.vue'
+import QuestionsCreateAndAppend from 'src/components/FormBuilderCustumComponents/QuestionsCreateAndAppend/QuestionsCreateAndAppend.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 const UsersOfTestSelectorComp = shallowRef(UsersOfTestSelector)
@@ -74,7 +74,7 @@ export default {
         { type: 'select', name: 'level', responseKey: 'level', label: 'سطح آزمون', placeholder: ' ', options: (new Test()).levelEnums, col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'test_set', responseKey: 'test_set', value: this.$route.params.test_set_id },
         { type: 'hidden', name: 'classroom', responseKey: 'classroom', value: this.$route.params.classroom_id },
-        { type: QuestionsCreateAndAppendComp, name: 'test_questions', responseKey: 'test_questions_info', testId: this.$route.params.id, questionType: 'QUESTION_BANK', ignoreValue: true, col: 'col-md-12 col-12' },
+        { type: QuestionsCreateAndAppendComp, name: 'test_questions', responseKey: 'test_set_questions', testId: this.$route.params.id, questionType: 'QUESTION_BANK', ignoreValue: true, col: 'col-md-12 col-12' },
         { type: UsersOfTestSelectorComp, name: 'examinees', responseKey: 'examinees', classroomId: this.$route.params.classroom_id, col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تعیین جزییات', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
       ],
