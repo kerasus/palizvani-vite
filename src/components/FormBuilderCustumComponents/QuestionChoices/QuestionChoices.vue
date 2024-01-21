@@ -45,8 +45,8 @@
 import { EntityCreate } from 'quasar-crud'
 import ChoicesItem from './ChoicesItem.vue'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { QuestionChoice, QuestionChoiceList } from 'src/models/QuestionChoice.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import { QuestionChoice, QuestionChoiceList } from 'src/models/QuestionChoice.js'
 
 export default {
   name: 'QuestionChoices',
