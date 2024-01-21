@@ -32,8 +32,10 @@ import { Question } from 'src/models/Question.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import QuestionChoices from 'src/components/FormBuilderCustumComponents/QuestionChoices/QuestionChoices.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const QuestionChoicesComp = shallowRef(QuestionChoices)
 
 export default {
   name: 'CreateQuestionForm',
@@ -69,7 +71,9 @@ export default {
         { type: 'inputEditor', name: 'correct_answer', responseKey: 'correct_answer', label: 'پاسخ', placeholder: ' ', col: 'col-12' },
         { type: 'input', name: 'mark', responseKey: 'mark', label: 'بارم پیشنهادی سوال', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'level', responseKey: 'level', label: 'سطح سوال', placeholder: ' ', options: (new Question()).levelEnums, col: 'col-md-3 col-12' },
+        { type: QuestionChoicesComp, name: 'choices', responseKey: 'choices_info', correctChoiceIndex: 0, col: 'col-12 flex justify-end' },
         { type: BtnControlComp, name: 'btn', label: 'ذخیره سوال', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
+        { type: 'hidden', name: 'correct_choice_index', responseKey: 'correct_choice_index' },
         { type: 'hidden', name: 'type', responseKey: 'type', value: 'QUESTION_BANK' }
       ]
     }
@@ -84,10 +88,17 @@ export default {
   mounted() {
     this.setInputs()
     this.mounted = true
+    this.$bus.on('onChangeCorrectChoiceIndexInQuestionChoicesInput', (correctChoiceIndex) => {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'correct_choice_index', 'value', correctChoiceIndex)
+    })
   },
   methods: {
     setInputs () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.edit)
+      if (this.questionType === 'QUESTION_BANK') {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'choices', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'choices', 'ignoreValue', true)
+      }
       if (this.questionType === 'EVENT') {
         FormBuilderAssist.setAttributeByName(this.inputs, 'mark', 'type', 'hidden')
         FormBuilderAssist.setAttributeByName(this.inputs, 'mark', 'ignoreValue', true)
@@ -117,6 +128,7 @@ export default {
 .CreateQuestionForm {
   .entity-edit {
     height: 100vh;
+    overflow: auto;
   }
 }
 </style>

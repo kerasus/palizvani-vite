@@ -102,6 +102,7 @@ export default {
         { type: 'input', name: 'owner__national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'owner__firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'owner__lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'hidden', name: 'per_page', value: '200' },
         { type: 'hidden', name: 'classroom', value: this.classroomId }
       ],
       table: {
