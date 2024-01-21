@@ -110,6 +110,7 @@
               transition-show="slide-up"
               transition-hide="slide-down">
       <create-question-form :test-id="testId"
+                            :test-set-id="testSetId"
                             :question-type="questionType"
                             @onQuestionCreated="onQuestionCreated" />
     </q-dialog>
@@ -156,6 +157,10 @@ export default {
     testId: {
       default: null,
       type: [Number, String, Boolean]
+    },
+    testSetId: {
+      type: Number,
+      default: null
     },
     unitId: {
       default: null,
@@ -407,7 +412,7 @@ export default {
     },
     refreshTestQuestions () {
       this.test.loading = true
-      if (this.questionType === 'QUESTION_BANK') {
+      if (this.testId) {
         APIGateway.test.get(this.testId)
           .then((test) => {
             this.test.loading = false
@@ -417,8 +422,8 @@ export default {
           .catch(() => {
             this.test.loading = false
           })
-      } else if (this.questionType === 'EVENT') {
-        APIGateway.testSet.get(this.testId)
+      } else if (this.testSetId) {
+        APIGateway.testSet.get(this.testSetId)
           .then((testSet) => {
             this.test.loading = false
             this.localValue = testSet.inputData.test_set_questions

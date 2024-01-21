@@ -58,7 +58,7 @@ export default {
         { type: 'hidden', name: 'type', responseKey: 'type', value: 'QUESTIONNAIRE' },
         // { type: BtnControlComp, name: 'btnCreateQuestion', responseKey: 'btnCreateQuestion', label: 'تعریف سوال جدید', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' },
         // { type: QuestionsSelectorComp, name: 'test_set_questions', responseKey: 'test_set_questions', unitId: false, questionType: 'EVENT', col: 'col-md-12 col-12' },
-        { type: QuestionsCreateAndAppendComp, name: 'test_set_questions', responseKey: 'test_set_questions', testId: testSetId, questionType: 'EVENT', ignoreValue: true, col: 'col-md-12 col-12' },
+        { type: QuestionsCreateAndAppendComp, name: 'test_set_questions', responseKey: 'test_set_questions', testSetId, questionType: 'EVENT', ignoreValue: true, col: 'col-md-12 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید نهایی', placeholder: ' ', atClick: () => {}, col: 'col-12 flex justify-end' }
       ]
     }

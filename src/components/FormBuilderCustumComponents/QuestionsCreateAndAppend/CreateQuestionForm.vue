@@ -45,6 +45,10 @@ export default {
       type: Number,
       default: null
     },
+    testSetId: {
+      type: Number,
+      default: null
+    },
     questionType: {
       default: 'QUESTION_BANK',
       type: String
@@ -71,10 +75,10 @@ export default {
     }
   },
   created() {
-    if (this.questionType === 'QUESTION_BANK') {
+    if (this.testId) {
       this.api = APIGateway.test.APIAdresses.appendQuestion(this.testId)
-    } else if (this.questionType === 'EVENT') {
-      this.api = APIGateway.testSet.APIAdresses.appendQuestion(this.testId)
+    } else if (this.testSetId) {
+      this.api = APIGateway.testSet.APIAdresses.appendQuestion(this.testSetId)
     }
   },
   mounted() {
