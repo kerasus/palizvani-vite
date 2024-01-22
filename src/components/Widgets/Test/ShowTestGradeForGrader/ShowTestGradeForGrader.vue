@@ -79,11 +79,11 @@
                 <q-badge v-if="answerSheet.score !== null">
                   {{ answerSheet.score }}
                   از
-                  {{ answerSheet.test_question_info.question_info.mark }}
+                  {{ answerSheet.test_question_info.mark }}
                   نمره
                 </q-badge>
                 <q-badge v-else>
-                  {{ answerSheet.test_question_info.question_info.mark }}
+                  {{ answerSheet.test_question_info.mark }}
                   نمره
                 </q-badge>
               </div>
