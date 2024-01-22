@@ -6,7 +6,7 @@
              outline
              size="sm"
              class="btn-next-question"
-             @click="changeQuestion(questionPanel + 1)">
+             @click="nextQuestion">
         سوال بعدی
         <q-icon name="arrow_back_ios" />
       </q-btn>
@@ -15,7 +15,7 @@
              outline
              size="sm"
              class="btn-prev-question"
-             @click="changeQuestion(questionPanel - 1)">
+             @click="prevQuestion">
         <q-icon name="arrow_forward_ios" />
         سوال قبلی
       </q-btn>
@@ -98,6 +98,20 @@ export default {
     this.mounted = true
   },
   methods: {
+    nextQuestion () {
+      this.sendAnswer(this.questionPanel - 1)
+        .then(() => {
+          this.changeQuestion(this.questionPanel + 1)
+        })
+        .catch(() => {})
+    },
+    prevQuestion () {
+      this.sendAnswer(this.questionPanel - 1)
+        .then(() => {
+          this.changeQuestion(this.questionPanel - 1)
+        })
+        .catch(() => {})
+    },
     changeQuestion (newNumber) {
       this.questionPanel = newNumber
     },
@@ -116,28 +130,29 @@ export default {
             label: 'ثبت پاسخ',
             placeholder: ' ',
             atClick: () => {
-              const answerText = FormBuilderAssist.getInputsByName(this.questionInputs[answerSheetIndex], 'answer_text').value
-              if (!answerText && !hasChoise) {
-                this.$q.notify({
-                  type: 'negative',
-                  message: 'لطفا متن پاسخ را کامل کنید.'
-                })
-                return
-              }
-              const entityCreate = this.$refs['entityCreate_' + answerSheetIndex.toString()][0]
-              entityCreate.entityLoading = true
-              entityCreate.createEntity(false)
-                .then(() => {
-                  if (this.questionPanel < this.answerBook.answer_sheet_info.list.length) {
-                    this.changeQuestion(this.questionPanel + 1)
-                  } else if (this.questionPanel === this.answerBook.answer_sheet_info.list.length) {
-                    this.confirmAnswers()
-                  }
-                  entityCreate.entityLoading = false
-                })
-                .catch(() => {
-                  entityCreate.entityLoading = false
-                })
+              this.sendAnswer(answerSheetIndex)
+              // const answerText = FormBuilderAssist.getInputsByName(this.questionInputs[answerSheetIndex], 'answer_text').value
+              // if (!answerText && !hasChoise) {
+              //   this.$q.notify({
+              //     type: 'negative',
+              //     message: 'لطفا متن پاسخ را کامل کنید.'
+              //   })
+              //   return
+              // }
+              // const entityCreate = this.$refs['entityCreate_' + answerSheetIndex.toString()][0]
+              // entityCreate.entityLoading = true
+              // entityCreate.createEntity(false)
+              //   .then(() => {
+              //     if (this.questionPanel < this.answerBook.answer_sheet_info.list.length) {
+              //       this.changeQuestion(this.questionPanel + 1)
+              //     } else if (this.questionPanel === this.answerBook.answer_sheet_info.list.length) {
+              //       this.confirmAnswers()
+              //     }
+              //     entityCreate.entityLoading = false
+              //   })
+              //   .catch(() => {
+              //     entityCreate.entityLoading = false
+              //   })
             },
             col: 'col-12 flex justify-end'
           }
@@ -163,6 +178,45 @@ export default {
         }
 
         this.questionInputs.push(inputs)
+      })
+    },
+    sendAnswer (answerSheetIndex) {
+      return new Promise((resolve, reject) => {
+        const answerSheetItem = this.answerBook.answer_sheet_info.list[answerSheetIndex]
+        const hasChoise = Array.isArray(answerSheetItem.test_question_info.question_info.choices) && answerSheetItem.test_question_info.question_info.choices.length > 0
+        const answerText = FormBuilderAssist.getInputsByName(this.questionInputs[answerSheetIndex], 'answer_text').value
+        if (!answerText && !hasChoise) {
+          this.$q.notify({
+            type: 'negative',
+            message: 'لطفا متن پاسخ را کامل کنید.'
+          })
+          reject()
+          return
+        }
+        if (hasChoise && isNaN(answerSheetItem.answer_choice_index)) {
+          this.$q.notify({
+            type: 'negative',
+            message: 'لطفا یک گزینه را انتخاب.'
+          })
+          reject()
+          return
+        }
+        const entityCreate = this.$refs['entityCreate_' + answerSheetIndex.toString()][0]
+        entityCreate.entityLoading = true
+        entityCreate.createEntity(false)
+          .then(() => {
+            if (this.questionPanel < this.answerBook.answer_sheet_info.list.length) {
+              // this.changeQuestion(this.questionPanel + 1)
+            } else if (this.questionPanel === this.answerBook.answer_sheet_info.list.length) {
+              this.confirmAnswers()
+            }
+            entityCreate.entityLoading = false
+            resolve()
+          })
+          .catch(() => {
+            entityCreate.entityLoading = false
+            reject()
+          })
       })
     },
     confirmAnswers () {
