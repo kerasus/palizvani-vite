@@ -54,12 +54,12 @@
       </q-tab-panel>
     </q-tab-panels>
     <q-separator class="q-my-lg" />
-    <q-card-actions class="flex justify-end AllQuestionsForm">
-      <q-btn color="primary"
-             @click="confirmAnswers">
-        ارسال پرسشنامه
-      </q-btn>
-    </q-card-actions>
+    <!--    <q-card-actions class="flex justify-end AllQuestionsForm">-->
+    <!--      <q-btn color="primary"-->
+    <!--             @click="confirmAnswers">-->
+    <!--        ارسال پرسشنامه-->
+    <!--      </q-btn>-->
+    <!--    </q-card-actions>-->
   </div>
 </template>
 
