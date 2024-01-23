@@ -80,6 +80,11 @@ export default {
               show: true
             },
             {
+              title: 'کتب سطح پنج',
+              externalLink: 'https://formafzar.com/form/qlif0',
+              show: true
+            }
+            {
               title: 'کتب جریان‌شناسی',
               externalLink: 'https://formafzar.com/form/ch1om',
               show: true
