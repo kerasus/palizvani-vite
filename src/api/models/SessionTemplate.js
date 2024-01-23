@@ -7,7 +7,8 @@ export default class SessionTemplateAPI extends APIRepository {
     super('SessionTemplate', appApi, '/lma/categories', SessionTemplate)
     this.APIAdresses = {
       base: '/lma/session_templates',
-      byId: (id) => '/lma/session_templates/' + id
+      byId: (id) => '/lma/session_templates/' + id,
+      appendQuestion: (id) => '/lma/session_templates/' + id + '/append_question'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -21,6 +22,7 @@ export default class SessionTemplateAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
+        unit: null, // Number
         category: null, // Number
         per_page: 10, // Number
         page: 1 // Number
@@ -41,6 +43,20 @@ export default class SessionTemplateAPI extends APIRepository {
           //   "previous": null,
           // }
         }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  get (id) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.byId(id),
+      resolveCallback: (response) => {
+        return new SessionTemplate(response.data)
       },
       rejectCallback: (error) => {
         return error

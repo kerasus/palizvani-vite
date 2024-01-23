@@ -4,17 +4,22 @@ import UserAPI from 'src/api/models/User.js'
 import PostAPI from 'src/api/models/Post.js'
 import UnitAPI from 'src/api/models/Unit.js'
 import TeamAPI from 'src/api/models/Team.js'
+import TestAPI from 'src/api/models/Test.js'
 import EventAPI from 'src/api/models/Event.js'
 import MediaAPI from 'src/api/models/Media.js'
 import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
+import TestSetAPI from 'src/api/models/TestSet.js'
 import InvoiceAPI from 'src/api/models/Invoice.js'
 import PaymentAPI from 'src/api/models/Payment.js'
 import SessionAPI from 'src/api/models/Session.js'
 import ContentAPI from 'src/api/models/Content.js'
 import ProjectAPI from 'src/api/models/Project.js'
+import QuestionApi from 'src/api/models/Question.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
+import AnswerBookApi from 'src/api/models/AnswerBook.js'
 import InstalmentAPI from 'src/api/models/Instalment.js'
+import AnswerSheetApi from 'src/api/models/AnswerSheet.js'
 import TransactionAPI from 'src/api/models/Transaction.js'
 import PageSettingAPI from 'src/api/models/PageSetting.js'
 import PostCategoryAPI from 'src/api/models/PostCategory.js'
@@ -22,6 +27,7 @@ import MediaHashtagAPI from 'src/api/models/MediaHashtag.js'
 import RegistrationAPI from 'src/api/models/Registration.js'
 import UnitCategoryAPI from 'src/api/models/UnitCategory.js'
 import MediaCategoryAPI from 'src/api/models/MediaCategory.js'
+import QuestionChoiceApi from 'src/api/models/QuestionChoice.js'
 import TicketCategoryAPI from 'src/api/models/TicketCategory.js'
 import SessionTemplateAPI from 'src/api/models/SessionTemplate.js'
 import ContentCategoryAPI from 'src/api/models/ContentCategory.js'
@@ -42,17 +48,22 @@ export const APIGateway = {
   unit: new UnitAPI(),
   post: new PostAPI(),
   team: new TeamAPI(),
+  test: new TestAPI(),
   event: new EventAPI(),
   media: new MediaAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
+  testSet: new TestSetAPI(),
   project: new ProjectAPI(),
   invoice: new InvoiceAPI(),
   payment: new PaymentAPI(),
   session: new SessionAPI(),
   content: new ContentAPI(),
+  question: new QuestionApi(),
   classroom: new ClassroomAPI(),
+  answerBook: new AnswerBookApi(),
   instalment: new InstalmentAPI(),
+  answerSheet: new AnswerSheetApi(),
   transaction: new TransactionAPI(),
   pageSetting: new PageSettingAPI(),
   registration: new RegistrationAPI(),
@@ -61,6 +72,7 @@ export const APIGateway = {
   mediaHashtag: new MediaHashtagAPI(),
   mediaCategory: new MediaCategoryAPI(),
   ticketCategory: new TicketCategoryAPI(),
+  questionChoice: new QuestionChoiceApi(),
   sessionTemplate: new SessionTemplateAPI(),
   contentCategory: new ContentCategoryAPI(),
   instalmentOffer: new InstalmentOfferAPI(),

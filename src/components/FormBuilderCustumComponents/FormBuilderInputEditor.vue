@@ -95,7 +95,7 @@
           <q-list dense>
             <q-item tag="label"
                     clickable
-                    @click="color('backColor', highlight)">
+                    @click="setColor('backColor', highlight)">
               <q-item-section side>
                 <q-icon name="highlight" />
               </q-item-section>
@@ -113,7 +113,7 @@
             </q-item>
             <q-item tag="label"
                     clickable
-                    @click="color('foreColor', foreColor)">
+                    @click="setColor('foreColor', foreColor)">
               <q-item-section side>
                 <q-icon name="format_paint" />
               </q-item-section>
@@ -155,19 +155,20 @@ export default {
   },
   data () {
     return {
+      inputData: '',
       foreColor: '#000000',
       highlight: '#ffff00aa'
     }
   },
   watch: {
     value(newValue) {
-      if (newValue === false) {
+      if (!newValue) {
         this.inputData = ''
       }
     }
   },
   created() {
-    if (this.inputData === false) {
+    if (!this.inputData) {
       this.inputData = ''
     }
   },
@@ -175,7 +176,7 @@ export default {
     onPaste () {
       this.inputData = this.inputData.replaceAll(/<!--\[if .*endif\]-->/gms, 'ferret')
     },
-    color (cmd, name) {
+    setColor (cmd, name) {
       const edit = this.$refs.editor
       this.$refs.token.hide()
       edit.caret.restore()

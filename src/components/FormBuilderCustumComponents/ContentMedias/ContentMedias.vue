@@ -213,5 +213,6 @@ export default {
 
 <style lang="scss" scoped>
 .ContentMedias {
+  width: 100%;
 }
 </style>

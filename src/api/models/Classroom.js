@@ -9,8 +9,10 @@ export default class ClassroomAPI extends APIRepository {
     super('classrooms', appApi, '/lma/classrooms', Classroom)
     this.APIAdresses = {
       base: '/lma/classrooms',
+      myAsGraderClassrooms: '/lma/classrooms/my_as_a_grader_classrooms',
       byId: (id) => '/lma/classrooms/' + id,
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
+      graders: (id) => '/lma/classrooms/' + id + '/graders',
       drop: (id) => '/lma/classrooms/' + id + '/drop',
       register: (id) => '/lma/classrooms/' + id + '/register',
       leaders: (id) => '/lma/classrooms/' + id + '/leaders',
@@ -168,6 +170,24 @@ export default class ClassroomAPI extends APIRepository {
       request: this.APIAdresses.createInvoice(id),
       resolveCallback: (response) => {
         return new Invoice(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  appendGraders (data) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.graders(data.classroomId),
+      data: {
+        classroomId: data.classroomId,
+        graders: data.graders
+      },
+      resolveCallback: (response) => {
+        return new ClassroomList(response.data)
       },
       rejectCallback: (error) => {
         return error

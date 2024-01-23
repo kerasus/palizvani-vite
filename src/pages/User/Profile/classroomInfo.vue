@@ -25,7 +25,7 @@
              name="team"
              label="گروه" />
       <q-tab v-if="canShowOtherTabsOfClassroom"
-             name="movies1"
+             name="tests"
              label="آزمون" />
       <q-tab v-if="canShowOtherTabsOfClassroom"
              name="projects"
@@ -128,8 +128,115 @@
                     height="200px" />
       </q-tab-panel>
 
-      <q-tab-panel name="movies1">
-        آزمون
+      <q-tab-panel name="tests"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="entityIndex"
+                      v-model:value="testListInputs"
+                      title="آزمون ها"
+                      :api="testListApi"
+                      :table="testListTable"
+                      :table-keys="testListTableKeys"
+                      :table-grid-size="$q.screen.lt.sm"
+                      :show-expand-button="false"
+                      :show-reload-button="false"
+                      :show-search-button="false">
+          <template #entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'action'">
+              <q-btn v-if="inputData.props.row.is_enabled_attending"
+                     size="md"
+                     color="primary"
+                     label="شرکت در آزمون"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
+              <q-btn v-if="inputData.props.row.is_enabled_continuing"
+                     size="md"
+                     color="primary"
+                     label="ادامه آزمون"
+                     @click="showParticipateTypeDialog(inputData.props.row.test, inputData.props.row.id)" />
+              <q-btn v-if="inputData.props.row.is_enabled_objecting"
+                     size="md"
+                     color="primary"
+                     label="ثبت اعتراض"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}, query: { send_objection: 1}}" />
+              <q-btn v-if="inputData.props.row.is_enabled_viewing"
+                     size="md"
+                     color="primary"
+                     label="مشاهده"
+                     :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: inputData.props.row.test, answer_book_id: inputData.props.row.id}}" />
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+          <template #entity-index-table-item-cell="{inputData}">
+            <entity-index-grid-item :input-data="inputData">
+              <template #col="{col, row}">
+                <template v-if="col.name === 'number'">
+                  {{ inputData.rowNumber }}
+                </template>
+                <template v-else-if="col.name === 'action'">
+                  <q-btn v-if="row.is_enabled_attending"
+                         size="md"
+                         color="primary"
+                         label="شرکت در آزمون"
+                         :to="{name: 'UserPanel.Test.AnswerBook.Confirmation', params: {test_id: row.test, answer_book_id: row.id}}" />
+                  <q-btn v-if="row.is_enabled_continuing"
+                         size="md"
+                         color="primary"
+                         label="ادامه آزمون"
+                         @click="showParticipateTypeDialog(row.test, row.id)" />
+                  <q-btn v-if="row.is_enabled_objecting"
+                         size="md"
+                         color="primary"
+                         label="ثبت اعتراض"
+                         :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: row.test, answer_book_id: row.id}, query: { send_objection: 1}}" />
+                  <q-btn v-if="row.is_enabled_viewing"
+                         size="md"
+                         color="primary"
+                         label="مشاهده"
+                         :to="{name: 'UserPanel.Test.AnswerBook.Show', params: {test_id: row.test, answer_book_id: row.id}}" />
+                </template>
+              </template>
+            </entity-index-grid-item>
+          </template>
+        </entity-index>
+        <q-skeleton v-else
+                    type="rect"
+                    height="200px" />
+        <q-dialog v-model="participateTypeDialog">
+          <q-card>
+            <q-card-actions>
+              نحوه پاسخ به آزمون
+            </q-card-actions>
+            <q-separator />
+            <q-card-actions>
+              <div>
+                اندیشه جوی عزیز لطفا نحوه پاسخ به سوالات آزمون را مشخص کنید
+              </div>
+              <div>
+                <q-radio v-model="participateType"
+                         val="UserPanel.Test.AnswerBook.Participate.AllQuestions"
+                         label="مایلم پاسخ سوالات را به صورت یک فایل جامع بارگذاری کنم" />
+                <q-radio v-model="participateType"
+                         val="UserPanel.Test.AnswerBook.Participate.SingleQuestion"
+                         label="مایلم پاسخ سوالات را به صورت جداگانه ذیل همان سوال وارد کنم" />
+              </div>
+            </q-card-actions>
+            <q-card-actions>
+              <q-btn v-close-popup
+                     outline
+                     label="انصراف از آزمون"
+                     color="red" />
+              <q-btn :disable="!participateType"
+                     label="تایید و شروع آزمون"
+                     color="primary"
+                     @click="startTest" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </q-tab-panel>
 
       <q-tab-panel name="projects"
@@ -194,11 +301,14 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
+import { Team } from 'src/models/Team.js'
+import { Test } from 'src/models/Test.js'
 import Enums from 'src/assets/Enums/Enums.js'
 import { mixinAuth } from 'src/mixin/Mixins.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
+import { AnswerBook } from 'src/models/AnswerBook.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import { Registration, RegistrationList } from 'src/models/Registration.js'
@@ -206,7 +316,6 @@ import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
-import { Team } from 'src/models/Team'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -222,6 +331,12 @@ export default {
     // const userId = this.$store.getters['Auth/user'].id
     return {
       mounted: false,
+      selectedTest: {
+        testId: null,
+        answerBookId: null
+      },
+      participateTypeDialog: false,
+      participateType: null,
       tab: 'classroomInfo',
       inputs: [],
       sessionsInputs: [
@@ -486,6 +601,107 @@ export default {
         currentPage: 'current',
         perPage: 'per_page',
         pageKey: 'page'
+      },
+
+      testListInputs: [
+        { type: 'hidden', name: 'test__classroom', value: classroomId },
+        { type: 'hidden', name: 'owner', value: null }
+      ],
+      testListApi: APIGateway.answerBook.APIAdresses.base,
+      testListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه آزمون',
+            align: 'left',
+            field: row => row.test_info.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'عنوان آزمون',
+            align: 'left',
+            field: row => row.test_info?.title
+          },
+          {
+            name: 'start_time',
+            required: true,
+            label: 'زمان شروع',
+            align: 'left',
+            field: row => row.test_info?.start_time ? ShamsiDate.getDateTime(row.test_info.start_time) : '-'
+          },
+          {
+            name: 'end_time',
+            required: true,
+            label: 'زمان پایان',
+            align: 'left',
+            field: row => row.test_info?.end_time ? ShamsiDate.getDateTime(row.test_info.end_time) : '-'
+          },
+          {
+            name: 'duration_deadline',
+            required: true,
+            label: 'مدت آزمون(دقیقه)',
+            align: 'left',
+            field: row => row.test_info.duration_deadline
+          },
+          {
+            name: 'test_questions.length',
+            required: true,
+            label: 'تعداد سوالات',
+            align: 'left',
+            field: row => row.test_info?.test_questions_length
+          },
+          {
+            name: 'grade',
+            required: true,
+            label: 'نمره نهایی',
+            align: 'left',
+            field: row => (row.status === 'GRADED' || row.status === 'OBJECTED' || row.status === 'FINALIZED') ? row.total_score : ''
+          },
+          {
+            name: 'test_info_status',
+            required: true,
+            label: 'وضعیت آزمون',
+            align: 'left',
+            field: row => (new Test(row.test_info)).status_info.label
+          },
+          {
+            name: 'result_status',
+            required: true,
+            label: 'وضعیت تصحیح',
+            align: 'left',
+            field: row => (new AnswerBook(row)).status_info.label
+          },
+          {
+            name: 'action',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: ''
+          }
+        ]
+      },
+      testListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
       }
     }
   },
@@ -507,10 +723,22 @@ export default {
     }
   },
   mounted () {
+    this.$store.commit('Test/updateAnswerBook', null)
     this.getRegistrationInfo()
     this.mounted = true
+    FormBuilderAssist.setAttributeByName(this.testListInputs, 'owner', 'value', this.user.id)
   },
   methods: {
+    showParticipateTypeDialog (testId, answerBookId) {
+      this.$store.commit('Test/updateAnswerBook', null)
+      this.selectedTest.testId = testId
+      this.selectedTest.answerBookId = answerBookId
+      this.participateTypeDialog = true
+    },
+    startTest () {
+      this.$store.commit('Test/updateAnswerBook', null)
+      this.$router.push({ name: this.participateType, params: { test_id: this.selectedTest.testId, answer_book_id: this.selectedTest.answerBookId, question_number: 1 } })
+    },
     getTeamJoinStatusLabel (team) {
       if (team.join_status === 'ENABLED') {
         return 'عضو شوید'

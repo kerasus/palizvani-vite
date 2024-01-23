@@ -10,6 +10,7 @@
   </div>
   <div>
     <q-inner-loading :showing="entityLoading"
+                     class="z-top"
                      label="کمی صبر کنید..." />
     <entity-show v-if="mounted"
                  ref="projectEntityEdit"
@@ -27,6 +28,7 @@
         <q-separator class="q-my-lg" />
         <entity-create v-if="projectLoaded && project.is_enabled_answering"
                        ref="entityCreate"
+                       :key="entityCreateKey"
                        v-model:value="attendanceSheetsInputs"
                        :api="attendanceSheetsApi"
                        :default-layout="false" />
@@ -71,6 +73,7 @@ export default {
     return {
       mounted: false,
       entityLoading: false,
+      entityCreateKey: Date.now(),
       projectLoaded: false,
       classroomLoaded: false,
       project: new Project(),
@@ -116,7 +119,7 @@ export default {
   computed: {
     currentUserAttendanceSheet () {
       if (!this.projectAttendanceSheets?.project_attendance_sheets || this.projectAttendanceSheets.project_attendance_sheets.length === 0) {
-        return null
+        return {}
       }
 
       return this.projectAttendanceSheets.project_attendance_sheets[0]
@@ -143,8 +146,7 @@ export default {
             to: { name: 'UserPanel.Profile.ClassroomInfo', params: { id: this.classroom.id } }
           },
           {
-            label: this.classroom.title,
-            to: { name: 'UserPanel.Profile.ClassroomInfo', params: { classroom_id: this.classroom.id, project_id: this.project.id } }
+            label: this.project.title
           }
         ]
       })
@@ -175,6 +177,7 @@ export default {
         })
         .catch(() => {
           this.entityLoading = false
+          this.entityCreateKey = Date.now()
           this.reloadProject()
         })
     },
@@ -198,8 +201,9 @@ export default {
       this.projectLoaded = true
     },
     setAttendanceSheetsInputsValues () {
+      const answerAttachment = this.currentUserAttendanceSheet?.answer_attachment // ? this.currentUserAttendanceSheet.answer_attachment : false
       FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_text', 'value', this.currentUserAttendanceSheet?.answer_text)
-      FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_attachment', 'value', this.currentUserAttendanceSheet?.answer_attachment)
+      FormBuilderAssist.setAttributeByName(this.attendanceSheetsInputs, 'answer_attachment', 'value', answerAttachment)
     },
     reloadProject () {
       this.$refs.projectEntityEdit.getData()

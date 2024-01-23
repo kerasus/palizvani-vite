@@ -131,6 +131,20 @@ export default {
                 label: 'شماره همراه',
                 align: 'left',
                 field: row => row.mobile_number
+              },
+              {
+                name: 'last_academy_name',
+                required: true,
+                label: 'دانشگاه',
+                align: 'left',
+                field: row => row.last_academy_name
+              },
+              {
+                name: 'living_city',
+                required: true,
+                label: 'شهر',
+                align: 'left',
+                field: row => row.living_city
               }
             ]
           },
@@ -141,7 +155,8 @@ export default {
             { type: 'input', name: 'email', value: null, label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
             { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-3 col-12' },
             { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
-            { type: 'hidden', name: 'role', value: 'team_grader' },
+            { type: 'input', name: 'search', value: null, label: 'جست و جو', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'hidden', name: 'role', value: 'grader' },
             { type: 'hidden', name: 'classroom_graders__classroom__ne', value: classroomId }
           ],
           itemIndicatorKey: row => row.firstname + ' ' + row.lastname,
@@ -174,13 +189,6 @@ export default {
             label: 'شناسه',
             align: 'left',
             field: row => row.grader_info.id
-          },
-          {
-            name: 'title',
-            required: true,
-            label: 'جنسیت',
-            align: 'left',
-            field: row => (row.grader_info.gender === 1) ? 'مذکر' : ((row.grader_info.gender === 2) ? 'مونث' : '-')
           },
           {
             name: 'creation_time',

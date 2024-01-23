@@ -20,18 +20,15 @@
       <template v-if="inputData.col.name === 'number'">
         {{ inputData.rowNumber }}
       </template>
-      <template v-if="inputData.col.name === 'UserRegisterStatus'">
-        <q-btn v-if="inputData.props.row.status === 'DROPPED_FOR_CONDITION'"
-               color="primary"
-               class="q-mr-md"
-               :loading="revertDroppedForConditionLoading"
-               @click="revertDroppedForCondition(inputData.props.row.id)">
-          بازگرداندن ثبت نام
-        </q-btn>
-        {{ inputData.col.value }}
-      </template>
       <template v-else-if="inputData.col.name === 'action'">
         <div class="action-column-entity-index">
+          <q-btn v-if="inputData.props.row.status === 'DROPPED_FOR_CONDITION'"
+                 color="primary"
+                 class="q-mr-md"
+                 :loading="revertDroppedForConditionLoading"
+                 @click="revertDroppedForCondition(inputData.props.row.id)">
+            بازگرداندن ثبت نام
+          </q-btn>
           <q-btn v-if="inputData.props.row.status !== 'DROPPED_BY_ADMIN' && inputData.props.row.status !== 'DROPPED_BY_ITSELF'"
                  size="md"
                  color="red"
@@ -150,7 +147,7 @@ export default {
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => (new Classroom()).getUserRegisterInfoLabel(row.status)
+            field: row => (new Registration(row)).status_info.label
           },
           {
             name: 'action',

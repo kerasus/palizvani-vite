@@ -32,7 +32,7 @@
              label="پروژه‌ها" />
       <q-tab v-if="canShowTabPage('exams')"
              name="exams"
-             label="آزمون" />
+             :label="localOptions.classroomType === 'TRAINING' ? 'آزمون' : 'پرسشنامه'" />
       <q-tab v-if="canShowTabPage('members')"
              name="members"
              label="اندیشه جویان" />
@@ -61,40 +61,43 @@
                    class="q-pa-none">
         <classroom-info v-model:classroom="classroom"
                         :classroom-type="localOptions.classroomType"
-                        :classroom-id="$route.params.id" />
+                        :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="sessions"
                    class="q-pa-none">
-        <session-list :classroom-id="$route.params.id"
+        <session-list :classroom-id="parseInt($route.params.id)"
                       :classroom-type="localOptions.classroomType" />
       </q-tab-panel>
 
       <q-tab-panel name="projects"
                    class="q-pa-none">
-        <project-list :classroom-id="$route.params.id" />
+        <project-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
-      <q-tab-panel name="exams">
-        آزمون
+      <q-tab-panel name="exams"
+                   class="q-pa-none">
+        <test-list :classroom="classroom"
+                   :classroom-id="parseInt($route.params.id)"
+                   :classroom-type="localOptions.classroomType" />
       </q-tab-panel>
       <q-tab-panel name="members"
                    class="q-pa-none">
-        <members-list :classroom-id="$route.params.id" />
+        <members-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="teams"
                    class="q-pa-none">
-        <team-list :classroom-id="$route.params.id" />
+        <team-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="graders"
                    class="q-pa-none">
-        <grader-list :classroom-id="$route.params.id" />
+        <grader-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="leaders"
                    class="q-pa-none">
-        <leader-list :classroom-id="$route.params.id" />
+        <leader-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="activity_sheet"
                    class="q-pa-none">
-        <activity-sheet-list :classroom-id="$route.params.id" />
+        <activity-sheet-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="live_streaming_url">
         <live-streaming :classroom="classroom" />
@@ -105,6 +108,7 @@
 
 <script>
 import TeamList from './components/TeamList.vue'
+import TestList from './components/TestList.vue'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { Classroom } from 'src/models/Classroom.js'
 import LeaderList from './components/LeaderList.vue'
@@ -122,6 +126,7 @@ export default {
   name: 'Admin.Classroom.Show',
   components: {
     TeamList,
+    TestList,
     LeaderList,
     GraderList,
     SessionList,
@@ -194,6 +199,7 @@ export default {
             'classroomInfo',
             'sessions',
             'members',
+            'exams',
             'live_streaming_url'
           ]
         }

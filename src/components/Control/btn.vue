@@ -4,6 +4,7 @@
          class="outside-label" />
     <q-btn :label="label"
            :color="color"
+           :outline="outline"
            :class="btnClass"
            :disable="disable"
            :loading="loading"
@@ -26,6 +27,10 @@ export default {
     color: {
       default: 'primary',
       type: String
+    },
+    outline: {
+      default: false,
+      type: Boolean
     },
     label: {
       default: '',

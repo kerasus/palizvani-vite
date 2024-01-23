@@ -28,6 +28,10 @@ class Classroom extends Model {
         key: 'professor_info',
         relatedModel: User
       },
+      {
+        key: 'tests',
+        default: []
+      },
       { key: 'unit' },
       {
         key: 'unit_info',

@@ -356,7 +356,7 @@ export default {
     },
     acceptAndContinue () {
       this.$store.commit('Shop/updateOnRegisterClassroom', this.classroom)
-      this.$router.push({ name: 'UserPanel.ShopCompleteInfo', query: { type: this.acceptClassType } })
+      this.$router.push({ name: 'UserPanel.ShopCompleteInfo', query: { type: this.acceptClassType, source: this.classroomType === 'EVENT' ? 'event' : 'classroom' } })
     },
     onEnrolment () {
       this.acceptClassType = 'enrollment'

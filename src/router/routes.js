@@ -269,6 +269,14 @@ const routes = [
                 }
               },
               {
+                name: 'UserPanel.Profile.Test',
+                path: 'test/:id',
+                component: () => import('src/pages/User/Profile/test.vue'),
+                meta: {
+                  middlewares: [HasOverdueInstalment]
+                }
+              },
+              {
                 name: 'UserPanel.Profile.AllEvents',
                 path: 'all-events',
                 component: () => import('src/pages/User/Profile/Events.vue'),
@@ -315,6 +323,29 @@ const routes = [
                 children: [
                   { name: 'UserPanel.Leader.Teams.Index', path: 'teams', component: () => import('pages/Admin/Leader/MyTeams.vue') },
                   { name: 'UserPanel.Leader.Teams.Show', path: 'teams/:team_id', component: () => import('pages/Admin/Leader/ShowTeam.vue') }
+                ]
+              },
+              {
+                name: 'UserPanel.Test',
+                path: 'test/:test_id',
+                component: () => import('layouts/bareLayout.vue'),
+                children: [
+                  { name: 'UserPanel.Test.AnswerBook.Confirmation', path: 'answer_book/:answer_book_id/confirmation', component: () => import('src/pages/User/Test/Confirmation.vue') },
+                  { name: 'UserPanel.Test.AnswerBook.Participate.AllQuestions', path: 'answer_book/:answer_book_id/participate/all_questions', component: () => import('src/pages/User/Test/ParticipateAllQuestions.vue') },
+                  { name: 'UserPanel.Test.AnswerBook.Participate.SingleQuestion', path: 'answer_book/:answer_book_id/participate/question/:question_number', component: () => import('src/pages/User/Test/ParticipateSingleQuestion.vue') },
+                  { name: 'UserPanel.Test.AnswerBook.Show', path: 'answer_book/:answer_book_id/show', component: () => import('src/pages/User/Test/Show.vue') },
+                  { name: 'UserPanel.Test.AnswerBook.SendObjection', path: 'answer_book/:answer_book_id/sendObjection', component: () => import('src/pages/User/Test/SendObjection.vue') }
+                ]
+              },
+              {
+                name: 'UserPanel.Classroom.MyAsGraderClassroom',
+                path: 'my_as_a_grader_classrooms',
+                component: () => import('src/layouts/bareLayout.vue'),
+                children: [
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.Index', path: '', component: () => import('src/pages/Admin/Classroom/MyAsGraderClassrooms.vue') },
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks', path: ':classroom_id/answer_books', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBooksForGrader.vue') },
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', path: ':classroom_id/answer_books/:answer_book_id/show_grades', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookShowGradeForGrader.vue') },
+                  { name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.SubmitGrade', path: ':classroom_id/answer_books/:answer_book_id/submit_grade', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookSubmitGrade.vue') }
                 ]
               }
             ]
@@ -558,7 +589,27 @@ const routes = [
             children: [
               // { name: 'Admin.Category.Index', path: '', component: () => import('src/pages/Admin/Category/index.vue') },
               // { name: 'Admin.Category.Create', path: 'create', component: () => import('src/pages/Admin/Category/create.vue') },
-              { name: 'Admin.Unit.Show', path: ':id', component: () => import('src/pages/Admin/Unit/show.vue'), breadcrumbs: { title: 'درس' } }
+              { name: 'Admin.Unit.Show', path: ':id', component: () => import('src/pages/Admin/Unit/show.vue') },
+              {
+                name: 'Admin.Unit.Questions',
+                path: ':unit_id/session_template/:session_template_id/questions',
+                component: () => import('src/layouts/bareLayout.vue'),
+                children: [
+                  { name: 'Admin.Unit.Questions.Index', path: '', component: () => import('src/pages/Admin/Unit/QuestionsList.vue') },
+                  { name: 'Admin.Unit.Questions.Create', path: 'create', component: () => import('src/pages/Admin/Unit/QuestionsCreate.vue') }
+                  // { name: 'Admin.Unit.Questions.Show', path: ':id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') }
+                ]
+              },
+              { name: 'Admin.Unit.Questions.Show', path: ':unit_id/questions/:id', component: () => import('src/pages/Admin/Unit/QuestionsShow.vue') },
+              {
+                name: 'Admin.Unit.TestSet',
+                path: ':unit_id/test_set',
+                component: () => import('src/layouts/bareLayout.vue'),
+                children: [
+                  { name: 'Admin.Unit.TestSet.Show', path: ':id', component: () => import('src/pages/Admin/TestSet/Show.vue') },
+                  { name: 'Admin.Unit.TestSet.Create', path: 'create', component: () => import('src/pages/Admin/TestSet/Create.vue') }
+                ]
+              }
             ]
           },
           {
@@ -616,7 +667,14 @@ const routes = [
               { name: 'Admin.Classroom.projectAttendanceSheets.Show', path: ':classroom_id/project/:project_id/projectAttendanceSheet/:project_attendance_sheets_id', component: () => import('src/pages/Admin/Classroom/ProjectAttendanceSheet/show.vue') },
               { name: 'Admin.Classroom.Team.Create', path: ':classroom_id/team/create', component: () => import('src/pages/Admin/Classroom/Team/create.vue') },
               { name: 'Admin.Classroom.Team.Show', path: ':classroom_id/team/:team_id', component: () => import('src/pages/Admin/Classroom/Team/show.vue') },
-              { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+              { name: 'Admin.Classroom.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Classroom/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } },
+
+              { name: 'Admin.Classroom.TestSet.Index', path: ':classroom_id/unit/:unit_id/test_set', component: () => import('src/pages/Admin/TestSet/Index.vue') },
+              { name: 'Admin.Classroom.TestSet.Test.Show', path: ':classroom_id/test_set/:test_set_id/test/:id', component: () => import('src/pages/Admin/Test/Show.vue') },
+              { name: 'Admin.Classroom.TestSet.Test.Create', path: ':classroom_id/test_set/:test_set_id/test/create', component: () => import('src/pages/Admin/Test/Create.vue') },
+
+              { name: 'Admin.Classroom.Test.AnswerBooks.Index', path: ':classroom_id/test/:test_id/answer_books', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBooks.vue') },
+              { name: 'Admin.Classroom.Test.AnswerBooks.ShowGrade', path: ':classroom_id/test/:test_id/answer_books/:answer_book_id/show_grades', component: () => import('src/pages/Admin/Classroom/ClassroomAnswerBookShowGrade.vue') }
             ]
           },
           {
@@ -635,8 +693,18 @@ const routes = [
               { name: 'Admin.Event.Project.Show', path: ':classroom_id/project/:project_id', component: () => import('src/pages/Admin/Event/project/show.vue') },
               { name: 'Admin.Event.Project.Members', path: ':classroom_id/project/:project_id/members', component: () => import('src/pages/Admin/Event/project/members.vue') },
               { name: 'Admin.Event.projectAttendanceSheets.Show', path: ':classroom_id/project/:project_id/projectAttendanceSheet/:project_attendance_sheets_id', component: () => import('src/pages/Admin/Event/ProjectAttendanceSheet/show.vue') },
-              { name: 'Admin.Event.Project', path: ':id', component: () => import('src/pages/Admin/Event/show.vue') },
-              { name: 'Admin.Event.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Event/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } }
+              // { name: 'Admin.Event.Project', path: ':id', component: () => import('src/pages/Admin/Event/show.vue') },
+              { name: 'Admin.Event.Ticket', path: 'ticket', component: () => import('src/pages/Admin/Event/Ticket.vue'), breadcrumbs: { title: 'درخواست ها دوره های آموزشی' } },
+
+              { name: 'Admin.Event.TestSet.Index', path: 'test_set', component: () => import('src/pages/Admin/Event/Test/Index.vue') },
+              { name: 'Admin.Event.TestSet.Create', path: 'test_set/create', component: () => import('src/pages/Admin/Event/Test/Create.vue') },
+              { name: 'Admin.Event.TestSet.Show', path: 'test_set/:test_set_id', component: () => import('src/pages/Admin/Event/Test/Show.vue') },
+
+              { name: 'Admin.Event.TestSet.Questions.Index', path: 'test_set/:test_set_id/questions', component: () => import('src/pages/Admin/Event/Question/Index.vue') },
+              { name: 'Admin.Event.TestSet.Questions.Create', path: 'test_set/questions/create', component: () => import('src/pages/Admin/Event/Question/Create.vue') },
+              { name: 'Admin.Event.TestSet.Questions.Show', path: 'test_set/questions/:question_id', component: () => import('src/pages/Admin/Event/Question/Show.vue') },
+
+              { name: 'Admin.Event.TestSet.Test.Create', path: ':event_id/test_set/:test_set_id/test/create', component: () => import('src/pages/Admin/Event/Question/Show.vue') }
             ]
           },
           {
