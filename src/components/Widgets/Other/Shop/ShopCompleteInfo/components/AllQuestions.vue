@@ -172,7 +172,7 @@ export default {
               canEdit: false,
               canDelete: false,
               choicesInfo: answerSheetItem.test_question_info.question_info.choices_info,
-              value: isNaN(answerSheetItem.answer_choice_index) ? 0 : parseInt(answerSheetItem.answer_choice_index),
+              value: !answerSheetItem.answer_choice_index || isNaN(answerSheetItem.answer_choice_index) ? 0 : parseInt(answerSheetItem.answer_choice_index),
               col: 'col-12 flex justify-end'
             })
         }
