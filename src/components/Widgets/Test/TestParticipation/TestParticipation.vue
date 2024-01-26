@@ -217,12 +217,13 @@ export default {
         type: 'negative',
         message: 'زمان آزمون به اتمام رسیده است.'
       })
-      this.stopTimer()
       this.backToClassList()
     },
     startTimer () {
+      this.stopTimer()
       this.timerInterval = setInterval(() => {
         if (this.remainingTime <= 0) {
+          this.stopTimer()
           this.onTimeout()
         } else {
           this.remainingTime--
