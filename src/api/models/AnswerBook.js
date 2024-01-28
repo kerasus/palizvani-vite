@@ -199,8 +199,9 @@ export default class AnswerBookAPI extends APIRepository {
         test: null, // Number
         test__classroom: null // Number
       }, data),
+      responseType: 'blob',
       resolveCallback: (response) => {
-        return response.data
+        return response.data // xlsxData
       },
       rejectCallback: (error) => {
         return error
