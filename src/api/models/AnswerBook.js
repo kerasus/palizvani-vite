@@ -8,6 +8,7 @@ export default class AnswerBookAPI extends APIRepository {
     this.APIAdresses = {
       base: '/lma/answer_books',
       getOrCreate: '/lma/answer_books/get_or_create',
+      exportReport: '/lma/answer_books/export_report',
       byId: (id) => '/lma/answer_books/' + id,
       submitGraderDescription: (id) => '/lma/answer_books/' + id + '/submit_grader_description',
       confirmAnswers: (id) => '/lma/answer_books/' + id + '/confirm_answers',
@@ -180,6 +181,26 @@ export default class AnswerBookAPI extends APIRepository {
       request: this.APIAdresses.setGraderToMe(answerBookId),
       resolveCallback: (response) => {
         return new AnswerBook(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  exportReport(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.exportReport,
+      data: this.getNormalizedSendData({
+        registration__status: null, // String
+        type: null, // String
+        test: null, // Number
+        test__classroom: null // Number
+      }, data),
+      resolveCallback: (response) => {
+        return response.data
       },
       rejectCallback: (error) => {
         return error

@@ -24,6 +24,15 @@
                   :show-reload-button="false"
                   :show-search-button="false"
                   @onPageChanged="onPageChanged">
+      <template #toolbar>
+        <q-btn v-if="$route.query.classroom_type === 'EVENT'"
+               outline
+               color="primary"
+               :loading="exportExcelLoading"
+               @click="exportExcel">
+          خروجی اکسل
+        </q-btn>
+      </template>
       <template v-slot:entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -47,6 +56,7 @@
 
 <script>
 import { shallowRef } from 'vue'
+import Assist from 'assets/js/Assist.js'
 import { EntityIndex } from 'quasar-crud'
 import { Test } from 'src/models/Test.js'
 import Enums from 'src/assets/Enums/Enums.js'
@@ -59,7 +69,6 @@ import BtnControl from 'src/components/Control/btn.vue'
 import { UnitCategory } from 'src/models/UnitCategory.js'
 import { mixinWidget, mixinAuth } from 'src/mixin/Mixins.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
-import Assist from 'assets/js/Assist'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -74,6 +83,7 @@ export default {
     return {
       mounted: false,
       entityLoading: true,
+      exportExcelLoading: false,
       test: new Test(),
       classroom: new Classroom(),
       defaultOptions: {
@@ -410,6 +420,19 @@ export default {
       }
 
       return target.label
+    },
+    exportExcel () {
+      const filter = this.$refs.entityIndex.createParams()
+      filter.type = 'list'
+      this.exportExcelLoading = true
+      APIGateway.answerBook.exportReport(filter)
+        .then((xlsxData) => {
+          Assist.saveXlsx(xlsxData, this.classroom.title)
+          this.exportExcelLoading = false
+        })
+        .catch(() => {
+          this.exportExcelLoading = false
+        })
     }
   }
 }
