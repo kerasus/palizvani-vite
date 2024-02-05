@@ -46,10 +46,11 @@
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import Assist from 'assets/js/Assist.js'
-import { Classroom } from 'src/models/Classroom.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
+import { TranscriptSheet } from 'src/models/TranscriptSheet.js'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -125,7 +126,7 @@ export default {
             required: true,
             label: 'وضعیت نهایی',
             align: 'left',
-            field: row => row.status
+            field: row => new TranscriptSheet(row).status_info.label
           },
           {
             name: 'actions',
