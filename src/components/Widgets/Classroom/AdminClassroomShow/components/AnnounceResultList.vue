@@ -2,7 +2,7 @@
   <entity-index v-if="mounted"
                 ref="announceResultList"
                 v-model:value="announceResultListInputs"
-                title="فعالیت کلاسی"
+                title="کارنامه"
                 :api="announceResultListApi"
                 :table="announceResultListTable"
                 :table-keys="announceResultListTableKeys"
@@ -126,6 +126,13 @@ export default {
             label: 'وضعیت نهایی',
             align: 'left',
             field: row => new TranscriptSheet(row).status_info.label
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: () => ''
           }
         ]
       },
