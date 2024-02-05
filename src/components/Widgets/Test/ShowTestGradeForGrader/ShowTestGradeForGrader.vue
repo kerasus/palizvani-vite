@@ -10,7 +10,7 @@
         وضعیت آزمون:
         {{ answerBook.status_info.label }}
       </q-banner>
-      <q-btn v-if="!answerBook.grader"
+      <q-btn v-if="!answerBook.grader && $route.query.read_only !== '1'"
              color="primary"
              class="full-width"
              @click="setGraderToMe">
@@ -87,7 +87,7 @@
                   نمره
                 </q-badge>
               </div>
-              <div v-if="currentUserIsGrader && answerBook.status === 'GRADING'"
+              <div v-if="currentUserIsGrader && answerBook.status === 'GRADING' && $route.query.read_only !== '1'"
                    class="q-mt-md input-grate-question">
                 <q-input v-model="scores[answerSheetIndex].score"
                          :loading="scores[answerSheetIndex].loading"
@@ -119,7 +119,7 @@
                      :show-reload-button="false"
                      :default-layout="false" />
       </div>
-      <template v-if="$route.query.send_objection && $route.query.send_objection.toString() === '1'">
+      <template v-if="$route.query.send_objection && $route.query.send_objection.toString() === '1' && $route.query.read_only !== '1'">
         <q-separator class="q-my-xl" />
         <q-card-section>
           <entity-edit v-if="mounted"
@@ -155,7 +155,7 @@
         </div>
         <div v-html="answerBook.objection_result" />
       </template>
-      <q-banner v-if="currentUserIsGrader && answerBook.status === 'GRADING'">
+      <q-banner v-if="currentUserIsGrader && answerBook.status === 'GRADING' && $route.query.read_only !== '1'">
         <q-input v-model="answerBook.grader_description"
                  type="textarea"
                  label="توضیحات مصحح"
@@ -167,7 +167,7 @@
                :loading="graderDescriptionLoading"
                @click="submitGraderDescription" />
       </q-banner>
-      <q-card-actions v-if="answerBook.status === 'GRADING'">
+      <q-card-actions v-if="answerBook.status === 'GRADING' && $route.query.read_only !== '1'">
         <q-btn color="primary"
                class="q-mr-lg"
                @click="confirmScores">

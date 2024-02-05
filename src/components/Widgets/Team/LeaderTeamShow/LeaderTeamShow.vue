@@ -197,7 +197,7 @@
                 <q-btn size="md"
                        color="primary"
                        label="جزییات"
-                       :to="{name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', params: {classroom_id: $route.params.classroom_id, answer_book_id: inputData.props.row.id}}"
+                       :to="{name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', params: {classroom_id: $route.params.classroom_id, answer_book_id: inputData.props.row.id}, query: {read_only: 1}}"
                        class="q-mr-md" />
               </div>
             </template>
