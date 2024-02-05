@@ -129,7 +129,7 @@
                    class="q-pa-none">
         <entity-index ref="answerBooksList"
                       v-model:value="answerBooksListInputs"
-                      title="لیست جلسات"
+                      title="پاسخ نامه ها"
                       :api="answerBooksListApi"
                       :table="answerBooksListTable"
                       :table-keys="answerBooksListTableKeys"
@@ -145,7 +145,6 @@
                 <q-btn color="primary"
                        label="مشاهده حضور و غیاب"
                        @click="showSessionSheetsDialog(inputData.props.row.id)" />
-                <!--            <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />-->
               </div>
             </template>
             <template v-else>
@@ -182,7 +181,7 @@
                    class="q-pa-none">
         <entity-index ref="transcriptSheetsList"
                       v-model:value="transcriptSheetsListInputs"
-                      title="لیست جلسات"
+                      title="کارنامه ها"
                       :api="transcriptSheetsListApi"
                       :table="transcriptSheetsListTable"
                       :table-keys="transcriptSheetsListTableKeys"
@@ -195,10 +194,11 @@
             </template>
             <template v-else-if="inputData.col.name === 'actions'">
               <div class="action-column-entity-index">
-                <q-btn color="primary"
-                       label="مشاهده حضور و غیاب"
-                       @click="showSessionSheetsDialog(inputData.props.row.id)" />
-                <!--            <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />-->
+                <q-btn size="md"
+                       color="primary"
+                       label="جزییات"
+                       :to="{name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', params: {classroom_id: $route.params.classroom_id, answer_book_id: inputData.props.row.id}}"
+                       class="q-mr-md" />
               </div>
             </template>
             <template v-else>
@@ -240,6 +240,9 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { EntityShow, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
+import { Test } from 'src/models/Test.js'
+import { AnswerBook } from 'src/models/AnswerBook.js'
+import { TranscriptSheet } from 'src/models/TranscriptSheet'
 
 export default {
   name: 'LeaderTeamShow',
@@ -450,6 +453,32 @@ export default {
       },
 
       answerBooksListInputs: [
+        {
+          type: 'select',
+          name: 'status',
+          clearable: false,
+          options: [
+            { label: 'جاری', value: 'WAITING_FOR_GRADING' },
+            { label: 'در حال تصحیح', value: 'GRADING' },
+            { label: 'تصحیح شده', value: 'GRADED' },
+            {
+              label: 'حذف شده',
+              value: 'DELETED'
+            },
+            {
+              label: 'نیاز به رفع مشکل',
+              value: 'UNGRADABLE'
+            },
+            {
+              label: 'اعتراض شده',
+              value: 'OBJECTED'
+            }
+          ],
+          label: 'وضعیت',
+          placeholder: ' ',
+          value: 'WAITING_FOR_GRADING',
+          col: 'col-md-4 col-12'
+        },
         { type: 'hidden', name: 'registration__teams__id', value: null }
       ],
       answerBooksListApi: APIGateway.answerBook.APIAdresses.base,
@@ -470,11 +499,53 @@ export default {
             field: row => row.id
           },
           {
+            name: 'owner_info.fullname',
+            required: true,
+            label: 'نام و نام خانوادگی',
+            align: 'left',
+            field: row => row.owner_info.firstname + ' ' + row.owner_info.lastname
+          },
+          {
+            name: 'owner_info.mobile_number',
+            required: true,
+            label: 'موبایل',
+            align: 'left',
+            field: row => row.owner_info.mobile_number
+          },
+          {
             name: 'title',
             required: true,
-            label: 'عنوان',
+            label: 'عنوان آزمون',
             align: 'left',
-            field: row => row.title
+            field: row => row.test_info.title
+          },
+          {
+            name: 'test_questions_length',
+            required: true,
+            label: 'تعداد سوالات',
+            align: 'left',
+            field: row => row.test_info.test_questions_length
+          },
+          // {
+          //   name: 'level',
+          //   required: true,
+          //   label: 'درچه سختی',
+          //   align: 'left',
+          //   field: row => (new Test(row.test_set_info)).level_info.label
+          // },
+          {
+            name: 'test_info_status_info',
+            required: true,
+            label: 'وضعیت آزمون',
+            align: 'left',
+            field: row => (new Test(row.test_info)).status_info.label
+          },
+          {
+            name: 'status_info',
+            required: true,
+            label: 'وضعیت تصحیح',
+            align: 'left',
+            field: row => (new AnswerBook(row)).status_info.label
           },
           {
             name: 'actions',
@@ -500,30 +571,58 @@ export default {
       transcriptSheetsListTable: {
         columns: [
           {
-            name: 'number',
-            required: true,
-            label: 'شماره',
-            align: 'left',
-            field: () => ''
-          },
-          {
             name: 'id',
             required: true,
-            label: 'شناسه',
+            label: 'شماره',
             align: 'left',
             field: row => row.id
           },
           {
-            name: 'title',
+            name: 'owner_info.fullname',
             required: true,
-            label: 'عنوان',
+            label: 'نام و نام خانوادگی',
             align: 'left',
-            field: row => row.title
+            field: row => row.registration_info.owner_info.firstname + ' ' + row.registration_info.owner_info.lastname
+          },
+          {
+            name: 'owner_info.national_code',
+            required: true,
+            label: 'کد ملی',
+            align: 'left',
+            field: row => row.registration_info.owner_info.national_code
+          },
+          {
+            name: 'attendance_score',
+            required: true,
+            label: 'نمره حضور و غیاب',
+            align: 'left',
+            field: row => row.attendance_score
+          },
+          {
+            name: 'highest_test_score',
+            required: true,
+            label: 'نمره آزمون',
+            align: 'left',
+            field: row => row.highest_test_score
+          },
+          {
+            name: 'final_score',
+            required: true,
+            label: 'نمره نهایی',
+            align: 'left',
+            field: row => row.final_score
+          },
+          {
+            name: 'status',
+            required: true,
+            label: 'وضعیت نهایی',
+            align: 'left',
+            field: row => new TranscriptSheet(row).status_info.label
           },
           {
             name: 'actions',
             required: true,
-            label: 'عملیات',
+            label: 'سابقه آموزشی',
             align: 'left',
             field: ''
           }
