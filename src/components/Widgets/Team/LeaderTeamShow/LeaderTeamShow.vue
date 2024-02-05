@@ -28,22 +28,26 @@
     <q-separator class="q-my-lg" />
 
     <q-tabs v-model="tab"
-            dense
-            class="text-grey"
+            class="text-grey bg-white"
             active-color="primary"
             indicator-color="primary"
-            align="start">
+            align="left">
       <q-tab name="teamRegistrationList"
              label="لیست اعضای گروه" />
       <q-tab name="sessionList"
              label="لیست جلسات" />
+      <q-tab name="answer_books"
+             label="پاسخ نامه ها" />
+      <q-tab name="transcript_sheets"
+             label="کارنامه ها" />
     </q-tabs>
-    <q-tab-panels v-model="tab"
+    <q-separator />
+    <q-tab-panels v-if="mounted && entityLoaded"
+                  v-model="tab"
                   animated>
       <q-tab-panel name="teamRegistrationList"
                    class="q-pa-none">
-        <entity-index v-if="mounted"
-                      ref="teamRegistrationList"
+        <entity-index ref="teamRegistrationList"
                       v-model:value="teamRegistrationListInputs"
                       title="لیست اعضای گروه"
                       :api="teamRegistrationListApi"
@@ -70,13 +74,118 @@
 
       <q-tab-panel name="sessionList"
                    class="q-pa-none">
-        <entity-index v-if="mounted && entityLoaded"
-                      ref="sessionsList"
+        <entity-index ref="sessionsList"
                       v-model:value="sessionsListInputs"
                       title="لیست جلسات"
                       :api="sessionsListApi"
                       :table="sessionsListTable"
                       :table-keys="sessionsListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'actions'">
+              <div class="action-column-entity-index">
+                <q-btn color="primary"
+                       label="مشاهده حضور و غیاب"
+                       @click="showSessionSheetsDialog(inputData.props.row.id)" />
+                <!--            <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />-->
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+
+        <q-dialog v-model="sessionSheetsDialog">
+          <entity-index v-if="mounted && entityLoaded"
+                        ref="sessionAttendanceSheetList"
+                        v-model:value="sessionAttendanceSheetListInputs"
+                        style="width: 1024px; max-width: 90%;"
+                        title="لیست حضور وغیاب"
+                        :api="sessionAttendanceSheetListApi"
+                        :table="sessionAttendanceSheetListTable"
+                        :table-keys="sessionAttendanceSheetListTableKeys"
+                        :show-search-button="false"
+                        :show-reload-button="false"
+                        :show-expand-button="false">
+            <template v-slot:entity-index-table-cell="{inputData}">
+              <template v-if="inputData.col.name === 'number'">
+                {{ inputData.rowNumber }}
+              </template>
+              <template v-else>
+                {{ inputData.col.value }}
+              </template>
+            </template>
+          </entity-index>
+        </q-dialog>
+      </q-tab-panel>
+
+      <q-tab-panel name="answer_books"
+                   class="q-pa-none">
+        <entity-index ref="answerBooksList"
+                      v-model:value="answerBooksListInputs"
+                      title="لیست جلسات"
+                      :api="answerBooksListApi"
+                      :table="answerBooksListTable"
+                      :table-keys="answerBooksListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'actions'">
+              <div class="action-column-entity-index">
+                <q-btn color="primary"
+                       label="مشاهده حضور و غیاب"
+                       @click="showSessionSheetsDialog(inputData.props.row.id)" />
+                <!--            <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />-->
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+
+        <q-dialog v-model="sessionSheetsDialog">
+          <entity-index v-if="mounted && entityLoaded"
+                        ref="sessionAttendanceSheetList"
+                        v-model:value="sessionAttendanceSheetListInputs"
+                        style="width: 1024px; max-width: 90%;"
+                        title="لیست حضور وغیاب"
+                        :api="sessionAttendanceSheetListApi"
+                        :table="sessionAttendanceSheetListTable"
+                        :table-keys="sessionAttendanceSheetListTableKeys"
+                        :show-search-button="false"
+                        :show-reload-button="false"
+                        :show-expand-button="false">
+            <template v-slot:entity-index-table-cell="{inputData}">
+              <template v-if="inputData.col.name === 'number'">
+                {{ inputData.rowNumber }}
+              </template>
+              <template v-else>
+                {{ inputData.col.value }}
+              </template>
+            </template>
+          </entity-index>
+        </q-dialog>
+      </q-tab-panel>
+
+      <q-tab-panel name="transcript_sheets"
+                   class="q-pa-none">
+        <entity-index ref="transcriptSheetsList"
+                      v-model:value="transcriptSheetsListInputs"
+                      title="لیست جلسات"
+                      :api="transcriptSheetsListApi"
+                      :table="transcriptSheetsListTable"
+                      :table-keys="transcriptSheetsListTableKeys"
                       :show-search-button="false"
                       :show-reload-button="false"
                       :show-expand-button="false">
@@ -338,6 +447,94 @@ export default {
         currentPage: 'current',
         perPage: 'per_page',
         pageKey: 'page'
+      },
+
+      answerBooksListInputs: [
+        { type: 'hidden', name: 'registration__teams__id', value: null }
+      ],
+      answerBooksListApi: APIGateway.answerBook.APIAdresses.base,
+      answerBooksListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'عنوان',
+            align: 'left',
+            field: row => row.title
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: ''
+          }
+        ]
+      },
+      answerBooksListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      transcriptSheetsListInputs: [
+        { type: 'hidden', name: 'registration__teams__id', value: null }
+      ],
+      transcriptSheetsListApi: APIGateway.transcriptSheet.APIAdresses.base,
+      transcriptSheetsListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'عنوان',
+            align: 'left',
+            field: row => row.title
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: ''
+          }
+        ]
+      },
+      transcriptSheetsListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
       }
     }
   },
@@ -359,6 +556,8 @@ export default {
     },
     afterLoadInputData (responseData) {
       FormBuilderAssist.setAttributeByName(this.sessionsListInputs, 'classroom', 'value', responseData.classroom)
+      FormBuilderAssist.setAttributeByName(this.answerBooksListInputs, 'registration__teams__id', 'value', responseData.id)
+      FormBuilderAssist.setAttributeByName(this.transcriptSheetsListInputs, 'registration__teams__id', 'value', responseData.id)
       this.entityLoaded = true
       this.entityLoading = false
     },
