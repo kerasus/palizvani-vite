@@ -10,10 +10,10 @@ class TranscriptSheet extends Model {
         infoKey: 'status_info',
         enumListKey: 'statusEnums',
         enums: [
-          { label: 'CLEAN_PASSED', value: 'قبول' },
-          { label: 'CONDITIONAL_PASSED', value: 'قبول مشروط' },
-          { label: 'FAILED', value: 'مردود' },
-          { label: 'FAILED_DUE_TO_PRE_CONDITIONAL', value: 'مردود(سابقه قبول مشروط)' }
+          { label: 'قبول', value: 'CLEAN_PASSED' },
+          { value: 'CONDITIONAL_PASSED', label: 'قبول مشروط' },
+          { value: 'FAILED', label: 'مردود' },
+          { value: 'FAILED_DUE_TO_PRE_CONDITIONAL', label: 'مردود(سابقه قبول مشروط)' }
         ]
       }
     })

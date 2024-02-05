@@ -145,7 +145,11 @@
                 <q-btn size="md"
                        color="primary"
                        label="جزییات"
-                       :to="{name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', params: {classroom_id: $route.params.classroom_id, answer_book_id: inputData.props.row.id}, query: {read_only: 1}}"
+                       :to="{
+                         name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade',
+                         params: {classroom_id: team.classroom, answer_book_id: inputData.props.row.id},
+                         query: {read_only: 1}
+                       }"
                        class="q-mr-md" />
               </div>
             </template>
@@ -182,14 +186,19 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { Test } from 'src/models/Test.js'
+import { Team } from 'src/models/Team.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { AnswerBook } from 'src/models/AnswerBook.js'
 import { EntityShow, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import BtnControl from 'src/components/Control/btn.vue'
 import { TranscriptSheet } from 'src/models/TranscriptSheet.js'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'LeaderTeamShow',
@@ -215,6 +224,7 @@ export default {
         { type: 'separator', name: 'space', size: '0', col: 'col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' }
       ],
+      team: new Team(),
 
       teamRegistrationListInputs: [
         { type: 'hidden', name: 'team', value: teamId }
@@ -426,6 +436,7 @@ export default {
           value: 'WAITING_FOR_GRADING',
           col: 'col-md-4 col-12'
         },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' },
         { type: 'hidden', name: 'registration__teams__id', value: null }
       ],
       answerBooksListApi: APIGateway.answerBook.APIAdresses.base,
@@ -579,6 +590,9 @@ export default {
   },
   mounted() {
     this.mounted = true
+    FormBuilderAssist.setAttributeByName(this.answerBooksListInputs, 'btn', 'atClick', () => {
+      this.$refs.answerBooksList.search()
+    })
   },
   methods: {
     onConfirmedSelectedRegistrations (data) {
@@ -594,6 +608,7 @@ export default {
         })
     },
     afterLoadInputData (responseData) {
+      this.team = new Team(responseData)
       FormBuilderAssist.setAttributeByName(this.sessionsListInputs, 'classroom', 'value', responseData.classroom)
       FormBuilderAssist.setAttributeByName(this.answerBooksListInputs, 'registration__teams__id', 'value', responseData.id)
       FormBuilderAssist.setAttributeByName(this.transcriptSheetsListInputs, 'registration__teams__id', 'value', responseData.id)
