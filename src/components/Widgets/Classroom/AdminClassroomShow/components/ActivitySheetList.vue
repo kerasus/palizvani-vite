@@ -93,7 +93,14 @@ export default {
             required: true,
             label: 'پروژه',
             align: 'left',
-            field: row => row.is_project_done
+            field: row => row.is_passed_project_condition ? '1' : '0'
+          },
+          {
+            name: 'done_assignment_count',
+            required: true,
+            label: 'تکالیف',
+            align: 'left',
+            field: row => row.is_passed_assignment_condition ? '1' : '0'
           },
           {
             name: 'done_assignment_count',
@@ -107,29 +114,29 @@ export default {
             required: true,
             label: 'حضور و غیاب',
             align: 'left',
-            field: row => row.is_allowed_absence_count // bool
+            field: row => row.is_passed_attendance_condition ? '1' : '0'
           },
-          {
-            name: 'attendance_score',
-            required: true,
-            label: 'نمره حضور و غیاب',
-            align: 'left',
-            field: row => row.attendance_score
-          },
-          {
-            name: 'final_test',
-            required: true,
-            label: 'آزمون',
-            align: 'left',
-            field: row => row.final_test // number - null
-          },
-          {
-            name: 'final_status',
-            required: true,
-            label: 'وضعیت نهایی',
-            align: 'left',
-            field: row => row.final_status
-          },
+          // {
+          //   name: 'attendance_score',
+          //   required: true,
+          //   label: 'نمره حضور و غیاب',
+          //   align: 'left',
+          //   field: row => row.attendance_score
+          // },
+          // {
+          //   name: 'final_test',
+          //   required: true,
+          //   label: 'آزمون',
+          //   align: 'left',
+          //   field: row => row.final_test // number - null
+          // },
+          // {
+          //   name: 'final_status',
+          //   required: true,
+          //   label: 'وضعیت نهایی',
+          //   align: 'left',
+          //   field: row => row.final_status
+          // },
           {
             name: 'actions',
             required: true,
