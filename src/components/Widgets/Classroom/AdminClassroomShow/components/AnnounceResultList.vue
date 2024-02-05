@@ -46,6 +46,7 @@
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import Assist from 'assets/js/Assist.js'
+import { Classroom } from 'src/models/Classroom.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
@@ -58,13 +59,13 @@ export default {
     EntityIndex
   },
   props: {
-    classroomId: {
-      type: Number,
-      default: null
+    classroom: {
+      type: Classroom,
+      default: new Classroom()
     }
   },
   data () {
-    const classroomId = this.classroomId
+    const classroomId = this.classroom.id
     return {
       mounted: false,
       exportReportLoading: false,
@@ -176,7 +177,7 @@ export default {
     getExcel () {
       this.exportReportLoading = true
       APIGateway.transcriptSheet.exportReport({
-        registration__classroom: this.classroomId
+        registration__classroom: this.classroom.id
       })
         .then((xlsxData) => {
           Assist.saveXlsx(xlsxData, this.classroom.title)

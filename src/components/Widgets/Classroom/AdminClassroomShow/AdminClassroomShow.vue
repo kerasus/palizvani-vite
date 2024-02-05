@@ -104,7 +104,7 @@
       </q-tab-panel>
       <q-tab-panel name="announce_result"
                    class="q-pa-none">
-        <announce-result-list :classroom-id="parseInt($route.params.id)" />
+        <announce-result-list :classroom="classroom" />
       </q-tab-panel>
       <q-tab-panel name="live_streaming_url">
         <live-streaming :classroom="classroom" />
