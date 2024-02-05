@@ -48,6 +48,9 @@
       <q-tab v-if="canShowTabPage('activity_sheet')"
              name="activity_sheet"
              label="فعالیت کلاسی" />
+      <q-tab v-if="canShowTabPage('announce_result')"
+             name="announce_result"
+             label="کارنامه" />
       <q-tab v-if="canShowTabPage('live_streaming_url')"
              name="live_streaming_url"
              label="بخش آنلاین" />
@@ -99,6 +102,10 @@
                    class="q-pa-none">
         <activity-sheet-list :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
+      <q-tab-panel name="announce_result"
+                   class="q-pa-none">
+        <announce-result-list :classroom-id="parseInt($route.params.id)" />
+      </q-tab-panel>
       <q-tab-panel name="live_streaming_url">
         <live-streaming :classroom="classroom" />
       </q-tab-panel>
@@ -120,6 +127,7 @@ import { UnitCategory } from 'src/models/UnitCategory.js'
 import ClassroomInfo from './components/ClassroomInfo.vue'
 import LiveStreaming from './components/LiveStreaming.vue'
 import ActivitySheetList from './components/ActivitySheetList.vue'
+import AnnounceResultList from './components/AnnounceResultList.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
@@ -135,7 +143,8 @@ export default {
     Breadcrumbs,
     ClassroomInfo,
     LiveStreaming,
-    ActivitySheetList
+    ActivitySheetList,
+    AnnounceResultList
   },
   mixins: [mixinWidget],
   data () {
@@ -193,6 +202,7 @@ export default {
             'graders',
             'leaders',
             'activity_sheet',
+            'announce_result',
             'live_streaming_url'
           ],
           EVENT: [

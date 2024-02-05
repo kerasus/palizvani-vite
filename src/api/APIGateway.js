@@ -30,6 +30,7 @@ import MediaCategoryAPI from 'src/api/models/MediaCategory.js'
 import QuestionChoiceApi from 'src/api/models/QuestionChoice.js'
 import TicketCategoryAPI from 'src/api/models/TicketCategory.js'
 import SessionTemplateAPI from 'src/api/models/SessionTemplate.js'
+import TranscriptSheetAPI from 'src/api/models/TranscriptSheet.js'
 import ContentCategoryAPI from 'src/api/models/ContentCategory.js'
 import InstalmentOfferAPI from 'src/api/models/InstalmentOffer.js'
 import ClassroomGraderAPI from 'src/api/models/ClassroomGraders.js'
@@ -73,6 +74,7 @@ export const APIGateway = {
   mediaCategory: new MediaCategoryAPI(),
   ticketCategory: new TicketCategoryAPI(),
   questionChoice: new QuestionChoiceApi(),
+  transcriptSheet: new TranscriptSheetAPI(),
   sessionTemplate: new SessionTemplateAPI(),
   contentCategory: new ContentCategoryAPI(),
   instalmentOffer: new InstalmentOfferAPI(),
