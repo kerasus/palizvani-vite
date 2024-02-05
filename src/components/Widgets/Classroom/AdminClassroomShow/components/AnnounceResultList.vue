@@ -176,6 +176,7 @@ export default {
     getExcel () {
       this.exportReportLoading = true
       APIGateway.transcriptSheet.exportReport({
+        type: 'list',
         registration__classroom: this.classroom.id
       })
         .then((xlsxData) => {
