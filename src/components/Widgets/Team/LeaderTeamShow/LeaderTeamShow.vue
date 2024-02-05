@@ -142,9 +142,11 @@
             </template>
             <template v-else-if="inputData.col.name === 'actions'">
               <div class="action-column-entity-index">
-                <q-btn color="primary"
-                       label="مشاهده حضور و غیاب"
-                       @click="showSessionSheetsDialog(inputData.props.row.id)" />
+                <q-btn size="md"
+                       color="primary"
+                       label="جزییات"
+                       :to="{name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', params: {classroom_id: $route.params.classroom_id, answer_book_id: inputData.props.row.id}, query: {read_only: 1}}"
+                       class="q-mr-md" />
               </div>
             </template>
             <template v-else>
@@ -152,29 +154,6 @@
             </template>
           </template>
         </entity-index>
-
-        <q-dialog v-model="sessionSheetsDialog">
-          <entity-index v-if="mounted && entityLoaded"
-                        ref="sessionAttendanceSheetList"
-                        v-model:value="sessionAttendanceSheetListInputs"
-                        style="width: 1024px; max-width: 90%;"
-                        title="لیست حضور وغیاب"
-                        :api="sessionAttendanceSheetListApi"
-                        :table="sessionAttendanceSheetListTable"
-                        :table-keys="sessionAttendanceSheetListTableKeys"
-                        :show-search-button="false"
-                        :show-reload-button="false"
-                        :show-expand-button="false">
-            <template v-slot:entity-index-table-cell="{inputData}">
-              <template v-if="inputData.col.name === 'number'">
-                {{ inputData.rowNumber }}
-              </template>
-              <template v-else>
-                {{ inputData.col.value }}
-              </template>
-            </template>
-          </entity-index>
-        </q-dialog>
       </q-tab-panel>
 
       <q-tab-panel name="transcript_sheets"
@@ -192,57 +171,25 @@
             <template v-if="inputData.col.name === 'number'">
               {{ inputData.rowNumber }}
             </template>
-            <template v-else-if="inputData.col.name === 'actions'">
-              <div class="action-column-entity-index">
-                <q-btn size="md"
-                       color="primary"
-                       label="جزییات"
-                       :to="{name: 'UserPanel.Classroom.MyAsGraderClassroom.AnswerBooks.ShowGrade', params: {classroom_id: $route.params.classroom_id, answer_book_id: inputData.props.row.id}, query: {read_only: 1}}"
-                       class="q-mr-md" />
-              </div>
-            </template>
             <template v-else>
               {{ inputData.col.value }}
             </template>
           </template>
         </entity-index>
-
-        <q-dialog v-model="sessionSheetsDialog">
-          <entity-index v-if="mounted && entityLoaded"
-                        ref="sessionAttendanceSheetList"
-                        v-model:value="sessionAttendanceSheetListInputs"
-                        style="width: 1024px; max-width: 90%;"
-                        title="لیست حضور وغیاب"
-                        :api="sessionAttendanceSheetListApi"
-                        :table="sessionAttendanceSheetListTable"
-                        :table-keys="sessionAttendanceSheetListTableKeys"
-                        :show-search-button="false"
-                        :show-reload-button="false"
-                        :show-expand-button="false">
-            <template v-slot:entity-index-table-cell="{inputData}">
-              <template v-if="inputData.col.name === 'number'">
-                {{ inputData.rowNumber }}
-              </template>
-              <template v-else>
-                {{ inputData.col.value }}
-              </template>
-            </template>
-          </entity-index>
-        </q-dialog>
       </q-tab-panel>
     </q-tab-panels>
   </div>
 </template>
 
 <script>
+import { Test } from 'src/models/Test.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { AnswerBook } from 'src/models/AnswerBook.js'
 import { EntityShow, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import { TranscriptSheet } from 'src/models/TranscriptSheet.js'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
-import { Test } from 'src/models/Test.js'
-import { AnswerBook } from 'src/models/AnswerBook.js'
-import { TranscriptSheet } from 'src/models/TranscriptSheet'
 
 export default {
   name: 'LeaderTeamShow',
@@ -618,13 +565,6 @@ export default {
             label: 'وضعیت نهایی',
             align: 'left',
             field: row => new TranscriptSheet(row).status_info.label
-          },
-          {
-            name: 'actions',
-            required: true,
-            label: 'سابقه آموزشی',
-            align: 'left',
-            field: ''
           }
         ]
       },

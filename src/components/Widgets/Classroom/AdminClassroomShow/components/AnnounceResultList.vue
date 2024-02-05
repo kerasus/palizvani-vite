@@ -29,7 +29,6 @@
                  class="q-mr-md"
                  :loading="updateTranscriptSheetLoading"
                  @click="updateTranscriptSheets(inputData.props.row)" />
-          <!--                :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}"-->
         </div>
       </template>
       <template v-else>
@@ -127,16 +126,8 @@ export default {
             label: 'وضعیت نهایی',
             align: 'left',
             field: row => new TranscriptSheet(row).status_info.label
-          },
-          {
-            name: 'actions',
-            required: true,
-            label: 'سابقه آموزشی',
-            align: 'left',
-            field: ''
           }
-        ],
-        data: []
+        ]
       },
       announceResultListTableKeys: {
         data: 'results',
