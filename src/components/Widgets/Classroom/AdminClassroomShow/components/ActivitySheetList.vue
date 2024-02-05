@@ -10,7 +10,28 @@
                 :show-reload-button="false"
                 :show-expand-button="false">
     <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
-      <template v-if="inputData.col.name === 'actions'">
+      <template v-if="inputData.col.name === 'is_project_done'">
+        <q-badge rounded
+                 :color="inputData.col.value ? 'green' : 'red'">
+          <q-icon :name="inputData.col.value ? 'check' : 'close'"
+                  size="20px" />
+        </q-badge>
+      </template>
+      <template v-else-if="inputData.col.name === 'is_passed_assignment_condition'">
+        <q-badge rounded
+                 :color="inputData.col.value ? 'green' : 'red'">
+          <q-icon :name="inputData.col.value ? 'check' : 'close'"
+                  size="20px" />
+        </q-badge>
+      </template>
+      <template v-else-if="inputData.col.name === 'is_allowed_absence_count'">
+        <q-badge rounded
+                 :color="inputData.col.value ? 'green' : 'red'">
+          <q-icon :name="inputData.col.value ? 'check' : 'close'"
+                  size="20px" />
+        </q-badge>
+      </template>
+      <template v-else-if="inputData.col.name === 'actions'">
         <div class="action-column-entity-index">
           <q-btn size="md"
                  color="primary"
@@ -35,7 +56,6 @@
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
@@ -62,7 +82,7 @@ export default {
       activitySheetListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId },
         { type: 'select', name: 'status', value: null, label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.searchActivitySheetList, col: 'col-md-2 col-12' }
       ],
       activitySheetListApi: APIGateway.classroom.APIAdresses.activitySheet,
       activitySheetListTable: {
@@ -89,18 +109,25 @@ export default {
             field: row => row.owner_info.national_code
           },
           {
+            name: 'is_allowed_absence_count',
+            required: true,
+            label: 'حضور و غیاب',
+            align: 'left',
+            field: row => row.is_passed_attendance_condition
+          },
+          {
             name: 'is_project_done',
             required: true,
             label: 'پروژه',
             align: 'left',
-            field: row => row.is_passed_project_condition ? '1' : '0'
+            field: row => row.is_passed_project_condition
           },
           {
-            name: 'done_assignment_count',
+            name: 'is_passed_assignment_condition',
             required: true,
             label: 'تکالیف',
             align: 'left',
-            field: row => row.is_passed_assignment_condition ? '1' : '0'
+            field: row => row.is_passed_assignment_condition
           },
           {
             name: 'done_assignment_count',
@@ -108,13 +135,6 @@ export default {
             label: 'تکالیف انجام شده',
             align: 'left',
             field: row => row.done_assignment_count
-          },
-          {
-            name: 'is_allowed_absence_count',
-            required: true,
-            label: 'حضور و غیاب',
-            align: 'left',
-            field: row => row.is_passed_attendance_condition ? '1' : '0'
           },
           // {
           //   name: 'attendance_score',
@@ -157,18 +177,14 @@ export default {
     }
   },
   mounted () {
-    this.setActivitySheetListActionBtn()
     this.mounted = true
   },
   methods: {
-    setActivitySheetListActionBtn () {
-      FormBuilderAssist.setAttributeByName(this.activitySheetListInputs, 'btn', 'atClick', this.searchActivitySheetList)
-    },
     searchActivitySheetList () {
-      this.$refs.activitySheet.search()
+      this.$refs.activitySheetList.search()
     },
     getRemoveMessage (row) {
-      return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
+      return 'آیا از حذف ' + row.owner_info.firstname + ' ' + row.owner_info.lastname + ' اطمینان دارید؟'
     }
   }
 }

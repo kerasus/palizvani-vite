@@ -15,17 +15,20 @@
              :loading="exportReportLoading"
              outline
              @click="getExcel" />
+      <q-btn label="اعلام نتایج"
+             color="primary"
+             :loading="notifyAnnounceResultLoading"
+             outline
+             class="q-ml-md"
+             @click="notifyAnnounceResult" />
     </template>
     <template v-slot:entity-index-table-cell="{inputData}">
-      <template v-if="inputData.col.name === 'final_score'">
-        <q-input v-model="inputData.props.row.final_score" />
-      </template>
-      <template v-else-if="inputData.col.name === 'actions'">
+      <template v-if="inputData.col.name === 'actions'">
         <div class="action-column-entity-index">
           <q-btn size="md"
                  color="primary"
                  outline
-                 label="اعمال تغییرات"
+                 label="تغییر نمره نهایی"
                  class="q-mr-md"
                  :loading="updateTranscriptSheetLoading"
                  @click="updateTranscriptSheets(inputData.props.row)" />
@@ -69,6 +72,7 @@ export default {
     return {
       mounted: false,
       exportReportLoading: false,
+      notifyAnnounceResultLoading: false,
       updateTranscriptSheetLoading: false,
 
       announceResultListInputs: [
@@ -150,6 +154,16 @@ export default {
     this.mounted = true
   },
   methods: {
+    notifyAnnounceResult () {
+      this.notifyAnnounceResultLoading = true
+      APIGateway.classroom.notifyAnnounceResult(this.classroom.id)
+        .then(() => {
+          this.notifyAnnounceResultLoading = false
+        })
+        .catch(() => {
+          this.notifyAnnounceResultLoading = false
+        })
+    },
     setActivitySheetListActionBtn () {
       FormBuilderAssist.setAttributeByName(this.announceResultListInputs, 'btn', 'atClick', this.searchActivitySheetList)
     },
@@ -160,18 +174,33 @@ export default {
       return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
     },
     updateTranscriptSheets(transcriptSheet) {
-      this.updateTranscriptSheetLoading = true
-      APIGateway.transcriptSheet.update({
-        id: transcriptSheet.id,
-        final_score: transcriptSheet.final_score
+      this.$q.dialog({
+        title: 'تغییر نمره نهایی',
+        message: 'نمره نهایی مورد نظر را وارد کنید:',
+        prompt: {
+          model: null,
+          type: 'text'
+        },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        this.updateTranscriptSheetLoading = true
+        APIGateway.transcriptSheet.update({
+          id: transcriptSheet.id,
+          final_score: data
+        })
+          .then(() => {
+            this.$refs.announceResultList.search()
+            this.updateTranscriptSheetLoading = false
+          })
+          .catch(() => {
+            this.updateTranscriptSheetLoading = false
+          })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
       })
-        .then(() => {
-          this.$refs.announceResultList.search()
-          this.updateTranscriptSheetLoading = false
-        })
-        .catch(() => {
-          this.updateTranscriptSheetLoading = false
-        })
     },
     getExcel () {
       this.exportReportLoading = true
