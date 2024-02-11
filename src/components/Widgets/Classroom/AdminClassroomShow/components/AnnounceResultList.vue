@@ -159,6 +159,7 @@ export default {
       APIGateway.classroom.notifyAnnounceResult(this.classroom.id)
         .then(() => {
           this.notifyAnnounceResultLoading = false
+          this.$refs.announceResultList.search()
         })
         .catch(() => {
           this.notifyAnnounceResultLoading = false
