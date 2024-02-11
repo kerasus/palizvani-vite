@@ -28,14 +28,12 @@ export default class TranscriptSheetAPI extends APIRepository {
     })
   }
 
-  update (data) {
+  update (transcriptSheetId, data) {
     return this.sendRequest({
       apiMethod: 'put',
       api: this.api,
-      request: this.APIAdresses.byId(data.id),
-      data: this.getNormalizedSendData({
-        final_score: null // Number
-      }, data),
+      request: this.APIAdresses.byId(transcriptSheetId),
+      data,
       resolveCallback: (response) => {
         return response.data
       },

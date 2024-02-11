@@ -24,15 +24,43 @@
     </template>
     <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'actions'">
-        <div class="action-column-entity-index">
-          <q-btn size="md"
-                 color="primary"
-                 outline
-                 label="تغییر نمره نهایی"
-                 class="q-mr-md"
-                 :loading="updateTranscriptSheetLoading"
-                 @click="updateTranscriptSheets(inputData.props.row)" />
-        </div>
+        <q-btn color="primary"
+               outline
+               label="عملیات"
+               :loading="updateTranscriptSheetLoading">
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item v-if="inputData.props.row.certification"
+                      v-close-popup
+                      clickable
+                      @click="showTranscriptSheetsCertification(inputData.props.row)">
+                <q-item-section>مشاهده مدرک</q-item-section>
+              </q-item>
+              <q-item v-close-popup
+                      clickable
+                      @click="updateTranscriptSheetsFinalScore(inputData.props.row)">
+                <q-item-section>تغییر نمره نهایی</q-item-section>
+              </q-item>
+              <q-item v-if="!inputData.props.row.certification"
+                      v-close-popup
+                      clickable
+                      @click="updateTranscriptSheetsUploadCertification(inputData.props.row)">
+                <q-item-section>آپلود فایل مدرک</q-item-section>
+              </q-item>
+              <q-item v-if="inputData.props.row.certification"
+                      v-close-popup
+                      clickable
+                      @click="updateTranscriptSheetsRemoveCertification(inputData.props.row)">
+                <q-item-section>حذف فایل مدرک</q-item-section>
+              </q-item>
+              <q-item v-close-popup
+                      clickable
+                      @click="updateTranscriptSheetsUploadIsSentByPost(inputData.props.row)">
+                <q-item-section>تغییر وضعیت پست شده</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </template>
       <template v-else>
         {{ inputData.col.value }}
@@ -50,7 +78,6 @@ import { EntityIndex } from 'quasar-crud'
 import Assist from 'assets/js/Assist.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
-import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { Registration } from 'src/models/Registration.js'
 import { TranscriptSheet } from 'src/models/TranscriptSheet.js'
@@ -80,7 +107,16 @@ export default {
         { type: 'select', name: 'status', value: null, label: 'وضعیت نهایی', options: (new TranscriptSheet()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'registration__status', value: null, label: 'وضعیت ثبت نام', options: (new Registration()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'registration__classroom', value: classroomId },
-        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+        {
+          type: BtnControlComp,
+          name: 'btn',
+          label: 'جستجو',
+          placeholder: ' ',
+          atClick: () => {
+            this.$refs.announceResultList.search()
+          },
+          col: 'col-md-2 col-12'
+        }
       ],
       announceResultListApi: APIGateway.transcriptSheet.APIAdresses.base,
       announceResultListTable: {
@@ -135,6 +171,13 @@ export default {
             field: row => new TranscriptSheet(row).status_info.label
           },
           {
+            name: 'is_sent_by_post',
+            required: true,
+            label: 'ارسال شده با پست',
+            align: 'left',
+            field: row => row.is_sent_by_post ? 'ارسال شده' : 'ارسال نشده'
+          },
+          {
             name: 'actions',
             required: true,
             label: 'عملیات',
@@ -153,7 +196,6 @@ export default {
     }
   },
   mounted () {
-    this.setActivitySheetListActionBtn()
     this.mounted = true
   },
   methods: {
@@ -168,16 +210,13 @@ export default {
           this.notifyAnnounceResultLoading = false
         })
     },
-    setActivitySheetListActionBtn () {
-      FormBuilderAssist.setAttributeByName(this.announceResultListInputs, 'btn', 'atClick', this.searchActivitySheetList)
-    },
     searchActivitySheetList () {
       this.$refs.activitySheet.search()
     },
     getRemoveMessage (row) {
       return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
     },
-    updateTranscriptSheets(transcriptSheet) {
+    updateTranscriptSheetsFinalScore (transcriptSheet) {
       this.$q.dialog({
         title: 'تغییر نمره نهایی',
         message: 'نمره نهایی مورد نظر را وارد کنید:',
@@ -189,8 +228,7 @@ export default {
         persistent: true
       }).onOk(data => {
         this.updateTranscriptSheetLoading = true
-        APIGateway.transcriptSheet.update({
-          id: transcriptSheet.id,
+        APIGateway.transcriptSheet.update(transcriptSheet.id, {
           final_score: data
         })
           .then(() => {
@@ -205,6 +243,86 @@ export default {
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
       })
+    },
+    updateTranscriptSheetsUploadCertification (transcriptSheet) {
+      this.$q.dialog({
+        title: 'آپلود فایل مدرک',
+        message: 'فایل مدرک را انتخاب کنید:',
+        prompt: {
+          model: null,
+          type: 'file'
+        },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        this.updateTranscriptSheetLoading = true
+        const formData = new FormData()
+        formData.append('certification', data[0])
+        APIGateway.transcriptSheet.update(transcriptSheet.id, formData)
+          .then(() => {
+            this.$refs.announceResultList.search()
+            this.updateTranscriptSheetLoading = false
+          })
+          .catch(() => {
+            this.updateTranscriptSheetLoading = false
+          })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    updateTranscriptSheetsRemoveCertification (transcriptSheet) {
+      this.$q.dialog({
+        title: 'حذف فایل مدرک',
+        message: 'آیا از حذف فایل مدرک اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.updateTranscriptSheetLoading = true
+        APIGateway.transcriptSheet.update(transcriptSheet.id, {
+          certification: null
+        })
+          .then(() => {
+            this.$refs.announceResultList.search()
+            this.updateTranscriptSheetLoading = false
+          })
+          .catch(() => {
+            this.updateTranscriptSheetLoading = false
+          })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    updateTranscriptSheetsUploadIsSentByPost (transcriptSheet) {
+      const state = transcriptSheet.is_sent_by_post ? 'نشده' : 'شده'
+      this.$q.dialog({
+        title: 'ارسال شده با پست',
+        message: 'آیا از تغییر به حالت ارسال ' + state + ' با پست اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.updateTranscriptSheetLoading = true
+        APIGateway.transcriptSheet.update(transcriptSheet.id, {
+          is_sent_by_post: transcriptSheet.is_sent_by_post ? 0 : 1
+        })
+          .then(() => {
+            this.$refs.announceResultList.search()
+            this.updateTranscriptSheetLoading = false
+          })
+          .catch(() => {
+            this.updateTranscriptSheetLoading = false
+          })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    showTranscriptSheetsCertification (transcriptSheet) {
+      window.open(transcriptSheet.certification, '_blank')
     },
     getExcel () {
       this.exportReportLoading = true
