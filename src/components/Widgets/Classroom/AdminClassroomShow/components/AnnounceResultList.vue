@@ -52,6 +52,7 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
+import { Registration } from 'src/models/Registration.js'
 import { TranscriptSheet } from 'src/models/TranscriptSheet.js'
 
 const BtnControlComp = shallowRef(BtnControl)
@@ -76,6 +77,8 @@ export default {
       updateTranscriptSheetLoading: false,
 
       announceResultListInputs: [
+        { type: 'select', name: 'status', value: null, label: 'وضعیت نهایی', options: (new TranscriptSheet()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'registration__status', value: null, label: 'وضعیت ثبت نام', options: (new Registration()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'registration__classroom', value: classroomId },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
