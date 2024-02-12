@@ -40,6 +40,40 @@
     <q-tab-panels v-model="tab"
                   animated>
       <q-tab-panel name="classroomInfo">
+        <div v-if="mounted && classroom.current_user_register_info.transcript_sheet_info.status"
+             class="bg-light-green-1 q-pa-md q-mb-md">
+          <div class="row q-col-gutter-md">
+            <div class="col-md-6 col-12">
+              نمره حضور و غیاب: {{ classroom.current_user_register_info.transcript_sheet_info.attendance_score }}
+              <br>
+              نمره آزمون: {{ classroom.current_user_register_info.transcript_sheet_info.highest_test_score }}
+              <br>
+              نمره نهایی: {{ classroom.current_user_register_info.transcript_sheet_info.final_score }}
+            </div>
+            <div class="col-md-6 col-12">
+              وضعیت نهایی: {{ getTranscriptSheetStatus(classroom.current_user_register_info.transcript_sheet_info) }}
+              <br>
+              <q-badge :color="classroom.current_user_register_info.transcript_sheet_info.is_sent_by_post ? 'green' : 'red'"
+                       outline>
+                <template v-if="classroom.current_user_register_info.transcript_sheet_info.is_sent_by_post">
+                  ارسال شده با پست
+                </template>
+                <template v-else>
+                  پست نشده است
+                </template>
+              </q-badge>
+              <br>
+              <a v-if="classroom.current_user_register_info.transcript_sheet_info.certification"
+                 :href="classroom.current_user_register_info.transcript_sheet_info.certification"
+                 target="_blank">
+                <q-btn outline
+                       color="primary">
+                  دانلود کارنامه
+                </q-btn>
+              </a>
+            </div>
+          </div>
+        </div>
         <show-classroom-info v-if="mounted"
                              :options="{ profileMode: true }"
                              @onloadn="onloadnClassroom" />
@@ -316,6 +350,7 @@ import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
 import ShowClassroomInfo from 'src/components/Widgets/Other/ShowClassroomInfo/ShowClassroomInfo.vue'
+import { TranscriptSheet } from 'src/models/TranscriptSheet'
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -854,6 +889,9 @@ export default {
     loadSelectOptions (name, value) {
       const inputIndex = this.inputs.findIndex(input => input.name === name)
       this.inputs[inputIndex].options = value
+    },
+    getTranscriptSheetStatus (transcriptSheet) {
+      return new TranscriptSheet(transcriptSheet).status_info.label
     }
   }
 }

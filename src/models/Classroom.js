@@ -1,6 +1,7 @@
 import { User } from 'src/models/User.js'
 import { Unit } from 'src/models/Unit.js'
 import { SessionList } from 'src/models/Session.js'
+import { Registration } from 'src/models/Registration.js'
 import { Model, Collection } from 'js-abstract-model'
 
 class Classroom extends Model {
@@ -23,7 +24,10 @@ class Classroom extends Model {
       { key: 'professor' },
       { key: 'specification' },
       { key: 'bulletin' },
-      { key: 'current_user_register_info' },
+      {
+        key: 'current_user_register_info',
+        relatedModel: Registration
+      },
       {
         key: 'professor_info',
         relatedModel: User

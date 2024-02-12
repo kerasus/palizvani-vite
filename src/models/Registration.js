@@ -1,4 +1,5 @@
 import { User } from 'src/models/User.js'
+import { TranscriptSheet } from 'src/models/TranscriptSheet.js'
 // import { Package } from 'src/models/Package.js'
 // import { Service } from 'src/models/Service.js'
 import { Collection, Model } from 'js-abstract-model'
@@ -18,6 +19,10 @@ class Registration extends Model {
       {
         key: 'user_info',
         relatedModel: User
+      },
+      {
+        key: 'transcript_sheet_info',
+        relatedModel: TranscriptSheet
       },
       { key: 'status' },
       { key: 'time_status' },

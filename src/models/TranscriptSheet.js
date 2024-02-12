@@ -4,6 +4,11 @@ class TranscriptSheet extends Model {
   constructor (data) {
     super(data, [
       { key: 'id' },
+      { key: 'attendance_score' },
+      { key: 'highest_test_score' },
+      { key: 'final_score' },
+      { key: 'is_sent_by_post' },
+      { key: 'certification' },
       { key: 'status' }
     ], {
       status: {
