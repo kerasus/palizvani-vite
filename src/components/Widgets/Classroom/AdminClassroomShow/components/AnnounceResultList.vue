@@ -30,12 +30,6 @@
                :loading="updateTranscriptSheetLoading">
           <q-menu>
             <q-list style="min-width: 100px">
-              <q-item v-if="inputData.props.row.certification"
-                      v-close-popup
-                      clickable
-                      @click="showTranscriptSheetsCertification(inputData.props.row)">
-                <q-item-section>مشاهده مدرک</q-item-section>
-              </q-item>
               <q-item v-close-popup
                       clickable
                       @click="updateTranscriptSheetsFinalScore(inputData.props.row)">
@@ -61,6 +55,16 @@
             </q-list>
           </q-menu>
         </q-btn>
+      </template>
+      <template v-else-if="inputData.col.name === 'certification'">
+        <a v-if="inputData.col.value"
+           :href="inputData.col.value"
+           target="_blank">
+          <q-img :src="inputData.col.value" />
+        </a>
+        <q-icon v-else
+                name="close"
+                color="red" />
       </template>
       <template v-else>
         {{ inputData.col.value }}
@@ -176,6 +180,13 @@ export default {
             label: 'ارسال شده با پست',
             align: 'left',
             field: row => row.is_sent_by_post ? 'ارسال شده' : 'ارسال نشده'
+          },
+          {
+            name: 'certification',
+            required: true,
+            label: 'مدرک',
+            align: 'left',
+            field: row => row.certification
           },
           {
             name: 'actions',
@@ -320,9 +331,6 @@ export default {
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
       })
-    },
-    showTranscriptSheetsCertification (transcriptSheet) {
-      window.open(transcriptSheet.certification, '_blank')
     },
     getExcel () {
       this.exportReportLoading = true
