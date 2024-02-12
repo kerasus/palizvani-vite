@@ -56,11 +56,23 @@
           </q-menu>
         </q-btn>
       </template>
+      <template v-else-if="inputData.col.name === 'is_sent_by_post'">
+        <q-badge :color="inputData.col.value ? 'green' : 'red'"
+                 outline>
+          <template v-if="inputData.col.value">
+            پست شده
+          </template>
+          <template v-else>
+            پست نشده
+          </template>
+        </q-badge>
+      </template>
       <template v-else-if="inputData.col.name === 'certification'">
         <a v-if="inputData.col.value"
            :href="inputData.col.value"
            target="_blank">
-          <q-img :src="inputData.col.value" />
+          <q-btn color="primary"
+                 label="دانلود مدرک" />
         </a>
         <q-icon v-else
                 name="close"
@@ -110,6 +122,7 @@ export default {
       announceResultListInputs: [
         { type: 'select', name: 'status', value: null, label: 'وضعیت نهایی', options: (new TranscriptSheet()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'registration__status', value: null, label: 'وضعیت ثبت نام', options: (new Registration()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'optionGroupRadio', name: 'certification__isnull', value: null, label: 'مدرک', options: [{ label: 'همه موارد', value: null }, { label: 'آپلود شده', value: false }, { label: 'آپلود نشده', value: true }], placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'registration__classroom', value: classroomId },
         {
           type: BtnControlComp,
@@ -179,7 +192,7 @@ export default {
             required: true,
             label: 'ارسال شده با پست',
             align: 'left',
-            field: row => row.is_sent_by_post ? 'ارسال شده' : 'ارسال نشده'
+            field: row => row.is_sent_by_post
           },
           {
             name: 'certification',
