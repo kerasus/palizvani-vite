@@ -52,6 +52,12 @@
                     <q-item-section>کتب سطح دو</q-item-section>
                   </q-item>
                   <q-item v-close-popup
+                          href="https://formafzar.com/form/9949w"
+                          target="_blank"
+                          clickable>
+                    <q-item-section>کتب سطح سه</q-item-section>
+                  </q-item>
+                  <q-item v-close-popup
                           href="https://formafzar.com/form/dttpf"
                           target="_blank"
                           clickable>
