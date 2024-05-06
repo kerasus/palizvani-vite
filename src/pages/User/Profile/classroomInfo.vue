@@ -68,7 +68,7 @@
                  target="_blank">
                 <q-btn outline
                        color="primary">
-                  دانلود کارنامه
+                  دانلود مدرک
                 </q-btn>
               </a>
             </div>
