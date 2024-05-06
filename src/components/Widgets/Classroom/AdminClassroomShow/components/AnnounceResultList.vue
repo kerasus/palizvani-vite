@@ -129,6 +129,7 @@ export default {
       announceResultListInputs: [
         { type: 'select', name: 'status', value: null, label: 'وضعیت نهایی', options: (new TranscriptSheet()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'registration__status', value: null, label: 'وضعیت ثبت نام', options: (new Registration()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'optionGroupRadio', name: 'is_sent_by_post', value: null, label: 'پست', options: [{ label: 'همه موارد', value: null }, { label: 'پست نشده', value: false }, { label: 'پست شده', value: true }], placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'optionGroupRadio', name: 'certification__isnull', value: null, label: 'مدرک', options: [{ label: 'همه موارد', value: null }, { label: 'آپلود شده', value: false }, { label: 'آپلود نشده', value: true }], placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'registration__classroom', value: classroomId },
         {
