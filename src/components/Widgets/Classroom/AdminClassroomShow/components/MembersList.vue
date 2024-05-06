@@ -22,6 +22,11 @@
       </template>
       <template v-else-if="inputData.col.name === 'action'">
         <div class="action-column-entity-index">
+          <q-btn color="primary"
+                 class="q-mr-md"
+                 :to="{ name: 'Admin.Classroom.UserClass', params: { classroom_id: classroomId, user_id: inputData.props.row.owner }}">
+            مشاهده دوره
+          </q-btn>
           <q-btn v-if="inputData.props.row.status === 'DROPPED_FOR_CONDITION'"
                  color="primary"
                  class="q-mr-md"

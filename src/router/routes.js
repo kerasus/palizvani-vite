@@ -658,6 +658,7 @@ const routes = [
               { name: 'Admin.Classroom.Index', path: '', component: () => import('src/pages/Admin/Classroom/index.vue') },
               { name: 'Admin.Classroom.Create', path: 'create', component: () => import('src/pages/Admin/Classroom/create.vue'), breadcrumbs: { title: 'ساخت دوره آموزشی' } },
               { name: 'Admin.Classroom.Show', path: ':id', component: () => import('src/pages/Admin/Classroom/show.vue') },
+              { name: 'Admin.Classroom.UserClass', path: ':classroom_id/user/:user_id', component: () => import('src/pages/Admin/Classroom/showUserClass.vue') },
               { name: 'Admin.Classroom.Session.AttendanceSheetList', path: ':classroom_id/session/:session_id/session_attendance_sheets', component: () => import('pages/Admin/Classroom/SessionActivitySheets/sessionActivitySheets.vue') },
               { name: 'Admin.Classroom.Session.AttendanceSheet.Assignment', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/assignment', component: () => import('pages/Admin/Classroom/SessionActivitySheets/Assignment.vue') },
               { name: 'Admin.Classroom.Session.AttendanceSheet.Attendance', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/attendance', component: () => import('pages/Admin/Classroom/SessionActivitySheets/Attendance.vue') },

@@ -18,6 +18,7 @@ export default class ClassroomAPI extends APIRepository {
       register: (id) => '/lma/classrooms/' + id + '/register',
       leaders: (id) => '/lma/classrooms/' + id + '/leaders',
       announceResult: (id) => '/lma/classrooms/' + id + '/announce_result',
+      getClassroomAndCorrespondingRegistration: (classroomId, ownerId) => '/lma/classrooms/' + classroomId + '/get_classroom_and_corresponding_registration/' + ownerId,
       members: '/lma/registrations',
       activitySheet: '/lma/registrations/activity_sheet',
       enrollByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/enrolll?user_id=' + userId,
@@ -68,6 +69,20 @@ export default class ClassroomAPI extends APIRepository {
       apiMethod: 'get',
       api: this.api,
       request: this.APIAdresses.byId(id),
+      resolveCallback: (response) => {
+        return new Classroom(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  getClassroomAndCorrespondingRegistration (classroomId, ownerId) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.getClassroomAndCorrespondingRegistration(classroomId, ownerId),
       resolveCallback: (response) => {
         return new Classroom(response.data)
       },

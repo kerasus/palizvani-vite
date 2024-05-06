@@ -25,6 +25,10 @@ class Classroom extends Model {
       { key: 'specification' },
       { key: 'bulletin' },
       {
+        key: 'user_register_info',
+        relatedModel: Registration
+      },
+      {
         key: 'current_user_register_info',
         relatedModel: Registration
       },
