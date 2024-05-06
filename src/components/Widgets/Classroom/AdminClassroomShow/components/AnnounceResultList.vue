@@ -21,6 +21,12 @@
              outline
              class="q-ml-md"
              @click="notifyAnnounceResult" />
+      <q-btn label="بستن کلاس"
+             color="primary"
+             :loading="closeClassroomLoading"
+             outline
+             class="q-ml-md"
+             @click="closeClassroom" />
     </template>
     <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'actions'">
@@ -116,6 +122,7 @@ export default {
     return {
       mounted: false,
       exportReportLoading: false,
+      closeClassroomLoading: false,
       notifyAnnounceResultLoading: false,
       updateTranscriptSheetLoading: false,
 
@@ -223,6 +230,17 @@ export default {
     this.mounted = true
   },
   methods: {
+    closeClassroom () {
+      this.closeClassroomLoading = true
+      APIGateway.classroom.close(this.classroom.id)
+        .then(() => {
+          this.closeClassroomLoading = false
+          this.$refs.announceResultList.search()
+        })
+        .catch(() => {
+          this.closeClassroomLoading = false
+        })
+    },
     notifyAnnounceResult () {
       this.notifyAnnounceResultLoading = true
       APIGateway.classroom.notifyAnnounceResult(this.classroom.id)
