@@ -366,10 +366,10 @@ export default {
     },
     getExcel () {
       this.exportReportLoading = true
-      APIGateway.transcriptSheet.exportReport({
-        type: 'list',
-        registration__classroom: this.classroom.id
-      })
+      const filterData = this.$refs.announceResultList.createParams()
+      filterData.type = 'list'
+      filterData.registration__classroom = this.classroom.id
+      APIGateway.transcriptSheet.exportReport(filterData)
         .then((xlsxData) => {
           Assist.saveXlsx(xlsxData, this.classroom.title)
           this.exportReportLoading = false
