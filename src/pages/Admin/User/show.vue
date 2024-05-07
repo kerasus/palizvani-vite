@@ -86,33 +86,6 @@
             </template>
           </template>
         </entity-index>
-        <q-separator class="q-my-md" />
-        <entity-index v-if="mounted"
-                      ref="registrationsActivitySheetList"
-                      v-model:value="registrationsActivitySheetListInputs"
-                      title="لیست فعالت های کلاسی"
-                      :api="registrationsActivitySheetListApi"
-                      :table="registrationsActivitySheetListTable"
-                      :table-keys="registrationsActivitySheetListTableKeys"
-                      :show-search-button="false"
-                      :show-reload-button="false"
-                      :show-expand-button="false">
-          <template v-slot:entity-index-table-cell="{inputData}">
-            <template v-if="inputData.col.name === 'number'">
-              {{ inputData.rowNumber }}
-            </template>
-            <template v-else-if="inputData.col.name === 'action'">
-              <div class="action-column-entity-index">
-                <q-btn color="primary"
-                       :to="{name: 'Admin.User.ClassroomInfo', params: {id: $route.params.id, classroom_id: inputData.props.row.classroom_info.id}}"
-                       label="جزییات" />
-              </div>
-            </template>
-            <template v-else>
-              {{ inputData.col.value }}
-            </template>
-          </template>
-        </entity-index>
         <q-skeleton v-else
                     type="rect"
                     height="200px" />
