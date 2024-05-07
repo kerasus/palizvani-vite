@@ -807,7 +807,6 @@ export default {
     this.getUserInfo()
     this.getClassroom()
     this.mounted = true
-    FormBuilderAssist.setAttributeByName(this.testListInputs, 'owner', 'value', this.user.id)
   },
   methods: {
     getClassroom () {
