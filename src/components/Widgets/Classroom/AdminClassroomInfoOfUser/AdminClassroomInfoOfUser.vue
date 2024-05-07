@@ -902,7 +902,7 @@ export default {
         loading: false,
         path: [
           {
-            label: 'دوره های من',
+            label: 'دوره های کاربر',
             to: { name: 'UserPanel.Profile.AllClassrooms' }
           },
           {
