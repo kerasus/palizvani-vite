@@ -74,22 +74,22 @@
     <q-tab-panels v-model="tab"
                   animated>
       <q-tab-panel name="classroomInfo">
-        <div v-if="mounted && classroom.current_user_register_info.transcript_sheet_info.status"
+        <div v-if="mounted && classroom.user_register_info.transcript_sheet_info.status"
              class="bg-light-green-1 q-pa-md q-mb-md">
           <div class="row q-col-gutter-md">
             <div class="col-md-6 col-12">
-              نمره حضور و غیاب: {{ classroom.current_user_register_info.transcript_sheet_info.attendance_score }}
+              نمره حضور و غیاب: {{ classroom.user_register_info.transcript_sheet_info.attendance_score }}
               <br>
-              نمره آزمون: {{ classroom.current_user_register_info.transcript_sheet_info.highest_test_score }}
+              نمره آزمون: {{ classroom.user_register_info.transcript_sheet_info.highest_test_score }}
               <br>
-              نمره نهایی: {{ classroom.current_user_register_info.transcript_sheet_info.final_score }}
+              نمره نهایی: {{ classroom.user_register_info.transcript_sheet_info.final_score }}
             </div>
             <div class="col-md-6 col-12">
-              وضعیت نهایی: {{ getTranscriptSheetStatus(classroom.current_user_register_info.transcript_sheet_info) }}
+              وضعیت نهایی: {{ getTranscriptSheetStatus(classroom.user_register_info.transcript_sheet_info) }}
               <br>
-              <q-badge :color="classroom.current_user_register_info.transcript_sheet_info.is_sent_by_post ? 'green' : 'red'"
+              <q-badge :color="classroom.user_register_info.transcript_sheet_info.is_sent_by_post ? 'green' : 'red'"
                        outline>
-                <template v-if="classroom.current_user_register_info.transcript_sheet_info.is_sent_by_post">
+                <template v-if="classroom.user_register_info.transcript_sheet_info.is_sent_by_post">
                   ارسال شده با پست
                 </template>
                 <template v-else>
@@ -97,8 +97,8 @@
                 </template>
               </q-badge>
               <br>
-              <a v-if="classroom.current_user_register_info.transcript_sheet_info.certification"
-                 :href="classroom.current_user_register_info.transcript_sheet_info.certification"
+              <a v-if="classroom.user_register_info.transcript_sheet_info.certification"
+                 :href="classroom.user_register_info.transcript_sheet_info.certification"
                  target="_blank">
                 <q-btn outline
                        color="primary">
