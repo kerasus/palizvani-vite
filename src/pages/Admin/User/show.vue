@@ -21,9 +21,9 @@
              label="سوابق آموزشی" />
       <q-tab name="financial"
              label="سوابق مالی" />
-      <q-tab name="movies2"
-             label="سوابق دوره های مباحثاتی" />
-      <q-tab name="movies3"
+      <!--      <q-tab name="movies2"-->
+      <!--             label="سوابق دوره های مباحثاتی" />-->
+      <q-tab name="events"
              label="سوابق رویدادها" />
       <q-tab name="movies4"
              label="سوابق باشگاه اندیشه جویان" />
@@ -63,7 +63,7 @@
         <entity-index v-if="mounted"
                       ref="registrationsList"
                       v-model:value="registrationsListInputs"
-                      title="لیست دوره ها"
+                      title="لیست رویداد ها"
                       :api="registrationsListApi"
                       :table="registrationsListTable"
                       :table-keys="registrationsListTableKeys"
@@ -229,8 +229,33 @@
       <q-tab-panel name="movies2">
         سوابق باشگاه اندیشه جویان
       </q-tab-panel>
-      <q-tab-panel name="movies3">
-        سوابق رویدادها
+      <q-tab-panel name="events">
+        <entity-index v-if="mounted"
+                      ref="eventRegistrationsList"
+                      v-model:value="eventRegistrationsListInputs"
+                      title="لیست دوره ها"
+                      :api="eventRegistrationsListApi"
+                      :table="eventRegistrationsListTable"
+                      :table-keys="eventRegistrationsListTableKeys"
+                      :show-search-button="false"
+                      :show-reload-button="false"
+                      :show-expand-button="false">
+          <template v-slot:entity-index-table-cell="{inputData}">
+            <template v-if="inputData.col.name === 'number'">
+              {{ inputData.rowNumber }}
+            </template>
+            <template v-else-if="inputData.col.name === 'action'">
+              <div class="action-column-entity-index">
+                <q-btn color="primary"
+                       :to="{name: 'Admin.Classroom.UserClass', params: {user_id: $route.params.id, classroom_id: inputData.props.row.classroom_info.id}}"
+                       label="جزییات" />
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
       </q-tab-panel>
       <q-tab-panel name="movies4">
         سوابق باشگاه اندیشه جویان
@@ -350,7 +375,8 @@ export default {
       ],
 
       registrationsListInputs: [
-        { type: 'hidden', name: 'owner', value: userId }
+        { type: 'hidden', name: 'owner', value: userId },
+        { type: 'hidden', name: 'classroom__unit__category__type', value: 'TRAINING' }
       ],
       registrationsListApi: APIGateway.registration.APIAdresses.base,
       registrationsListTable: {
@@ -450,6 +476,115 @@ export default {
         data: []
       },
       registrationsListTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      eventRegistrationsListInputs: [
+        { type: 'hidden', name: 'owner', value: userId },
+        { type: 'hidden', name: 'classroom__unit__category__type', value: 'EVENT' }
+      ],
+      eventRegistrationsListApi: APIGateway.registration.APIAdresses.base,
+      eventRegistrationsListTable: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'classroom_info.item_type_info',
+            required: true,
+            label: 'نوع',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).item_type_info.label
+          },
+          {
+            name: 'classroom_info.unit_info.title',
+            required: true,
+            label: 'نام درس',
+            align: 'left',
+            field: row => row.classroom_info.unit_info.title
+          },
+          {
+            name: 'classroom_infoaudience_gender_type_info',
+            required: true,
+            label: 'جنسیت',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).audience_gender_type_info.label
+          },
+          {
+            name: 'holding_time',
+            required: true,
+            label: 'تاریخ شروع',
+            align: 'left',
+            field: row => row.classroom_info.holding_month + ' ' + row.classroom_info.holding_year
+          },
+          {
+            name: 'classroom_info.holding_type_info.label',
+            required: true,
+            label: 'نوع برگزاری',
+            align: 'left',
+            field: row => (new Classroom(row.classroom_info)).holding_type_info.label
+          },
+          {
+            name: 'classroom_info.professor_info',
+            required: true,
+            label: 'استاد',
+            align: 'left',
+            field: row => row.classroom_info.professor_info.firstname + ' ' + row.classroom_info.professor_info.lastname
+          },
+          {
+            name: 'classroom_info.sessions_info.length',
+            required: true,
+            label: 'تعداد جلسات',
+            align: 'left',
+            field: row => row.classroom_info?.sessions_info?.length
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'وضعیت',
+            align: 'left',
+            field: row => (new Registration(row)).status_info.label
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان ثبت نام',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.creation_time)
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'وضعیت مالی',
+            align: 'left',
+            field: row => (new Invoice(row.invoice_info)).status_info.label
+          },
+          {
+            name: 'action',
+            required: true,
+            label: 'جزییات',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      eventRegistrationsListTableKeys: {
         data: 'results',
         total: 'count',
         currentPage: 'current',
