@@ -9,7 +9,8 @@ export default class SessionAPI extends APIRepository {
       base: '/lma/sessions',
       attendanceSheets: '/lma/sessions/attendance_sheets',
       byId: (id) => '/lma/sessions/' + id,
-      sessionAndCurrentUserAttendanceSheet: (id) => '/lma/sessions/' + id + '/session_and_current_user_attendance_sheet'
+      sessionAndCurrentUserAttendanceSheet: (id) => '/lma/sessions/' + id + '/session_and_current_user_attendance_sheet',
+      sessionAndCurrentUserAttendanceSheetOfUser: (sessionId, userId) => '/lma/sessions/' + sessionId + '/session_and_owner_user_attendance_sheet/' + userId
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,

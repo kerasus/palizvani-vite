@@ -10,6 +10,7 @@ export default class ProjectAPI extends APIRepository {
       attendanceSheetsList: '/lma/projects/attendance_sheets',
       byId: (id) => '/lma/projects/' + id,
       projectAndCurrentUserAttendanceSheet: (id) => '/lma/projects/' + id + '/project_and_current_user_attendance_sheet',
+      projectAndCurrentUserAttendanceSheetOfUser: (projectId, userId) => '/lma/projects/' + projectId + '/project_and_owner_user_attendance_sheet/' + userId,
       attendanceSheets: (id) => '/lma/projects/' + id + '/attendance_sheets'
     }
     this.CacheList = {

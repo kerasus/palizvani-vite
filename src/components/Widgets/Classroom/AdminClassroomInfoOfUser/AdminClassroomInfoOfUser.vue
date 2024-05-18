@@ -139,7 +139,7 @@
               <q-btn size="md"
                      color="primary"
                      label="جزییات"
-                     :to="{name: 'UserPanel.Profile.SessionInfo', params: {id: inputData.props.row.id}}" />
+                     :to="{name: 'Admin.Session.UserClass', params: {session_id: inputData.props.row.id, user_id: $route.params.user_id}}" />
             </template>
             <template v-else>
               {{ inputData.col.value }}
@@ -333,7 +333,7 @@
                 <q-btn size="md"
                        color="primary"
                        label="جزییات"
-                       :to="{name: 'UserPanel.Profile.Classroom.Project.Show', params: {classroom_id: classroomId, project_id: inputData.props.row.id}}"
+                       :to="{name: 'Admin.Classroom.Project.UserInfo', params: {classroom_id: classroomId, project_id: inputData.props.row.id, user_id: $route.params.user_id}}"
                        class="q-mr-md" />
               </div>
             </template>

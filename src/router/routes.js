@@ -664,6 +664,7 @@ const routes = [
               { name: 'Admin.Classroom.Session.AttendanceSheet.Attendance', path: ':classroom_id/session/:session_id/session_attendance_sheet/:session_attendance_sheet_id/attendance', component: () => import('pages/Admin/Classroom/SessionActivitySheets/Attendance.vue') },
               { name: 'Admin.Classroom.Project.Create', path: ':classroom_id/project/create', component: () => import('src/pages/Admin/Classroom/project/create.vue') },
               { name: 'Admin.Classroom.Project.Show', path: ':classroom_id/project/:project_id', component: () => import('src/pages/Admin/Classroom/project/show.vue') },
+              { name: 'Admin.Classroom.Project.UserInfo', path: ':classroom_id/project/:project_id/user/:user_id', component: () => import('src/pages/Admin/Classroom/project/showUserProject.vue') },
               { name: 'Admin.Classroom.Project.Members', path: ':classroom_id/project/:project_id/members', component: () => import('src/pages/Admin/Classroom/project/members.vue') },
               { name: 'Admin.Classroom.projectAttendanceSheets.Show', path: ':classroom_id/project/:project_id/projectAttendanceSheet/:project_attendance_sheets_id', component: () => import('src/pages/Admin/Classroom/ProjectAttendanceSheet/show.vue') },
               { name: 'Admin.Classroom.Team.Create', path: ':classroom_id/team/create', component: () => import('src/pages/Admin/Classroom/Team/create.vue') },
@@ -780,7 +781,8 @@ const routes = [
             children: [
               { name: 'Admin.Session.Index', path: '', component: () => import('src/pages/Admin/Session/index.vue') },
               { name: 'Admin.Session.Create', path: 'create', component: () => import('src/pages/Admin/Session/create.vue') },
-              { name: 'Admin.Session.Show', path: ':id', component: () => import('src/pages/Admin/Session/show.vue') }
+              { name: 'Admin.Session.Show', path: ':id', component: () => import('src/pages/Admin/Session/show.vue') },
+              { name: 'Admin.Session.UserClass', path: ':session_id/user/:user_id', component: () => import('src/pages/Admin/Session/showUserSession.vue') }
             ]
           },
           {
