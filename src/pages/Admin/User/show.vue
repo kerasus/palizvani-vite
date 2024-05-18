@@ -77,7 +77,7 @@
             <template v-else-if="inputData.col.name === 'action'">
               <div class="action-column-entity-index">
                 <q-btn color="primary"
-                       :to="{name: 'Admin.User.ClassroomInfo', params: {id: $route.params.id, classroom_id: inputData.props.row.classroom_info.id}}"
+                       :to="{name: 'Admin.Classroom.UserClass', params: {user_id: $route.params.id, classroom_id: inputData.props.row.classroom_info.id}}"
                        label="جزییات" />
               </div>
             </template>
