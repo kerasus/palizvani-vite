@@ -36,8 +36,10 @@
           <q-btn size="md"
                  color="primary"
                  outline
-                 label="سابقه آموزشی"
-                 class="q-mr-md" />
+                 class="q-mr-md"
+                 :to="{ name: 'Admin.Classroom.UserClass', params: { classroom_id: classroomId, user_id: inputData.props.row.owner }}">
+            سابقه آموزشی
+          </q-btn>
           <!--                :to="{name: 'Admin.Session.Show', params: {id: inputData.props.row.id}}"-->
           <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
         </div>
