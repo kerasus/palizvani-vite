@@ -369,32 +369,11 @@ export default {
             field: row => row.id
           },
           {
-            name: 'classroom_info.item_type_info',
-            required: true,
-            label: 'نوع',
-            align: 'left',
-            field: row => (new Classroom(row.classroom_info)).item_type_info.label
-          },
-          {
             name: 'classroom_info.unit_info.title',
             required: true,
-            label: 'نام درس',
+            label: 'عنوان',
             align: 'left',
-            field: row => row.classroom_info.unit_info.title
-          },
-          {
-            name: 'classroom_infoaudience_gender_type_info',
-            required: true,
-            label: 'جنسیت',
-            align: 'left',
-            field: row => (new Classroom(row.classroom_info)).audience_gender_type_info.label
-          },
-          {
-            name: 'holding_time',
-            required: true,
-            label: 'تاریخ شروع',
-            align: 'left',
-            field: row => row.classroom_info.holding_month + ' ' + row.classroom_info.holding_year
+            field: row => row.classroom_info.title
           },
           {
             name: 'classroom_info.holding_type_info.label',
