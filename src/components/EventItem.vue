@@ -49,7 +49,8 @@
             </g>
           </svg>
         </div>
-        <q-img :src="event.thumbnail" />
+        <img class="thumbnail-img"
+             :src="event.thumbnail">
       </router-link>
     </q-card-section>
     <div class="infos">
@@ -187,6 +188,10 @@ export default defineComponent({
     padding: 0;
     .RegisteredSign {
       display: none;
+    }
+    .thumbnail-img {
+      width: 100%;
+      height: auto;
     }
   }
   .infos {

@@ -49,8 +49,8 @@
             </g>
           </svg>
         </div>
-        <q-img class="q-ma-xs"
-               :src="classroom.thumbnail" />
+        <img class="thumbnail-img q-ma-xs"
+             :src="classroom.thumbnail">
       </router-link>
     </q-card-section>
     <q-card-section class="title">
@@ -229,7 +229,9 @@ export default defineComponent({
     .RegisteredSign {
       display: none;
     }
-    :deep(img) {
+    .thumbnail-img {
+      width: 100%;
+      height: auto;
       border-radius: 10px;
     }
   }
