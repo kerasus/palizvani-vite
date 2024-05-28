@@ -25,8 +25,8 @@
       <!--             label="سوابق دوره های مباحثاتی" />-->
       <q-tab name="events"
              label="سوابق رویدادها" />
-      <q-tab name="movies4"
-             label="سوابق باشگاه اندیشه جویان" />
+      <!--      <q-tab name="movies4"-->
+      <!--             label="سوابق باشگاه اندیشه جویان" />-->
       <q-tab name="movies5"
              label="درخواست مدرک و گواهی" />
     </q-tabs>
@@ -63,7 +63,7 @@
         <entity-index v-if="mounted"
                       ref="registrationsList"
                       v-model:value="registrationsListInputs"
-                      title="لیست رویداد ها"
+                      title="لیست دوره ها"
                       :api="registrationsListApi"
                       :table="registrationsListTable"
                       :table-keys="registrationsListTableKeys"
@@ -199,14 +199,14 @@
           </q-tab-panel>
         </q-tab-panels>
       </q-tab-panel>
-      <q-tab-panel name="movies2">
-        سوابق باشگاه اندیشه جویان
-      </q-tab-panel>
+      <!--      <q-tab-panel name="movies2">-->
+      <!--        سوابق باشگاه اندیشه جویان-->
+      <!--      </q-tab-panel>-->
       <q-tab-panel name="events">
         <entity-index v-if="mounted"
                       ref="eventRegistrationsList"
                       v-model:value="eventRegistrationsListInputs"
-                      title="لیست دوره ها"
+                      title="لیست رویداد ها"
                       :api="eventRegistrationsListApi"
                       :table="eventRegistrationsListTable"
                       :table-keys="eventRegistrationsListTableKeys"
@@ -230,9 +230,9 @@
           </template>
         </entity-index>
       </q-tab-panel>
-      <q-tab-panel name="movies4">
-        سوابق باشگاه اندیشه جویان
-      </q-tab-panel>
+      <!--      <q-tab-panel name="movies4">-->
+      <!--        سوابق باشگاه اندیشه جویان-->
+      <!--      </q-tab-panel>-->
       <q-tab-panel name="movies5">
         درخواست مدرک و گواهی
       </q-tab-panel>
@@ -369,32 +369,11 @@ export default {
             field: row => row.id
           },
           {
-            name: 'classroom_info.item_type_info',
-            required: true,
-            label: 'نوع',
-            align: 'left',
-            field: row => (new Classroom(row.classroom_info)).item_type_info.label
-          },
-          {
             name: 'classroom_info.unit_info.title',
             required: true,
-            label: 'نام درس',
+            label: 'عنوان',
             align: 'left',
-            field: row => row.classroom_info.unit_info.title
-          },
-          {
-            name: 'classroom_infoaudience_gender_type_info',
-            required: true,
-            label: 'جنسیت',
-            align: 'left',
-            field: row => (new Classroom(row.classroom_info)).audience_gender_type_info.label
-          },
-          {
-            name: 'holding_time',
-            required: true,
-            label: 'تاریخ شروع',
-            align: 'left',
-            field: row => row.classroom_info.holding_month + ' ' + row.classroom_info.holding_year
+            field: row => row.classroom_info.title
           },
           {
             name: 'classroom_info.holding_type_info.label',
@@ -478,39 +457,11 @@ export default {
             field: row => row.id
           },
           {
-            name: 'classroom_info.item_type_info',
-            required: true,
-            label: 'نوع',
-            align: 'left',
-            field: row => (new Classroom(row.classroom_info)).item_type_info.label
-          },
-          {
             name: 'classroom_info.unit_info.title',
             required: true,
-            label: 'نام درس',
+            label: 'عنوان',
             align: 'left',
-            field: row => row.classroom_info.unit_info.title
-          },
-          {
-            name: 'classroom_infoaudience_gender_type_info',
-            required: true,
-            label: 'جنسیت',
-            align: 'left',
-            field: row => (new Classroom(row.classroom_info)).audience_gender_type_info.label
-          },
-          {
-            name: 'holding_time',
-            required: true,
-            label: 'تاریخ شروع',
-            align: 'left',
-            field: row => row.classroom_info.holding_month + ' ' + row.classroom_info.holding_year
-          },
-          {
-            name: 'classroom_info.holding_type_info.label',
-            required: true,
-            label: 'نوع برگزاری',
-            align: 'left',
-            field: row => (new Classroom(row.classroom_info)).holding_type_info.label
+            field: row => row.classroom_info.title
           },
           {
             name: 'classroom_info.professor_info',

@@ -77,10 +77,10 @@ export default {
         { type: FormBuilderInputEditorComp, name: 'event_address', responseKey: 'event_address', placeholder: ' ', label: 'آدرس مکان فیزیکی رویداد', col: 'col-12' },
 
         { type: 'separator', name: 'space', label: 'مشخصات اندیشه جو', className: 'custom-separator', col: 'col-12' },
-        { type: 'select', name: 'audience_status_wwwww', responseKey: 'audience_status_wwwww', options: [], placeholder: ' ', label: 'وضعیت(؟)', col: 'col-md-3 col-12' },
-        { type: 'select', name: 'category1', responseKey: 'category1', options: [], placeholder: ' ', label: 'مجموعه(؟)', col: 'col-md-3 col-12' },
+        // { type: 'select', name: 'audience_status_wwwww', responseKey: 'audience_status_wwwww', options: [], placeholder: ' ', label: 'وضعیت(؟)', col: 'col-md-3 col-12' },
+        // { type: 'select', name: 'category1', responseKey: 'category1', options: [], placeholder: ' ', label: 'مجموعه(؟)', col: 'col-md-3 col-12' },
         { type: 'select', name: 'audience_gender_type', responseKey: 'audience_gender_type', options: (new Event()).audience_gender_typeEnums, placeholder: ' ', label: 'جنسیت', col: 'col-md-3 col-12' },
-        { type: 'select', name: 'audience_bashgah_wwwww', responseKey: 'audience_bashgah_wwwww', options: [], placeholder: ' ', label: 'باشگاه(؟)', col: 'col-md-3 col-12' },
+        // { type: 'select', name: 'audience_bashgah_wwwww', responseKey: 'audience_bashgah_wwwww', options: [], placeholder: ' ', label: 'باشگاه(؟)', col: 'col-md-3 col-12' },
 
         { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', sourceType: 'EVENT', col: 'col-md-12 col-12' },
 
