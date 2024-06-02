@@ -150,7 +150,7 @@ export default defineComponent({
   },
   data () {
     return {
-      actionOptions: ['scroll', 'link', 'event'],
+      actionOptions: ['scroll', 'link', 'event', 'external-link'],
       positionOptions: ['top-right', 'top-left', 'bottom-right', 'bottom-left'],
       defaultOptions: {
         color: null,
