@@ -114,6 +114,12 @@
             <q-input v-model="localOptions.route"
                      label="route" />
           </div>
+          <div v-if="localOptions.action === 'external-link'"
+               class="input-container col-md-10">
+            <div class="outsideLabel">route</div>
+            <q-input v-model="localOptions.route"
+                     label="route" />
+          </div>
           <div v-if="localOptions.action === 'event'"
                class="input-container col-md-5">
             <div class="outsideLabel">eventName</div>
