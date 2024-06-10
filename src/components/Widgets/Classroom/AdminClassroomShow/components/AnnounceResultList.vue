@@ -151,12 +151,19 @@ export default {
       announceResultListApi: APIGateway.transcriptSheet.APIAdresses.base,
       announceResultListTable: {
         columns: [
+          // {
+          //   name: 'id',
+          //   required: true,
+          //   label: 'شماره',
+          //   align: 'left',
+          //   field: row => row.id
+          // },
           {
-            name: 'id',
+            name: 'owner',
             required: true,
-            label: 'شماره',
+            label: 'شناسه کاربر',
             align: 'left',
-            field: row => row.id
+            field: row => row.registration_info.owner
           },
           {
             name: 'owner_info.fullname',
