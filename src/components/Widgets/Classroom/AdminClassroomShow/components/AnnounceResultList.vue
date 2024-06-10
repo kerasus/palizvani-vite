@@ -58,6 +58,11 @@
                       @click="updateTranscriptSheetsUploadIsSentByPost(inputData.props.row)">
                 <q-item-section>تغییر وضعیت پست شده</q-item-section>
               </q-item>
+              <q-item v-close-popup
+                      clickable
+                      @click="deleteTranscriptSheet(inputData.props.row)">
+                <q-item-section>حذف ردیف جاری</q-item-section>
+              </q-item>
             </q-list>
           </q-menu>
         </q-btn>
@@ -351,6 +356,29 @@ export default {
         APIGateway.transcriptSheet.update(transcriptSheet.id, {
           is_sent_by_post: transcriptSheet.is_sent_by_post ? 0 : 1
         })
+          .then(() => {
+            this.$refs.announceResultList.search()
+            this.updateTranscriptSheetLoading = false
+          })
+          .catch(() => {
+            this.updateTranscriptSheetLoading = false
+          })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    deleteTranscriptSheet(transcriptSheet) {
+      this.$q.dialog({
+        title: 'حذف ردیف جاری کارنامه',
+        message: 'آیا از حذف ردیف جاری(کارنامه کاربر متناظر) اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.updateTranscriptSheetLoading = true
+        console.log(transcriptSheet)
+        APIGateway.transcriptSheet.deleteById(transcriptSheet.id)
           .then(() => {
             this.$refs.announceResultList.search()
             this.updateTranscriptSheetLoading = false
