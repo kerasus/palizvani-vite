@@ -1,8 +1,12 @@
 .q-field {
+  $input-height: 48px;
   &.q-field--outlined {
     .q-field__inner {
       .q-field__control {
-        height: 48px;
+        height: $input-height;
+        .q-field__marginal {
+          height: $input-height;
+        }
         &:before {
           background: #FFFFFF 0 0 no-repeat padding-box;
           border: 1px solid #DFE1EC;
@@ -13,6 +17,17 @@
             font-size: 15px;
             letter-spacing: 0;
             color: #B4B1B1;
+          }
+          .q-field__native {
+            &:-webkit-autofill,
+            &:-webkit-autofill:hover,
+            &:-webkit-autofill:focus,
+            &:-webkit-autofill:active{
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: inherit;
+              transition: background-color 5000s ease-in-out 0s;
+              box-shadow: inset 0 0 20px 20px #ffffff;
+            }
           }
         }
       }
