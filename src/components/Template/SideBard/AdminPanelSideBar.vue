@@ -202,6 +202,20 @@ export default {
               routeName: 'Admin.Invoice.Ticket.List',
               show: true,
               active: false
+            },
+            {
+              title: 'دسته های کمک های مالی',
+              roles: ['superuser', 'financial_department_head'],
+              routeName: 'Admin.DonationCategory.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'لیست کمک های مالی',
+              roles: ['superuser', 'financial_department_head'],
+              routeName: 'Admin.Donation.List',
+              show: true,
+              active: false
             }
           ]
         },

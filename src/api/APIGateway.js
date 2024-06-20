@@ -15,6 +15,7 @@ import PaymentAPI from 'src/api/models/Payment.js'
 import SessionAPI from 'src/api/models/Session.js'
 import ContentAPI from 'src/api/models/Content.js'
 import ProjectAPI from 'src/api/models/Project.js'
+import DonationAPI from 'src/api/models/Donation.js'
 import QuestionApi from 'src/api/models/Question.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
 import AnswerBookApi from 'src/api/models/AnswerBook.js'
@@ -35,6 +36,7 @@ import ContentCategoryAPI from 'src/api/models/ContentCategory.js'
 import InstalmentOfferAPI from 'src/api/models/InstalmentOffer.js'
 import ClassroomGraderAPI from 'src/api/models/ClassroomGraders.js'
 import ClassroomLeadersAPI from 'src/api/models/ClassroomLeaders.js'
+import DonationCategoryApi from 'src/api/models/DonationCategory.js'
 import TeamRegistrationsAPI from 'src/api/models/TeamRegistrations.js'
 import EventRegistrationApi from 'src/api/models/EventRegistration.js'
 import ClassroomRegistrationAPI from 'src/api/models/ClassroomRegistration.js'
@@ -60,6 +62,7 @@ export const APIGateway = {
   payment: new PaymentAPI(),
   session: new SessionAPI(),
   content: new ContentAPI(),
+  donation: new DonationAPI(),
   question: new QuestionApi(),
   classroom: new ClassroomAPI(),
   answerBook: new AnswerBookApi(),
@@ -80,6 +83,7 @@ export const APIGateway = {
   instalmentOffer: new InstalmentOfferAPI(),
   classroomGrader: new ClassroomGraderAPI(),
   classroomLeaders: new ClassroomLeadersAPI(),
+  donationCategory: new DonationCategoryApi(),
   teamRegistrations: new TeamRegistrationsAPI(),
   eventRegistration: new EventRegistrationApi(),
   classroomRegistration: new ClassroomRegistrationAPI(),
