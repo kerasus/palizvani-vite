@@ -28,6 +28,20 @@ export default class TranscriptSheetAPI extends APIRepository {
     })
   }
 
+  deleteById (transcriptSheetId) {
+    return this.sendRequest({
+      apiMethod: 'delete',
+      api: this.api,
+      request: this.APIAdresses.byId(transcriptSheetId),
+      resolveCallback: (response) => {
+        return response.data
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
   update (transcriptSheetId, data) {
     return this.sendRequest({
       apiMethod: 'put',

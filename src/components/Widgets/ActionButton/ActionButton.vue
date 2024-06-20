@@ -78,6 +78,8 @@ export default {
         this.$router.push(this.options.route)
       } else if (this.options.action && this.options.action === 'event') {
         this.$bus.emit(this.options.eventName, this.eventArgs)
+      } else if (this.options.action && this.options.action === 'external-link') {
+        window.open(this.options.route, '_blank')
       }
     }
   }

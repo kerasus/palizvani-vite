@@ -58,6 +58,11 @@
                       @click="updateTranscriptSheetsUploadIsSentByPost(inputData.props.row)">
                 <q-item-section>تغییر وضعیت پست شده</q-item-section>
               </q-item>
+              <q-item v-close-popup
+                      clickable
+                      @click="deleteTranscriptSheet(inputData.props.row)">
+                <q-item-section>حذف ردیف جاری</q-item-section>
+              </q-item>
             </q-list>
           </q-menu>
         </q-btn>
@@ -129,6 +134,7 @@ export default {
       announceResultListInputs: [
         { type: 'select', name: 'status', value: null, label: 'وضعیت نهایی', options: (new TranscriptSheet()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'registration__status', value: null, label: 'وضعیت ثبت نام', options: (new Registration()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'registration__owner__national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'optionGroupRadio', name: 'is_sent_by_post', value: null, label: 'پست', options: [{ label: 'همه موارد', value: null }, { label: 'پست نشده', value: false }, { label: 'پست شده', value: true }], placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'optionGroupRadio', name: 'certification__isnull', value: null, label: 'مدرک', options: [{ label: 'همه موارد', value: null }, { label: 'آپلود شده', value: false }, { label: 'آپلود نشده', value: true }], placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'registration__classroom', value: classroomId },
@@ -146,12 +152,19 @@ export default {
       announceResultListApi: APIGateway.transcriptSheet.APIAdresses.base,
       announceResultListTable: {
         columns: [
+          // {
+          //   name: 'id',
+          //   required: true,
+          //   label: 'شماره',
+          //   align: 'left',
+          //   field: row => row.id
+          // },
           {
-            name: 'id',
+            name: 'owner',
             required: true,
-            label: 'شماره',
+            label: 'شناسه کاربر',
             align: 'left',
-            field: row => row.id
+            field: row => row.registration_info.owner
           },
           {
             name: 'owner_info.fullname',
@@ -351,6 +364,29 @@ export default {
         APIGateway.transcriptSheet.update(transcriptSheet.id, {
           is_sent_by_post: transcriptSheet.is_sent_by_post ? 0 : 1
         })
+          .then(() => {
+            this.$refs.announceResultList.search()
+            this.updateTranscriptSheetLoading = false
+          })
+          .catch(() => {
+            this.updateTranscriptSheetLoading = false
+          })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    deleteTranscriptSheet(transcriptSheet) {
+      this.$q.dialog({
+        title: 'حذف ردیف جاری کارنامه',
+        message: 'آیا از حذف ردیف جاری(کارنامه کاربر متناظر) اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.updateTranscriptSheetLoading = true
+        console.log(transcriptSheet)
+        APIGateway.transcriptSheet.deleteById(transcriptSheet.id)
           .then(() => {
             this.$refs.announceResultList.search()
             this.updateTranscriptSheetLoading = false

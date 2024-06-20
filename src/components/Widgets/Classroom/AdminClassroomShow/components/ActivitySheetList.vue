@@ -59,7 +59,6 @@ import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
-import { Registration } from 'src/models/Registration.js'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
@@ -84,7 +83,7 @@ export default {
 
       activitySheetListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId },
-        { type: 'select', name: 'status', value: null, label: 'وضعیت ثبت نام', options: (new Registration()).statusEnums, placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'owner__national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.searchActivitySheetList, col: 'col-md-2 col-12' }
       ],
       activitySheetListApi: APIGateway.classroom.APIAdresses.activitySheet,
