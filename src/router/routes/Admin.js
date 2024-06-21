@@ -240,6 +240,28 @@ export default {
       ]
     },
     {
+      path: 'notice',
+      name: 'Admin.Notice',
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'Admin.Notice.List',
+          component: () => import('src/pages/Admin/Notice/List.vue')
+        },
+        {
+          path: 'create',
+          name: 'Admin.Notice.Create',
+          component: () => import('src/pages/Admin/Notice/Create.vue')
+        },
+        {
+          path: ':id',
+          name: 'Admin.Notice.Show',
+          component: () => import('src/pages/Admin/Notice/Show.vue')
+        }
+      ]
+    },
+    {
       path: 'content-category',
       name: 'Admin.ContentCategory',
       component: () => import('layouts/bareLayout.vue'),

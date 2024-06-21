@@ -220,6 +220,14 @@ export default {
           ]
         },
         {
+          title: 'اعلان‌ها',
+          roles: ['superuser'],
+          routeName: 'Admin.Notice.List',
+          icon: 'notifications',
+          show: true,
+          active: false
+        },
+        {
           title: 'تمام درخواست ها',
           roles: ['superuser'],
           routeName: 'Admin.Ticket.List',

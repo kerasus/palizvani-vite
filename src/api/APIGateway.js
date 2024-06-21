@@ -7,6 +7,7 @@ import TeamAPI from 'src/api/models/Team.js'
 import TestAPI from 'src/api/models/Test.js'
 import EventAPI from 'src/api/models/Event.js'
 import MediaAPI from 'src/api/models/Media.js'
+import NoticeAPI from 'src/api/models/Notice.js'
 import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
 import TestSetAPI from 'src/api/models/TestSet.js'
@@ -54,6 +55,7 @@ export const APIGateway = {
   test: new TestAPI(),
   event: new EventAPI(),
   media: new MediaAPI(),
+  notice: new NoticeAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
   testSet: new TestSetAPI(),

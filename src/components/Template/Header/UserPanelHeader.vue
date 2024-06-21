@@ -32,6 +32,11 @@
           </q-btn>
         </div>
         <div class="left-side">
+          <q-btn flat
+                 :to="{name: 'UserPanel.Notice.List'}">
+            <q-icon name="notifications_none" />
+            پیام ها
+          </q-btn>
           <q-btn flat>
             <svg id="_000000ff"
                  data-name="#000000ff"

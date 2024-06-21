@@ -1,5 +1,6 @@
 <template>
-  <q-card class="EntityIndexGridItem">
+  <q-card :flat="flat"
+          class="EntityIndexGridItem">
     <q-card-section v-if="inputData.props?.cols && inputData.props.cols.length > 0">
       <div v-for="(col, colIndex) in inputData.props.cols"
            :key="colIndex"
@@ -26,6 +27,10 @@ export default {
       default () {
         return {}
       }
+    },
+    flat: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {}

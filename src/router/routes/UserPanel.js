@@ -304,6 +304,11 @@ export default {
       ]
     },
     {
+      path: 'notice',
+      name: 'UserPanel.Notice.List',
+      component: () => import('src/pages/User/Notice/List.vue')
+    },
+    {
       path: 'wallet',
       name: 'UserPanel.Wallet',
       component: () => import('src/pages/User/Wallet/Show.vue'),

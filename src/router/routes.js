@@ -1,8 +1,8 @@
-import Auth from 'src/router/public/Auth.js'
-import Admin from 'src/router/public/Admin.js'
-import Public from 'src/router/public/Public.js'
-import Document from 'src/router/public/Document.js'
-import UserPanel from 'src/router/public/UserPanel.js'
+import Auth from 'src/router/routes/Auth.js'
+import Admin from 'src/router/routes/Admin.js'
+import Public from 'src/router/routes/Public.js'
+import Document from 'src/router/routes/Document.js'
+import UserPanel from 'src/router/routes/UserPanel.js'
 
 const routes = [
   {
@@ -38,7 +38,7 @@ const routes = [
     },
     component: () => import('layouts/MainLayout.vue'),
     meta: {
-      hasDynamicSetting: true
+      hasDynamicSetting: false
     },
     children: [
       Auth,
