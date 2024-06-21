@@ -11,18 +11,18 @@
                @click="setFilterToAll">
           همه پیام ها
         </q-btn>
-        <q-btn :flat="filterType !== 'read'"
+        <q-btn :flat="filterType !== 'not-read'"
                color="primary"
-               @click="setFilterToRead">
+               @click="setFilterToNotRead">
           خوانده نشده
           <q-badge v-if="myNotSeenNotificationsCount !== 0"
                    color="warning">
             {{ myNotSeenNotificationsCount }}
           </q-badge>
         </q-btn>
-        <q-btn :flat="filterType !== 'not-read'"
+        <q-btn :flat="filterType !== 'read'"
                color="primary"
-               @click="setFilterToNotRead">
+               @click="setFilterToRead">
           خوانده شده
         </q-btn>
       </q-card-section>
