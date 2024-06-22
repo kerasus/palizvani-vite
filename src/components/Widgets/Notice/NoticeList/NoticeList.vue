@@ -55,29 +55,29 @@
           </template>
           <template #entity-index-table-item-cell="{inputData}">
             <div class="entity-index-grid-item"
-                 :class="{'notice--read': getNoticeModel(inputData.props.row).state === 'READ'}">
+                 :class="{'notice--read': getNoticeReceiverModel(inputData.props.row).is_seen === 'true'}">
               <div class="entity-index-grid-item__header">
                 <div class="entity-index-grid-item__header-title">
-                  {{ inputData.props.row.title }}
+                  {{ inputData.props.row.notice_info.title }}
                 </div>
                 <div class="entity-index-grid-item__header-meta">
-                  <div v-if="getNoticeModel(inputData.props.row).state"
+                  <div v-if="getNoticeReceiverModel(inputData.props.row).is_seen"
                        class="entity-index-grid-item__header-state"
-                       :class="getNoticeModel(inputData.props.row).state">
-                    {{ getNoticeModel(inputData.props.row).state_info.label }}
+                       :class="getNoticeReceiverModel(inputData.props.row).is_seen ? 'read': ''">
+                    {{ getNoticeReceiverModel(inputData.props.row).is_seen ? 'خوانده شده': 'خوانده نشده' }}
                   </div>
                   <div class="entity-index-grid-item__header-creation-time">
-                    {{ getNoticeModel(inputData.props.row).shamsiDate('creation_time').dateTime }}
+                    {{ getNoticeReceiverModel(inputData.props.row.notice).shamsiDate('creation_time').dateTime }}
                   </div>
                 </div>
               </div>
               <div class="entity-index-grid-item__content"
-                   v-html="inputData.props.row.body" />
-              <div v-if="getNoticeModel(inputData.props.row).state !== 'READ'"
+                   v-html="inputData.props.row.notice_info.body" />
+              <div v-if="!getNoticeReceiverModel(inputData.props.row).is_seen"
                    class="entity-index-grid-item__action">
                 <q-btn color="primary"
                        outline
-                       @click="updateNoticeToSeen(inputData.props.row.id)">
+                       @click="updateNoticeReceiverToSeen(inputData.props.row.id)">
                   خوانده شود
                 </q-btn>
               </div>
@@ -91,7 +91,7 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
-import { Notice } from 'src/models/Notice.js'
+import { NoticeReceiver } from 'src/models/NoticeReceiver.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
@@ -105,7 +105,7 @@ export default {
     return {
       filterType: 'all',
       myNotSeenNotificationsCount: 0,
-      api: APIGateway.notice.APIAdresses.base,
+      api: APIGateway.noticeReceiver.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -114,7 +114,7 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'state', value: null }
+        { type: 'hidden', name: 'is_seen', value: null }
       ],
       table: {
         columns: [
@@ -123,21 +123,21 @@ export default {
             required: true,
             label: 'موضوع اعلان',
             align: 'left',
-            field: row => row.title
+            field: row => row.notice_info.title
           },
           {
             name: 'sender',
             required: true,
             label: 'فرستنده',
             align: 'left',
-            field: row => row.creator_info ? row.creator_info.firstname + ' ' + row.creator_info.lastname : ''
+            field: row => row.notice_info.creator_info ? row.notice_info.creator_info.firstname + ' ' + row.notice_info.creator_info.lastname : ''
           },
           {
             name: 'status',
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => (new Notice(row)).status_info.label
+            field: row => row.is_seen ? 'خوانده شده' : 'خوانده نشده'
           },
           {
             name: 'action',
@@ -170,17 +170,18 @@ export default {
         ]
       })
     },
-    getNoticeModel (data) {
-      return new Notice(data)
+    getNoticeReceiverModel (data) {
+      return new NoticeReceiver(data)
     },
-    updateNoticeToSeen (noticeId) {
-      APIGateway.notice.seen(noticeId)
+    updateNoticeReceiverToSeen (noticeReceiverId) {
+      APIGateway.noticeReceiver.seen(noticeReceiverId)
         .finally(() => {
+          this.getMyNotSeenNotificationsCount()
           this.$refs.entityIndex.search()
         })
     },
     getMyNotSeenNotificationsCount () {
-      APIGateway.notice.myNotSeenNotificationsCount()
+      APIGateway.noticeReceiver.myNotSeenNotificationsCount()
         .then((count) => {
           this.myNotSeenNotificationsCount = count
         })
@@ -190,17 +191,17 @@ export default {
     },
     setFilterToRead () {
       this.filterType = 'read'
-      FormBuilderAssist.setAttributeByName(this.inputs, 'state', 'value', 'READ')
+      FormBuilderAssist.setAttributeByName(this.inputs, 'is_seen', 'value', 'false')
       this.$refs.entityIndex.search()
     },
     setFilterToNotRead () {
       this.filterType = 'not-read'
-      FormBuilderAssist.setAttributeByName(this.inputs, 'state', 'value', 'NOT-READ')
+      FormBuilderAssist.setAttributeByName(this.inputs, 'is_seen', 'value', 'true')
       this.$refs.entityIndex.search()
     },
     setFilterToAll () {
       this.filterType = 'all'
-      FormBuilderAssist.setAttributeByName(this.inputs, 'state', 'value', null)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'is_seen', 'value', null)
       this.$refs.entityIndex.search()
     }
   }
