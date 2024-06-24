@@ -32,6 +32,7 @@ import { EntityIndex } from 'quasar-crud'
 // import { Notice } from 'src/models/Notice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import ShamsiDate from 'src/assets/ShamsiDate.js'
 
 export default {
   name: 'AdminNoticeList',
@@ -65,13 +66,20 @@ export default {
             field: row => row.creator_info ? row.creator_info.firstname + ' ' + row.creator_info.lastname : ''
           },
           {
-            name: 'status',
+            name: 'last_modification_time',
             required: true,
-            label: 'وضعیت',
+            label: 'زمان ارسال',
             align: 'left',
-            // field: row => (new Notice(row)).status_info.label
-            field: row => row.state
+            field: row => row.is_sent ? ShamsiDate.getDateTime(row.last_modification_time) : '-'
           },
+          // {
+          //   name: 'status',
+          //   required: true,
+          //   label: 'وضعیت',
+          //   align: 'left',
+          //   // field: row => (new Notice(row)).status_info.label
+          //   field: row => row.state
+          // },
           {
             name: 'action',
             required: true,
