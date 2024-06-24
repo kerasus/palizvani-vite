@@ -40,7 +40,7 @@ export default {
       indexRouteName: 'AdminPanel.Notice.List',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
-        { type: 'input', name: 'url', responseKey: 'url', label: 'لینک', placeholder: ' ', col: 'col-12' },
+        // { type: 'input', name: 'url', responseKey: 'url', label: 'لینک', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ارسال', placeholder: ' ', atClick: this.create, col: 'col-md-6' }
       ]

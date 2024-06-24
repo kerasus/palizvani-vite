@@ -62,14 +62,14 @@ export default {
           placeholder: ' ',
           col: 'col-12'
         },
-        {
-          type: 'input',
-          name: 'url',
-          responseKey: 'url',
-          label: 'لینک',
-          placeholder: ' ',
-          col: 'col-12'
-        },
+        // {
+        //   type: 'input',
+        //   name: 'url',
+        //   responseKey: 'url',
+        //   label: 'لینک',
+        //   placeholder: ' ',
+        //   col: 'col-12'
+        // },
         {
           type: 'inputEditor',
           name: 'body',
