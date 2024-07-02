@@ -30,41 +30,60 @@ class Media extends Model {
         relatedModel: MediaHashtagList
       },
       { key: 'file' }
-    ])
-
-    this.typeEnums = [
-      {
-        label: 'ویدیو',
-        value: 'VIDEO'
+    ], {
+      type: {
+        infoKey: 'type_info',
+        enumListKey: 'typeEnums',
+        enums: [
+          {
+            label: 'ویدیو',
+            value: 'VIDEO'
+          },
+          // {
+          //   label: 'متن',
+          //   value: 'TEXT'
+          // },
+          {
+            label: 'صوت',
+            value: 'SOUND'
+          },
+          {
+            label: 'تصویر',
+            value: 'IMAGE'
+          },
+          {
+            label: 'سند',
+            value: 'DOCUMENT'
+          }
+        ]
       },
-      // {
-      //   label: 'متن',
-      //   value: 'TEXT'
-      // },
-      {
-        label: 'صوت',
-        value: 'SOUND'
-      },
-      {
-        label: 'تصویر',
-        value: 'IMAGE'
-      },
-      {
-        label: 'سند',
-        value: 'DOCUMENT'
+      source_type: {
+        infoKey: 'source_type_info',
+        enumListKey: 'source_typeEnums',
+        enums: [
+          {
+            label: 'ویدیو',
+            value: 'VIDEO'
+          },
+          {
+            label: 'متن',
+            value: 'TEXT'
+          },
+          {
+            label: 'صوت',
+            value: 'SOUND'
+          },
+          {
+            label: 'عکس',
+            value: 'IMAGE'
+          },
+          {
+            label: 'محصول',
+            value: 'PRODUCT'
+          }
+        ]
       }
-    ]
-
-    this.loadTypeInfo()
-  }
-
-  loadTypeInfo () {
-    const target = this.typeEnums.find(type => type.value === this.type)
-    if (!target) {
-      this.type_info = null
-    } else {
-      this.type_info = target
-    }
+    })
   }
 }
 

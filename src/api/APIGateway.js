@@ -16,6 +16,8 @@ import PaymentAPI from 'src/api/models/Payment.js'
 import SessionAPI from 'src/api/models/Session.js'
 import ContentAPI from 'src/api/models/Content.js'
 import ProjectAPI from 'src/api/models/Project.js'
+import PackageAPI from 'src/api/models/Package.js'
+import ProductAPI from 'src/api/models/Product.js'
 import DonationAPI from 'src/api/models/Donation.js'
 import QuestionApi from 'src/api/models/Question.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
@@ -60,6 +62,8 @@ export const APIGateway = {
   wallet: new WalletAPI(),
   testSet: new TestSetAPI(),
   project: new ProjectAPI(),
+  package: new PackageAPI(),
+  product: new ProductAPI(),
   invoice: new InvoiceAPI(),
   payment: new PaymentAPI(),
   session: new SessionAPI(),
