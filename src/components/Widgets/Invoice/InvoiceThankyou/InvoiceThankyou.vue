@@ -25,7 +25,7 @@
         <invoice-show :options="{invoiceId: $route.query.invoice, invoice: invoice}" />
       </div>
     </div>
-    <div v-if="!invoice.loading"
+    <div v-if="invoice & !invoice.loading"
          class="flex justify-center q-mt-md">
       <q-btn v-if="invoice.type === 'CLASSROOM'"
              color="primary"
@@ -62,7 +62,9 @@ export default {
     this.invoice.loading = true
   },
   mounted() {
-    this.getInvoice()
+    if (this.$route.query.invoice) {
+      this.getInvoice()
+    }
   },
   methods: {
     getInvoice () {
