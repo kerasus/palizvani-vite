@@ -9,8 +9,14 @@ class Product extends Model {
       { key: 'inventory' },
       { key: 'store_category' },
       { key: 'content_category' },
-      { key: 'unit_price' },
-      { key: 'discount_percent' },
+      {
+        key: 'unit_price',
+        default: 0
+      },
+      {
+        key: 'discount_percent',
+        default: 0
+      },
       { key: 'description' },
       { key: 'maximum_order_count' },
       { key: 'is_physical' },
@@ -37,7 +43,7 @@ class Product extends Model {
         enumListKey: 'physical_typeEnums',
         enums: [
           {
-            label: 'سی دی',
+            label: 'لوج فشرده',
             value: 'CD'
           },
           {
@@ -55,6 +61,10 @@ class Product extends Model {
     if (!this.thumbnail) {
       this.thumbnail = '/img/sample-post-thumbnail.jpg'
     }
+  }
+
+  getFinalPrice () {
+    return parseInt(this.unit_price * (100 - this.discount_percent)).toLocaleString('fa')
   }
 }
 
