@@ -1,34 +1,48 @@
 <template>
-  <div class="ContentCategorySelector row q-col-gutter-md">
-    <div class="col-md-4 col-12">
-      <div>
-        دسته بندی اصلی
+  <q-card>
+    <q-card-section>
+      <span v-if="categoryType === 'content'">
+        انتخاب دسته محتوا
+      </span>
+      <span v-else-if="categoryType === 'store'">
+        انتخاب دسته فروشگاه
+      </span>
+    </q-card-section>
+    <q-separator />
+    <q-card-section>
+      <div class="ContentCategorySelector row q-col-gutter-md">
+        <div class="col-md-4 col-12">
+          <div>
+            دسته بندی اصلی
+          </div>
+          <q-select v-model="mainCategory"
+                    :options="mainCategoryOptions"
+                    :loading="categories.laoding" />
+        </div>
+        <div class="col-md-4 col-12">
+          <div>
+            دسته بندی جزیی
+          </div>
+          <q-select v-model="subCategory"
+                    :options="subCategoryOptions"
+                    :loading="categories.laoding" />
+        </div>
+        <div class="col-md-4 col-12">
+          <div>
+            بخش
+          </div>
+          <q-select v-model="bakhshCategory"
+                    :options="bakhshCategoryOptions"
+                    :loading="categories.laoding" />
+        </div>
       </div>
-      <q-select v-model="mainCategory"
-                :options="mainCategoryOptions"
-                :loading="contentCategories.laoding" />
-    </div>
-    <div class="col-md-4 col-12">
-      <div>
-        دسته بندی جزیی
-      </div>
-      <q-select v-model="subCategory"
-                :options="subCategoryOptions"
-                :loading="contentCategories.laoding" />
-    </div>
-    <div class="col-md-4 col-12">
-      <div>
-        بخش
-      </div>
-      <q-select v-model="bakhshCategory"
-                :options="bakhshCategoryOptions"
-                :loading="contentCategories.laoding" />
-    </div>
-  </div>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script>
 import { APIGateway } from 'src/api/APIGateway.js'
+import { StoreCategoryList } from 'src/models/StoreCategory.js'
 import { ContentCategoryList } from 'src/models/ContentCategory.js'
 
 export default {
@@ -41,6 +55,10 @@ export default {
     disable: {
       default: false,
       type: Boolean
+    },
+    categoryType: {
+      type: String,
+      default: 'content'
     }
   },
   emits: ['update:value'],
@@ -52,12 +70,12 @@ export default {
       mainCategoryOptions: [],
       subCategoryOptions: [],
       bakhshCategoryOptions: [],
-      contentCategories: new ContentCategoryList()
+      categories: this.categoryType === 'content' ? new ContentCategoryList() : new StoreCategoryList()
     }
   },
   watch: {
     value () {
-      if (this.value.id) {
+      if (this.value?.id) {
         this.getCategories()
       } else {
         this.inputData = this.value
@@ -66,6 +84,10 @@ export default {
     mainCategory (newValue) {
       this.subCategory = null
       this.subCategoryOptions = []
+      if (!newValue.item.children) {
+        this.$emit('update:value', newValue.value)
+        return
+      }
       this.subCategoryOptions = newValue.item.children.map(item => {
         return {
           item,
@@ -77,6 +99,10 @@ export default {
     subCategory (newValue) {
       this.bakhshCategory = null
       this.bakhshCategoryOptions = []
+      if (!newValue.item.children) {
+        this.$emit('update:value', newValue.value)
+        return
+      }
       this.bakhshCategoryOptions = newValue.item.children.map(item => {
         return {
           item,
@@ -113,12 +139,20 @@ export default {
       this.bakhshCategory = this.bakhshCategoryOptions.find(item => item.value === this.value.id)
     },
     getCategories () {
-      this.contentCategories.laoding = true
-      APIGateway.contentCategory.index({ parent__isnull: 'true', per_page: 99999 })
-        .then(contentCategories => {
-          this.contentCategories = new ContentCategoryList(contentCategories.list)
-          this.contentCategories.laoding = false
-          this.mainCategoryOptions = this.contentCategories.list.map(item => {
+      this.categories.laoding = true
+      const apiGateway = this.categoryType === 'content' ? APIGateway.contentCategory.index({ parent__isnull: 'true', per_page: 99999 })
+        : APIGateway.storeCategory.index({ parent__isnull: 'true', per_page: 99999 })
+
+      apiGateway
+        .then(categories => {
+          if (this.categoryType === 'content') {
+            this.categories = new ContentCategoryList(categories.list)
+          } else {
+            this.categories = new StoreCategoryList(categories.list)
+          }
+
+          this.categories.laoding = false
+          this.mainCategoryOptions = this.categories.list.map(item => {
             return {
               item,
               label: item.title,
@@ -140,7 +174,7 @@ export default {
           }
         })
         .catch(() => {
-          this.contentCategories.laoding = false
+          this.categories.laoding = false
         })
     }
   }

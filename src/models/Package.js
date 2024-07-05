@@ -13,6 +13,7 @@ class Package extends Model {
       { key: 'unit_price' },
       { key: 'discount_percent' },
       { key: 'description' },
+      { key: 'is_physical' },
       { key: 'maximum_order_count' },
       { key: 'weight' },
       { key: 'specification' },
@@ -21,7 +22,22 @@ class Package extends Model {
         key: 'products_info',
         relatedModel: ProductList
       }
-    ])
+    ], {
+      is_physical: {
+        infoKey: 'is_physical_info',
+        enumListKey: 'is_physicalEnums',
+        enums: [
+          {
+            label: 'فیزیکی',
+            value: true
+          },
+          {
+            label: 'مجازی',
+            value: false
+          }
+        ]
+      }
+    })
 
     if (!this.thumbnail) {
       this.thumbnail = '/img/sample-post-thumbnail.jpg'

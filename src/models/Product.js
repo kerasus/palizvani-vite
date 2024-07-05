@@ -18,6 +18,20 @@ class Product extends Model {
       { key: 'physical_type' },
       { key: 'specification' }
     ], {
+      is_physical: {
+        infoKey: 'is_physical_info',
+        enumListKey: 'is_physicalEnums',
+        enums: [
+          {
+            label: 'فیزیکی',
+            value: true
+          },
+          {
+            label: 'مجازی',
+            value: false
+          }
+        ]
+      },
       physical_type: {
         infoKey: 'physical_type_info',
         enumListKey: 'physical_typeEnums',

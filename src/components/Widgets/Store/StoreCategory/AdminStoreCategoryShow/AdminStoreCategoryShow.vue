@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminContentCategoryShow"
+  <div class="AdminStoreCategoryShow"
        :style="localOptions.style">
     <div class="flex justify-end">
       <q-btn flat
@@ -25,31 +25,30 @@
                  :redirect-after-edit="false"
                  :after-load-input-data="afterLoadInputData">
       <template #after-form-builder>
-        <div v-if="contentCategory.id"
+        <div v-if="storeCategory.id"
              class="q-mt-lg">
           <q-expansion-item expand-separator
                             label="لیست دسته بندی ها">
             <q-card>
               <q-card-section>
-                <admin-content-category-list :key="listKey"
-                                             title="لیست دسته بندی های جزیی"
-                                             :parent="contentCategory.id" />
+                <admin-store-category-list :key="listKey"
+                                           title="لیست دسته بندی های جزیی"
+                                           :parent="storeCategory.id" />
               </q-card-section>
             </q-card>
           </q-expansion-item>
-
           <q-expansion-item expand-separator
                             label="ایجاد دسته بندی">
             <q-card>
               <q-card-section>
-                <admin-content-category-create :key="listKey"
-                                               title="ایجاد دسته بندی جزیی"
-                                               :parent="contentCategory.id"
-                                               @onCreated="onCreated" />
+                <admin-store-category-create :key="listKey"
+                                             title="ایجاد دسته بندی جزیی"
+                                             :parent="storeCategory.id"
+                                             :show-back-btn="false"
+                                             @onCreated="onCreated" />
               </q-card-section>
             </q-card>
           </q-expansion-item>
-
         </div>
       </template>
     </entity-edit>
@@ -58,33 +57,34 @@
 
 <script>
 import { shallowRef } from 'vue'
+import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { EntityEdit } from 'quasar-crud'
-import { FormBuilderAssist } from 'quasar-form-builder'
-import BtnControl from 'src/components/Control/btn.vue'
-import { ContentCategory } from 'src/models/ContentCategory.js'
-import AdminContentCategoryList from 'src/components/Widgets/ContentCategory/AdminContentCategoryList/AdminContentCategoryList.vue'
-import AdminContentCategoryCreate from 'src/components/Widgets/ContentCategory/AdminContentCategoryCreate/AdminContentCategoryCreate.vue'
+import BtnControl from 'components/Control/btn.vue'
+import { StoreCategory } from 'src/models/StoreCategory.js'
+import AdminStoreCategoryList from 'components/Widgets/Store/StoreCategory/AdminStoreCategoryList/AdminStoreCategoryList.vue'
+import AdminStoreCategoryCreate from 'components/Widgets/Store/StoreCategory/AdminStoreCategoryCreate/AdminStoreCategoryCreate.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 
 export default {
-  name: 'AdminContentCategoryShow',
+  name: 'AdminStoreCategoryShow',
   components: {
-    AdminContentCategoryList,
-    AdminContentCategoryCreate,
-    EntityEdit
+    EntityEdit,
+    AdminStoreCategoryList,
+    AdminStoreCategoryCreate
   },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
+    const storeCategoryId = this.$route.params.id
+
     return {
       listKey: Date.now(),
       replyText: null,
       mounted: false,
       entityLoading: true,
-      contentCategory: new ContentCategory(),
-      api: null,
+      storeCategory: new StoreCategory(),
+      api: APIGateway.storeCategory.APIAdresses.byId(storeCategoryId),
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Ticket.Show',
@@ -92,7 +92,7 @@ export default {
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', value: null, placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', value: null, placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', value: null, placeholder: ' ', col: 'col-md-12 col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید', placeholder: ' ', ignoreValue: false, atClick: () => {}, col: 'col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید', placeholder: ' ', ignoreValue: false, atClick: this.edit, col: 'col-12' },
         { type: 'hidden', name: 'parent', responseKey: 'parent', value: null },
         { type: 'hidden', name: 'id', responseKey: 'id', value: null }
       ]
@@ -104,25 +104,15 @@ export default {
     }
   },
   created() {
-    this.contentCategory.loading = true
-    this.api = APIGateway.contentCategory.APIAdresses.byId(this.$route.params.id)
+    this.storeCategory.loading = true
   },
   mounted() {
     this.mounted = true
-    this.setActionBtn()
   },
   methods: {
-    setActionBtn () {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.edit)
-      // this.inputs.forEach((item, index) => {
-      //   if (item.name === 'btn') {
-      //     this.inputs[index].atClick = this.edit
-      //   }
-      // })
-    },
     afterLoadInputData (data) {
-      this.contentCategory = new ContentCategory(data)
-      this.contentCategory.loading = false
+      this.storeCategory = new StoreCategory(data)
+      this.storeCategory.loading = false
       this.entityLoading = false
     },
     edit() {
@@ -145,6 +135,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminContentCategoryShow {
+.AdminStoreCategoryShow {
 }
 </style>

@@ -14,13 +14,16 @@
                      :show-edit-button="false"
                      :show-expand-button="false"
                      :show-save-button="false"
-                     :show-reload-button="false" />
-      <q-btn color="primary"
-             class="full-width q-mt-md"
-             :loading="entityCreateLoading"
-             @click="entityCreate">
-        افزودن چند رسانه ای
-      </q-btn>
+                     :show-reload-button="false">
+        <template #after-form-builder>
+          <q-btn color="primary"
+                 class="full-width q-mt-md"
+                 :loading="entityCreateLoading"
+                 @click="entityCreate">
+            افزودن چند رسانه ای
+          </q-btn>
+        </template>
+      </entity-create>
     </div>
     <media-category v-if="imageMedias.list.length > 0"
                     :medias="imageMedias"
@@ -139,7 +142,7 @@ export default {
     value: {
       handler () {
         this.inputData = this.value
-        if (this.value.length > 0 && this.value[0].id) {
+        if (this.value && this.value.length > 0 && this.value[0].id) {
           this.medias = new MediaList(this.value)
           this.$emit('update:value', this.medias.list.map(item => item.id))
         }

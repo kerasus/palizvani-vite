@@ -355,6 +355,43 @@ export default {
       ]
     },
     {
+      path: 'store',
+      name: 'Admin.Store',
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        {
+          path: 'category',
+          name: 'Admin.Store.Category',
+          component: () => import('layouts/bareLayout.vue'),
+          children: [
+            { path: '', name: 'Admin.Store.Category.List', component: () => import('src/pages/Admin/StoreCategory/List.vue') },
+            { path: 'create', name: 'Admin.Store.Category.Create', component: () => import('src/pages/Admin/StoreCategory/Create.vue') },
+            { path: ':id', name: 'Admin.Store.Category.Show', component: () => import('src/pages/Admin/StoreCategory/Show.vue') }
+          ]
+        },
+        {
+          path: 'package',
+          name: 'Admin.Store.Package',
+          component: () => import('layouts/bareLayout.vue'),
+          children: [
+            { path: '', name: 'Admin.Store.Package.List', component: () => import('src/pages/Admin/StorePackage/List.vue') },
+            { path: 'create', name: 'Admin.Store.Package.Create', component: () => import('src/pages/Admin/StorePackage/Create.vue') },
+            { path: ':id', name: 'Admin.Store.Package.Show', component: () => import('src/pages/Admin/StorePackage/Show.vue') }
+          ]
+        },
+        {
+          path: 'product',
+          name: 'Admin.Store.Product',
+          component: () => import('layouts/bareLayout.vue'),
+          children: [
+            { path: '', name: 'Admin.Store.Product.List', component: () => import('src/pages/Admin/StoreProduct/List.vue') },
+            { path: 'create', name: 'Admin.Store.Product.Create', component: () => import('src/pages/Admin/StoreProduct/Create.vue') },
+            { path: ':id', name: 'Admin.Store.Product.Show', component: () => import('src/pages/Admin/StoreProduct/Show.vue') }
+          ]
+        }
+      ]
+    },
+    {
       path: 'transaction',
       name: 'Admin.Transaction',
       component: () => import('layouts/bareLayout.vue'),

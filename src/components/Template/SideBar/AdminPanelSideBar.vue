@@ -220,6 +220,59 @@ export default {
           ]
         },
         {
+          title: 'فروشگاه',
+          roles: ['superuser'],
+          icon: 'storefront',
+          routeName: null,
+          show: true,
+          open: true,
+          active: false,
+          children: [
+            {
+              title: 'دسته بندی ها',
+              roles: ['superuser'],
+              routeName: 'Admin.Store.Category.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'محصولات',
+              roles: ['superuser'],
+              routeName: 'Admin.Store.Package.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'سفارشات',
+              roles: ['superuser'],
+              routeName: 'Admin.Store.Package.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'کد تخفیف',
+              roles: ['superuser'],
+              routeName: 'Admin.Store.Package.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'تنظیمات',
+              roles: ['superuser'],
+              routeName: 'Admin.Store.Package.List',
+              show: true,
+              active: false
+            },
+            {
+              title: 'درخواست ها',
+              roles: ['superuser'],
+              routeName: 'Admin.Store.Package.List',
+              show: true,
+              active: false
+            }
+          ]
+        },
+        {
           title: 'اعلان‌ها',
           roles: ['superuser'],
           routeName: 'Admin.Notice.List',

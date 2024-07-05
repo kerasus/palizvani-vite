@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import MainSideBarTemplate from 'src/components/Template/SideBard/Main.vue'
-import UserPanelSideBar from 'src/components/Template/SideBard/UserPanelSideBar.vue'
-import AdminPanelSideBar from 'src/components/Template/SideBard/AdminPanelSideBar.vue'
+import MainSideBarTemplate from 'src/components/Template/SideBar/Main.vue'
+import UserPanelSideBar from 'src/components/Template/SideBar/UserPanelSideBar.vue'
+import AdminPanelSideBar from 'src/components/Template/SideBar/AdminPanelSideBar.vue'
 
 export default {
   name: 'TemplateSideBar',

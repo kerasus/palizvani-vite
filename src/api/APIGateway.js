@@ -8,7 +8,6 @@ import TestAPI from 'src/api/models/Test.js'
 import EventAPI from 'src/api/models/Event.js'
 import MediaAPI from 'src/api/models/Media.js'
 import NoticeAPI from 'src/api/models/Notice.js'
-import NoticeReceiverAPI from 'src/api/models/NoticeReceiver'
 import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
 import TestSetAPI from 'src/api/models/TestSet.js'
@@ -31,7 +30,9 @@ import PostCategoryAPI from 'src/api/models/PostCategory.js'
 import MediaHashtagAPI from 'src/api/models/MediaHashtag.js'
 import RegistrationAPI from 'src/api/models/Registration.js'
 import UnitCategoryAPI from 'src/api/models/UnitCategory.js'
+import StoreCategoryAPI from 'src/api/models/StoreCategory.js'
 import MediaCategoryAPI from 'src/api/models/MediaCategory.js'
+import NoticeReceiverAPI from 'src/api/models/NoticeReceiver.js'
 import QuestionChoiceApi from 'src/api/models/QuestionChoice.js'
 import TicketCategoryAPI from 'src/api/models/TicketCategory.js'
 import SessionTemplateAPI from 'src/api/models/SessionTemplate.js'
@@ -59,7 +60,6 @@ export const APIGateway = {
   event: new EventAPI(),
   media: new MediaAPI(),
   notice: new NoticeAPI(),
-  noticeReceiver: new NoticeReceiverAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
   testSet: new TestSetAPI(),
@@ -82,7 +82,9 @@ export const APIGateway = {
   postCategory: new PostCategoryAPI(),
   unitCategory: new UnitCategoryAPI(),
   mediaHashtag: new MediaHashtagAPI(),
+  storeCategory: new StoreCategoryAPI(),
   mediaCategory: new MediaCategoryAPI(),
+  noticeReceiver: new NoticeReceiverAPI(),
   ticketCategory: new TicketCategoryAPI(),
   questionChoice: new QuestionChoiceApi(),
   transcriptSheet: new TranscriptSheetAPI(),

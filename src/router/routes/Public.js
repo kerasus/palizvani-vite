@@ -81,6 +81,14 @@ export default {
       component: () => import('src/pages/Public/FAQ.vue')
     },
     {
+      name: 'Public.Shop',
+      path: 'shop',
+      meta: {
+        hasDynamicSetting: true
+      },
+      component: () => import('src/pages/BasicDynamicPage.vue')
+    },
+    {
       name: 'Public.Rules',
       path: 'rules',
       meta: {

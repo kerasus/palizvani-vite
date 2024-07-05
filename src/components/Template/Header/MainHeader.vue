@@ -35,6 +35,11 @@
                    class="top-menu-item" />
             <q-btn stretch
                    flat
+                   label="Shop"
+                   :to="{ name: 'Public.Shop' }"
+                   class="top-menu-item" />
+            <q-btn stretch
+                   flat
                    label="فروشگاه"
                    class="top-menu-item">
               <q-menu>
