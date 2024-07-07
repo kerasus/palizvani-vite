@@ -89,6 +89,22 @@ export default {
       component: () => import('src/pages/BasicDynamicPage.vue')
     },
     {
+      name: 'Public.Package',
+      path: 'package/:id',
+      meta: {
+        hasDynamicSetting: true
+      },
+      component: () => import('src/pages/BasicDynamicPage.vue')
+    },
+    {
+      name: 'Public.Product',
+      path: 'product/:id',
+      meta: {
+        hasDynamicSetting: true
+      },
+      component: () => import('src/pages/BasicDynamicPage.vue')
+    },
+    {
       name: 'Public.Rules',
       path: 'rules',
       meta: {

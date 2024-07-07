@@ -6,95 +6,17 @@
     </q-banner>
     <div class="shop-widget__content">
       <div class="shop-widget__sidebar">
-        <div class="shop-widget__sidebar-header">
-          <div class="shop-widget__sidebar-header-title">
-            فیلترها
-          </div>
-          <q-btn flat
-                 class="shop-widget__sidebar-header-remove-filters">
-            <q-icon name="delete_outline" />
-            حذف فیلترها
-          </q-btn>
-        </div>
-        <div class="shop-widget__sidebar-selected-filters">
-          <div class="shop-widget__sidebar-selected-filter">
-            <div class="shop-widget__sidebar-selected-filter-title">
-              استاد مطهری
-            </div>
-            <q-btn class="shop-widget__sidebar-selected-filter-btn-remove"
-                   flat
-                   icon="close" />
-          </div>
-          <div class="shop-widget__sidebar-selected-filter">
-            <div class="shop-widget__sidebar-selected-filter-title">
-              سیر مطالعاتی
-            </div>
-            <q-btn class="shop-widget__sidebar-selected-filter-btn-remove"
-                   flat
-                   icon="close" />
-          </div>
-        </div>
-        <q-separator />
-        <div class="shop-widget__sidebar-price-filter">
-          <q-range v-model="filters.price"
-                   :min="0"
-                   :step="100"
-                   :max="1500000" />
-          <div class="shop-widget__sidebar-price-label">
-            <div class="shop-widget__sidebar-price-label-min">
-              از
-              {{ parseInt(filters.price.min.toString()).toLocaleString('fa') }}
-              تومان
-            </div>
-            <div class="shop-widget__sidebar-price-label-max">
-              تا
-              {{ parseInt(filters.price.max.toString()).toLocaleString('fa') }}
-              تومان
-            </div>
-          </div>
-        </div>
-        <q-separator />
-        <div class="shop-widget__sidebar-exist-filter">
-          <div class="shop-widget__sidebar-exist-label">
-            فقط محصولات موجود
-          </div>
-          <q-toggle v-model="filters.exist" />
-        </div>
-        <q-separator />
-        <div class="shop-widget__sidebar-category-filter">
-          <q-expansion-item expand-separator
-                            label="دسته بندی ها">
-            <q-tree v-model:ticked="filters.categories"
-                    class="col-12 col-sm-6"
-                    :nodes="simple"
-                    children-key="children"
-                    label-key="label"
-                    node-key="id"
-                    tick-strategy="leaf" />
-          </q-expansion-item>
-
-        </div>
-        <q-separator />
-        <div class="shop-widget__sidebar-type-filter">
-          <q-expansion-item expand-separator
-                            label="نوع">
-            <q-tree v-model:ticked="filters.categories"
-                    class="col-12 col-sm-6"
-                    :nodes="types"
-                    children-key="children"
-                    label-key="label"
-                    node-key="value"
-                    tick-strategy="leaf" />
-          </q-expansion-item>
-
-        </div>
+        <sidebar :type="searchTab"
+                 @onChangeFilters="onChangeSidebarFilters" />
       </div>
       <div class="shop-widget__main">
         <div class="shop-widget__main-top-filter">
           <div class="shop-widget__main-top-filter-tools">
             <div class="shop-widget__main-top-filter-txt">
-              <q-input v-model="filters.search"
-                       label="جستجوی محصولات">
+              <q-input v-model="topFilters.search"
+                       :debounce="300"
+                       placeholder="جستجوی محصولات"
+                       @update:model-value="search">
                 <template #prepend>
                   <q-icon name="search" />
                 </template>
@@ -105,10 +27,11 @@
                 ترتیب نمایش
               </div>
               <div class="shop-widget__main-top-filter-sort-select">
-                <q-select v-model="filters.sort"
+                <q-select v-model="topFilters.sort"
                           emit-value
                           map-options
-                          :options="sortOptions" />
+                          :options="sortOptions"
+                          @update:model-value="search" />
               </div>
             </div>
           </div>
@@ -124,23 +47,45 @@
             </q-tabs>
           </div>
         </div>
-        <div class="shop-widget__result">
-          <entity-index v-if="mounted"
-                        ref="entityIndex"
-                        v-model:value="inputs"
-                        :default-layout="false"
-                        :api="api"
-                        :table="table"
-                        :table-keys="tableKeys"
-                        :table-grid-size="true"
-                        :show-expand-button="false"
-                        :show-reload-button="false"
-                        :show-search-button="false">
-            <template #entity-index-table-item-cell="{inputData}">
-              <product-item class="shop-widget__result-product-item"
-                            :product="getProduct(inputData.props.row)" />
-            </template>
-          </entity-index>
+        <div v-if="mounted"
+             class="shop-widget__result">
+          <q-tab-panels v-model="searchTab"
+                        animated>
+            <q-tab-panel name="product">
+              <entity-index ref="productEntityIndex"
+                            v-model:value="productInputs"
+                            :default-layout="false"
+                            :api="productApi"
+                            :table="tableColumns"
+                            :table-keys="tableKeys"
+                            :table-grid-size="true"
+                            :show-expand-button="false"
+                            :show-reload-button="false"
+                            :show-search-button="false">
+                <template #entity-index-table-item-cell="{inputData}">
+                  <product-item class="shop-widget__result-product-item"
+                                :product="getProduct(inputData.props.row)" />
+                </template>
+              </entity-index>
+            </q-tab-panel>
+            <q-tab-panel name="package">
+              <entity-index ref="packageEntityIndex"
+                            v-model:value="packageInputs"
+                            :default-layout="false"
+                            :api="packageApi"
+                            :table="tableColumns"
+                            :table-keys="tableKeys"
+                            :table-grid-size="true"
+                            :show-expand-button="false"
+                            :show-reload-button="false"
+                            :show-search-button="false">
+                <template #entity-index-table-item-cell="{inputData}">
+                  <package-item class="shop-widget__result-product-item"
+                                :package-item="getPackage(inputData.props.row)" />
+                </template>
+              </entity-index>
+            </q-tab-panel>
+          </q-tab-panels>
         </div>
       </div>
     </div>
@@ -149,143 +94,45 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
+import Sidebar from './components/sidebar.vue'
 import { Product } from 'src/models/Product.js'
+import { Package } from 'src/models/Package.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import ProductItem from './components/productItem.vue'
+import PackageItem from './components/packageItem.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'ContentList',
-  components: { EntityIndex, ProductItem },
+  components: { EntityIndex, ProductItem, PackageItem, Sidebar },
   mixins: [mixinWidget],
   data () {
     return {
-      searchTab: 'product',
-      filters: {
+      mounted: false,
+      searchTab: 'package', // product - package
+      topFilters: {
         search: null,
-        exist: false,
-        sort: 'sort1',
-        categories: [], // content_category
-        price: {
-          min: 100, // unit_price__gte
-          max: 1000000 // unit_price__lt
-        }
+        sort: 'BEST_SELLING'
       },
-      simple: [
-        {
-          label: 'شهید مطهری',
-          id: 1,
-          children: [
-            {
-              label: 'سطح 6',
-              id: 11
-            },
-            {
-              label: 'سطح ۱',
-              id: 3,
-              children: [
-                {
-                  label: 'سطح ۲',
-                  id: 4,
-                  children: [
-                    {
-                      label: 'سطح ۳',
-                      id: 5
-                    },
-                    {
-                      label: 'سطح 4',
-                      id: 9
-                    },
-                    {
-                      label: 'سطح 5',
-                      id: 10
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: 'جریان شناسی',
-          id: 2,
-          children: [
-            {
-              label: 'سطح ۱',
-              id: 6,
-              children: [
-                {
-                  label: 'سطح ۲',
-                  id: 7,
-                  children: [
-                    {
-                      label: 'سطح ۳',
-                      id: 8
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      types: [
-        {
-          label: 'مجازی',
-          value: 'virtual',
-          children: [
-            {
-              label: 'ویدیو',
-              value: 'VIDEO'
-            },
-            {
-              label: 'صوت',
-              value: 'SOUND'
-            },
-            {
-              label: 'متن',
-              value: 'TEXT'
-            },
-            {
-              label: 'تصویر',
-              value: 'IMAGE'
-            }
-          ]
-        },
-        {
-          label: 'فیزیکی',
-          value: 'physical',
-          children: [
-            {
-              label: 'کتاب',
-              value: 'BOOK'
-            },
-            {
-              label: 'جزوه',
-              value: 'MANUSCRIPT'
-            },
-            {
-              label: 'لوج فشرده',
-              value: 'CD'
-            }
-          ]
-        }
-      ],
+      sidebarFilters: {},
       sortOptions: [
         {
           label: 'پرفروش ترین',
-          value: 'sort1'
+          value: 'BEST_SELLING'
         },
         {
           label: 'گران ترین',
-          value: 'sort2'
+          value: 'MOST_EXPENSIVE'
         },
         {
           label: 'ارزان ترین',
-          value: 'sort3'
+          value: 'LEAST_EXPENSIVE'
         }
       ],
-      api: APIGateway.product.APIAdresses.base,
+      tableColumns: {
+        columns: []
+      },
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -293,20 +140,88 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
-      table: {
-        columns: []
-      },
-      mounted: false,
-      createRouteName: ''
+      productApi: APIGateway.product.APIAdresses.base,
+      packageApi: APIGateway.package.APIAdresses.base,
+      productInputs: [
+        { type: 'hidden', name: 'search', value: null },
+        { type: 'hidden', name: 'sort', value: null },
+        { type: 'hidden', name: 'unit_price__lt', value: null },
+        { type: 'hidden', name: 'unit_price__gte', value: null },
+        { type: 'hidden', name: 'inventory__gte', value: null },
+        { type: 'hidden', name: 'physical_type__in', value: null },
+        { type: 'hidden', name: 'medias__type__in', value: null }
+      ],
+      packageInputs: [
+        { type: 'hidden', name: 'search', value: null },
+        { type: 'hidden', name: 'sort', value: null },
+        { type: 'hidden', name: 'unit_price__lt', value: null },
+        { type: 'hidden', name: 'unit_price__gte', value: null },
+        { type: 'hidden', name: 'inventory__gte', value: null }
+      ]
     }
   },
   mounted() {
     this.mounted = true
   },
   methods: {
+    onChangeSidebarFilters (filters) {
+      this.sidebarFilters = filters
+      this.search()
+    },
+    search () {
+      this.updateFilters()
+      if (this.searchTab === 'product') {
+        this.searchProducts()
+      }
+      if (this.searchTab === 'package') {
+        this.searchPackage()
+      }
+    },
+    updateFilters () {
+      this.updateProductFilters()
+      this.updatePackageFilters()
+    },
+    updateProductFilters () {
+      // topFilters
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'sort', 'value', this.topFilters.sort)
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'search', 'value', this.topFilters.search)
+
+      // sidebarFilters
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'unit_price__lt', 'value', this.sidebarFilters.unit_price__lt)
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'unit_price__gte', 'value', this.sidebarFilters.unit_price__gte)
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'inventory__gte', 'value', this.sidebarFilters.inventory__gte)
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'physical_type__in', 'value', this.sidebarFilters.physical_type__in)
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'medias__type__in', 'value', this.sidebarFilters.medias__type__in)
+    },
+    updatePackageFilters () {
+      // topFilters
+      FormBuilderAssist.setAttributeByName(this.packageInputs, 'sort', 'value', this.topFilters.sort)
+      FormBuilderAssist.setAttributeByName(this.packageInputs, 'search', 'value', this.topFilters.search)
+
+      // sidebarFilters
+      FormBuilderAssist.setAttributeByName(this.packageInputs, 'unit_price__lt', 'value', this.sidebarFilters.unit_price__lt)
+      FormBuilderAssist.setAttributeByName(this.packageInputs, 'unit_price__gte', 'value', this.sidebarFilters.unit_price__gte)
+      FormBuilderAssist.setAttributeByName(this.packageInputs, 'inventory__gte', 'value', this.sidebarFilters.inventory__gte)
+    },
+    searchProducts () {
+      if (!this.$refs.productEntityIndex) {
+        return
+      }
+
+      this.$refs.productEntityIndex.search()
+    },
+    searchPackage () {
+      if (!this.$refs.packageEntityIndex) {
+        return
+      }
+
+      this.$refs.packageEntityIndex.search()
+    },
     getProduct (data) {
       return new Product(data)
+    },
+    getPackage (data) {
+      return new Package(data)
     }
   }
 }
@@ -321,80 +236,6 @@ export default {
     $sidebar-width: 312px;
     .shop-widget__sidebar {
       width: $sidebar-width;
-      background: #F6F6F6;
-      border-radius: 20px;
-      padding: 24px;
-      .shop-widget__sidebar-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 15px;
-        .shop-widget__sidebar-header-title {
-          font: normal normal medium 16px/21px AzarMehr;
-          letter-spacing: 0;
-        }
-        .shop-widget__sidebar-header-remove-filters {
-          color: #FF3D3D;
-        }
-      }
-      .shop-widget__sidebar-selected-filters {
-        display: flex;
-        gap: 8px;
-        justify-content: flex-start;
-        .shop-widget__sidebar-selected-filter {
-          border: 1px solid #ABABAB;
-          border-radius: 20px;
-          padding: 8px;
-          display: flex;
-          justify-content: space-between;
-          gap: 8px;
-          align-items: center;
-          background: #FFFFFF;
-          .shop-widget__sidebar-selected-filter-title {
-            font-size: 14px;
-            color: #212121;
-          }
-          :deep(.shop-widget__sidebar-selected-filter-btn-remove) {
-            @mixin set-btn-min-max () {
-              $btn-size: 20px;
-              max-height: $btn-size;
-              max-width: $btn-size;
-              min-width: $btn-size;
-              min-height: $btn-size;
-            }
-            padding: 1px;
-            @include set-btn-min-max;
-            .q-focus-helper {
-              @include set-btn-min-max;
-            }
-            .q-btn__content {
-              @include set-btn-min-max;
-              .q-icon {
-                font-size: 18px;
-              }
-            }
-          }
-        }
-      }
-      .q-separator {
-        margin: 18px 0;
-      }
-      .shop-widget__sidebar-price-filter {
-        .shop-widget__sidebar-price-label {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: 14px;
-          color: #212121;
-          .shop-widget__sidebar-price-label-min {}
-          .shop-widget__sidebar-price-label-max {}
-        }
-      }
-      .shop-widget__sidebar-exist-filter {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
     }
     .shop-widget__main {
       width: calc( 100% - #{$sidebar-width} );

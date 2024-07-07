@@ -43,6 +43,10 @@ class Package extends Model {
       this.thumbnail = '/img/sample-post-thumbnail.jpg'
     }
   }
+
+  getFinalPrice () {
+    return parseInt(this.unit_price * (100 - this.discount_percent)).toLocaleString('fa')
+  }
 }
 
 class PackageList extends Collection {

@@ -43,7 +43,7 @@ class Product extends Model {
         enumListKey: 'physical_typeEnums',
         enums: [
           {
-            label: 'لوج فشرده',
+            label: 'لوح فشرده',
             value: 'CD'
           },
           {
