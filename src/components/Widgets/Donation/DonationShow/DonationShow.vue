@@ -83,7 +83,6 @@ export default {
       APIGateway.donation.get(this.$route.params.donation_category_id)
         .then((donation) => {
           this.donation = new Donation(donation)
-          console.log('this.donation', this.donation)
           this.getDonationCategory()
         })
     },

@@ -385,7 +385,6 @@ export default {
         persistent: true
       }).onOk(() => {
         this.updateTranscriptSheetLoading = true
-        console.log(transcriptSheet)
         APIGateway.transcriptSheet.deleteById(transcriptSheet.id)
           .then(() => {
             this.$refs.announceResultList.search()
