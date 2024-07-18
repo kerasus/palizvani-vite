@@ -66,6 +66,10 @@ export default {
     position: absolute;
     top: 12px;
     right: 12px;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+    gap: 10px;
     .package-item__badge {
       transition: all $transition-time;
       width: max-content;
@@ -81,7 +85,7 @@ export default {
       align-items: center;
       .package-item__badge-title {
         display: none;
-        font-size: 16px;
+        font-size: 13px;
         color: #212121;
       }
       .package-item__badge-icon {

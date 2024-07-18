@@ -3,10 +3,18 @@
     <div class="product-item__badges">
       <div class="product-item__badge">
         <div class="product-item__badge-title">
-          بسته
+          {{ product.is_physical_info.label }}
         </div>
         <div class="product-item__badge-icon">
-          <q-icon name="inventory_2" />
+          <q-icon :name="product.is_physical ? 'shopping_basket' : 'folder'" />
+        </div>
+      </div>
+      <div class="product-item__badge">
+        <div class="product-item__badge-title">
+          {{ product.physical_type_info.label }}
+        </div>
+        <div class="product-item__badge-icon">
+          <q-icon name="category" />
         </div>
       </div>
     </div>
@@ -29,6 +37,7 @@
     <div class="product-item__actions">
       <q-btn class="product-item__actions-view"
              color="primary"
+             :to="{ name: 'Public.Product', params: { id: product.id } }"
              outline>
         مشاهده جزییات
       </q-btn>
@@ -60,10 +69,15 @@ export default {
   background: #F6F6F6;
   border: 1px solid #DFE1EC;
   border-radius: 8px;
+  position: relative;
   .product-item__badges {
     position: absolute;
     top: 12px;
     right: 12px;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+    gap: 10px;
     .product-item__badge {
       transition: all $transition-time;
       width: max-content;
@@ -79,7 +93,7 @@ export default {
       align-items: center;
       .product-item__badge-title {
         display: none;
-        font-size: 16px;
+        font-size: 13px;
         color: #212121;
       }
       .product-item__badge-icon {

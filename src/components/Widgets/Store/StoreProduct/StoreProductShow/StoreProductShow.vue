@@ -22,13 +22,19 @@
                   نوع:
                 </div>
                 <div class="product-show__attrs-item-value">
-                  {{ product.is_physical ? 'فیزیکی' : 'مجازی' }}
-                  <template v-if="product.is_physical">
-                    ({{ product.physical_type_info.label }})
-                  </template>
+                  {{ product.is_physical_info.label }}
                 </div>
               </div>
-              <div v-if="product.weight !== null"
+              <div v-if="product.physical_type"
+                   class="product-show__attrs-item">
+                <div class="product-show__attrs-item-label">
+                  جنس:
+                </div>
+                <div class="product-show__attrs-item-value">
+                  {{ product.physical_type_info.label }}
+                </div>
+              </div>
+              <div v-if="product.weight"
                    class="product-show__attrs-item">
                 <div class="product-show__attrs-item-label">
                   وزن:
