@@ -124,6 +124,15 @@
 
       <div class="left-side">
         <q-btn v-if="user && user.id !== null"
+               flat
+               :to="{ name: 'Public.Cart' }"
+               class="btn-cart">
+          <q-badge>
+            0
+          </q-badge>
+          <q-icon name="shopping_cart" />
+        </q-btn>
+        <q-btn v-if="user && user.id !== null"
                color="primary"
                @click="goToProperPanel">
           <svg id="_000000ff"
@@ -527,6 +536,15 @@ export default {
         .q-btn-dropdown__arrow {
           display: none !important;
         }
+      }
+    }
+    &.btn-cart {
+      background: white;
+      color: $primary;
+      margin-right: 20px;
+      .q-badge {
+        background: #FBF4EA;
+        color: $primary;
       }
     }
   }

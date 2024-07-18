@@ -10,6 +10,7 @@ import MediaAPI from 'src/api/models/Media.js'
 import NoticeAPI from 'src/api/models/Notice.js'
 import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
+import BasketAPI from 'src/api/models/Basket.js'
 import TestSetAPI from 'src/api/models/TestSet.js'
 import InvoiceAPI from 'src/api/models/Invoice.js'
 import PaymentAPI from 'src/api/models/Payment.js'
@@ -23,6 +24,7 @@ import QuestionApi from 'src/api/models/Question.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
 import AnswerBookApi from 'src/api/models/AnswerBook.js'
 import InstalmentAPI from 'src/api/models/Instalment.js'
+import BasketItemAPI from 'src/api/models/BasketItem.js'
 import AnswerSheetApi from 'src/api/models/AnswerSheet.js'
 import TransactionAPI from 'src/api/models/Transaction.js'
 import PageSettingAPI from 'src/api/models/PageSetting.js'
@@ -62,6 +64,7 @@ export const APIGateway = {
   notice: new NoticeAPI(),
   ticket: new TicketAPI(),
   wallet: new WalletAPI(),
+  basket: new BasketAPI(),
   testSet: new TestSetAPI(),
   project: new ProjectAPI(),
   package: new PackageAPI(),
@@ -75,6 +78,7 @@ export const APIGateway = {
   classroom: new ClassroomAPI(),
   answerBook: new AnswerBookApi(),
   instalment: new InstalmentAPI(),
+  basketItem: new BasketItemAPI(),
   answerSheet: new AnswerSheetApi(),
   transaction: new TransactionAPI(),
   pageSetting: new PageSettingAPI(),

@@ -105,6 +105,14 @@ export default {
       component: () => import('src/pages/BasicDynamicPage.vue')
     },
     {
+      name: 'Public.Cart',
+      path: 'cart',
+      meta: {
+        hasDynamicSetting: true
+      },
+      component: () => import('src/pages/BasicDynamicPage.vue')
+    },
+    {
       name: 'Public.Rules',
       path: 'rules',
       meta: {

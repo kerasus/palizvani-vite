@@ -64,7 +64,9 @@
         <q-btn label="افزودن به سبد"
                outline
                color="primary"
-               class="product-show__summery-price-action" />
+               :loading="addToCartLoading"
+               class="product-show__summery-price-action"
+               @click="addToCart" />
       </div>
     </div>
     <div v-if="false"
@@ -104,7 +106,8 @@ export default {
   mixins: [mixinWidget],
   data () {
     return {
-      product: new Product()
+      product: new Product(),
+      addToCartLoading: false
     }
   },
   computed: {
@@ -117,6 +120,13 @@ export default {
     this.getPackage()
   },
   methods: {
+    addToCart () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.addProduct(this.productId, 1)
+        .finally(() => {
+          this.addToCartLoading = false
+        })
+    },
     getPackage () {
       this.product.loading = true
       APIGateway.product.get(this.productId)
