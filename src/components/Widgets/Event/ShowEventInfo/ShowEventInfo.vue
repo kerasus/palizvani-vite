@@ -436,8 +436,8 @@ export default {
     padding: 20px 30px 40px 30px;
     .four-sections {
       .info-box {
-        height: 353px;
-        overflow: auto;
+        //height: 353px;
+        //overflow: visible;
         &.detailes {
           //margin-right: 24px;
         }
