@@ -9,6 +9,13 @@
                 :show-search-button="false"
                 :show-reload-button="false"
                 :show-expand-button="false">
+    <template #toolbar>
+      <q-btn color="primary"
+             :loading="exportReportLoading"
+             @click="getActivitySheetExcel">
+        خروجی اکسل
+      </q-btn>
+    </template>
     <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
       <template v-if="inputData.col.name === 'is_project_done'">
         <q-badge rounded
@@ -60,6 +67,7 @@ import { EntityIndex } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
+import Assist from 'assets/js/Assist'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -81,6 +89,7 @@ export default {
       mounted: false,
       createInvoiceLoading: false,
 
+      exportReportLoading: false,
       activitySheetListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId },
         { type: 'input', name: 'owner__national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-3 col-12' },
@@ -187,6 +196,22 @@ export default {
     },
     getRemoveMessage (row) {
       return 'آیا از حذف ' + row.owner_info.firstname + ' ' + row.owner_info.lastname + ' اطمینان دارید؟'
+    },
+    getActivitySheetExcel () {
+      this.exportReportLoading = true
+      const status = null
+      APIGateway.classroom.exportActivitySheetReport({
+        classroom: this.$route.params.id,
+        type: 'activity_sheet_export',
+        status
+      })
+        .then((xlsxData) => {
+          Assist.saveXlsx(xlsxData, this.classroomId)
+          this.exportReportLoading = false
+        })
+        .catch((e) => {
+          this.exportReportLoading = false
+        })
     }
   }
 }
