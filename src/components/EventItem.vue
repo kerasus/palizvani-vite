@@ -87,15 +87,16 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { Event } from 'src/models/Event.js'
+// import { Event } from 'src/models/Event.js'
+import { Classroom } from 'src/models/Classroom' //  using Classroom instead of Event to prevent props warning
 import Assist from 'src/assets/js/Assist.js'
 
 export default defineComponent({
   name: 'OptionPanel',
   props: {
     event: {
-      type: Event,
-      default: new Event()
+      type: Classroom,
+      default: new Classroom()
     }
   },
   data() {
@@ -151,7 +152,7 @@ export default defineComponent({
   },
   methods: {
     getHoldingType (event) {
-      return new Event(event).holding_type_info.label
+      return new Classroom(event).holding_type_info.label
     },
     miladiToShamsi () {
       if (!this.event.publish_time) {

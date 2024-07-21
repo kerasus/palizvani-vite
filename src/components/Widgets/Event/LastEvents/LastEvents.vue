@@ -55,7 +55,8 @@ import { User } from 'src/models/User.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import EventItem from 'src/components/EventItem.vue'
-import { Event, EventList } from 'src/models/Event.js'
+// import { Event, EventList } from 'src/models/Event.js'
+import { Classroom, ClassroomList } from 'src/models/Classroom' //  using Classroom instead of Event to prevent props warning
 import { mixinPrefetchServerData } from 'src/mixin/Mixins.js'
 import { EventRegistrationList } from 'src/models/EventRegistration.js'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel/dist/carousel'
@@ -76,7 +77,7 @@ export default {
     eventsKey: Date.now(),
     userRegistrations: new EventRegistrationList(),
     slide: 0,
-    events: new EventList(),
+    events: new ClassroomList(),
     breakpoints: {
       // 1024 and up
       1024: {
@@ -105,13 +106,13 @@ export default {
   },
   methods: {
     getHoldingType (event) {
-      return new Event(event).holding_type_info.label
+      return new Classroom(event).holding_type_info.label
     },
     prefetchServerDataPromise () {
       return this.getEvents()
     },
     prefetchServerDataPromiseThen (eventList) {
-      this.events = new EventList(eventList.list)
+      this.events = new ClassroomList(eventList.list)
       this.events.loading = false
     },
     prefetchServerDataPromiseCatch () {
