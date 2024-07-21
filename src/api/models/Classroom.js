@@ -21,6 +21,7 @@ export default class ClassroomAPI extends APIRepository {
       getClassroomAndCorrespondingRegistration: (classroomId, ownerId) => '/lma/classrooms/' + classroomId + '/get_classroom_and_corresponding_registration/' + ownerId,
       members: '/lma/registrations',
       activitySheet: '/lma/registrations/activity_sheet',
+      exportActivitySheetReport: '/lma/registrations/export_report',
       enrollByAdmin: (classroomId, userId) => '/lma/classrooms/' + classroomId + '/enrolll?user_id=' + userId,
       dropByAdmin: (classroomId) => '/lma/classrooms/' + classroomId + '/drop',
       createInvoice: (id) => '/lma/classrooms/' + id + '/create_invoice'
@@ -57,6 +58,26 @@ export default class ClassroomAPI extends APIRepository {
           //   "previous": null,
           // }
         }
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  exportActivitySheetReport(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.exportActivitySheetReport,
+      data: this.getNormalizedSendData({
+        classroom: null, // Number
+        type: null, // String
+        status: null // String
+      }, data),
+      responseType: 'blob',
+      resolveCallback: (response) => {
+        return response.data // xlsxData
       },
       rejectCallback: (error) => {
         return error
