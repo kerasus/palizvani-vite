@@ -36,9 +36,14 @@ export default {
     }
   },
   emits: ['complete'],
-  data () {
-    return {
-      basket: new Basket()
+  computed: {
+    basket: {
+      get () {
+        return this.$store.getters['Shop/basket']
+      },
+      set (newValue) {
+        this.$store.commit('Shop/updateBasket', newValue)
+      }
     }
   },
   mounted() {

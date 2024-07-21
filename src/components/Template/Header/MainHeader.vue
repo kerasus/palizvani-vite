@@ -123,12 +123,12 @@
       </q-btn>
 
       <div class="left-side">
-        <q-btn v-if="user && user.id !== null"
+        <q-btn v-if="isUserLogin"
                flat
                :to="{ name: 'Public.Cart' }"
                class="btn-cart">
           <q-badge>
-            0
+            {{ cartItemCount }}
           </q-badge>
           <q-icon name="shopping_cart" />
         </q-btn>
@@ -211,7 +211,9 @@
 
 <script>
 import { User } from 'src/models/User.js'
+import { Basket } from 'src/models/Basket.js'
 import { mapGetters, mapMutations } from 'vuex'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'templateHeader',
@@ -223,6 +225,20 @@ export default {
     }
   },
   computed: {
+    cartItemCount () {
+      return this.basket.items_info.list.length
+    },
+    basket: {
+      get () {
+        return this.$store.getters['Shop/basket']
+      },
+      set (newValue) {
+        this.$store.commit('Shop/updateBasket', newValue)
+      }
+    },
+    isUserLogin () {
+      return this.user && this.user.id !== null
+    },
     canSeeAdminPanel () {
       return this.user.isAdmin() || this.user.isSuperUser() || this.user.isEducationalDepartmentHead() || this.user.isFinancialDepartmentHead()
     },
@@ -242,11 +258,24 @@ export default {
   },
   mounted () {
     this.loadAuthData()
+    if (this.isUserLogin) {
+      this.checkoutReview()
+    }
   },
   methods: {
     ...mapMutations('AppLayout', [
       'updateLayoutLeftDrawerVisible'
     ]),
+    checkoutReview () {
+      this.basket.loading = true
+      APIGateway.basket.checkoutReview()
+        .then((basket) => {
+          this.basket = new Basket(basket)
+        })
+        .finally(() => {
+          this.basket.loading = false
+        })
+    },
     loadAuthData () {
       this.user = this.$store.getters['Auth/user']
     },
