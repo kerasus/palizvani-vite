@@ -4,9 +4,12 @@
       <q-icon name="place" />
       انتخاب آدرس:
     </div>
-    <div class="cart-address__info">
+    <div v-if="mounted"
+         class="cart-address__info">
       <div class="cart-address__selected-address">
-        <q-radio :label="basket.getFullAddressString()" />
+        <q-radio v-model="addressRadio"
+                 :val="1"
+                 :label="basket.getFullAddressString()" />
       </div>
       <div class="cart-address__edit-btn">
         <q-btn color="primary"
@@ -17,7 +20,8 @@
         </q-btn>
       </div>
     </div>
-    <q-dialog v-model="dialog">
+    <q-dialog v-if="mounted"
+              v-model="dialog">
       <q-card class="cart-address__dialog-cart">
         <q-card-section class="cart-address__dialog-cart-title-section flex justify-between">
           <div>
@@ -63,7 +67,8 @@ export default {
   emits: ['set-address'],
   data () {
     return {
-      step: 1,
+      addressRadio: 1,
+      mounted: false,
       dialog: false,
       setAddressLoading: false,
       addressInputs: [
@@ -81,6 +86,7 @@ export default {
   },
   mounted() {
     this.setFormData()
+    this.mounted = true
   },
   methods: {
     openDialog () {

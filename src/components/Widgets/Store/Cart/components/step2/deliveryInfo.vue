@@ -7,7 +7,9 @@
     <div class="delivery-info__info">
       <div class="delivery-info__selected-type">
         <div class="delivery-info__selected-type-radio">
-          <q-radio label="پست پیشتاز" />
+          <q-radio v-model="radioValue"
+                   :val="1"
+                   label="پست پیشتاز" />
         </div>
         <div class="delivery-info__selected-type-meta">
           <q-icon name="schedule" />
@@ -43,6 +45,11 @@ export default {
     basket: {
       type: Basket,
       default: new Basket()
+    }
+  },
+  data () {
+    return {
+      radioValue: 1
     }
   }
 }

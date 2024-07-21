@@ -1,6 +1,7 @@
 <template>
   <div class="stepper">
-    <q-stepper ref="stepper"
+    <q-stepper v-if="mounted"
+               ref="stepper"
                v-model="step"
                flat
                color="primary"
@@ -51,8 +52,12 @@ export default {
   emits: ['onChangeFilters'],
   data () {
     return {
+      mounted: false,
       step: 2
     }
+  },
+  mounted() {
+    this.mounted = true
   },
   methods: {
     onCompleteStep1 () {
