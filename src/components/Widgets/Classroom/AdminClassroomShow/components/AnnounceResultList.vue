@@ -21,12 +21,11 @@
              outline
              class="q-ml-md"
              @click="notifyAnnounceResult" />
-      <q-btn label="بستن کلاس"
+      <q-btn :label="classroomOngoingStatus ? 'بستن کلاس' : 'فعالسازی کلاس'"
              color="primary"
-             :loading="closeClassroomLoading"
              outline
              class="q-ml-md"
-             @click="closeClassroom" />
+             @click="toggleOngoingStatus" />
     </template>
     <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'actions'">
@@ -127,7 +126,8 @@ export default {
     return {
       mounted: false,
       exportReportLoading: false,
-      closeClassroomLoading: false,
+      classroomOngoingStatus: this.classroom.is_ongoing,
+      toggleOngoingStatusLoading: false,
       notifyAnnounceResultLoading: false,
       updateTranscriptSheetLoading: false,
 
@@ -244,15 +244,15 @@ export default {
     this.mounted = true
   },
   methods: {
-    closeClassroom () {
-      this.closeClassroomLoading = true
-      APIGateway.classroom.close(this.classroom.id)
-        .then(() => {
-          this.closeClassroomLoading = false
-          this.$refs.announceResultList.search()
+    toggleOngoingStatus () {
+      this.toggleOngoingStatusLoading = true
+      APIGateway.classroom.toggleOngoingStatus(this.classroom.id)
+        .then((response) => {
+          this.classroomOngoingStatus = response.is_ongoing
+          this.toggleOngoingStatusLoading = false
         })
         .catch(() => {
-          this.closeClassroomLoading = false
+          this.toggleOngoingStatusLoading = false
         })
     },
     notifyAnnounceResult () {

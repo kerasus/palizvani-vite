@@ -82,6 +82,7 @@ class Classroom extends Model {
       { key: 'description' },
       { key: 'is_current_user_registered' },
       { key: 'publish_time' },
+      { key: 'is_ongoing' },
       { key: 'creation_time' },
       { key: 'last_modification_time' },
       { key: 'is_active' },

@@ -11,7 +11,7 @@ export default class ClassroomAPI extends APIRepository {
       base: '/lma/classrooms',
       myAsGraderClassrooms: '/lma/classrooms/my_as_a_grader_classrooms',
       byId: (id) => '/lma/classrooms/' + id,
-      close: (id) => '/lma/classrooms/' + id + '/close',
+      toggleOngoingStatus: (id) => '/lma/classrooms/' + id + '/toggle_ongoing_status',
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
       graders: (id) => '/lma/classrooms/' + id + '/graders',
       drop: (id) => '/lma/classrooms/' + id + '/drop',
@@ -139,11 +139,11 @@ export default class ClassroomAPI extends APIRepository {
     })
   }
 
-  close (id) {
+  toggleOngoingStatus (id) {
     return this.sendRequest({
       apiMethod: 'put',
       api: this.api,
-      request: this.APIAdresses.close(id),
+      request: this.APIAdresses.toggleOngoingStatus(id),
       resolveCallback: (response) => {
         return new Classroom(response.data)
       },
