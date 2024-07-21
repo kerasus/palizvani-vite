@@ -63,7 +63,7 @@
                  color="red"
                  icon="delete_outline"
                  :loading="basketItem.loading"
-                 @click="onDecrease" />
+                 @click="onRemove" />
         </div>
       </div>
       <div class="cart-item__price">
@@ -89,8 +89,8 @@
 </template>
 
 <script>
+import { Product } from 'src/models/Product.js'
 import { BasketItem } from 'src/models/BasketItem.js'
-import { Product } from 'src/models/Product'
 
 export default {
   name: 'cartItem',

@@ -1,18 +1,15 @@
 <template>
-  <div class="step1">
+  <div class="step2">
     <q-linear-progress v-if="basket.loading"
                        indeterminate />
     <template v-if="!basket.loading">
-      <div class="step1__cart-items">
-        <cart-item v-for="(basketItem, basketItemIndex) in basket.items_info.list"
-                   :key="basketItemIndex"
-                   :basket-item="basketItem"
-                   class="step1__cart-item"
-                   @remove="onRemove(basketItem)"
-                   @increase="onIncrease(basketItem)"
-                   @decrease="onDecrease(basketItem)" />
+      <div class="step2__cart-info">
+        <cart-items :basket-items="basket.items_info" />
+        <cart-address :basket="basket"
+                      @set-address="onSetAddress" />
+        <delivery-info :basket="basket" />
       </div>
-      <div class="step1__sidebar">
+      <div class="step2__sidebar">
         <sidebar :basket="basket"
                  @complete="onComplete" />
       </div>
@@ -22,13 +19,15 @@
 
 <script>
 import Sidebar from './sidebar.vue'
-import CartItem from './cartItem.vue'
+import CartItems from './cartItems.vue'
+import CartAddress from './cartAddress.vue'
+import DeliveryInfo from './deliveryInfo.vue'
 import { Basket } from 'src/models/Basket.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
-  name: 'step1',
-  components: { CartItem, Sidebar },
+  name: 'step2',
+  components: { CartItems, CartAddress, Sidebar, DeliveryInfo },
   props: {
     type: {
       type: String,
@@ -55,37 +54,8 @@ export default {
           this.basket.loading = false
         })
     },
-    onIncrease (basketItem) {
-      basketItem.loading = true
-      const newCount = basketItem.count + 1
-      APIGateway.basketItem.update(basketItem.id, newCount)
-        .then(() => {
-          this.checkoutReview()
-        })
-        .finally(() => {
-          basketItem.loading = false
-        })
-    },
-    onDecrease (basketItem) {
-      basketItem.loading = true
-      const newCount = basketItem.count - 1
-      APIGateway.basketItem.update(basketItem.id, newCount)
-        .then(() => {
-          this.checkoutReview()
-        })
-        .finally(() => {
-          basketItem.loading = false
-        })
-    },
-    onRemove (basketItem) {
-      basketItem.loading = true
-      APIGateway.basketItem.update(basketItem.id, 0)
-        .then(() => {
-          this.checkoutReview()
-        })
-        .finally(() => {
-          basketItem.loading = false
-        })
+    onSetAddress () {
+      this.checkoutReview()
     },
     onComplete () {
       this.$emit('complete')
@@ -95,21 +65,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.step1 {
+.step2 {
   display: flex;
   flex-flow: row;
   gap: 28px;
   $sidebar-width: 312px;
-  .step1__cart-items {
+  .step2__cart-info {
     width: calc( 100% - #{$sidebar-width} );
     display: flex;
     flex-flow: column;
     gap: 24px;
-    .step1__cart-item {
-
-    }
   }
-  .step1__sidebar {
+  .step2__sidebar {
     width: $sidebar-width;
   }
 }

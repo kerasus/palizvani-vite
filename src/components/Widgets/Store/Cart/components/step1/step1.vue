@@ -68,8 +68,10 @@ export default {
     },
     onDecrease (basketItem) {
       basketItem.loading = true
-      const newCount = basketItem.count - 1
-      APIGateway.basketItem.update(basketItem.id, newCount)
+      const promise = basketItem.product ? APIGateway.basketItem.decrementProduct(basketItem.product) : APIGateway.basketItem.decrementPackage(basketItem.package)
+      // const newCount = basketItem.count - 1
+      // APIGateway.basketItem.update(basketItem.id, newCount)
+      promise
         .then(() => {
           this.checkoutReview()
         })
@@ -105,9 +107,6 @@ export default {
     display: flex;
     flex-flow: column;
     gap: 24px;
-    .step1__cart-item {
-
-    }
   }
   .step1__sidebar {
     width: $sidebar-width;

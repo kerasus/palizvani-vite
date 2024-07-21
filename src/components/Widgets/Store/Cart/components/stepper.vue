@@ -51,7 +51,7 @@ export default {
   emits: ['onChangeFilters'],
   data () {
     return {
-      step: 1
+      step: 2
     }
   },
   methods: {

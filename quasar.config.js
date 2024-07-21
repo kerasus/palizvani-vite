@@ -84,6 +84,9 @@ module.exports = configure(function (ctx) {
       transpileDependencies: [
         'js-abstract-model',
         'quasar-template-builder',
+        'quasar-app-extension-q-page-builder',
+        'quasar-crud',
+        'quasar-form-builder',
         'quasar-ui-q-page-builder'
       ],
 

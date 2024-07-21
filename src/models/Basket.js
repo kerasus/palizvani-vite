@@ -100,6 +100,24 @@ class Basket extends Model {
       }
     })
   }
+
+  getFullAddressString () {
+    const addressArray = []
+    if (this.province) {
+      addressArray.push(this.province)
+    }
+    if (this.city) {
+      addressArray.push(this.city)
+    }
+    if (this.address) {
+      addressArray.push(this.address)
+    }
+    if (this.postal_code) {
+      addressArray.push(this.postal_code)
+    }
+
+    return addressArray.join(' - ')
+  }
 }
 
 class BasketList extends Collection {
