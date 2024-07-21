@@ -132,7 +132,7 @@ export default {
         { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', col: 'col-md-3', disable: true },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', col: 'col-md-3' },
         { type: 'select', name: 'category', responseKey: 'category', options: [{ label: 'انتقاد', value: 'انتقاد' }, { label: 'پیشنهاد', value: 'پیشنهاد' }], value: null, label: 'دسته', col: 'col-md-3' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', label: 'تاریخ ایجاد', col: 'col-md-3', disable: true },
+        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ایجاد', col: 'col-md-3', disable: true },
         {
           type: 'tiptap-editor',
           name: 'description',

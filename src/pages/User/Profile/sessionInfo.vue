@@ -220,7 +220,7 @@ export default {
         { type: 'InputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'پاسخ کاربر', placeholder: ' ', col: 'col-md-12 col-12' },
         { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل ضمیمه', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'assignment_status', responseKey: 'assignment_status', label: 'وضعیت تکلیف', placeholder: ' ', options: (new SessionAttendanceSheets()).assignment_statusEnums, col: 'col-md-3 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', label: 'زمان ارسال تکلیف', placeholder: ' ', col: 'col-md-6 col-12' }
+        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'زمان ارسال تکلیف', col: 'col-md-6 col-12' }
       ]
     }
   },

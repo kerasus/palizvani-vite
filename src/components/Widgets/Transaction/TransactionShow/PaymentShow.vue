@@ -80,7 +80,7 @@ export default {
       inputs: [
         // { type: 'separator', name: 'space', label: 'مشخصات حساب', className: 'custom-separator', col: 'col-12' },
         { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', label: 'تاریخ ثبت', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', col: 'col-md-4 col-12' },
         {
           type: 'select',
           name: 'type',

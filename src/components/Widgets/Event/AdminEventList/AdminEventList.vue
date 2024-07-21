@@ -59,15 +59,13 @@ export default {
         {
           type: 'dateTime',
           name: 'creation_time__gte',
-          label: 'از تاریخ',
-          placeholder: ' ',
+          outsideLabel: 'از تاریخ',
           col: 'col-md-3 col-12'
         },
         {
           type: 'dateTime',
           name: 'creation_time__lt',
-          label: 'تا تاریخ',
-          placeholder: ' ',
+          outsideLabel: 'تا تاریخ',
           col: 'col-md-3 col-12'
         },
         { type: 'select', name: 'status', options: (new Invoice()).statusEnums, label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },

@@ -213,7 +213,7 @@ export default {
         { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', readonly: true, col: 'col-md-4 col-12' },
 
         { type: 'file', name: 'attachment', responseKey: 'attachment', placeholder: ' ', label: 'ضمیمه', readonly: true, col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', placeholder: ' ', label: 'تاریخ ایجاد', readonly: true, col: 'col-md-6 col-12' },
+        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ایجاد', readonly: true, col: 'col-md-6 col-12' },
 
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', readonly: true, col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', readonly: true, col: 'col-md-12 col-12' },

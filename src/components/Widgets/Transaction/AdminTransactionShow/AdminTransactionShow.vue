@@ -78,7 +78,7 @@ export default {
           col: 'col-md-4 col-12'
         },
         { type: 'input', name: 'amount', responseKey: 'amount', label: 'مبلغ کل(ریال)', placeholder: ' ', col: 'col-md-4 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', label: 'تاریخ ثبت', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', col: 'col-md-4 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-12' }
         // { type: 'input', name: 'IBAN', responseKey: 'IBAN', label: 'شماره شبا', placeholder: ' ', col: 'col-md-6 col-12' },
         // { type: 'input', name: 'receipt', responseKey: 'receipt', label: 'رسید پرداخت', placeholder: ' ', col: 'col-md-6 col-12' }

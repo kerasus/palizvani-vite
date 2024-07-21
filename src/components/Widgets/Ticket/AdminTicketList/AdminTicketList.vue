@@ -60,15 +60,13 @@ export default {
         {
           type: 'dateTime',
           name: 'creation_time__gte',
-          label: 'از تاریخ',
-          placeholder: ' ',
+          outsideLabel: 'از تاریخ',
           col: 'col-md-4 col-12'
         },
         {
           type: 'dateTime',
           name: 'creation_time__lt',
-          label: 'تا تاریخ',
-          placeholder: ' ',
+          outsideLabel: 'تا تاریخ',
           col: 'col-md-4 col-12'
         },
         { type: 'input', name: 'owner__national_code', label: 'کدملی', placeholder: ' ', col: 'col-md-4 col-12' },

@@ -91,8 +91,8 @@ export default {
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
-        { type: 'dateTime', name: 'beginning_doing_period', responseKey: 'beginning_doing_period', label: 'زمان شروع', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_doing_period', responseKey: 'ending_doing_period', label: 'زمان پایان', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'dateTime', name: 'beginning_doing_period', responseKey: 'beginning_doing_period', outsideLabel: 'زمان شروع', col: 'col-md-6 col-12' },
+        { type: 'dateTime', name: 'ending_doing_period', responseKey: 'ending_doing_period', outsideLabel: 'زمان پایان', col: 'col-md-6 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات پروژه', placeholder: ' ', col: 'col-12' },
         { type: ContentsSelectorComp, name: 'contents', responseKey: 'contents_info', showPageLink: false, showDownloadLink: true, col: 'col-12' },
