@@ -294,7 +294,7 @@ export default {
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
-        { type: 'date', name: 'birthdate', placeholder: ' ', label: 'تولد', responseKey: 'birthdate', col: 'col-md-3 col-12' },
+        { type: 'date', name: 'birthdate', outsideLabel: 'تولد', responseKey: 'birthdate', col: 'col-md-3 col-12' },
         {
           type: 'select',
           name: 'marital_status',

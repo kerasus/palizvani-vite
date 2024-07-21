@@ -76,7 +76,7 @@ export default {
           className: 'require',
           col: 'col-md-6 col-12'
         },
-        { type: 'date', name: 'birthdate', placeholder: ' ', label: 'تولد', responseKey: 'birthdate', className: 'require', col: 'col-md-6 col-12' },
+        { type: 'date', name: 'birthdate', outsideLabel: 'تولد', responseKey: 'birthdate', className: 'require', col: 'col-md-6 col-12' },
         {
           type: 'select',
           name: 'marital_status',

@@ -2,7 +2,7 @@
   <div class="step1">
     <q-linear-progress v-if="basket.loading"
                        indeterminate />
-    <template v-if="!basket.loading">
+    <template v-if="!basket.loading && basket.items_info.list.length > 0">
       <div class="step1__cart-items">
         <cart-item v-for="(basketItem, basketItemIndex) in basket.items_info.list"
                    :key="basketItemIndex"
@@ -16,6 +16,11 @@
         <sidebar :basket="basket"
                  @complete="onComplete" />
       </div>
+    </template>
+    <template v-else-if="!basket.loading && basket.items_info.list.length === 0">
+      <q-banner>
+        سبد خرید شما خالیست.
+      </q-banner>
     </template>
   </div>
 </template>

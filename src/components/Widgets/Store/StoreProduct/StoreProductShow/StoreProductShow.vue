@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import { Basket } from 'src/models/Basket.js'
 import { Product } from 'src/models/Product.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
@@ -125,6 +126,17 @@ export default {
       APIGateway.basketItem.addProduct(this.productId, 1)
         .finally(() => {
           this.addToCartLoading = false
+          this.checkoutReview()
+        })
+    },
+    checkoutReview () {
+      this.basket.loading = true
+      APIGateway.basket.checkoutReview()
+        .then((basket) => {
+          this.$store.commit('Shop/updateBasket', new Basket(basket))
+        })
+        .finally(() => {
+          this.basket.loading = false
         })
     },
     getPackage () {

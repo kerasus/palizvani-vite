@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { Basket } from 'src/models/Basket.js'
 import { Product } from 'src/models/Product.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
@@ -74,6 +75,17 @@ export default {
       APIGateway.basketItem.addProduct(this.product.id, 1)
         .finally(() => {
           this.addToCartLoading = false
+          this.checkoutReview()
+        })
+    },
+    checkoutReview () {
+      this.basket.loading = true
+      APIGateway.basket.checkoutReview()
+        .then((basket) => {
+          this.$store.commit('Shop/updateBasket', new Basket(basket))
+        })
+        .finally(() => {
+          this.basket.loading = false
         })
     }
   }
@@ -82,7 +94,7 @@ export default {
 
 <style scoped lang="scss">
 .product-item {
-  $transition-time: 0.2s;
+  $transition-time: 0s;
   background: #F6F6F6;
   border: 1px solid #DFE1EC;
   border-radius: 8px;
@@ -121,6 +133,9 @@ export default {
   :deep(.product-item__thumbnail) {
     transition: all $transition-time;
     margin: 15px 58px 12px 58px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .q-img {
       width: 100%;
     }
@@ -140,7 +155,7 @@ export default {
     padding: 0 20px;
     margin-bottom: 43px;
     .product-item__price-final {
-      font-size: 20px;
+      font-size: 18px;
       color: #475F4A;
     }
     .product-item__price-base {
@@ -170,9 +185,9 @@ export default {
       }
     }
     :deep(.product-item__thumbnail) {
-      margin: 10px 105px 4px 105px;
+      margin: 10px auto 4px auto;
       .q-img {
-        width: 100%;
+        width: 90px;
       }
     }
     .product-item__title {

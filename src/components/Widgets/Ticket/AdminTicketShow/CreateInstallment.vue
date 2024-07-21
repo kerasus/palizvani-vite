@@ -41,7 +41,7 @@ export default {
         { type: 'input', name: 'amount', label: 'مبلغ', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'count', label: 'تعداد اقساط', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'due_date_interval', label: 'فاصله هر قسط(روز)', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'date', name: 'starting_date', label: 'تاریخ شروع اولین قسط', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'date', name: 'starting_date', outsideLabel: 'تاریخ شروع اولین قسط', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'invoice', value: null }
       ]
     }

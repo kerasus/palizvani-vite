@@ -63,8 +63,9 @@
                             :show-reload-button="false"
                             :show-search-button="false">
                 <template #entity-index-table-item-cell="{inputData}">
-                  <product-item class="shop-widget__result-product-item"
-                                :product="getProduct(inputData.props.row)" />
+                  <div class="shop-widget__result-product-item">
+                    <product-item :product="getProduct(inputData.props.row)" />
+                  </div>
                 </template>
               </entity-index>
             </q-tab-panel>
@@ -80,8 +81,9 @@
                             :show-reload-button="false"
                             :show-search-button="false">
                 <template #entity-index-table-item-cell="{inputData}">
-                  <package-item class="shop-widget__result-product-item"
-                                :package-item="getPackage(inputData.props.row)" />
+                  <div class="shop-widget__result-product-item">
+                    <package-item :package-item="getPackage(inputData.props.row)" />
+                  </div>
                 </template>
               </entity-index>
             </q-tab-panel>
@@ -302,12 +304,17 @@ export default {
         }
       }
       :deep(.shop-widget__result) {
-        .quasar-crud-index-table {
-          .q-table__grid-content {
-            gap: 36px;
-            .shop-widget__result-product-item {
-              width: 33%;
-              flex: 0 0 auto;
+        .q-tab-panel {
+          padding: 0;
+          .quasar-crud-index-table {
+            padding: 0;
+            .q-table__grid-content {
+              margin: -18px;
+              .shop-widget__result-product-item {
+                width: 33%;
+                padding: 18px;
+                flex: 0 0 auto;
+              }
             }
           }
         }

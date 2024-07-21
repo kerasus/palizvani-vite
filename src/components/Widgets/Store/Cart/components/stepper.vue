@@ -30,7 +30,7 @@
               done-icon="account_balance_wallet"
               active-icon="account_balance_wallet"
               disable>
-        This step won't show up because it is disabled.
+        <step3 />
       </q-step>
     </q-stepper>
   </div>
@@ -39,10 +39,11 @@
 <script>
 import Step1 from './step1/step1.vue'
 import Step2 from './step2/step2.vue'
+import Step3 from './step3/step3.vue'
 
 export default {
   name: 'stepper',
-  components: { Step1, Step2 },
+  components: { Step1, Step2, Step3 },
   props: {
     type: {
       type: String,
@@ -53,7 +54,7 @@ export default {
   data () {
     return {
       mounted: false,
-      step: 2
+      step: 1
     }
   },
   mounted() {

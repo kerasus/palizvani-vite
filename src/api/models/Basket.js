@@ -1,4 +1,5 @@
 import { appApi } from 'src/boot/axios.js'
+import { Invoice } from 'src/models/Invoice.js'
 import APIRepository from '../classes/APIRepository.js'
 import { Basket, BasketList } from 'src/models/Basket.js'
 
@@ -10,6 +11,7 @@ export default class BasketAPI extends APIRepository {
       checkoutReview: '/store/baskets/checkout_review',
       byId: (id) => '/store/baskets/' + id,
       send: (id) => '/store/baskets/' + id + '/send',
+      createInvoice: (id) => '/store/baskets/' + id + '/create_invoice',
       submitDiscountCode: (id) => '/store/baskets/' + id + '/submit_discount_code',
       removeDiscountCode: (id) => '/store/baskets/' + id + '/remove_discount_code'
     }
@@ -145,6 +147,20 @@ export default class BasketAPI extends APIRepository {
       request: this.APIAdresses.send(basketId),
       resolveCallback: (response) => {
         return new Basket(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  createInvoice (basketId) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.createInvoice(basketId),
+      resolveCallback: (response) => {
+        return new Invoice(response.data)
       },
       rejectCallback: (error) => {
         return error

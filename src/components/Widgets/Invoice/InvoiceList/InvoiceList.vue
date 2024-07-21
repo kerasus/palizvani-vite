@@ -77,15 +77,13 @@ export default {
         {
           type: 'date',
           name: 'creation_time',
-          label: 'از تاریخ',
-          placeholder: ' ',
+          outsideLabel: 'از تاریخ',
           col: 'col-md-3 col-12'
         },
         {
           type: 'date',
           name: 'creation_time',
-          label: 'تا تاریخ',
-          placeholder: ' ',
+          outsideLabel: 'تا تاریخ',
           col: 'col-md-3 col-12'
         },
         { type: 'select', name: 'category', options: [], label: 'وضعیت تراکنش', placeholder: ' ', col: 'col-md-2 col-12' },

@@ -192,7 +192,7 @@ export default {
         label: 'جنسیت',
         col: ' col-md-3 col-12'
       },
-      { type: 'date', name: 'birthdate', label: 'تولد', responseKey: 'birthdate', placeholder: ' ', className: 'require', col: ' col-md-3 col-12' },
+      { type: 'date', name: 'birthdate', outsideLabel: 'تولد', responseKey: 'birthdate', className: 'require', col: ' col-md-3 col-12' },
       {
         type: 'select',
         name: 'marital_status',
