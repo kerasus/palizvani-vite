@@ -1,0 +1,15 @@
+.form-builder-date-time {
+  .q-field {
+    .q-field__inner {
+      .q-field__control {
+        direction: rtl;
+        .q-field__prepend {
+          height: 100%;
+        }
+        .q-field__append {
+          height: 100%;
+        }
+      }
+    }
+  }
+}
