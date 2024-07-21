@@ -35,7 +35,7 @@
     </template>
     <template v-else-if="registerStep === 'verify'">
       <label for="verifyNumber">
-        .لطفا کد تایید ارسال شده به شماره
+        .لطفا کد تایید ارسال شده به
         {{ username }}
         را وارد کنید
       </label>
@@ -72,14 +72,16 @@
                v-model="password"
                outlined
                class="password-input"
-               type="password"
+               :type="visibilityIcon === 'visibility' ? 'password' : 'text'"
                placeholder="گذرواژه جدید خود را وارد کنید"
                @keydown.enter="verify">
         <template v-slot:prepend>
-          <q-icon name="person" />
+          <q-icon name="lock_open" />
         </template>
         <template v-slot:append>
-          <q-icon name="person" />
+          <q-icon :name="visibilityIcon"
+                  class="cursor-pointer"
+                  @click="toggleVisibilityIcon" />
         </template>
       </q-input>
       <q-btn class="full-width btn-verifyUsername"
@@ -122,6 +124,7 @@ export default {
     sendOtpLoading: false,
     timerEnded: false,
     loading: false,
+    visibilityIcon: 'visibility',
     bannerMessage: 'بازیابی گذرواژه',
     registerStep: 'getUsername',
     username: null,
@@ -157,6 +160,9 @@ export default {
     this.$store.dispatch('Auth/logOut')
   },
   methods: {
+    toggleVisibilityIcon () {
+      this.visibilityIcon = this.visibilityIcon === 'visibility' ? 'visibility_off' : 'visibility'
+    },
     onStopTimer () {
       this.timerEnded = true
     },

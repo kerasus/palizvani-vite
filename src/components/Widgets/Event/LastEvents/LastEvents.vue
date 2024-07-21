@@ -147,7 +147,8 @@ export default {
       this.events.loading = true
       // return APIGateway.event.index()
       return APIGateway.classroom.index({
-        unit__category__type: 'EVENT'
+        unit__category__type: 'EVENT',
+        per_page: 9999
       })
     }
   }
