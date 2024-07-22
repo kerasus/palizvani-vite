@@ -86,8 +86,8 @@ export default {
           outsideLabel: 'تا تاریخ',
           col: 'col-md-3 col-12'
         },
-        { type: 'select', name: 'category', options: [], label: 'وضعیت تراکنش', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'category', label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'select', name: 'status', options: (new Invoice()).statusEnums, label: 'وضعیت تراکنش', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'select', name: 'type', options: (new Invoice()).typeEnums, label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: 'hidden', name: 'owner', value: null },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
@@ -131,14 +131,7 @@ export default {
           {
             name: 'creation_time',
             required: true,
-            label: 'زمان ثبت',
-            align: 'left',
-            field: row => Assist.miladiToShamsi(row.creation_time)
-          },
-          {
-            name: 'creation_time',
-            required: true,
-            label: 'زمان آخرین بروز رسانی',
+            label: 'زمان',
             align: 'left',
             field: row => Assist.miladiToShamsi(row.creation_time)
           },
