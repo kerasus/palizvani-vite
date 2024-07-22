@@ -18,7 +18,7 @@
             narrow-indicator>
       <q-tab v-if="canShowTabPageForClassroomType('classroomInfo')"
              name="classroomInfo"
-             label="اطلاعات دوره آموزشی" />
+             :label="` اطلاعات ${classroomTypeTitle}`" />
       <q-tab v-if="canShowOtherTabsOfClassroom && canShowTabPageForClassroomType('educations')"
              name="educations"
              :label="educationsTabTitle" />
@@ -493,6 +493,15 @@ export default {
     }
   },
   computed: {
+    classroomTypeTitle () {
+      if (this.localOptions.classroomType === 'TRAINING') {
+        return 'دوره'
+      }
+      if (this.localOptions.classroomType === 'EVENT') {
+        return 'رویداد'
+      }
+      return 'دوره'
+    },
     listTitle () {
       if (this.localOptions.classroomType === 'TRAINING') {
         return 'لیست دوره های آموزشی'
@@ -612,8 +621,8 @@ export default {
         loading: false,
         path: [
           {
-            label: 'دوره های من',
-            to: { name: 'UserPanel.Profile.AllClassrooms' }
+            label: this.classroomTypeTitle + 'های من',
+            to: { name: this.localOptions.classroomType === 'TRAINING' ? 'UserPanel.Profile.AllClassrooms' : 'UserPanel.Profile.AllEvents' }
           },
           {
             label: this.classroom.title,
