@@ -897,7 +897,7 @@ export default {
     getTranscriptSheetStatusClass () {
       let cls = ''
       if (this.classroom.current_user_register_info?.transcript_sheet_info?.status === 'CLEAN_PASSED') {
-        cls = 'bg-red-2'
+        cls = 'bg-green-2'
       } else if (this.classroom.current_user_register_info?.transcript_sheet_info?.status === 'CONDITIONAL_PASSED') {
         cls = 'bg-yellow-2'
       } else if (this.classroom.current_user_register_info?.transcript_sheet_info?.status === 'FAILED') {
