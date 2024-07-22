@@ -174,7 +174,7 @@ export default {
       { type: 'separator', name: 'space', label: 'اطلاعات ضروری', col: 'col-12' },
       { type: 'input', name: 'email', label: 'ایمیل', responseKey: 'email', placeholder: ' ', disable: true, col: ' col-md-3 col-12' },
       { type: 'input', name: 'mobile_number', label: 'تلفن همراه', responseKey: 'mobile_number', placeholder: ' ', disable: true, col: ' col-md-3 col-12' },
-      { type: 'optionGroupRadio', name: 'is_valid_national_code', label: 'اتباع خارجی', options: [{ label: 'نیستم', value: true }, { label: 'هستم', value: false }], value: true, className: 'require', col: 'col-md-3 col-12' },
+      { type: 'optionGroupRadio', name: 'is_valid_national_code', label: 'اتباع خارجی', responseKey: 'is_valid_national_code', options: [{ label: 'نیستم', value: true }, { label: 'هستم', value: false }], value: true, className: 'require', col: 'col-md-3 col-12' },
       { type: 'input', name: 'national_code', label: 'کدملی/کد اتباع غیر ایرانی', responseKey: 'national_code', placeholder: ' ', className: 'require', col: ' col-md-3 col-12' },
       { type: 'separator', name: 'space', label: 'اطلاعات پروفایل', col: 'col-12' },
       { type: 'file', name: 'picture', label: 'عکس پروفایل', responseKey: 'picture', placeholder: ' ', col: ' col-md-3 col-12' },
