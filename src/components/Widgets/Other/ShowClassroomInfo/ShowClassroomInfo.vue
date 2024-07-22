@@ -386,6 +386,9 @@ export default {
       this.rulesDialog = true
     },
     openCodeLink () {
+      window.open(this.classroom.codes)
+    },
+    openCodeLinkByFetching () {
       if (!this.classroom.codes) {
         return
       }
