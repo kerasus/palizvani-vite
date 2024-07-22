@@ -350,7 +350,7 @@ export default {
     onDropping () {
       this.$q.dialog({
         title: 'توجه',
-        message: 'آیا از حذف نام این رویداد اطمینان دارید؟',
+        message: 'آیا از حذف این رویداد اطمینان دارید؟',
         cancel: true,
         persistent: true
       }).onOk(() => {
