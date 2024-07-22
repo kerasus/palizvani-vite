@@ -41,7 +41,8 @@
                   animated>
       <q-tab-panel name="classroomInfo">
         <div v-if="mounted && classroom.current_user_register_info.transcript_sheet_info.status"
-             class="bg-light-green-1 q-pa-md q-mb-md">
+             :class="getTranscriptSheetStatusClass()"
+             class="q-pa-md q-mb-md">
           <div class="row q-col-gutter-md">
             <div class="col-md-6 col-12">
               نمره حضور و غیاب: {{ classroom.current_user_register_info.transcript_sheet_info.attendance_score }}
@@ -892,7 +893,21 @@ export default {
     },
     getTranscriptSheetStatus (transcriptSheet) {
       return new TranscriptSheet(transcriptSheet).status_info.label
+    },
+    getTranscriptSheetStatusClass () {
+      let cls = ''
+      if (this.classroom.current_user_register_info?.transcript_sheet_info?.status === 'CLEAN_PASSED') {
+        cls = 'bg-red-2'
+      } else if (this.classroom.current_user_register_info?.transcript_sheet_info?.status === 'CONDITIONAL_PASSED') {
+        cls = 'bg-yellow-2'
+      } else if (this.classroom.current_user_register_info?.transcript_sheet_info?.status === 'FAILED') {
+        cls = 'bg-red-2'
+      } else if (this.classroom.current_user_register_info?.transcript_sheet_info?.status === 'FAILED_DUE_TO_PRE_CONDITIONAL') {
+        cls = 'bg-red-2'
+      }
+      return cls
     }
+
   }
 }
 </script>
