@@ -213,7 +213,7 @@ export default {
   },
   mounted () {
     this.setActionBtn()
-    this.setClassroomTypeOfInputs()
+    // this.setClassroomTypeOfInputs() // for what?
     this.mounted = true
   },
   methods: {

@@ -82,12 +82,16 @@ class Invoice extends Model {
         enumListKey: 'typeEnums',
         enums: [
           {
-            label: 'بخش آموزش',
+            label: 'آموزش',
             value: 'CLASSROOM'
           },
           {
-            label: 'بخش فروشگاه',
-            value: 'STORE'
+            label: 'فروشگاه',
+            value: 'STORE_BASKET'
+          },
+          {
+            label: 'رویداد',
+            value: 'EVENT'
           }
         ]
       }

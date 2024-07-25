@@ -15,7 +15,7 @@
               {{ offer.count }}
             </div>
             <div class="col-md-3 col-12">
-              فاصله هر فسط(روز):
+              فاصله هر قسط(روز):
               {{ offer.due_date_interval }}
             </div>
             <div class="col-md-3 col-12">
