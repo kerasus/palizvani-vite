@@ -21,6 +21,7 @@ import PackageAPI from 'src/api/models/Package.js'
 import ProductAPI from 'src/api/models/Product.js'
 import DonationAPI from 'src/api/models/Donation.js'
 import QuestionApi from 'src/api/models/Question.js'
+import DiscountAPI from 'src/api/models/Discount.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
 import AnswerBookApi from 'src/api/models/AnswerBook.js'
 import InstalmentAPI from 'src/api/models/Instalment.js'
@@ -75,6 +76,7 @@ export const APIGateway = {
   content: new ContentAPI(),
   donation: new DonationAPI(),
   question: new QuestionApi(),
+  discount: new DiscountAPI(),
   classroom: new ClassroomAPI(),
   answerBook: new AnswerBookApi(),
   instalment: new InstalmentAPI(),

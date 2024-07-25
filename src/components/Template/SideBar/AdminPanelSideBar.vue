@@ -252,7 +252,7 @@ export default {
             {
               title: 'کد تخفیف',
               roles: ['superuser'],
-              routeName: 'Admin.Store.Package.List',
+              routeName: 'Admin.Store.Discount.List',
               show: true,
               active: false
             },

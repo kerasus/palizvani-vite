@@ -388,6 +388,16 @@ export default {
             { path: 'create', name: 'Admin.Store.Product.Create', component: () => import('src/pages/Admin/StoreProduct/Create.vue') },
             { path: ':id', name: 'Admin.Store.Product.Show', component: () => import('src/pages/Admin/StoreProduct/Show.vue') }
           ]
+        },
+        {
+          path: 'discount',
+          name: 'Admin.Store.Discount',
+          component: () => import('layouts/bareLayout.vue'),
+          children: [
+            { path: '', name: 'Admin.Store.Discount.List', component: () => import('src/pages/Admin/StoreDiscount/List.vue') },
+            { path: 'create', name: 'Admin.Store.Discount.Create', component: () => import('src/pages/Admin/StoreDiscount/Create.vue') },
+            { path: ':id', name: 'Admin.Store.Discount.Show', component: () => import('src/pages/Admin/StoreDiscount/Show.vue') }
+          ]
         }
       ]
     },
