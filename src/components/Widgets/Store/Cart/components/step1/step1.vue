@@ -11,6 +11,8 @@
                    @remove="onRemove(basketItem)"
                    @increase="onIncrease(basketItem)"
                    @decrease="onDecrease(basketItem)" />
+        <discount :basket="basket"
+                  @set-discount="checkoutReview" />
       </div>
       <div class="step1__sidebar">
         <sidebar :basket="basket"
@@ -28,12 +30,13 @@
 <script>
 import Sidebar from './sidebar.vue'
 import CartItem from './cartItem.vue'
+import Discount from './discount.vue'
 import { Basket } from 'src/models/Basket.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'step1',
-  components: { CartItem, Sidebar },
+  components: { CartItem, Discount, Sidebar },
   props: {
     type: {
       type: String,

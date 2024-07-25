@@ -53,7 +53,7 @@ export default {
   data () {
     return {
       mounted: false,
-      step: 3
+      step: 1
     }
   },
   mounted() {
