@@ -209,6 +209,16 @@ export default {
       ]
     },
     {
+      path: 'hadith',
+      name: 'Admin.Hadith',
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        { path: '', name: 'Admin.Hadith.List', component: () => import('src/pages/Admin/Hadith/List.vue') },
+        { path: 'create', name: 'Admin.Hadith.Create', component: () => import('src/pages/Admin/Hadith/Create.vue') },
+        { path: ':id', name: 'Admin.Hadith.Show', component: () => import('src/pages/Admin/Hadith/Show.vue') }
+      ]
+    },
+    {
       path: 'donation',
       name: 'Admin.Donation',
       component: () => import('layouts/bareLayout.vue'),

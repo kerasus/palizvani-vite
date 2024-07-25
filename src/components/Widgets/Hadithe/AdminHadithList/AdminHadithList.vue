@@ -1,15 +1,14 @@
 <template>
-  <div class="AdminDiscountList"
+  <div class="AdminHadithList"
        :style="localOptions.style">
-    <div v-if="showBackBtn"
-         class="more-action">
-      <q-btn label="ایجاد تخفیف جدید"
+    <div class="more-action">
+      <q-btn label="ایجاد حدیث جدید"
              color="primary"
-             :to="{name: 'Admin.Store.Discount.Create'}" />
+             :to="{name: 'Admin.Hadith.Create'}" />
     </div>
     <entity-index v-if="mounted"
                   v-model:value="inputs"
-                  title="لیست تخفیفات"
+                  title="لیست احادیث"
                   :api="api"
                   :table="table"
                   :table-keys="tableKeys"
@@ -27,7 +26,7 @@
         </template>
         <template v-else-if="inputData.col.name === 'action'">
           <q-btn color="primary"
-                 :to="{name: 'Admin.Store.Discount.Show', params: {id: inputData.props.row.id}}">
+                 :to="{name: 'Admin.Hadith.Show', params: {id: inputData.props.row.id}}">
             مشاهده جزییات
           </q-btn>
         </template>
@@ -46,18 +45,12 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
-  name: 'AdminStoreDiscountList',
+  name: 'AdminHadithList',
   components: { EntityIndex },
   mixins: [mixinWidget],
-  props: {
-    showBackBtn: {
-      type: Boolean,
-      default: true
-    }
-  },
-  data () {
+  data: () => {
     return {
-      api: APIGateway.discount.APIAdresses.base,
+      api: APIGateway.hadith.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -76,32 +69,39 @@ export default {
             field: () => ''
           },
           {
-            name: 'id',
+            name: 'persian_text',
             required: true,
-            label: 'شناسه',
+            label: 'متن حدیث',
             align: 'left',
-            field: row => row.id
+            field: row => row.persian_text
           },
           {
-            name: 'code',
+            name: 'arabian_text',
             required: true,
-            label: 'کد',
+            label: 'متن عربی',
             align: 'left',
-            field: row => row.code
+            field: row => row.arabian_text
           },
           {
-            name: 'percent',
+            name: 'source',
             required: true,
-            label: 'درصد',
+            label: 'منبع',
             align: 'left',
-            field: row => row.percent
+            field: row => row.source
           },
           {
-            name: 'expire_time',
+            name: 'narrator',
             required: true,
-            label: 'تاریخ انقضا',
+            label: 'کوینده',
             align: 'left',
-            field: row => Assist.miladiToShamsi(row.expire_time)
+            field: row => row.narrator
+          },
+          {
+            name: 'publish_date',
+            required: true,
+            label: 'تاریخ انتشار',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.publish_date)
           },
           {
             name: 'action',
@@ -123,7 +123,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminDiscountList {
+.AdminHadithList {
   .more-action {
     display: flex;
     flex-flow: row;

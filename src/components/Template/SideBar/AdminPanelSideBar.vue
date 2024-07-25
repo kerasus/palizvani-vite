@@ -174,6 +174,14 @@ export default {
           ]
         },
         {
+          title: 'احادیث',
+          roles: ['superuser'],
+          routeName: 'Admin.Hadith.List',
+          icon: 'person_add',
+          show: true,
+          active: false
+        },
+        {
           title: 'مدیریت مالی',
           roles: ['superuser', 'financial_department_head'],
           icon: 'payments',
