@@ -79,13 +79,13 @@ export default {
         })
     },
     checkoutReview () {
-      this.basket.loading = true
+      this.addToCartLoading = true
       APIGateway.basket.checkoutReview()
         .then((basket) => {
           this.$store.commit('Shop/updateBasket', new Basket(basket))
         })
         .finally(() => {
-          this.basket.loading = false
+          this.addToCartLoading = false
         })
     }
   }

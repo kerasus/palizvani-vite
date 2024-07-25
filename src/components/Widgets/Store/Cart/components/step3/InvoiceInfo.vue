@@ -5,8 +5,13 @@
     </div>
     <div class="invoice-info-body">
       <div class="invoice-info-body-item">
-        عنوان:
-        {{ classroom.title }}
+        <template v-if="classroom.id">
+          عنوان:
+          {{ classroom.title }}
+        </template>
+        <template v-if="basket.id">
+          <cart-items :basket-items="basket.items_info" />
+        </template>
       </div>
       <div class="invoice-info-body-item">
         شناسه:
@@ -17,15 +22,22 @@
 </template>
 
 <script>
+import { Basket } from 'src/models/Basket.js'
 import { Invoice } from 'src/models/Invoice.js'
 import { Classroom } from 'src/models/Classroom.js'
+import CartItems from './cartItems.vue'
 
 export default {
   name: 'InvoiceInfo',
+  components: { CartItems },
   props: {
     invoice: {
       type: Invoice,
       default: new Invoice()
+    },
+    basket: {
+      type: Basket,
+      default: new Basket()
     },
     classroom: {
       type: Classroom,

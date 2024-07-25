@@ -70,6 +70,20 @@ export default class BasketItemAPI extends APIRepository {
     })
   }
 
+  remove (id) {
+    return this.sendRequest({
+      apiMethod: 'delete',
+      api: this.api,
+      request: this.APIAdresses.byId(id),
+      resolveCallback: (response) => {
+        return new BasketItem(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
   addProduct (productId, count) {
     return this.sendRequest({
       apiMethod: 'post',

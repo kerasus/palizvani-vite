@@ -154,11 +154,14 @@ export default class BasketAPI extends APIRepository {
     })
   }
 
-  createInvoice (basketId) {
+  createInvoice (basketId, owner) {
     return this.sendRequest({
       apiMethod: 'put',
       api: this.api,
       request: this.APIAdresses.createInvoice(basketId),
+      data: this.getNormalizedSendData({
+        owner: null // String
+      }, { owner }),
       resolveCallback: (response) => {
         return new Invoice(response.data)
       },

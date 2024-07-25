@@ -77,6 +77,10 @@ export default {
         })
     },
     onDecrease (basketItem) {
+      if (basketItem.count === 1) {
+        this.onRemove(basketItem)
+        return
+      }
       basketItem.loading = true
       const promise = basketItem.product ? APIGateway.basketItem.decrementProduct(basketItem.product) : APIGateway.basketItem.decrementPackage(basketItem.package)
       // const newCount = basketItem.count - 1
@@ -91,7 +95,7 @@ export default {
     },
     onRemove (basketItem) {
       basketItem.loading = true
-      APIGateway.basketItem.update(basketItem.id, 0)
+      APIGateway.basketItem.remove(basketItem.id)
         .then(() => {
           this.checkoutReview()
         })

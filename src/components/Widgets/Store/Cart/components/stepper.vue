@@ -28,8 +28,7 @@
               title="پرداخت"
               icon="account_balance_wallet"
               done-icon="account_balance_wallet"
-              active-icon="account_balance_wallet"
-              disable>
+              active-icon="account_balance_wallet">
         <step3 />
       </q-step>
     </q-stepper>
@@ -54,7 +53,7 @@ export default {
   data () {
     return {
       mounted: false,
-      step: 1
+      step: 3
     }
   },
   mounted() {

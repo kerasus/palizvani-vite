@@ -5,7 +5,7 @@
     <template v-if="!basket.loading">
       <invoice-info v-if="!invoice.loading"
                     :invoice="invoice"
-                    :classroom="classroom"
+                    :basket="basket"
                     class="invoice-info" />
       <invoice-payment-card v-if="!invoice.loading"
                             :wallet="wallet"
@@ -28,7 +28,7 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import InvoicePaymentCard from 'src/components/InvoicePaymentCard/InvoicePaymentCard.vue'
 
 export default {
-  name: 'step2',
+  name: 'step3',
   components: { InvoicePaymentCard, InvoiceInfo },
   mixins: [mixinAuth],
   props: {
@@ -85,7 +85,7 @@ export default {
     },
     getBasketInvoice () {
       this.invoice.loading = true
-      APIGateway.basket.createInvoice(this.basket.id)
+      APIGateway.basket.createInvoice(this.basket.id, this.user.id)
         .then((invoice) => {
           this.invoice = new Invoice(invoice)
         })
@@ -149,19 +149,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.step2 {
-  display: flex;
-  flex-flow: row;
-  gap: 28px;
-  $sidebar-width: 312px;
-  .step2__cart-info {
-    width: calc( 100% - #{$sidebar-width} );
-    display: flex;
-    flex-flow: column;
-    gap: 24px;
-  }
-  .step2__sidebar {
-    width: $sidebar-width;
+.step3 {
+  .invoice-info {
+    margin-bottom: 24px;
   }
 }
 
