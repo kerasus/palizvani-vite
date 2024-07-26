@@ -32,3 +32,6 @@ export function setAccessToken() {
 export function updateIncompleteProfile(state, newInfo) {
   state.incompleteProfile = newInfo
 }
+export function updateMyNotSeenNotificationsCount(state, newInfo) {
+  state.myNotSeenNotificationsCount = newInfo
+}

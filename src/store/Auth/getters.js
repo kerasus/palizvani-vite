@@ -24,3 +24,6 @@ export function redirectTo (state) {
 export function incompleteProfile (state) {
   return state.incompleteProfile
 }
+export function myNotSeenNotificationsCount (state) {
+  return state.myNotSeenNotificationsCount
+}

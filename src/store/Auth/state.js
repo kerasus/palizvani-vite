@@ -3,6 +3,7 @@ export default function () {
     user: null,
     redirectTo: null,
     accessToken: null,
-    incompleteProfile: false
+    incompleteProfile: false,
+    myNotSeenNotificationsCount: 0
   }
 }

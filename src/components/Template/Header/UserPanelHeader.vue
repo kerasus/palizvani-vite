@@ -36,6 +36,10 @@
                  :to="{name: 'UserPanel.Notice.List'}">
             <q-icon name="notifications_none" />
             پیام ها
+            <q-badge v-if="myNotSeenNotificationsCount !== 0"
+                     color="warning">
+              {{ myNotSeenNotificationsCount }}
+            </q-badge>
           </q-btn>
           <q-btn flat>
             <svg id="_000000ff"
@@ -85,6 +89,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { User } from 'src/models/User.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'UserPanelHeader',
@@ -126,6 +131,14 @@ export default {
     }
   },
   computed: {
+    myNotSeenNotificationsCount: {
+      get () {
+        return this.$store.getters['Auth/myNotSeenNotificationsCount']
+      },
+      set (newValue) {
+        return this.$store.commit('Auth/updateMyNotSeenNotificationsCount', newValue)
+      }
+    },
     isAdminPage () {
       return this.$route.name && this.$route.name.includes('Admin.')
     },
@@ -140,6 +153,12 @@ export default {
     this.loadAuthData()
   },
   methods: {
+    getMyNotSeenNotificationsCount () {
+      APIGateway.noticeReceiver.myNotSeenNotificationsCount()
+        .then((count) => {
+          this.myNotSeenNotificationsCount = count
+        })
+    },
     loadAuthData () {
       this.user = this.$store.getters['Auth/user']
     },

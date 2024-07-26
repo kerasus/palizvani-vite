@@ -104,7 +104,6 @@ export default {
   data () {
     return {
       filterType: 'all',
-      myNotSeenNotificationsCount: 0,
       api: APIGateway.noticeReceiver.APIAdresses.base,
       tableKeys: {
         data: 'results',
@@ -150,6 +149,16 @@ export default {
       },
       mounted: false,
       createRouteName: ''
+    }
+  },
+  computed: {
+    myNotSeenNotificationsCount: {
+      get () {
+        return this.$store.getters['Auth/myNotSeenNotificationsCount']
+      },
+      set (newValue) {
+        return this.$store.commit('Auth/updateMyNotSeenNotificationsCount', newValue)
+      }
     }
   },
   mounted() {
