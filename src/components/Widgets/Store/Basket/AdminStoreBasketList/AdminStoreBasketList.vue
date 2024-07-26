@@ -110,7 +110,7 @@ export default {
             required: true,
             label: 'قیمت کل(تومان)',
             align: 'left',
-            field: row => row.overall_order_price.toString().toLocaleString('fa')
+            field: row => parseInt(row.overall_order_price).toLocaleString('fa')
           },
           {
             name: 'status',

@@ -10,6 +10,7 @@
       </q-btn>
     </div>
     <entity-show v-if="mounted"
+                 ref="entityShow"
                  v-model:value="inputs"
                  title="جزییات صورتحساب"
                  :api="api"
@@ -101,29 +102,12 @@ export default {
   data () {
     return {
       mounted: false,
-      entityLoading: true,
+      entityLoading: false,
       api: APIGateway.basket.APIAdresses.byId(this.$route.params.id),
       entityIdKey: 'id',
       entityParamKey: 'id',
       indexRouteName: 'Admin.Store.Basket.List',
-      inputs: [
-        { type: 'separator', name: 'space1', label: 'مشخصات خریدار', className: 'custom-separator', col: 'col-12' },
-        { type: 'input', name: 'owner_info.firstname', responseKey: 'owner_info.firstname', label: 'نام', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'owner_info.lastname', responseKey: 'owner_info.lastname', label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'owner_info.national_code', responseKey: 'owner_info.national_code', label: 'کد ملی', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'owner_info.phone_number', responseKey: 'owner_info.phone_number', label: 'تلفن همراه', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'owner_info.email', responseKey: 'owner_info.email', label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'owner_info.living_city', responseKey: 'owner_info.living_city', label: 'شهر', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'postal_code', responseKey: 'postal_code', label: 'کد پستی', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'owner_info.living_address', responseKey: 'owner_info.living_address', label: 'آدرس', placeholder: ' ', col: 'col-md-5 col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'مشخصات کاربر', placeholder: ' ', outline: true, ignoreValue: true, atClick: this.showUserPage, col: 'col-md-2 col-12' },
-
-        { type: 'separator', name: 'space1', label: 'مشخصات سفارش', className: 'custom-separator', col: 'col-12' },
-        { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'items_info.length', responseKey: 'items_info.length', label: 'تعداد اقلام', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', placeholder: ' ', disable: true, col: 'col-md-3 col-12' },
-        { type: 'input', name: 'overall_order_price', responseKey: 'overall_order_price', label: 'قیمت کل(تومان)', placeholder: ' ', col: 'col-md-3 col-12' }
-      ],
+      inputs: [],
 
       tableKeys: {
         data: 'items_info.list',
@@ -231,6 +215,27 @@ export default {
       return 0.5
     }
   },
+  created() {
+    this.inputs = [
+      { type: 'separator', name: 'space1', label: 'مشخصات خریدار', className: 'custom-separator', col: 'col-12' },
+      { type: 'input', name: 'owner_info.firstname', responseKey: 'owner_info.firstname', label: 'نام', placeholder: ' ', col: 'col-md-2 col-12' },
+      { type: 'input', name: 'owner_info.lastname', responseKey: 'owner_info.lastname', label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-2 col-12' },
+      { type: 'input', name: 'owner_info.national_code', responseKey: 'owner_info.national_code', label: 'کد ملی', placeholder: ' ', col: 'col-md-2 col-12' },
+      { type: 'input', name: 'owner_info.phone_number', responseKey: 'owner_info.phone_number', label: 'تلفن همراه', placeholder: ' ', col: 'col-md-3 col-12' },
+      { type: 'input', name: 'owner_info.email', responseKey: 'owner_info.email', label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
+      { type: 'input', name: 'owner_info.living_city', responseKey: 'owner_info.living_city', label: 'شهر', placeholder: ' ', col: 'col-md-2 col-12' },
+      { type: 'input', name: 'postal_code', responseKey: 'postal_code', label: 'کد پستی', placeholder: ' ', col: 'col-md-2 col-12' },
+      { type: 'input', name: 'owner_info.living_address', responseKey: 'owner_info.living_address', label: 'آدرس', placeholder: ' ', col: 'col-md-5 col-12' },
+      { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'مشخصات کاربر', placeholder: ' ', outline: true, ignoreValue: true, atClick: this.showUserPage, loading: this.entityLoading, col: 'col-md-2 col-12' },
+
+      { type: 'separator', name: 'space1', label: 'مشخصات سفارش', className: 'custom-separator', col: 'col-12' },
+      { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', placeholder: ' ', col: 'col-md-2 col-12' },
+      { type: 'input', name: 'items_info.length', responseKey: 'items_info.length', label: 'تعداد اقلام', placeholder: ' ', col: 'col-md-2 col-12' },
+      { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', placeholder: ' ', disable: true, col: 'col-md-3 col-12' },
+      { type: 'input', name: 'overall_order_price', responseKey: 'overall_order_price', label: 'قیمت کل(تومان)', placeholder: ' ', col: 'col-md-3 col-12' },
+      { type: BtnControlComp, name: 'btnSent', responseKey: 'btnSent', label: 'ارسال', placeholder: ' ', outline: true, ignoreValue: true, atClick: this.sendBasket, loading: this.entityLoading, col: 'col-md-2 col-12' }
+    ]
+  },
   mounted() {
     this.mounted = true
   },
@@ -239,10 +244,28 @@ export default {
       const routeData = this.$router.resolve({ name: 'Admin.User.Show', params: { id: this.basket.owner } })
       window.open(routeData.href, '_blank')
     },
+    sendBasket () {
+      this.entityLoading = true
+      APIGateway.basket.send(this.basket.id)
+        .finally(() => {
+          this.entityLoading = false
+          this.reloadData()
+        })
+    },
     afterLoadInputData (data) {
       this.entityLoading = false
       this.basket = new Basket(data)
-      FormBuilderAssist.setAttributeByName(this.inputs, 'overall_order_price', 'value', data.overall_order_price.toLocaleString('fa'))
+      if (this.basket.status === 'SENT' || this.basket.status === 'CANCELED' || this.basket.status === 'CLOSED') {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'btnSent', 'type', 'hidden')
+      }
+
+      FormBuilderAssist.setAttributeByName(this.inputs, 'overall_order_price', 'value', parseInt(data.overall_order_price).toLocaleString('fa'))
+    },
+    reloadData (data) {
+      if (!this.$refs.entityShow) {
+        return
+      }
+      this.$refs.entityShow.getData()
     }
   }
 }
