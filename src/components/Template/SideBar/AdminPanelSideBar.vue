@@ -253,7 +253,7 @@ export default {
             {
               title: 'سفارشات',
               roles: ['superuser'],
-              routeName: 'Admin.Store.Package.List',
+              routeName: 'Admin.Store.Basket.List',
               show: true,
               active: false
             },

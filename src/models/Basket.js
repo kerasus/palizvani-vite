@@ -95,6 +95,10 @@ class Basket extends Model {
           {
             label: 'پرداخت شده',
             value: 'PAID'
+          },
+          {
+            label: 'ارسال شده',
+            value: 'SENT'
           }
         ]
       }
