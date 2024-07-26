@@ -6,11 +6,27 @@
                         expand-separator>
         <template #header>
           <div class="full-width">
-            <q-btn icon="remove"
-                   flat
-                   @click="removeTopic(topicIndex)">
-              حذف موضوع
-            </q-btn>
+            <q-btn icon="expand_less"
+                   color="info"
+                   dense
+                   size="sm"
+                   outline
+                   class="q-ml-md"
+                   @click="increaseOrder($event, topicIndex)" />
+            <q-btn icon="expand_more"
+                   color="info"
+                   dense
+                   size="sm"
+                   outline
+                   class="q-mr-xl"
+                   @click="decreaseOrder($event, topicIndex)" />
+            <q-btn icon="delete"
+                   color="red"
+                   dense
+                   size="sm"
+                   outline
+                   class="q-mr-md"
+                   @click="removeTopic(topicIndex)" />
             (
             <q-icon :name="localOptions.topics[topicIndex].icon"
                     size="30px" />
@@ -83,6 +99,27 @@ export default defineComponent({
     }
   },
   methods: {
+    increaseOrder(event, index) {
+      event.stopPropagation()
+      if (index <= 0) {
+        return
+      }
+
+      // Swap the item with the previous item
+      const temp = this.localOptions.topics[index - 1]
+      this.localOptions.topics[index - 1] = this.localOptions.topics[index]
+      this.localOptions.topics[index] = temp
+    },
+    decreaseOrder(event, index) {
+      event.stopPropagation()
+      if (index >= this.localOptions.topics.length - 1) {
+        return
+      }
+      // Swap the item with the next item
+      const temp = this.localOptions.topics[index + 1]
+      this.localOptions.topics[index + 1] = this.localOptions.topics[index]
+      this.localOptions.topics[index] = temp
+    },
     addTopic () {
       this.localOptions.topics.push({
         title: '',
