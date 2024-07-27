@@ -14,6 +14,7 @@
                       :options="sessionOptions"
                       :loading="sessions.loading"
                       emit-value
+                      clearable
                       map-options />
           </div>
         </div>
