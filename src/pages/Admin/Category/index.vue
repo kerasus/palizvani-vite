@@ -58,7 +58,7 @@ export default {
     return {
       mounted: false,
       inputs: [
-        { type: 'input', name: 'title', value: null, label: 'نام', col: 'col-md-2' },
+        { type: 'input', name: 'search', value: null, label: 'جست و جو', col: 'col-md-2' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', atClick: () => {}, col: 'col-md-2' }
       ],
       api: APIGateway.unitCategory.APIAdresses.base,
