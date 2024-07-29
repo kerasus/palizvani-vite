@@ -85,7 +85,7 @@ export default {
   name: 'AdminStorePackageList',
   components: { EntityIndex, AdminStoreProductList },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
       tab: 'packages',
       api: APIGateway.package.APIAdresses.base,

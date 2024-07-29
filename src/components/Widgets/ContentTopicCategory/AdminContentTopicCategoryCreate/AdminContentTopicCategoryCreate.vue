@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminContentCategoryCreate"
+  <div class="AdminContentTopicCategoryCreate"
        :style="localOptions.style">
     <div class="flex justify-end">
       <q-btn flat
@@ -36,7 +36,7 @@ import BtnControl from 'src/components/Control/btn.vue'
 const BtnControlComp = shallowRef(BtnControl)
 
 export default {
-  name: 'AdminContentCategoryCreate',
+  name: 'AdminContentTopicCategoryCreate',
   components: { EntityCreate },
   mixins: [mixinWidget],
   props: {
@@ -53,16 +53,15 @@ export default {
     return {
       mounted: false,
       entityLoading: false,
-      api: APIGateway.contentCategory.APIAdresses.base,
+      api: APIGateway.contentTopicCategory.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'Admin.ContentCategory.Show',
-      indexRouteName: 'Admin.ContentCategory.List',
+      showRouteName: 'Admin.ContentTopicCategory.Show',
+      indexRouteName: 'Admin.ContentTopicCategory.List',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
-        // { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-12 col-12' },
-        { type: 'hidden', name: 'parent', responseKey: 'parent', value: null },
+        { type: 'hidden', name: 'parent', responseKey: 'parent', value: null, sendNull: true },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید', placeholder: ' ', atClick: this.create, col: 'col-12' }
       ]
     }
@@ -94,7 +93,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminContentCategoryCreate {
+.AdminContentTopicCategoryCreate {
   :deep(.q-card.entity-create) {
     .q-card__section {
       .q-expansion-item {

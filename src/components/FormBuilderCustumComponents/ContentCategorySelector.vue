@@ -4,6 +4,9 @@
       <span v-if="categoryType === 'content'">
         انتخاب دسته محتوا
       </span>
+      <span v-if="categoryType === 'contentTopic'">
+        انتخاب دسته موضوع
+      </span>
       <span v-else-if="categoryType === 'store'">
         انتخاب دسته فروشگاه
       </span>
@@ -44,6 +47,7 @@
 import { APIGateway } from 'src/api/APIGateway.js'
 import { StoreCategoryList } from 'src/models/StoreCategory.js'
 import { ContentCategoryList } from 'src/models/ContentCategory.js'
+import { ContentTopicCategoryList } from 'src/models/ContentTopicCategory.js'
 
 export default {
   name: 'ContentCategorySelector',
@@ -58,11 +62,18 @@ export default {
     },
     categoryType: {
       type: String,
-      default: 'content'
+      default: 'content' // 'content', 'contentTopic', 'store'
     }
   },
   emits: ['update:value'],
   data () {
+    let categories = new ContentCategoryList()
+    if (this.categoryType === 'store') {
+      categories = new StoreCategoryList()
+    }
+    if (this.categoryType === 'contentTopic') {
+      categories = new ContentTopicCategoryList()
+    }
     return {
       mainCategory: null,
       subCategory: null,
@@ -70,7 +81,7 @@ export default {
       mainCategoryOptions: [],
       subCategoryOptions: [],
       bakhshCategoryOptions: [],
-      categories: this.categoryType === 'content' ? new ContentCategoryList() : new StoreCategoryList()
+      categories
     }
   },
   watch: {
@@ -140,14 +151,23 @@ export default {
     },
     getCategories () {
       this.categories.laoding = true
-      const apiGateway = this.categoryType === 'content' ? APIGateway.contentCategory.index({ parent__isnull: 'true', per_page: 99999 })
-        : APIGateway.storeCategory.index({ parent__isnull: 'true', per_page: 99999 })
+      const args = { parent__isnull: 'true', per_page: 99999 }
+
+      let apiGateway = APIGateway.contentCategory.index(args)
+      if (this.categoryType === 'store') {
+        apiGateway = APIGateway.storeCategory.index(args)
+      }
+      if (this.categoryType === 'contentTopic') {
+        apiGateway = APIGateway.contentTopicCategory.index(args)
+      }
 
       apiGateway
         .then(categories => {
           if (this.categoryType === 'content') {
             this.categories = new ContentCategoryList(categories.list)
-          } else {
+          } else if (this.categoryType === 'contentTopic') {
+            this.categories = new ContentTopicCategoryList(categories.list)
+          } else if (this.categoryType === 'store') {
             this.categories = new StoreCategoryList(categories.list)
           }
 

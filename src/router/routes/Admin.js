@@ -209,6 +209,14 @@ export default {
       ]
     },
     {
+      path: 'content-topic',
+      name: 'Admin.ContentTopic',
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        { path: ':id', name: 'Admin.ContentTopic.Show', component: () => import('src/pages/Admin/ContentTopic/Show.vue') }
+      ]
+    },
+    {
       path: 'hadith',
       name: 'Admin.Hadith',
       component: () => import('layouts/bareLayout.vue'),
@@ -279,6 +287,16 @@ export default {
         { path: '', name: 'Admin.ContentCategory.List', component: () => import('src/pages/Admin/ContentCategory/List.vue') },
         { path: 'create', name: 'Admin.ContentCategory.Create', component: () => import('src/pages/Admin/ContentCategory/Create.vue') },
         { path: ':id', name: 'Admin.ContentCategory.Show', component: () => import('src/pages/Admin/ContentCategory/Show.vue') }
+      ]
+    },
+    {
+      path: 'content-topic-category',
+      name: 'Admin.ContentTopicCategory',
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        { path: '', name: 'Admin.ContentTopicCategory.List', component: () => import('src/pages/Admin/ContentTopicCategory/List.vue') },
+        { path: 'create', name: 'Admin.ContentTopicCategory.Create', component: () => import('src/pages/Admin/ContentTopicCategory/Create.vue') },
+        { path: ':id', name: 'Admin.ContentTopicCategory.Show', component: () => import('src/pages/Admin/ContentTopicCategory/Show.vue') }
       ]
     },
     {

@@ -34,6 +34,7 @@ import PostCategoryAPI from 'src/api/models/PostCategory.js'
 import MediaHashtagAPI from 'src/api/models/MediaHashtag.js'
 import RegistrationAPI from 'src/api/models/Registration.js'
 import UnitCategoryAPI from 'src/api/models/UnitCategory.js'
+import ContentTopicAPI from 'src/api/models/ContentTopic.js'
 import StoreCategoryAPI from 'src/api/models/StoreCategory.js'
 import MediaCategoryAPI from 'src/api/models/MediaCategory.js'
 import NoticeReceiverAPI from 'src/api/models/NoticeReceiver.js'
@@ -48,6 +49,7 @@ import ClassroomLeadersAPI from 'src/api/models/ClassroomLeaders.js'
 import DonationCategoryApi from 'src/api/models/DonationCategory.js'
 import TeamRegistrationsAPI from 'src/api/models/TeamRegistrations.js'
 import EventRegistrationApi from 'src/api/models/EventRegistration.js'
+import ContentTopicCategoryAPI from 'src/api/models/ContentTopicCategory.js'
 import ClassroomRegistrationAPI from 'src/api/models/ClassroomRegistration.js'
 import ProjectAttendanceSheetsAPI from 'src/api/models/ProjectAttendanceSheets.js'
 import SessionAttendanceSheetsAPI from 'src/api/models/SessionAttendanceSheets.js'
@@ -89,6 +91,7 @@ export const APIGateway = {
   registration: new RegistrationAPI(),
   postCategory: new PostCategoryAPI(),
   unitCategory: new UnitCategoryAPI(),
+  contentTopic: new ContentTopicAPI(),
   mediaHashtag: new MediaHashtagAPI(),
   storeCategory: new StoreCategoryAPI(),
   mediaCategory: new MediaCategoryAPI(),
@@ -104,6 +107,7 @@ export const APIGateway = {
   donationCategory: new DonationCategoryApi(),
   teamRegistrations: new TeamRegistrationsAPI(),
   eventRegistration: new EventRegistrationApi(),
+  contentTopicCategory: new ContentTopicCategoryAPI(),
   classroomRegistration: new ClassroomRegistrationAPI(),
   projectAttendanceSheets: new ProjectAttendanceSheetsAPI(),
   sessionAttendanceSheets: new SessionAttendanceSheetsAPI()

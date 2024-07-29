@@ -1,12 +1,13 @@
 import { appApi } from 'src/boot/axios.js'
 import APIRepository from '../classes/APIRepository.js'
-import { MediaHashtag, MediaHashtagList } from 'src/models/MediaHashtag.js'
+import { ContentTopicCategory, ContentTopicCategoryList } from 'src/models/ContentTopicCategory.js'
 
-export default class MediaHashtagAPI extends APIRepository {
+export default class ContentTopicCategoryAPI extends APIRepository {
   constructor() {
-    super('mediaHashtag', appApi)
+    super('content-topic-category', appApi)
     this.APIAdresses = {
-      base: '/cma/hashtags'
+      base: '/cma/topics/categories',
+      byId: (id) => '/cma/topics/categories/' + id
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base
@@ -14,9 +15,9 @@ export default class MediaHashtagAPI extends APIRepository {
     this.restUrl = (id) => this.APIAdresses.base + '/' + id
     /* Setting the callback functions for the CRUD operations. */
     this.setCrudCallbacks({
-      get: (response) => { return new MediaHashtag(response.data) },
-      post: (response) => { return new MediaHashtag(response.data) },
-      put: (response) => { return new MediaHashtag(response.data) },
+      get: (response) => { return new ContentTopicCategory(response.data) },
+      post: (response) => { return new ContentTopicCategory(response.data) },
+      put: (response) => { return new ContentTopicCategory(response.data) },
       delete: (response) => { return response.data }
     })
   }
@@ -27,7 +28,8 @@ export default class MediaHashtagAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
-        search: null, // String
+        parent__isnull: null, // String (true, false)
+        per_page: 10, // Number
         page: 1 // Number
       }, data),
       resolveCallback: (response) => {
@@ -35,7 +37,7 @@ export default class MediaHashtagAPI extends APIRepository {
         const results = response.data.results
         delete paginate.results
         return {
-          list: new MediaHashtagList(results),
+          list: new ContentTopicCategoryList(results),
           paginate
           // {
           //   "count": 1,

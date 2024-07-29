@@ -1,12 +1,13 @@
 import { appApi } from 'src/boot/axios.js'
 import APIRepository from '../classes/APIRepository.js'
-import { MediaHashtag, MediaHashtagList } from 'src/models/MediaHashtag.js'
+import { ContentTopic, ContentTopicList } from 'src/models/ContentTopic.js'
 
-export default class MediaHashtagAPI extends APIRepository {
+export default class ContentTopicAPI extends APIRepository {
   constructor() {
-    super('mediaHashtag', appApi)
+    super('content-topic', appApi)
     this.APIAdresses = {
-      base: '/cma/hashtags'
+      base: '/cma/topics',
+      byId: (id) => '/cma/topics/' + id
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base
@@ -14,9 +15,9 @@ export default class MediaHashtagAPI extends APIRepository {
     this.restUrl = (id) => this.APIAdresses.base + '/' + id
     /* Setting the callback functions for the CRUD operations. */
     this.setCrudCallbacks({
-      get: (response) => { return new MediaHashtag(response.data) },
-      post: (response) => { return new MediaHashtag(response.data) },
-      put: (response) => { return new MediaHashtag(response.data) },
+      get: (response) => { return new ContentTopic(response.data) },
+      post: (response) => { return new ContentTopic(response.data) },
+      put: (response) => { return new ContentTopic(response.data) },
       delete: (response) => { return response.data }
     })
   }
@@ -27,7 +28,15 @@ export default class MediaHashtagAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
-        search: null, // String
+        content: null, // Number
+        creator: null, // Number
+        category: null, // Number
+        tile: null, // String
+        category__parent__parent: null, // Number
+        category__in: null, // Number[]
+        hashtags__id__in: null, // Number[]
+        hashtags__in: null, // Number[]
+        per_page: 10, // Number
         page: 1 // Number
       }, data),
       resolveCallback: (response) => {
@@ -35,7 +44,7 @@ export default class MediaHashtagAPI extends APIRepository {
         const results = response.data.results
         delete paginate.results
         return {
-          list: new MediaHashtagList(results),
+          list: new ContentTopicList(results),
           paginate
           // {
           //   "count": 1,

@@ -140,6 +140,13 @@ export default {
               active: false
             },
             {
+              title: 'دسته بندی موضوعی',
+              roles: ['superuser'],
+              routeName: 'Admin.ContentTopicCategory.List',
+              show: true,
+              active: false
+            },
+            {
               title: 'درخواست ها',
               roles: ['superuser'],
               routeName: 'Admin.Content.Ticket',
