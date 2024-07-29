@@ -56,6 +56,10 @@ class Question extends Model {
           {
             label: 'بانک سوال',
             value: 'QUESTION_BANK'
+          },
+          {
+            label: 'سوال رویداد',
+            value: 'EVENT'
           }
         ]
       },

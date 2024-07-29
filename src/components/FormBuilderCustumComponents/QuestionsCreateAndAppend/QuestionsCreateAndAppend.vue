@@ -159,7 +159,7 @@ export default {
       type: [Number, String, Boolean]
     },
     testSetId: {
-      type: Number,
+      type: [Number, String, Boolean],
       default: null
     },
     unitId: {
