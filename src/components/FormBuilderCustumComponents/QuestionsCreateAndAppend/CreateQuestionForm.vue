@@ -78,6 +78,15 @@ export default {
       ]
     }
   },
+  watch: {
+    questionType: {
+      handler (newValue) {
+        console.log(newValue)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'type', 'value', newValue)
+      },
+      immediate: true
+    }
+  },
   created() {
     if (this.testId) {
       this.api = APIGateway.test.APIAdresses.appendQuestion(this.testId)
