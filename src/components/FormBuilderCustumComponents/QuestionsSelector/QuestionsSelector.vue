@@ -14,7 +14,9 @@
                       :options="sessionOptions"
                       :loading="sessions.loading"
                       emit-value
-                      map-options />
+                      clearable
+                      map-options
+                      @clear="clearFn()" />
           </div>
         </div>
         <div class="col-md-4 flex items-end">
@@ -394,6 +396,9 @@ export default {
         .catch(() => {
           this.sessions.loading = false
         })
+    },
+    clearFn () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'session_template_questions__session_template', 'value', null)
     },
     onChangeQuestionListPage (response) {
       this.updateloadedQuestionsByArray(response.data.results)

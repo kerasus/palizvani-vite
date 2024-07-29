@@ -141,10 +141,12 @@ class Classroom extends Model {
 
   getUserRegisterInfoLabel (status) {
     const enums = {
-      REGISTERED: 'ثبت نام شده',
       ENROLLED: 'پیش ثبت نام شده',
+      REGISTERED: 'ثبت نام شده',
       DROPPED_BY_ITSELF: 'حذف شده توسط اندیشه جو',
-      DROPPED_BY_ADMIN: 'حذف شده توسط ادمین'
+      DROPPED_BY_ADMIN: 'حذف شده توسط ادمین',
+      DROPPED_FOR_CONDITION: 'حذف سیستمی (شرایط غیر مجاز)',
+      DROPPED_FOR_NOT_FINALIZING: 'حذف به دلیل عدم نهایی سازی'
     }
 
     const target = status || this.current_user_register_info?.status

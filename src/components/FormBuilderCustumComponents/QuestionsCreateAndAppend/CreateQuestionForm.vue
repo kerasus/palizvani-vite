@@ -44,11 +44,11 @@ export default {
   },
   props: {
     testId: {
-      type: Number,
+      type: [Number, String, Boolean],
       default: null
     },
     testSetId: {
-      type: Number,
+      type: [Number, String, Boolean],
       default: null
     },
     questionType: {
@@ -76,6 +76,15 @@ export default {
         { type: 'hidden', name: 'correct_choice_index', responseKey: 'correct_choice_index' },
         { type: 'hidden', name: 'type', responseKey: 'type', value: 'QUESTION_BANK' }
       ]
+    }
+  },
+  watch: {
+    questionType: {
+      handler (newValue) {
+        console.log(newValue)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'type', 'value', newValue)
+      },
+      immediate: true
     }
   },
   created() {
@@ -110,6 +119,9 @@ export default {
       this.entityLoading = false
     },
     edit() {
+      // console.log(this.$refs.entityEdit.getFormData())
+      FormBuilderAssist.setAttributeByName(this.inputs, 'type', 'value', this.questionType)
+      // console.log(this.$refs.entityEdit.getFormData())
       this.entityLoading = true
       this.$refs.entityEdit.editEntity(false)
         .then((response) => {

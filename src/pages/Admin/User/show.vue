@@ -661,9 +661,9 @@ export default {
           {
             name: 'id',
             required: true,
-            label: 'نوع صورتحساب',
+            label: 'عنوان',
             align: 'left',
-            field: row => (new Invoice(row)).type_info.label
+            field: row => row.title
           },
           {
             name: 'amount',

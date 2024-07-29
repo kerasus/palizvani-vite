@@ -202,13 +202,6 @@ export default {
             field: row => row.title
           },
           {
-            name: 'count',
-            required: true,
-            label: 'تعداد جلسات',
-            align: 'left',
-            field: () => '...'
-          },
-          {
             name: 'creation_time',
             required: true,
             label: 'تاریخ ایجاد',

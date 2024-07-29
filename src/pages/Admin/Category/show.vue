@@ -141,7 +141,7 @@ export default {
             required: true,
             label: 'تعداد جلسات',
             align: 'left',
-            field: () => '...'
+            field: row => row.session_templates_count
           },
           {
             name: 'creation_time',
