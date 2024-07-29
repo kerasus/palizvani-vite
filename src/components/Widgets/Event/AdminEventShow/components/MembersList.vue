@@ -83,7 +83,7 @@ export default {
       exportReportLoading: false,
       membersListInputs: [
         { type: 'hidden', name: 'event', value: eventId },
-        { type: 'select', name: 'status', options: [{ label: 'پیش ثبت نام شده', value: 'ENROLLED' }, { label: 'ثبت نام شده', value: 'REGISTERED' }, { label: 'حذف توسط اندیشه جو', value: 'DROPPED_BY_ITSELF' }, { label: 'حذف توسط ادمین', value: 'DROPPED_BY_ADMIN' } , { label: 'حذف سیستمی (شرایط غیر مجاز)', value: 'DROPPED_FOR_CONDITION' }, { label: 'حذف به دلیل عدم نهایی سازی', value: 'DROPPED_FOR_NOT_FINALIZING' }], label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'select', name: 'status', options: [{ label: 'پیش ثبت نام شده', value: 'ENROLLED' }, { label: 'ثبت نام شده', value: 'REGISTERED' }, { label: 'حذف توسط اندیشه جو', value: 'DROPPED_BY_ITSELF' }, { label: 'حذف توسط ادمین', value: 'DROPPED_BY_ADMIN' }, { label: 'حذف سیستمی (شرایط غیر مجاز)', value: 'DROPPED_FOR_CONDITION' }, { label: 'حذف به دلیل عدم نهایی سازی', value: 'DROPPED_FOR_NOT_FINALIZING' }], label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'invoice__status', options: [{ label: 'پرداخت کامل', value: 'PAID_FULL' }, { label: 'پرداخت قسطی', value: 'PAYING_IN_INSTALMENT' }], label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
