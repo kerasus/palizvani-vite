@@ -13,6 +13,9 @@
               :options="filteredHashtags"
               @update:model-value="onChangeSelected"
               @filter="filterFn">
+      <template #prepend>
+        <q-icon name="search" />
+      </template>
       <template v-slot:no-option>
         <span v-if="fetchLoading">
           کمی صبر کنید...

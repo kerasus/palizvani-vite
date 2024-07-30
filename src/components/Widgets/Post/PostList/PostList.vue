@@ -38,7 +38,7 @@ export default {
   name: 'PostList',
   components: { PostItem, EntityIndex, Breadcrumbs },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
       api: APIGateway.post.APIAdresses.base,
       tableKeys: {

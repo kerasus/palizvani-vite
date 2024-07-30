@@ -123,6 +123,11 @@
       </q-btn>
 
       <div class="left-side">
+        <q-btn flat
+               :to="{ name: 'Public.PostTopic.List' }"
+               class="btn-cart">
+          <q-icon name="search" />
+        </q-btn>
         <q-btn v-if="isUserLogin"
                flat
                :to="{ name: 'Public.Cart' }"

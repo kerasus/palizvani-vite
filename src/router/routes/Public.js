@@ -28,6 +28,29 @@ export default {
         { path: ':id', name: 'Public.Post.Show', component: () => import('src/pages/Public/Post/Show.vue') }
       ]
     },
+    {
+      path: 'content',
+      name: 'Public.Content',
+      component: () => import('layouts/bareLayout.vue'),
+      meta: {
+        hasDynamicSetting: true
+      },
+      children: [
+        { path: ':id', name: 'Public.Content.Show', component: () => import('src/pages/Public/Content/Show.vue') }
+      ]
+    },
+    {
+      path: 'post-topic',
+      name: 'Public.PostTopic',
+      component: () => import('layouts/bareLayout.vue'),
+      meta: {
+        hasDynamicSetting: true
+      },
+      children: [
+        { path: '', name: 'Public.PostTopic.List', component: () => import('src/pages/BasicDynamicPage.vue') },
+        { path: ':id', name: 'Public.PostTopic.Show', component: () => import('src/pages/BasicDynamicPage.vue') }
+      ]
+    },
     { path: 'post_category/:category_id', name: 'Public.PostCategory.Show', component: () => import('src/pages/Public/Post/ChildCategoryPostList.vue') },
     {
       name: 'Public.AllClassrooms',
