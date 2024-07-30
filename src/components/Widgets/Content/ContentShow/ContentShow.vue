@@ -1,277 +1,245 @@
 <template>
-  <div class="ContentShow"
-       :style="localOptions.style">
-    <div class="title">
-      <div class="static-title">
-        مشاهده پیام
+  <div class="content printable">
+    <template v-if="!content.loading">
+      <div class="breadcrumbs">
+        <breadcrumbs />
       </div>
-      <div class="dynamic-title">
-        <template v-if="entityLoading">
-          <q-skeleton type="text"
-                      class="q-ml-lg"
-                      width="100px" />
-        </template>
-        <template v-else>
-          ({{ ticketTitle }})
-        </template>
-      </div>
-      <div class="back-action">
-        <q-btn flat
-               :to="{name: 'UserPanel.Ticket.List'}"
-               color="grey">
-          بازگشت
-          >
-        </q-btn>
-      </div>
-    </div>
-    <q-card class="form"
-            flat>
-      <entity-show v-if="mounted"
-                   ref="entityShow"
-                   v-model:value="inputs"
-                   title="اطلاعات کاربری"
-                   :api="api"
-                   :entity-id-key="entityIdKey"
-                   :entity-param-key="entityParamKey"
-                   :show-route-name="showRouteName"
-                   :show-close-button="false"
-                   :show-edit-button="false"
-                   :show-expand-button="false"
-                   :show-save-button="false"
-                   :show-reload-button="false"
-                   :default-layout="false"
-                   :redirect-after-edit="false"
-                   :after-load-input-data="afterLoadInputData" />
+      <div ref="printArea"
+           class="print-area">
+        <div class="content-title">
+          {{content.title}}
+        </div>
 
-      <q-card v-if="mounted"
-              class="q-mt-md">
-        <q-card-section>
-          <div class="row justify-center">
-            <div style="width: 100%;">
-              <q-chat-message v-for="message in repliesInfo"
-                              :key="message.id"
-                              :avatar="message.creator_info.picture ? message.creator_info.picture : '/assets/images/web/default-avatar.png'"
-                              :name="message.creator_info.firstname + ' ' + message.creator_info.lastname"
-                              :text="[message.body]"
-                              text-html
-                              :sent="authenticatedUser.id !== message.creator_info.id" />
-              <!--                  <div>-->
-              <!--                    <q-input v-model="replyBody"-->
-              <!--                             bottom-slots-->
-              <!--                             :loading="replyBodyLoading">-->
-              <!--                      <template v-slot:after>-->
-              <!--                        <q-btn round-->
-              <!--                               dense-->
-              <!--                               flat-->
-              <!--                               icon="send"-->
-              <!--                               :loading="replyBodyLoading"-->
-              <!--                               @click="sendReplyBody" />-->
-              <!--                      </template>-->
-              <!--                    </q-input>-->
-              <!--                  </div>-->
-            </div>
-          </div>
-        </q-card-section>
-      </q-card>
+        <q-separator class="q-mt-md" />
 
-      <div class="action">
-        <div class="row q-mt-lg justify-end">
-          <div class="col-md-12 col-12">
-            متن پیام
-          </div>
-          <div class="col-md-12 col-12 q-mb-md">
-            <q-input v-model="replyText"
-                     type="textarea" />
-          </div>
-          <div class="col-md-4 col-12">
-            <q-btn color="primary"
-                   class="full-width"
-                   :loading="entityLoading"
-                   @click="sendReply">
-              ارسال پاسخ
-            </q-btn>
-          </div>
+        <div class="content-body"
+             v-html="content.description" />
+
+        <div class="attributes">
+          <q-btn v-if="content.category_info?.parent?.parent?.id"
+                 :to="{name: 'Public.PostCategoryParentParent.Show', params: {category_id: content.category_info.parent.parent.id}}"
+                 class="attribute-item">
+            {{content.category_info.parent.parent.title}}
+          </q-btn>
+          <q-btn v-if="content.category_info?.parent?.id"
+                 :to="{name: 'Public.PostCategoryParent.Show', params: {category_id: content.category_info.parent.id}}"
+                 class="attribute-item">
+            {{content.category_info.parent.title}}
+          </q-btn>
+          <q-btn v-if="content.category_info?.id"
+                 :to="{name: 'Public.PostCategory.Show', params: {category_id: content.category_info.id}}"
+                 class="attribute-item">
+            {{content.category_info.title}}
+          </q-btn>
         </div>
       </div>
-    </q-card>
+    </template>
+
+    <template v-else>
+      <q-skeleton type="circle"
+                  size="100px"
+                  class="q-mt-md" />
+      <q-skeleton width="150px"
+                  class="q-mt-md" />
+      <q-skeleton height="150px"
+                  class="q-mt-md" />
+    </template>
   </div>
 </template>
 
 <script>
-import { EntityShow } from 'quasar-crud'
-import { User } from 'src/models/User.js'
-import { Ticket } from 'src/models/Ticket.js'
-import { mixinWidget } from 'src/mixin/Mixins.js'
+import { Content } from 'src/models/Content.js'
+import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { TicketCategoryList } from 'src/models/TicketCategory.js'
+import { mixinPrefetchServerData, mixinWidget } from 'src/mixin/Mixins.js'
+import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+
+let html2pdf
+// if (typeof window !== 'undefined') {
+//   import('html2pdf.js')
+//     .then((html2pdfLib) => {
+//       html2pdf = html2pdfLib.default
+//     })
+// }
 
 export default {
-  name: 'ContentShow',
-  components: {
-    EntityShow
-  },
-  mixins: [mixinWidget],
-  data: () => {
+  name: 'ShowClassroomInfo',
+  components: { Breadcrumbs },
+  mixins: [mixinWidget, mixinPrefetchServerData],
+  emits: ['onloadn'],
+  data () {
     return {
-      replyText: null,
-      mounted: false,
-      entityLoading: true,
-      ticketTitle: '',
-      authenticatedUser: new User(),
-      api: APIGateway.ticket.APIAdresses.base,
-      ticketCategoryList: new TicketCategoryList(),
-      entityIdKey: 'id',
-      entityParamKey: 'id',
-      showRouteName: 'Admin.Ticket.Show',
-      indexRouteName: 'Admin.Ticket.List',
-      inputs: [
-        {
-          type: 'select',
-          name: 'category',
-          responseKey: 'category',
-          placeholder: ' ',
-          options: [],
-          label: 'دسته',
-          col: 'col-md-6 col-12'
-        },
-        {
-          type: 'select',
-          name: 'status',
-          responseKey: 'status',
-          options: (new Ticket()).statusEnums,
-          multiple: false,
-          label: 'وضعیت',
-          placeholder: ' ',
-          col: 'col-md-6 col-12'
-        },
-        {
-          type: 'input',
-          name: 'title',
-          responseKey: 'title',
-          label: 'عنوان',
-          placeholder: ' ',
-          col: 'col-md-12 col-12'
-        },
-        {
-          type: 'inputEditor',
-          name: 'body',
-          responseKey: 'body',
-          label: 'متن',
-          placeholder: ' ',
-          col: 'col-md-12 col-12'
-        },
-        { type: 'hidden', name: 'id', responseKey: 'id', label: 'شناسه', col: 'col-md-12' },
-        { type: 'hidden', name: 'owner', responseKey: 'owner', label: 'owner', col: 'col-md-12' },
-        { type: 'hidden', name: 'replies_info', responseKey: 'replies_info', label: 'replies_info', col: 'col-md-12' }
-      ]
+      breadcrumbs: {
+        visible: true,
+        loading: false,
+        path: [
+          {
+            label: 'خانه',
+            to: { name: 'Public.Home' }
+          },
+          {
+            label: 'یادداشت ها و مقالات',
+            to: { name: 'Public.Content.List' }
+          }
+        ]
+      },
+      defaultOptions: {
+        profileMode: false,
+        contentShowRouteName: 'Public.Content.Show'
+      },
+      content: new Content()
     }
   },
   computed: {
-    repliesInfo () {
-      return this.inputs.find(input => input.name === 'replies_info').value
+    contentId () {
+      return this.$route.params.id ?? this.$route.params.content_id
     }
   },
-  created() {
-    this.api = this.api + '/' + this.$route.params.id
-  },
-  mounted() {
-    this.loadOptions()
-      .then(() => {
-        this.mounted = true
-        this.loadAuthData()
-        this.$nextTick(() => {
-          this.setInputOptions('category', this.ticketCategoryList.list.map(item => {
-            return {
-              value: item.id,
-              label: item.title
-            }
-          }))
-        })
-      })
-      .catch(() => {
-        this.mounted = true
-      })
-  },
   methods: {
-    loadAuthData () {
-      this.authenticatedUser = this.$store.getters['Auth/user']
+    prefetchServerDataPromise () {
+      return this.getContent()
     },
-    afterLoadInputData (response) {
-      this.ticketTitle = response.title
-      this.entityLoading = false
-    },
-    sendReply() {
-      this.entityLoading = true
-      const body = this.replyText.replace(/\n/g, '<br>\n')
-      APIGateway.ticket.reply({
-        id: this.$route.params.id,
-        body
+    prefetchServerDataPromiseThen (content) {
+      this.content = new Content(content)
+      this.breadcrumbs.path.push({
+        label: this.content.title,
+        to: { name: this.localOptions.contentShowRouteName, params: { id: this.content.id } }
       })
-        .then(() => {
-          this.$refs.entityShow.editEntity()
-            .then(() => {
-              this.replyText = null
-              this.$refs.entityShow.getData()
-              this.entityLoading = false
-            })
-            .catch(() => {
-              this.$refs.entityShow.getData()
-              this.entityLoading = false
-            })
-        })
-        .catch(() => {
-          this.$refs.entityShow.getData()
-          this.entityLoading = false
+      this.$store.commit('AppLayout/updateBreadcrumbs', this.breadcrumbs)
+      this.$emit('onloadn', this.content)
+    },
+    prefetchServerDataPromiseCatch () {
+    },
+
+    getTitledDateTime (dateTime) {
+      return ShamsiDate.getTitledDateTime(dateTime)
+    },
+    getTime (time) {
+      return ShamsiDate.getDateTime(time)
+    },
+    getContent () {
+      return APIGateway.content.get(this.contentId)
+    },
+    print () {
+      this.convertPhotosToBase64()
+      const html2pdfConfig = {
+        margin: [0, 0, 0, 0],
+        image: {
+          type: 'jpeg',
+          quality: 0.6
+        },
+        filename: this.content.title,
+        html2canvas: {
+          dpi: 1,
+          scale: 2.5,
+          letterRendering: true,
+          useCORS: true
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }
+      html2pdf()
+        .set(html2pdfConfig)
+        .from(this.$refs.printArea)
+        .save()
+        .thenExternal(() => {
+          this.downloadLoading = false
         })
     },
-    loadOptions () {
-      return this.loadCategories()
+    toDataURL(src, callback, outputFormat) {
+      const img = new Image()
+      img.crossOrigin = 'Anonymous'
+      img.onload = function() {
+        const canvas = document.createElement('CANVAS')
+        const ctx = canvas.getContext('2d')
+        canvas.height = this.naturalHeight
+        canvas.width = this.naturalWidth
+        ctx.drawImage(this, 0, 0)
+        const dataURL = canvas.toDataURL(outputFormat)
+        callback(dataURL)
+      }
+      if (src.includes('?')) {
+        img.src = src
+      } else {
+        img.src = src + '?test=123'
+      }
+      if (img.complete || img.complete === undefined) {
+        img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
+        img.src = src
+      }
     },
-    loadCategories () {
-      return new Promise((resolve, reject) => {
-        APIGateway.ticketCategory.index()
-          .then(({ list }) => {
-            this.ticketCategoryList = list
-            resolve()
-          })
-          .catch(() => {
-            reject()
-          })
+    convertPhotosToBase64 () {
+      this.convertSvgToBase64()
+      this.convertImagesToBase64()
+    },
+    convertImagesToBase64 () {
+      if (!this.$refs.printArea) {
+        return
+      }
+      const images = this.$refs.printArea.getElementsByTagName('img')
+      images.forEach(image => {
+        this.toDataURL(image.src, function(dataUrl) {
+          image.src = dataUrl
+        })
       })
     },
-    setInputOptions (name, options) {
-      this.$refs.entityCreate.setInputAttributeByName(name, 'options', options)
+    convertSvgToBase64 () {
+      if (!this.$refs.printArea) {
+        return
+      }
+      const svgs = this.$refs.printArea.getElementsByTagName('svg')
+      svgs.forEach(svg => {
+        // Convert the SVG node to HTML.
+        const div = document.createElement('div')
+        div.appendChild(svg.cloneNode(true))
+
+        // Encode the SVG as base64
+        const b64 = 'data:image/svg+xml;base64,' + window.btoa(div.innerHTML)
+        const url = 'url("' + b64 + '")'
+        svg.style.backgroundImage = url
+        svg.style.backgroundSize = 'cover'
+        if (svg.parentElement.classList.contains('brace-left')) {
+          svg.style.backgroundPosition = 'left'
+        }
+        if (svg.parentElement.classList.contains('brace-center')) {
+          svg.style.backgroundPosition = 'bottom'
+        }
+        if (svg.parentElement.classList.contains('brace-right')) {
+          svg.style.backgroundPosition = 'right'
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.ContentShow {
-  .title {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 140%;
-    color: #424242;
-    margin-bottom: 27px;
+@import "src/css/HTMLContent.scss";
+.content {
+  .breadcrumbs {
+    margin-bottom: 40px;
+  }
+  .content-title {
+    font-weight: 900;
+    font-size: 1.4rem;
+  }
+  .attributes {
     display: flex;
     flex-flow: row;
-    position: relative;
-    .static-title {
-
-    }
-    .dynamic-title {
-
-    }
-    .back-action {
-      position: absolute;
-      right: 0;
-      top: 0;
+    .attribute-item {
+      color: #475f4a;
+      background-color: #eaeaea;
+      border-radius: 8px;
+      padding: 4px 8px;
+      margin: 0 4px;
+      font-size: 16px;
     }
   }
-  :deep(.form) {
-    padding: 24px;
+  .print-btn {
+    width: 252px;
+  }
+  :deep(.content-body) {
+    margin-top: 32px;
+    @include HTMLContent;
   }
 }
 </style>

@@ -54,4 +54,18 @@ export default class ContentAPI extends APIRepository {
       }
     })
   }
+
+  get (id) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.byId(id),
+      resolveCallback: (response) => {
+        return new Content(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
 }
