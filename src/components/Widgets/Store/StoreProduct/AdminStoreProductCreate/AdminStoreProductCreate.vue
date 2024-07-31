@@ -57,7 +57,7 @@ export default {
         { type: ContentCategorySelectorComp, name: 'store_category', responseKey: 'store_category_info', categoryType: 'store', col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
         { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ایجاد محتوا', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ایجاد محصول', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
       ]
     }
   },
