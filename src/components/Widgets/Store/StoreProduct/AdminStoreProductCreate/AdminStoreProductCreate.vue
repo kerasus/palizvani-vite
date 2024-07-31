@@ -57,6 +57,11 @@ export default {
         { type: ContentCategorySelectorComp, name: 'store_category', responseKey: 'store_category_info', categoryType: 'store', col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
         { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-12' },
+        { type: 'input', name: 'unit_price', responseKey: 'unit_price', label: 'قیمت واحد', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'discount_percent', responseKey: 'discount_percent', label: 'درصد تخفیف', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'inventory', responseKey: 'inventory', label: 'موجودی', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'input', name: 'maximum_order_count', responseKey: 'maximum_order_count', label: 'سقف سفارش مجاز', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'input', name: 'weight', responseKey: 'weight', label: 'وزن', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ایجاد محصول', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
       ]
     }

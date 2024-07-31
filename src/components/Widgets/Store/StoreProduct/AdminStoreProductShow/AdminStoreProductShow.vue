@@ -39,7 +39,6 @@ import ContentCategorySelector from 'components/FormBuilderCustumComponents/Cont
 
 const BtnControlComp = shallowRef(BtnControl)
 const ContentMediasComp = shallowRef(ContentMedias)
-const ProductSelectorComp = shallowRef(ProductSelector)
 const ContentCategorySelectorComp = shallowRef(ContentCategorySelector)
 
 export default {
@@ -70,7 +69,6 @@ export default {
         { type: 'input', name: 'inventory', responseKey: 'inventory', label: 'موجودی', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: 'input', name: 'maximum_order_count', responseKey: 'maximum_order_count', label: 'سقف سفارش مجاز', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: 'input', name: 'weight', responseKey: 'weight', label: 'وزن', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: ProductSelectorComp, name: 'products', responseKey: 'products_info', label: 'انتخاب محصولات', selectionMode: 'multiple', col: 'col-12' },
 
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ویرایش محصول', placeholder: ' ', ignoreValue: true, atClick: () => {}, col: 'col-md-6' }
       ]
