@@ -130,6 +130,7 @@ export default {
         ]
       },
       mounted: false,
+      sidebarFilters: { categories: [] },
       createRouteName: ''
     }
   },
@@ -139,7 +140,7 @@ export default {
   },
   methods: {
     onChangeSidebarFilters (filters) {
-      this.sidebarFilters = filters
+      this.sidebarFilters = Object.assign(filters, { categories: [] })
       this.search()
     },
     onTopFilterChange () {

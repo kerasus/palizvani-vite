@@ -14,6 +14,9 @@
               @update:model-value="onChangeSelected"
               @filter="filterFn">
       <template #prepend>
+        <q-btn icon="add"
+               flat
+               @click="addHashtag" />
         <q-icon name="search" />
       </template>
       <template v-slot:no-option>
@@ -76,6 +79,9 @@ export default {
     }
   },
   methods: {
+    addHashtag () {
+      // this.fetchLoading = true
+    },
     onChangeSelected () {
       this.emitUpdateValue()
     },
