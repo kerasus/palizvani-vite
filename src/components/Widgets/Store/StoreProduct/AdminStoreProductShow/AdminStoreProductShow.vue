@@ -12,7 +12,7 @@
     <entity-edit v-if="mounted"
                  ref="entityEdit"
                  v-model:value="inputs"
-                 title="اطلاعات محتوا"
+                 title="اطلاعات محصول"
                  :api="api"
                  :entity-id-key="entityIdKey"
                  :entity-param-key="entityParamKey"

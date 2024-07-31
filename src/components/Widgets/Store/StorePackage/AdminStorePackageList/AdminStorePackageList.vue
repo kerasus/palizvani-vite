@@ -7,7 +7,7 @@
                      class="q-pa-none">
           <q-btn label="ایجاد محصول جدید"
                  color="primary"
-                 :to="{name: 'Admin.Store.Package.Create'}" />
+                 :to="{name: 'Admin.Store.Product.Create'}" />
         </q-tab-panel>
         <q-tab-panel name="packages"
                      class="q-pa-none">
