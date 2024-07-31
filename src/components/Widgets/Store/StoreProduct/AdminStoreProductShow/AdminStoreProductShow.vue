@@ -53,8 +53,8 @@ export default {
       api: APIGateway.product.APIAdresses.byId(this.$route.params.id),
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'Admin.Content.Show',
-      indexRouteName: 'Admin.Content.List',
+      showRouteName: 'Admin.Store.Product.Show',
+      indexRouteName: 'Admin.Store.Product.List',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
