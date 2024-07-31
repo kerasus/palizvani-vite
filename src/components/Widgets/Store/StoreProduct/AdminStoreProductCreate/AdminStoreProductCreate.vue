@@ -42,14 +42,14 @@ export default {
   name: 'AdminContentCreate',
   components: { EntityCreate },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
       mounted: false,
       entityLoading: false,
       api: APIGateway.product.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'Admin.Content.Show',
+      showRouteName: 'Admin.Store.Product.Show',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
@@ -62,6 +62,7 @@ export default {
         { type: 'input', name: 'inventory', responseKey: 'inventory', label: 'موجودی', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: 'input', name: 'maximum_order_count', responseKey: 'maximum_order_count', label: 'سقف سفارش مجاز', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: 'input', name: 'weight', responseKey: 'weight', label: 'وزن', placeholder: ' ', col: 'col-md-2 col-12' },
+        { type: 'checkbox', name: 'is_physical', responseKey: 'is_physical', label: 'فیزیکی', placeholder: ' ', col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ایجاد محصول', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
       ]
     }
