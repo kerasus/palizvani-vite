@@ -33,7 +33,6 @@ import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'components/Control/btn.vue'
-import ProductSelector from 'components/FormBuilderCustumComponents/ProductSelector.vue'
 import ContentMedias from 'components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
 import ContentCategorySelector from 'components/FormBuilderCustumComponents/ContentCategorySelector.vue'
 
