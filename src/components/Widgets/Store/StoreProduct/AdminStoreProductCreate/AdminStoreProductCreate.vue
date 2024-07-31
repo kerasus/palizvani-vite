@@ -46,7 +46,7 @@ export default {
     return {
       mounted: false,
       entityLoading: false,
-      api: APIGateway.content.APIAdresses.base,
+      api: APIGateway.product.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Content.Show',
