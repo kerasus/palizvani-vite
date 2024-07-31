@@ -46,11 +46,11 @@ export default {
     EntityEdit
   },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
       mounted: false,
       entityLoading: true,
-      api: null,
+      api: APIGateway.product.APIAdresses.byId(this.$route.params.id),
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'Admin.Content.Show',
@@ -72,9 +72,6 @@ export default {
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ویرایش محصول', placeholder: ' ', ignoreValue: true, atClick: () => {}, col: 'col-md-6' }
       ]
     }
-  },
-  created() {
-    this.api = APIGateway.content.APIAdresses.byId(this.$route.params.id)
   },
   mounted() {
     this.setActionBtn()
