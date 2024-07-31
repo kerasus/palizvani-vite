@@ -12,7 +12,7 @@
     <entity-create v-if="mounted"
                    ref="entityCreate"
                    v-model:value="inputs"
-                   title="ایجاد محتوا"
+                   title="ایجاد بسته"
                    :api="api"
                    :entity-id-key="entityIdKey"
                    :entity-param-key="entityParamKey"

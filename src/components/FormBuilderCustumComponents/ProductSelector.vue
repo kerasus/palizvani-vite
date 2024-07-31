@@ -9,7 +9,7 @@
                 :show-close-button="false"
                 :show-expand-button="false"
                 :show-reload-button="false"
-                :show-search-button="false"
+                :show-search-button="true"
                 :row-key="itemIdentifyKey"
                 :item-indicator-key="itemIndicatorKey"
                 @onInputClick="onInputClick"
