@@ -2,6 +2,10 @@
   <div class="ContentsSelector q-mt-md">
     <q-table :rows="testQuestionList"
              :columns="table.columns"
+             hide-pagination
+             :pagination="{
+               rowsPerPage: 0
+             }"
              row-key="name">
       <template #top>
         <q-banner class="full-width">
