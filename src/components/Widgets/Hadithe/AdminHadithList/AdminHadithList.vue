@@ -7,6 +7,7 @@
              :to="{name: 'Admin.Hadith.Create'}" />
     </div>
     <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست احادیث"
                   :api="api"
@@ -39,16 +40,20 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import Assist from 'src/assets/js/Assist.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import BtnControl from 'src/components/Control/btn.vue'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminHadithList',
   components: { EntityIndex },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
       api: APIGateway.hadith.APIAdresses.base,
       tableKeys: {
@@ -58,7 +63,10 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
+      inputs: [
+        { type: 'select', name: 'status', label: 'دسته بندی', placeholder: ' ', options: [{ label: 'احادیث پیش رو', value: 'ONGOING' }, { label: 'آرشیو احادیث', value: 'PASSED' }], col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-3 col-12' }
+      ],
       table: {
         columns: [
           {
@@ -118,6 +126,11 @@ export default {
   },
   mounted() {
     this.mounted = true
+  },
+  methods: {
+    search () {
+      this.$refs.entityIndex.search()
+    }
   }
 }
 </script>

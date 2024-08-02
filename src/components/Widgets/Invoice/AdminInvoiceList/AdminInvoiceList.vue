@@ -73,7 +73,7 @@ export default {
         { type: 'input', name: 'owner__firstname', label: 'نام سفارش دهنده', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'owner__lastname', label: 'نام خانوادگی سفارش دهنده', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'owner__national_code', label: 'کدملی سفارش دهنده', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-3 col-12' }
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-3 col-12' }
       ],
       table: {
         columns: [
@@ -161,7 +161,6 @@ export default {
     }
   },
   mounted() {
-    this.setActionBtn()
     this.mounted = true
   },
   methods: {
@@ -171,13 +170,6 @@ export default {
       } else {
         return invoice.item_info.title || '-'
       }
-    },
-    setActionBtn () {
-      this.inputs.forEach((item, index) => {
-        if (item.name === 'btn') {
-          this.inputs[index].atClick = this.search
-        }
-      })
     },
     search () {
       this.$refs.entityIndex.search()
