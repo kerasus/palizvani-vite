@@ -131,7 +131,7 @@ export default {
 
       this.breadcrumbs.path.push({
         label: this.post.category_info.title,
-        to: { name: 'Public.PostCategory.Show', params: { category_id: this.post.category_info.id } }
+        to: { name: 'Public.ContentCategory.Show', params: { category_id: this.post.category_info.id } }
       })
       this.breadcrumbs.path.push({
         label: this.post.title,

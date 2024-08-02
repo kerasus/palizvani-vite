@@ -6,28 +6,29 @@
       </div>
       <div ref="printArea"
            class="print-area">
-        <div class="content-title">
+        <div v-if="!content.content"
+             class="content-title">
           {{content.title}}
         </div>
 
         <q-separator class="q-mt-md" />
 
         <div class="content-body"
-             v-html="content.description" />
+             v-html="content.text" />
 
         <div class="attributes">
           <q-btn v-if="content.category_info?.parent?.parent?.id"
-                 :to="{name: 'Public.PostCategoryParentParent.Show', params: {category_id: content.category_info.parent.parent.id}}"
+                 :to="{name: 'Public.ContentCategoryParentParent.Show', params: {category_id: content.category_info.parent.parent.id}}"
                  class="attribute-item">
             {{content.category_info.parent.parent.title}}
           </q-btn>
           <q-btn v-if="content.category_info?.parent?.id"
-                 :to="{name: 'Public.PostCategoryParent.Show', params: {category_id: content.category_info.parent.id}}"
+                 :to="{name: 'Public.ContentCategoryParent.Show', params: {category_id: content.category_info.parent.id}}"
                  class="attribute-item">
             {{content.category_info.parent.title}}
           </q-btn>
           <q-btn v-if="content.category_info?.id"
-                 :to="{name: 'Public.PostCategory.Show', params: {category_id: content.category_info.id}}"
+                 :to="{name: 'Public.ContentCategory.Show', params: {category_id: content.category_info.id}}"
                  class="attribute-item">
             {{content.category_info.title}}
           </q-btn>
@@ -101,6 +102,12 @@ export default {
     },
     prefetchServerDataPromiseThen (content) {
       this.content = new Content(content)
+      this.content.content = false
+
+      // this.breadcrumbs.path.push({
+      //   label: this.content.category_info.title,
+      //   to: { name: 'Public.ContentCategory.Show', params: { category_id: this.content.category_info.id } }
+      // })
       this.breadcrumbs.path.push({
         label: this.content.title,
         to: { name: this.localOptions.contentShowRouteName, params: { id: this.content.id } }
@@ -109,6 +116,7 @@ export default {
       this.$emit('onloadn', this.content)
     },
     prefetchServerDataPromiseCatch () {
+      this.content.content = false
     },
 
     getTitledDateTime (dateTime) {
@@ -118,6 +126,7 @@ export default {
       return ShamsiDate.getDateTime(time)
     },
     getContent () {
+      this.content.content = true
       return APIGateway.content.get(this.contentId)
     },
     print () {
@@ -223,8 +232,8 @@ export default {
     font-size: 1.4rem;
   }
   .attributes {
-    display: flex;
-    flex-flow: row;
+      display: flex;
+      flex-flow: row;
     .attribute-item {
       color: #475f4a;
       background-color: #eaeaea;

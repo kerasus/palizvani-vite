@@ -132,7 +132,7 @@ export default {
           this.postCategory = new PostCategory(postCategory)
           this.breadcrumbs.path.push({
             label: this.postCategory.title,
-            to: { name: 'Public.PostCategory.Show', params: { category_id: postCategoryId } }
+            to: { name: 'Public.ContentCategory.Show', params: { category_id: postCategoryId } }
           })
           this.$store.commit('AppLayout/updateBreadcrumbs', this.breadcrumbs)
           this.postCategory.loading = false

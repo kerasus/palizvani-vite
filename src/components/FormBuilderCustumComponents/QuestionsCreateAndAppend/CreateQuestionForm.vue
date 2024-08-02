@@ -81,7 +81,6 @@ export default {
   watch: {
     questionType: {
       handler (newValue) {
-        console.log(newValue)
         FormBuilderAssist.setAttributeByName(this.inputs, 'type', 'value', newValue)
       },
       immediate: true

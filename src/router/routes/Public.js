@@ -31,12 +31,46 @@ export default {
     {
       path: 'content',
       name: 'Public.Content',
+      meta: {
+        hasDynamicSetting: true
+      },
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'Public.Content.List',
+          component: () => import('src/pages/BasicDynamicPage.vue')
+        },
+        {
+          path: ':id',
+          name: 'Public.Content.Show',
+          component: () => import('src/pages/BasicDynamicPage.vue')
+        }
+      ]
+    },
+    {
+      path: 'content_category',
+      name: 'Public.ContentCategory',
       component: () => import('layouts/bareLayout.vue'),
       meta: {
         hasDynamicSetting: true
       },
       children: [
-        { path: ':id', name: 'Public.Content.Show', component: () => import('src/pages/Public/Content/Show.vue') }
+        {
+          path: 'parent/parent/:category_id',
+          name: 'Public.ContentCategoryParentParent.Show',
+          component: () => import('src/pages/BasicDynamicPage.vue')
+        },
+        {
+          path: 'parent/:category_id',
+          name: 'Public.ContentCategoryParent.Show',
+          component: () => import('src/pages/BasicDynamicPage.vue')
+        },
+        {
+          path: ':category_id',
+          name: 'Public.ContentCategory.Show',
+          component: () => import('src/pages/BasicDynamicPage.vue')
+        }
       ]
     },
     {
@@ -51,7 +85,6 @@ export default {
         { path: ':id', name: 'Public.PostTopic.Show', component: () => import('src/pages/BasicDynamicPage.vue') }
       ]
     },
-    { path: 'post_category/:category_id', name: 'Public.PostCategory.Show', component: () => import('src/pages/Public/Post/ChildCategoryPostList.vue') },
     {
       name: 'Public.AllClassrooms',
       path: 'all-classrooms',

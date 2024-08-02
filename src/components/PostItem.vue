@@ -13,7 +13,7 @@
         </router-link>
       </div>
       <div class="child-category ellipsis-2-lines">
-        <router-link :to="{name: 'Public.PostCategory.Show', params: {category_id: post.category_info?.id}}">
+        <router-link :to="{name: 'Public.ContentCategory.Show', params: {category_id: post.category_info?.id}}">
           <q-icon name="account_tree" />
           دسته:
           {{post.category_info?.title}}

@@ -1,8 +1,12 @@
 <template>
   <option-panel-tabs v-model:options="localOptions">
     <template #main-tab>
-      <q-input v-model="localOptions.postShowRouteName"
-               label="post show Route name" />
+      <q-input v-model="localOptions.categoryId"
+               label="category id" />
+      <q-input v-model="localOptions.categoryParentId"
+               label="category parent id" />
+      <q-input v-model="localOptions.categoryParentParentId"
+               label="category parent parent id" />
     </template>
   </option-panel-tabs>
 </template>
@@ -18,10 +22,12 @@ export default defineComponent({
     OptionPanelTabs
   },
   mixins: [mixinOptionPanel],
-  data () {
+  data() {
     return {
       defaultOptions: {
-        postShowRouteName: 'Public.Post.Show'
+        categoryId: null,
+        categoryParentId: null,
+        categoryParentParentId: 1
       }
     }
   }
