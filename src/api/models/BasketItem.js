@@ -8,6 +8,7 @@ export default class BasketItemAPI extends APIRepository {
     this.APIAdresses = {
       base: '/store/items',
       decrement: '/store/items/decrement',
+      increment: '/store/items/increment',
       byId: (id) => '/store/items/' + id
     }
     this.CacheList = {
@@ -150,6 +151,44 @@ export default class BasketItemAPI extends APIRepository {
       apiMethod: 'post',
       api: this.api,
       request: this.APIAdresses.decrement,
+      data: this.getNormalizedSendData({
+        product: null // Number
+      }, {
+        product: productId
+      }),
+      resolveCallback: (response) => {
+        return new BasketItem(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  incrementPackage (packageId) {
+    return this.sendRequest({
+      apiMethod: 'post',
+      api: this.api,
+      request: this.APIAdresses.increment,
+      data: this.getNormalizedSendData({
+        package: null // Number
+      }, {
+        package: packageId
+      }),
+      resolveCallback: (response) => {
+        return new BasketItem(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  incrementProduct (productId) {
+    return this.sendRequest({
+      apiMethod: 'post',
+      api: this.api,
+      request: this.APIAdresses.increment,
       data: this.getNormalizedSendData({
         product: null // Number
       }, {

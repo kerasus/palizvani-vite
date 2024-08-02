@@ -70,8 +70,8 @@ export default {
     },
     onIncrease (basketItem) {
       basketItem.loading = true
-      const newCount = basketItem.count + 1
-      APIGateway.basketItem.update(basketItem.id, newCount)
+      const promise = basketItem.product ? APIGateway.basketItem.incrementProduct(basketItem.product) : APIGateway.basketItem.incrementPackage(basketItem.package)
+      promise
         .then(() => {
           this.checkoutReview()
         })
