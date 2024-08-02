@@ -41,12 +41,18 @@
              outline>
         مشاهده جزییات
       </q-btn>
-      <q-btn class="product-item__actions-add-to-cart"
+      <q-btn v-if="!basketItem"
+             class="product-item__actions-add-to-cart"
              :loading="addToCartLoading"
              color="primary"
              @click="addToCart">
         افزودن به سبد
       </q-btn>
+      <cart-count-action v-else
+                         :basket-item="basketItem"
+                         @increase="onIncrease"
+                         @decrease="onDecrease"
+                         @remove="onRemove" />
     </div>
   </div>
 </template>
@@ -55,9 +61,11 @@
 import { Basket } from 'src/models/Basket.js'
 import { Product } from 'src/models/Product.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import CartCountAction from 'src/components/cart/cartCountAction/cartCountAction.vue'
 
 export default {
   name: 'ProductItem',
+  components: { CartCountAction },
   props: {
     product: {
       type: Product,
@@ -69,7 +77,44 @@ export default {
       addToCartLoading: false
     }
   },
+  computed: {
+    basket () {
+      return this.$store.getters['Shop/basket']
+    },
+    basketItem () {
+      const target = this.basket.items_info.list.find(basketItem => basketItem.product === this.product.id)
+      if (!target) {
+        return null
+      }
+
+      return target
+    }
+  },
   methods: {
+    onIncrease () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.incrementProduct(this.basketItem.product)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
+    onDecrease () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.decrementProduct(this.basketItem.product)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
+    onRemove () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.remove(this.basketItem.id)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
     addToCart () {
       this.addToCartLoading = true
       APIGateway.basketItem.addProduct(this.product.id, 1)

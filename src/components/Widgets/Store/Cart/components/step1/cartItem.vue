@@ -41,30 +41,10 @@
                 name="account_balance_wallet" />
       </div>
       <div class="cart-item__count-action">
-        <div class="cart-item__count-action-increase">
-          <q-btn outline
-                 color="primary"
-                 icon="add"
-                 :loading="basketItem.loading"
-                 @click="onIncrease" />
-        </div>
-        <div class="cart-item__count-action-count">
-          {{ basketItem.count }}
-        </div>
-        <div class="cart-item__count-action-decrease">
-          <q-btn v-if="basketItem.count > 1"
-                 outline
-                 color="red"
-                 icon="remove"
-                 :loading="basketItem.loading"
-                 @click="onDecrease" />
-          <q-btn v-else
-                 flat
-                 color="red"
-                 icon="delete_outline"
-                 :loading="basketItem.loading"
-                 @click="onRemove" />
-        </div>
+        <cart-count-action :basket-item="basketItem"
+                           @increase="onIncrease"
+                           @decrease="onDecrease"
+                           @remove="onRemove" />
       </div>
       <div class="cart-item__price">
         <div class="cart-item__price-base">
@@ -91,9 +71,11 @@
 <script>
 import { Product } from 'src/models/Product.js'
 import { BasketItem } from 'src/models/BasketItem.js'
+import CartCountAction from 'src/components/cart/cartCountAction/cartCountAction.vue'
 
 export default {
   name: 'cartItem',
+  components: { CartCountAction },
   props: {
     basketItem: {
       type: BasketItem,
@@ -245,26 +227,7 @@ export default {
       position: absolute;
       right: 20px;
       top: 65px;
-      background: #FFFFFF;
-      border: 1px solid #DFE1EC;
-      border-radius: 8px;
-      padding: 12px 10px;
-      display: flex;
-      flex-flow: row;
-      justify-content: space-between;
-      align-items: center;
       width: 120px;
-      $btn-size: 24px;
-      .q-btn {
-        width: $btn-size;
-        height: $btn-size;
-        min-height: $btn-size;
-        padding: 0;
-      }
-      .cart-item__count-action-count {
-        color: $primary;
-        font-size: 16px;
-      }
     }
     .cart-item__price {
       position: absolute;
