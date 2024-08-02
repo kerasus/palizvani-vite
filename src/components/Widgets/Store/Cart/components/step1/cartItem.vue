@@ -47,12 +47,13 @@
                            @remove="onRemove" />
       </div>
       <div class="cart-item__price">
-        <div class="cart-item__price-base">
+        <div v-if="packageOrProductObject.unit_price != packageOrProductObject.sellable_price"
+             class="cart-item__price-base">
           {{ packageOrProductObject.unit_price.toLocaleString('fa') }}
           تومان
         </div>
         <div class="cart-item__price-final">
-          {{ packageOrProductObject.getFinalPrice() }}
+          {{ packageOrProductObject.sellable_price.toLocaleString('fa') }}
           تومان
         </div>
       </div>

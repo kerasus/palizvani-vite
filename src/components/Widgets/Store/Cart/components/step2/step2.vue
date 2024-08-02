@@ -121,6 +121,10 @@ export default {
       this.checkoutReview()
     },
     onComplete () {
+      if (!this.basket.address || !this.basket.province || !this.basket.city || !this.basket.postal_code) {
+        alert('empty address!')
+        return ''
+      }
       this.openDialog()
     }
   }

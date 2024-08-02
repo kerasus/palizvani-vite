@@ -11,6 +11,7 @@ class Package extends Model {
       { key: 'store_category' },
       { key: 'content_category' },
       { key: 'unit_price' },
+      { key: 'sellable_price' },
       { key: 'discount_percent' },
       { key: 'description' },
       { key: 'is_physical' },

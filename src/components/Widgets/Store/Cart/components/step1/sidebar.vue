@@ -5,16 +5,29 @@
         قیمت کالاها
       </div>
       <div class="step1__sidebar-total-price-value">
-        {{ basket.order_price.toLocaleString('fa') }}
+        {{ basket.price.toLocaleString('fa') }}
         تومان
       </div>
     </div>
-    <div class="step1__sidebar-total-discount">
+    <div v-if="basket.margin_amount"
+         class="step1__sidebar-total-discount">
       <div class="step1__sidebar-total-discount-label">
         تخفیف ها
       </div>
       <div class="step1__sidebar-total-discount-value">
-        {{ basket.overall_discount_amount.toLocaleString('fa') }}
+        {{ basket.margin_amount.toLocaleString('fa') }}
+        تومان
+      </div>
+    </div>
+    <div v-if="basket.margin_amount"
+         class="step1__sidebar-separator" />
+    <div v-if="basket.margin_amount"
+         class="step1__sidebar-total-price">
+      <div class="step1__sidebar-total-price-label">
+        قابل سفارش
+      </div>
+      <div class="step1__sidebar-total-price-value">
+        {{ basket.sellable_price.toLocaleString('fa') }}
         تومان
       </div>
     </div>
@@ -24,16 +37,17 @@
         کد تخفیف
       </div>
       <div class="step1__sidebar-discount-code-value">
-        {{ basket.discount_info.code }}
+        {{ basket.discount_amount.toLocaleString('fa') }}
+        تومان
       </div>
     </div>
     <div class="step1__sidebar-separator" />
     <div class="step1__sidebar-final-price">
       <div class="step1__sidebar-final-price-label">
-        قیمت کالاها
+        مجموع
       </div>
       <div class="step1__sidebar-final-price-value">
-        {{ basket.sellable_price.toLocaleString('fa') }}
+        {{ basket.order_price.toLocaleString('fa') }}
         تومان
       </div>
     </div>
