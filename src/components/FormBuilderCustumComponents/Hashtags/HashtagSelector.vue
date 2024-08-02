@@ -11,12 +11,10 @@
               label="کلیدواژه"
               :loading="fetchLoading"
               :options="filteredHashtags"
+              @new-value="addHashtag"
               @update:model-value="onChangeSelected"
               @filter="filterFn">
       <template #prepend>
-        <q-btn icon="add"
-               flat
-               @click="addHashtag" />
         <q-icon name="search" />
       </template>
       <template v-slot:no-option>
@@ -64,6 +62,7 @@ export default {
     return {
       selectedHashtags: [],
       filteredHashtags: [],
+      selectInput: null,
       fetchLoading: false
     }
   },
@@ -79,8 +78,15 @@ export default {
     }
   },
   methods: {
-    addHashtag () {
-      // this.fetchLoading = true
+    addHashtag (val, done) {
+      this.fetchLoading = true
+      APIGateway.hashtag.create(val)
+        .then((hashtag) => {
+          done(hashtag)
+        })
+        .finally(() => {
+          this.fetchLoading = false
+        })
     },
     onChangeSelected () {
       this.emitUpdateValue()
@@ -97,24 +103,27 @@ export default {
       })
     },
     filterFn (val, update) {
+      this.selectInput = val
       if (!val) {
         this.filteredHashtags = []
         return
       }
 
-      update(() => {
-        this.fetchLoading = true
-        this.getHashtags(val)
-          .then((hashtagList) => {
+      this.fetchLoading = true
+      this.getHashtags(val)
+        .then((hashtagList) => {
+          update(() => {
             this.filteredHashtags = hashtagList
           })
-          .catch(() => {
+        })
+        .catch(() => {
+          update(() => {
             this.filteredHashtags = []
           })
-          .finally(() => {
-            this.fetchLoading = false
-          })
-      })
+        })
+        .finally(() => {
+          this.fetchLoading = false
+        })
     },
     onDeleteHashtag(hashtagIndex) {
       this.selectedHashtags.splice(hashtagIndex, 1)
@@ -122,7 +131,6 @@ export default {
     },
     emitUpdateValue () {
       const selectedIds = this.selectedHashtags.map(item => item.id)
-      console.log('selectedIds', selectedIds)
       this.$emit('update:value', selectedIds)
     }
   }

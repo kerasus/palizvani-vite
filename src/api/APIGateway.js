@@ -12,6 +12,7 @@ import TicketAPI from 'src/api/models/Ticket.js'
 import WalletAPI from 'src/api/models/Wallet.js'
 import BasketAPI from 'src/api/models/Basket.js'
 import HadithAPI from 'src/api/models/Hadith.js'
+import HashtagAPI from 'src/api/models/Hashtag.js'
 import TestSetAPI from 'src/api/models/TestSet.js'
 import InvoiceAPI from 'src/api/models/Invoice.js'
 import PaymentAPI from 'src/api/models/Payment.js'
@@ -70,6 +71,7 @@ export const APIGateway = {
   wallet: new WalletAPI(),
   basket: new BasketAPI(),
   hadith: new HadithAPI(),
+  hashtag: new HashtagAPI(),
   testSet: new TestSetAPI(),
   project: new ProjectAPI(),
   package: new PackageAPI(),

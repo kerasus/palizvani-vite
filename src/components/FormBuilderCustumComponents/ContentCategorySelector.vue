@@ -54,7 +54,7 @@ export default {
   props: {
     value: {
       default: () => [],
-      type: [Array, String, Number, Boolean]
+      type: [Array, String, Number, Boolean, Object]
     },
     disable: {
       default: false,
