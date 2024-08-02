@@ -2,7 +2,7 @@
   <div class="cart-address">
     <div class="cart-address__title">
       <q-icon name="place" />
-      انتخاب آدرس:
+      آدرس:
     </div>
     <div v-if="mounted"
          class="cart-address__info">
