@@ -178,6 +178,12 @@ export default {
       }
 
       return tags
+    },
+    virtualTypes () {
+      return (new Media()).typeEnums.map(obj => (obj.value))
+    },
+    physicalTypes() {
+      return (new Product()).physical_typeEnums.map(obj => (obj.value))
     }
   },
   mounted() {
@@ -189,8 +195,8 @@ export default {
         unit_price__lt: this.filters.price.max,
         unit_price__gte: this.filters.price.min,
         inventory__gte: this.filters.exist ? 1 : null,
-        physical_type__in: this.filters.categories,
-        medias__type__in: this.filters.types
+        physical_type__in: this.filters.types.filter(tp => this.physicalTypes.includes(tp)),
+        medias__type__in: this.filters.types.filter(tp => this.virtualTypes.includes(tp))
       }
 
       const filters = this.type === 'product' ? productFilters : null
