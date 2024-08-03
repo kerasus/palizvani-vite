@@ -150,6 +150,7 @@ export default {
         { type: 'hidden', name: 'unit_price__lt', value: null },
         { type: 'hidden', name: 'unit_price__gte', value: null },
         { type: 'hidden', name: 'inventory__gte', value: null },
+        { type: 'hidden', name: 'category__in', value: null },
         { type: 'hidden', name: 'physical_type__in', value: null },
         { type: 'hidden', name: 'medias__type__in', value: null }
       ],
@@ -192,6 +193,7 @@ export default {
       FormBuilderAssist.setAttributeByName(this.productInputs, 'unit_price__lt', 'value', this.sidebarFilters.unit_price__lt)
       FormBuilderAssist.setAttributeByName(this.productInputs, 'unit_price__gte', 'value', this.sidebarFilters.unit_price__gte)
       FormBuilderAssist.setAttributeByName(this.productInputs, 'inventory__gte', 'value', this.sidebarFilters.inventory__gte)
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'category__in', 'value', this.sidebarFilters.category__in?.join())
       FormBuilderAssist.setAttributeByName(this.productInputs, 'physical_type__in', 'value', this.sidebarFilters.physical_type__in?.join())
       FormBuilderAssist.setAttributeByName(this.productInputs, 'medias__type__in', 'value', this.sidebarFilters.medias__type__in?.join())
     },
