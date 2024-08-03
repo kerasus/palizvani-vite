@@ -192,8 +192,8 @@ export default {
       FormBuilderAssist.setAttributeByName(this.productInputs, 'unit_price__lt', 'value', this.sidebarFilters.unit_price__lt)
       FormBuilderAssist.setAttributeByName(this.productInputs, 'unit_price__gte', 'value', this.sidebarFilters.unit_price__gte)
       FormBuilderAssist.setAttributeByName(this.productInputs, 'inventory__gte', 'value', this.sidebarFilters.inventory__gte)
-      FormBuilderAssist.setAttributeByName(this.productInputs, 'physical_type__in', 'value', this.sidebarFilters.physical_type__in)
-      FormBuilderAssist.setAttributeByName(this.productInputs, 'medias__type__in', 'value', this.sidebarFilters.medias__type__in)
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'physical_type__in', 'value', this.sidebarFilters.physical_type__in?.join())
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'medias__type__in', 'value', this.sidebarFilters.medias__type__in?.join())
     },
     updatePackageFilters () {
       // topFilters
