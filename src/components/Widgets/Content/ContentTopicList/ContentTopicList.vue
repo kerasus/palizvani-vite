@@ -156,8 +156,8 @@ export default {
       this.$refs.entityIndex.search()
     },
     updateFilters () {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'category__in', 'value', this.sidebarFilters.category__in)
-      FormBuilderAssist.setAttributeByName(this.inputs, 'hashtags__id__in', 'value', this.topFilter.hashtags)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'category__in', 'value', this.sidebarFilters.category__in?.join())
+      FormBuilderAssist.setAttributeByName(this.inputs, 'hashtags__id__in', 'value', this.topFilter.hashtags?.join())
     },
     downloadExcel () {
     }
