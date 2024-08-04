@@ -92,7 +92,7 @@ export default {
             buttonBadgeColor: 'pink'
           },
 
-          apiAddress: APIGateway.user.APIAdresses.base,
+          apiAddress: APIGateway.user.APIAdresses.unassignedGradersWithLastPassedUnit,
           tableTitle: 'لیست کل مصححین',
           showTableItemsRouteName: 'Admin.BlockManagement.Show',
           tableKeys: {
@@ -117,6 +117,13 @@ export default {
                 label: 'نام و نام خانوادگی',
                 align: 'left',
                 field: row => row.firstname + ' ' + row.lastname
+              },
+              {
+                name: 'last_passed_unit_title',
+                required: true,
+                label: 'آخرین دوره',
+                align: 'left',
+                field: row => row.last_passed_unit_title
               },
               {
                 name: 'national_code',

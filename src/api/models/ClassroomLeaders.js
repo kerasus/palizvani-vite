@@ -6,7 +6,8 @@ export default class ClassroomLeaderAPI extends APIRepository {
     super('classroom_leaders', appApi, '/lma/classroom_leaders')
     this.APIAdresses = {
       base: '/lma/classroom_leaders',
-      byId: (id) => '/lma/classroom_leaders/' + id
+      byId: (id) => '/lma/classroom_leaders/' + id,
+      withLastPassedUnit: '/lma/classroom_leaders/leaders_with_last_passed_unit'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,

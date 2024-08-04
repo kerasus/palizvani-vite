@@ -92,7 +92,7 @@ export default {
             buttonBadgeColor: 'pink'
           },
 
-          apiAddress: APIGateway.user.APIAdresses.base,
+          apiAddress: APIGateway.user.APIAdresses.unassignedLeadersWithLastPassedUnit,
           tableTitle: 'لیست کل سرگروه ها',
           showTableItemsRouteName: 'Admin.BlockManagement.Show',
           tableKeys: {
@@ -117,6 +117,13 @@ export default {
                 label: 'نام و نام خانوادگی',
                 align: 'left',
                 field: row => row.firstname + ' ' + row.lastname
+              },
+              {
+                name: 'last_passed_unit_title',
+                required: true,
+                label: 'آخرین دوره',
+                align: 'left',
+                field: row => row.last_passed_unit_title
               },
               {
                 name: 'national_code',
@@ -159,7 +166,7 @@ export default {
       leaderListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId }
       ],
-      leaderListApi: APIGateway.classroomLeaders.APIAdresses.base,
+      leaderListApi: APIGateway.classroomLeaders.APIAdresses.withLastPassedUnit,
       leaderListTable: {
         columns: [
           {
@@ -175,6 +182,13 @@ export default {
             label: 'شناسه',
             align: 'left',
             field: row => row.leader_info.id
+          },
+          {
+            name: 'last_passed_unit_title',
+            required: true,
+            label: 'آخرین دوره',
+            align: 'left',
+            field: row => row.last_passed_unit_title
           },
           {
             name: 'title',
