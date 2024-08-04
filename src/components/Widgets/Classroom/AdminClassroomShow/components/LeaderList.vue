@@ -14,13 +14,14 @@
                     v-model:value="addLeaderInputs"
                     :loading="addNewLeaderLoading" />
     </template>
-    <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+    <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'number'">
         {{ inputData.rowNumber }}
       </template>
       <template v-else-if="inputData.col.name === 'actions'">
         <div class="action-column-entity-index">
-          <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+          <delete-btn :loading="deletingLoading"
+                      @click="onDeletingClassroomLeader(inputData.props.row)" />
         </div>
       </template>
       <template v-else-if="inputData.col.name === 'members'">
@@ -247,7 +248,8 @@ export default {
         currentPage: 'current',
         perPage: 'per_page',
         pageKey: 'page'
-      }
+      },
+      deletingLoading: false
     }
   },
   computed: {
@@ -265,6 +267,24 @@ export default {
     this.mounted = true
   },
   methods: {
+    onDeletingClassroomLeader (row) {
+      this.$q.dialog({
+        title: 'توجه',
+        message: 'آیا از حذف ' + row.leader_info.firstname + ' ' + row.leader_info.lastname + ' اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.deletingLoading = true
+        APIGateway.classroomLeaders.deleteById(row.id)
+          .then(() => {
+            this.deletingLoading = false
+            this.$refs.leaderList.search()
+          })
+          .catch(() => {
+            this.deletingLoading = false
+          })
+      })
+    },
     onConfirmedSelected (data) {
       const leaders = data.map(item => item.id)
       this.addNewLeaderLoading = true
