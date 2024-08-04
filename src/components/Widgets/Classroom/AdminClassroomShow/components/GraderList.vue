@@ -173,7 +173,7 @@ export default {
       graderListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId }
       ],
-      graderListApi: APIGateway.classroomGrader.APIAdresses.base,
+      graderListApi: APIGateway.classroomGrader.APIAdresses.withLastPassedUnit,
       graderListTable: {
         columns: [
           {
@@ -189,6 +189,13 @@ export default {
             label: 'شناسه',
             align: 'left',
             field: row => row.grader_info.id
+          },
+          {
+            name: 'last_passed_unit_title',
+            required: true,
+            label: 'آخرین دوره',
+            align: 'left',
+            field: row => row.last_passed_unit_title
           },
           {
             name: 'creation_time',
