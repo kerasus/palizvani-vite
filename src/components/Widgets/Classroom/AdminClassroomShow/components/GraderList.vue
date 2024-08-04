@@ -14,13 +14,14 @@
                     v-model:value="addGraderInputs"
                     :loading="addNewGraderLoading" />
     </template>
-    <template v-slot:entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+    <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'number'">
         {{ inputData.rowNumber }}
       </template>
       <template v-else-if="inputData.col.name === 'actions'">
         <div class="action-column-entity-index">
-          <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+          <delete-btn :loading="deletingLoading"
+                      @click="onDeletingClassroomGrader(inputData.props.row)" />
         </div>
       </template>
       <template v-else-if="inputData.col.name === 'members'">
@@ -254,7 +255,8 @@ export default {
         currentPage: 'current',
         perPage: 'per_page',
         pageKey: 'page'
-      }
+      },
+      deletingLoading: false
     }
   },
   computed: {
@@ -272,6 +274,24 @@ export default {
     this.mounted = true
   },
   methods: {
+    onDeletingClassroomGrader (row) {
+      this.$q.dialog({
+        title: 'توجه',
+        message: 'آیا از حذف ' + row.grader_info.firstname + ' ' + row.grader_info.lastname + ' اطمینان دارید؟',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.deletingLoading = true
+        APIGateway.classroomGrader.deleteById(row.id)
+          .then(() => {
+            this.deletingLoading = false
+            this.$refs.graderList.search()
+          })
+          .catch(() => {
+            this.deletingLoading = false
+          })
+      })
+    },
     onConfirmedSelected (data) {
       const graders = data.map(item => item.id)
       this.addNewGraderLoading = true

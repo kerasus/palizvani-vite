@@ -14,4 +14,18 @@ export default class ClassroomGraderAPI extends APIRepository {
       byId: (id) => this.name + this.APIAdresses.byId(id)
     }
   }
+
+  deleteById (id) {
+    return this.sendRequest({
+      apiMethod: 'delete',
+      api: this.api,
+      request: this.APIAdresses.byId(id),
+      resolveCallback: (response) => {
+        return response.data
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
 }
