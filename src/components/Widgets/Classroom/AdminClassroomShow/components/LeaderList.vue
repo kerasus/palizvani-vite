@@ -196,7 +196,7 @@ export default {
             required: true,
             label: 'جنسیت',
             align: 'left',
-            field: row => (row.leader_info.gender === 1) ? 'مذکر' : ((row.leader_info.gender === 2) ? 'مونث' : '-')
+            field: row => (row.leader_info.gender === 'MALE') ? 'آقا' : ((row.leader_info.gender === 'FEMALE') ? 'خانم' : '-')
           },
           {
             name: 'creation_time',
