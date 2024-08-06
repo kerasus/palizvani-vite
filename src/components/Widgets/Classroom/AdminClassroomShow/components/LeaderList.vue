@@ -49,10 +49,12 @@ import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
-import { FormBuilder, inputMixin } from 'quasar-form-builder'
+import { FormBuilder, FormBuilderAssist, inputMixin } from 'quasar-form-builder'
 import EntityInput from 'quasar-crud/src/components/Entity/Attachment/EntityInput.vue'
+import BtnControl from 'src/components/Control/btn.vue'
 
 const EntityInputComp = shallowRef(EntityInput)
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'LeaderList',
@@ -165,7 +167,9 @@ export default {
       ],
 
       leaderListInputs: [
-        { type: 'hidden', name: 'classroom', value: classroomId }
+        { type: 'hidden', name: 'classroom', value: classroomId },
+        { type: 'input', name: 'search', value: null, col: 'col-md-3 col-12', label: 'جست و جو', placeholder: ' ' },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       leaderListApi: APIGateway.classroomLeaders.APIAdresses.withLastPassedUnit,
       leaderListTable: {
@@ -264,9 +268,16 @@ export default {
     }
   },
   mounted () {
+    this.setLeaderListActionBtn()
     this.mounted = true
   },
   methods: {
+    setLeaderListActionBtn () {
+      FormBuilderAssist.setAttributeByName(this.leaderListInputs, 'btn', 'atClick', this.searchLeaderList)
+    },
+    searchLeaderList () {
+      this.$refs.leaderList.search()
+    },
     onDeletingClassroomLeader (row) {
       this.$q.dialog({
         title: 'توجه',
