@@ -87,6 +87,7 @@ export default {
           col: 'col-md-3 col-12'
         },
         { type: 'select', name: 'type', options: (new Payment()).typeEnums, label: 'نوع تراکنش', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'search', value: null, col: 'col-md-3 col-12', label: 'جست و جو', placeholder: ' ' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
       table: {
