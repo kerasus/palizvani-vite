@@ -13,6 +13,13 @@
                   :show-search-button="false"
                   :show-expand-button="false"
                   :show-reload-button="false">
+      <template #toolbar>
+        <q-btn color="primary"
+               :loading="exportReportLoading"
+               @click="getPaymentsListExcel">
+          دریافت
+        </q-btn>
+      </template>
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -144,6 +151,7 @@ export default {
         ]
       },
       mounted: false,
+      exportReportLoading: false,
       createRouteName: ''
     }
   },
@@ -157,6 +165,23 @@ export default {
     },
     search () {
       this.$refs.entityIndex.search()
+    },
+    getPaymentsListExcel () {
+      this.exportReportLoading = true
+      const status = null
+      APIGateway.payment.exportPaymentReport({
+        classroom: this.$route.params.id,
+        report_type: 'payments_list',
+        status
+      })
+        .then((xlsxData) => {
+          // Assist.saveXlsx(xlsxData, this.classroomId)
+          Assist.saveXlsx(xlsxData, 'پرداخت ها')
+          this.exportReportLoading = false
+        })
+        .catch((e) => {
+          this.exportReportLoading = false
+        })
     }
   }
 }
