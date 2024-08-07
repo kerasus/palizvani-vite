@@ -7,11 +7,11 @@
         <q-banner>
           جستجوی پیشرفته محتوایی
         </q-banner>
-        <q-btn color="primary"
-               @click="downloadExcel">
-          <q-icon name="file_download" />
-          دریافت
-        </q-btn>
+        <!--        <q-btn color="primary"-->
+        <!--               @click="downloadExcel">-->
+        <!--          <q-icon name="file_download" />-->
+        <!--          دریافت-->
+        <!--        </q-btn>-->
       </div>
       <div class="ContentTopicList__top-filter">
         <form-builder v-model:value="topFilterInputs"
