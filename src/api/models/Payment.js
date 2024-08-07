@@ -116,9 +116,7 @@ export default class PaymentAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.exportPaymentReport,
       data: this.getNormalizedSendData({
-        classroom: null, // Number
-        report_type: null, // String
-        status: null // String
+        report_type: null // String
       }, data),
       responseType: 'blob',
       resolveCallback: (response) => {

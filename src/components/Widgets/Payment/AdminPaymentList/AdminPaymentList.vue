@@ -168,12 +168,9 @@ export default {
     },
     getPaymentsListExcel () {
       this.exportReportLoading = true
-      const status = null
-      APIGateway.payment.exportPaymentReport({
-        classroom: this.$route.params.id,
-        report_type: 'payments_list',
-        status
-      })
+      const filter = this.$refs.entityIndex.createParams()
+      filter.report_type = 'payments_list'
+      APIGateway.payment.exportPaymentReport(filter)
         .then((xlsxData) => {
           // Assist.saveXlsx(xlsxData, this.classroomId)
           Assist.saveXlsx(xlsxData, 'پرداخت ها')
