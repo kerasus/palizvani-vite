@@ -171,7 +171,7 @@ export default {
             to: { name: this.showPageRouteName, params: { id: this.$route.params.classroom_id } }
           },
           {
-            label: 'آزمون ها'
+            label: (this.$route.query.classroom_type === 'EVENT' ? 'پرسشنامه' : 'آزمون') + ' ها'
           },
           {
             label: this.test.title
