@@ -64,7 +64,7 @@ export default {
       entityParamKey: 'id',
       classroomInputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات ' + (this.$route.query.classroom_type === 'EVENT' ? 'پرسشنامه' : 'آزمون'), col: 'col-12' },
         { type: 'dateTime', name: 'start_time', responseKey: 'start_time', outsideLabel: 'زمان شروع آزمون', col: 'col-md-6 col-12' },
         { type: 'dateTime', name: 'end_time', responseKey: 'end_time', outsideLabel: 'زمان پایان آزمون', col: 'col-md-6 col-12' },
         { type: 'input', name: 'duration_deadline', responseKey: 'duration_deadline', label: 'مدت زمان پاسخ دهی (دقیقه)', placeholder: ' ', col: 'col-md-6 col-12' },
@@ -80,7 +80,7 @@ export default {
       ],
       eventInputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
-        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات آزمون', col: 'col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات ' + (this.$route.query.classroom_type === 'EVENT' ? 'پرسشنامه' : 'آزمون'), col: 'col-12' },
         { type: QuestionsCreateAndAppendComp, name: 'test_questions', responseKey: 'test_questions_info', testId: this.$route.params.id, questionType: 'EVENT', ignoreValue: true, col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'event', responseKey: 'event', value: this.$route.params.classroom_id },
         { type: 'hidden', name: 'test_set', responseKey: 'test_set', value: this.$route.params.test_set_id },
