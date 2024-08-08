@@ -22,18 +22,18 @@
                 </template>
               </q-input>
             </div>
-            <div class="shop-widget__main-top-filter-sort">
-              <div class="shop-widget__main-top-filter-sort-label">
-                ترتیب نمایش
-              </div>
-              <div class="shop-widget__main-top-filter-sort-select">
-                <q-select v-model="topFilters.sort"
-                          emit-value
-                          map-options
-                          :options="sortOptions"
-                          @update:model-value="search" />
-              </div>
-            </div>
+            <!--            <div class="shop-widget__main-top-filter-sort">-->
+            <!--              <div class="shop-widget__main-top-filter-sort-label">-->
+            <!--                ترتیب نمایش-->
+            <!--              </div>-->
+            <!--              <div class="shop-widget__main-top-filter-sort-select">-->
+            <!--                <q-select v-model="topFilters.sort"-->
+            <!--                          emit-value-->
+            <!--                          map-options-->
+            <!--                          :options="sortOptions"-->
+            <!--                          @update:model-value="search" />-->
+            <!--              </div>-->
+            <!--            </div>-->
           </div>
           <div class="shop-widget__main-top-filter-tabs">
             <q-tabs v-model="searchTab"
@@ -262,7 +262,8 @@ export default {
             }
           }
           .shop-widget__main-top-filter-txt {
-            width: calc( 100% - #{$sort-width} );
+            //width: calc( 100% - #{$sort-width} );
+            width: calc( 100% );
             :deep(.q-field) {
               .q-field__inner {
                 .q-field__control {
