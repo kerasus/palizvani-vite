@@ -9,7 +9,8 @@
           <q-icon :name="product.is_physical ? 'shopping_basket' : 'folder'" />
         </div>
       </div>
-      <div class="product-item__badge">
+      <div v-if="product.physical_type"
+           class="product-item__badge">
         <div class="product-item__badge-title">
           {{ product.physical_type_info.label }}
         </div>
