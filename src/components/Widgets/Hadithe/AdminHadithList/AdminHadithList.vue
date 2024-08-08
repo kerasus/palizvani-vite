@@ -64,7 +64,7 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'select', name: 'status', label: 'دسته بندی', placeholder: ' ', options: [{ label: 'احادیث پیش رو', value: 'ONGOING' }, { label: 'آرشیو احادیث', value: 'PASSED' }], col: 'col-md-3 col-12' },
+        { type: 'select', name: 'status', label: 'فیلتر', placeholder: ' ', options: [{ label: 'احادیث پیش رو', value: 'ONGOING' }, { label: 'آرشیو احادیث', value: 'PASSED' }], col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-3 col-12' }
       ],
       table: {
