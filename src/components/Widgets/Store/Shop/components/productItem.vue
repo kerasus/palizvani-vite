@@ -32,7 +32,7 @@
         تومان
       </div>
       <div class="product-item__price-final">
-        {{ product.getFinalPrice() }}
+        {{ product.sellable_price.toLocaleString('fa') }}
         تومان
       </div>
     </div>
