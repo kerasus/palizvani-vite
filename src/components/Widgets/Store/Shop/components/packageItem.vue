@@ -17,12 +17,13 @@
       {{ packageItem.title }}
     </div>
     <div class="package-item__price">
-      <div class="package-item__price-base">
+      <div v-if="packageItem.unit_price != packageItem.sellable_price"
+           class="package-item__price-base">
         {{ parseInt(packageItem.unit_price).toLocaleString('fa') }}
         تومان
       </div>
       <div class="package-item__price-final">
-        {{ packageItem.getFinalPrice() }}
+        {{ packageItem.sellable_price.toLocaleString('fa') }}
         تومان
       </div>
     </div>
