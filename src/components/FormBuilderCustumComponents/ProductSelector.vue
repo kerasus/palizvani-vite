@@ -54,9 +54,9 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: ContentCategorySelectorComp, name: 'content_category', responseKey: 'content_category_info', categoryType: 'content', col: 'col-md-12 col-12' },
+        { type: ContentCategorySelectorComp, name: 'store_category', responseKey: 'store_category_info', categoryType: 'store', col: 'col-md-12 col-12' },
         { type: 'select', name: 'is_physical', label: 'جنس محصول', options: (new Product()).is_physicalEnums, placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'select', name: 'physical_type', label: 'نوع محصول', options: (new Product()).physical_typeEnums, placeholder: ' ', col: 'col-md-6 col-12' }
+        { type: 'select', name: 'physical_type', label: 'نوع محصول فیزیکی', options: (new Product()).physical_typeEnums, placeholder: ' ', col: 'col-md-6 col-12' }
       ],
       table: {
         columns: [
