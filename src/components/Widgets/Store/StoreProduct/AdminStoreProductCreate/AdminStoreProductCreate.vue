@@ -33,6 +33,7 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'components/Control/btn.vue'
 import ContentMedias from 'components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
 import ContentCategorySelector from 'components/FormBuilderCustumComponents/ContentCategorySelector.vue'
+import { Product } from 'src/models/Product'
 
 const BtnControlComp = shallowRef(BtnControl)
 const ContentMediasComp = shallowRef(ContentMedias)
@@ -57,13 +58,14 @@ export default {
         { type: ContentCategorySelectorComp, name: 'store_category', responseKey: 'store_category_info', categoryType: 'store', col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
         { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-12' },
-        { type: 'input', name: 'unit_price', responseKey: 'unit_price', label: 'قیمت واحد', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'discount_percent', responseKey: 'discount_percent', label: 'درصد تخفیف', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'input', name: 'inventory', responseKey: 'inventory', label: 'موجودی', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'maximum_order_count', responseKey: 'maximum_order_count', label: 'سقف سفارش مجاز', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'input', name: 'weight', responseKey: 'weight', label: 'وزن', placeholder: ' ', col: 'col-md-2 col-12' },
-        { type: 'checkbox', name: 'is_physical', responseKey: 'is_physical', label: 'فیزیکی', placeholder: ' ', col: 'col-12', value: true },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ایجاد محصول', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
+        { type: 'input', name: 'unit_price', responseKey: 'unit_price', label: 'قیمت واحد', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'discount_percent', responseKey: 'discount_percent', label: 'درصد تخفیف', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'checkbox', name: 'is_physical', responseKey: 'is_physical', label: 'فیزیکی', placeholder: ' ', value: false, col: 'col-12' },
+        { type: 'select', name: 'physical_type', responseKey: 'physical_type', label: 'نوع محصول فیزیکی', options: (new Product()).physical_typeEnums, placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'inventory', responseKey: 'inventory', label: 'موجودی', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'maximum_order_count', responseKey: 'maximum_order_count', label: 'سقف سفارش مجاز', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'weight', responseKey: 'weight', label: 'وزن', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ویرایش محصول', placeholder: ' ', ignoreValue: true, atClick: () => {}, col: 'col-md-6' }
       ]
     }
   },
