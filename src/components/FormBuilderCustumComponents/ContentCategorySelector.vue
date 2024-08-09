@@ -96,7 +96,7 @@ export default {
       this.subCategory = null
       this.subCategoryOptions = []
       if (!newValue.item.children) {
-        this.$emit('update:value', newValue.value.id)
+        this.$emit('update:value', newValue.value)
         return
       }
       this.subCategoryOptions = newValue.item.children.map(item => {
@@ -111,7 +111,7 @@ export default {
       this.bakhshCategory = null
       this.bakhshCategoryOptions = []
       if (!newValue.item.children) {
-        this.$emit('update:value', newValue.value.id)
+        this.$emit('update:value', newValue.value)
         return
       }
       this.bakhshCategoryOptions = newValue.item.children.map(item => {
@@ -123,7 +123,7 @@ export default {
       })
     },
     bakhshCategory (newValue) {
-      const categoryId = newValue ? newValue.value.id : null
+      const categoryId = newValue ? newValue.value : null
       this.$emit('update:value', categoryId)
     }
   },
@@ -179,6 +179,7 @@ export default {
               value: item.id
             }
           })
+
           if (this.value?.parent?.parent?.id && this.value.id) {
             this.$nextTick(() => {
               this.setMainCategory()
