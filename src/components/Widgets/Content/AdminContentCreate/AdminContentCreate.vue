@@ -50,8 +50,8 @@ import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import PostMixin from 'src/components/Widgets/Post/PostMixin.js'
-import PostCategorySelector from 'src/components/FormBuilderCustomControls/PostCategorySelector.vue'
-import FormBuilderTiptapEditor from 'src/components/FormBuilderCustomControls/FormBuilderTiptapEditor.vue'
+import PostCategorySelector from 'src/components/FormBuilderCustumComponents/PostCategorySelector.vue'
+import FormBuilderTiptapEditor from 'src/components/FormBuilderCustumComponents/FormBuilderTiptapEditor.vue'
 // import { FormBuilderAssist } from 'quasar-form-builder'
 
 const PostCategorySelectorComp = shallowRef(PostCategorySelector)

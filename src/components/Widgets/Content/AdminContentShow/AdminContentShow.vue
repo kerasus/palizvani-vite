@@ -34,8 +34,8 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import PostMixin from 'src/components/Widgets/Post/PostMixin.js'
-import PostCategorySelector from 'src/components/FormBuilderCustomControls/PostCategorySelector.vue'
-import FormBuilderTiptapEditor from 'src/components/FormBuilderCustomControls/FormBuilderTiptapEditor.vue'
+import PostCategorySelector from 'src/components/FormBuilderCustumComponents/PostCategorySelector.vue'
+import FormBuilderTiptapEditor from 'src/components/FormBuilderCustumComponents/FormBuilderTiptapEditor.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 const PostCategorySelectorComp = shallowRef(PostCategorySelector)
