@@ -78,19 +78,19 @@ export default {
       inputs: [
         {
           type: 'select',
-          name: 'status',
-          options: Enums.classroomStatuses,
+          name: 'unit',
+          options: [],
           value: null,
-          label: 'وضعیت ',
+          label: 'unit',
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
         {
           type: 'select',
-          name: 'unit',
-          options: [],
+          name: 'status',
+          options: Enums.classroomStatuses,
           value: null,
-          label: 'درس',
+          label: 'وضعیت ',
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
@@ -225,6 +225,7 @@ export default {
   methods: {
     setClassroomTypeOfInputs () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'status', 'label', 'وضعیت ' + this.classroomTypeTitle)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'label', this.getUnitFilterTitle())
       FormBuilderAssist.setAttributeByName(this.inputs, 'unit__category__type', 'value', this.localOptions.classroomType)
       this.table.columns.forEach(col => {
         if (col.name === 'title') {
@@ -280,6 +281,9 @@ export default {
       }
 
       return target.label
+    },
+    getUnitFilterTitle () {
+      return (this.localOptions.classroomType === 'TRAINING') ? 'درس' : 'دسته'
     }
   }
 }
