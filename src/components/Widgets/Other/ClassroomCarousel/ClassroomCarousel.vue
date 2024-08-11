@@ -25,19 +25,22 @@
       </div>
     </div>
     <div class="carousel-section">
-      <carousel v-if="false && !classrooms.loading && classrooms.list.length > 0"
-                :breakpoints="breakpoints"
-                dir="rtl">
-        <slide v-for="classroom in classrooms.list"
-               :key="classroom.id + classroomsKey">
-          <classroom-item :classroom="classroom" />
-        </slide>
 
-        <template #addons="{ slidesCount }">
-          <navigation v-if="slidesCount > 1" />
-          <pagination v-if="slidesCount > 1 && false" />
-        </template>
-      </carousel>
+      <div v-if="!classrooms.loading && classrooms.list.length > 0"
+           ref="slider"
+           class="splide"
+           role="group"
+           aria-label="Splide Basic HTML Example">
+        <div class="splide__track">
+          <ul class="splide__list">
+            <li v-for="(classroom, classroomIndex) in classrooms.list"
+                :key="classroomIndex"
+                class="splide__slide">
+              <classroom-item :classroom="classroom" />
+            </li>
+          </ul>
+        </div>
+      </div>
       <div v-else-if="!classrooms.loading && classrooms.list.length === 0">
         دوره ای یافت نشد.
       </div>
@@ -49,7 +52,8 @@
 </template>
 
 <script>
-import 'vue3-carousel/dist/carousel.css'
+import '@splidejs/splide/dist/css/splide-core.min.css'
+import Splide from '@splidejs/splide'
 import { User } from 'src/models/User.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
@@ -57,52 +61,58 @@ import ClassroomItem from 'src/components/ClassroomItem.vue'
 import { mixinPrefetchServerData } from 'src/mixin/Mixins.js'
 import { Classroom, ClassroomList } from 'src/models/Classroom.js'
 import { ClassroomRegistrationList } from 'src/models/ClassroomRegistration.js'
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel/dist/carousel'
 
 export default {
   name: 'ClassroomCarousel',
   components: {
-    Carousel,
-    Slide,
-    Pagination,
-    Navigation,
     ClassroomItem
   },
   mixins: [mixinPrefetchServerData],
-  data: () => ({
-    loading: false,
-    user: new User(),
-    classroomsKey: Date.now(),
-    userRegistrations: new ClassroomRegistrationList(),
-    slide: 0,
-    classrooms: new ClassroomList(),
-    breakpoints: {
-      // 1024 and up
-      1024: {
-        itemsToShow: 3,
-        snapAlign: 'start'
+  data () {
+    return {
+      loading: false,
+      user: new User(),
+      userRegistrations: new ClassroomRegistrationList(),
+      slider: null,
+      classrooms: new ClassroomList(),
+      breakpoints: {
+        1920: {
+          perPage: 3
+        },
+        900: {
+          perPage: 2
+        },
+        500: {
+          perPage: 1
+        }
       },
-      // 700px and up
-      700: {
-        itemsToShow: 2.2,
-        snapAlign: 'center'
-      },
-      // 300px and up
-      300: {
-        itemsToShow: 1.1,
-        snapAlign: 'center'
-      }
-    },
-    maximizedToggle: true,
-    dialog: false
-  }),
+      maximizedToggle: true,
+      dialog: false
+    }
+  },
   mounted () {
     this.loadAuthData()
+    this.loadSlider()
     if (this.user && this.user.id !== null) {
       this.getUserRegistrations()
     }
   },
   methods: {
+    loadSlider () {
+      if (!this.$refs.slider) {
+        return
+      }
+      new Splide(this.$refs.slider, {
+        direction: 'rtl',
+        paginationDirection: 'rtl',
+        // type: 'loop',
+        focus: 0,
+        snap: true,
+        gap: 24,
+        // focus: 'center',
+        breakpoints: this.breakpoints
+      }).mount()
+    },
     getHoldingType (classroom) {
       return new Classroom(classroom).holding_type_info.label
     },
@@ -112,6 +122,7 @@ export default {
     prefetchServerDataPromiseThen (classroomList) {
       this.classrooms = new ClassroomList(classroomList.list)
       this.classrooms.loading = false
+      this.loadSlider()
     },
     prefetchServerDataPromiseCatch () {
       this.classrooms.loading = false
@@ -134,7 +145,6 @@ export default {
       APIGateway.classroomRegistration.index()
         .then((classroomRegistrationList) => {
           this.userRegistrations = new ClassroomRegistrationList(classroomRegistrationList.list)
-          this.classroomsKey = Date.now()
           this.userRegistrations.loading = false
         })
         .catch(() => {
@@ -161,95 +171,6 @@ export default {
     padding-bottom: 33px;
   }
   .carousel-section {
-    padding: 0 60px;
-    :deep(.carousel__prev),
-    :deep(.carousel__next) {
-      width: 48px;
-      height: 48px;
-      background-color: #475F4A;
-      border-radius: 8px;
-      &.carousel__prev--in-active {
-        background-color: #DEDEDE;
-      }
-      &:after {
-      }
-      svg {
-        //display: none;
-      }
-    }
-    :deep(.carousel__prev) {
-      right: auto;
-      left: 0;
-      transform: translate(-100%, -50%);
-      color: white;
-    }
-    :deep(.carousel__next) {
-      left: auto;
-      right: 0;
-      transform: translate(100%, -50%);
-      color: white;
-    }
-    .carousel__slide {
-      padding: 0 12px;
-      .classroomCarousel-item {
-        width: 100%;
-        &.isRegistered {
-          .thumbnail {
-            position: relative;
-            z-index: 1;
-            .RegisteredSign {
-              position: absolute;
-              right: 5px;
-              top: 7px;
-              z-index: 2;
-              display: block;
-            }
-          }
-        }
-        .thumbnail {
-          padding-top: 17px;
-          padding-left: 22px;
-          padding-right: 22px;
-          padding-bottom: 26px;
-          .RegisteredSign {
-            display: none;
-          }
-        }
-        .title {
-          text-align: left;
-          padding-top: 0;
-          padding-left: 46px;
-          padding-right: 46px;
-          padding-bottom: 33px;
-        }
-        .attribute {
-          padding-top: 0;
-          padding-left: 46px;
-          padding-right: 46px;
-          padding-bottom: 44px;
-          .attribute-item {
-            margin-bottom: 21px;
-            display: flex;
-            flex-flow: row;
-            .attribute-logo {
-              margin-right: 15px;
-            }
-            &:last-child {
-              margin-bottom: 0;
-            }
-          }
-        }
-        .action-section {
-          padding: 0;
-          .btn-show-classroom {
-            width: 100%;
-            height: 60px;
-            border-top-right-radius: 0;
-            border-top-left-radius: 0;
-          }
-        }
-      }
-    }
   }
 }
 </style>

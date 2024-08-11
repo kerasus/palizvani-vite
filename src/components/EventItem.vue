@@ -3,55 +3,54 @@
           class="event-item"
           :class="{'isRegistered' : event.is_current_user_registered }">
     <q-card-section class="thumbnail">
-      <router-link :to="{name: 'Public.ShowEventInfo', params: {id: event.id}}">
-        <div class="RegisteredSign">
-          <svg class="ribbon"
-               xmlns="http://www.w3.org/2000/svg"
-               width="123.945"
-               height="123.422"
-               viewBox="0 0 123.945 123.422">
-            <g id="Group_11524"
-               data-name="Group 11524"
-               transform="translate(-361 -1111)">
-              <g id="Group_7903"
-                 data-name="Group 7903"
-                 transform="translate(361 1111)">
-                <g id="Group_7901"
-                   data-name="Group 7901"
-                   transform="translate(0 0)">
-                  <rect id="Rectangle_1771"
-                        data-name="Rectangle 1771"
-                        width="13.986"
-                        height="39.668"
-                        transform="translate(0 83.754)"
-                        fill="#cfb184" />
-                  <rect id="Rectangle_1772"
-                        data-name="Rectangle 1772"
-                        width="39.668"
-                        height="13.986"
-                        transform="translate(84.277 0)"
-                        fill="#cfb184" />
-                  <path id="Path_18668"
-                        data-name="Path 18668"
-                        d="M1938.931,282.651l123.945-123.406-.016-.016h-44a9.041,9.041,0,0,0-6.379,2.631l-70.907,70.6a8.962,8.962,0,0,0-2.642,6.352Z"
-                        transform="translate(-1938.931 -159.229)"
-                        fill="#eac38a" />
-                </g>
+      <div class="RegisteredSign">
+        <svg class="ribbon"
+             xmlns="http://www.w3.org/2000/svg"
+             width="123.945"
+             height="123.422"
+             viewBox="0 0 123.945 123.422">
+          <g id="Group_11524"
+             data-name="Group 11524"
+             transform="translate(-361 -1111)">
+            <g id="Group_7903"
+               data-name="Group 7903"
+               transform="translate(361 1111)">
+              <g id="Group_7901"
+                 data-name="Group 7901"
+                 transform="translate(0 0)">
+                <rect id="Rectangle_1771"
+                      data-name="Rectangle 1771"
+                      width="13.986"
+                      height="39.668"
+                      transform="translate(0 83.754)"
+                      fill="#cfb184" />
+                <rect id="Rectangle_1772"
+                      data-name="Rectangle 1772"
+                      width="39.668"
+                      height="13.986"
+                      transform="translate(84.277 0)"
+                      fill="#cfb184" />
+                <path id="Path_18668"
+                      data-name="Path 18668"
+                      d="M1938.931,282.651l123.945-123.406-.016-.016h-44a9.041,9.041,0,0,0-6.379,2.631l-70.907,70.6a8.962,8.962,0,0,0-2.642,6.352Z"
+                      transform="translate(-1938.931 -159.229)"
+                      fill="#eac38a" />
               </g>
-              <text id="رویداد_های_من"
-                    data-name="رویداد‌های من"
-                    transform="translate(445.063 1135.174) rotate(-45)"
-                    fill="#fff"
-                    font-size="18"
-                    font-family="SegoeUI-Bold, Segoe UI"
-                    font-weight="700"><tspan x="0"
-                                             y="0">رویداد‌های من</tspan></text>
             </g>
-          </svg>
-        </div>
-        <img class="thumbnail-img"
-             :src="event.thumbnail">
-      </router-link>
+            <text id="رویداد_های_من"
+                  data-name="رویداد‌های من"
+                  transform="translate(445.063 1135.174) rotate(-45)"
+                  fill="#fff"
+                  font-size="18"
+                  font-family="SegoeUI-Bold, Segoe UI"
+                  font-weight="700"><tspan x="0"
+                                           y="0">رویداد‌های من</tspan></text>
+          </g>
+        </svg>
+      </div>
+      <img class="thumbnail-img"
+           :src="event.thumbnail"
+           @click="goToPage">
     </q-card-section>
     <div class="infos">
       <div class="title ellipsis-2-lines">
@@ -151,6 +150,9 @@ export default defineComponent({
     }
   },
   methods: {
+    goToPage () {
+      this.$router.push({ name: 'Public.ShowEventInfo', params: { id: this.event.id } })
+    },
     getHoldingType (event) {
       return new Classroom(event).holding_type_info.label
     },

@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import 'vue3-carousel/dist/carousel.css'
 import { User } from 'src/models/User.js'
 // import ShamsiDate from 'src/assets/ShamsiDate.js'
 // import { APIGateway } from 'src/api/APIGateway.js'

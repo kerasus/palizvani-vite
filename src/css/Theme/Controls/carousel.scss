@@ -1,0 +1,114 @@
+.splide {
+  //direction: ltr;
+  position: relative;
+  &.splide--rtl {
+    /*rtl:ignore*/
+    direction: rtl !important;
+  }
+  .splide__arrows {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    z-index: 2;
+    .splide__arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      background: #475F4A;
+      border-radius: 8px;
+      border: none;
+      width: 48px;
+      height: 48px;
+      color: white;
+      &:before {
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: inherit;
+        font-size: inherit;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+        width: 1em;
+        height: 1em;
+        flex-shrink: 0;
+        text-align: center;
+        position: relative;
+        box-sizing: content-box;
+        fill: currentColor;
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: 'liga';
+      }
+      svg {
+        display: none;
+      }
+      &.splide__arrow--prev {
+        left: -2.5rem;
+        transform: translateY(-50%);
+        &:before {
+          content: 'arrow_forward';
+        }
+        @media only screen and (max-width: 1300px){
+          & {
+            left: 0;
+          }
+        }
+      }
+      &.splide__arrow--next {
+        right: -2.5rem;
+        transform: translateY(-50%);
+        &:before {
+          content: 'arrow_back';
+        }
+        @media only screen and (max-width: 1300px){
+          & {
+            right: 0;
+          }
+        }
+      }
+    }
+  }
+  .splide__track {
+    position: relative;
+    z-index: 1;
+    .splide__list {
+      .splide__slide {
+      }
+    }
+  }
+  .splide__pagination {
+    margin-top: 24px;
+    gap: 4px;
+    li {
+      .splide__pagination__page {
+        transition: all 0.3s;
+        width: 9px;
+        height: 9px;
+        background: #FFFFFF;
+        border: 1px solid $primary;
+        border-radius: 50%;
+        padding: 0;
+        &.is-active {
+          width: 27px;
+          background: $primary;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+  &:not(.is-overflow) {
+    .splide__arrows {
+      display: none;
+    }
+  }
+}
