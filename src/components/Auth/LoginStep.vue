@@ -69,15 +69,17 @@ export default {
       default: false
     }
   },
-  data: () => ({
-    userLogin: false,
-    loadingList: false,
-    visibilityIcon: 'visibility',
-    otpStep: 'sendOtp',
-    username: null,
-    password: null,
-    otp: null
-  }),
+  data () {
+    return {
+      userLogin: false,
+      loadingList: false,
+      visibilityIcon: 'visibility',
+      otpStep: 'sendOtp',
+      username: null,
+      password: null,
+      otp: null
+    }
+  },
   created () {
     // if (this.getToken()) {
     //   this.getUserData(() => { this.redirectTo() })
@@ -111,6 +113,13 @@ export default {
     },
 
     login () {
+      if (!this.username || !this.password) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'نام کاربری و کلمه عبور را وارد کنید.'
+        })
+        return
+      }
       this.loadingList = true
       this.$store.dispatch('Auth/login', {
         input: this.username,

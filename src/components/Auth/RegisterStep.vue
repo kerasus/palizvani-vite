@@ -182,28 +182,30 @@ export default {
       default: false
     }
   },
-  data: () => ({
-    sendOtpLoading: false,
-    timerEnded: false,
-    loading: false,
-    visibilityIcon: 'visibility',
-    bannerMessage: 'ثبت نام در سامانه',
-    registerStep: 'getUsername',
-    username: null,
-    verifyNumber: null,
-    firstname: null,
-    lastname: null,
-    password: null,
-    rePassword: null,
-    otpInterval: null,
-    otpTimer: 120,
+  data () {
+    return {
+      sendOtpLoading: false,
+      timerEnded: false,
+      loading: false,
+      visibilityIcon: 'visibility',
+      bannerMessage: 'ثبت نام در سامانه',
+      registerStep: 'getUsername',
+      username: null,
+      verifyNumber: null,
+      firstname: null,
+      lastname: null,
+      password: null,
+      rePassword: null,
+      otpInterval: null,
+      otpTimer: 120,
 
-    userLogin: false,
-    loadingList: false,
-    otpStep: 'sendOtp',
+      userLogin: false,
+      loadingList: false,
+      otpStep: 'sendOtp',
 
-    otp: null
-  }),
+      otp: null
+    }
+  },
   computed: {
     user () {
       return this.$store.getters['Auth/user']
@@ -232,6 +234,13 @@ export default {
       this.sendOtpSignUp()
     },
     sendOtpSignUp () {
+      if (!this.username) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'ایمیل یا شماره تلفن همراه را وارد کنید.'
+        })
+        return
+      }
       this.sendOtpLoading = true
       APIGateway.auth.sendOtpSignUp({ input: this.username })
         .then(() => {
@@ -297,6 +306,13 @@ export default {
     },
 
     register () {
+      if (!this.firstname || !this.lastname || !this.password) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'نام و نام خانوادگی و کلمه عبور را وارد کنید.'
+        })
+        return
+      }
       this.$axios.post(API_ADDRESS.auth.setPass, {
         new_password: this.password,
         firstname: this.firstname,
@@ -321,6 +337,10 @@ export default {
     },
     goToVerifyStep () {
       if (!this.username) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'ایمیل یا شماره تلفن همراه را وارد کنید.'
+        })
         return
       }
       this.loading = true
