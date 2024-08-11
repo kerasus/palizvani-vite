@@ -8,7 +8,7 @@
          class="cart-discount__info">
       <div class="cart-discount__selected-discount">
         <q-input v-model="discountCode"
-                 :disable="basket.discount"
+                 :disable="!!basket.discount"
                  placeholder="کدتخفیف" />
       </div>
       <div class="cart-discount__edit-btn">
