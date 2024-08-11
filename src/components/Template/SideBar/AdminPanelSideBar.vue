@@ -42,7 +42,7 @@ export default {
           icon: 'import_contacts',
           routeName: null,
           show: true,
-          open: true,
+          open: false,
           active: false,
           children: [
             {
@@ -66,7 +66,7 @@ export default {
           icon: 'import_contacts',
           routeName: null,
           show: true,
-          open: true,
+          open: false,
           active: false,
           children: [
             {
@@ -97,7 +97,7 @@ export default {
           icon: 'live_tv',
           routeName: null,
           show: true,
-          open: true,
+          open: false,
           active: false,
           children: [
             {
@@ -136,7 +136,7 @@ export default {
           icon: 'rss_feed',
           routeName: null,
           show: true,
-          open: true,
+          open: false,
           active: false,
           children: [
             {
@@ -169,7 +169,7 @@ export default {
           icon: 'payments',
           routeName: null,
           show: true,
-          open: true,
+          open: false,
           active: false,
           children: [
             {
@@ -215,7 +215,7 @@ export default {
           icon: 'storefront',
           routeName: null,
           show: true,
-          open: true,
+          open: false,
           active: false,
           children: [
             {
