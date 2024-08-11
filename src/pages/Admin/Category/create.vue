@@ -71,7 +71,7 @@ export default {
       showRouteName: 'Admin.Category.Show',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'نام دسته بندی', col: 'col-md-6' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'تایید', col: 'col-md-6' }
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', atClick: this.createCategory, label: 'تایید', col: 'col-md-6' }
       ]
     }
   },
@@ -79,10 +79,7 @@ export default {
     this.mounted = true
   },
   methods: {
-    onInputClick (data) {
-      if (data.input.name !== 'btn') {
-        return
-      }
+    createCategory () {
       this.$refs.classroomEntityCreate.createEntity()
     }
   }
