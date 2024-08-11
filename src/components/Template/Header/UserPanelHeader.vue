@@ -213,9 +213,6 @@ export default {
       width: calc( 100% - 240px );
       display: flex;
       flex-flow: row;
-      @media screen and (max-width: 1023px) {
-        width: 100%;
-      }
       justify-content: space-between;
       .q-btn {
         height: 40px;
@@ -229,7 +226,9 @@ export default {
         align-items: center;
         padding-left: 50px;
         @media screen and (max-width: 1023px) {
-          padding-left: 0;
+          & {
+            padding-left: 0;
+          }
         }
       }
       .left-side {
@@ -238,7 +237,14 @@ export default {
         align-items: center;
         padding-right: 50px;
         @media screen and (max-width: 1023px) {
-          padding-right: 0;
+          & {
+            padding-right: 0;
+          }
+        }
+      }
+      @media screen and (max-width: 1023px) {
+        & {
+          width: 100%;
         }
       }
     }
@@ -261,7 +267,9 @@ export default {
 .top-menu-items {
   border-radius: 10px;
   @media screen and (max-width: 1023px) {
-    margin-left: 0;
+    & {
+      margin-left: 0;
+    }
   }
   @media only screen and (max-width: 500px) {
     .q-btn__content {
@@ -321,10 +329,14 @@ export default {
 .drawer-btn {
   display: none;
   @media screen and (max-width: 1439px) {
-    display: block;
+    & {
+      display: block;
+    }
   }
   @media screen and (max-width: 599px) {
-    margin-bottom: 10px;
+    & {
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -332,13 +344,19 @@ export default {
   display: flex;
   align-items: center;
   @media screen and (max-width: 1439px) {
-    margin-left: 78px;
+    & {
+      margin-left: 78px;
+    }
   }
   @media screen and (max-width: 1023px) {
-    margin-left: 42px;
+    & {
+      margin-left: 42px;
+    }
   }
   @media screen and (max-width: 599px) {
-    margin-left: 0;
+    & {
+      margin-left: 0;
+    }
   }
 
   .breadcrumbs {
@@ -365,8 +383,10 @@ export default {
     //right: 30px;
   }
   @media screen and (max-width: 599px) {
-    right: 16px;
-    margin-bottom: 10px;
+    & {
+      right: 16px;
+      margin-bottom: 10px;
+    }
   }
 }
 </style>
