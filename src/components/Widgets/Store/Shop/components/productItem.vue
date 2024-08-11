@@ -248,5 +248,30 @@ export default {
       flex-flow: column;
     }
   }
+  @media screen and (max-width: 1024px) {
+    & {
+      .product-item__badges {
+        z-index: 2;
+        .product-item__badge {
+          .product-item__badge-title {
+            display: block;
+          }
+        }
+      }
+      :deep(.product-item__thumbnail) {
+        z-index: 1;
+      }
+      .product-item__title {
+        margin-bottom: 44px;
+      }
+      .product-item__price {
+        margin-bottom: 27px;
+      }
+      .product-item__actions {
+        display: flex;
+        flex-flow: column;
+      }
+    }
+  }
 }
 </style>

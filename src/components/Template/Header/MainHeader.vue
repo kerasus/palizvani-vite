@@ -330,23 +330,20 @@ export default {
 .drawer-btn {
   display: none;
   @media screen and (max-width: 1439px) {
-    display: block;
+    & {
+      display: block;
+    }
   }
   @media screen and (max-width: 599px) {
-    margin-bottom: 10px;
+    & {
+      margin-bottom: 10px;
+    }
   }
 }
 
 .right-side {
   display: flex;
   align-items: center;
-  @media screen and (max-width: 1023px) {
-    margin-left: 42px;
-  }
-  @media screen and (max-width: 599px) {
-    margin-left: 0;
-  }
-
   .breadcrumbs {
     &:deep(> *) {
       font-style: normal;
@@ -361,14 +358,27 @@ export default {
       }
     }
   }
+  @media screen and (max-width: 1023px) {
+    & {
+      margin-left: 42px;
+    }
+  }
+  @media screen and (max-width: 599px) {
+    & {
+      margin-left: 0;
+    }
+  }
+
 }
 
 .left-side {
   display: flex;
   justify-content: flex-end;
   @media screen and (max-width: 1439px) {
-    position: absolute;
-    right: 0;
+    & {
+      position: absolute;
+      right: 0;
+    }
   }
   @media screen and (max-width: 1023px) {
     .q-btn {
@@ -380,8 +390,10 @@ export default {
     }
   }
   @media screen and (max-width: 599px) {
-    right: 16px;
-    margin-bottom: 10px;
+    & {
+      right: 16px;
+      margin-bottom: 10px;
+    }
   }
 }
 </style>
@@ -391,14 +403,13 @@ export default {
   height: 120px;
   background-color: #FBF4EA;
   color: #212121;
-  @media only screen and (max-width: 1023px) {
-    height: 70px;
-  }
   //border-bottom: solid 1px #DFE1EC;
   &.isHomePage {
     background: transparent;
     @media only screen and (max-width: 1023px) {
-      background-color: #FBF4EA;
+      & {
+        background-color: #FBF4EA;
+      }
     }
   }
   .admin-top-menu {
@@ -449,15 +460,6 @@ export default {
     margin-left: 100px;
     margin-bottom: 22px;
 
-    @media only screen and (max-width: 1500px) {
-      margin-right: 10px;
-      margin-left: 10px;
-    }
-    @media only screen and (max-width: 1023px) {
-      padding-top: 0;
-      margin-bottom: 0;
-    }
-
     display: flex;
     flex-flow: row;
     justify-content: space-between;
@@ -496,10 +498,14 @@ export default {
       align-items: center;
       padding-right: 50px;
       @media only screen and (max-width: 1023px) {
-        height: 100%;
+        & {
+          height: 100%;
+        }
       }
       @media only screen and (max-width: 599px) {
-        padding-right: 0;
+        & {
+          padding-right: 0;
+        }
       }
     }
 
@@ -509,6 +515,24 @@ export default {
           color: white;
         }
       }
+    }
+
+    @media only screen and (max-width: 1500px) {
+      & {
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+    }
+    @media only screen and (max-width: 1023px) {
+      & {
+        padding-top: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+  @media only screen and (max-width: 1023px) {
+    & {
+      height: 70px;
     }
   }
 }

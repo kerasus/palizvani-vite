@@ -243,7 +243,9 @@ export default {
     .shop-widget__sidebar {
       width: $sidebar-width;
       @media screen and (max-width: 1024px) {
-        width: 100%;
+        & {
+          width: 100%;
+        }
       }
     }
     .shop-widget__main {
@@ -323,10 +325,14 @@ export default {
                 padding: 18px;
                 flex: 0 0 auto;
                 @media screen and (max-width: 900px) {
-                  width: 50%;
+                  & {
+                    width: 50%;
+                  }
                 }
                 @media screen and (max-width: 500px) {
-                  width: 100%;
+                  & {
+                    width: 100%;
+                  }
                 }
               }
             }
@@ -334,7 +340,9 @@ export default {
         }
       }
       @media screen and (max-width: 1024px) {
-        width: 100%;
+        & {
+          width: 100%;
+        }
       }
     }
   }
