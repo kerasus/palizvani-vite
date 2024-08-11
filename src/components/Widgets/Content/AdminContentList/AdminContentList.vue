@@ -4,9 +4,9 @@
     <div class="title">
       نوشته ها
       <div class="back-action">
-        <q-btn :to="{name: 'AdminPanel.Post.Create'}"
+        <q-btn :to="{name: 'Admin.Content.Create'}"
                color="primary">
-          نوشتن مقاله جدید
+          ایجاد محتوای جدید
         </q-btn>
       </div>
     </div>
