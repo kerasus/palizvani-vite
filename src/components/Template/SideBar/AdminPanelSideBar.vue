@@ -84,31 +84,6 @@ export default {
           ]
         },
         {
-          title: 'حلقه های مباحثاتی',
-          roles: ['superuser', 'educational_department_head'],
-          icon: 'diversity_2',
-          routeName: null,
-          show: true,
-          open: true,
-          active: false,
-          children: [
-            {
-              title: 'درس ها و چارت آموزشی',
-              roles: ['superuser', 'educational_department_head'],
-              routeName: 'Admin.Category.DiscussionCircles.Index',
-              show: true,
-              active: false
-            },
-            {
-              title: 'حلقه های مباحثاتی',
-              roles: ['superuser', 'educational_department_head'],
-              routeName: 'Admin.Classroom.DiscussionCircles.Index',
-              show: true,
-              active: false
-            }
-          ]
-        },
-        {
           title: 'درخواست های آموزش',
           roles: ['superuser', 'educational_department_head'],
           routeName: 'Admin.Ticket.List.Educational',
