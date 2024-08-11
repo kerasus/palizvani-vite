@@ -234,15 +234,20 @@ export default {
 <style scoped lang="scss">
 .shop-widget {
   .shop-widget__content {
+    $gap: 24px;
     display: flex;
-    gap: 24px;
+    gap: $gap;
+    flex-wrap: wrap;
     justify-content: flex-start;
     $sidebar-width: 312px;
     .shop-widget__sidebar {
       width: $sidebar-width;
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+      }
     }
     .shop-widget__main {
-      width: calc( 100% - #{$sidebar-width} );
+      width: calc( 100% - #{$sidebar-width} - #{$gap} );
       .shop-widget__main-top-filter {
         .shop-widget__main-top-filter-tools {
           display: flex;
@@ -312,15 +317,24 @@ export default {
           .quasar-crud-index-table {
             padding: 0;
             .q-table__grid-content {
-              margin: -18px;
+              //margin: -18px;
               .shop-widget__result-product-item {
                 width: 33%;
                 padding: 18px;
                 flex: 0 0 auto;
+                @media screen and (max-width: 900px) {
+                  width: 50%;
+                }
+                @media screen and (max-width: 500px) {
+                  width: 100%;
+                }
               }
             }
           }
         }
+      }
+      @media screen and (max-width: 1024px) {
+        width: 100%;
       }
     }
   }

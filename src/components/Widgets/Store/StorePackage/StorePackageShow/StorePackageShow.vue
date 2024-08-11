@@ -171,8 +171,10 @@ export default {
 .package-show {
   $price-section-with: 312px;
   .package-show__summery {
+    $gap: 24px;
     display: flex;
-    gap: 24px;
+    flex-wrap: wrap;
+    gap: $gap;
     align-items: stretch;
     justify-content: flex-start;
     margin-bottom: 24px;
@@ -181,13 +183,19 @@ export default {
       background: #F6F6F6;
       border: 1px solid #DFE1EC;
       padding: 24px;
-      width: calc( 100% - #{$price-section-with} );
+      width: calc( 100% - #{$price-section-with} - #{$gap} );
       display: flex;
+      flex-wrap: wrap;
       gap: 74px;
       align-items: flex-start;
       justify-content: flex-start;
       .package-show__thumbnail {
         width: 239px;
+        @media screen and (max-width: 600px) {
+          & {
+            width: 100%;
+          }
+        }
       }
       .package-show__meta {
         .package-show__title {
@@ -225,6 +233,22 @@ export default {
             }
           }
         }
+        @media screen and (max-width: 600px) {
+          & {
+            width: 100%;
+          }
+        }
+      }
+      @media screen and (max-width: 900px) {
+        & {
+          width: 100%;
+        }
+      }
+      @media screen and (max-width: 600px) {
+        & {
+          gap: 16px;
+          padding-bottom: 0;
+        }
       }
     }
     .package-show__summery-price {
@@ -258,6 +282,13 @@ export default {
       .package-show__summery-price-action {
         width: 100%;
         background: white !important;
+      }
+      @media screen and (max-width: 900px) {
+        & {
+          padding-top: 8px;
+          padding-bottom: 8px;
+          width: 100%;
+        }
       }
     }
   }

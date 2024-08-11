@@ -60,13 +60,20 @@ export default {
 .product-item {
   padding: 24px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   .product-item__meta {
     display: flex;
     gap: 32px;
+    flex-wrap: wrap;
     justify-content: flex-start;
     .product-item__meta-thumbnail {
       width: 123px;
+      @media screen and (max-width: 500px) {
+        & {
+          width: 100%;
+        }
+      }
     }
     .product-item__meta-info {
       .product-item__product-title {
@@ -98,6 +105,16 @@ export default {
           }
         }
       }
+      @media screen and (max-width: 500px) {
+        & {
+          width: 100%;
+        }
+      }
+    }
+    @media screen and (max-width: 1024px) {
+      & {
+        width: 100%;
+      }
     }
   }
   .product-item__price {
@@ -119,14 +136,34 @@ export default {
         font-size: 16px;
         color: #616161;
         margin-right: 25px;
+        @media screen and (max-width: 500px) {
+          & {
+            font-size: 14px;
+          }
+        }
       }
       .product-item__price-info-value {
         font-size: 24px;
         color: #475F4A;
+        @media screen and (max-width: 500px) {
+          & {
+            font-size: 20px;
+          }
+        }
       }
     }
     .product-item__price-action {
       width: 252px;
+    }
+    @media screen and (max-width: 1024px) {
+      & {
+        width: 100%;
+      }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    & {
+      width: 100%;
     }
   }
 }
