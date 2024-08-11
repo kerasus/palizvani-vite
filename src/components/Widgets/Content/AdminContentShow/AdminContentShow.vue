@@ -55,7 +55,7 @@ export default {
     return {
       mounted: false,
       entityLoading: true,
-      api: APIGateway.post.APIAdresses.byId(postId),
+      api: APIGateway.content.APIAdresses.byId(postId),
       entityIdKey: 'id',
       entityParamKey: 'id',
       showRouteName: 'AdminPanel.Post.Show',

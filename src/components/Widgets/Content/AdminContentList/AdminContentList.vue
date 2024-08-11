@@ -57,7 +57,7 @@ export default {
   mixins: [mixinWidget],
   data: () => {
     return {
-      api: APIGateway.post.APIAdresses.base,
+      api: APIGateway.content.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
