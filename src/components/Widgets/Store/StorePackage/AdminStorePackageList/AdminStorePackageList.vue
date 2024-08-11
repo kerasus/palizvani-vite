@@ -87,7 +87,7 @@ export default {
   mixins: [mixinWidget],
   data () {
     return {
-      tab: 'packages',
+      tab: 'products',
       api: APIGateway.package.APIAdresses.base,
       tableKeys: {
         data: 'results',
@@ -128,11 +128,11 @@ export default {
             field: row => (new Package(row)).is_physical_info.label
           },
           {
-            name: 'category_info',
+            name: 'store_category',
             required: true,
-            label: 'بخش',
+            label: 'دسته فروشگاه',
             align: 'left',
-            field: row => row.content_category
+            field: row => row.store_category_info?.parent?.parent?.title + '، ' + row.store_category_info?.parent?.title + '، ' + row.store_category_info?.title
           },
           {
             name: 'category_info',
@@ -140,13 +140,6 @@ export default {
             label: 'قیمت',
             align: 'left',
             field: row => parseInt(row.unit_price.toString()).toLocaleString('fa')
-          },
-          {
-            name: 'category_info',
-            required: true,
-            label: 'نمایش',
-            align: 'left',
-            field: '-'
           },
           {
             name: 'action',

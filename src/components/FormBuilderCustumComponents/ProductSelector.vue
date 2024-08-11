@@ -84,7 +84,7 @@ export default {
           {
             name: 'content_category',
             required: true,
-            label: 'دسته',
+            label: 'دسته فروشگاه',
             align: 'left',
             field: row => row.store_category_info?.parent?.parent?.title + '، ' + row.store_category_info?.parent?.title + '، ' + row.store_category_info?.title
           },
