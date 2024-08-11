@@ -205,26 +205,13 @@ export default {
       width: 100%;
     }
   }
-
   .side-menu-body {
     display: grid;
     grid-template-rows: auto;
     .q-list {
       padding: 0;
       &.side-menu-list {
-        .search-input {
-          margin-bottom: 30px;
-        }
         margin: 0 24px 109px 24px;
-        @media screen and (max-width: 1919px) {
-          margin: 0 24px 34px 24px;
-        }
-        @media screen and (max-width: 1439px) {
-          margin: 0 21px 26px 21px;
-        }
-        @media screen and (max-width: 599px) {
-          margin: 0 18px 8px 18px;
-        }
 
         .top-separator {
           margin: 0 40px 32px 40px;
@@ -240,6 +227,24 @@ export default {
           padding: 0;
           min-height: 0;
         }
+        .search-input {
+          margin-bottom: 30px;
+        }
+        @media screen and (max-width: 1919px) {
+           & {
+             margin: 0 24px 34px 24px;
+           }
+        }
+        @media screen and (max-width: 1439px) {
+          & {
+            margin: 0 21px 26px 21px;
+          }
+        }
+        @media screen and (max-width: 599px) {
+          & {
+            margin: 0 18px 8px 18px;
+          }
+        }
       }
     }
     .log-out {
@@ -254,13 +259,6 @@ export default {
       align-items: center;
       padding: 0 14px 0 10px;
       margin: 0 0 36px 27px;
-      @media screen and (max-width: 1439px) {
-        margin: 0 31px 33px 31px;
-      }
-      @media screen and (max-width: 599px) {
-        margin: 0 30px 30px 30px;
-        //padding: 0 0 0 10px;
-      }
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
@@ -269,6 +267,17 @@ export default {
         width: 22px;
         margin-right: 12px;
         transform: matrix(-1, 0, 0, 1, 0, 0);
+      }
+      @media screen and (max-width: 1439px) {
+        & {
+          margin: 0 31px 33px 31px;
+        }
+      }
+      @media screen and (max-width: 599px) {
+        & {
+          margin: 0 30px 30px 30px;
+          //padding: 0 0 0 10px;
+        }
       }
     }
   }
@@ -283,13 +292,6 @@ export default {
     align-items: center;
     padding: 0 14px 0 10px;
     margin: 0 0 36px 27px;
-    @media screen and (max-width: 1439px) {
-      margin: 0 31px 33px 31px;
-    }
-    @media screen and (max-width: 599px) {
-      margin: 0 30px 30px 30px;
-      //padding: 0 0 0 10px;
-    }
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -298,6 +300,17 @@ export default {
       width: 22px;
       margin-right: 12px;
       transform: matrix(-1, 0, 0, 1, 0, 0);
+    }
+    @media screen and (max-width: 1439px) {
+      & {
+        margin: 0 31px 33px 31px;
+      }
+    }
+    @media screen and (max-width: 599px) {
+      & {
+        margin: 0 30px 30px 30px;
+        //padding: 0 0 0 10px;
+      }
     }
   }
   &:deep(.side-menu-main-layout) {
