@@ -97,11 +97,11 @@ export default {
             field: row => (new Product(row)).is_physical_info.label
           },
           {
-            name: 'content_category',
+            name: 'store_category',
             required: true,
-            label: 'بخش',
+            label: 'دسته فروشگاه',
             align: 'left',
-            field: row => row.content_category
+            field: row => row.store_category_info?.parent?.parent?.title + '، ' + row.store_category_info?.parent?.title + '، ' + row.store_category_info?.title
           },
           {
             name: 'unit_price',
@@ -109,13 +109,6 @@ export default {
             label: 'قیمت',
             align: 'left',
             field: row => parseInt(row.unit_price.toString()).toLocaleString('fa')
-          },
-          {
-            name: 'is_visible',
-            required: true,
-            label: 'نمایش',
-            align: 'left',
-            field: '-'
           },
           {
             name: 'action',
