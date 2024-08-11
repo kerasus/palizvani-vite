@@ -92,6 +92,11 @@ export default {
         font-size: 18px;
       }
     }
+    @media screen and (max-width: 800px) {
+      & {
+        flex-flow: column;
+      }
+    }
   }
 }
 </style>

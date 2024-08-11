@@ -77,6 +77,11 @@ export default {
       height: 94px;
       background: #F5F5F5;
       border-radius: 8px;
+      @media screen and (max-width: 800px) {
+        & {
+          height: max-content;
+        }
+      }
     }
     .q-stepper__content {
       .q-panel {

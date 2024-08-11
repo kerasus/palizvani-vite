@@ -133,18 +133,30 @@ export default {
 
 <style scoped lang="scss">
 .step2 {
+  $gap: 28px;
   display: flex;
+  flex-wrap: wrap;
   flex-flow: row;
-  gap: 28px;
+  gap: $gap;
   $sidebar-width: 312px;
   .step2__cart-info {
-    width: calc( 100% - #{$sidebar-width} );
+    width: calc( 100% - #{$sidebar-width} - #{$gap} );
     display: flex;
     flex-flow: column;
     gap: 24px;
+    @media screen and (max-width: 800px) {
+      & {
+        width: 100%;
+      }
+    }
   }
   .step2__sidebar {
     width: $sidebar-width;
+    @media screen and (max-width: 800px) {
+      & {
+        width: 100%;
+      }
+    }
   }
 }
 

@@ -115,18 +115,30 @@ export default {
 
 <style scoped lang="scss">
 .step1 {
+  $gap: 28px;
   display: flex;
   flex-flow: row;
-  gap: 28px;
+  flex-wrap: wrap;
+  gap: $gap;
   $sidebar-width: 312px;
   .step1__cart-items {
-    width: calc( 100% - #{$sidebar-width} );
+    width: calc( 100% - #{$sidebar-width} - #{28px} );
     display: flex;
     flex-flow: column;
     gap: 24px;
+    @media screen and (max-width: 1024px) {
+      & {
+        width: 100%;
+      }
+    }
   }
   .step1__sidebar {
     width: $sidebar-width;
+    @media screen and (max-width: 1024px) {
+      & {
+        width: 100%;
+      }
+    }
   }
 }
 </style>

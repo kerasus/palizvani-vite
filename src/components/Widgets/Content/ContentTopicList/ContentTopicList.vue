@@ -176,17 +176,29 @@ export default {
     margin-bottom: 24px;
   }
   .ContentTopicList__main {
+    $gap: 24px;
     display: flex;
-    gap: 24px;
+    gap: $gap;
+    flex-wrap: wrap;
     justify-content: flex-start;
     $sidebar-width: 312px;
     .ContentTopicList__sidebar {
       width: $sidebar-width;
+      @media screen and (max-width: 800px) {
+        & {
+          width: 100%;
+        }
+      }
     }
     .ContentTopicList__result {
-      width: calc( 100% - #{$sidebar-width} );
+      width: calc( 100% - #{$sidebar-width} - #{$gap} );
       .topic-item {
         width: 100%;
+      }
+      @media screen and (max-width: 800px) {
+        & {
+          width: 100%;
+        }
       }
     }
   }

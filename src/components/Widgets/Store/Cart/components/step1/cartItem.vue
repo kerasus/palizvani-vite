@@ -135,7 +135,9 @@ export default {
   padding: 24px 22px 24px 67px;
   display: flex;
   flex-flow: row;
-  gap: 30px;
+  flex-wrap: wrap;
+  $gap: 30px;
+  gap: $gap;
   min-height: 203px;
   .cart-item__use-type {
     $cart-item__use-type-width: 37px;
@@ -171,9 +173,14 @@ export default {
   }
   .cart-item__thumbnail {
     width: $cart-item__thumbnail-width;
+    @media screen and (max-width: 500px) {
+      & {
+        width: 100%;
+      }
+    }
   }
   .cart-item__info {
-    width: calc( 100% - #{$cart-item__thumbnail-width} );
+    width: calc( 100% - #{$cart-item__thumbnail-width} - #{$gap} );
     color: #212121;
     .cart-item__title {
       font-size: 22px;
@@ -229,6 +236,14 @@ export default {
       right: 20px;
       top: 65px;
       width: 120px;
+      @media screen and (max-width: 500px) {
+        & {
+          position: relative;
+          top: 0;
+          right: 0;
+          width: 100%;
+        }
+      }
     }
     .cart-item__price {
       position: absolute;
@@ -248,6 +263,15 @@ export default {
         color: $primary;
         font-size: 24px;
       }
+      @media screen and (max-width: 500px) {
+        & {
+          position: relative;
+          top: 0;
+          right: 0;
+          width: 100%;
+          margin-bottom: 8px;
+        }
+      }
     }
     .cart-item__products {
       display: flex;
@@ -265,6 +289,11 @@ export default {
           border-radius: 100%;
           margin-right: 4px;
         }
+      }
+    }
+    @media screen and (max-width: 800px) {
+      & {
+        width: 100%;
       }
     }
   }

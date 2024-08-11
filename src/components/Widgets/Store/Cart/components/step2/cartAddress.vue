@@ -135,6 +135,11 @@ export default {
     .cart-address__edit-btn {
 
     }
+    @media screen and (max-width: 800px) {
+      & {
+        flex-flow: column;
+      }
+    }
   }
   :global(.cart-address__dialog-cart) {
     width: 700px;
