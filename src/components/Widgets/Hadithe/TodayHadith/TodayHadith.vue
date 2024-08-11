@@ -60,8 +60,7 @@ export default {
       this.hadithes.loading = true
       // return APIGateway.event.index()
       return APIGateway.hadith.index({
-        status: 'TODAY',
-        per_page: 9999
+        status: 'TODAY'
       })
     }
   }

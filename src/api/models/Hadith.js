@@ -30,7 +30,8 @@ export default class HadithAPI extends APIRepository {
       data: this.getNormalizedSendData({
         status: null, // String
         per_page: 10, // Number
-        page: 1 // Number
+        page: 1, // Number
+        ordering: '-publish_date'
       }, data),
       resolveCallback: (response) => {
         const paginate = response.data
