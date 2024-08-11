@@ -46,6 +46,7 @@ import Assist from 'src/assets/js/Assist.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -65,6 +66,7 @@ export default {
       },
       inputs: [
         { type: 'select', name: 'status', label: 'فیلتر', placeholder: ' ', options: [{ label: 'احادیث پیش رو', value: 'ONGOING' }, { label: 'آرشیو احادیث', value: 'PASSED' }], col: 'col-md-3 col-12' },
+        { type: 'hidden', name: 'ordering', value: null },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-3 col-12' }
       ],
       table: {
@@ -129,6 +131,14 @@ export default {
   },
   methods: {
     search () {
+      const status = FormBuilderAssist.getInputsByName(this.inputs, 'status')?.value
+      if (status) {
+        const prefix = status === 'ONGOING' ? '' : '-'
+        FormBuilderAssist.setAttributeByName(this.inputs, 'ordering', 'value', prefix + 'publish_date')
+      } else {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'ordering', 'value', null)
+      }
+
       this.$refs.entityIndex.search()
     }
   }
