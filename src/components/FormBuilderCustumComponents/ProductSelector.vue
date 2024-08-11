@@ -105,7 +105,17 @@ export default {
         ]
       },
       itemIdentifyKey: 'id',
-      itemIndicatorKey: (product) => product.title + '(' + product.id + ')'
+      itemIndicatorKey: (product) => product ? product.title + '(' + product.id + ')' : '-'
+    }
+  },
+  watch: {
+    value: {
+      handler (newValue) {
+        if (newValue) {
+          this.selected = newValue
+        }
+      },
+      immediate: true
     }
   },
   methods: {
