@@ -61,6 +61,13 @@ export default {
           show: true
         },
         {
+          title: 'Shop',
+          route: { name: 'Public.Shop' },
+          type: 'itemMenu',
+          permission: 'all',
+          show: true
+        },
+        {
           title: 'فروشگاه',
           type: 'simpleMenu',
           children: [
