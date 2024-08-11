@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="carousel-section">
-      <carousel v-if="!classrooms.loading && classrooms.list.length > 0"
+      <carousel v-if="false && !classrooms.loading && classrooms.list.length > 0"
                 :breakpoints="breakpoints"
                 dir="rtl">
         <slide v-for="classroom in classrooms.list"

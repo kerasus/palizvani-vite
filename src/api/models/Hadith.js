@@ -28,7 +28,7 @@ export default class HadithAPI extends APIRepository {
       api: this.api,
       request: this.APIAdresses.base,
       data: this.getNormalizedSendData({
-        category: null, // Number
+        status: null, // String
         per_page: 10, // Number
         page: 1 // Number
       }, data),

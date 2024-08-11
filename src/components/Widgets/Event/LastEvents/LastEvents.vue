@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="carousel-section">
-      <carousel v-if="!events.loading && events.list.length > 0"
+      <carousel v-if="false && !events.loading && events.list.length > 0"
                 :breakpoints="breakpoints"
                 dir="rtl">
         <slide v-for="event in events.list"
