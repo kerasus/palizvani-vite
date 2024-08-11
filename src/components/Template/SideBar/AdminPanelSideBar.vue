@@ -245,14 +245,14 @@ export default {
               routeName: 'Admin.Store.Discount.List',
               show: true,
               active: false
-            },
-            {
-              title: 'تنظیمات',
-              roles: ['superuser'],
-              routeName: 'Admin.Store.Package.List',
-              show: true,
-              active: false
             }
+            // {
+            //   title: 'تنظیمات',
+            //   roles: ['superuser'],
+            //   routeName: 'Admin.Store.Package.List',
+            //   show: true,
+            //   active: false
+            // }
           ]
         },
         {
