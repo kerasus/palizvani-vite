@@ -112,7 +112,7 @@ export default {
   data () {
     return {
       mounted: false,
-      searchTab: 'package', // product - package
+      searchTab: 'product', // product - package
       topFilters: {
         search: null,
         sort: 'BEST_SELLING'
