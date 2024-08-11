@@ -1,46 +1,27 @@
 <template>
-  <div class="AdminPostCreate"
+  <div class="AdminContentCreate"
        :style="localOptions.style">
-    <div class="title">
-      نوشته جدید
-      <div class="back-action">
-        <q-btn flat
-               :to="{name: 'AdminPanel.Post.List'}"
-               color="grey">
-          بازگشت
-          >
-        </q-btn>
-      </div>
+    <div class="flex justify-end">
+      <q-btn flat
+             color="grey"
+             @click="$router.go(-1)">
+        بازگشت
+        >
+      </q-btn>
     </div>
-    <q-card class="form"
-            flat>
-      <entity-create v-if="mounted"
-                     ref="entityCreate"
-                     v-model:value="inputs"
-                     title=""
-                     :api="api"
-                     :entity-id-key="entityIdKey"
-                     :entity-param-key="entityParamKey"
-                     :show-route-name="showRouteName"
-                     :default-layout="false"
-                     :show-close-button="false"
-                     :show-edit-button="false"
-                     :show-expand-button="false"
-                     :show-save-button="false"
-                     :show-reload-button="false" />
-      <div class="action">
-        <div class="row q-mt-lg justify-end">
-          <div class="col-md-4 col-12">
-            <q-btn color="primary"
-                   class="full-width"
-                   :loading="entityLoading"
-                   @click="create">
-              انتشار
-            </q-btn>
-          </div>
-        </div>
-      </div>
-    </q-card>
+    <entity-create v-if="mounted"
+                   ref="entityCreate"
+                   v-model:value="inputs"
+                   title="ایجاد محتوا"
+                   :api="api"
+                   :entity-id-key="entityIdKey"
+                   :entity-param-key="entityParamKey"
+                   :show-route-name="showRouteName"
+                   :show-close-button="false"
+                   :show-edit-button="false"
+                   :show-expand-button="false"
+                   :show-save-button="false"
+                   :show-reload-button="false" />
   </div>
 </template>
 
@@ -49,91 +30,51 @@ import { shallowRef } from 'vue'
 import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import PostMixin from 'src/components/Widgets/Post/PostMixin.js'
-import PostCategorySelector from 'src/components/FormBuilderCustumComponents/PostCategorySelector.vue'
-import FormBuilderTiptapEditor from 'src/components/FormBuilderCustumComponents/FormBuilderTiptapEditor.vue'
-// import { FormBuilderAssist } from 'quasar-form-builder'
+import BtnControl from 'src/components/Control/btn.vue'
+import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
+import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
 
-const PostCategorySelectorComp = shallowRef(PostCategorySelector)
-const FormBuilderTiptapEditorComp = shallowRef(FormBuilderTiptapEditor)
+const BtnControlComp = shallowRef(BtnControl)
+const ContentMediasComp = shallowRef(ContentMedias)
+const ContentCategorySelectorComp = shallowRef(ContentCategorySelector)
 
 export default {
-  name: 'AdminPostCreate',
+  name: 'AdminContentCreate',
   components: { EntityCreate },
-  mixins: [mixinWidget, PostMixin],
-  data () {
-    const authorization = 'Bearer ' + this.$store.getters['Auth/accessToken']
-    const uploadVideo = this.uploadVideo
-    const uploadAudio = this.uploadAudio
+  mixins: [mixinWidget],
+  data: () => {
     return {
       mounted: false,
       entityLoading: false,
       api: APIGateway.content.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'AdminPanel.Post.Show',
+      showRouteName: 'Admin.Content.Show',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
-        { type: 'input', name: 'order', responseKey: 'order', label: 'ترتیب', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: PostCategorySelectorComp, name: 'category', responseKey: 'category', col: 'col-12' },
-        {
-          // type: 'tiptap-editor',
-          type: FormBuilderTiptapEditorComp,
-          name: 'summary',
-          responseKey: 'summary',
-          label: 'خلاصه',
-          options: {
-            bubbleMenu: false,
-            floatingMenu: false,
-            poem: false,
-            reading: false,
-            loadBareHtml: true,
-            persianKeyboard: true,
-            mathliveOptions: { smartFence: false },
-            uploadServer: {
-              url: '/api' + APIGateway.media.APIAdresses.base,
-              instantUpload: true,
-              responseKey: 'file',
-              headers: { Authorization: authorization }
-            },
-            uploadVideo,
-            uploadAudio
-          },
-          col: 'col-md-12 col-12'
-        },
-        {
-          // type: 'tiptap-editor',
-          type: FormBuilderTiptapEditorComp,
-          name: 'text',
-          responseKey: 'text',
-          label: 'متن',
-          options: {
-            bubbleMenu: false,
-            floatingMenu: false,
-            poem: false,
-            reading: false,
-            loadBareHtml: true,
-            persianKeyboard: true,
-            mathliveOptions: { smartFence: false },
-            uploadServer: {
-              url: '/api' + APIGateway.media.APIAdresses.base,
-              instantUpload: true,
-              responseKey: 'file',
-              headers: { Authorization: authorization }
-            },
-            uploadVideo,
-            uploadAudio
-          },
-          col: 'col-md-12 col-12'
-        }
+        { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category', col: 'col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
+        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ایجاد محتوا', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }
       ]
     }
   },
-  mounted () {
+  mounted() {
+    this.setActionBtn()
     this.mounted = true
   },
   methods: {
+    setActionBtn () {
+      this.inputs.forEach((item, index) => {
+        if (item.name === 'btn') {
+          this.inputs[index].atClick = this.onSubmit
+        }
+      })
+    },
+    onSubmit () {
+      this.create()
+    },
     create() {
       this.entityLoading = true
       this.$refs.entityCreate.createEntity()
@@ -149,7 +90,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminPostCreate {
+.AdminContentCreate {
   .title {
     font-style: normal;
     font-weight: 700;

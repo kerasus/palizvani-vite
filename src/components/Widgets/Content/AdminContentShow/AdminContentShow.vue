@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminPostShow"
+  <div class="AdminContentShow"
        :style="localOptions.style">
     <div class="flex justify-end">
       <q-btn flat
@@ -9,21 +9,44 @@
         >
       </q-btn>
     </div>
-    <entity-edit v-if="mounted"
-                 ref="entityEdit"
-                 v-model:value="inputs"
-                 title="اطلاعات محتوا"
-                 :api="api"
-                 :entity-id-key="entityIdKey"
-                 :entity-param-key="entityParamKey"
-                 :show-route-name="showRouteName"
-                 :show-close-button="false"
-                 :show-edit-button="false"
-                 :show-expand-button="false"
-                 :show-save-button="false"
-                 :show-reload-button="false"
-                 :redirect-after-edit="false"
-                 :after-load-input-data="afterLoadInputData" />
+    <q-card flat>
+      <q-tabs v-model="tab"
+              align="left">
+        <q-tab name="content"
+               label="جزییات محتوا" />
+        <q-tab name="contentTag"
+               label="فیش برداری" />
+      </q-tabs>
+    </q-card>
+    <q-tab-panels v-if="mounted"
+                  v-model="tab">
+      <q-tab-panel name="content"
+                   class="q-pa-none">
+        <entity-edit ref="entityEdit"
+                     v-model:value="inputs"
+                     title="اطلاعات محتوا"
+                     :api="api"
+                     :entity-id-key="entityIdKey"
+                     :entity-param-key="entityParamKey"
+                     :show-route-name="showRouteName"
+                     :show-close-button="false"
+                     :show-edit-button="false"
+                     :show-expand-button="false"
+                     :show-save-button="false"
+                     :show-reload-button="false"
+                     :redirect-after-edit="false"
+                     :after-load-input-data="afterLoadInputData" />
+      </q-tab-panel>
+      <q-tab-panel name="contentTag"
+                   class="q-pa-none">
+        <admin-content-topic-create :content="contentId"
+                                    :redirect="false"
+                                    @created="onTopicCreated" />
+        <q-separator class="q-my-md" />
+        <admin-content-topic-list :key="topicListKey"
+                                  :content-id="contentId" />
+      </q-tab-panel>
+    </q-tab-panels>
   </div>
 </template>
 
@@ -33,103 +56,53 @@ import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
-import PostMixin from 'src/components/Widgets/Post/PostMixin.js'
-import PostCategorySelector from 'src/components/FormBuilderCustumComponents/PostCategorySelector.vue'
-import FormBuilderTiptapEditor from 'src/components/FormBuilderCustumComponents/FormBuilderTiptapEditor.vue'
+import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
+import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
+import AdminContentTopicList from 'src/components/Widgets/Content/AdminContentTopicList/AdminContentTopicList.vue'
+import AdminContentTopicCreate from 'src/components/Widgets/Content/AdminContentTopicCreate/AdminContentTopicCreate.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
-const PostCategorySelectorComp = shallowRef(PostCategorySelector)
-const FormBuilderTiptapEditorComp = shallowRef(FormBuilderTiptapEditor)
+const ContentMediasComp = shallowRef(ContentMedias)
+const ContentCategorySelectorComp = shallowRef(ContentCategorySelector)
 
 export default {
-  name: 'AdminPostShow',
+  name: 'AdminContentShow',
   components: {
-    EntityEdit
+    EntityEdit,
+    AdminContentTopicList,
+    AdminContentTopicCreate
   },
-  mixins: [mixinWidget, PostMixin],
+  mixins: [mixinWidget],
   data () {
-    const postId = this.$route.params.id
-    const uploadVideo = this.uploadVideo
-    const uploadPhoto = this.uploadPhoto
-    const uploadAudio = this.uploadAudio
     return {
       mounted: false,
       entityLoading: true,
-      api: APIGateway.content.APIAdresses.byId(postId),
+      topicListKey: Date.now(),
+      api: APIGateway.content.APIAdresses.byId(this.$route.params.id),
+      tab: 'content',
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'AdminPanel.Post.Show',
-      indexRouteName: 'AdminPanel.Post.List',
+      showRouteName: 'Admin.Content.Show',
+      indexRouteName: 'Admin.Content.List',
       inputs: [
-        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
-        { type: 'input', name: 'order', responseKey: 'order', label: 'ترتیب', placeholder: ' ', col: 'col-md-6 col-12' },
+        { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: PostCategorySelectorComp, name: 'category', responseKey: 'category_info', col: 'col-md-12 col-12' },
-        {
-          // type: 'tiptap-editor',
-          type: FormBuilderTiptapEditorComp,
-          name: 'summary',
-          responseKey: 'summary',
-          label: 'خلاصه',
-          options: {
-            loadBareHtml: true,
-            persianKeyboard: true,
-            uploadPhoto,
-            uploadVideo,
-            uploadAudio
-          },
-          col: 'col-md-12 col-12'
-        },
-        {
-          // type: 'tiptap-editor',
-          type: FormBuilderTiptapEditorComp,
-          name: 'text',
-          responseKey: 'text',
-          label: 'متن',
-          options: {
-            loadBareHtml: true,
-            persianKeyboard: true,
-            uploadPhoto,
-            uploadVideo,
-            uploadAudio
-          },
-          col: 'col-md-12 col-12'
-        },
-        {
-          type: BtnControlComp,
-          name: 'btn',
-          responseKey: 'btn',
-          label: 'ویرایش پست',
-          placeholder: ' ',
-          ignoreValue: true,
-          atClick: () => {
-            this.edit()
-          },
-          col: 'col-md-6'
-        },
-        {
-          type: BtnControlComp,
-          name: 'btnShowPost',
-          responseKey: 'btn',
-          label: 'مشاهده پست',
-          placeholder: ' ',
-          ignoreValue: true,
-          atClick: () => {
-            this.showPost()
-          },
-          col: 'col-md-6'
-        }
+        { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category_info', col: 'col-md-12 col-12' },
+        { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12 col-12' },
+        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-md-12 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ویرایش محتوا', placeholder: ' ', ignoreValue: true, atClick: this.edit, col: 'col-md-6' }
       ]
+    }
+  },
+  computed: {
+    contentId () {
+      return parseInt(this.$route.params.id)
     }
   },
   mounted() {
     this.mounted = true
   },
   methods: {
-    showPost () {
-      const routeData = this.$router.resolve({ name: 'Public.Post.Show', params: { id: this.$route.params.id } })
-      window.open(routeData.href, '_blank')
-    },
     afterLoadInputData () {
       this.entityLoading = false
     },
@@ -144,13 +117,22 @@ export default {
           this.$refs.entityEdit.getData()
           this.entityLoading = false
         })
+    },
+    onTopicCreated () {
+      this.topicListKey = Date.now()
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.AdminPostShow {
+.AdminContentShow {
+  .more-action {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
   .title {
     font-style: normal;
     font-weight: 700;

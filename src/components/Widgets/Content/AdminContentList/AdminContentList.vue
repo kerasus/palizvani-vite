@@ -1,48 +1,40 @@
 <template>
-  <div class="AdminPostList"
+  <div class="AdminContentList"
        :style="localOptions.style">
-    <div class="title">
-      نوشته ها
-      <div class="back-action">
-        <q-btn :to="{name: 'Admin.Content.Create'}"
-               color="primary">
-          ایجاد محتوای جدید
-        </q-btn>
-      </div>
+    <div class="more-action">
+      <q-btn label="محتوای جدید"
+             color="primary"
+             :to="{name: 'Admin.Content.Create'}" />
     </div>
-    <q-card class="list"
-            flat>
-      <entity-index v-if="mounted"
-                    v-model:value="inputs"
-                    title=""
-                    :api="api"
-                    :table="table"
-                    :table-keys="tableKeys"
-                    :create-route-name="createRouteName"
-                    :default-layout="false"
-                    :show-search-button="false"
-                    :show-expand-button="false"
-                    :show-reload-button="false">
-        <template #entity-index-table-cell="{inputData}">
-          <template v-if="inputData.col.name === 'number'">
-            {{ inputData.rowNumber }}
-          </template>
-          <template v-else-if="inputData.col.name === 'thumbnail'">
-            <q-img :src="inputData.col.value"
-                   width="100px" />
-          </template>
-          <template v-else-if="inputData.col.name === 'action'">
-            <q-btn color="primary"
-                   :to="{name: 'AdminPanel.Post.Show', params: {id: inputData.props.row.id}}">
-              مشاهده جزییات
-            </q-btn>
-          </template>
-          <template v-else>
-            {{ inputData.col.value }}
-          </template>
+    <entity-index v-if="mounted"
+                  v-model:value="inputs"
+                  title="لیست محتواها"
+                  :api="api"
+                  :table="table"
+                  :table-keys="tableKeys"
+                  :create-route-name="createRouteName"
+                  :show-search-button="false"
+                  :show-expand-button="false"
+                  :show-reload-button="false">
+      <template #entity-index-table-cell="{inputData}">
+        <template v-if="inputData.col.name === 'number'">
+          {{ inputData.rowNumber }}
         </template>
-      </entity-index>
-    </q-card>
+        <template v-else-if="inputData.col.name === 'thumbnail'">
+          <q-img :src="inputData.col.value"
+                 width="100px" />
+        </template>
+        <template v-else-if="inputData.col.name === 'action'">
+          <q-btn color="primary"
+                 :to="{name: 'Admin.Content.Show', params: {id: inputData.props.row.id}}">
+            مشاهده جزییات
+          </q-btn>
+        </template>
+        <template v-else>
+          {{ inputData.col.value }}
+        </template>
+      </template>
+    </entity-index>
   </div>
 </template>
 
@@ -52,7 +44,7 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
-  name: 'AdminPostList',
+  name: 'AdminContentList',
   components: { EntityIndex },
   mixins: [mixinWidget],
   data: () => {
@@ -116,33 +108,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.AdminPostList {
-  .title {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 140%;
-    color: #424242;
-    margin-bottom: 27px;
-    position: relative;
-    .back-action {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-  :deep(.list) {
-    .quasar-crud-index-table {
-      padding: 0;
-      .q-table__container {
-        background-color: transparent;
-        box-shadow: none;
-        border: none;
-        .q-table__top {
-          display: none;
-        }
-      }
-    }
+.AdminContentList {
+  .more-action {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    margin-bottom: 10px;
   }
 }
 </style>
