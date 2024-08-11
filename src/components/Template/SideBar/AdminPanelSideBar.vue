@@ -252,13 +252,6 @@ export default {
               routeName: 'Admin.Store.Package.List',
               show: true,
               active: false
-            },
-            {
-              title: 'درخواست ها',
-              roles: ['superuser'],
-              routeName: 'Admin.Store.Package.List',
-              show: true,
-              active: false
             }
           ]
         },
