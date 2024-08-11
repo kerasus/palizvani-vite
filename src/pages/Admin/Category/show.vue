@@ -111,7 +111,7 @@ export default {
       showRouteName: 'Admin.Category.Show',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'نام دسته بندی', placeholder: ' ', col: 'col-md-6' },
-        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'بروزرسانی', placeholder: ' ', props: { atClick: this.updateCategory }, col: 'col-md-6' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'بروزرسانی', placeholder: ' ', atClick: this.updateCategory, col: 'col-md-6' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id' }
       ],
 
