@@ -236,5 +236,30 @@ export default {
       flex-flow: column;
     }
   }
+  @media screen and (max-width: 1024px) {
+    & {
+      .package-item__badges {
+        z-index: 2;
+        .package-item__badge {
+          .package-item__badge-title {
+            display: block;
+          }
+        }
+      }
+      :deep(.package-item__thumbnail) {
+        z-index: 1;
+      }
+      .package-item__title {
+        margin-bottom: 44px;
+      }
+      .package-item__price {
+        margin-bottom: 27px;
+      }
+      .package-item__actions {
+        display: flex;
+        flex-flow: column;
+      }
+    }
+  }
 }
 </style>
