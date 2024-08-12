@@ -52,11 +52,11 @@
 </template>
 
 <script>
-import '@splidejs/splide/dist/css/splide-core.min.css'
 import Splide from '@splidejs/splide'
 import { User } from 'src/models/User.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import '@splidejs/splide/dist/css/splide-core.min.css'
 import ClassroomItem from 'src/components/ClassroomItem.vue'
 import { mixinPrefetchServerData } from 'src/mixin/Mixins.js'
 import { Classroom, ClassroomList } from 'src/models/Classroom.js'
@@ -99,19 +99,21 @@ export default {
   },
   methods: {
     loadSlider () {
-      if (!this.$refs.slider) {
-        return
-      }
-      new Splide(this.$refs.slider, {
-        direction: 'rtl',
-        paginationDirection: 'rtl',
-        // type: 'loop',
-        focus: 0,
-        snap: true,
-        gap: 24,
-        // focus: 'center',
-        breakpoints: this.breakpoints
-      }).mount()
+      this.$nextTick(() => {
+        if (!this.$refs.slider) {
+          return
+        }
+        new Splide(this.$refs.slider, {
+          direction: 'rtl',
+          paginationDirection: 'rtl',
+          // type: 'loop',
+          focus: 0,
+          snap: true,
+          gap: 24,
+          // focus: 'center',
+          breakpoints: this.breakpoints
+        }).mount()
+      })
     },
     getHoldingType (classroom) {
       return new Classroom(classroom).holding_type_info.label

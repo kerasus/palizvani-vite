@@ -52,12 +52,12 @@
 </template>
 
 <script>
-import '@splidejs/splide/dist/css/splide-core.min.css'
 import Splide from '@splidejs/splide'
 import { User } from 'src/models/User.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import EventItem from 'src/components/EventItem.vue'
+import '@splidejs/splide/dist/css/splide-core.min.css'
 import { mixinPrefetchServerData } from 'src/mixin/Mixins.js'
 import { Classroom, ClassroomList } from 'src/models/Classroom.js'
 import { EventRegistrationList } from 'src/models/EventRegistration.js'
@@ -99,19 +99,21 @@ export default {
   },
   methods: {
     loadSlider () {
-      if (!this.$refs.slider) {
-        return
-      }
-      new Splide(this.$refs.slider, {
-        direction: 'rtl',
-        paginationDirection: 'rtl',
-        // type: 'loop',
-        focus: 0,
-        gap: 24,
-        snap: true,
-        // focus: 'center',
-        breakpoints: this.breakpoints
-      }).mount()
+      this.$nextTick(() => {
+        if (!this.$refs.slider) {
+          return
+        }
+        new Splide(this.$refs.slider, {
+          direction: 'rtl',
+          paginationDirection: 'rtl',
+          // type: 'loop',
+          focus: 0,
+          gap: 24,
+          snap: true,
+          // focus: 'center',
+          breakpoints: this.breakpoints
+        }).mount()
+      })
     },
     getHoldingType (event) {
       return new Classroom(event).holding_type_info.label

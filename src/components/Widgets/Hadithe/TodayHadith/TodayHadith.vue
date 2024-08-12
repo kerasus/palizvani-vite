@@ -28,9 +28,9 @@
 
 <script>
 import { APIGateway } from 'src/api/APIGateway.js'
-import { Hadith, HadithList } from 'src/models/Hadith.js' //  using Classroom instead of Event to prevent props warning
-import { mixinPrefetchServerData, mixinAuth } from 'src/mixin/Mixins.js'
+import { Hadith, HadithList } from 'src/models/Hadith.js'
 import { EventRegistrationList } from 'src/models/EventRegistration.js'
+import { mixinPrefetchServerData, mixinAuth } from 'src/mixin/Mixins.js'
 
 export default {
   name: 'TodayHadith',
