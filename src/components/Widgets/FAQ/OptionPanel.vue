@@ -12,21 +12,21 @@
                    size="sm"
                    outline
                    class="q-ml-md"
-                   @click="increaseOrder($event, topicIndex)" />
+                   @click="increaseOrder($event, localOptions.topics, topicIndex)" />
             <q-btn icon="expand_more"
                    color="info"
                    dense
                    size="sm"
                    outline
                    class="q-mr-xl"
-                   @click="decreaseOrder($event, topicIndex)" />
+                   @click="decreaseOrder($event, localOptions.topics, topicIndex)" />
             <q-btn icon="delete"
                    color="red"
                    dense
                    size="sm"
                    outline
                    class="q-mr-md"
-                   @click="removeTopic(topicIndex)" />
+                   @click="removeItem($event, localOptions.topics, topicIndex)" />
             (
             <q-icon :name="localOptions.topics[topicIndex].icon"
                     size="30px" />
@@ -50,6 +50,32 @@
             <div v-for="(subTopic, subTopicIndex) in topic.subTopics"
                  :key="subTopicIndex"
                  class="q-mt-md bg-green-1 q-pa-md">
+              <div class="flex justify-between">
+                <div>
+                  <q-btn icon="expand_less"
+                         color="info"
+                         dense
+                         size="sm"
+                         outline
+                         class="q-ml-md"
+                         @click="increaseOrder($event, localOptions.topics[topicIndex].subTopics, subTopicIndex)" />
+                  <q-btn icon="expand_more"
+                         color="info"
+                         dense
+                         size="sm"
+                         outline
+                         class="q-mr-xl"
+                         @click="decreaseOrder($event, localOptions.topics[topicIndex].subTopics, subTopicIndex)" />
+                </div>
+                <q-btn icon="delete"
+                       color="red"
+                       dense
+                       size="sm"
+                       outline
+                       class="q-mr-md"
+                       @click="removeItem($event, localOptions.topics[topicIndex].subTopics, subTopicIndex)" />
+              </div>
+              <q-separator class="q-my-md" />
               <div>
                 سوال
               </div>
@@ -58,10 +84,6 @@
                 پاسخ
               </div>
               <q-input v-model="localOptions.topics[topicIndex].subTopics[subTopicIndex].answer" />
-              <q-btn class="full-width"
-                     @click="removeSubTopic(localOptions.topics[topicIndex].subTopics, subTopicIndex)">
-                حذف سوال و جواب
-              </q-btn>
             </div>
 
             <q-btn class="q-mt-md full-width"
@@ -99,26 +121,30 @@ export default defineComponent({
     }
   },
   methods: {
-    increaseOrder(event, index) {
+    increaseOrder(event, list, index) {
       event.stopPropagation()
       if (index <= 0) {
         return
       }
 
       // Swap the item with the previous item
-      const temp = this.localOptions.topics[index - 1]
-      this.localOptions.topics[index - 1] = this.localOptions.topics[index]
-      this.localOptions.topics[index] = temp
+      const temp = list[index - 1]
+      list[index - 1] = list[index]
+      list[index] = temp
     },
-    decreaseOrder(event, index) {
+    decreaseOrder(event, list, index) {
       event.stopPropagation()
-      if (index >= this.localOptions.topics.length - 1) {
+      if (index >= list.length - 1) {
         return
       }
       // Swap the item with the next item
-      const temp = this.localOptions.topics[index + 1]
-      this.localOptions.topics[index + 1] = this.localOptions.topics[index]
-      this.localOptions.topics[index] = temp
+      const temp = list[index + 1]
+      list[index + 1] = list[index]
+      list[index] = temp
+    },
+    removeItem (event, list, index) {
+      event.stopPropagation()
+      list.splice(index, 1)
     },
     addTopic () {
       this.localOptions.topics.push({
@@ -127,17 +153,11 @@ export default defineComponent({
         subTopics: []
       })
     },
-    removeTopic (index) {
-      this.localOptions.topics.splice(index, 1)
-    },
     addSubTopic (subTopics) {
       subTopics.push({
         question: '',
         answer: ''
       })
-    },
-    removeSubTopic (subTopics, index) {
-      subTopics.splice(index, 1)
     }
   }
 })
