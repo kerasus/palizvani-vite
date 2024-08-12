@@ -41,7 +41,7 @@
         </div>
       </div>
       <div v-else-if="!products.loading && products.list.length === 0">
-        رویدادی یافت نشد.
+        محصولی یافت نشد.
       </div>
       <div v-else-if="products.loading">
         کمی صبر کنید ...
