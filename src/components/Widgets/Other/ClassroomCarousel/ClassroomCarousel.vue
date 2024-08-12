@@ -156,7 +156,8 @@ export default {
     getClassrooms () {
       this.classrooms.loading = true
       return APIGateway.classroom.index({
-        unit__category__type: 'TRAINING'
+        unit__category__type: 'TRAINING',
+        per_page: 9999
       })
     }
   }
