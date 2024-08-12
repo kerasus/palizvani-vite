@@ -213,6 +213,8 @@ export default {
       name: 'Admin.ContentTopic',
       component: () => import('layouts/bareLayout.vue'),
       children: [
+        { path: '', name: 'Admin.ContentTopic.List', component: () => import('src/pages/Admin/ContentTopic/List.vue') },
+        { path: 'create', name: 'Admin.ContentTopic.Create', component: () => import('src/pages/Admin/ContentTopic/Create.vue') },
         { path: ':id', name: 'Admin.ContentTopic.Show', component: () => import('src/pages/Admin/ContentTopic/Show.vue') }
       ]
     },

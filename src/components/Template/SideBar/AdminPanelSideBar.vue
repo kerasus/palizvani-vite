@@ -115,6 +115,13 @@ export default {
               active: false
             },
             {
+              title: 'لیست فیش ها',
+              roles: ['superuser'],
+              routeName: 'Admin.ContentTopic.List',
+              show: true,
+              active: false
+            },
+            {
               title: 'دسته بندی موضوعی',
               roles: ['superuser'],
               routeName: 'Admin.ContentTopicCategory.List',

@@ -1,6 +1,11 @@
 <template>
   <div class="AdminContentTopicList"
        :style="localOptions.style">
+    <div class="more-action">
+      <q-btn label="فیش جدید"
+             color="primary"
+             :to="{name: 'Admin.ContentTopic.Create'}" />
+    </div>
     <entity-index v-if="mounted"
                   v-model:value="inputs"
                   title="لیست فیش ها"
