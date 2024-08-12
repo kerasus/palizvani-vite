@@ -68,6 +68,7 @@ export default {
 
 <style scoped lang="scss">
 .today-hadith {
+  padding: 60px 0;
   .q-banner {
     margin-bottom: 32px;
   }
