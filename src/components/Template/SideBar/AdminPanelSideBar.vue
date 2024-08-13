@@ -115,16 +115,16 @@ export default {
               active: false
             },
             {
-              title: 'لیست فیش ها',
+              title: 'دسته بندی موضوعی',
               roles: ['superuser'],
-              routeName: 'Admin.ContentTopic.List',
+              routeName: 'Admin.ContentTopicCategory.List',
               show: true,
               active: false
             },
             {
-              title: 'دسته بندی موضوعی',
+              title: 'لیست هشتگ ها',
               roles: ['superuser'],
-              routeName: 'Admin.ContentTopicCategory.List',
+              routeName: 'Admin.Hashtag.List',
               show: true,
               active: false
             },

@@ -229,6 +229,16 @@ export default {
       ]
     },
     {
+      path: 'hashtag',
+      name: 'Admin.Hashtag',
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        { path: '', name: 'Admin.Hashtag.List', component: () => import('src/pages/Admin/Hashtag/List.vue') },
+        { path: 'create', name: 'Admin.Hashtag.Create', component: () => import('src/pages/Admin/Hashtag/Create.vue') },
+        { path: ':id', name: 'Admin.Hashtag.Show', component: () => import('src/pages/Admin/Hashtag/Show.vue') }
+      ]
+    },
+    {
       path: 'donation',
       name: 'Admin.Donation',
       component: () => import('layouts/bareLayout.vue'),
