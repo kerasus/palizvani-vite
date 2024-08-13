@@ -57,6 +57,11 @@ export default {
       },
       children: [
         {
+          path: 'parent/parent',
+          name: 'Public.ContentCategoryParentParent.List',
+          component: () => import('src/pages/BasicDynamicPage.vue')
+        },
+        {
           path: 'parent/parent/:category_id',
           name: 'Public.ContentCategoryParentParent.Show',
           component: () => import('src/pages/BasicDynamicPage.vue')

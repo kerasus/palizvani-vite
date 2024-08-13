@@ -40,6 +40,11 @@
                    class="top-menu-item" />
             <q-btn stretch
                    flat
+                   label="آرشیو محتوا"
+                   :to="{ name: 'Public.ContentCategoryParentParent.List' }"
+                   class="top-menu-item" />
+            <q-btn stretch
+                   flat
                    label="فروشگاه"
                    class="top-menu-item">
               <q-menu>

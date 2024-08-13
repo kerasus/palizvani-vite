@@ -5,7 +5,9 @@ class ContentCategory extends Model {
     super(data, [
       { key: 'id' },
       { key: 'title' },
+      { key: 'thumbnail' },
       { key: 'parent' },
+      { key: 'parent_info' },
       {
         key: 'children',
         defalut: []
