@@ -122,6 +122,13 @@ export default {
               active: false
             },
             {
+              title: 'لیست هشتگ ها',
+              roles: ['superuser'],
+              routeName: 'Admin.Hashtag.List',
+              show: true,
+              active: false
+            },
+            {
               title: 'درخواست ها',
               roles: ['superuser'],
               routeName: 'Admin.Content.Ticket',
