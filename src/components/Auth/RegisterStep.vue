@@ -364,6 +364,20 @@ export default {
         })
         return
       }
+      if (!this.firstname) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'نام را وارد نکرده اید'
+        })
+        return
+      }
+      if (!this.lastname) {
+        this.$q.notify({
+          type: 'negative',
+          message: ' نام خانوادگی را وارد نکرده اید'
+        })
+        return
+      }
       if (this.rePassword !== this.password) {
         this.$q.notify({
           type: 'negative',
