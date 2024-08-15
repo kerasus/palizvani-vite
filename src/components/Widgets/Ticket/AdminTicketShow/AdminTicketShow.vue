@@ -176,7 +176,8 @@ export default {
     InstallmentOffers
   },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
+    const ticketId = this.$route.params.id
     return {
       replyText: null,
       mounted: false,
@@ -184,7 +185,7 @@ export default {
       packageTitle: '',
       ticket: new Ticket(),
       authenticatedUser: new User(),
-      api: null,
+      api: APIGateway.ticket.APIAdresses.byId(ticketId),
       ticketCategoryList: new TicketCategoryList(),
       entityIdKey: 'id',
       entityParamKey: 'id',
@@ -243,8 +244,6 @@ export default {
     }
   },
   created() {
-    const ticketId = this.$route.params.id
-    this.api = APIGateway.ticket.APIAdresses.byId(ticketId)
     FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', () => {
       const userId = FormBuilderAssist.getInputsByName(this.inputs, 'userId').value
       this.$router.push({ name: 'Admin.User.Show', params: { id: userId } })

@@ -62,7 +62,8 @@
                   animated>
       <q-tab-panel name="classroomInfo"
                    class="q-pa-none">
-        <classroom-info v-model:classroom="classroom"
+        <classroom-info v-if="classroom.id"
+                        v-model:classroom="classroom"
                         :classroom-type="localOptions.classroomType"
                         :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
@@ -78,7 +79,8 @@
       </q-tab-panel>
       <q-tab-panel name="exams"
                    class="q-pa-none">
-        <test-list :classroom="classroom"
+        <test-list v-if="classroom.id"
+                   :classroom="classroom"
                    :classroom-id="parseInt($route.params.id)"
                    :classroom-type="localOptions.classroomType" />
       </q-tab-panel>
@@ -104,10 +106,12 @@
       </q-tab-panel>
       <q-tab-panel name="announce_result"
                    class="q-pa-none">
-        <announce-result-list :classroom="classroom" />
+        <announce-result-list v-if="classroom.id"
+                              :classroom="classroom" />
       </q-tab-panel>
       <q-tab-panel name="live_streaming_url">
-        <live-streaming :classroom="classroom" />
+        <live-streaming v-if="classroom.id"
+                        :classroom="classroom" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
