@@ -329,6 +329,15 @@ export default {
       }
     },
     {
+      path: 'my-orders',
+      name: 'UserPanel.MyOrders',
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        { path: '', name: 'UserPanel.MyOrders.List', component: () => import('src/pages/User/MyOrders/List.vue') },
+        { path: ':id', name: 'UserPanel.MyOrders.Show', component: () => import('src/pages/User/MyOrders/Show.vue') }
+      ]
+    },
+    {
       path: 'payment',
       name: 'UserPanel.Payment',
       component: () => import('src/layouts/bareLayout.vue'),

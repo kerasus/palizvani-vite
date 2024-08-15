@@ -115,6 +115,12 @@ export default {
               active: false
             },
             {
+              title: 'سفارش های من',
+              routeName: 'UserPanel.MyOrders.List',
+              show: true,
+              active: false
+            },
+            {
               title: 'تاریخچه اتصال به درگاه بانک',
               routeName: 'UserPanel.Payment.TransactionList',
               show: true,

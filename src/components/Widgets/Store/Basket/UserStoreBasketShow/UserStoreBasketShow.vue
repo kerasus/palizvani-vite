@@ -1,5 +1,5 @@
 <template>
-  <div class="AdminStoreBasketShow"
+  <div class="UserStoreBasketShow"
        :style="localOptions.style">
     <div class="flex justify-end">
       <q-btn flat
@@ -64,7 +64,7 @@
           <template v-else-if="inputData.col.name === 'action'">
             <q-btn color="primary"
                    outline
-                   :to="{name: inputData.props.row.product ? 'Admin.Store.Product.Show' : 'Admin.Store.Package.Show', params: {id: inputData.props.row.product || inputData.props.row.package}}">
+                   :to="{name: inputData.props.row.product ? 'Public.Product' : 'Public.Package', params: {id: inputData.props.row.product || inputData.props.row.package}}">
               <q-icon name="visibility"
                       class="q-mr-sm" />
               مشاهده
@@ -80,17 +80,13 @@
 </template>
 
 <script>
-import { shallowRef } from 'vue'
+import { Package } from 'src/models/Package'
 import { Basket } from 'src/models/Basket.js'
 import { Product } from 'src/models/Product.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import BtnControl from 'components/Control/btn.vue'
 import { EntityShow, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
-import { Package } from 'src/models/Package'
-
-const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminStoreBasketShow',
@@ -106,7 +102,7 @@ export default {
       api: APIGateway.basket.APIAdresses.byId(this.$route.params.id),
       entityIdKey: 'id',
       entityParamKey: 'id',
-      indexRouteName: 'Admin.Store.Basket.List',
+      indexRouteName: 'UserPanel.MyOrders.List',
       inputs: [],
 
       tableKeys: {
@@ -180,7 +176,7 @@ export default {
             required: true,
             label: 'قیمت',
             align: 'left',
-            field: row => parseInt((row.product_info || row.package_info).unit_price.toString()).toLocaleString('fa')
+            field: row => parseInt((row.product_info || row.package_info).unit_price?.toString()).toLocaleString('fa')
           },
           {
             name: 'action',
@@ -217,62 +213,29 @@ export default {
   },
   created() {
     this.inputs = [
-      { type: 'separator', name: 'space1', label: 'مشخصات خریدار', className: 'custom-separator', col: 'col-12' },
-      { type: 'input', name: 'owner_info.firstname', responseKey: 'owner_info.firstname', label: 'نام', placeholder: ' ', col: 'col-md-2 col-12' },
-      { type: 'input', name: 'owner_info.lastname', responseKey: 'owner_info.lastname', label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-2 col-12' },
-      { type: 'input', name: 'owner_info.national_code', responseKey: 'owner_info.national_code', label: 'کد ملی', placeholder: ' ', col: 'col-md-2 col-12' },
-      { type: 'input', name: 'owner_info.phone_number', responseKey: 'owner_info.phone_number', label: 'تلفن همراه', placeholder: ' ', col: 'col-md-3 col-12' },
-      { type: 'input', name: 'owner_info.email', responseKey: 'owner_info.email', label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
-      { type: 'input', name: 'owner_info.living_city', responseKey: 'owner_info.living_city', label: 'شهر', placeholder: ' ', col: 'col-md-2 col-12' },
-      { type: 'input', name: 'postal_code', responseKey: 'postal_code', label: 'کد پستی', placeholder: ' ', col: 'col-md-2 col-12' },
-      { type: 'input', name: 'owner_info.living_address', responseKey: 'owner_info.living_address', label: 'آدرس', placeholder: ' ', col: 'col-md-5 col-12' },
-      { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'مشخصات کاربر', placeholder: ' ', outline: true, ignoreValue: true, atClick: this.showUserPage, loading: this.entityLoading, col: 'col-md-2 col-12' },
-
       { type: 'separator', name: 'space1', label: 'مشخصات سفارش', className: 'custom-separator', col: 'col-12' },
-      { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', placeholder: ' ', col: 'col-md-2 col-12' },
-      { type: 'input', name: 'items_info.length', responseKey: 'items_info.length', label: 'تعداد اقلام', placeholder: ' ', col: 'col-md-2 col-12' },
+      { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', placeholder: ' ', disable: true, col: 'col-md-2 col-12' },
+      { type: 'input', name: 'items_info.length', responseKey: 'items_info.length', label: 'تعداد اقلام', placeholder: ' ', disable: true, col: 'col-md-2 col-12' },
       { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', placeholder: ' ', disable: true, col: 'col-md-3 col-12' },
-      { type: 'input', name: 'overall_order_price', responseKey: 'overall_order_price', label: 'قیمت کل(تومان)', placeholder: ' ', col: 'col-md-3 col-12' },
-      { type: BtnControlComp, name: 'btnSent', responseKey: 'btnSent', label: 'ارسال', placeholder: ' ', outline: true, ignoreValue: true, atClick: this.sendBasket, loading: this.entityLoading, col: 'col-md-2 col-12' }
+      { type: 'input', name: 'overall_order_price', responseKey: 'overall_order_price', label: 'قیمت کل(تومان)', placeholder: ' ', disable: true, col: 'col-md-3 col-12' }
     ]
   },
   mounted() {
     this.mounted = true
   },
   methods: {
-    showUserPage () {
-      const routeData = this.$router.resolve({ name: 'Admin.User.Show', params: { id: this.basket.owner } })
-      window.open(routeData.href, '_blank')
-    },
-    sendBasket () {
-      this.entityLoading = true
-      APIGateway.basket.send(this.basket.id)
-        .finally(() => {
-          this.entityLoading = false
-          this.reloadData()
-        })
-    },
     afterLoadInputData (data) {
       this.entityLoading = false
       this.basket = new Basket(data)
-      if (this.basket.status === 'SENT' || this.basket.status === 'CANCELED' || this.basket.status === 'CLOSED') {
-        FormBuilderAssist.setAttributeByName(this.inputs, 'btnSent', 'type', 'hidden')
-      }
 
       FormBuilderAssist.setAttributeByName(this.inputs, 'overall_order_price', 'value', parseInt(data.overall_order_price).toLocaleString('fa'))
-    },
-    reloadData (data) {
-      if (!this.$refs.entityShow) {
-        return
-      }
-      this.$refs.entityShow.getData()
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.AdminStoreBasketShow {
+.UserStoreBasketShow {
   .title {
     font-style: normal;
     font-weight: 700;
@@ -306,6 +269,14 @@ export default {
   }
   :deep(.form) {
     padding: 24px;
+  }
+  :deep(.entity-index) {
+    .entity-crud-formBuilder {
+      display: none;
+    }
+    .q-table__bottom {
+      display: none;
+    }
   }
 }
 </style>
