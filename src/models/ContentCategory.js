@@ -6,6 +6,7 @@ class ContentCategory extends Model {
       { key: 'id' },
       { key: 'title' },
       { key: 'thumbnail' },
+      { key: 'description' },
       { key: 'parent' },
       { key: 'parent_info' },
       {

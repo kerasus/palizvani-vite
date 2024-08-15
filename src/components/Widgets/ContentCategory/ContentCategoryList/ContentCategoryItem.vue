@@ -1,5 +1,6 @@
 <template>
   <q-card class="ContentCategoryItem"
+          :class="listType"
           flat>
     <div class="thumbnail"
          @click="goToCategoryPageShow">
@@ -33,6 +34,10 @@ export default {
     showCategoryRouteName: {
       type: String,
       default: 'Public.ContentCategory.Show'
+    },
+    listType: {
+      type: String,
+      default: 'category_parent_parent'
     }
   },
   methods: {
@@ -52,6 +57,8 @@ export default {
   .thumbnail {
     .q-img {
       width: 100%;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
     }
   }
   .cation {

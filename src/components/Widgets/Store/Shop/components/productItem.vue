@@ -225,6 +225,7 @@ export default {
   }
   &:hover {
     .product-item__badges {
+      z-index: 1;
       .product-item__badge {
         .product-item__badge-title {
           display: block;

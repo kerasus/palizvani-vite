@@ -1,5 +1,5 @@
 <template>
-  <div class="ContentCategoryList"
+  <div class="ContentCategoryShow"
        :class="localOptions.listType"
        :style="localOptions.style">
     <div class="ContentCategory-info-wrapper">
@@ -19,21 +19,15 @@
         </div>
       </div>
     </div>
-    <q-banner class="ContentCategoryList-banner">
-      <span v-if="localOptions.listType === 'category_parent_parent'">
-        دسته بندی های کلی
-      </span>
-      <span v-if="localOptions.listType === 'category_parent'">
-        دسته بندی اصلی
-      </span>
-      <span v-if="localOptions.listType === 'category'">
-        دسته بندی جزئی
-      </span>
+    <q-banner class="ContentCategoryShow-banner">
+      محصولات
+      {{ contentCategory.title }}
     </q-banner>
-    <entity-index v-if="mounted"
+    <entity-index v-if="mounted && contentCategory.id"
                   ref="entityIndex"
-                  v-model:value="inputs"
-                  :api="api"
+                  v-model:value="productInputs"
+                  class="product-index"
+                  :api="productApi"
                   :table="table"
                   :table-keys="tableKeys"
                   :table-grid-size="true"
@@ -42,8 +36,27 @@
                   :show-expand-button="false"
                   :show-reload-button="false">
       <template #entity-index-table-item-cell="{inputData}">
-        <content-category-item :content-category="getContentCategory(inputData.props.row)"
-                               :show-category-route-name="showCategoryRouteName" />
+        <product-item :product="getProduct(inputData.props.row)" />
+      </template>
+    </entity-index>
+    <q-banner class="ContentCategoryShow-banner">
+      محتواهای
+      {{ contentCategory.title }}
+    </q-banner>
+    <entity-index v-if="mounted && contentCategory.id"
+                  ref="entityIndex"
+                  v-model:value="contentInputs"
+                  class="product-index"
+                  :api="contentApi"
+                  :table="table"
+                  :table-keys="tableKeys"
+                  :table-grid-size="true"
+                  :default-layout="false"
+                  :show-search-button="false"
+                  :show-expand-button="false"
+                  :show-reload-button="false">
+      <template #entity-index-table-item-cell="{inputData}">
+        <content-item :content="getContent(inputData.props.row)" />
       </template>
     </entity-index>
   </div>
@@ -51,20 +64,24 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
+import { Content } from 'src/models/Content.js'
+import { Product } from 'src/models/Product.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
-import ContentCategoryItem from './ContentCategoryItem.vue'
 import { ContentCategory } from 'src/models/ContentCategory.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import productItem from 'src/components/Widgets/Store/Shop/components/productItem.vue'
+import ContentItem from './ContentItem.vue'
 
 export default {
-  name: 'ContentCategoryList',
-  components: { ContentCategoryItem, EntityIndex, Breadcrumbs },
+  name: 'ContentCategoryShow',
+  components: { EntityIndex, Breadcrumbs, productItem, ContentItem },
   mixins: [mixinWidget],
   data () {
     return {
-      api: APIGateway.contentCategory.APIAdresses.base,
+      productApi: APIGateway.product.APIAdresses.base,
+      contentApi: APIGateway.content.APIAdresses.base,
       tableKeys: {
         data: 'results',
         total: 'count',
@@ -72,9 +89,13 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [
-        { type: 'hidden', name: 'parent__isnull', value: false },
-        { type: 'hidden', name: 'parent', value: null }
+      productInputs: [
+        { type: 'hidden', name: 'content_category', value: null },
+        { type: 'hidden', name: 'per_page', value: 12 }
+      ],
+      contentInputs: [
+        { type: 'hidden', name: 'category', value: null },
+        { type: 'hidden', name: 'per_page', value: 12 }
       ],
       table: {
         columns: []
@@ -111,26 +132,23 @@ export default {
         }
       ]
 
-      if (this.localOptions.listType === 'category_parent') {
-        if (this.contentCategory.id) {
-          path.push({
-            label: this.contentCategory.title,
-            to: { name: 'Public.ContentCategoryParentParent.Show', params: { category_id: this.contentCategory.id } }
-          })
-        }
-      } else if (this.localOptions.listType === 'category') {
-        if (this.contentCategoryParent.id) {
-          path.push({
-            label: this.contentCategoryParent.title,
-            to: { name: 'Public.ContentCategoryParentParent.Show', params: { category_id: this.contentCategoryParent.id } }
-          })
-        }
-        if (this.contentCategory.id) {
-          path.push({
-            label: this.contentCategory.title,
-            to: { name: 'Public.ContentCategoryParent.Show', params: { category_id: this.contentCategory.id } }
-          })
-        }
+      if (this.contentCategoryParentParent.id) {
+        path.push({
+          label: this.contentCategoryParentParent.title,
+          to: { name: 'Public.ContentCategoryParentParent.Show', params: { category_id: this.contentCategoryParentParent.id } }
+        })
+      }
+      if (this.contentCategoryParent.id) {
+        path.push({
+          label: this.contentCategoryParent.title,
+          to: { name: 'Public.ContentCategoryParent.Show', params: { category_id: this.contentCategoryParent.id } }
+        })
+      }
+      if (this.contentCategory.id) {
+        path.push({
+          label: this.contentCategory.title,
+          to: { name: 'Public.ContentCategory.Show', params: { category_id: this.contentCategory.id } }
+        })
       }
       return path
     },
@@ -144,16 +162,8 @@ export default {
   },
   created() {
     this.updateBreadcrumbs()
-
-    if (this.localOptions.listType === 'category_parent_parent') {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent__isnull', 'value', true)
-    } else if (this.localOptions.listType === 'category_parent') {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent__isnull', 'value', null)
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent', 'value', this.contentCategoryId)
-    } else if (this.localOptions.listType === 'category') {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent__isnull', 'value', null)
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent', 'value', this.contentCategoryId)
-    }
+    FormBuilderAssist.setAttributeByName(this.productInputs, 'content_category', 'value', this.contentCategoryId)
+    FormBuilderAssist.setAttributeByName(this.contentInputs, 'category', 'value', this.contentCategoryId)
     if (this.contentCategoryId) {
       this.loadContentCategory()
     }
@@ -162,6 +172,12 @@ export default {
     this.mounted = true
   },
   methods: {
+    getContent (data) {
+      return new Content(data)
+    },
+    getProduct (data) {
+      return new Product(data)
+    },
     getContentCategory (data) {
       return new ContentCategory(data)
     },
@@ -213,8 +229,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.ContentCategoryList {
-  .ContentCategoryList-banner {
+.ContentCategoryShow {
+  .ContentCategoryShow-banner {
     margin-bottom: 39px;
     margin-top: 50px;
   }
@@ -228,8 +244,9 @@ export default {
         $gap: 24px;
         flex-wrap: wrap;
         gap: $gap;
-        .ContentCategoryItem {
-          flex: 0 0 calc( 33.33% - #{$gap} );
+        justify-content: center;
+        .product-item {
+          flex: 0 0 calc( 25% - #{$gap} );
           box-sizing: border-box;
         }
       }
@@ -240,17 +257,11 @@ export default {
       }
     }
   }
-  .more-action {
-    display: flex;
-    flex-flow: row;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-  }
   .ContentCategory-info-wrapper {
     background: white;
     width: 100%;
     .ContentCategory-info {
-      background: #E5FDE6;
+      background: #F7E9F0;
       padding: 24px;
       border: 1px solid #DFE1EC;
       display: flex;
@@ -265,42 +276,10 @@ export default {
         width: calc( 100% - 213px );
         .q-banner {
           margin-bottom: 21px;
+          border-color: $primary;
         }
         .ContentCategory-desc {
 
-        }
-      }
-    }
-  }
-  &.category_parent {
-    .ContentCategory-info-wrapper {
-      .ContentCategory-info {
-        .ContentCategory-thumbnail {
-        }
-        .ContentCategory-meta {
-          .q-banner {
-            border-color: $primary;
-          }
-          .ContentCategory-desc {
-
-          }
-        }
-      }
-    }
-  }
-  &.category {
-    .ContentCategory-info-wrapper {
-      .ContentCategory-info {
-        background: #E5F2FD;
-        .ContentCategory-thumbnail {
-        }
-        .ContentCategory-meta {
-          .q-banner {
-            border-color: #475F4A;
-          }
-          .ContentCategory-desc {
-
-          }
         }
       }
     }
