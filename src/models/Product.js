@@ -1,4 +1,5 @@
 import { Collection, Model } from 'js-abstract-model'
+import { MediaList } from 'src/models/Media.js'
 
 class Product extends Model {
   constructor (data) {
@@ -20,7 +21,15 @@ class Product extends Model {
       { key: 'is_physical' },
       { key: 'weight' },
       { key: 'physical_type' },
-      { key: 'specification' }
+      { key: 'specification' },
+      {
+        key: 'medias',
+        defalut: []
+      },
+      {
+        key: 'medias_info',
+        relatedModel: MediaList
+      }
     ], {
       is_physical: {
         infoKey: 'is_physical_info',

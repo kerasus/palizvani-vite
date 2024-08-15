@@ -69,19 +69,6 @@
                @click="addToCart" />
       </div>
     </div>
-    <div v-if="false"
-         class="product-show__products">
-      <q-expansion-item expand-separator
-                        default-opened
-                        icon="inventory_2"
-                        label="اقلام داخل بسته">
-        <product-item v-for="(product, productIndex) in product.products_info.list"
-                      :key="productIndex"
-                      :product="product"
-                      class="product-item-component" />
-      </q-expansion-item>
-
-    </div>
     <div v-if="product.description"
          class="product-show__descriptions">
       <q-banner class="product-show__descriptions-title">
@@ -89,6 +76,10 @@
       </q-banner>
       <div class="product-show__descriptions-data"
            v-html="product.description" />
+    </div>
+    <div v-if="product.medias_info"
+         class="product-show__medias">
+      <medias-component :medias="product.medias_info" />
     </div>
   </div>
 </template>
@@ -98,12 +89,12 @@ import { Basket } from 'src/models/Basket.js'
 import { Product } from 'src/models/Product.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import ProductItem from './components/productItem.vue'
+import MediasComponent from './components/Medias.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'ContentShow',
-  components: { Breadcrumbs, ProductItem },
+  components: { Breadcrumbs, MediasComponent },
   mixins: [mixinWidget],
   data () {
     return {
@@ -349,6 +340,7 @@ export default {
     border: 1px solid #DFE1EC;
     border-radius: 8px;
     background: #F6F6F6;
+    margin-bottom: 20px;
     .product-show__descriptions-title{
       color: #727272;
       font-size: 16px;
@@ -358,6 +350,12 @@ export default {
       color: #212121;
       font-size: 16px;
     }
+  }
+  .product-show__medias {
+    background: #FFFFFF;
+    border: 1px solid #DFE1EC;
+    border-radius: 8px;
+    padding: 36px 46px;
   }
 }
 </style>
