@@ -140,6 +140,11 @@ export default {
 
 <style scoped lang="scss">
 .UserStoreBasketList {
+  :deep(.entity-index) {
+    .entity-crud-formBuilder {
+      display: none;
+    }
+  }
   .more-action {
     display: flex;
     flex-flow: row;

@@ -1,6 +1,6 @@
 <template>
   <div class="step3">
-    <q-linear-progress v-if="basket.loading"
+    <q-linear-progress v-if="basket.loading || invoice.loading"
                        indeterminate />
     <template v-if="!basket.loading">
       <invoice-info v-if="!invoice.loading"
@@ -107,6 +107,9 @@ export default {
     goToShop () {
       this.$router.push({ name: 'Public.Shop' })
     },
+    goToMyOrders () {
+      this.$router.push({ name: 'UserPanel.MyOrders.List' })
+    },
     onAccept () {
       this.payInvoice()
     },
@@ -123,9 +126,8 @@ export default {
     payInvoiceByWallet () {
       this.invoice.loading = true
       APIGateway.invoice.pay(this.invoice.id)
-        .then((message) => {
-          this.payMessage = message
-          this.goToShop()
+        .then(() => {
+          this.goToMyOrders()
         })
         .finally(() => {
           this.invoice.loading = false

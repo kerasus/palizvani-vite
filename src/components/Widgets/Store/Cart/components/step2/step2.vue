@@ -122,7 +122,10 @@ export default {
     },
     onComplete () {
       if (!this.basket.address || !this.basket.province || !this.basket.city || !this.basket.postal_code) {
-        alert('empty address!')
+        this.$q.notify({
+          type: 'negative',
+          message: 'آدرس را مشخص کنید.'
+        })
         return ''
       }
       this.openDialog()
