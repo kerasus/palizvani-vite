@@ -62,8 +62,7 @@
                   animated>
       <q-tab-panel name="classroomInfo"
                    class="q-pa-none">
-        <classroom-info v-if="classroom.id"
-                        v-model:classroom="classroom"
+        <classroom-info v-model:classroom="classroom"
                         :classroom-type="localOptions.classroomType"
                         :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
