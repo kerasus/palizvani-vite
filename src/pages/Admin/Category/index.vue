@@ -59,6 +59,7 @@ export default {
       mounted: false,
       inputs: [
         { type: 'input', name: 'search', value: null, label: 'جست و جو', col: 'col-md-2' },
+        { type: 'hidden', name: 'type', value: 'TRAINING' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', atClick: () => {}, col: 'col-md-2' }
       ],
       api: APIGateway.unitCategory.APIAdresses.base,
