@@ -27,7 +27,7 @@
       <template #after-form-builder>
         <div class="flex justify-end q-mt-md">
           <q-btn color="primary"
-                 :label="'ایجاد ' + classroomTypeTitle + 'جدید'"
+                 :label="'ایجاد ' + classroomTypeTitle + ' جدید'"
                  @click="createClassroom" />
         </div>
       </template>
