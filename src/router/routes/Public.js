@@ -174,6 +174,15 @@ export default {
       component: () => import('src/pages/BasicDynamicPage.vue')
     },
     {
+      name: 'Public.Professor',
+      path: 'professor/:professor_name',
+      meta: {
+        hasDynamicSetting: true,
+        hasDynamicSettingWithParams: true
+      },
+      component: () => import('src/pages/Public/professorLanding.vue')
+    },
+    {
       name: 'Public.Rules',
       path: 'rules',
       meta: {

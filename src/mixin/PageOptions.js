@@ -1,4 +1,4 @@
-import { APIGateway } from 'src/api/APIGateway'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 const mixinPageOptions = {
   data() {
@@ -40,6 +40,8 @@ const mixinPageOptions = {
     }
   },
   methods: {
+    onFetchData (/* data */) {},
+    onFailedFetchData (/* error */) {},
     prefetchServerDataPromise () {
       return this.getPageConfigRequest()
     },
@@ -62,9 +64,11 @@ const mixinPageOptions = {
       this.pageBuilderLoading = false
 
       this.$store.commit('PageBuilder/updatePageDataLoaded', true)
+      this.onFetchData(pageSetting)
     },
-    prefetchServerDataPromiseCatch () {
+    prefetchServerDataPromiseCatch (error) {
       this.pageBuilderLoading = false
+      this.onFailedFetchData(error)
     },
     getPageConfigRequest() {
       this.pageBuilderLoading = true
