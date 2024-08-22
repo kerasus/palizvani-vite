@@ -82,11 +82,15 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityShow } from 'quasar-crud'
-import { FormBuilder, FormBuilderAssist } from 'quasar-form-builder'
 import { Payment } from 'src/models/Payment.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { FormBuilder, FormBuilderAssist } from 'quasar-form-builder'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
+
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'AdminPaymentShow',
@@ -125,7 +129,7 @@ export default {
           col: 'col-md-3 col-12'
         },
         { type: 'input', name: 'amount', responseKey: 'amount', label: 'مبلغ کل(ریال)', placeholder: ' ', col: 'col-md-3 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', col: 'col-md-4 col-12' }
+        { type: FormBuilderDateTimeComp, name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', col: 'col-md-4 col-12' }
         // { type: 'input', name: 'IBAN', responseKey: 'IBAN', label: 'شماره شبا', placeholder: ' ', col: 'col-md-6 col-12' },
         // { type: 'input', name: 'receipt', responseKey: 'receipt', label: 'رسید پرداخت', placeholder: ' ', col: 'col-md-6 col-12' }
       ],

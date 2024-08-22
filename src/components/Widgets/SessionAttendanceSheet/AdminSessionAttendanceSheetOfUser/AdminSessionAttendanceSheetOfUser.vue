@@ -140,12 +140,14 @@ import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets.js'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
 import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
 
+const BtnControlComp = shallowRef(BtnControl)
 const ContentMediasComp = shallowRef(ContentMedias)
 const ContentsSelectorComp = shallowRef(ContentsSelector)
-const BtnControlComp = shallowRef(BtnControl)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'UserPanel.Profile.SessionInfo',
@@ -221,7 +223,7 @@ export default {
         { type: 'InputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'پاسخ کاربر', placeholder: ' ', col: 'col-md-12 col-12' },
         { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل ضمیمه', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'assignment_status', responseKey: 'assignment_status', label: 'وضعیت تکلیف', placeholder: ' ', options: (new SessionAttendanceSheets()).assignment_statusEnums, col: 'col-md-3 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'زمان ارسال تکلیف', col: 'col-md-6 col-12' }
+        { type: FormBuilderDateTimeComp, name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'زمان ارسال تکلیف', col: 'col-md-6 col-12' }
       ]
     }
   },

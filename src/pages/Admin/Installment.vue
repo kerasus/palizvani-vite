@@ -90,9 +90,13 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import API_ADDRESS from 'src/api/Addresses'
 import ShamsiDate from 'src/assets/ShamsiDate'
 import { EntityCrud, Portlet } from 'quasar-crud'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
+
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'Installment',
@@ -313,7 +317,7 @@ export default {
           selected: [],
           col: 'col-md-4'
         },
-        { type: 'dateTime', name: 'due_date', responseKey: 'due_date', outsideLabel: 'تاریخ', col: 'col-md-5' },
+        { type: FormBuilderDateTimeComp, name: 'due_date', responseKey: 'due_date', outsideLabel: 'تاریخ', col: 'col-md-5' },
         { type: 'input', name: 'summary', responseKey: 'summary', label: 'توضیح کوتاه', col: 'col-md-12' },
         {
           type: 'tiptap-editor',

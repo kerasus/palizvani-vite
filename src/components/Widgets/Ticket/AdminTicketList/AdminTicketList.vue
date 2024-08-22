@@ -39,8 +39,10 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { TicketCategory, TicketCategoryList } from 'src/models/TicketCategory.js'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'AdminTicketList',
@@ -58,13 +60,13 @@ export default {
       },
       inputs: [
         {
-          type: 'dateTime',
+          type: FormBuilderDateTimeComp,
           name: 'creation_time__gte',
           outsideLabel: 'از تاریخ',
           col: 'col-md-4 col-12'
         },
         {
-          type: 'dateTime',
+          type: FormBuilderDateTimeComp,
           name: 'creation_time__lt',
           outsideLabel: 'تا تاریخ',
           col: 'col-md-4 col-12'

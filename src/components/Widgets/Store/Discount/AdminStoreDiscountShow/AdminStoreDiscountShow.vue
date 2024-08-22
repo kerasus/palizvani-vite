@@ -32,9 +32,11 @@ import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import BtnControl from 'components/Control/btn.vue'
+import BtnControl from 'src/components/Control/btn.vue'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'AdminDiscountShow',
@@ -54,7 +56,7 @@ export default {
       inputs: [
         { type: 'input', name: 'code', responseKey: 'code', label: 'کد', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'percent', responseKey: 'percent', label: 'درصد', placeholder: ' ', col: 'col-md-4 col-12' },
-        { type: 'dateTime', name: 'expire_time', responseKey: 'expire_time', outsideLabel: 'تاریخ انقضا', col: 'col-md-4 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'expire_time', responseKey: 'expire_time', outsideLabel: 'تاریخ انقضا', col: 'col-md-4 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ویرایش تخفیف', placeholder: ' ', ignoreValue: true, atClick: () => {}, col: 'col-md-6' }
       ]
     }

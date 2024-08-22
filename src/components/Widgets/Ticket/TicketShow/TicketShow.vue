@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityShow } from 'quasar-crud'
 import { User } from 'src/models/User.js'
 import Assist from 'src/assets/js/Assist.js'
@@ -117,10 +118,13 @@ import { Ticket } from 'src/models/Ticket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
-import { TicketCategory, TicketCategoryList } from 'src/models/TicketCategory.js'
 import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
+import { TicketCategory, TicketCategoryList } from 'src/models/TicketCategory.js'
 import InvoiceShow from 'src/components/Widgets/Invoice/InvoiceShow/InvoiceShow.vue'
 import InstallmentOffers from 'src/components/Widgets/Ticket/TicketShow/InstallmentOffers.vue'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
+
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'TicketShow',
@@ -159,7 +163,7 @@ export default {
         { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
 
         { type: 'file', name: 'attachment', responseKey: 'attachment', placeholder: ' ', label: 'ضمیمه', readonly: true, col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ایجاد', readonly: true, col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ایجاد', readonly: true, col: 'col-md-6 col-12' },
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'body', responseKey: 'body', label: 'متن', placeholder: ' ', col: 'col-md-12 col-12' },
         { type: 'hidden', name: 'source_id', responseKey: 'source_id', value: null },

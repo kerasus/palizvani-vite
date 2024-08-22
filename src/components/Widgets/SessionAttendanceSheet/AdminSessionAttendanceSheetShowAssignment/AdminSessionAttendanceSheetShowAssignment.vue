@@ -147,14 +147,18 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
+import { EntityShow } from 'quasar-crud'
 import { Session } from 'src/models/Session.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
-import { EntityShow } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import { SessionAttendanceSheets } from 'src/models/SessionAttendanceSheets'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
+
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'UserPanel.Profile.SessionInfo',
@@ -189,7 +193,7 @@ export default {
         { type: 'InputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'پاسخ کاربر', placeholder: ' ', col: 'col-md-12 col-12' },
         { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل ضمیمه', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'assignment_status', responseKey: 'assignment_status', label: 'وضعیت تکلیف', placeholder: ' ', options: (new SessionAttendanceSheets()).assignment_statusEnums, col: 'col-md-3 col-12' },
-        { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'زمان ارسال تکلیف', col: 'col-md-6 col-12' }
+        { type: FormBuilderDateTimeComp, name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'زمان ارسال تکلیف', col: 'col-md-6 col-12' }
       ]
     }
   },

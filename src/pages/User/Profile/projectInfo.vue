@@ -56,10 +56,12 @@ import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 const ContentsSelectorComp = shallowRef(ContentsSelector)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'UserPanel.Profile.ClassroomInfo',
@@ -91,8 +93,8 @@ export default {
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
-        { type: 'dateTime', name: 'beginning_doing_period', responseKey: 'beginning_doing_period', outsideLabel: 'زمان شروع', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_doing_period', responseKey: 'ending_doing_period', outsideLabel: 'زمان پایان', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'beginning_doing_period', responseKey: 'beginning_doing_period', outsideLabel: 'زمان شروع', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'ending_doing_period', responseKey: 'ending_doing_period', outsideLabel: 'زمان پایان', col: 'col-md-6 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات پروژه', placeholder: ' ', col: 'col-12' },
         { type: ContentsSelectorComp, name: 'contents', responseKey: 'contents_info', showPageLink: false, showDownloadLink: true, col: 'col-12' },

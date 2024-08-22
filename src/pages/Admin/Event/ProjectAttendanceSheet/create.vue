@@ -38,9 +38,11 @@ import { EntityCreate } from 'quasar-crud'
 import { Project } from 'src/models/Project.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
 
 const ContentsSelectorComp = shallowRef(ContentsSelector)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'Admin.Classroom.Create',
@@ -70,8 +72,8 @@ export default {
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
-        { type: 'dateTime', name: 'beginning_doing_period', responseKey: 'beginning_doing_period', outsideLabel: 'زمان شروع', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_doing_period', responseKey: 'ending_doing_period', outsideLabel: 'زمان پایان', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'beginning_doing_period', responseKey: 'beginning_doing_period', outsideLabel: 'زمان شروع', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'ending_doing_period', responseKey: 'ending_doing_period', outsideLabel: 'زمان پایان', col: 'col-md-6 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
         { type: 'inputEditor', name: 'correct_answer', responseKey: 'description', label: 'پاسخ صحیح', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات پروژه', placeholder: ' ', col: 'col-12' },

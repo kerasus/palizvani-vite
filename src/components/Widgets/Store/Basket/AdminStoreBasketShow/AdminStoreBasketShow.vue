@@ -83,14 +83,16 @@
 import { shallowRef } from 'vue'
 import { Basket } from 'src/models/Basket.js'
 import { Product } from 'src/models/Product.js'
+import { Package } from 'src/models/Package.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'components/Control/btn.vue'
 import { EntityShow, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
-import { Package } from 'src/models/Package'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'AdminStoreBasketShow',
@@ -231,7 +233,7 @@ export default {
       { type: 'separator', name: 'space1', label: 'مشخصات سفارش', className: 'custom-separator', col: 'col-12' },
       { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', placeholder: ' ', col: 'col-md-2 col-12' },
       { type: 'input', name: 'items_info.length', responseKey: 'items_info.length', label: 'تعداد اقلام', placeholder: ' ', col: 'col-md-2 col-12' },
-      { type: 'dateTime', name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', placeholder: ' ', disable: true, col: 'col-md-3 col-12' },
+      { type: FormBuilderDateTimeComp, name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', placeholder: ' ', disable: true, col: 'col-md-3 col-12' },
       { type: 'input', name: 'overall_order_price', responseKey: 'overall_order_price', label: 'قیمت کل(تومان)', placeholder: ' ', col: 'col-md-3 col-12' },
       { type: BtnControlComp, name: 'btnSent', responseKey: 'btnSent', label: 'ارسال', placeholder: ' ', outline: true, ignoreValue: true, atClick: this.sendBasket, loading: this.entityLoading, col: 'col-md-2 col-12' }
     ]

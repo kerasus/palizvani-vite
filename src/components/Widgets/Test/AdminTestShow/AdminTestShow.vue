@@ -42,10 +42,12 @@ import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { UnitCategory } from 'src/models/UnitCategory.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 import UsersOfTestSelector from 'src/components/FormBuilderCustumComponents/UsersOfTestSelector/UsersOfTestSelector.vue'
 import QuestionsCreateAndAppend from 'src/components/FormBuilderCustumComponents/QuestionsCreateAndAppend/QuestionsCreateAndAppend.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 const UsersOfTestSelectorComp = shallowRef(UsersOfTestSelector)
 const QuestionsCreateAndAppendComp = shallowRef(QuestionsCreateAndAppend)
 
@@ -65,12 +67,12 @@ export default {
       classroomInputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات ' + (this.$route.query.classroom_type === 'EVENT' ? 'پرسشنامه' : 'آزمون'), col: 'col-12' },
-        { type: 'dateTime', name: 'start_time', responseKey: 'start_time', outsideLabel: 'زمان شروع آزمون', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'end_time', responseKey: 'end_time', outsideLabel: 'زمان پایان آزمون', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'start_time', responseKey: 'start_time', outsideLabel: 'زمان شروع آزمون', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'end_time', responseKey: 'end_time', outsideLabel: 'زمان پایان آزمون', col: 'col-md-6 col-12' },
         { type: 'input', name: 'duration_deadline', responseKey: 'duration_deadline', label: 'مدت زمان پاسخ دهی (دقیقه)', placeholder: ' ', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'announcement_time', responseKey: 'announcement_time', outsideLabel: 'زمان اعلام نتایج', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'objection_start_time', responseKey: 'objection_start_time', outsideLabel: 'زمان شروع اعتراض', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'objection_end_time', responseKey: 'objection_end_time', outsideLabel: 'زمان پایان اعتراض', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'announcement_time', responseKey: 'announcement_time', outsideLabel: 'زمان اعلام نتایج', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'objection_start_time', responseKey: 'objection_start_time', outsideLabel: 'زمان شروع اعتراض', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'objection_end_time', responseKey: 'objection_end_time', outsideLabel: 'زمان پایان اعتراض', col: 'col-md-6 col-12' },
         { type: 'select', name: 'level', responseKey: 'level', label: 'سطح آزمون', placeholder: ' ', options: (new Test()).levelEnums, col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'test_set', responseKey: 'test_set', value: this.$route.params.test_set_id },
         { type: 'hidden', name: 'classroom', responseKey: 'classroom', value: this.$route.params.classroom_id },

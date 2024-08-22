@@ -32,10 +32,12 @@ import { Event } from 'src/models/Event.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
 import FormBuilderInputEditor from 'src/components/FormBuilderCustumComponents/FormBuilderInputEditor.vue'
 
 const ContentMediasComp = shallowRef(ContentMedias)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 const FormBuilderInputEditorComp = shallowRef(FormBuilderInputEditor)
 
 export default {
@@ -80,24 +82,24 @@ export default {
         { type: 'input', name: 'capacity', responseKey: 'capacity', placeholder: ' ', label: 'ظرفیت گروه درسی', col: 'col-md-3 col-12' },
 
         { type: 'separator', name: 'space', label: 'ثبت نام و حذف و اضافه', className: 'custom-separator', col: 'col-12' },
-        { type: 'dateTime', name: 'beginning_enrollment_period', responseKey: 'beginning_enrollment_period', outsideLabel: 'تاریخ شروع پیش ثبت نام', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', outsideLabel: 'تاریخ پایان پیش ثبت نام', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'beginning_registration_period', responseKey: 'beginning_registration_period', outsideLabel: 'تاریخ شروع ثبت نام', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_registration_period', responseKey: 'ending_registration_period', outsideLabel: 'تاریخ پایان ثبت نام', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'beginning_enrollment_period', responseKey: 'beginning_enrollment_period', outsideLabel: 'تاریخ شروع پیش ثبت نام', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', outsideLabel: 'تاریخ پایان پیش ثبت نام', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'beginning_registration_period', responseKey: 'beginning_registration_period', outsideLabel: 'تاریخ شروع ثبت نام', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'ending_registration_period', responseKey: 'ending_registration_period', outsideLabel: 'تاریخ پایان ثبت نام', col: 'col-md-6 col-12' },
 
         { type: 'input', name: 'registration_period_refund_percent', responseKey: 'registration_period_refund_percent', placeholder: ' ', label: 'درصد برگشت هزینه انصراف در بازه ثبت نام', col: 'col-md-3 col-12' },
         { type: 'checkbox', name: 'allow_dropping_on_enrollment_period', responseKey: 'allow_dropping_on_enrollment_period', label: 'امکان حذف در بازه پیش ثبت نام', col: 'col-md-3 col-12' },
         { type: 'checkbox', name: 'allow_adding_on_registration_period', responseKey: 'allow_adding_on_registration_period', label: 'امکان اضافه کردن در بازه ثبت نام', col: 'col-md-3 col-12' },
         { type: 'checkbox', name: 'allow_dropping_on_registration_period', responseKey: 'allow_dropping_on_registration_period', label: 'امکان حذف ثبت نام در بازه ثبت نام', col: 'col-md-3 col-12' },
 
-        { type: 'dateTime', name: 'beginning_drop_add_period', responseKey: 'beginning_drop_add_period', outsideLabel: 'تاریخ شروع حذف و اضافه', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_drop_add_period', responseKey: 'ending_drop_add_period', outsideLabel: 'تاریخ پایان حذف و اضافه', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'beginning_drop_add_period', responseKey: 'beginning_drop_add_period', outsideLabel: 'تاریخ شروع حذف و اضافه', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'ending_drop_add_period', responseKey: 'ending_drop_add_period', outsideLabel: 'تاریخ پایان حذف و اضافه', col: 'col-md-6 col-12' },
 
         { type: 'input', name: 'drop_add_period_refund_percent', responseKey: 'drop_add_period_refund_percent', placeholder: ' ', label: 'درصد برگشت هزینه انصراف در بازه حذف و اضافه', col: 'col-md-3 col-12' },
         { type: 'checkbox', name: 'allow_adding_on_drop_add_period', responseKey: 'allow_adding_on_drop_add_period', label: 'امکان اضافه شدن در بازه حذف و اضافه', col: 'col-md-3 col-12' },
         { type: 'checkbox', name: 'allow_dropping_on_drop_add_period', responseKey: 'allow_dropping_on_drop_add_period', label: 'امکان حذف در بازه حذف و اضافه', col: 'col-md-3 col-12' },
 
-        { type: 'dateTime', name: 'publish_time', responseKey: 'publish_time', outsideLabel: 'تاریخ انتشار', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'publish_time', responseKey: 'publish_time', outsideLabel: 'تاریخ انتشار', col: 'col-md-6 col-12' },
 
         { type: 'separator', name: 'space', label: 'قوانین', className: 'custom-separator', col: 'col-12' },
         { type: FormBuilderInputEditorComp, name: 'rules', responseKey: 'rules', label: 'قوانین رویداد', col: 'col-12' },

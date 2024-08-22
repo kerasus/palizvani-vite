@@ -36,11 +36,13 @@
 import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import { APIGateway } from 'src/api/APIGateway.js'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 import ContentMedias from 'src/components/FormBuilderCustumComponents/ContentMedias/ContentMedias.vue'
 import ContentsSelector from 'src/components/FormBuilderCustumComponents/ContentsSelector/ContentsSelector.vue'
 
 const ContentMediasComp = shallowRef(ContentMedias)
 const ContentsSelectorComp = shallowRef(ContentsSelector)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'Admin.Session.Show',
@@ -60,8 +62,8 @@ export default {
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'نام جلسه', placeholder: ' ', col: 'col-md-9 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-12' },
-        { type: 'dateTime', name: 'beginning_time', responseKey: 'beginning_time', outsideLabel: 'زمان شروع جلسه', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_time', responseKey: 'ending_time', outsideLabel: 'زمان پایان جلسه', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'beginning_time', responseKey: 'beginning_time', outsideLabel: 'زمان شروع جلسه', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'ending_time', responseKey: 'ending_time', outsideLabel: 'زمان پایان جلسه', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: ContentsSelectorComp, name: 'contents', responseKey: 'contents_info', col: 'col-12' },

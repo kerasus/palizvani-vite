@@ -102,11 +102,6 @@ export default {
 
         { type: ContentsSelectorComp, name: 'project_info.contents_info', responseKey: 'project_info.contents_info', col: 'col-12' },
         { type: 'inputEditor', name: 'project_info.correct_answer', responseKey: 'project_info.correct_answer', label: 'پاسخ صحیح', placeholder: ' ', col: 'col-12' }
-
-        // { type: 'dateTime', name: 'beginning_doing_period', responseKey: 'beginning_doing_period', label: 'زمان شروع', placeholder: ' ', col: 'col-md-6 col-12' },
-        // { type: 'dateTime', name: 'ending_doing_period', responseKey: 'ending_doing_period', label: 'زمان پایان', placeholder: ' ', col: 'col-md-6 col-12' },
-        // { type: 'hidden', name: 'id', responseKey: 'id' },
-        // { type: 'hidden', name: 'classroom', responseKey: 'classroom' }
       ]
     }
   },

@@ -38,8 +38,10 @@ import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'AdminEventList',
@@ -57,13 +59,13 @@ export default {
       },
       inputs: [
         {
-          type: 'dateTime',
+          type: FormBuilderDateTimeComp,
           name: 'creation_time__gte',
           outsideLabel: 'از تاریخ',
           col: 'col-md-3 col-12'
         },
         {
-          type: 'dateTime',
+          type: FormBuilderDateTimeComp,
           name: 'creation_time__lt',
           outsideLabel: 'تا تاریخ',
           col: 'col-md-3 col-12'

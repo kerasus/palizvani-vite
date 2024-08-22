@@ -20,9 +20,13 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityEdit } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
+
+const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
 
 export default {
   name: 'AdminSessionTemplateShow',
@@ -42,8 +46,8 @@ export default {
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'نام جلسه', placeholder: ' ', col: 'col-md-9 col-12' },
         { type: 'separator', name: 'space', size: '0', col: 'col-12' },
-        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', outsideLabel: 'زمان شروع جلسه', col: 'col-md-6 col-12' },
-        { type: 'dateTime', name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', outsideLabel: 'زمان پایان جلسه', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', outsideLabel: 'زمان شروع جلسه', col: 'col-md-6 col-12' },
+        { type: FormBuilderDateTimeComp, name: 'ending_enrollment_period', responseKey: 'ending_enrollment_period', outsideLabel: 'زمان پایان جلسه', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'syllabus', responseKey: 'syllabus', label: 'مقرری', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف جلسه', placeholder: ' ', col: 'col-12' },
