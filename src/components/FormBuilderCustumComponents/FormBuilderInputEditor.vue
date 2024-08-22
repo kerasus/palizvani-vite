@@ -1,12 +1,9 @@
 <template>
-  <div class="form-builder-editor"
-       :class="customClass">
+  <div class="form-builder-editor">
     <p v-text="label" />
     <q-editor v-if="!disable && !readonly"
               ref="editor"
               v-model="inputData"
-              :class="customClass"
-              :content-class="customClass"
               :name="name"
               :dense="$q.screen.lt.md"
               :toolbar="[
@@ -79,8 +76,7 @@
                 times_new_roman: 'Times New Roman',
                 verdana: 'Verdana',
               }"
-              @update:model-value="change($event)"
-              @click="onClick"
+              @update:model-value="onChangeText"
               @paste="onPaste">
       <template v-slot:colorpicker>
         <q-btn-dropdown ref="token"
@@ -175,6 +171,10 @@ export default {
   methods: {
     onPaste () {
       this.inputData = this.inputData.replaceAll(/<!--\[if .*endif\]-->/gms, 'ferret')
+    },
+    onChangeText (event) {
+      this.change(event)
+      this.$emit('update:value', event)
     },
     setColor (cmd, name) {
       const edit = this.$refs.editor
