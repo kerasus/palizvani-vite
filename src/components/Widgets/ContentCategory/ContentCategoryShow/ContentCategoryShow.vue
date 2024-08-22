@@ -20,26 +20,6 @@
       </div>
     </div>
     <q-banner class="ContentCategoryShow-banner">
-      محصولات
-      {{ contentCategory.title }}
-    </q-banner>
-    <entity-index v-if="mounted && contentCategory.id"
-                  ref="entityIndex"
-                  v-model:value="productInputs"
-                  class="product-index"
-                  :api="productApi"
-                  :table="table"
-                  :table-keys="tableKeys"
-                  :table-grid-size="true"
-                  :default-layout="false"
-                  :show-search-button="false"
-                  :show-expand-button="false"
-                  :show-reload-button="false">
-      <template #entity-index-table-item-cell="{inputData}">
-        <product-item :product="getProduct(inputData.props.row)" />
-      </template>
-    </entity-index>
-    <q-banner class="ContentCategoryShow-banner">
       محتواهای
       {{ contentCategory.title }}
     </q-banner>
@@ -57,6 +37,26 @@
                   :show-reload-button="false">
       <template #entity-index-table-item-cell="{inputData}">
         <content-item :content="getContent(inputData.props.row)" />
+      </template>
+    </entity-index>
+    <q-banner class="ContentCategoryShow-banner">
+      محصولات
+      {{ contentCategory.title }}
+    </q-banner>
+    <entity-index v-if="mounted && contentCategory.id"
+                  ref="entityIndex"
+                  v-model:value="productInputs"
+                  class="product-index"
+                  :api="productApi"
+                  :table="table"
+                  :table-keys="tableKeys"
+                  :table-grid-size="true"
+                  :default-layout="false"
+                  :show-search-button="false"
+                  :show-expand-button="false"
+                  :show-reload-button="false">
+      <template #entity-index-table-item-cell="{inputData}">
+        <product-item :product="getProduct(inputData.props.row)" />
       </template>
     </entity-index>
   </div>
