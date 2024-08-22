@@ -37,6 +37,10 @@
         </div>
       </div>
       <div class="package-show__summery-price">
+        <div v-if="storePackage.unit_price !== storePackage.sellable_price"
+             class="discount-badge">
+          <discount-badge />
+        </div>
         <div class="package-show__summery-price-title">
           <q-icon name="shopping_cart" />
           قیمت محصول
@@ -86,11 +90,12 @@ import { Package } from 'src/models/Package.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import ProductItem from './components/productItem.vue'
+import DiscountBadge from './components/discountBadge.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'ContentShow',
-  components: { Breadcrumbs, ProductItem },
+  components: { Breadcrumbs, ProductItem, DiscountBadge },
   mixins: [mixinWidget],
   data () {
     return {

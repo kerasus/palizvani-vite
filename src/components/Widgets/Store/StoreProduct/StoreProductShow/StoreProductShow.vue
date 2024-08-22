@@ -49,6 +49,10 @@
         </div>
       </div>
       <div class="product-show__summery-price">
+        <div v-if="product.unit_price !== product.sellable_price"
+             class="discount-badge">
+          <discount-badge />
+        </div>
         <div class="product-show__summery-price-title">
           <q-icon name="shopping_cart" />
           قیمت محصول
@@ -90,11 +94,12 @@ import { Product } from 'src/models/Product.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import MediasComponent from './components/Medias.vue'
+import DiscountBadge from './components/discountBadge.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
   name: 'ContentShow',
-  components: { Breadcrumbs, MediasComponent },
+  components: { Breadcrumbs, MediasComponent, DiscountBadge },
   mixins: [mixinWidget],
   data () {
     return {
@@ -256,6 +261,7 @@ export default {
       }
     }
     .product-show__summery-price {
+      position: relative;
       width: $price-section-with;
       border-radius: 8px;
       background: #F6F6F6;
@@ -266,6 +272,9 @@ export default {
       flex-flow: column;
       align-items: center;
       justify-content: flex-start;
+      .discount-badge {
+
+      }
       .product-show__summery-price-title {
         font-size: 16px;
         color: #616161;
