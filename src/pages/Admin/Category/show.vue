@@ -115,11 +115,7 @@ export default {
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id' }
       ],
 
-      unitFilterInputs: [
-        // { type: 'hidden', name: 'category', value: null }
-      ],
-
-      unitApi: APIGateway.unit.APIAdresses.base + '?category=' + this.$route.params.id,
+      unitApi: APIGateway.unit.APIAdresses.base,
       unitTable: {
         columns: [
           {
@@ -167,6 +163,9 @@ export default {
         ],
         data: []
       },
+      unitFilterInputs: [
+        { type: 'hidden', name: 'category', value: this.$route.params.id }
+      ],
       unitTableKeys: {
         data: 'results',
         total: 'count',
