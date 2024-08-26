@@ -68,6 +68,7 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 import Assist from 'assets/js/Assist'
+import { Classroom } from 'src/models/Classroom'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -81,6 +82,10 @@ export default {
     classroomId: {
       type: Number,
       default: null
+    },
+    classroom: {
+      type: Classroom,
+      default: new Classroom()
     }
   },
   data () {
@@ -206,7 +211,7 @@ export default {
         status
       })
         .then((xlsxData) => {
-          Assist.saveXlsx(xlsxData, this.classroomId)
+          Assist.saveXlsx(xlsxData, this.classroom.title)
           this.exportReportLoading = false
         })
         .catch((e) => {

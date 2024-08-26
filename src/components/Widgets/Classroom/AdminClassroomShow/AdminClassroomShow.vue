@@ -111,7 +111,9 @@
       </q-tab-panel>
       <q-tab-panel name="activity_sheet"
                    class="q-pa-none">
-        <activity-sheet-list :classroom-id="parseInt($route.params.id)" />
+        <activity-sheet-list v-if="classroom.id"
+                             :classroom="classroom"
+                             :classroom-id="parseInt($route.params.id)" />
       </q-tab-panel>
       <q-tab-panel name="announce_result"
                    class="q-pa-none">
