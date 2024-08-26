@@ -57,6 +57,7 @@ import { Registration } from 'src/models/Registration.js'
 import { mixinAuth, mixinWidget } from 'src/mixin/Mixins.js'
 import EntityIndexGridItem from 'src/components/EntityIndexGridItem.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { TranscriptSheet } from 'src/models/TranscriptSheet'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -95,7 +96,7 @@ export default {
           name: 'status',
           options: Enums.classroomStatuses,
           value: null,
-          label: 'وضعیت دوره',
+          label: 'مرحله دوره',
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
@@ -179,8 +180,8 @@ export default {
             required: true,
             label: 'وضعیت',
             align: 'left',
-            field: row => (new Registration(row)).status_info.label
-            // field: row => this.getClassroomStatusTitle(row.classroom_info.status)
+            // field: row => (new Registration(row)).status_info.label
+            field: row => this.getRegistrationStatusTitle(row)
           },
           {
             name: 'title',
@@ -263,7 +264,7 @@ export default {
         FormBuilderAssist.setAttributeByName(this.inputs, 'classroom__unit__category__type', 'type', 'hidden')
         FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'type', 'hidden')
         FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'label', 'دسته')
-        FormBuilderAssist.setAttributeByName(this.inputs, 'status', 'label', 'وضعیت رویداد')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'status', 'label', 'مرحله رویداد')
 
         this.table.columns.forEach(col => {
           if (col.name === 'professor_info') {
@@ -292,6 +293,13 @@ export default {
       }
 
       return target.label
+    },
+    getRegistrationStatusTitle (registration) {
+      if (registration.status === 'REGISTERED' && registration.transcript_sheet_info) {
+        return (new TranscriptSheet(registration.transcript_sheet_info)).status_info.label
+      } else {
+        return (new Registration(registration)).status_info.label
+      }
     },
     getClassroomStatusTitle (type) {
       const target = Enums.classroomStatuses.find(item => item.value === type)
