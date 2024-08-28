@@ -15,6 +15,11 @@
       <template v-if="inputData.col.name === 'number'">
         {{ inputData.rowNumber }}
       </template>
+      <template v-if="inputData.col.name === 'status'">
+        <div :class="this.getRegistrationStatusTitleClass(inputData.props.row)">
+          {{ this.getRegistrationStatusTitle(inputData.props.row) }}
+        </div>
+      </template>
       <template v-else-if="inputData.col.name === 'action'">
         <q-btn size="md"
                color="primary"
@@ -30,6 +35,11 @@
         <template #col="{col, row}">
           <template v-if="col.name === 'number'">
             {{ inputData.rowNumber }}
+          </template>
+          <template v-if="col.name === 'status'">
+            <div :class="this.getRegistrationStatusTitleClass(row)">
+              {{ this.getRegistrationStatusTitle(row) }}
+            </div>
           </template>
           <template v-else-if="col.name === 'action'">
             <q-btn size="md"
@@ -73,15 +83,6 @@ export default {
     return {
       mounted: false,
       inputs: [
-        {
-          type: 'select',
-          name: 'status',
-          options: Enums.classroomStatuses,
-          value: null,
-          label: 'مرحله دوره',
-          placeholder: ' ',
-          col: 'col-md-2 col-12'
-        },
         {
           type: 'select',
           name: 'category',
@@ -174,7 +175,7 @@ export default {
             field: row => ShamsiDate.getDateTime(row.creation_time)
           },
           {
-            name: 'status',
+            name: 'invoice_status',
             required: true,
             label: 'وضعیت مالی',
             align: 'left',
@@ -284,6 +285,12 @@ export default {
         return (new Registration(registration)).status_info.label
       }
     },
+    getRegistrationStatusTitleClass (registration) {
+      if (registration.status === 'REGISTERED' && registration.transcript_sheet_info) {
+        return (new TranscriptSheet(registration.transcript_sheet_info)).status_info.value
+      }
+      return null
+    },
     getClassroomStatusTitle (type) {
       const target = Enums.classroomStatuses.find(item => item.value === type)
       if (!target) {
@@ -350,3 +357,19 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.CLEAN_PASSED {
+  //font-size: 1.1em;
+  color: green;
+}
+.CONDITIONAL_PASSED{
+  color: yellow;
+}
+.FAILED{
+  color: darkred;
+}
+.FAILED_DUE_TO_PRE_CONDITIONAL{
+  color: red;
+}
+</style>
