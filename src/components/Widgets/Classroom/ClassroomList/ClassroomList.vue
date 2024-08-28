@@ -101,6 +101,7 @@ export default {
           placeholder: ' ',
           col: 'col-md-2 col-12'
         },
+        { type: 'hidden', name: 'classroom__unit__category__type', value: 'TRAINING' },
         { type: 'hidden', name: 'owner', value: null },
         { type: 'input', name: 'search', label: 'جستجو', placeholder: ' ', col: 'col-md-2 col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
