@@ -7,6 +7,7 @@
              :to="{name: 'Admin.Post.Create'}" />
     </div>
     <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست پست ها"
                   :api="api"
@@ -43,10 +44,15 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
+import BtnControl from 'src/components/Control/btn.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminPostList',
@@ -62,7 +68,10 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
+      inputs: [
+        { type: 'input', name: 'search', value: null, col: 'col-md-3 col-12', label: 'جست و جو', placeholder: ' ' },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+      ],
       table: {
         columns: [
           {
@@ -107,9 +116,13 @@ export default {
     }
   },
   mounted() {
+    this.setActionBtn()
     this.mounted = true
   },
   methods: {
+    setActionBtn () {
+      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
+    },
     search () {
       this.$refs.entityIndex.search()
     },
