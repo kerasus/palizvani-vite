@@ -16,7 +16,7 @@
                   :show-search-button="false"
                   :show-expand-button="false"
                   :show-reload-button="false">
-      <template #entity-index-table-cell="{inputData}">
+      <template #entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
         </template>
@@ -25,10 +25,14 @@
                  width="100px" />
         </template>
         <template v-else-if="inputData.col.name === 'action'">
-          <q-btn color="primary"
-                 :to="{name: 'Admin.Content.Show', params: {id: inputData.props.row.id}}">
-            مشاهده جزییات
-          </q-btn>
+          <div class="action-column-entity-index">
+            <q-btn color="primary"
+                   :to="{name: 'Admin.Content.Show', params: {id: inputData.props.row.id}}">
+              مشاهده جزییات
+            </q-btn>
+            <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+          </div>
+
         </template>
         <template v-else>
           {{ inputData.col.value }}
@@ -42,10 +46,11 @@
 import { EntityIndex } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
 export default {
   name: 'AdminContentList',
-  components: { EntityIndex },
+  components: { DeleteBtn, EntityIndex },
   mixins: [mixinWidget],
   data: () => {
     return {
@@ -103,6 +108,11 @@ export default {
   },
   mounted() {
     this.mounted = true
+  },
+  methods: {
+    getRemoveMessage (row) {
+      return 'آیا از حذف ' + row.title + ' اطمینان دارید؟'
+    }
   }
 }
 </script>
@@ -114,6 +124,11 @@ export default {
     flex-flow: row;
     justify-content: flex-end;
     margin-bottom: 10px;
+  }
+  .action-column-entity-index {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
 }
 </style>
