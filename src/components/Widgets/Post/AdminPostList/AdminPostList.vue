@@ -51,10 +51,11 @@ import { EntityIndex } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
-import { FormBuilderAssist } from 'quasar-form-builder'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
+import PostCategorySelector from 'src/components/FormBuilderCustumComponents/PostCategorySelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const PostCategorySelectorComp = shallowRef(PostCategorySelector)
 
 export default {
   name: 'AdminPostList',
@@ -72,7 +73,7 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'select', name: 'category', label: 'دسته بندی', placeholder: ' ', optionLabel: 'title', optionValue: 'id', col: 'col-md-3 col-12' },
+        { type: PostCategorySelectorComp, name: 'category', responseKey: 'category', col: 'col-12' },
         { type: 'input', name: 'search', value: null, col: 'col-md-3 col-12', label: 'جست و جو', placeholder: ' ' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-2 col-12' }
       ],
@@ -120,20 +121,9 @@ export default {
     }
   },
   mounted() {
-    this.getCategories()
+    this.mounted = true
   },
   methods: {
-    getCategories () {
-      this.loading = true
-      APIGateway.postCategory.index({ per_page: 9999 })
-        .then((postCategories) => {
-          FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', postCategories.list.list)
-        })
-        .finally(() => {
-          this.loading = false
-          this.mounted = true
-        })
-    },
     search () {
       this.$refs.entityIndex.search()
     },
