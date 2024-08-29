@@ -12,6 +12,13 @@
                   :show-search-button="false"
                   :show-expand-button="false"
                   :show-reload-button="false">
+      <template #toolbar>
+        <q-btn color="primary"
+               :loading="exportReportLoading"
+               @click="getInvoicesListExcel">
+          دریافت
+        </q-btn>
+      </template>
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -138,16 +145,9 @@ export default {
           {
             name: 'creation_time',
             required: true,
-            label: 'زمان ثبت',
+            label: 'زمان',
             align: 'left',
             field: row => Assist.miladiToShamsi(row.creation_time)
-          },
-          {
-            name: 'last_modification_time',
-            required: true,
-            label: 'زمان آخرین بروز رسانی',
-            align: 'left',
-            field: row => Assist.miladiToShamsi(row.last_modification_time)
           },
           {
             name: 'action',
@@ -159,6 +159,7 @@ export default {
         ]
       },
       mounted: false,
+      exportReportLoading: false,
       createRouteName: ''
     }
   },
@@ -175,6 +176,20 @@ export default {
     },
     search () {
       this.$refs.entityIndex.search()
+    },
+    getInvoicesListExcel () {
+      this.exportReportLoading = true
+      const filter = this.$refs.entityIndex.createParams()
+      filter.report_type = 'invoices_list'
+      APIGateway.invoice.exportInvoiceReport(filter)
+        .then((xlsxData) => {
+          // Assist.saveXlsx(xlsxData, this.classroomId)
+          Assist.saveXlsx(xlsxData, 'صورتحساب ها')
+          this.exportReportLoading = false
+        })
+        .catch((e) => {
+          this.exportReportLoading = false
+        })
     }
   }
 }

@@ -9,7 +9,8 @@ export default class InvoiceAPI extends APIRepository {
       base: '/accounting/invoices',
       byId: (id) => '/accounting/invoices/' + id,
       pay: (id) => '/accounting/invoices/' + id + '/pay',
-      cancel: (id) => '/accounting/invoices/' + id + '/cancel'
+      cancel: (id) => '/accounting/invoices/' + id + '/cancel',
+      exportInvoiceReport: '/accounting/invoices/export_report'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base
@@ -136,6 +137,24 @@ export default class InvoiceAPI extends APIRepository {
       },
       resolveCallback: (response) => {
         return new Invoice(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  exportInvoiceReport(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.exportInvoiceReport,
+      data: this.getNormalizedSendData({
+        report_type: null // String
+      }, data),
+      responseType: 'blob',
+      resolveCallback: (response) => {
+        return response.data // xlsxData
       },
       rejectCallback: (error) => {
         return error
