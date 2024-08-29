@@ -57,12 +57,13 @@
           <q-icon name="shopping_cart" />
           قیمت محصول
         </div>
-        <div class="product-show__summery-price-base">
-          {{ product.unit_price }}
+        <div v-if="product.unit_price !== product.sellable_price"
+             class="product-show__summery-price-base">
+          {{ parseInt(product.unit_price).toLocaleString('fa') }}
           تومان
         </div>
         <div class="product-show__summery-price-final">
-          {{ product.getFinalPrice() }}
+          {{ parseInt(product.sellable_price).toLocaleString('fa') }}
           تومان
         </div>
         <q-btn label="افزودن به سبد"
