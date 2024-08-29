@@ -1,6 +1,8 @@
 <template>
   <div class="AdminPostList"
        :style="localOptions.style">
+    <q-linear-progress v-if="loading"
+                       indeterminate />
     <div class="more-action">
       <q-btn label="پست جدید"
              color="primary"
@@ -48,9 +50,9 @@ import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 
@@ -58,8 +60,9 @@ export default {
   name: 'AdminPostList',
   components: { DeleteBtn, EntityIndex },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
+      loading: false,
       api: APIGateway.post.APIAdresses.base,
       tableKeys: {
         data: 'results',
@@ -69,8 +72,9 @@ export default {
         pageKey: 'page'
       },
       inputs: [
+        { type: 'select', name: 'category', label: 'دسته بندی', placeholder: ' ', optionLabel: 'title', optionValue: 'id', col: 'col-md-3 col-12' },
         { type: 'input', name: 'search', value: null, col: 'col-md-3 col-12', label: 'جست و جو', placeholder: ' ' },
-        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-2 col-12' }
       ],
       table: {
         columns: [
@@ -116,12 +120,19 @@ export default {
     }
   },
   mounted() {
-    this.setActionBtn()
-    this.mounted = true
+    this.getCategories()
   },
   methods: {
-    setActionBtn () {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
+    getCategories () {
+      this.loading = true
+      APIGateway.postCategory.index({ per_page: 9999 })
+        .then((postCategories) => {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'options', postCategories.list.list)
+        })
+        .finally(() => {
+          this.loading = false
+          this.mounted = true
+        })
     },
     search () {
       this.$refs.entityIndex.search()
