@@ -1,22 +1,14 @@
 <template>
   <div class="col-md-4 col-sm-6 col-12">
     <q-card flat
-            class="ContentItem">
+            class="ContentItem"
+            @click="goToContentPage">
       <div class="thumbnail">
-        <router-link :to="{name: 'Public.Content.Show', params: {id: content.id}}">
-          <q-img :src="content.thumbnail" />
-        </router-link>
+        <q-img :src="content.thumbnail" />
       </div>
       <div class="title ellipsis-2-lines">
         <router-link :to="{name: 'Public.Content.Show', params: {id: content.id}}">
           {{content.title}}
-        </router-link>
-      </div>
-      <div class="child-category ellipsis-2-lines">
-        <router-link :to="{name: 'Public.ContentCategory.Show', params: {category_id: content.category }}">
-          <q-icon name="account_tree" />
-          دسته:
-          {{content.category_info?.title}}
         </router-link>
       </div>
       <q-card-actions class="action-section">
@@ -41,48 +33,44 @@ export default defineComponent({
       type: Content,
       default: new Content()
     }
+  },
+  methods: {
+    goToContentPage () {
+      this.$router.push({ name: 'Public.Content.Show', params: { id: this.content.id } })
+    }
   }
 })
 </script>
 
 <style lang="scss" scoped>
 .ContentItem {
-  background-color: #f6f6f6;
-  border-radius: 54px 0 54px 54px;
-  padding: 20px 20px 30px;
+  background: #F6F6F6;
+  border-radius: 8px;
+  border: 1px solid #DFE1EC;
+  padding: 11px 24px 24px 24px;
   margin: 8px;
+  position: relative;
   .thumbnail {
-    margin-bottom: 43px;
+    padding: 0 34px;
+    margin-bottom: 8px;
     .q-img {
-      border-radius: 54px 0 54px 54px;
     }
   }
   .title {
-    font-size: 17px;
-    letter-spacing: 0;
-    padding-right: 26px;
-    padding-left: 26px;
-    margin-bottom: 16px;
+    font-size: 18px;
+    color: #212121;
+    text-align: center;
+    margin-bottom: 8px;
+    max-height: 48px;
+    min-height: 48px;
     a {
-      color: #475F4A;
-    }
-  }
-  .child-category {
-    font-size: 17px;
-    letter-spacing: 0;
-    padding-right: 26px;
-    padding-left: 26px;
-    margin-bottom: 31px;
-    a {
-      color: #475F4A;
+      color: #212121;
     }
   }
   .action-section {
     .btn-show-content {
       width: 100%;
       height: 48px;
-      max-width: 252px;
-      margin: auto;
     }
   }
 }
