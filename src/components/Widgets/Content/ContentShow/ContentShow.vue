@@ -1,119 +1,145 @@
 <template>
-  <div class="content printable">
-    <template v-if="!content.loading">
-      <div class="breadcrumbs">
-        <breadcrumbs />
-      </div>
-      <div ref="printArea"
-           class="print-area">
-        <div v-if="!content.content"
-             class="content-title">
-          {{content.title}}
+  <div class="content-show"
+       :style="localOptions.style">
+    <breadcrumbs class="q-mb-md" />
+    <div class="content-show__summery">
+      <div class="content-show__summery-info">
+        <div class="content-show__thumbnail">
+          <q-img :src="content.thumbnail" />
         </div>
-
-        <q-separator class="q-mt-md" />
-
-        <div class="content-body"
-             v-html="content.text" />
-
-        <div class="attributes">
-          <q-btn v-if="content.category_info?.parent?.parent?.id"
-                 :to="{name: 'Public.ContentCategoryParentParent.Show', params: {category_id: content.category_info.parent.parent.id}}"
-                 class="attribute-item">
-            {{content.category_info.parent.parent.title}}
-          </q-btn>
-          <q-btn v-if="content.category_info?.parent?.id"
-                 :to="{name: 'Public.ContentCategoryParent.Show', params: {category_id: content.category_info.parent.id}}"
-                 class="attribute-item">
-            {{content.category_info.parent.title}}
-          </q-btn>
-          <q-btn v-if="content.category_info?.id"
-                 :to="{name: 'Public.ContentCategory.Show', params: {category_id: content.category_info.id}}"
-                 class="attribute-item">
-            {{content.category_info.title}}
-          </q-btn>
+        <div class="content-show__meta">
+          <div class="content-show__title">
+            {{ content.title }}
+          </div>
+          <div class="content-show__attrs">
+            <div class="content-show__attrs-title">
+              ویژگی ها:
+            </div>
+            <div class="content-show__attrs-items">
+              <div v-if="content.is_physical"
+                   class="content-show__attrs-item">
+                <div class="content-show__attrs-item-label">
+                  نوع:
+                </div>
+                <div class="content-show__attrs-item-value">
+                  {{ content.is_physical_info.label }}
+                </div>
+              </div>
+              <div v-if="content.physical_type"
+                   class="content-show__attrs-item">
+                <div class="content-show__attrs-item-label">
+                  جنس:
+                </div>
+                <div class="content-show__attrs-item-value">
+                  {{ content.physical_type_info.label }}
+                </div>
+              </div>
+              <div v-if="content.weight"
+                   class="content-show__attrs-item">
+                <div class="content-show__attrs-item-label">
+                  وزن:
+                </div>
+                <div class="content-show__attrs-item-value">
+                  {{ content.weight }}
+                  گرم
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </template>
-
-    <template v-else>
-      <q-skeleton type="circle"
-                  size="100px"
-                  class="q-mt-md" />
-      <q-skeleton width="150px"
-                  class="q-mt-md" />
-      <q-skeleton height="150px"
-                  class="q-mt-md" />
-    </template>
+    </div>
+    <div v-if="content.description"
+         class="content-show__descriptions">
+      <q-banner class="content-show__descriptions-title">
+        توضیحات:
+      </q-banner>
+      <div class="content-show__descriptions-data"
+           v-html="content.description" />
+    </div>
+    <div v-if="content.medias_info"
+         class="content-show__medias">
+      <medias-component :medias="content.medias_info" />
+    </div>
   </div>
 </template>
 
 <script>
+import ShamsiDate from 'assets/ShamsiDate'
 import { Content } from 'src/models/Content.js'
-import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import MediasComponent from './components/Medias.vue'
+import { ContentCategory } from 'src/models/ContentCategory.js'
 import { mixinPrefetchServerData, mixinWidget } from 'src/mixin/Mixins.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 let html2pdf
-// if (typeof window !== 'undefined') {
-//   import('html2pdf.js')
-//     .then((html2pdfLib) => {
-//       html2pdf = html2pdfLib.default
-//     })
-// }
 
 export default {
-  name: 'ShowClassroomInfo',
-  components: { Breadcrumbs },
-  mixins: [mixinWidget, mixinPrefetchServerData],
-  emits: ['onloadn'],
+  name: 'ContentShow',
+  components: { Breadcrumbs, MediasComponent },
+  mixins: [mixinPrefetchServerData, mixinWidget],
   data () {
     return {
-      breadcrumbs: {
-        visible: true,
-        loading: false,
-        path: [
-          {
-            label: 'خانه',
-            to: { name: 'Public.Home' }
-          },
-          {
-            label: 'یادداشت ها و مقالات',
-            to: { name: 'Public.Content.List' }
-          }
-        ]
-      },
-      defaultOptions: {
-        profileMode: false,
-        contentShowRouteName: 'Public.Content.Show'
-      },
-      content: new Content()
+      content: new Content(),
+      contentCategory: new ContentCategory(),
+      contentCategoryParent: new ContentCategory(),
+      contentCategoryParentParent: new ContentCategory(),
+      addToCartLoading: false
     }
   },
   computed: {
     contentId () {
-      return this.$route.params.id ?? this.$route.params.content_id
+      return this.$route.params.id
+    },
+    breadcrumbsPath () {
+      const path = [
+        {
+          label: 'خانه',
+          to: { name: 'Public.Home' }
+        },
+        {
+          label: 'آرشیو محتوا',
+          to: { name: 'Public.ContentCategoryParentParent.List' }
+        }
+      ]
+
+      if (this.contentCategoryParentParent.id) {
+        path.push({
+          label: this.contentCategoryParentParent.title,
+          to: { name: 'Public.ContentCategoryParentParent.Show', params: { category_id: this.contentCategoryParentParent.id } }
+        })
+      }
+      if (this.contentCategoryParent.id) {
+        path.push({
+          label: this.contentCategoryParent.title,
+          to: { name: 'Public.ContentCategoryParent.Show', params: { category_id: this.contentCategoryParent.id } }
+        })
+      }
+      if (this.contentCategory.id) {
+        path.push({
+          label: this.contentCategory.title,
+          to: { name: 'Public.ContentCategory.Show', params: { category_id: this.contentCategory.id } }
+        })
+      }
+      if (this.content.id) {
+        path.push({
+          label: this.content.title,
+          to: { name: 'Public.Content.Show', params: { id: this.content.id } }
+        })
+      }
+      return path
     }
   },
   methods: {
+
     prefetchServerDataPromise () {
       return this.getContent()
     },
     prefetchServerDataPromiseThen (content) {
       this.content = new Content(content)
       this.content.content = false
-
-      // this.breadcrumbs.path.push({
-      //   label: this.content.category_info.title,
-      //   to: { name: 'Public.ContentCategory.Show', params: { category_id: this.content.category_info.id } }
-      // })
-      this.breadcrumbs.path.push({
-        label: this.content.title,
-        to: { name: this.localOptions.contentShowRouteName, params: { id: this.content.id } }
-      })
-      this.$store.commit('AppLayout/updateBreadcrumbs', this.breadcrumbs)
-      this.$emit('onloadn', this.content)
+      this.loadContentCategory()
     },
     prefetchServerDataPromiseCatch () {
       this.content.content = false
@@ -216,39 +242,199 @@ export default {
           svg.style.backgroundPosition = 'right'
         }
       })
+    },
+    getContentCategoryInfo (contentCategoryId) {
+      return APIGateway.contentCategory.get({ data: { id: contentCategoryId } })
+    },
+    loadContentCategory () {
+      this.contentCategory.loading = true
+      this.getContentCategoryInfo(this.content.category)
+        .then((contentCategory) => {
+          this.contentCategory = new ContentCategory(contentCategory)
+          this.updateBreadcrumbs()
+          if (this.contentCategory.parent) {
+            this.getContentCategoryInfo(this.contentCategory.parent)
+              .then((parentContentCategory) => {
+                this.contentCategoryParent = new ContentCategory(parentContentCategory)
+                this.updateBreadcrumbs()
+                if (this.contentCategoryParent.parent) {
+                  this.getContentCategoryInfo(this.contentCategoryParent.parent)
+                    .then((parentParentContentCategory) => {
+                      this.contentCategoryParentParent = new ContentCategory(parentParentContentCategory)
+                      this.updateBreadcrumbs()
+                    })
+                    .finally(() => {
+                      this.contentCategoryParentParent.loading = false
+                    })
+                }
+              })
+              .finally(() => {
+                this.contentCategoryParent.loading = false
+              })
+          }
+        })
+        .finally(() => {
+          this.contentCategory.loading = false
+        })
+    },
+    updateBreadcrumbs () {
+      const breadcrumbs = {
+        visible: true,
+        loading: false,
+        path: this.breadcrumbsPath
+      }
+
+      this.$store.commit('AppLayout/updateBreadcrumbs', breadcrumbs)
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import "src/css/HTMLContent.scss";
-.content {
-  .breadcrumbs {
-    margin-bottom: 40px;
-  }
-  .content-title {
-    font-weight: 900;
-    font-size: 1.4rem;
-  }
-  .attributes {
-      display: flex;
-      flex-flow: row;
-    .attribute-item {
-      color: #475f4a;
-      background-color: #eaeaea;
+.content-show {
+  $price-section-with: 312px;
+  .content-show__summery {
+    $gap: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $gap;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin-bottom: 24px;
+    .content-show__summery-info {
       border-radius: 8px;
-      padding: 4px 8px;
-      margin: 0 4px;
+      background: #F6F6F6;
+      border: 1px solid #DFE1EC;
+      padding: 24px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 74px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      .content-show__thumbnail {
+        width: 239px;
+        @media screen and (max-width: 600px) {
+          & {
+            width: 100%;
+          }
+        }
+      }
+      .content-show__meta {
+        .content-show__title {
+          font-size: 22px;
+          margin-bottom: 35px;
+        }
+        .content-show__attrs {
+          .content-show__attrs-title {
+            color: #727272;
+            font-size: 16px;
+            margin-bottom: 16px;
+          }
+          .content-show__attrs-items {
+            .content-show__attrs-item {
+              font-size: 16px;
+              display: flex;
+              gap: 4px;
+              align-items: center;
+              margin-bottom: 20px;
+              justify-content: flex-start;
+              &:before {
+                content: ' ';
+                width: 8px;
+                height: 8px;
+                border-radius: 100%;
+                background: #475F4A;
+                margin-right: 6px;
+              }
+              .content-show__attrs-item-label {
+                color: #797979;
+              }
+              .content-show__attrs-item-value {
+                color: #212121;
+              }
+            }
+          }
+        }
+        @media screen and (max-width: 600px) {
+          & {
+            width: 100%;
+          }
+        }
+      }
+      @media screen and (max-width: 900px) {
+        & {
+          width: 100%;
+        }
+      }
+      @media screen and (max-width: 600px) {
+        & {
+          gap: 16px;
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+  .content-show__contents {
+    margin-bottom: 47px;
+    :deep(.q-expansion-item) {
+      .q-expansion-item__container {
+        .q-item {
+          background: #F6F6F6;
+          border: 1px solid #DFE1EC;
+          border-radius: 8px;
+          .q-item__section--avatar {
+            padding-right: 8px;
+            font-size: 36px;
+            min-width: 36px;
+            color: #AAA095;
+          }
+          .q-item__label {
+            font-size: 18px;
+            color: #212121;
+          }
+        }
+        .q-expansion-item__content {
+          border: 1px solid #DFE1EC;
+          border-top: none;
+        }
+      }
+      &.q-expansion-item--expanded {
+        .q-expansion-item__container {
+          .q-item {
+            border-radius: 8px 8px 0 0;
+          }
+        }
+      }
+    }
+    .content-item-component {
+      border-bottom: 1px solid #DFE1EC;
+      &:last-child {
+        border: none;
+      }
+    }
+  }
+  .content-show__descriptions {
+    padding: 32px 32px 70px 32px;
+    border: 1px solid #DFE1EC;
+    border-radius: 8px;
+    background: #F6F6F6;
+    margin-bottom: 20px;
+    .content-show__descriptions-title{
+      color: #727272;
+      font-size: 16px;
+      margin-bottom: 21px;
+    }
+    .content-show__descriptions-data {
+      color: #212121;
       font-size: 16px;
     }
   }
-  .print-btn {
-    width: 252px;
-  }
-  :deep(.content-body) {
-    margin-top: 32px;
-    @include HTMLContent;
+  .content-show__medias {
+    background: #FFFFFF;
+    border: 1px solid #DFE1EC;
+    border-radius: 8px;
+    padding: 36px 46px;
   }
 }
 </style>

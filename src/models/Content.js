@@ -1,3 +1,4 @@
+import { MediaList } from 'src/models/Media.js'
 import { Collection, Model } from 'js-abstract-model'
 import { CelebrityList } from 'src/models/Celebrity.js'
 import { ContentCategory } from 'src/models/ContentCategory.js'
@@ -21,7 +22,7 @@ class Content extends Model {
       },
       {
         key: 'medias_info',
-        defalut: []
+        relatedModel: MediaList
       },
       { key: 'category' },
       {
