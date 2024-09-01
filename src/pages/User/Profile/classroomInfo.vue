@@ -144,6 +144,12 @@
             <template v-else-if="inputData.col.name === 'action'">
               <div class="action-column-entity-index">
                 <q-btn size="md"
+                       outline
+                       color="primary"
+                       label="مشاهده اعضا"
+                       class="q-mr-md"
+                       @click="showTeamMembers(inputData.props.row)" />
+                <q-btn size="md"
                        color="primary"
                        :flat="inputData.props.row.join_status !== 'ENABLED'"
                        :disable="inputData.props.row.join_status !== 'ENABLED'"
@@ -161,6 +167,76 @@
         <q-skeleton v-else
                     type="rect"
                     height="200px" />
+
+        <q-dialog v-model="teamInfoDialog"
+                  class="team-info-dialog">
+
+          <q-card class="team-info-dialog-card">
+            <q-card-section class="team-info-dialog-title-section flex justify-between">
+              <div>
+                جزییات -
+                {{ selectedTeam.title }}
+              </div>
+              <q-btn v-close-popup
+                     icon="close"
+                     flat
+                     round
+                     dense />
+            </q-card-section>
+            <q-separator />
+            <q-card-section class="team-info-dialog-form-section">
+              <div class="team-description q-mb-lg">
+                <div class="q-mb-md">
+                  توضیحات:
+                </div>
+                <div v-html="selectedTeam.description" />
+              </div>
+              <div v-if="selectedTeam.leader_info"
+                   class="team-description q-mb-lg">
+                <div class="q-mb-md">
+                  سرگروه:
+                </div>
+                <div class="row">
+                  <div class="col-md-3 col-12">
+                    {{ selectedTeam.leader_info.firstname }}
+                    {{ selectedTeam.leader_info.lastname }}
+                  </div>
+                  <div class="col-md-9 col-12">
+                    <span class="q-mr-sm">
+                      شماره تماس:
+                    </span>
+                    {{ selectedTeam.leader_info.phone_number }}
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+            <q-separator />
+            <div class="quasar-crud-index-table">
+              <div class="full-width flex justify-between items-center q-pa-md">
+                <div class="text-h6">اعضا</div>
+                <q-btn color="primary"
+                       :loading="joinTeamLoading"
+                       @click="joinTeam(selectedTeam)">
+                  عضویت
+                </q-btn>
+              </div>
+              <q-table title="اعضا"
+                       hide-pagination
+                       :pagination="{
+                         rowsPerPage:0
+                       }"
+                       :rows="selectedTeamMemberRows"
+                       :columns="selectedTeamMemberColumns"
+                       row-key="name">
+                <template #body-cell-number="props">
+                  <q-td>
+                    {{ props.rowIndex + 1 }}
+                  </q-td>
+                </template>
+              </q-table>
+            </div>
+          </q-card>
+        </q-dialog>
       </q-tab-panel>
 
       <q-tab-panel name="tests"
@@ -367,6 +443,8 @@ export default {
     // const userId = this.$store.getters['Auth/user'].id
     return {
       mounted: false,
+      teamInfoDialog: false,
+      selectedTeam: null,
       selectedTest: {
         testId: null,
         answerBookId: null
@@ -405,14 +483,14 @@ export default {
             field: row => row.title
           },
           {
-            name: 'title',
+            name: 'beginning_time',
             required: true,
             label: 'زمان شروع',
             align: 'left',
             field: row => row.beginning_time ? ShamsiDate.getDateTime(row.beginning_time) : '-'
           },
           {
-            name: 'title',
+            name: 'ending_time',
             required: true,
             label: 'زمان پایان',
             align: 'left',
@@ -427,6 +505,36 @@ export default {
           }
         ]
       },
+      selectedTeamMemberColumns: [
+        {
+          name: 'number',
+          required: true,
+          label: 'شماره',
+          align: 'left',
+          field: () => ''
+        },
+        {
+          name: 'title',
+          required: true,
+          label: 'نام',
+          align: 'left',
+          field: row => row.registration_info.owner_info.firstname
+        },
+        {
+          name: 'title',
+          required: true,
+          label: 'نام خانوادگی',
+          align: 'left',
+          field: row => row.registration_info.owner_info.lastname
+        },
+        {
+          name: 'title',
+          required: true,
+          label: 'دانشگاه',
+          align: 'left',
+          field: row => row.registration_info.owner_info.last_academy_name
+        }
+      ],
       sessionsTable: {
         columns: [
           {
@@ -605,7 +713,7 @@ export default {
             required: true,
             label: 'سرگروه',
             align: 'left',
-            field: row => row.leader_info?.firstname + ' ' + row.leader_info?.lastname
+            field: row => row.leader_info ? row.leader_info?.firstname + ' ' + row.leader_info?.lastname : '-'
           },
           {
             name: 'used_capacity',
@@ -628,8 +736,7 @@ export default {
             align: 'left',
             field: ''
           }
-        ],
-        data: []
+        ]
       },
       teamsListTableKeys: {
         data: 'results',
@@ -750,6 +857,13 @@ export default {
     },
     selectedCategoryId () {
       return FormBuilderAssist.getInputsByName(this.inputs, 'category')?.value
+    },
+    selectedTeamMemberRows () {
+      if (!this.selectedTeam) {
+        return []
+      }
+
+      return this.selectedTeam.team_registrations_info
     }
   },
   watch: {
@@ -788,10 +902,15 @@ export default {
           this.joinTeamLoading = false
           this.$refs.teamsList.search()
         })
-        .catch(() => {
+        .then(() => {
+          this.teamInfoDialog = false
           this.joinTeamLoading = false
           this.$refs.teamsList.search()
         })
+    },
+    showTeamMembers (team) {
+      this.selectedTeam = team
+      this.teamInfoDialog = true
     },
     getRegistrationInfo () {
       this.registrations.loading = true
@@ -911,3 +1030,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.team-info-dialog {
+  .q-dialog__inner--minimized > div {
+    width: 900px;
+    max-width: 90vw;
+  }
+}
+</style>
