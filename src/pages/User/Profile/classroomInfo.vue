@@ -205,7 +205,7 @@
                     <span class="q-mr-sm">
                       شماره تماس:
                     </span>
-                    {{ selectedTeam.leader_info.phone_number }}
+                    {{ selectedTeam.leader_info.mobile_number }}
                   </div>
                 </div>
               </div>
@@ -214,11 +214,14 @@
             <div class="quasar-crud-index-table">
               <div class="full-width flex justify-between items-center q-pa-md">
                 <div class="text-h6">اعضا</div>
-                <q-btn color="primary"
+                <q-btn size="md"
+                       color="primary"
+                       :flat="selectedTeam.join_status !== 'ENABLED'"
+                       :disable="selectedTeam.join_status !== 'ENABLED'"
+                       :label="getTeamJoinStatusLabel(selectedTeam)"
+                       class="q-mr-md"
                        :loading="joinTeamLoading"
-                       @click="joinTeam(selectedTeam)">
-                  عضویت
-                </q-btn>
+                       @click="joinTeam(selectedTeam)" />
               </div>
               <q-table title="اعضا"
                        hide-pagination
