@@ -1,8 +1,8 @@
 {
-  "name": "alaatv",
+  "name": "palizvani",
   "version": "0.0.1",
-  "description": "alaatv with vite",
-  "productName": "alaatv",
+  "description": "palizvani with vite",
+  "productName": "palizvani",
   "author": "Ali <aliesmaeeli20@gmail.com>",
   "private": true,
   "scripts": {
@@ -47,8 +47,8 @@
     "process": "^0.11.10",
     "quasar": "^2.14.2",
     "quasar-app-extension-q-page-builder": "^0.4.4",
-    "quasar-crud": "^2.2.0",
-    "quasar-form-builder": "^2.4.7",
+    "quasar-crud": "^2.2.4",
+    "quasar-form-builder": "^3.2.0",
     "quasar-template-builder": "^1.0.23",
     "quasar-ui-q-page-builder": "^0.4.4",
     "socket.io-client": "^4.6.1",
