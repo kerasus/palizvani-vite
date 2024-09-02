@@ -185,6 +185,7 @@ export default {
       mounted: false,
       entityLoading: true,
       packageTitle: '',
+      firstChangeOfSelectedCategoryInfoType: false,
       ticket: new Ticket(),
       authenticatedUser: new User(),
       api: APIGateway.ticket.APIAdresses.byId(ticketId),
@@ -241,6 +242,10 @@ export default {
   },
   watch: {
     selectedCategoryInfoType () {
+      if (!this.firstChangeOfSelectedCategoryInfoType) {
+        this.firstChangeOfSelectedCategoryInfoType = true
+        return
+      }
       FormBuilderAssist.setAttributeByName(this.inputs, 'category', 'value', null)
       this.loadCategories()
     }
@@ -255,13 +260,10 @@ export default {
     this.loadAuthData()
     this.checkSource()
     this.loadOptions()
-      .then(() => {
+      .finally(() => {
         this.$nextTick(() => {
           this.mounted = true
         })
-      })
-      .catch(() => {
-        this.mounted = true
       })
   },
   methods: {
@@ -374,16 +376,17 @@ export default {
                 label: item.title
               }
             }))
-            this.categoriesLoading = false
             this.$nextTick(() => {
               resolve()
             })
           })
           .catch(() => {
-            this.categoriesLoading = false
             this.$nextTick(() => {
               reject()
             })
+          })
+          .finally(() => {
+            this.categoriesLoading = false
           })
       })
     },
