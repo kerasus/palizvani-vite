@@ -158,15 +158,17 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import BtnControl from 'src/components/Control/btn.vue'
 import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
-import { TicketCategory, TicketCategoryList } from 'src/models/TicketCategory.js'
+import { TicketCategoryList } from 'src/models/TicketCategory.js'
 // import ShowSource from 'src/components/Widgets/Ticket/AdminTicketShow/ShowSource.vue'
 import AdminInvoiceShow from 'src/components/Widgets/Invoice/AdminInvoiceShow/AdminInvoiceShow.vue'
 import InstallmentOffers from 'src/components/Widgets/Ticket/AdminTicketShow/InstallmentOffers.vue'
 import CreateInstallment from 'src/components/Widgets/Ticket/AdminTicketShow/CreateInstallment.vue'
 import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
+import TicketCategorySelector from 'src/components/FormBuilderCustumComponents/TicketCategorySelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
+const TicketCategorySelectorComp = shallowRef(TicketCategorySelector)
 
 export default {
   name: 'AdminTicketShow',
@@ -204,16 +206,20 @@ export default {
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'مشخصات کاربر', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' },
 
         { type: 'separator', name: 'space', label: 'مشخصات تیکت', className: 'custom-separator', col: 'col-12' },
-        {
-          type: 'select',
-          name: 'category_info__type',
-          responseKey: 'category_info.type',
-          options: (new TicketCategory()).typeEnums,
-          label: 'معاونت',
-          placeholder: ' ',
-          col: 'col-md-4 col-12'
-        },
-        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
+
+        { type: TicketCategorySelectorComp, name: 'category', responseKey: 'category_info', col: 'col-md-8 col-12' },
+
+        // {
+        //   type: 'select',
+        //   name: 'category_info__type',
+        //   responseKey: 'category_info.type',
+        //   options: (new TicketCategory()).typeEnums,
+        //   label: 'معاونت',
+        //   placeholder: ' ',
+        //   col: 'col-md-4 col-12'
+        // },
+        // { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
+
         { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', readonly: true, col: 'col-md-4 col-12' },
 
         { type: 'file', name: 'attachment', responseKey: 'attachment', placeholder: ' ', label: 'ضمیمه', readonly: true, col: 'col-md-6 col-12' },

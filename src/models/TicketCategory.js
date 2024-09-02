@@ -4,7 +4,7 @@ class TicketCategory extends Model {
   constructor (data) {
     super(data, [
       { key: 'id' },
-      { key: 'name' },
+      { key: 'title' },
       { key: 'type' }
     ], {
       type: {

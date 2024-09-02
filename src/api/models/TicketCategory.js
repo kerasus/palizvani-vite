@@ -1,7 +1,7 @@
 import { appApi } from 'src/boot/axios.js'
+import { Ticket } from 'src/models/Ticket.js'
 import APIRepository from '../classes/APIRepository.js'
-import { Ticket, TicketList } from 'src/models/Ticket.js'
-import { TicketCategory } from 'src/models/TicketCategory.js'
+import { TicketCategory, TicketCategoryList } from 'src/models/TicketCategory.js'
 
 export default class TicketCategoryAPI extends APIRepository {
   constructor() {
@@ -34,7 +34,7 @@ export default class TicketCategoryAPI extends APIRepository {
         const results = response.data.results
         delete paginate.results
         return {
-          list: new TicketList(results),
+          list: new TicketCategoryList(results),
           paginate
           // {
           //   "count": 1,
