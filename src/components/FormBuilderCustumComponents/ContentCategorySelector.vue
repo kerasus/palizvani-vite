@@ -88,7 +88,7 @@ export default {
     value () {
       if (this.value?.id) {
         this.getCategories()
-      } else {
+      } else if (this.value) {
         this.inputData = this.value
       }
     },
@@ -110,8 +110,8 @@ export default {
     subCategory (newValue) {
       this.bakhshCategory = null
       this.bakhshCategoryOptions = []
-      if (!newValue.item.children) {
-        this.$emit('update:value', newValue.value)
+      if (!newValue?.item?.children) {
+        this.$emit('update:value', null)
         return
       }
       this.bakhshCategoryOptions = newValue.item.children.map(item => {
@@ -131,23 +131,23 @@ export default {
     this.getCategories()
   },
   methods: {
-    setMainCategory () {
-      if (!this.value?.parent?.parent?.id) {
+    setMainCategory (category) {
+      if (!category?.parent?.parent?.id) {
         return
       }
-      this.mainCategory = this.mainCategoryOptions.find(item => item.value === this.value.parent.parent.id)
+      this.mainCategory = this.mainCategoryOptions.find(item => item.value === category.parent.parent.id)
     },
-    setSubCategory () {
-      if (!this.value?.parent?.id) {
+    setSubCategory (category) {
+      if (!category?.parent?.id) {
         return
       }
-      this.subCategory = this.subCategoryOptions.find(item => item.value === this.value.parent.id)
+      this.subCategory = this.subCategoryOptions.find(item => item.value === category.parent.id)
     },
-    setBakhshCategory () {
-      if (!this.value?.id) {
+    setBakhshCategory (category) {
+      if (!category?.id) {
         return
       }
-      this.bakhshCategory = this.bakhshCategoryOptions.find(item => item.value === this.value.id)
+      this.bakhshCategory = this.bakhshCategoryOptions.find(item => item.value === category.id)
     },
     getCategories () {
       this.categories.laoding = true
@@ -180,14 +180,15 @@ export default {
             }
           })
 
-          if (this.value?.parent?.parent?.id && this.value.id) {
+          if (this.value?.parent?.parent?.id && this.value?.id) {
+            const category = this.value
             this.$nextTick(() => {
-              this.setMainCategory()
+              this.setMainCategory(category)
               this.$nextTick(() => {
-                this.setSubCategory()
+                this.setSubCategory(category)
                 this.$nextTick(() => {
-                  this.setBakhshCategory()
-                  this.$emit('update:value', this.value.id)
+                  this.setBakhshCategory(category)
+                  this.$emit('update:value', category.id)
                 })
               })
             })

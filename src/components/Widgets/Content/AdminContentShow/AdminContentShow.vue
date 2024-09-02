@@ -109,11 +109,7 @@ export default {
     edit() {
       this.entityLoading = true
       this.$refs.entityEdit.editEntity(false)
-        .then(() => {
-          this.$refs.entityEdit.getData()
-          this.entityLoading = false
-        })
-        .catch(() => {
+        .finally(() => {
           this.$refs.entityEdit.getData()
           this.entityLoading = false
         })
