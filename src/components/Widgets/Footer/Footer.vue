@@ -132,7 +132,15 @@
                 </router-link>
               </div>
               <div class="footer-logo-item item-alaa">
-                <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=102265&Code=6ZHo5rWng4fOz0irLQaM'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=102265&Code=6ZHo5rWng4fOz0irLQaM' alt='https://www.shahidpalizvani.ir' style='cursor:pointer' code='6ZHo5rWng4fOz0irLQaM'></a>
+                <a referrerpolicy='origin'
+                   target='_blank'
+                   href='https://trustseal.enamad.ir/?id=102265&Code=6ZHo5rWng4fOz0irLQaM'>
+                  <img referrerpolicy='origin'
+                       src='https://trustseal.enamad.ir/logo.aspx?id=102265&Code=6ZHo5rWng4fOz0irLQaM'
+                       alt='https://www.shahidpalizvani.ir'
+                       style='cursor:pointer'
+                       code='6ZHo5rWng4fOz0irLQaM'>
+                </a>
               </div>
               <div class="footer-logo-item item-enamad">
                 <a href="https://logo.samandehi.ir/Verify.aspx?id=146279&p=rfthaodsgvkauiwkjyoepfvl"
