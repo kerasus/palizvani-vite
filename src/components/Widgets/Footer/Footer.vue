@@ -132,11 +132,13 @@
                 </router-link>
               </div>
               <div class="footer-logo-item item-alaa">
-                <a href="https://trustseal.enamad.ir/?id=125806&Code=MIc5m5QgNzwT4U7FmBLE"
+                <a href="https://trustseal.enamad.ir/?id=102265&Code=6ZHo5rWng4fOz0irLQaM"
                    target="_blank">
-                  <q-img src="https://trustseal.enamad.ir/Content/Images/Star/star1.png?v=5.0.0.47"
+                  <q-img src="https://trustseal.enamad.ir/logo.aspx?id=102265&Code=6ZHo5rWng4fOz0irLQaM"
                          alt="enamad.ir"
-                         style="cursor:pointer" />
+                         style="cursor:pointer"
+                         code="6ZHo5rWng4fOz0irLQaM"
+                  />
                 </a>
               </div>
               <div class="footer-logo-item item-enamad">
