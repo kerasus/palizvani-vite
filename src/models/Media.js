@@ -62,20 +62,40 @@ class Media extends Model {
         enumListKey: 'source_typeEnums',
         enums: [
           {
-            label: 'ویدیو',
-            value: 'VIDEO'
+            label: 'صورتحساب',
+            value: 'INVOICE'
           },
           {
-            label: 'متن',
-            value: 'TEXT'
+            label: 'محتوا',
+            value: 'CONTENT'
           },
           {
-            label: 'صوت',
-            value: 'SOUND'
+            label: 'کلاس',
+            value: 'CLASSROOM'
           },
           {
-            label: 'عکس',
-            value: 'IMAGE'
+            label: 'جلسه',
+            value: 'SESSION'
+          },
+          {
+            label: 'تمپلیت جلسه',
+            value: 'SESSION_TEMPLATE'
+          },
+          {
+            label: 'پروژه',
+            value: 'PROJECT'
+          },
+          {
+            label: 'پست',
+            value: 'POST'
+          },
+          {
+            label: 'تنظیمات',
+            value: 'SETTING'
+          },
+          {
+            label: 'رویداد',
+            value: 'EVENT'
           },
           {
             label: 'محصول',
