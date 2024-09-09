@@ -153,6 +153,7 @@ export default {
   created () {
     FormBuilderAssist.setAttributeByName(this.inputs, 'source_type', 'value', this.sourceType)
     this.inputData = this.value
+    this.medias = new MediaList(this.value)
   },
   methods: {
     onView (media) {
