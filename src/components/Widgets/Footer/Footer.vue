@@ -137,8 +137,7 @@
                   <q-img src="https://trustseal.enamad.ir/logo.aspx?id=102265&Code=6ZHo5rWng4fOz0irLQaM"
                          alt="enamad.ir"
                          style="cursor:pointer"
-                         code="6ZHo5rWng4fOz0irLQaM"
-                  />
+                         code="6ZHo5rWng4fOz0irLQaM" />
                 </a>
               </div>
               <div class="footer-logo-item item-enamad">
