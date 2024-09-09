@@ -60,6 +60,13 @@ export default {
           permission: 'all',
           show: true
         },
+        {
+          title: 'آرشیو محتوا',
+          route: { name: 'Public.ContentCategoryParentParent.List' },
+          type: 'itemMenu',
+          permission: 'all',
+          show: true
+        },
         // {
         //   title: 'Shop',
         //   route: { name: 'Public.Shop' },
