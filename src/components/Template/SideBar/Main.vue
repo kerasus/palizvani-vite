@@ -73,7 +73,7 @@ export default {
           children: [
             {
               title: 'کتب سطح یک',
-              externalLink: 'https://formafzar.com/form/iv9cq',
+              externalLink: 'https://formafzar.com/form/unfv5',
               show: true
             },
             {
