@@ -113,7 +113,8 @@ export default {
         pageKey: 'page'
       },
       inputs: [
-        { type: 'hidden', name: 'is_seen', value: null }
+        { type: 'hidden', name: 'is_seen', value: null },
+        { type: 'hidden', name: 'notice__type', value: 'IN_APP' }
       ],
       table: {
         columns: [
@@ -200,12 +201,12 @@ export default {
     },
     setFilterToRead () {
       this.filterType = 'read'
-      FormBuilderAssist.setAttributeByName(this.inputs, 'is_seen', 'value', 'false')
+      FormBuilderAssist.setAttributeByName(this.inputs, 'is_seen', 'value', 'true')
       this.$refs.entityIndex.search()
     },
     setFilterToNotRead () {
       this.filterType = 'not-read'
-      FormBuilderAssist.setAttributeByName(this.inputs, 'is_seen', 'value', 'true')
+      FormBuilderAssist.setAttributeByName(this.inputs, 'is_seen', 'value', 'false')
       this.$refs.entityIndex.search()
     },
     setFilterToAll () {
