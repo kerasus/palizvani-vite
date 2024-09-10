@@ -218,28 +218,28 @@ export default {
     margin-bottom: 39px;
     margin-top: 50px;
   }
-  :deep(.entity-index) {
-    margin-top: 24px;
-    .quasar-crud-index-table {
-      .q-table__top {
-        display: none;
-      }
-      .q-table__grid-content {
-        $gap: 24px;
-        flex-wrap: wrap;
-        gap: $gap;
-        .ContentCategoryItem {
-          flex: 0 0 calc( 33.33% - #{$gap} );
-          box-sizing: border-box;
-        }
-      }
-      .q-table__bottom {
-        .q-table__control {
-          display: none;
-        }
-      }
-    }
-  }
+  //:deep(.entity-index) {
+  //  margin-top: 24px;
+  //  .quasar-crud-index-table {
+  //    .q-table__top {
+  //      display: none;
+  //    }
+  //    .q-table__grid-content {
+  //      $gap: 24px;
+  //      flex-wrap: wrap;
+  //      gap: $gap;
+  //      .ContentCategoryItem {
+  //        flex: 0 0 calc( 33.33% - #{$gap} );
+  //        box-sizing: border-box;
+  //      }
+  //    }
+  //    .q-table__bottom {
+  //      .q-table__control {
+  //        display: none;
+  //      }
+  //    }
+  //  }
+  //}
   .more-action {
     display: flex;
     flex-flow: row;
