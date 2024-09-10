@@ -67,7 +67,7 @@
                     {{ getNoticeReceiverModel(inputData.props.row).is_seen ? 'خوانده شده': 'خوانده نشده' }}
                   </div>
                   <div class="entity-index-grid-item__header-creation-time">
-                    {{ getNoticeReceiverModel(inputData.props.row.notice).shamsiDate('creation_time').dateTime }}
+                    {{ ShamsiDate.getDateTime(inputData.props.row.notice_info.creation_time) }}
                   </div>
                 </div>
               </div>
@@ -96,6 +96,7 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import ShamsiDate from 'src/assets/ShamsiDate.js'
 
 export default {
   name: 'NoticeList',
@@ -153,6 +154,9 @@ export default {
     }
   },
   computed: {
+    ShamsiDate() {
+      return ShamsiDate
+    },
     myNotSeenNotificationsCount: {
       get () {
         return this.$store.getters['Auth/myNotSeenNotificationsCount']
