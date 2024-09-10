@@ -53,6 +53,7 @@ export default {
 
 <style lang="scss" scoped>
 .ContentCategoryItem {
+  background-color: lighten($primary,3%);
   display: flex;
   flex-flow: column;
   position: relative;
