@@ -155,6 +155,7 @@ export default {
         // { type: 'separator', name: 'space', label: 'موارد زیر در طرح نبودند', className: 'custom-separator', col: 'col-12' },
         // { type: 'select', name: 'audience_role', responseKey: 'audience_role', options: Enums.groups, placeholder: ' ', label: 'نقش', col: 'col-md-4 col-12' },
 
+        { type: 'hidden', name: 'is_ongoing', responseKey: 'is_ongoing', label: 'is_ongoing', col: 'col-md-3 col-12' },
         { type: 'hidden', name: 'id', responseKey: 'id', label: 'id', col: 'col-md-3 col-12' }
       ],
       mounted: false,
