@@ -134,9 +134,9 @@
               <div class="footer-logo-item item-alaa">
                 <a referrerpolicy='origin'
                    target='_blank'
-                   href='https://trustseal.enamad.ir/?id=102265&Code=6ZHo5rWng4fOz0irLQaM'>
+                   href='https://trustseal.enamad.ir/?id=102265&code=6ZHo5rWng4fOz0irLQaM'>
                   <img referrerpolicy='origin'
-                       src='https://trustseal.enamad.ir/logo.aspx?id=102265&Code=6ZHo5rWng4fOz0irLQaM'
+                       src='https://trustseal.enamad.ir/logo.aspx?id=102265&code=6ZHo5rWng4fOz0irLQaM'
                        alt='https://www.shahidpalizvani.ir'
                        style='cursor:pointer'
                        code='6ZHo5rWng4fOz0irLQaM'>
