@@ -50,7 +50,7 @@
               <q-menu>
                 <q-list style="min-width: 100px">
                   <q-item v-close-popup
-                          href="https://formafzar.com/form/unfv5"
+                          href="https://formafzar.ir/form/unfv5"
                           target="_blank"
                           clickable>
                     <q-item-section>کتب سطح یک</q-item-section>
