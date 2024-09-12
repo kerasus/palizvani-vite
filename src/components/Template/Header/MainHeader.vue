@@ -80,10 +80,10 @@
                     <q-item-section>کتب سطح پنج</q-item-section>
                   </q-item>
                   <q-item v-close-popup
-                          href="https://formafzar.com/form/ch1om"
+                          href="https://formafzar.com/form/q9abs"
                           target="_blank"
                           clickable>
-                    <q-item-section>کتب جریان‌شناسی</q-item-section>
+                    <q-item-section>جریان‌شناسی سطح یک</q-item-section>
                   </q-item>
                   <q-item v-close-popup
                           href="https://formafzar.com/form/xskmo"
