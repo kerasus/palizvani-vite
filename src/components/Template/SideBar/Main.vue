@@ -104,7 +104,7 @@ export default {
               show: true
             },
             {
-              title: 'جریان‌شناسی سطح یک',
+              title: 'کتب جریان‌شناسی سطح یک',
               externalLink: 'https://formafzar.com/form/q9abs',
               show: true
             },

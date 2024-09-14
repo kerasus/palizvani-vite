@@ -83,13 +83,13 @@
                           href="https://formafzar.com/form/q9abs"
                           target="_blank"
                           clickable>
-                    <q-item-section>جریان‌شناسی سطح یک</q-item-section>
+                    <q-item-section>کتب جریان‌شناسی سطح یک</q-item-section>
                   </q-item>
                   <q-item v-close-popup
                           href="https://formafzar.com/form/xskmo"
                           target="_blank"
                           clickable>
-                    <q-item-section>جریان‌شناسی سطح دو</q-item-section>
+                    <q-item-section>کتب جریان‌شناسی سطح دو</q-item-section>
                   </q-item>
                   <q-item v-close-popup
                           href="https://formafzar.com/form/j3x1d"
