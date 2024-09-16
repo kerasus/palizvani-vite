@@ -40,6 +40,7 @@
     "fs": "^0.0.1-security",
     "fslightbox-vue": "^2.0.2",
     "js-abstract-model": "^0.1.36",
+    "jsbarcode": "^3.11.6",
     "moment": "^2.29.4",
     "moment-jalaali": "^0.9.6",
     "postcss": "^8.4.21",

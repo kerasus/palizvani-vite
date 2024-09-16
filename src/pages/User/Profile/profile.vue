@@ -36,11 +36,13 @@ import Warning from 'src/components/other/Warning.vue'
 import VerifyEmail from 'src/components/other/VerifyEmail.vue'
 import NationalCode from 'src/components/other/NationalCode.vue'
 import VerifyMobileNumber from 'src/components/other/VerifyMobileNumber.vue'
+import FormBuilderBarCode from 'src/components/FormBuilderCustumComponents/FormBuilderBarCode.vue'
 
 const WarningComp = shallowRef(Warning)
 const VerifyEmailComp = shallowRef(VerifyEmail)
 const NationalCodeComp = shallowRef(NationalCode)
 const VerifyMobileNumberComp = shallowRef(VerifyMobileNumber)
+const FormBuilderBarCodeComp = shallowRef(FormBuilderBarCode)
 
 export default {
   name: 'UserPanel.Profile.UserInfo',
@@ -54,6 +56,8 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'UserPanel.Profile.UserInfo',
       inputs: [
+        { type: 'separator', name: 'space', placeholder: ' ', label: 'شناسه ورود به جلسه', className: 'custom-separator require', col: 'col-12' },
+        { type: FormBuilderBarCodeComp, name: 'national_code', responseKey: 'national_code', label: 'بارکد ورود به جلسه', col: 'col-12' },
         { type: 'separator', name: 'space', placeholder: ' ', label: 'اطلاعات ضروری', className: 'custom-separator require', col: 'col-12' },
         { type: WarningComp, name: 'WarningComp', label: 'بعد از تایید اطلاعات ضروری، امکان تغییر این اطلاعات وجود ندارد', col: 'col-12' },
         { type: VerifyEmailComp, name: 'email', placeholder: ' ', label: 'ایمیل', responseKey: 'email', col: 'col-md-6 col-12' },
