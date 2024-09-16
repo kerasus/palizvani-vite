@@ -57,7 +57,7 @@ export default {
       showRouteName: 'UserPanel.Profile.UserInfo',
       inputs: [
         { type: 'separator', name: 'space', placeholder: ' ', label: 'شناسه ورود به جلسه', className: 'custom-separator require', col: 'col-12' },
-        { type: FormBuilderBarCodeComp, name: 'national_code', responseKey: 'national_code', label: 'بارکد ورود به جلسه', col: 'col-12' },
+        { type: FormBuilderBarCodeComp, name: 'national_code', responseKey: 'national_code', label: 'بارکد ورود به جلسه', ignoreValue: true, col: 'col-12' },
         { type: 'separator', name: 'space', placeholder: ' ', label: 'اطلاعات ضروری', className: 'custom-separator require', col: 'col-12' },
         { type: WarningComp, name: 'WarningComp', label: 'بعد از تایید اطلاعات ضروری، امکان تغییر این اطلاعات وجود ندارد', col: 'col-12' },
         { type: VerifyEmailComp, name: 'email', placeholder: ' ', label: 'ایمیل', responseKey: 'email', col: 'col-md-6 col-12' },
