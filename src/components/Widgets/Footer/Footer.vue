@@ -132,11 +132,14 @@
                 </router-link>
               </div>
               <div class="footer-logo-item item-alaa">
-                <a href="https://trustseal.enamad.ir/?id=125806&Code=MIc5m5QgNzwT4U7FmBLE"
-                   target="_blank">
-                  <q-img src="https://trustseal.enamad.ir/Content/Images/Star/star1.png?v=5.0.0.47"
-                         alt="enamad.ir"
-                         style="cursor:pointer" />
+                <a referrerpolicy='origin'
+                   target='_blank'
+                   href='https://trustseal.enamad.ir/?id=102265&code=6ZHo5rWng4fOz0irLQaM'>
+                  <img referrerpolicy='origin'
+                       src='https://trustseal.enamad.ir/logo.aspx?id=102265&code=6ZHo5rWng4fOz0irLQaM'
+                       alt='https://www.shahidpalizvani.ir'
+                       style='cursor:pointer'
+                       code='6ZHo5rWng4fOz0irLQaM'>
                 </a>
               </div>
               <div class="footer-logo-item item-enamad">

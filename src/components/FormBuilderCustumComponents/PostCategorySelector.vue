@@ -36,7 +36,7 @@ export default {
   props: {
     value: {
       default: () => [],
-      type: [Array, String, Number, Boolean]
+      type: [Array, String, Number, Boolean, Object]
     },
     disable: {
       default: false,
@@ -57,15 +57,19 @@ export default {
   },
   watch: {
     value () {
-      if (this.value.id) {
+      if (this.value?.id) {
         this.getCategories()
-      } else {
+      } else if (this.value) {
         this.inputData = this.value
       }
     },
     mainCategory (newValue) {
       this.subCategory = null
       this.subCategoryOptions = []
+      if (!newValue.item.children) {
+        this.$emit('update:value', newValue.value)
+        return
+      }
       this.subCategoryOptions = newValue.item.children.map(item => {
         return {
           item,
@@ -77,6 +81,10 @@ export default {
     subCategory (newValue) {
       this.bakhshCategory = null
       this.bakhshCategoryOptions = []
+      if (!newValue?.item?.children) {
+        this.$emit('update:value', null)
+        return
+      }
       this.bakhshCategoryOptions = newValue.item.children.map(item => {
         return {
           item,
@@ -94,27 +102,29 @@ export default {
     this.getCategories()
   },
   methods: {
-    setMainCategory () {
-      if (!this.value?.parent?.parent?.id) {
+    setMainCategory (category) {
+      if (!category?.parent?.parent?.id) {
         return
       }
-      this.mainCategory = this.mainCategoryOptions.find(item => item.value === this.value.parent.parent.id)
+      this.mainCategory = this.mainCategoryOptions.find(item => item.value === category.parent.parent.id)
     },
-    setSubCategory () {
-      if (!this.value?.parent?.id) {
+    setSubCategory (category) {
+      if (!category?.parent?.id) {
         return
       }
-      this.subCategory = this.subCategoryOptions.find(item => item.value === this.value.parent.id)
+      this.subCategory = this.subCategoryOptions.find(item => item.value === category.parent.id)
     },
-    setBakhshCategory () {
-      if (!this.value?.id) {
+    setBakhshCategory (category) {
+      if (!category?.id) {
         return
       }
-      this.bakhshCategory = this.bakhshCategoryOptions.find(item => item.value === this.value.id)
+      this.bakhshCategory = this.bakhshCategoryOptions.find(item => item.value === category.id)
     },
     getCategories () {
       this.postCategories.laoding = true
-      APIGateway.postCategory.index({ parent__isnull: 'true', per_page: 99999 })
+      const args = { parent__isnull: 'true', per_page: 99999 }
+      const apiGateway = APIGateway.postCategory.index(args)
+      apiGateway
         .then(postCategories => {
           this.postCategories = new PostCategoryList(postCategories.list)
           this.postCategories.laoding = false
@@ -126,14 +136,15 @@ export default {
             }
           })
 
-          if (this.value?.parent?.parent?.id && this.value.id) {
+          if (this.value?.parent?.parent?.id && this.value?.id) {
+            const category = this.value
             this.$nextTick(() => {
-              this.setMainCategory()
+              this.setMainCategory(category)
               this.$nextTick(() => {
-                this.setSubCategory()
+                this.setSubCategory(category)
                 this.$nextTick(() => {
-                  this.setBakhshCategory()
-                  this.$emit('update:value', this.value.id)
+                  this.setBakhshCategory(category)
+                  this.$emit('update:value', category.id)
                 })
               })
             })

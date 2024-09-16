@@ -1,24 +1,27 @@
 <template>
-  <q-card class="ContentCategoryItem"
-          :class="listType"
-          flat>
-    <div class="thumbnail"
-         @click="goToCategoryPageShow">
-      <q-img :src="contentCategory.thumbnail" />
-    </div>
-    <div class="cation">
-      <q-btn color="primary"
-             :to="{name: showCategoryRouteName, params: {category_id: contentCategory.id}}">
-        مشاهده جزییات
-      </q-btn>
-    </div>
-    <div class="title ellipsis-2-lines">
-      {{ contentCategory.title }}
-    </div>
-    <div class="description ellipsis-3-lines">
-      {{ contentCategory.description }}
-    </div>
-  </q-card>
+  <div class="col-md-4 col-sm-6 col-12">
+    <q-card class="ContentCategoryItem"
+            :class="listType"
+            flat>
+      <div class="thumbnail"
+           @click="goToCategoryPageShow">
+        <q-img :src="contentCategory.thumbnail" />
+      </div>
+      <div class="cation">
+        <q-btn color="primary"
+               :to="{name: showCategoryRouteName, params: {category_id: contentCategory.id}}">
+          مشاهده جزییات
+        </q-btn>
+      </div>
+      <div class="title ellipsis-2-lines">
+        {{ contentCategory.title }}
+      </div>
+      <div class="description ellipsis-3-lines">
+        {{ contentCategory.description }}
+      </div>
+    </q-card>
+  </div>
+
 </template>
 
 <script>
@@ -50,10 +53,13 @@ export default {
 
 <style lang="scss" scoped>
 .ContentCategoryItem {
+  background-color: lighten($primary,3%);
   display: flex;
   flex-flow: column;
   position: relative;
   cursor: pointer;
+  //padding: 20px 20px 30px;
+  margin: 8px;
   .thumbnail {
     .q-img {
       width: 100%;

@@ -33,11 +33,11 @@
                    label="راهنما"
                    :to="{ name: 'Public.Post.List.Guide' }"
                    class="top-menu-item" />
-            <q-btn stretch
-                   flat
-                   label="Shop"
-                   :to="{ name: 'Public.Shop' }"
-                   class="top-menu-item" />
+            <!--<q-btn stretch-->
+            <!--flat-->
+            <!--label="Shop"-->
+            <!--:to="{ name: 'Public.Shop' }"-->
+            <!--class="top-menu-item" />-->
             <q-btn stretch
                    flat
                    label="آرشیو محتوا"
@@ -50,7 +50,7 @@
               <q-menu>
                 <q-list style="min-width: 100px">
                   <q-item v-close-popup
-                          href="https://formafzar.com/form/iv9cq"
+                          href="https://formafzar.ir/form/unfv5"
                           target="_blank"
                           clickable>
                     <q-item-section>کتب سطح یک</q-item-section>
@@ -80,16 +80,16 @@
                     <q-item-section>کتب سطح پنج</q-item-section>
                   </q-item>
                   <q-item v-close-popup
-                          href="https://formafzar.com/form/ch1om"
+                          href="https://formafzar.com/form/q9abs"
                           target="_blank"
                           clickable>
-                    <q-item-section>کتب جریان‌شناسی</q-item-section>
+                    <q-item-section>کتب جریان‌شناسی سطح یک</q-item-section>
                   </q-item>
                   <q-item v-close-popup
                           href="https://formafzar.com/form/xskmo"
                           target="_blank"
                           clickable>
-                    <q-item-section>جریان‌شناسی سطح دو</q-item-section>
+                    <q-item-section>کتب جریان‌شناسی سطح دو</q-item-section>
                   </q-item>
                   <q-item v-close-popup
                           href="https://formafzar.com/form/j3x1d"

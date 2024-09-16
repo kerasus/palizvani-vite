@@ -61,19 +61,26 @@ export default {
           show: true
         },
         {
-          title: 'Shop',
-          route: { name: 'Public.Shop' },
+          title: 'آرشیو محتوا',
+          route: { name: 'Public.ContentCategoryParentParent.List' },
           type: 'itemMenu',
           permission: 'all',
           show: true
         },
+        // {
+        //   title: 'Shop',
+        //   route: { name: 'Public.Shop' },
+        //   type: 'itemMenu',
+        //   permission: 'all',
+        //   show: true
+        // },
         {
           title: 'فروشگاه',
           type: 'simpleMenu',
           children: [
             {
               title: 'کتب سطح یک',
-              externalLink: 'https://formafzar.com/form/iv9cq',
+              externalLink: 'https://formafzar.ir/form/unfv5',
               show: true
             },
             {
@@ -97,8 +104,8 @@ export default {
               show: true
             },
             {
-              title: 'کتب جریان‌شناسی',
-              externalLink: 'https://formafzar.com/form/ch1om',
+              title: 'کتب جریان‌شناسی سطح یک',
+              externalLink: 'https://formafzar.com/form/q9abs',
               show: true
             },
             {

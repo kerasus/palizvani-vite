@@ -119,12 +119,14 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import { InstalmentOfferList } from 'src/models/InstalmentOffer.js'
-import { TicketCategory, TicketCategoryList } from 'src/models/TicketCategory.js'
+import { TicketCategoryList } from 'src/models/TicketCategory.js'
 import InvoiceShow from 'src/components/Widgets/Invoice/InvoiceShow/InvoiceShow.vue'
 import InstallmentOffers from 'src/components/Widgets/Ticket/TicketShow/InstallmentOffers.vue'
 import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
+import TicketCategorySelector from 'src/components/FormBuilderCustumComponents/TicketCategorySelector.vue'
 
 const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
+const TicketCategorySelectorComp = shallowRef(TicketCategorySelector)
 
 export default {
   name: 'TicketShow',
@@ -149,17 +151,7 @@ export default {
       showRouteName: 'Admin.Ticket.Show',
       indexRouteName: 'Admin.Ticket.List',
       inputs: [
-        {
-          type: 'select',
-          name: 'category_info__type',
-          responseKey: 'category_info.type',
-          options: (new TicketCategory()).typeEnums,
-          label: 'معاونت',
-          placeholder: ' ',
-          ignoreValue: true,
-          col: 'col-md-4 col-12'
-        },
-        { type: 'select', name: 'category', responseKey: 'category', placeholder: ' ', options: [], label: 'دسته', col: 'col-md-4 col-12' },
+        { type: TicketCategorySelectorComp, name: 'category', responseKey: 'category_info', col: 'col-md-8 col-12', disable: true },
         { type: 'select', name: 'status', responseKey: 'status', options: (new Ticket()).statusEnums, multiple: false, label: 'وضعیت', placeholder: ' ', col: 'col-md-4 col-12' },
 
         { type: 'file', name: 'attachment', responseKey: 'attachment', placeholder: ' ', label: 'ضمیمه', readonly: true, col: 'col-md-6 col-12' },

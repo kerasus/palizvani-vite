@@ -7,6 +7,7 @@
       <q-select v-model="ticketCategoryType"
                 map-options
                 emit-value
+                :disable="disable"
                 :options="ticketCategoryTypeOptions"
                 :loading="ticketCategoryTypeOptions.laoding" />
     </div>
@@ -17,6 +18,7 @@
       <q-select v-model="ticketCategory"
                 map-options
                 emit-value
+                :disable="disable"
                 :options="ticketCategoryOptions"
                 :loading="ticketCategoryTypeOptions.laoding" />
     </div>
