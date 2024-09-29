@@ -47,16 +47,16 @@ const routes = [
       Document,
       UserPanel
     ]
-  }
+  },
 
   // must status 404
   // Always leave this as last one,
   // but you can also remove it
-  // {
-  //   path: '/404/:catchAll(.*)*',
-  //   name: 'NotFound',
-  //   component:
-  //     () => import('src/pages/Error404.vue')
-  // }
+  {
+    path: '/404/:catchAll(.*)*',
+    name: 'NotFound',
+    component:
+      () => import('src/pages/Error404.vue')
+  }
 ]
 export default routes
