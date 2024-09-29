@@ -35,7 +35,7 @@ export default {
       setTimeout(() => {
         JsBarcode('#' + this.barcodeId, this.value, {
           // format: 'pharmacode',
-          lineColor: '#0aa',
+          lineColor: '#323232',
           width: 2,
           height: 50,
           displayValue: false

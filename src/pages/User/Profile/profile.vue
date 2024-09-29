@@ -37,6 +37,7 @@ import VerifyEmail from 'src/components/other/VerifyEmail.vue'
 import NationalCode from 'src/components/other/NationalCode.vue'
 import VerifyMobileNumber from 'src/components/other/VerifyMobileNumber.vue'
 import FormBuilderBarCode from 'src/components/FormBuilderCustumComponents/FormBuilderBarCode.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
 
 const WarningComp = shallowRef(Warning)
 const VerifyEmailComp = shallowRef(VerifyEmail)
@@ -56,8 +57,8 @@ export default {
       entityParamKey: 'id',
       showRouteName: 'UserPanel.Profile.UserInfo',
       inputs: [
-        { type: 'separator', name: 'space', placeholder: ' ', label: 'شناسه ورود به جلسه', className: 'custom-separator require', col: 'col-12' },
-        { type: FormBuilderBarCodeComp, name: 'national_code', responseKey: 'national_code', label: 'بارکد ورود به جلسه', ignoreValue: true, col: 'col-12' },
+        { type: 'separator', name: 'barcode_space', placeholder: ' ', label: 'شناسه ورود به جلسه', className: 'custom-separator require', col: 'col-12' },
+        { type: FormBuilderBarCodeComp, name: 'national_code_barcode', responseKey: 'national_code', label: '', ignoreValue: true, col: 'col-12' },
         { type: 'separator', name: 'space', placeholder: ' ', label: 'اطلاعات ضروری', className: 'custom-separator require', col: 'col-12' },
         { type: WarningComp, name: 'WarningComp', label: 'بعد از تایید اطلاعات ضروری، امکان تغییر این اطلاعات وجود ندارد', col: 'col-12' },
         { type: VerifyEmailComp, name: 'email', placeholder: ' ', label: 'ایمیل', responseKey: 'email', col: 'col-md-6 col-12' },
@@ -138,6 +139,11 @@ export default {
   },
   methods: {
     afterLoadInputData (responseData, setNewInputData) {
+      if (!responseData.national_code) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'national_code_barcode', 'type', 'hidden')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'barcode_space', 'type', 'hidden')
+      }
+
       this.updateGender(responseData, setNewInputData)
       this.updateMaritalStatus(responseData, setNewInputData)
     },
