@@ -202,10 +202,10 @@
                     {{ selectedTeam.leader_info.lastname }}
                   </div>
                   <div class="col-md-9 col-12">
-                    <span class="q-mr-sm">
-                      شماره تماس:
-                    </span>
-                    {{ selectedTeam.leader_info.mobile_number }}
+                  <!--  <span class="q-mr-sm">-->
+                  <!--  شماره تماس:  -->
+                  <!--  </span>-->
+                  <!--  {{ selectedTeam.leader_info.mobile_number }}-->
                   </div>
                 </div>
               </div>
