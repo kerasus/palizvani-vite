@@ -175,12 +175,27 @@ export default {
     },
     {
       name: 'Public.Professor',
-      path: 'professor/:professor_name',
+      path: 'professor',
       meta: {
-        hasDynamicSetting: true,
-        hasDynamicSettingWithParams: true
+        hasDynamicSetting: true
       },
-      component: () => import('src/pages/Public/professorLanding.vue')
+      component: () => import('layouts/bareLayout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'Public.Professor.List',
+          component: () => import('src/pages/BasicDynamicPage.vue')
+        },
+        {
+          path: ':professor_name',
+          name: 'Public.Professor.Show',
+          meta: {
+            hasDynamicSetting: true,
+            hasDynamicSettingWithParams: true
+          },
+          component: () => import('src/pages/Public/professorLanding.vue')
+        }
+      ]
     },
     {
       name: 'Public.Rules',

@@ -63,7 +63,8 @@ export default class PageSettingAPI extends APIRepository {
   }
 
   update (data) {
-    const settingKey = encodeURI(data.key)
+    // const settingKey = encodeURI(data.key)
+    const settingKey = data.key
     const settingValue = data.value
     return this.sendRequest({
       apiMethod: 'post',

@@ -50,6 +50,10 @@ export default {
           fontWeight: null,
           fontStyle: null,
           lineHeight: null
+        },
+        borderStyle: {
+          borderCssString: '',
+          borderRadiusCssString: ''
         }
       }
     }
@@ -58,40 +62,48 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.text {
-  line-height: v-bind('localOptions.xl.lineHeight');
-  color: v-bind('localOptions.color');
-  font-size: v-bind('localOptions.xl.fontSize');
-  font-weight: v-bind('localOptions.xl.fontWeight');
-  font-family: v-bind('localOptions.fontFamily');
-  font-style: v-bind('localOptions.xl.fontStyle');
+$border: v-bind('localOptions.borderStyle.borderCssString');
+$borderRadius: v-bind('localOptions.borderStyle.borderRadiusCssString');
 
-  @media screen and (max-width: 1920px) {
-    font-size: v-bind('localOptions.lg.fontSize');
-    font-weight: v-bind('localOptions.lg.fontWeight');
-    font-style: v-bind('localOptions.lg.fontStyle');
-    line-height: v-bind('localOptions.lg.lineHeight');
-  }
+.text-widget-container {
+  -webkit-border-radius: $borderRadius;
+  -moz-border-radius: $borderRadius;
+  border: $border;
+  .text {
+    line-height: v-bind('localOptions.xl.lineHeight');
+    color: v-bind('localOptions.color');
+    font-size: v-bind('localOptions.xl.fontSize');
+    font-weight: v-bind('localOptions.xl.fontWeight');
+    font-family: v-bind('localOptions.fontFamily');
+    font-style: v-bind('localOptions.xl.fontStyle');
 
-  @media screen and (max-width: 1440px) {
-    font-size: v-bind('localOptions.md.fontSize');
-    font-weight: v-bind('localOptions.md.fontWeight');
-    font-style: v-bind('localOptions.md.fontStyle');
-    line-height: v-bind('localOptions.md.lineHeight');
-  }
+    @media screen and (max-width: 1920px) {
+      font-size: v-bind('localOptions.lg.fontSize');
+      font-weight: v-bind('localOptions.lg.fontWeight');
+      font-style: v-bind('localOptions.lg.fontStyle');
+      line-height: v-bind('localOptions.lg.lineHeight');
+    }
 
-  @media screen and (max-width: 1024px) {
-    font-size: v-bind('localOptions.sm.fontSize');
-    font-weight: v-bind('localOptions.sm.fontWeight');
-    font-style: v-bind('localOptions.sm.fontStyle');
-    line-height: v-bind('localOptions.sm.lineHeight');
-  }
+    @media screen and (max-width: 1440px) {
+      font-size: v-bind('localOptions.md.fontSize');
+      font-weight: v-bind('localOptions.md.fontWeight');
+      font-style: v-bind('localOptions.md.fontStyle');
+      line-height: v-bind('localOptions.md.lineHeight');
+    }
 
-  @media screen and (max-width: 600px) {
-    font-size: v-bind('localOptions.xs.fontSize');
-    font-weight: v-bind('localOptions.xs.fontWeight');
-    font-style: v-bind('localOptions.xs.fontStyle');
-    line-height: v-bind('localOptions.xs.lineHeight');
+    @media screen and (max-width: 1024px) {
+      font-size: v-bind('localOptions.sm.fontSize');
+      font-weight: v-bind('localOptions.sm.fontWeight');
+      font-style: v-bind('localOptions.sm.fontStyle');
+      line-height: v-bind('localOptions.sm.lineHeight');
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: v-bind('localOptions.xs.fontSize');
+      font-weight: v-bind('localOptions.xs.fontWeight');
+      font-style: v-bind('localOptions.xs.fontStyle');
+      line-height: v-bind('localOptions.xs.lineHeight');
+    }
   }
 }
 </style>

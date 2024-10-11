@@ -1,5 +1,6 @@
 <template>
-  <option-panel-tabs v-model:options="localOptions">
+  <option-panel-tabs v-model:options="localOptions"
+                     :show-border-style-tab="true">
     <template #main-tab>
       <div class="option-panel-container">
         <div class="row q-mt-sm">
