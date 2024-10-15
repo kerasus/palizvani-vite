@@ -28,6 +28,14 @@ export default defineComponent({
       }
     }
   },
+  data () {
+    return {
+      defaultOptions: {
+        style: null,
+        text: null
+      }
+    }
+  },
   watch: {
     localOptions: {
       handler(newVal) {

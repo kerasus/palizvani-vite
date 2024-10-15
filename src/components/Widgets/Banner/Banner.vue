@@ -1,17 +1,19 @@
 <template>
-  <q-banner :style="localOptions.style"
-            v-html="localOptions.text" />
+  <q-banner :style="localOptions.style">
+    <div v-html="localOptions.text" />
+  </q-banner>
 </template>
 
 <script>
-import { mixinWidget, mixinPrefetchServerData } from 'src/mixin/Mixins.js'
+import { mixinWidget } from 'src/mixin/Mixins.js'
 
 export default {
   name: 'Banner',
-  mixins: [mixinPrefetchServerData, mixinWidget],
+  mixins: [mixinWidget],
   data() {
     return {
       defaultOptions: {
+        style: null,
         text: null
       }
     }
