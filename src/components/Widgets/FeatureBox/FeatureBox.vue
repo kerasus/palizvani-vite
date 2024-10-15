@@ -109,6 +109,7 @@ $transitionTime: v-bind('localOptions.cssHoverEffects.transition.time');
     width: 215px;
     height: auto;
     border-radius: 20px;
+    align-self: center;
     &.has-url {
       cursor: pointer;
     }
