@@ -17,7 +17,7 @@
 import { defineComponent } from 'vue'
 import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
 import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
-import Editor from 'components/Utils/Editor.vue'
+import Editor from 'components/Utils/Editor2.vue'
 import EditorOptions from 'components/EditorOptions.vue'
 
 export default defineComponent({
