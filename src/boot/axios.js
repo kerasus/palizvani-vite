@@ -26,45 +26,40 @@ const AxiosHooks = (function () {
   function handleErrors (error, router, store) {
     const messages = []
     if (!error || !error.response) {
-      return
+      return error // Reject in case of network errors
     }
+
     const statusCode = parseInt(error.response.status)
+
     if (statusCode >= 500 && statusCode <= 599) {
       messages.push('مشکلی رخ داده است. مجدد تلاش کنید.')
     } else if (statusCode === 404) {
-      if (error.response.data.detail) {
-        messages.push(error.response.data.detail)
-      } else {
-        messages.push('موردی یافت نشد.')
-      }
+      messages.push(error.response.data.detail || 'موردی یافت نشد.')
     } else if (statusCode === 401) {
-      if (error.response.data.detail) {
-        messages.push(error.response.data.detail)
-      }
-      // const message = error.response.data.message
-      // messages.push(message)
+      messages.push(error.response.data.detail || 'Unauthorized access.')
       deAuthorizeUser(router, store)
     } else if (statusCode === 403) {
-      const message = error.response.data.detail
-      messages.push(message)
+      messages.push(error.response.data.detail || 'Forbidden access.')
     } else if (error.response.data) {
+      // Handle other errors by iterating over response data
       if (error.response.data.detail) {
         messages.push(error.response.data.detail)
       } else {
         for (const key of Object.keys(error.response.data)) {
-          if (typeof error.response.data[key] === 'string') {
-            messages.push(key + ': ' + error.response.data[key])
-          } else if (Array.isArray(error.response.data[key])) {
-            error.response.data[key].forEach(message => {
-              messages.push(key + ': ' + message)
-            })
+          const message = error.response.data[key]
+          if (typeof message === 'string') {
+            messages.push(`${key}: ${message}`)
+          } else if (Array.isArray(message)) {
+            message.forEach(msg => messages.push(`${key}: ${msg}`))
           }
         }
       }
     }
 
     toastMessages(messages)
-    return Promise.reject(error)
+
+    // Return the error to be handled by the calling function
+    return error
   }
 
   function handleFulfilled (response) {
@@ -158,9 +153,10 @@ export default boot(({ app, store, router, ssrContext }) => {
   if (appApi.interceptors) {
     appApi.interceptors.response.use(function (response) {
       AxiosHooks.handleFulfilled(response)
-      return Promise.resolve(response)
-    }, async function (error) {
-      return Promise.reject(await AxiosHooks.handleErrors(error, router, store))
+      return response
+    }, function (error) {
+      AxiosHooks.handleErrors(error, router, store)
+      return Promise.reject(error) // Ensure the error is rejected properly
     })
   }
 

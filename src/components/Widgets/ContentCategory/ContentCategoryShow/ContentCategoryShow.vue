@@ -66,7 +66,7 @@
 import { EntityIndex } from 'quasar-crud'
 import { Content } from 'src/models/Content.js'
 import { Product } from 'src/models/Product.js'
-import { mixinWidget } from 'src/mixin/Mixins.js'
+import { mixinWidget, mixinPrefetchServerData } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import { ContentCategory } from 'src/models/ContentCategory.js'
@@ -77,7 +77,7 @@ import ContentItem from './ContentItem.vue'
 export default {
   name: 'ContentCategoryShow',
   components: { EntityIndex, Breadcrumbs, productItem, ContentItem },
-  mixins: [mixinWidget],
+  mixins: [mixinWidget, mixinPrefetchServerData],
   data () {
     return {
       productApi: APIGateway.product.APIAdresses.base,
@@ -160,18 +160,49 @@ export default {
       return null
     }
   },
-  created() {
-    this.updateBreadcrumbs()
-    FormBuilderAssist.setAttributeByName(this.productInputs, 'content_category', 'value', this.contentCategoryId)
-    FormBuilderAssist.setAttributeByName(this.contentInputs, 'category', 'value', this.contentCategoryId)
-    if (this.contentCategoryId) {
-      this.loadContentCategory()
-    }
-  },
   mounted () {
+    this.updateBreadcrumbs()
     this.mounted = true
   },
   methods: {
+    prefetchServerDataPromise () {
+      FormBuilderAssist.setAttributeByName(this.productInputs, 'content_category', 'value', this.contentCategoryId)
+      FormBuilderAssist.setAttributeByName(this.contentInputs, 'category', 'value', this.contentCategoryId)
+      if (this.contentCategoryId) {
+        this.contentCategory.loading = true
+        return this.getContentCategoryInfo(this.contentCategoryId)
+      }
+
+      return Promise.resolve(null)
+    },
+    prefetchServerDataPromiseThen (contentCategory) {
+      this.contentCategory = new ContentCategory(contentCategory)
+      this.updateBreadcrumbs()
+      if (this.contentCategory.parent) {
+        this.getContentCategoryInfo(this.contentCategory.parent)
+          .then((parentContentCategory) => {
+            this.contentCategoryParent = new ContentCategory(parentContentCategory)
+            this.updateBreadcrumbs()
+            if (this.contentCategoryParent.parent) {
+              this.getContentCategoryInfo(this.contentCategoryParent.parent)
+                .then((parentParentContentCategory) => {
+                  this.contentCategoryParentParent = new ContentCategory(parentParentContentCategory)
+                  this.updateBreadcrumbs()
+                })
+                .finally(() => {
+                  this.contentCategory.loading = false
+                })
+            }
+          })
+          .finally(() => {
+            this.contentCategory.loading = false
+          })
+      }
+    },
+    prefetchServerDataPromiseCatch () {
+      this.contentCategory.loading = false
+    },
+
     getContent (data) {
       return new Content(data)
     },
@@ -182,6 +213,37 @@ export default {
       return new ContentCategory(data)
     },
     loadContentCategory () {
+      this.contentCategory.loading = true
+      this.getContentCategoryInfo(this.contentCategoryId)
+        .then((contentCategory) => {
+          this.contentCategory = new ContentCategory(contentCategory)
+          this.updateBreadcrumbs()
+          if (this.contentCategory.parent) {
+            this.getContentCategoryInfo(this.contentCategory.parent)
+              .then((parentContentCategory) => {
+                this.contentCategoryParent = new ContentCategory(parentContentCategory)
+                this.updateBreadcrumbs()
+                if (this.contentCategoryParent.parent) {
+                  this.getContentCategoryInfo(this.contentCategoryParent.parent)
+                    .then((parentParentContentCategory) => {
+                      this.contentCategoryParentParent = new ContentCategory(parentParentContentCategory)
+                      this.updateBreadcrumbs()
+                    })
+                    .finally(() => {
+                      this.contentCategory.loading = false
+                    })
+                }
+              })
+              .finally(() => {
+                this.contentCategory.loading = false
+              })
+          }
+        })
+        .finally(() => {
+          this.contentCategory.loading = false
+        })
+    },
+    loadContentCategory1 () {
       this.contentCategory.loading = true
       this.getContentCategoryInfo(this.contentCategoryId)
         .then((contentCategory) => {
