@@ -131,9 +131,16 @@ export default {
           {
             name: 'creation_time',
             required: true,
-            label: 'زمان',
+            label: 'زمان ثبت',
             align: 'left',
             field: row => Assist.miladiToShamsi(row.creation_time)
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'زمان آخرین به روزرسانی',
+            align: 'left',
+            field: row => Assist.miladiToShamsi(row.last_modification_time)
           },
           {
             name: 'action',
