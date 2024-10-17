@@ -202,12 +202,12 @@ export default {
       }
       if (this.windowWidth >= 1920) {
         return options.xl?.src ? options.xl.src : options.lg?.src ? options.lg.src : options.sm?.src ? options.md.src : options.sm?.src ? options.sm.src : options.xs?.src
-      } else if (this.windowWidth <= 1919 && this.windowWidth > 1440) {
-        return options.lg.src ? options.lg.src : options.md?.src ? options.md.src : options.sm?.src ? options.sm.src : options.xs?.src ? options.xs?.src : options.xl?.src
-      } else if (this.windowWidth <= 1439 && this.windowWidth > 1024) {
-        return options.md.src ? options.md.src : options.sm?.src ? options.sm.src : options.xs?.src ? options.xs.src : options.lg?.src ? options.lg.src : options.xl?.src
-      } else if (this.windowWidth <= 1023 && this.windowWidth > 600) {
-        return options.sm.src ? options.sm.src : options.xs?.src ? options.xs.src : options.md?.src ? options.md.src : options.lg?.src ? options.lg.src : options.xl?.src
+      } else if (this.windowWidth <= 1919 && this.windowWidth >= 1440) {
+        return options.lg?.src ? options.lg.src : options.md?.src ? options.md.src : options.sm?.src ? options.sm.src : options.xs?.src ? options.xs?.src : options.xl?.src
+      } else if (this.windowWidth <= 1439 && this.windowWidth >= 1024) {
+        return options.md?.src ? options.md.src : options.sm?.src ? options.sm.src : options.xs?.src ? options.xs.src : options.lg?.src ? options.lg.src : options.xl?.src
+      } else if (this.windowWidth <= 1023 && this.windowWidth >= 600) {
+        return options.sm?.src ? options.sm.src : options.xs?.src ? options.xs.src : options.md?.src ? options.md.src : options.lg?.src ? options.lg.src : options.xl?.src
       } else if (this.windowWidth <= 599) {
         return options.xs?.src ? options.xs.src : options.sm?.src ? options.sm.src : options.md?.src ? options.md.src : options.lg?.src ? options.lg.src : options.xl?.src
       } else {

@@ -10,6 +10,12 @@
             <div class="outsideLabel">آدرس عکس</div>
             <image-uploader v-model:file="localOptions.imageSource" />
           </div>
+          <div class="full-width">
+            <q-btn class="full-width"
+                   @click="localOptions.imageSource = null">
+              حذف عکس یکتا
+            </q-btn>
+          </div>
           <!--          <div class="input-container q-py-md">-->
           <!--            <div class="outsideLabel">height</div>-->
           <!--            <q-input v-model="localOptions.height"-->
