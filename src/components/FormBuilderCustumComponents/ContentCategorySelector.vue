@@ -20,7 +20,8 @@
           </div>
           <q-select v-model="mainCategory"
                     :options="mainCategoryOptions"
-                    :loading="categories.laoding" />
+                    :loading="categories.laoding"
+                    clearable />
         </div>
         <div class="col-md-4 col-12">
           <div>
@@ -28,7 +29,8 @@
           </div>
           <q-select v-model="subCategory"
                     :options="subCategoryOptions"
-                    :loading="categories.laoding" />
+                    :loading="categories.laoding"
+                    clearable />
         </div>
         <div class="col-md-4 col-12">
           <div>
@@ -36,7 +38,8 @@
           </div>
           <q-select v-model="bakhshCategory"
                     :options="bakhshCategoryOptions"
-                    :loading="categories.laoding" />
+                    :loading="categories.laoding"
+                    clearable />
         </div>
       </div>
     </q-card-section>
