@@ -173,7 +173,7 @@ export default {
         { type: 'separator', name: 'space', size: '1px', col: 'col-md-12' },
         { type: 'inputEditor', name: 'assignment_description', responseKey: 'assignment_description', label: 'تکلیف جلسه', col: 'col-md-12' },
         { type: ContentsSelectorComp, name: 'contents', responseKey: 'contents_info', showPageLink: false, showDownloadLink: true, col: 'col-12' },
-        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', sourceType: 'SESSION', col: 'col-12' },
+        { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', showPageLink: false, showDownloadLink: true, canDelete: false, sourceType: 'SESSION', col: 'col-12' },
 
         { type: 'hidden', name: 'title', responseKey: 'title', label: 'نام جلسه', col: 'col-md-1' },
         { type: 'hidden', name: 'beginning_time', responseKey: 'beginning_time', label: 'زمان شروع جلسه', col: 'col-md-1' },
