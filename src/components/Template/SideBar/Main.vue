@@ -95,7 +95,7 @@ export default {
             },
             {
               title: 'کتب سطح چهار',
-              externalLink: 'https://formafzar.com/form/dttpf',
+              externalLink: 'https://formafzar.com/form/yk7z7',
               show: true
             },
             {
@@ -115,7 +115,7 @@ export default {
             },
             {
               title: 'کتاب تشکیلات بهشتی',
-              externalLink: 'https://formafzar.com/form/j3x1d',
+              externalLink: 'https://formafzar.com/form/p1y9a',
               show: true
             }
           ],
