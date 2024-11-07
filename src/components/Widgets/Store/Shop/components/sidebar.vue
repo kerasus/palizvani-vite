@@ -195,7 +195,7 @@ export default {
         unit_price__lt: this.filters.price.max,
         unit_price__gte: this.filters.price.min,
         inventory__gte: this.filters.exist ? 1 : null,
-        category__in: this.filters.categories,
+        store_category__in: this.filters.categories,
         physical_type__in: this.filters.types.filter(tp => this.physicalTypes.includes(tp)),
         medias__type__in: this.filters.types.filter(tp => this.virtualTypes.includes(tp))
       }
