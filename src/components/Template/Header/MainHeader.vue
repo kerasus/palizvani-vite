@@ -33,15 +33,15 @@
                    label="راهنما"
                    :to="{ name: 'Public.Post.List.Guide' }"
                    class="top-menu-item" />
-            <!--<q-btn stretch-->
-            <!--flat-->
-            <!--label="Shop"-->
-            <!--:to="{ name: 'Public.Shop' }"-->
-            <!--class="top-menu-item" />-->
             <q-btn stretch
                    flat
                    label="آرشیو محتوا"
                    :to="{ name: 'Public.ContentCategoryParentParent.List' }"
+                   class="top-menu-item" />
+            <q-btn stretch
+                   flat
+                   label="Shop"
+                   :to="{ name: 'Public.Shop' }"
                    class="top-menu-item" />
             <q-btn stretch
                    flat
