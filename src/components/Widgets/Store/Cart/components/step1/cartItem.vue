@@ -50,11 +50,11 @@
         <div v-if="packageOrProductObject.unit_price != packageOrProductObject.sellable_price"
              class="cart-item__price-base">
           {{ packageOrProductObject.unit_price.toLocaleString('fa') }}
-          تومان
+          ریال
         </div>
         <div class="cart-item__price-final">
           {{ packageOrProductObject.sellable_price.toLocaleString('fa') }}
-          تومان
+          ریال
         </div>
       </div>
       <div v-if="basketItem.package"

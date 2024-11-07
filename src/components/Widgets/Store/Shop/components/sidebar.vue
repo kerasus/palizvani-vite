@@ -35,12 +35,12 @@
         <div class="sidebar__price-label-min">
           از
           {{ parseInt(filters.price.min.toString()).toLocaleString('fa') }}
-          تومان
+          ریال
         </div>
         <div class="sidebar__price-label-max">
           تا
           {{ parseInt(filters.price.max.toString()).toLocaleString('fa') }}
-          تومان
+          ریال
         </div>
       </div>
     </div>

@@ -27,11 +27,11 @@
     <div class="product-item__price">
       <div class="product-item__price-base">
         {{ parseInt(product.unit_price).toLocaleString('fa') }}
-        تومان
+        ریال
       </div>
       <div class="product-item__price-final">
         {{ product.getFinalPrice() }}
-        تومان
+        ریال
       </div>
     </div>
     <div class="product-item__actions">

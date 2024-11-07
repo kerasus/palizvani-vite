@@ -47,11 +47,11 @@
         </div>
         <div class="package-show__summery-price-base">
           {{ storePackage.unit_price }}
-          تومان
+          ریال
         </div>
         <div class="package-show__summery-price-final">
           {{ storePackage.getFinalPrice() }}
-          تومان
+          ریال
         </div>
         <q-btn label="افزودن به سبد"
                outline

@@ -6,7 +6,7 @@
       </div>
       <div class="step1__sidebar-total-price-value">
         {{ basket.price.toLocaleString('fa') }}
-        تومان
+        ریال
       </div>
     </div>
     <div v-if="basket.margin_amount"
@@ -16,7 +16,7 @@
       </div>
       <div class="step1__sidebar-total-discount-value">
         {{ basket.margin_amount.toLocaleString('fa') }}
-        تومان
+        ریال
       </div>
     </div>
     <div v-if="basket.margin_amount"
@@ -28,7 +28,7 @@
       </div>
       <div class="step1__sidebar-total-price-value">
         {{ basket.sellable_price.toLocaleString('fa') }}
-        تومان
+        ریال
       </div>
     </div>
     <div v-if="basket.discount"
@@ -38,7 +38,7 @@
       </div>
       <div class="step1__sidebar-discount-code-value">
         {{ basket.discount_amount.toLocaleString('fa') }}
-        تومان
+        ریال
       </div>
     </div>
     <div class="step1__sidebar-separator" />
@@ -48,7 +48,7 @@
       </div>
       <div class="step1__sidebar-final-price-value">
         {{ basket.order_price.toLocaleString('fa') }}
-        تومان
+        ریال
       </div>
     </div>
     <div class="step1__sidebar-continue-action">

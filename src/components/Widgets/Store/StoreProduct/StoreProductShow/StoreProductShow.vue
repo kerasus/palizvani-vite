@@ -60,11 +60,11 @@
         <div v-if="product.unit_price !== product.sellable_price"
              class="product-show__summery-price-base">
           {{ parseInt(product.unit_price).toLocaleString('fa') }}
-          تومان
+          ریال
         </div>
         <div class="product-show__summery-price-final">
           {{ parseInt(product.sellable_price).toLocaleString('fa') }}
-          تومان
+          ریال
         </div>
         <q-btn label="افزودن به سبد"
                outline

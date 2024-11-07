@@ -20,11 +20,11 @@
       <div v-if="packageItem.unit_price != packageItem.sellable_price"
            class="package-item__price-base">
         {{ parseInt(packageItem.unit_price).toLocaleString('fa') }}
-        تومان
+        ریال
       </div>
       <div class="package-item__price-final">
         {{ packageItem.sellable_price.toLocaleString('fa') }}
-        تومان
+        ریال
       </div>
     </div>
     <div class="package-item__actions">

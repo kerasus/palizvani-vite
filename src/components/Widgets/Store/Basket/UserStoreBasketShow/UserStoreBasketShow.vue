@@ -221,7 +221,7 @@ export default {
       { type: 'input', name: 'id', responseKey: 'id', label: 'شناسه', placeholder: ' ', disable: true, col: 'col-md-2 col-12' },
       { type: 'input', name: 'items_info.length', responseKey: 'items_info.length', label: 'تعداد اقلام', placeholder: ' ', disable: true, col: 'col-md-2 col-12' },
       { type: FormBuilderDateTimeComp, name: 'creation_time', responseKey: 'creation_time', outsideLabel: 'تاریخ ثبت', placeholder: ' ', disable: true, col: 'col-md-3 col-12' },
-      { type: 'input', name: 'overall_order_price', responseKey: 'overall_order_price', label: 'قیمت کل(تومان)', placeholder: ' ', disable: true, col: 'col-md-3 col-12' }
+      { type: 'input', name: 'overall_order_price', responseKey: 'overall_order_price', label: 'قیمت کل(ریال)', placeholder: ' ', disable: true, col: 'col-md-3 col-12' }
     ]
   },
   mounted() {

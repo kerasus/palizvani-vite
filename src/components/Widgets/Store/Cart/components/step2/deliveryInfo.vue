@@ -29,7 +29,7 @@
         </div>
         <div class="delivery-info__price-value">
           {{ basket.delivery_cost.toLocaleString('fa') }}
-          تومان
+          ریال
         </div>
       </div>
     </div>

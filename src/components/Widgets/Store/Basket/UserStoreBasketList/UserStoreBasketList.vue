@@ -101,7 +101,7 @@ export default {
           {
             name: 'overall_order_price',
             required: true,
-            label: 'قیمت کل(تومان)',
+            label: 'قیمت کل(ریال)',
             align: 'left',
             field: row => parseInt(row.overall_order_price).toLocaleString('fa')
           },

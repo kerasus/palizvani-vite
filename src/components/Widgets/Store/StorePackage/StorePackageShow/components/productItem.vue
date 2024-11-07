@@ -30,7 +30,7 @@
         </div>
         <div class="product-item__price-info-value">
           {{ product.getFinalPrice() }}
-          تومان
+          ریال
         </div>
       </div>
       <q-btn color="primary"
