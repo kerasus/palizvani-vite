@@ -35,7 +35,7 @@
           <div class="flex justify-between">
             <div>
               <q-checkbox v-model="confirmed"
-                          label="آیین نامه خرید محصول را خوانده و قبلو دارم"
+                          label="آیین نامه خرید محصول را خوانده و قبول دارم"
                           color="primary" />
             </div>
             <div>
