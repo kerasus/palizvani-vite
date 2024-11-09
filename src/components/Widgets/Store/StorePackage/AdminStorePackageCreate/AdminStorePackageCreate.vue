@@ -56,7 +56,6 @@ export default {
         { type: ContentCategorySelectorComp, name: 'content_category', responseKey: 'content_category_info', categoryType: 'content', col: 'col-md-12 col-12' },
         { type: ContentCategorySelectorComp, name: 'store_category', responseKey: 'store_category_info', categoryType: 'store', col: 'col-md-12 col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-md-12 col-12' },
-        { type: 'inputEditor', name: 'specification', responseKey: 'specification', label: 'specification', col: 'col-md-12 col-12' },
         { type: 'input', name: 'unit_price', responseKey: 'unit_price', label: 'قیمت واحد(ریال)', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'discount_percent', responseKey: 'discount_percent', label: 'درصد تخفیف', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'inventory', responseKey: 'inventory', label: 'موجودی', placeholder: ' ', col: 'col-md-2 col-12' },
