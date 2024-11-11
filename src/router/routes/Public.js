@@ -21,6 +21,9 @@ export default {
       path: 'post',
       name: 'Public.Post',
       component: () => import('layouts/bareLayout.vue'),
+      meta: {
+        hasDynamicSetting: true
+      },
       children: [
         { path: '', name: 'Public.Post.List', component: () => import('src/pages/Public/Post/List.vue') },
         { path: 'news', name: 'Public.Post.List.News', component: () => import('src/pages/Public/Post/News.vue') },
