@@ -23,8 +23,12 @@ class Product extends Model {
       { key: 'physical_type' },
       { key: 'specification' },
       {
+        key: 'is_add_to_basket_disabled',
+        default: true
+      },
+      {
         key: 'medias',
-        defalut: []
+        default: []
       },
       {
         key: 'medias_info',

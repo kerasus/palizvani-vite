@@ -34,18 +34,20 @@
              outline>
         مشاهده جزییات
       </q-btn>
-      <q-btn v-if="!basketItem"
-             class="package-item__actions-add-to-cart"
-             :loading="addToCartLoading"
-             color="primary"
-             @click="addToCart">
-        افزودن به سبد
-      </q-btn>
-      <cart-count-action v-else
-                         :basket-item="basketItem"
-                         @increase="onIncrease"
-                         @decrease="onDecrease"
-                         @remove="onRemove" />
+      <template v-if="packageItem.is_add_to_basket_disabled">
+        <q-btn v-if="!basketItem"
+               class="package-item__actions-add-to-cart"
+               :loading="addToCartLoading"
+               color="primary"
+               @click="addToCart">
+          افزودن به سبد
+        </q-btn>
+        <cart-count-action v-else
+                           :basket-item="basketItem"
+                           @increase="onIncrease"
+                           @decrease="onDecrease"
+                           @remove="onRemove" />
+      </template>
     </div>
   </div>
 </template>

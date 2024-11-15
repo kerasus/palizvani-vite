@@ -17,6 +17,10 @@ class Package extends Model {
       { key: 'is_physical' },
       { key: 'maximum_order_count' },
       { key: 'weight' },
+      {
+        key: 'is_add_to_basket_disabled',
+        default: true
+      },
       { key: 'specification' },
       { key: 'products' },
       {
