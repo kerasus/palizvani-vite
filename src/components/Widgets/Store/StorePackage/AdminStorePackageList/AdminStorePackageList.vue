@@ -132,7 +132,14 @@ export default {
             required: true,
             label: 'دسته فروشگاه',
             align: 'left',
-            field: row => row.store_category_info?.parent?.parent?.title + '، ' + row.store_category_info?.parent?.title + '، ' + row.store_category_info?.title
+            field: row => (row.store_category_info?.parent?.parent?.title || '-') + '، ' + (row.store_category_info?.parent?.title || '-') + '، ' + (row.store_category_info?.title || '-')
+          },
+          {
+            name: 'store_category1',
+            required: true,
+            label: 'دسته محتوا',
+            align: 'left',
+            field: row => (row.content_category_info?.parent?.parent?.title || '-') + '، ' + (row.content_category_info?.parent?.title || '-') + '، ' + (row.content_category_info?.title || '-')
           },
           {
             name: 'category_info',
