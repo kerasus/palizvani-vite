@@ -15,13 +15,13 @@
              outline
              color="red"
              icon="remove"
-             :loading="basketItem.loading"
+             :loading="basketItem.loading || loading"
              @click="onDecrease" />
       <q-btn v-else
              flat
              color="red"
              icon="delete_outline"
-             :loading="basketItem.loading"
+             :loading="basketItem.loading || loading"
              @click="onRemove" />
     </div>
   </div>
@@ -36,6 +36,10 @@ export default {
     basketItem: {
       type: BasketItem,
       default: new BasketItem()
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['increase', 'decrease', 'remove'],

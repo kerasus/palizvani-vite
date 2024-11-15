@@ -46,21 +46,32 @@
           </div>
         </div>
       </div>
-      <q-btn color="primary"
-             class="product-item__price-action"
-             :loading="addToCartLoading"
-             @click="addToCart">
-        افزودن به سبد
-      </q-btn>
+      <div class="product-item__price-action">
+        <q-btn v-if="!basketItem"
+               class="product-btn-add-to-cart"
+               :loading="addToCartLoading"
+               color="primary"
+               @click="addToCart">
+          افزودن به سبد
+        </q-btn>
+        <cart-count-action v-else
+                           :basket-item="basketItem"
+                           :loading="addToCartLoading"
+                           @increase="onIncrease"
+                           @decrease="onDecrease"
+                           @remove="onRemove" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { Product } from 'src/models/Product.js'
+import CartCountAction from 'src/components/cart/cartCountAction/cartCountAction.vue'
 
 export default {
   name: 'productItem',
+  components: { CartCountAction },
   props: {
     product: {
       type: Product,
@@ -71,13 +82,35 @@ export default {
       default: false
     }
   },
-  emits: ['add-to-cart'],
+  emits: ['add-to-cart', 'increase', 'decrease', 'remove'],
+  computed: {
+    basket () {
+      return this.$store.getters['Shop/basket']
+    },
+    basketItem () {
+      const target = this.basket.items_info.list.find(basketItem => basketItem.product === this.product.id)
+      if (!target) {
+        return null
+      }
+
+      return target
+    }
+  },
   methods: {
     goToProductPage () {
       this.$router.push({ name: 'Public.Product', params: { id: this.product.id } })
     },
     addToCart () {
       this.$emit('add-to-cart', this.product.id)
+    },
+    onIncrease () {
+      this.$emit('increase', this.product.id)
+    },
+    onDecrease () {
+      this.$emit('decrease', this.product.id)
+    },
+    onRemove () {
+      this.$emit('remove', this.basketItem.id)
     }
   }
 }
@@ -144,7 +177,7 @@ export default {
     flex-direction: column;
     gap: 29px;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     .product-item__price-info {
       display: flex;
       flex-flow: column;
@@ -182,6 +215,9 @@ export default {
     }
     .product-item__price-action {
       width: 252px;
+      .product-btn-add-to-cart {
+        width: 100%;
+      }
     }
   }
 }

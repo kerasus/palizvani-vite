@@ -66,12 +66,20 @@
           {{ parseInt(product.sellable_price).toLocaleString('fa') }}
           ریال
         </div>
-        <q-btn label="افزودن به سبد"
-               outline
-               color="primary"
-               :loading="addToCartLoading"
-               class="product-show__summery-price-action"
-               @click="addToCart" />
+        <div class="product-show__summery-price-action">
+          <q-btn v-if="!basketItem"
+                 class="product-btn-add-to-cart"
+                 :loading="addToCartLoading"
+                 color="primary"
+                 @click="addToCart">
+            افزودن به سبد
+          </q-btn>
+          <cart-count-action v-else
+                             :basket-item="basketItem"
+                             @increase="onIncrease"
+                             @decrease="onDecrease"
+                             @remove="onRemove" />
+        </div>
       </div>
     </div>
     <div v-if="product.description"
@@ -97,10 +105,11 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import MediasComponent from './components/Medias.vue'
 import DiscountBadge from './components/discountBadge.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import CartCountAction from 'src/components/cart/cartCountAction/cartCountAction.vue'
 
 export default {
   name: 'StoreProductShow',
-  components: { Breadcrumbs, MediasComponent, DiscountBadge },
+  components: { Breadcrumbs, MediasComponent, DiscountBadge, CartCountAction },
   mixins: [mixinWidget],
   data () {
     return {
@@ -111,6 +120,17 @@ export default {
   computed: {
     productId () {
       return this.$route.params.id
+    },
+    basket () {
+      return this.$store.getters['Shop/basket']
+    },
+    basketItem () {
+      const target = this.basket.items_info.list.find(basketItem => basketItem.product === this.product.id)
+      if (!target) {
+        return null
+      }
+
+      return target
     }
   },
   mounted() {
@@ -126,14 +146,38 @@ export default {
           this.checkoutReview()
         })
     },
+    onIncrease () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.incrementProduct(this.basketItem.product)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
+    onDecrease () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.decrementProduct(this.basketItem.product)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
+    onRemove () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.remove(this.basketItem.id)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
     checkoutReview () {
-      this.basket.loading = true
+      this.addToCartLoading = true
       APIGateway.basket.checkoutReview()
         .then((basket) => {
           this.$store.commit('Shop/updateBasket', new Basket(basket))
         })
         .finally(() => {
-          this.basket.loading = false
+          this.addToCartLoading = false
         })
     },
     getProduct () {
@@ -295,7 +339,9 @@ export default {
       }
       .product-show__summery-price-action {
         width: 100%;
-        background: white !important;
+        .product-btn-add-to-cart {
+          width: 100%;
+        }
       }
       @media screen and (max-width: 900px) {
         & {

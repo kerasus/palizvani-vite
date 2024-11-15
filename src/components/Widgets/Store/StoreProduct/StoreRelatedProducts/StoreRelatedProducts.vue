@@ -13,6 +13,9 @@
                       :product="product"
                       :add-to-cart-loading="addToCartLoading"
                       class="product-item"
+                      @increase="onIncrease"
+                      @decrease="onDecrease"
+                      @remove="onRemove"
                       @add-to-cart="addToCart" />
       </div>
     </q-card>
@@ -63,14 +66,38 @@ export default {
           this.checkoutReview()
         })
     },
+    onIncrease (productId) {
+      this.addToCartLoading = true
+      APIGateway.basketItem.incrementProduct(productId)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
+    onDecrease (productId) {
+      this.addToCartLoading = true
+      APIGateway.basketItem.decrementProduct(productId)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
+    onRemove (basketItemId) {
+      this.addToCartLoading = true
+      APIGateway.basketItem.remove(basketItemId)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
     checkoutReview () {
-      this.basket.loading = true
+      this.addToCartLoading = true
       APIGateway.basket.checkoutReview()
         .then((basket) => {
           this.$store.commit('Shop/updateBasket', new Basket(basket))
         })
         .finally(() => {
-          this.basket.loading = false
+          this.addToCartLoading = false
         })
     },
     getProduct () {
