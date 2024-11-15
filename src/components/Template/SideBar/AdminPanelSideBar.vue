@@ -252,6 +252,13 @@ export default {
               routeName: 'Admin.Store.Discount.List',
               show: true,
               active: false
+            },
+            {
+              title: 'آیین نامه خرید',
+              roles: ['superuser'],
+              routeName: 'Admin.Store.Basket.PurchaseRegulations',
+              show: true,
+              active: false
             }
             // {
             //   title: 'تنظیمات',

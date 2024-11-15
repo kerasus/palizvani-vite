@@ -4,24 +4,24 @@
       <q-btn outline
              color="primary"
              icon="add"
-             :loading="basketItem.loading"
+             :loading="basketItem?.loading || loading"
              @click="onIncrease" />
     </div>
     <div class="cart-count-action-count">
-      {{ basketItem.count }}
+      {{ basketItem?.count }}
     </div>
     <div class="cart-count-action-decrease">
-      <q-btn v-if="basketItem.count > 1"
+      <q-btn v-if="basketItem?.count > 1"
              outline
              color="red"
              icon="remove"
-             :loading="basketItem.loading || loading"
+             :loading="basketItem?.loading || loading"
              @click="onDecrease" />
       <q-btn v-else
              flat
              color="red"
              icon="delete_outline"
-             :loading="basketItem.loading || loading"
+             :loading="basketItem?.loading || loading"
              @click="onRemove" />
     </div>
   </div>

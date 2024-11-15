@@ -25,6 +25,7 @@ import DonationAPI from 'src/api/models/Donation.js'
 import QuestionApi from 'src/api/models/Question.js'
 import DiscountAPI from 'src/api/models/Discount.js'
 import ClassroomAPI from 'src/api/models/Classroom.js'
+import AppSettingAPI from 'src/api/models/AppSetting.js'
 import AnswerBookApi from 'src/api/models/AnswerBook.js'
 import InstalmentAPI from 'src/api/models/Instalment.js'
 import BasketItemAPI from 'src/api/models/BasketItem.js'
@@ -84,6 +85,7 @@ export const APIGateway = {
   question: new QuestionApi(),
   discount: new DiscountAPI(),
   classroom: new ClassroomAPI(),
+  appSetting: new AppSettingAPI(),
   answerBook: new AnswerBookApi(),
   instalment: new InstalmentAPI(),
   basketItem: new BasketItemAPI(),
