@@ -7,7 +7,8 @@ export default class ProductAPI extends APIRepository {
     super('product', appApi)
     this.APIAdresses = {
       base: '/store/products',
-      byId: (id) => '/store/products/' + id
+      byId: (id) => '/store/products/' + id,
+      relatedProducts: (id) => '/store/products/' + id + '/related_products'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base
@@ -62,6 +63,38 @@ export default class ProductAPI extends APIRepository {
       request: this.APIAdresses.byId(id),
       resolveCallback: (response) => {
         return new Product(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  relatedProducts(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.relatedProducts(data.id),
+      data: this.getNormalizedSendData({
+        per_page: 10, // Number
+        page: 1 // Number
+      }, data),
+      resolveCallback: (response) => {
+        const paginate = response.data
+        const results = response.data.results
+        delete paginate.results
+        return {
+          list: new ProductList(results),
+          paginate
+          // {
+          //   "count": 1,
+          //   "num_pages": 1,
+          //   "per_page": 10,
+          //   "current": 1,
+          //   "next": null,
+          //   "previous": null,
+          // }
+        }
       },
       rejectCallback: (error) => {
         return error

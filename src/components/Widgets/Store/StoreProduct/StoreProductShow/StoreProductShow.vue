@@ -82,7 +82,7 @@
       <div class="product-show__descriptions-data"
            v-html="product.description" />
     </div>
-    <div v-if="product.medias_info"
+    <div v-if="product.medias_info.length > 0"
          class="product-show__medias">
       <medias-component :medias="product.medias_info" />
     </div>
@@ -99,7 +99,7 @@ import DiscountBadge from './components/discountBadge.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 
 export default {
-  name: 'ContentShow',
+  name: 'StoreProductShow',
   components: { Breadcrumbs, MediasComponent, DiscountBadge },
   mixins: [mixinWidget],
   data () {
@@ -115,7 +115,7 @@ export default {
   },
   mounted() {
     this.setBreadcrumbsLoading()
-    this.getPackage()
+    this.getProduct()
   },
   methods: {
     addToCart () {
@@ -136,7 +136,7 @@ export default {
           this.basket.loading = false
         })
     },
-    getPackage () {
+    getProduct () {
       this.product.loading = true
       APIGateway.product.get(this.productId)
         .then((product) => {
