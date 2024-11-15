@@ -47,12 +47,19 @@
         </div>
       </div>
       <div class="product-item__price-action">
-        <q-btn v-if="!basketItem"
+        <q-btn v-if="!basketItem && product.inventory > 0"
                class="product-btn-add-to-cart"
                :loading="addToCartLoading"
                color="primary"
                @click="addToCart">
           افزودن به سبد
+        </q-btn>
+        <q-btn v-if="!basketItem && product.inventory === 0"
+               class="product-btn-add-to-cart"
+               :loading="addToCartLoading"
+               disable
+               color="primary">
+          ناموجود
         </q-btn>
         <cart-count-action v-else
                            :basket-item="basketItem"
