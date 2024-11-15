@@ -54,6 +54,7 @@
 import { Basket } from 'src/models/Basket.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { FormBuilder, FormBuilderAssist } from 'quasar-form-builder'
+import { Provinces, Cities, getCitiesOfProvince } from 'src/assets/js/IranianCities.js'
 
 export default {
   name: 'CartAddress',
@@ -72,8 +73,32 @@ export default {
       dialog: false,
       setAddressLoading: false,
       addressInputs: [
-        { type: 'input', name: 'province', responseKey: 'province', label: 'استان', placeholder: ' ', col: 'col-md-4 col-12' },
-        { type: 'input', name: 'city', responseKey: 'city', label: 'شهر', placeholder: ' ', col: 'col-md-4 col-12' },
+        {
+          type: 'input',
+          name: 'province',
+          options: Provinces,
+          optionLabel: 'name',
+          optionValue: 'name',
+          createNewValue: true,
+          newValueMode: 'add-unique',
+          responseKey: 'province',
+          label: 'استان',
+          placeholder: ' ',
+          col: 'col-md-4 col-12'
+        },
+        {
+          type: 'input',
+          name: 'city',
+          options: Cities,
+          optionLabel: 'name',
+          optionValue: 'name',
+          createNewValue: true,
+          newValueMode: 'add-unique',
+          responseKey: 'city',
+          label: 'شهر',
+          placeholder: ' ',
+          col: 'col-md-4 col-12'
+        },
         { type: 'input', name: 'postal_code', responseKey: 'postal_code', label: 'کد پستی', placeholder: ' ', col: 'col-md-4 col-12' },
         { type: 'input', name: 'address', responseKey: 'address', label: 'آدرس پستی', placeholder: ' ', col: 'col-12' }
       ]
@@ -82,6 +107,24 @@ export default {
   computed: {
     addressString () {
       return 'file_download'
+    },
+    selectedProvince () {
+      return FormBuilderAssist.getInputsByName(this.addressInputs, 'province').value
+    }
+  },
+  watch: {
+    selectedProvince (newValue) {
+      if (!newValue) {
+        // FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'value', null)
+        FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'disable', true)
+        return
+      }
+
+      const filteredCities = getCitiesOfProvince(this.selectedBirthProvince)
+
+      // FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'value', null)
+      FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'options', filteredCities)
+      FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'disable', false)
     }
   },
   mounted() {

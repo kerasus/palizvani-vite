@@ -62,6 +62,7 @@
 <script>
 import { shallowRef } from 'vue'
 import { Team } from 'src/models/Team.js'
+import { User } from 'src/models/User.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { EntityEdit, EntityIndex } from 'quasar-crud'
@@ -69,8 +70,8 @@ import BtnControl from 'src/components/Control/btn.vue'
 import DeleteBtn from 'src/components/Control/DeleteBtn.vue'
 import { FormBuilder, inputMixin, FormBuilderAssist } from 'quasar-form-builder'
 import EntityInput from 'quasar-crud/src/components/Entity/Attachment/EntityInput.vue'
+import { Provinces, Cities, getCitiesOfProvince } from 'src/assets/js/IranianCities.js'
 import FormBuilderInputEditor from 'src/components/FormBuilderCustumComponents/FormBuilderInputEditor.vue'
-import { User } from 'src/models/User'
 
 const BtnControlComp = shallowRef(BtnControl)
 const EntityInputComp = shallowRef(EntityInput)
@@ -290,8 +291,32 @@ export default {
       teamRegistrationListInputs: [
         { type: 'hidden', name: 'team', value: teamId },
         { type: 'select', name: 'owner__gender', value: null, options: (new User()).genderEnums, col: 'col-md-2 col-12', label: 'جنسیت', placeholder: ' ' },
-        { type: 'input', name: 'owner__living_province', value: null, col: 'col-md-2 col-12', label: 'استان', placeholder: ' ' },
-        { type: 'input', name: 'owner__living_city', value: null, col: 'col-md-2 col-12', label: 'شهر', placeholder: ' ' },
+        {
+          type: 'input',
+          name: 'owner__living_province',
+          options: Provinces,
+          optionLabel: 'name',
+          optionValue: 'name',
+          createNewValue: true,
+          newValueMode: 'add-unique',
+          value: null,
+          col: 'col-md-2 col-12',
+          label: 'استان',
+          placeholder: ' '
+        },
+        {
+          type: 'input',
+          name: 'owner__living_city',
+          options: Cities,
+          optionLabel: 'name',
+          optionValue: 'name',
+          createNewValue: true,
+          newValueMode: 'add-unique',
+          value: null,
+          col: 'col-md-2 col-12',
+          label: 'شهر',
+          placeholder: ' '
+        },
         { type: 'input', name: 'search', value: null, col: 'col-md-2 col-12', label: 'جست و جو', placeholder: ' ' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
       ],
@@ -370,6 +395,26 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       }
+    }
+  },
+  computed: {
+    selectedProvince () {
+      return FormBuilderAssist.getInputsByName(this.teamRegistrationListInputs, 'owner__living_province').value
+    }
+  },
+  watch: {
+    selectedProvince (newValue) {
+      if (!newValue) {
+        // FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'value', null)
+        FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'disable', true)
+        return
+      }
+
+      const filteredCities = getCitiesOfProvince(this.selectedBirthProvince)
+
+      // FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'value', null)
+      FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'options', filteredCities)
+      FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'disable', false)
     }
   },
   mounted () {

@@ -58,7 +58,7 @@ export default {
     EntityEdit
   },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
       mounted: false,
       entityLoading: true,

@@ -150,6 +150,7 @@ import { Classroom } from 'src/models/Classroom.js'
 import { AnswerBook } from 'src/models/AnswerBook.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import ShowEventTest from './components/ShowEventTest.vue'
+import { Provinces, Cities, getCitiesOfProvince } from 'src/assets/js/IranianCities.js'
 
 export default {
   name: 'ShopCompleteInfo',
@@ -233,12 +234,64 @@ export default {
       },
       { type: 'checkbox', name: 'is_abroad_birth_address', placeholder: ' ', label: 'محل تولد خارج از کشور است؟', responseKey: 'is_abroad_birth_address', className: 'require', col: 'col-12' },
       { type: 'input', name: 'birth_country', label: 'کشور محل تولد', responseKey: 'birth_country', placeholder: ' ', className: 'require', col: 'col-md-4 col-12' },
-      { type: 'input', name: 'birth_province', label: 'استان محل تولد', responseKey: 'birth_province', placeholder: ' ', className: 'require', col: 'col-md-4 col-12' },
-      { type: 'input', name: 'birth_city', label: 'شهر محل تولد', responseKey: 'birth_city', placeholder: ' ', className: 'require', col: 'col-md-4 col-12' },
+      {
+        type: 'select',
+        name: 'birth_province',
+        options: Provinces,
+        optionLabel: 'name',
+        optionValue: 'name',
+        createNewValue: true,
+        newValueMode: 'add-unique',
+        label: 'استان محل تولد',
+        responseKey: 'birth_province',
+        placeholder: ' ',
+        className: 'require',
+        col: 'col-md-4 col-12'
+      },
+      {
+        type: 'select',
+        name: 'birth_city',
+        options: Cities,
+        optionLabel: 'name',
+        optionValue: 'name',
+        createNewValue: true,
+        newValueMode: 'add-unique',
+        label: 'شهر محل تولد',
+        responseKey: 'birth_city',
+        placeholder: ' ',
+        className: 'require',
+        col: 'col-md-4 col-12'
+      },
       { type: 'checkbox', name: 'is_abroad_living_address', placeholder: ' ', label: 'محل زندگی فعلی خارج از کشور است؟', responseKey: 'is_abroad_living_address', className: 'require', col: 'col-12' },
       { type: 'input', name: 'living_country', label: 'کشور محل زندگی فعلی', responseKey: 'living_country', placeholder: ' ', className: 'require', col: 'col-md-4 col-12' },
-      { type: 'input', name: 'living_province', label: 'استان محل زندگی فعلی', responseKey: 'living_province', placeholder: ' ', className: 'require', col: 'col-md-4 col-12' },
-      { type: 'input', name: 'living_city', label: 'شهر محل زندگی فعلی', responseKey: 'living_city', placeholder: ' ', className: 'require', col: 'col-md-4 col-12' },
+      {
+        type: 'select',
+        name: 'living_province',
+        options: Provinces,
+        optionLabel: 'name',
+        optionValue: 'name',
+        createNewValue: true,
+        newValueMode: 'add-unique',
+        label: 'استان محل زندگی فعلی',
+        responseKey: 'living_province',
+        placeholder: ' ',
+        className: 'require',
+        col: 'col-md-4 col-12'
+      },
+      {
+        type: 'select',
+        name: 'living_city',
+        options: Cities,
+        optionLabel: 'name',
+        optionValue: 'name',
+        createNewValue: true,
+        newValueMode: 'add-unique',
+        label: 'شهر محل زندگی فعلی',
+        responseKey: 'living_city',
+        placeholder: ' ',
+        className: 'require',
+        col: 'col-md-4 col-12'
+      },
       { type: 'input', name: 'living_postal_code', label: 'کد پستی محل زندگی', responseKey: 'living_postal_code', placeholder: ' ', className: 'require', col: ' col-md-3 col-12' },
       { type: 'input', name: 'living_address', label: 'آدرس پستی محل زندگی', responseKey: 'living_address', placeholder: ' ', className: 'require', col: 'col-md-9 col-12' },
       { type: 'hidden', name: 'id', responseKey: 'id' }
@@ -258,6 +311,40 @@ export default {
       } else {
         return 'مشاهده جزییات و قوانین دوره'
       }
+    },
+    selectedBirthProvince () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'birth_province').value
+    },
+    selectedLivingProvince () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'living_province').value
+    }
+  },
+  watch: {
+    selectedBirthProvince (newValue) {
+      if (!newValue) {
+        // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', true)
+        return
+      }
+
+      const filteredCities = getCitiesOfProvince(this.selectedBirthProvince)
+
+      // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'options', filteredCities)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', false)
+    },
+    selectedLivingProvince (newValue) {
+      if (!newValue) {
+        // FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', true)
+        return
+      }
+
+      const filteredCities = getCitiesOfProvince(this.selectedBirthProvince)
+
+      // FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', filteredCities)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', false)
     }
   },
   mounted () {
