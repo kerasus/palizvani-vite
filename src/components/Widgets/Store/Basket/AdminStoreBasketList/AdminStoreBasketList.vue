@@ -41,11 +41,11 @@
 </template>
 
 <script>
+import Assist from 'assets/js/Assist.js'
 import { EntityIndex } from 'quasar-crud'
 import { Basket } from 'src/models/Basket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import Assist from 'assets/js/Assist'
 
 export default {
   name: 'AdminBasketList',
@@ -103,7 +103,7 @@ export default {
             required: true,
             label: 'نوع سفارش',
             align: 'left',
-            field: () => '-'
+            field: (row) => row.order_type ? new Basket(row).order_type_info.label : '-'
           },
           {
             name: 'overall_order_price',

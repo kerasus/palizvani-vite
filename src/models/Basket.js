@@ -20,6 +20,7 @@ class Basket extends Model {
       },
       { key: 'description' },
       { key: 'status' },
+      { key: 'order_type' },
       {
         key: 'price',
         default: 0
@@ -99,6 +100,24 @@ class Basket extends Model {
           {
             label: 'ارسال شده',
             value: 'SENT'
+          }
+        ]
+      },
+      order_type: {
+        infoKey: 'order_type_info',
+        enumListKey: 'order_typeEnums',
+        enums: [
+          {
+            label: 'فیزیکی',
+            value: 'PHYSICAL'
+          },
+          {
+            label: 'مجازی',
+            value: 'VIRTUAL'
+          },
+          {
+            label: 'فیزیکی و مجازی',
+            value: 'PHYSICAL_VIRTUAL'
           }
         ]
       }
