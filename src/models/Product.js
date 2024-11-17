@@ -10,7 +10,10 @@ class Product extends Model {
       { key: 'inventory' },
       { key: 'store_category' },
       { key: 'content_category' },
-      { key: 'unit_price' },
+      {
+        key: 'unit_price',
+        default: 0
+      },
       { key: 'sellable_price' },
       {
         key: 'discount_percent',
