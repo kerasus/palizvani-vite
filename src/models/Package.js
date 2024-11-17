@@ -9,7 +9,9 @@ class Package extends Model {
       { key: 'title' },
       { key: 'inventory' },
       { key: 'store_category' },
+      { key: 'store_category_info' },
       { key: 'content_category' },
+      { key: 'content_category_info' },
       {
         key: 'unit_price',
         default: 0
