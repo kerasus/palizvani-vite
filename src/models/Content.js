@@ -17,6 +17,10 @@ class Content extends Model {
         defalut: false
       },
       {
+        key: 'is_hidden',
+        defalut: true
+      },
+      {
         key: 'medias',
         defalut: []
       },
@@ -38,7 +42,22 @@ class Content extends Model {
         key: 'hashtags_info',
         relatedModel: ContentHashtagList
       }
-    ])
+    ], {
+      is_hidden: {
+        infoKey: 'is_hidden_info',
+        enumListKey: 'is_hiddenEnums',
+        enums: [
+          {
+            label: 'نمایان',
+            value: true
+          },
+          {
+            label: 'مخفی',
+            value: false
+          }
+        ]
+      }
+    })
 
     if (!this.thumbnail) {
       this.thumbnail = '/img/sample-post-thumbnail.jpg'

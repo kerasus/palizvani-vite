@@ -48,6 +48,7 @@
 <script>
 import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
+import { Content } from 'src/models/Content.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import BtnControl from 'src/components/Control/btn.vue'
@@ -99,6 +100,13 @@ export default {
             label: 'عنوان',
             align: 'left',
             field: row => row.title
+          },
+          {
+            name: 'is_hidden',
+            required: true,
+            label: 'نمایش/عدم نمایش',
+            align: 'left',
+            field: row => (new Content(row)).is_hidden_info.label
           },
           {
             name: 'category_info',
