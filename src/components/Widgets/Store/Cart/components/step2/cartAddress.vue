@@ -74,7 +74,7 @@ export default {
       setAddressLoading: false,
       addressInputs: [
         {
-          type: 'input',
+          type: 'select',
           name: 'province',
           options: Provinces,
           optionLabel: 'name',
@@ -84,10 +84,10 @@ export default {
           responseKey: 'province',
           label: 'استان',
           placeholder: ' ',
-          col: 'col-md-4 col-12'
+          col: 'col-md-6 col-12'
         },
         {
-          type: 'input',
+          type: 'select',
           name: 'city',
           options: Cities,
           optionLabel: 'name',
@@ -97,9 +97,9 @@ export default {
           responseKey: 'city',
           label: 'شهر',
           placeholder: ' ',
-          col: 'col-md-4 col-12'
+          col: 'col-md-6 col-12'
         },
-        { type: 'input', name: 'postal_code', responseKey: 'postal_code', label: 'کد پستی', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'postal_code', responseKey: 'postal_code', label: 'کد پستی', placeholder: ' ', col: 'col-12' },
         { type: 'input', name: 'address', responseKey: 'address', label: 'آدرس پستی', placeholder: ' ', col: 'col-12' }
       ]
     }
@@ -120,7 +120,7 @@ export default {
         return
       }
 
-      const filteredCities = getCitiesOfProvince(this.selectedBirthProvince)
+      const filteredCities = getCitiesOfProvince(this.selectedProvince)
 
       // FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'value', null)
       FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'options', filteredCities)

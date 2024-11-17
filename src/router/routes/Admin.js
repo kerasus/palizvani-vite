@@ -445,6 +445,7 @@ export default {
           component: () => import('layouts/bareLayout.vue'),
           children: [
             { path: '', name: 'Admin.Store.Basket.List', component: () => import('src/pages/Admin/StoreBasket/List.vue') },
+            { path: 'delivery-cost', name: 'Admin.Store.Basket.DeliveryCost', component: () => import('src/pages/Admin/StoreBasket/DeliveryCost.vue') },
             { path: 'purchase-regulations', name: 'Admin.Store.Basket.PurchaseRegulations', component: () => import('src/pages/Admin/StoreBasket/PurchaseRegulations.vue') },
             { path: ':id', name: 'Admin.Store.Basket.Show', component: () => import('src/pages/Admin/StoreBasket/Show.vue') }
           ]

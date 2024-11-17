@@ -292,7 +292,7 @@ export default {
         { type: 'hidden', name: 'team', value: teamId },
         { type: 'select', name: 'owner__gender', value: null, options: (new User()).genderEnums, col: 'col-md-2 col-12', label: 'جنسیت', placeholder: ' ' },
         {
-          type: 'input',
+          type: 'select',
           name: 'owner__living_province',
           options: Provinces,
           optionLabel: 'name',
@@ -305,7 +305,7 @@ export default {
           placeholder: ' '
         },
         {
-          type: 'input',
+          type: 'select',
           name: 'owner__living_city',
           options: Cities,
           optionLabel: 'name',
@@ -410,7 +410,7 @@ export default {
         return
       }
 
-      const filteredCities = getCitiesOfProvince(this.selectedBirthProvince)
+      const filteredCities = getCitiesOfProvince(this.selectedProvince)
 
       // FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'value', null)
       FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'options', filteredCities)

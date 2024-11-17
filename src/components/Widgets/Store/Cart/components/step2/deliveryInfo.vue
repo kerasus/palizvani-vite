@@ -28,8 +28,13 @@
           هزینه ارسال
         </div>
         <div class="delivery-info__price-value">
-          {{ basket.delivery_cost.toLocaleString('fa') }}
-          ریال
+          <q-linear-progress v-if="deliveryCostLoading"
+                             indeterminate />
+          <template v-else>
+            <!--            {{ basket.delivery_cost.toLocaleString('fa') }}-->
+            {{ deliveryCost.toLocaleString('fa') }}
+            ریال
+          </template>
         </div>
       </div>
     </div>
@@ -38,6 +43,7 @@
 
 <script>
 import { Basket } from 'src/models/Basket.js'
+import { APIGateway } from 'src/api/APIGateway.js'
 
 export default {
   name: 'DeliveryInfo',
@@ -49,7 +55,25 @@ export default {
   },
   data () {
     return {
-      radioValue: 1
+      radioValue: 1,
+      deliveryCost: 0,
+      deliveryCostLoading: false
+    }
+  },
+  mounted() {
+    this.getDeliveryCost()
+  },
+  methods: {
+    getDeliveryCost () {
+      this.deliveryCostLoading = true
+      APIGateway.appSetting.get('DeliveryCost-post-pishtaz')
+        .then((deliveryCost) => {
+          this.deliveryCost = parseInt(deliveryCost.value || 0)
+          this.mounted = true
+        })
+        .finally(() => {
+          this.deliveryCostLoading = false
+        })
     }
   }
 }

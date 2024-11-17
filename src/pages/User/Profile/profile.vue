@@ -217,7 +217,7 @@ export default {
         return
       }
 
-      const filteredCities = getCitiesOfProvince(this.selectedBirthProvince)
+      const filteredCities = getCitiesOfProvince(this.selectedLivingProvince)
 
       // FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
       FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', filteredCities)

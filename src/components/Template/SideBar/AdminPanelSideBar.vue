@@ -254,6 +254,13 @@ export default {
               active: false
             },
             {
+              title: 'هزینه ارسال',
+              roles: ['superuser'],
+              routeName: 'Admin.Store.Basket.DeliveryCost',
+              show: true,
+              active: false
+            },
+            {
               title: 'آیین نامه خرید',
               roles: ['superuser'],
               routeName: 'Admin.Store.Basket.PurchaseRegulations',
