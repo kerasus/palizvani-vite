@@ -97,6 +97,13 @@ export default {
             field: row => (new Product(row)).is_physical_info.label
           },
           {
+            name: 'is_hidden',
+            required: true,
+            label: 'نمایش/عدم نمایش',
+            align: 'left',
+            field: row => (new Product(row)).is_hidden_info.label
+          },
+          {
             name: 'store_category',
             required: true,
             label: 'دسته فروشگاه',

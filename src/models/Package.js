@@ -15,6 +15,7 @@ class Package extends Model {
       { key: 'discount_percent' },
       { key: 'description' },
       { key: 'is_physical' },
+      { key: 'is_hidden' },
       { key: 'maximum_order_count' },
       { key: 'weight' },
       {
@@ -38,6 +39,20 @@ class Package extends Model {
           },
           {
             label: 'مجازی',
+            value: false
+          }
+        ]
+      },
+      is_hidden: {
+        infoKey: 'is_hidden_info',
+        enumListKey: 'is_hiddenEnums',
+        enums: [
+          {
+            label: 'نمایان',
+            value: true
+          },
+          {
+            label: 'مخفی',
             value: false
           }
         ]

@@ -19,6 +19,7 @@ class Product extends Model {
       { key: 'description' },
       { key: 'maximum_order_count' },
       { key: 'is_physical' },
+      { key: 'is_hidden' },
       { key: 'weight' },
       { key: 'physical_type' },
       { key: 'specification' },
@@ -45,6 +46,20 @@ class Product extends Model {
           },
           {
             label: 'مجازی',
+            value: false
+          }
+        ]
+      },
+      is_hidden: {
+        infoKey: 'is_hidden_info',
+        enumListKey: 'is_hiddenEnums',
+        enums: [
+          {
+            label: 'نمایان',
+            value: true
+          },
+          {
+            label: 'مخفی',
             value: false
           }
         ]
