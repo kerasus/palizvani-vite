@@ -170,11 +170,18 @@ export default {
             field: row => row.package ? 'بسته' : 'تکی'
           },
           {
-            name: 'content_category',
+            name: 'store_category',
             required: true,
-            label: 'دسته بندی اصلی',
+            label: 'دسته فروشگاه',
             align: 'left',
-            field: row => row.content_category
+            field: row => ((row.product_info || row.package_info).store_category_info?.parent?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).store_category_info?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).store_category_info?.title || '-')
+          },
+          {
+            name: 'store_category1',
+            required: true,
+            label: 'دسته محتوا',
+            align: 'left',
+            field: row => ((row.product_info || row.package_info).content_category_info?.parent?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).content_category_info?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).content_category_info?.title || '-')
           },
           {
             name: 'count',
