@@ -12,6 +12,11 @@
           </router-link>
         </div>
         <div class="product-item__product-atrs">
+          <q-badge v-if="product.is_purchased">
+            <q-icon name="done_all"
+                    class="q-mr-sm" />
+            این محصول را خریده اید
+          </q-badge>
           <div class="product-item__product-atrs-title">
             ویژگی ها
           </div>

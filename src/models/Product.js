@@ -33,6 +33,10 @@ class Product extends Model {
         default: true
       },
       {
+        key: 'is_purchased',
+        default: false
+      },
+      {
         key: 'medias',
         default: []
       },

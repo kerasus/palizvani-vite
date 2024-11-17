@@ -27,6 +27,10 @@ class Package extends Model {
         key: 'is_add_to_basket_disabled',
         default: true
       },
+      {
+        key: 'is_purchased',
+        default: false
+      },
       { key: 'specification' },
       { key: 'products' },
       {

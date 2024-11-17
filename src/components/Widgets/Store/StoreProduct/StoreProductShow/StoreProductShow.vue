@@ -11,6 +11,11 @@
           <div class="product-show__title">
             {{ product.title }}
           </div>
+          <q-badge v-if="product.is_purchased">
+            <q-icon name="done_all"
+                    class="q-mr-sm" />
+            این محصول را خریده اید
+          </q-badge>
           <div class="product-show__attrs">
             <div class="product-show__attrs-title">
               ویژگی ها:

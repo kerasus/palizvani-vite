@@ -1,6 +1,15 @@
 <template>
   <div class="package-item">
     <div class="package-item__badges">
+      <div v-if="packageItem.is_purchased"
+           class="package-item__badge">
+        <div class="package-item__badge-title">
+          خریداری شده است
+        </div>
+        <div class="package-item__badge-icon">
+          <q-icon name="done_all" />
+        </div>
+      </div>
       <div class="package-item__badge">
         <div class="package-item__badge-title">
           بسته

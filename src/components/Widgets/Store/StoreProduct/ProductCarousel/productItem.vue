@@ -1,6 +1,15 @@
 <template>
   <div class="product-item">
     <div class="product-item__badges">
+      <div v-if="product.is_purchased"
+           class="product-item__badge">
+        <div class="product-item__badge-title">
+          خریداری شده است
+        </div>
+        <div class="product-item__badge-icon">
+          <q-icon name="done_all" />
+        </div>
+      </div>
       <div class="product-item__badge">
         <div class="product-item__badge-title">
           {{ product.is_physical_info.label }}
