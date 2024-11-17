@@ -42,7 +42,6 @@
         </div>
       </template>
     </entity-show>
-
     <div class="q-mt-md">
       <entity-index v-if="basket.id"
                     v-model:value="tableInputs"
@@ -61,6 +60,14 @@
             <q-img :src="inputData.col.value"
                    width="100px" />
           </template>
+          <template v-else-if="inputData.col.name === 'download'">
+            <q-btn color="primary"
+                   @click="openDownloadDialog(inputData.props.row)">
+              <q-icon name="download"
+                      class="q-mr-sm" />
+              دانلود
+            </q-btn>
+          </template>
           <template v-else-if="inputData.col.name === 'action'">
             <q-btn color="primary"
                    outline
@@ -75,6 +82,17 @@
           </template>
         </template>
       </entity-index>
+      <q-dialog v-model="downloadDialog">
+        <q-card style="width: 800px; max-width: 95%;">
+          <q-card-section>
+            محتوای قابل دانلود
+          </q-card-section>
+          <q-separator />
+          <q-card-section>
+            <product-or-package-medias :basket-item="selectedBasketItem" />
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -88,6 +106,7 @@ import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { EntityShow, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import ProductOrPackageMedias from './ProductOrPackageMedias.vue'
 import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
 
 const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
@@ -96,12 +115,15 @@ export default {
   name: 'AdminStoreBasketShow',
   components: {
     EntityShow,
-    EntityIndex
+    EntityIndex,
+    ProductOrPackageMedias
   },
   mixins: [mixinWidget],
   data () {
     return {
       mounted: false,
+      downloadDialog: false,
+      selectedBasketItem: null,
       entityLoading: false,
       api: APIGateway.basket.APIAdresses.byId(this.$route.params.id),
       entityIdKey: 'id',
@@ -183,9 +205,16 @@ export default {
             field: row => parseInt((row.product_info || row.package_info).unit_price?.toString()).toLocaleString('fa')
           },
           {
+            name: 'download',
+            required: true,
+            label: 'دانلود',
+            align: 'left',
+            field: row => ''
+          },
+          {
             name: 'action',
             required: true,
-            label: 'عملیات',
+            label: 'مشاهده',
             align: 'left',
             field: row => ''
           }
@@ -228,6 +257,10 @@ export default {
     this.mounted = true
   },
   methods: {
+    openDownloadDialog (basketItem) {
+      this.selectedBasketItem = basketItem
+      this.downloadDialog = true
+    },
     afterLoadInputData (data) {
       this.entityLoading = false
       this.basket = new Basket(data)

@@ -171,21 +171,22 @@ export default {
         if (!source) {
           return
         }
+        window.open(source, '_blank')
 
-        const fileName = (source.match(/(?<=\/)[^/?#]+(?=[^/]*$)/gm) || [media.title])[0]
-        this.fetchLoading = true
-        fetch(source)
-          .then(response => response.blob())
-          .then(blob => {
-            const link = document.createElement('a')
-            link.href = URL.createObjectURL(blob)
-            link.download = fileName
-            link.click()
-            this.fetchLoading = false
-          })
-          .catch(() => {
-            this.fetchLoading = false
-          })
+        // const fileName = (source.match(/(?<=\/)[^/?#]+(?=[^/]*$)/gm) || [media.title])[0]
+        // this.fetchLoading = true
+        // fetch(source)
+        //   .then(response => response.blob())
+        //   .then(blob => {
+        //     const link = document.createElement('a')
+        //     link.href = URL.createObjectURL(blob)
+        //     link.download = fileName
+        //     link.click()
+        //     this.fetchLoading = false
+        //   })
+        //   .catch(() => {
+        //     this.fetchLoading = false
+        //   })
       }
     },
     onDelete (media) {
