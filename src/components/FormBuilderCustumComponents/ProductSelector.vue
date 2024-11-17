@@ -82,11 +82,18 @@ export default {
             field: row => (new Product(row)).is_physical_info.label
           },
           {
-            name: 'content_category',
+            name: 'store_category',
             required: true,
             label: 'دسته فروشگاه',
             align: 'left',
-            field: row => row.store_category_info?.parent?.parent?.title + '، ' + row.store_category_info?.parent?.title + '، ' + row.store_category_info?.title
+            field: row => (row.store_category_info?.parent?.parent?.title || '-') + '، ' + (row.store_category_info?.parent?.title || '-') + '، ' + (row.store_category_info?.title || '-')
+          },
+          {
+            name: 'store_category1',
+            required: true,
+            label: 'دسته محتوا',
+            align: 'left',
+            field: row => (row.content_category_info?.parent?.parent?.title || '-') + '، ' + (row.content_category_info?.parent?.title || '-') + '، ' + (row.content_category_info?.title || '-')
           },
           {
             name: 'unit_price',
@@ -105,14 +112,29 @@ export default {
         ]
       },
       itemIdentifyKey: 'id',
-      itemIndicatorKey: (product) => product ? product.title + '(' + product.id + ')' : '-'
+      itemIndicatorKey: (product) => {
+        return product ? product.title + '(' + product.id + ')' : '-'
+      }
     }
   },
   watch: {
     value: {
       handler (newValue) {
-        if (newValue) {
-          this.selected = newValue
+        if (!newValue) {
+          return
+        }
+        if (this.selectionMode === 'multiple') {
+          if (isNaN(newValue[0])) {
+            this.selected = newValue
+          } else {
+            this.inputData = newValue
+          }
+        } else {
+          if (isNaN(newValue)) {
+            this.selected = newValue
+          } else {
+            this.inputData = newValue
+          }
         }
       },
       immediate: true
@@ -132,10 +154,11 @@ export default {
         }
       })
       this.selected = selected
-      this.inputData = selected
       if (this.selectionMode === 'multiple') {
+        this.inputData = selected.map(product => product.id)
         this.$emit('update:value', selected.map(product => product.id))
       } else {
+        this.inputData = selected.id
         this.$emit('update:value', selected.id)
       }
     }

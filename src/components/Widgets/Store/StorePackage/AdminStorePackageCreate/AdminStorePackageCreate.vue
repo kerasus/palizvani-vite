@@ -46,10 +46,10 @@ export default {
     return {
       mounted: false,
       entityLoading: false,
-      api: APIGateway.content.APIAdresses.base,
+      api: APIGateway.package.APIAdresses.base,
       entityIdKey: 'id',
       entityParamKey: 'id',
-      showRouteName: 'Admin.Content.Show',
+      showRouteName: 'Admin.Store.Package.Show',
       inputs: [
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
