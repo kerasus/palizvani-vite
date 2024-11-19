@@ -25,7 +25,7 @@ class Package extends Model {
       { key: 'weight' },
       {
         key: 'is_add_to_basket_disabled',
-        default: true
+        default: false
       },
       {
         key: 'is_purchased',

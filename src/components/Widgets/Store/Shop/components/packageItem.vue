@@ -43,7 +43,7 @@
              outline>
         مشاهده جزییات
       </q-btn>
-      <template v-if="packageItem.is_add_to_basket_disabled">
+      <template v-if="!packageItem.is_add_to_basket_disabled">
         <q-btn v-if="!basketItem"
                class="package-item__actions-add-to-cart"
                :loading="addToCartLoading"

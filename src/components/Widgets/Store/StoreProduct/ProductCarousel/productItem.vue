@@ -52,7 +52,7 @@
              outline>
         مشاهده جزییات
       </q-btn>
-      <template v-if="product.is_add_to_basket_disabled">
+      <template v-if="!product.is_add_to_basket_disabled">
         <q-btn v-if="!basketItem && product.inventory > 0"
                class="product-item__actions-add-to-cart"
                :loading="addToCartLoading"

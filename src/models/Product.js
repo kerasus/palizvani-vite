@@ -30,7 +30,7 @@ class Product extends Model {
       { key: 'specification' },
       {
         key: 'is_add_to_basket_disabled',
-        default: true
+        default: false
       },
       {
         key: 'is_purchased',

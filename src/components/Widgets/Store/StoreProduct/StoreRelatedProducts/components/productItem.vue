@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="product-item__price-action">
-        <template v-if="product.is_add_to_basket_disabled">
+        <template v-if="!product.is_add_to_basket_disabled">
           <q-btn v-if="!basketItem && product.inventory > 0"
                  class="product-btn-add-to-cart"
                  :loading="addToCartLoading"
