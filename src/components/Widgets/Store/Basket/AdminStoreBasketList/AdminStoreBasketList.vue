@@ -92,7 +92,15 @@ export default {
           type: 'select',
           name: 'status',
           label: 'وضعیت',
-          options: (new Basket()).statusEnums,
+          options: [
+            {
+              label: 'پرداخت شده',
+              value: 'PAID'
+            },
+            {
+              label: 'ارسال شده',
+              value: 'SENT'
+            }],
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
