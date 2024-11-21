@@ -61,7 +61,8 @@
                    width="100px" />
           </template>
           <template v-else-if="inputData.col.name === 'download'">
-            <q-btn color="primary"
+            <q-btn v-if="!inputData.col.value"
+                   color="primary"
                    @click="openDownloadDialog(inputData.props.row)">
               <q-icon name="download"
                       class="q-mr-sm" />
@@ -99,7 +100,7 @@
 
 <script>
 import { shallowRef } from 'vue'
-import { Package } from 'src/models/Package'
+// import { Package } from 'src/models/Package'
 import { Basket } from 'src/models/Basket.js'
 import { Product } from 'src/models/Product.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
@@ -153,14 +154,14 @@ export default {
             required: true,
             label: 'شناسه',
             align: 'left',
-            field: row => row.id
+            field: row => row.product_info?.id ? row.product_info.id : row.package_info.id
           },
           {
             name: 'title',
             required: true,
             label: 'نام محصول',
             align: 'left',
-            field: row => (row.product_info || row.package_info).title
+            field: row => (row.product_info?.id ? row.product_info : row.package_info).title
           },
           {
             name: 'is_package_or_product',
@@ -174,14 +175,14 @@ export default {
             required: true,
             label: 'دسته فروشگاه',
             align: 'left',
-            field: row => ((row.product_info || row.package_info).store_category_info?.parent?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).store_category_info?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).store_category_info?.title || '-')
+            field: row => ((row.product_info?.id ? row.product_info : row.package_info).store_category_info?.parent?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).store_category_info?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).store_category_info?.title || '-')
           },
           {
             name: 'store_category1',
             required: true,
             label: 'دسته محتوا',
             align: 'left',
-            field: row => ((row.product_info || row.package_info).content_category_info?.parent?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).content_category_info?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).content_category_info?.title || '-')
+            field: row => ((row.product_info?.id ? row.product_info : row.package_info).content_category_info?.parent?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).content_category_info?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).content_category_info?.title || '-')
           },
           {
             name: 'count',
@@ -195,7 +196,7 @@ export default {
             required: true,
             label: 'نوع جنس',
             align: 'left',
-            field: row => row.product_info ? (new Product(row.product_info)).is_physical_info.label : (new Package(row.product_info)).is_physical_info.label
+            field: row => (row.product_info?.id ? row.product_info : row.package_info).is_physical_info.label
           },
           {
             name: 'physical_type_info',
@@ -209,14 +210,14 @@ export default {
             required: true,
             label: 'قیمت',
             align: 'left',
-            field: row => parseInt((row.product_info || row.package_info).unit_price?.toString()).toLocaleString('fa')
+            field: row => parseInt((row.product_info?.id ? row.product_info : row.package_info).unit_price?.toString()).toLocaleString('fa')
           },
           {
             name: 'download',
             required: true,
             label: 'دانلود',
             align: 'left',
-            field: row => ''
+            field: row => (row.product_info?.id ? row.product_info : row.package_info).is_physical
           },
           {
             name: 'action',
