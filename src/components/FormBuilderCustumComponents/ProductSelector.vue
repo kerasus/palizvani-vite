@@ -136,6 +136,7 @@ export default {
             this.inputData = newValue
           }
         }
+        this.updateFormValue()
       },
       immediate: true
     }
@@ -154,12 +155,15 @@ export default {
         }
       })
       this.selected = selected
+      this.updateFormValue()
+    },
+    updateFormValue () {
       if (this.selectionMode === 'multiple') {
-        this.inputData = selected.map(product => product.id)
-        this.$emit('update:value', selected.map(product => product.id))
+        this.inputData = this.selected.map(product => product.id)
+        this.$emit('update:value', this.selected.map(product => product.id))
       } else {
-        this.inputData = selected.id
-        this.$emit('update:value', selected.id)
+        this.inputData = this.selected.id
+        this.$emit('update:value', this.selected.id)
       }
     }
   }
