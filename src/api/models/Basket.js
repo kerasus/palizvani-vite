@@ -12,6 +12,7 @@ export default class BasketAPI extends APIRepository {
       listOrders: '/store/baskets/list_orders',
       byId: (id) => '/store/baskets/' + id,
       send: (id) => '/store/baskets/' + id + '/send',
+      setAddress: (id) => '/store/baskets/' + id + '/set_address',
       createInvoice: (id) => '/store/baskets/' + id + '/create_invoice',
       submitDiscountCode: (id) => '/store/baskets/' + id + '/submit_discount_code',
       removeDiscountCode: (id) => '/store/baskets/' + id + '/remove_discount_code'
@@ -127,7 +128,7 @@ export default class BasketAPI extends APIRepository {
     return this.sendRequest({
       apiMethod: 'put',
       api: this.api,
-      request: this.APIAdresses.byId(basketId),
+      request: this.APIAdresses.setAddress(basketId),
       data: this.getNormalizedSendData({
         province: null, // String
         city: null, // String
