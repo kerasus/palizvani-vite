@@ -39,6 +39,7 @@
           <q-tab-panel name="packages"
                        class="q-pa-none">
             <entity-index v-if="mounted"
+                          ref="entityIndex"
                           v-model:value="inputs"
                           title="لیست بسته ها"
                           :api="api"
@@ -203,6 +204,11 @@ export default {
   },
   mounted() {
     this.mounted = true
+  },
+  methods: {
+    search () {
+      this.$refs.entityIndex.search()
+    }
   }
 }
 </script>
