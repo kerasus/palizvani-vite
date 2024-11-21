@@ -185,6 +185,11 @@ export default {
         }
       }
     }
+    @media screen and (max-width: 600px) {
+      & {
+        flex-flow: column;
+      }
+    }
   }
   .product-item__price {
     display: flex;
@@ -232,6 +237,11 @@ export default {
       .product-btn-add-to-cart {
         width: 100%;
       }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    & {
+      flex-flow: column;
     }
   }
 }

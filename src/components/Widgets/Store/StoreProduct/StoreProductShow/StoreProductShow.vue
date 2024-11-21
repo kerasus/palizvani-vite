@@ -365,6 +365,17 @@ export default {
         }
       }
     }
+    @media screen and (max-width: 1024px) {
+      & {
+        flex-flow: column;
+      }
+      .product-show__summery-info {
+        width: 100%;
+      }
+      .product-show__summery-price {
+        width: 100%;
+      }
+    }
   }
   .product-show__products {
     margin-bottom: 47px;

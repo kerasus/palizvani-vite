@@ -296,6 +296,17 @@ export default {
         }
       }
     }
+    @media screen and (max-width: 1024px) {
+      & {
+        flex-flow: column;
+      }
+      .package-show__summery-info {
+        width: 100%;
+      }
+      .package-show__summery-price {
+        width: 100%;
+      }
+    }
   }
   .package-show__products {
     margin-bottom: 47px;
