@@ -88,9 +88,13 @@ export default {
     }
   },
   watch: {
-    value () {
+    value (newValue, oldValue) {
+      if (newValue && oldValue && newValue.toString() === oldValue.toString()) {
+        return
+      }
       if (this.value?.id) {
         this.getCategories()
+        // this.$emit('update:value', this.value.id)
       } else if (this.value) {
         this.inputData = this.value
       }

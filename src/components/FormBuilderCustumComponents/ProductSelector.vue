@@ -119,8 +119,8 @@ export default {
   },
   watch: {
     value: {
-      handler (newValue) {
-        if (!newValue) {
+      handler (newValue, oldValue) {
+        if (!newValue || (newValue && oldValue && newValue.toString() === oldValue.toString())) {
           return
         }
         if (this.selectionMode === 'multiple') {
