@@ -30,9 +30,9 @@ import { shallowRef } from 'vue'
 import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import BtnControl from 'components/Control/btn.vue'
-import ProductSelector from 'components/FormBuilderCustumComponents/ProductSelector.vue'
-import ContentCategorySelector from 'components/FormBuilderCustumComponents/ContentCategorySelector.vue'
+import BtnControl from 'src/components/Control/btn.vue'
+import ProductSelector from 'src/components/FormBuilderCustumComponents/ProductSelector.vue'
+import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 const ProductSelectorComp = shallowRef(ProductSelector)
@@ -42,7 +42,7 @@ export default {
   name: 'AdminContentCreate',
   components: { EntityCreate },
   mixins: [mixinWidget],
-  data: () => {
+  data () {
     return {
       mounted: false,
       entityLoading: false,

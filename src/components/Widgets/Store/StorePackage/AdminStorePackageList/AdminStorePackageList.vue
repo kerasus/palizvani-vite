@@ -75,11 +75,17 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { Package } from 'src/models/Package.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import AdminStoreProductList from 'components/Widgets/Store/StoreProduct/AdminStoreProductList/AdminStoreProductList.vue'
+import BtnControl from 'src/components/Control/btn.vue'
+import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
+import AdminStoreProductList from 'src/components/Widgets/Store/StoreProduct/AdminStoreProductList/AdminStoreProductList.vue'
+
+const BtnControlComp = shallowRef(BtnControl)
+const ContentCategorySelectorComp = shallowRef(ContentCategorySelector)
 
 export default {
   name: 'AdminStorePackageList',
@@ -96,7 +102,34 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
+      inputs: [
+        { type: ContentCategorySelectorComp, name: 'content_category', responseKey: 'content_category_info', categoryType: 'content', col: 'col-md-12 col-12' },
+        { type: ContentCategorySelectorComp, name: 'store_category', responseKey: 'store_category_info', categoryType: 'store', col: 'col-md-12 col-12' },
+        {
+          type: 'input',
+          name: 'search',
+          label: 'جست جو',
+          placeholder: ' ',
+          col: 'col-md-4 col-12'
+        },
+        {
+          type: 'select',
+          name: 'is_hidden',
+          label: 'مخفی',
+          options: (new Package()).is_hiddenEnums,
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'select',
+          name: 'is_physical',
+          label: 'نوع بسته',
+          options: (new Package()).is_physicalEnums,
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-2 col-12' }
+      ],
       table: {
         columns: [
           {

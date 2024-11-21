@@ -76,7 +76,7 @@ export default {
         {
           type: 'input',
           name: 'search',
-          label: 'جست جو با نام',
+          label: 'جست جو',
           placeholder: ' ',
           col: 'col-md-4 col-12'
         },

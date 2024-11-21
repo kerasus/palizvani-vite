@@ -8,6 +8,7 @@
              :to="{name: 'Admin.Store.Product.Create'}" />
     </div>
     <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست محصولات"
                   :api="api"
@@ -40,10 +41,16 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import { EntityIndex } from 'quasar-crud'
 import { Product } from 'src/models/Product.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import BtnControl from 'src/components/Control/btn.vue'
+import ContentCategorySelector from 'src/components/FormBuilderCustumComponents/ContentCategorySelector.vue'
+
+const BtnControlComp = shallowRef(BtnControl)
+const ContentCategorySelectorComp = shallowRef(ContentCategorySelector)
 
 export default {
   name: 'AdminContentList',
@@ -65,7 +72,34 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
+      inputs: [
+        { type: ContentCategorySelectorComp, name: 'content_category', responseKey: 'content_category_info', categoryType: 'content', col: 'col-md-12 col-12' },
+        { type: ContentCategorySelectorComp, name: 'store_category', responseKey: 'store_category_info', categoryType: 'store', col: 'col-md-12 col-12' },
+        {
+          type: 'input',
+          name: 'search',
+          label: 'جست جو',
+          placeholder: ' ',
+          col: 'col-md-4 col-12'
+        },
+        {
+          type: 'select',
+          name: 'is_hidden',
+          label: 'مخفی',
+          options: (new Product()).is_hiddenEnums,
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'select',
+          name: 'is_physical',
+          label: 'نوع محصول',
+          options: (new Product()).is_physicalEnums,
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-2 col-12' }
+      ],
       table: {
         columns: [
           {
@@ -139,6 +173,11 @@ export default {
   },
   mounted() {
     this.mounted = true
+  },
+  methods: {
+    search () {
+      this.$refs.entityIndex.search()
+    }
   }
 }
 </script>
