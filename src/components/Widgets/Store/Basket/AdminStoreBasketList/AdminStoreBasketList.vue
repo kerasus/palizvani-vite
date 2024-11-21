@@ -9,6 +9,7 @@
       </q-btn>
     </div>
     <entity-index v-if="mounted"
+                  ref="entityIndex"
                   v-model:value="inputs"
                   title="لیست سفارشات"
                   :api="api"
@@ -41,11 +42,15 @@
 </template>
 
 <script>
+import { shallowRef } from 'vue'
 import Assist from 'assets/js/Assist.js'
 import { EntityIndex } from 'quasar-crud'
 import { Basket } from 'src/models/Basket.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import BtnControl from 'src/components/Control/btn.vue'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'AdminBasketList',
@@ -67,7 +72,32 @@ export default {
         perPage: 'per_page',
         pageKey: 'page'
       },
-      inputs: [],
+      inputs: [
+        {
+          type: 'input',
+          name: 'search',
+          label: 'جست جو با نام',
+          placeholder: ' ',
+          col: 'col-md-4 col-12'
+        },
+        {
+          type: 'select',
+          name: 'order_type',
+          label: 'نوع سفارش',
+          options: (new Basket()).order_typeEnums,
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'select',
+          name: 'status',
+          label: 'وضعیت',
+          options: (new Basket()).statusEnums,
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-2 col-12' }
+      ],
       table: {
         columns: [
           {
@@ -141,6 +171,11 @@ export default {
   },
   mounted() {
     this.mounted = true
+  },
+  methods: {
+    search () {
+      this.$refs.entityIndex.search()
+    }
   }
 }
 </script>
