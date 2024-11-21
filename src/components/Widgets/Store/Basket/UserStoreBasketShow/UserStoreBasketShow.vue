@@ -68,9 +68,7 @@
                       class="q-mr-sm" />
               دانلود
             </q-btn>
-            <template v-else>
-              {{}}
-            </template>
+            <span v-else />
           </template>
           <template v-else-if="inputData.col.name === 'action'">
             <q-btn color="primary"
