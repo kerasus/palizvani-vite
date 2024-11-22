@@ -292,10 +292,16 @@ export default {
     .summary-body {
       font-size: 20px;
       color: #707070;
+      img {
+        max-width: 100% !important;
+      }
     }
   }
   :deep(.post-body) {
     margin-top: 32px;
+    img {
+      max-width: 100% !important;
+    }
     .barehtml {
       width: 600px;
       max-width: 100%;

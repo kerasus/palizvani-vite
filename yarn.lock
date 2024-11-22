@@ -6089,10 +6089,10 @@ vue3-otp-input@^0.4.1:
   resolved "https://registry.yarnpkg.com/vue3-otp-input/-/vue3-otp-input-0.4.4.tgz#6401ca2902a831618be72c8c8a18aa88b7126faf"
   integrity sha512-LI1MeBiiEy59cnjqXzlcz4G4cMxZcHF/xOKilb6sfw4uFHfQ22Luu2ls0Bb51zL0pb3gGp7RuIL5eurEJXkoBg==
 
-vue3-tiptap-katex@^1.1.27:
-  version "1.1.30"
-  resolved "https://registry.yarnpkg.com/vue3-tiptap-katex/-/vue3-tiptap-katex-1.1.30.tgz#043feb8fc7b326824e70ca105b1e6b9348a39e92"
-  integrity sha512-3xD5jXuQVQir0XTNzU5tfhfS2IE4Er6MEcHkxOGFa0EuL7pfgggE0aeGXlXVMCcCtiR5pO3fxKPgoP0evYYjOQ==
+vue3-tiptap-katex@^1.1.31:
+  version "1.1.31"
+  resolved "https://registry.yarnpkg.com/vue3-tiptap-katex/-/vue3-tiptap-katex-1.1.31.tgz#7edc2007cdfbd1ca0d3829904f0162dd566c0035"
+  integrity sha512-LXY7nkmQnHWWdcN+GkzHBLqy3ZhWV0A8qTRoIBCVHAz0AEgZ5n3iHH4Vhxti3XOWn+qKEenqsG9pp/9V3y4xnA==
   dependencies:
     "@ckpack/vue-color" "^1.4.1"
     "@mdi/font" "^6.9.96"
