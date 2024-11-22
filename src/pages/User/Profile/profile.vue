@@ -53,6 +53,7 @@ export default {
   data () {
     return {
       mounted: false,
+      inputDataLoaded: false,
       tab: 'userInfo',
       api: APIGateway.user.APIAdresses.current,
       entityIdKey: 'id',
@@ -189,6 +190,12 @@ export default {
     }
   },
   computed: {
+    isAbroadBirthAddress () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'is_abroad_birth_address').value
+    },
+    isAbroadLivingAddress () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'is_abroad_living_address').value
+    },
     selectedBirthProvince () {
       return FormBuilderAssist.getInputsByName(this.inputs, 'birth_province').value
     },
@@ -197,31 +204,118 @@ export default {
     }
   },
   watch: {
-    selectedBirthProvince (newValue) {
+    isAbroadBirthAddress (newValue) {
       if (!newValue) {
-        // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'value', 'ایران')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'disable', true)
+        if (this.inputDataLoaded) {
+          // province
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'type', 'select')
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'disable', false)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'value', null)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'options', Provinces)
+
+          // city
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'type', 'select')
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', true)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'options', [])
+        }
+      } else {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'value', null)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'disable', false)
+
+        if (this.inputDataLoaded) {
+          // province
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'type', 'input')
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'disable', false)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'value', null)
+
+          // city
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'type', 'input')
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', false)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+        }
+      }
+    },
+    isAbroadLivingAddress (newValue) {
+      if (!newValue) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', 'ایران')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'disable', true)
+        if (this.inputDataLoaded) {
+          // province
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'type', 'select')
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'disable', false)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'value', null)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'options', Provinces)
+
+          // city
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'type', 'select')
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', true)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', [])
+        }
+      } else {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'disable', false)
+        if (this.inputDataLoaded) {
+          // province
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'type', 'input')
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'disable', false)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'value', null)
+
+          // city
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'type', 'input')
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', false)
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+        }
+      }
+    },
+    selectedBirthProvince (newValue) {
+      if (this.isAbroadBirthAddress) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'type', 'input')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', false)
+        return
+      }
+
+      if (!newValue) {
         FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', true)
+        if (this.inputDataLoaded) {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+        }
         return
       }
 
       const filteredCities = getCitiesOfProvince(this.selectedBirthProvince)
 
-      // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
       FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'options', filteredCities)
       FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', false)
+      if (this.inputDataLoaded) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+      }
     },
     selectedLivingProvince (newValue) {
+      if (this.isAbroadBirthAddress) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'type', 'input')
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', false)
+        return
+      }
+
       if (!newValue) {
-        // FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
         FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', true)
+        if (this.inputDataLoaded) {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+        }
         return
       }
 
       const filteredCities = getCitiesOfProvince(this.selectedLivingProvince)
 
-      // FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
       FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', filteredCities)
       FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', false)
+      if (this.inputDataLoaded) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+      }
     }
   },
   mounted() {
@@ -236,6 +330,9 @@ export default {
 
       this.updateGender(responseData, setNewInputData)
       this.updateMaritalStatus(responseData, setNewInputData)
+      this.$nextTick(() => {
+        this.inputDataLoaded = true
+      })
     },
     updateGender (responseData, setNewInputData) {
       // const gender = this.getInputValue('gender')

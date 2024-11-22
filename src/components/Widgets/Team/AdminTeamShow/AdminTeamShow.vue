@@ -91,6 +91,7 @@ export default {
     const classroomId = this.$route.params.classroom_id
     return {
       mounted: false,
+      inputDataLoaded: false,
       team: new Team(),
       entityLoading: true,
       api: APIGateway.team.APIAdresses.byId(teamId),
@@ -405,16 +406,20 @@ export default {
   watch: {
     selectedProvince (newValue) {
       if (!newValue) {
-        // FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'value', null)
         FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'disable', true)
+        if (this.inputDataLoaded) {
+          FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+        }
         return
       }
 
       const filteredCities = getCitiesOfProvince(this.selectedProvince)
 
-      // FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'value', null)
       FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'options', filteredCities)
       FormBuilderAssist.setAttributeByName(this.teamRegistrationListInputs, 'owner__living_city', 'disable', false)
+      if (this.inputDataLoaded) {
+        FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+      }
     }
   },
   mounted () {
@@ -452,6 +457,9 @@ export default {
       this.entityLoading = false
       FormBuilderAssist.setAttributeByName(this.inputs, 'leader', 'value', this.team.leader)
       FormBuilderAssist.setAttributeByName(this.inputs, 'leader', 'selected', this.team.leader_info)
+      this.$nextTick(() => {
+        this.inputDataLoaded = true
+      })
     },
     edit() {
       this.entityLoading = true

@@ -69,6 +69,7 @@ export default {
   data () {
     return {
       addressRadio: 1,
+      inputDataLoaded: false,
       mounted: false,
       dialog: false,
       setAddressLoading: false,
@@ -115,16 +116,17 @@ export default {
   watch: {
     selectedProvince (newValue) {
       if (!newValue) {
-        // FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'value', null)
         FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'disable', true)
         return
       }
 
       const filteredCities = getCitiesOfProvince(this.selectedProvince)
 
-      // FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'value', null)
       FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'options', filteredCities)
       FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'disable', false)
+      if (this.inputDataLoaded) {
+        FormBuilderAssist.setAttributeByName(this.addressInputs, 'city', 'value', null)
+      }
     }
   },
   mounted() {
@@ -152,6 +154,9 @@ export default {
     },
     setFormData () {
       FormBuilderAssist.setInputValues(this.basket, this.addressInputs)
+      this.$nextTick(() => {
+        this.inputDataLoaded = true
+      })
     }
   }
 }
