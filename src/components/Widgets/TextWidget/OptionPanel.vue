@@ -5,7 +5,8 @@
       <div class="option-panel-container">
         <div class="row q-mt-sm">
           <div class="col-md-12">
-            <editor v-model:value="localOptions.text" />
+            <form-builder-tiptap-editor v-model:value="localOptions.text"
+                                        :options="editorOptions" />
           </div>
           <editor-options v-model:options="localOptions" />
         </div>
@@ -15,15 +16,18 @@
 </template>
 <script>
 import { defineComponent } from 'vue'
-import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
-import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
-import Editor from 'components/Utils/Editor2.vue'
+import { APIGateway } from 'src/api/APIGateway.js'
 import EditorOptions from 'components/EditorOptions.vue'
+import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
+import PostMixin from 'src/components/Widgets/Post/PostMixin.js'
+import FormBuilderTiptapEditor from 'src/components/FormBuilderCustumComponents/FormBuilderTiptapEditor.vue'
+import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
+// import Editor from 'components/Utils/Editor2.vue'
 
 export default defineComponent({
   name: 'OptionPanel',
-  components: { Editor, OptionPanelTabs, EditorOptions },
-  mixins: [mixinOptionPanel],
+  components: { OptionPanelTabs, EditorOptions, FormBuilderTiptapEditor },
+  mixins: [mixinOptionPanel, PostMixin],
   props: {
     options: {
       type: Object,
@@ -33,6 +37,10 @@ export default defineComponent({
     }
   },
   data() {
+    const authorization = 'Bearer ' + this.$store.getters['Auth/accessToken']
+    const uploadVideo = this.uploadVideo
+    const uploadAudio = this.uploadAudio
+
     return {
       fontStyle: ['inherit', 'normal', 'italic'],
       foreColor: '#000000',
@@ -75,6 +83,23 @@ export default defineComponent({
           fontStyle: null,
           lineHeight: null
         }
+      },
+      editorOptions: {
+        bubbleMenu: false,
+        floatingMenu: false,
+        poem: false,
+        reading: false,
+        loadBareHtml: true,
+        persianKeyboard: true,
+        mathliveOptions: { smartFence: false },
+        uploadServer: {
+          url: '/api' + APIGateway.media.APIAdresses.base,
+          instantUpload: true,
+          responseKey: 'file',
+          headers: { Authorization: authorization }
+        },
+        uploadVideo,
+        uploadAudio
       }
     }
   },
