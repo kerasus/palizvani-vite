@@ -3,10 +3,10 @@
        :style="localOptions.style">
     <div v-if="showBackBtn"
          class="more-action">
-      <q-btn color="primary">
-        <q-icon name="file_download" />
-        دریافت
-      </q-btn>
+      <!--      <q-btn color="primary">-->
+      <!--        <q-icon name="file_download" />-->
+      <!--        دریافت-->
+      <!--      </q-btn>-->
     </div>
     <entity-index v-if="mounted"
                   ref="entityIndex"
