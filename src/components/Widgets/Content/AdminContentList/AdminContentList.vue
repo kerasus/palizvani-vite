@@ -76,6 +76,7 @@ export default {
       inputs: [
         { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category', col: 'col-12' },
         { type: 'input', name: 'search', value: null, col: 'col-md-3 col-12', label: 'جست و جو', placeholder: ' ' },
+        { type: 'select', name: 'is_hidden', label: 'وضعیت نمایش', options: (new Content()).is_hiddenEnums, placeholder: ' ', col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-2 col-12' }
       ],
       table: {
@@ -102,18 +103,18 @@ export default {
             field: row => row.title
           },
           {
-            name: 'is_hidden',
-            required: true,
-            label: 'نمایش/عدم نمایش',
-            align: 'left',
-            field: row => (new Content(row)).is_hidden_info.label
-          },
-          {
             name: 'category_info',
             required: true,
             label: 'دسته',
             align: 'left',
             field: row => row.category_info?.title
+          },
+          {
+            name: 'is_hidden',
+            required: true,
+            label: 'نمایش',
+            align: 'left',
+            field: row => (new Content(row)).is_hidden_info.label
           },
           {
             name: 'action',

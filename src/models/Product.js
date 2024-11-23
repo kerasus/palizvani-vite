@@ -64,11 +64,11 @@ class Product extends Model {
         enumListKey: 'is_hiddenEnums',
         enums: [
           {
-            label: 'نمایان',
+            label: 'پنهان',
             value: true
           },
           {
-            label: 'مخفی',
+            label: 'نمایان',
             value: false
           }
         ]
