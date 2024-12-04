@@ -110,7 +110,7 @@
         </q-card-section>
         <q-separator />
         <q-card-section>
-          <invoice-payment-card v-if="!invoice.loading && invoice.status!=='PAID_FULL' && invoice.status!=='PAID_IN_INSTALMENT'"
+          <invoice-payment-card v-if="!invoice.loading && invoice.status!=='PAID_FULL'"
                                 :wallet="wallet"
                                 :invoice="invoice"
                                 :show-invoice-link="false"
