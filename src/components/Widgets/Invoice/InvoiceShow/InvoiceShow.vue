@@ -95,7 +95,7 @@
           تنها در صورتی که وضعیت سفارش در حال پرداخت باشد امکان پرداخت با کیف پول وجود دارد
         </q-card-section>
       </q-card>
-      <q-card v-if="!invoice.loading && (invoice.status==='PAYING' || invoice.status==='PAYING_IN_INSTALMENT')">
+      <q-card v-if="!invoice.loading && (invoice.status==='PAYING' || invoice.status==='PAYING_IN_INSTALMENT'  || invoice.status==='PAID_IN_INSTALMENT')">
         <q-card-section>
           پرداخت
         </q-card-section>
