@@ -175,11 +175,7 @@ export default {
   },
   methods: {
     getInvoiceTitle (invoice) {
-      if (invoice.item_info.item_type === 'CLASSROOM') {
-        return invoice.item_info.title
-      } else {
-        return invoice.item_info.title || '-'
-      }
+      return invoice.title || '-'
     },
     search () {
       this.$refs.entityIndex.search()
