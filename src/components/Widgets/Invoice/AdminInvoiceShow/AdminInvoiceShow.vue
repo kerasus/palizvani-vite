@@ -83,16 +83,28 @@
       <q-separator />
       <q-card-section>
         <div class="row">
-          <div class="col-md-4 col-12 flex items-center justify-start">
+          <div v-if="invoice.item_type==='CLASSROOM'"
+               class="col-md-4 col-12 flex items-center justify-start">
             <q-img :src="invoice.item_info.thumbnail"
                    width="100px" />
             {{ invoice.item_info.title }}
           </div>
-          <div class="col-md-4 col-12">
+          <div v-else
+               class="col-md-4 col-12 flex items-center justify-start">
+            {{ invoice.title }}
+          </div>
+          <div v-if="invoice.item_type==='CLASSROOM'"
+               class="col-md-4 col-12">
             <q-icon name="isax:user" />
             استاد:
             {{ invoice.item_info.professor_info.firstname }}
             {{ invoice.item_info.professor_info.lastname }}
+          </div>
+          <div v-else-if="invoice.item_type==='STORE_BASKET'"
+               class="col-md-4 col-12">
+            <q-icon name="isax:user" />
+            کد سفارش:
+            {{ invoice.item_info.id }}
           </div>
           <div class="col-md-4 col-12">
             <q-icon name="isax:card" />
