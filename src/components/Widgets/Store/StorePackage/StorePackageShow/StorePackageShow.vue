@@ -21,15 +21,8 @@
                   وزن:
                 </div>
                 <div class="package-show__attrs-item-value">
-                  ۲۰۰ گرم
-                </div>
-              </div>
-              <div class="package-show__attrs-item">
-                <div class="package-show__attrs-item-label">
-                  وزن:
-                </div>
-                <div class="package-show__attrs-item-value">
-                  ۲۰۰ گرم
+                  {{ storePackage.weight }}
+                  گرم
                 </div>
               </div>
             </div>
