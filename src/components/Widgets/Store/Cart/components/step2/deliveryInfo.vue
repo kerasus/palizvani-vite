@@ -19,7 +19,7 @@
         </div>
         <div class="delivery-info__selected-type-meta">
           <q-icon name="shopping_bag" />
-          هزینه به آدرس و وزن مرصوله متغیر میباشد
+          هزینه به آدرس و وزن مرسوله متغیر میباشد
         </div>
       </div>
       <div class="delivery-info__price-info">
