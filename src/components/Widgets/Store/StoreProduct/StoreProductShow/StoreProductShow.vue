@@ -104,7 +104,7 @@
       <div class="product-show__descriptions-data"
            v-html="product.description" />
     </div>
-    <div v-if="product.medias_info.length > 0"
+    <div v-if="product.is_purchased && product.medias_info.list.length > 0"
          class="product-show__medias">
       <medias-component :medias="product.medias_info" />
     </div>
@@ -120,6 +120,7 @@ import MediasComponent from './components/Medias.vue'
 import DiscountBadge from './components/discountBadge.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
 import CartCountAction from 'src/components/cart/cartCountAction/cartCountAction.vue'
+// import CartCountAction from './components/cartCountAction.vue'
 
 export default {
   name: 'StoreProductShow',
