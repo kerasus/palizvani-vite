@@ -57,6 +57,13 @@
                            @decrease="onDecrease"
                            @remove="onRemove" />
       </template>
+      <q-btn v-if="packageItem.inventory === 0"
+             class="product-btn-add-to-cart"
+             :loading="addToCartLoading"
+             disable
+             color="primary">
+        ناموجود
+      </q-btn>
     </div>
   </div>
 </template>

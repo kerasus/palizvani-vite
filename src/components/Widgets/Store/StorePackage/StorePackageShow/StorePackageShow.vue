@@ -47,12 +47,35 @@
           {{ parseInt(storePackage.sellable_price).toLocaleString('fa') }}
           ریال
         </div>
-        <q-btn label="افزودن به سبد"
-               outline
-               color="primary"
-               :loading="addToCartLoading"
-               class="package-show__summery-price-action"
-               @click="addToCart" />
+        <div class="package-show__summery-price-action">
+          <template v-if="!storePackage.is_add_to_basket_disabled">
+            <q-btn v-if="!basketItem && storePackage.inventory > 0"
+                   class="package-btn-add-to-cart"
+                   :loading="addToCartLoading"
+                   color="primary"
+                   @click="addToCart">
+              افزودن به سبد
+            </q-btn>
+            <cart-count-action v-else
+                               :basket-item="basketItem"
+                               @increase="onIncrease"
+                               @decrease="onDecrease"
+                               @remove="onRemove" />
+          </template>
+          <q-btn v-if="storePackage.inventory === 0"
+                 class="package-btn-add-to-cart"
+                 :loading="addToCartLoading"
+                 disable
+                 color="primary">
+            ناموجود
+          </q-btn>
+        </div>
+        <!--        <q-btn label="افزودن به سبد"-->
+        <!--               outline-->
+        <!--               color="primary"-->
+        <!--               :loading="addToCartLoading"-->
+        <!--               class="package-show__summery-price-action"-->
+        <!--               @click="addToCart" />-->
       </div>
     </div>
     <div class="package-show__products">
@@ -86,10 +109,11 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import ProductItem from './components/productItem.vue'
 import DiscountBadge from './components/discountBadge.vue'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import CartCountAction from 'src/components/cart/cartCountAction/cartCountAction.vue'
 
 export default {
   name: 'ContentShow',
-  components: { Breadcrumbs, ProductItem, DiscountBadge },
+  components: { Breadcrumbs, ProductItem, DiscountBadge, CartCountAction },
   mixins: [mixinWidget],
   data () {
     return {
@@ -100,6 +124,17 @@ export default {
   computed: {
     packageId () {
       return this.$route.params.id
+    },
+    basket () {
+      return this.$store.getters['Shop/basket']
+    },
+    basketItem () {
+      const target = this.basket.items_info.list.find(basketItem => basketItem.package === this.storePackage.id)
+      if (!target) {
+        return null
+      }
+
+      return target
     }
   },
   mounted() {
@@ -109,10 +144,34 @@ export default {
   methods: {
     addToCart () {
       this.addToCartLoading = true
-      APIGateway.basketItem.addProduct(this.packageId, 1)
+      APIGateway.basketItem.addPackage(this.packageId, 1)
         .finally(() => {
           this.addToCartLoading = false
           this.checkoutReview()
+        })
+    },
+    onIncrease () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.incrementPackage(this.basketItem.package)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
+    onDecrease () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.decrementPackage(this.basketItem.package)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
+        })
+    },
+    onRemove () {
+      this.addToCartLoading = true
+      APIGateway.basketItem.remove(this.basketItem.id)
+        .finally(() => {
+          this.checkoutReview()
+          this.addToCartLoading = false
         })
     },
     checkoutReview () {
@@ -251,6 +310,7 @@ export default {
       }
     }
     .package-show__summery-price {
+      position: relative;
       width: $price-section-with;
       border-radius: 8px;
       background: #F6F6F6;
@@ -281,6 +341,9 @@ export default {
       .package-show__summery-price-action {
         width: 100%;
         background: white !important;
+        .package-btn-add-to-cart {
+          width: 100%;
+        }
       }
       @media screen and (max-width: 900px) {
         & {
