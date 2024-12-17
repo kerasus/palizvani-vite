@@ -21,15 +21,8 @@
                   وزن:
                 </div>
                 <div class="package-show__attrs-item-value">
-                  ۲۰۰ گرم
-                </div>
-              </div>
-              <div class="package-show__attrs-item">
-                <div class="package-show__attrs-item-label">
-                  وزن:
-                </div>
-                <div class="package-show__attrs-item-value">
-                  ۲۰۰ گرم
+                  {{ storePackage.weight }}
+                  گرم
                 </div>
               </div>
             </div>
@@ -45,12 +38,13 @@
           <q-icon name="shopping_cart" />
           قیمت محصول
         </div>
-        <div class="package-show__summery-price-base">
-          {{ storePackage.unit_price }}
+        <div v-if="storePackage.unit_price !== storePackage.sellable_price"
+             class="package-show__summery-price-base">
+          {{ parseInt(storePackage.unit_price).toLocaleString('fa') }}
           ریال
         </div>
         <div class="package-show__summery-price-final">
-          {{ storePackage.getFinalPrice() }}
+          {{ parseInt(storePackage.sellable_price).toLocaleString('fa') }}
           ریال
         </div>
         <q-btn label="افزودن به سبد"

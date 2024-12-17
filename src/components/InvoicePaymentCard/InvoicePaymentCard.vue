@@ -98,7 +98,7 @@
       <div>
         <instalments :wallet="wallet"
                      :invoice="invoice"
-                     :can-action="canAction"
+                     :can-action="true"
                      @onInstalmentPayed="onInstalmentPayed" />
       </div>
     </div>

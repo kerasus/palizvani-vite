@@ -116,7 +116,7 @@ export default {
         {
           type: 'select',
           name: 'is_hidden',
-          label: 'مخفی',
+          label: 'وضعیت نمایش',
           options: (new Package()).is_hiddenEnums,
           placeholder: ' ',
           col: 'col-md-3 col-12'
@@ -162,13 +162,6 @@ export default {
             field: row => (new Package(row)).is_physical_info.label
           },
           {
-            name: 'is_hidden',
-            required: true,
-            label: 'نمایش/عدم نمایش',
-            align: 'left',
-            field: row => (new Package(row)).is_hidden_info.label
-          },
-          {
             name: 'store_category',
             required: true,
             label: 'دسته فروشگاه',
@@ -188,6 +181,13 @@ export default {
             label: 'قیمت',
             align: 'left',
             field: row => parseInt(row.unit_price.toString()).toLocaleString('fa')
+          },
+          {
+            name: 'is_hidden',
+            required: true,
+            label: 'نمایش',
+            align: 'left',
+            field: row => (new Package(row)).is_hidden_info.label
           },
           {
             name: 'action',

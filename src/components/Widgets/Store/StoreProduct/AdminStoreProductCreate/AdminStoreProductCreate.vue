@@ -61,7 +61,7 @@ export default {
         { type: 'input', name: 'unit_price', responseKey: 'unit_price', label: 'قیمت واحد(ریال)', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'input', name: 'discount_percent', responseKey: 'discount_percent', label: 'درصد تخفیف', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'checkbox', name: 'is_physical', responseKey: 'is_physical', label: 'فیزیکی', placeholder: ' ', value: false, col: 'col-md-3 col-12' },
-        { type: 'checkbox', name: 'is_hidden', responseKey: 'is_hidden', label: 'نمایش/عدم نمایش', placeholder: ' ', value: true, col: 'col-md-9 col-12' },
+        { type: 'checkbox', name: 'is_hidden', responseKey: 'is_hidden', label: 'پنهان باشد؟', placeholder: ' ', value: true, col: 'col-md-9 col-12' },
         { type: 'select', name: 'physical_type', responseKey: 'physical_type', label: 'نوع محصول فیزیکی', options: (new Product()).physical_typeEnums, placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'inventory', responseKey: 'inventory', label: 'موجودی', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'input', name: 'maximum_order_count', responseKey: 'maximum_order_count', label: 'سقف سفارش مجاز', placeholder: ' ', col: 'col-md-3 col-12' },

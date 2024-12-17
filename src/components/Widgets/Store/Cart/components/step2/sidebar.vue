@@ -27,7 +27,12 @@
                            indeterminate />
         <template v-else>
           <!--          {{ basket.delivery_cost.toLocaleString('fa') }}-->
-          {{ deliveryCost.toLocaleString('fa') }}
+          <span v-if="basket.order_type!=='VIRTUAL'">
+            {{ deliveryCost.toLocaleString('fa') }}
+          </span>
+          <span v-else>
+            0
+          </span>
           ریال
         </template>
       </div>

@@ -7,7 +7,8 @@
         <cart-items :basket-items="basket.items_info" />
         <cart-address :basket="basket"
                       @set-address="onSetAddress" />
-        <delivery-info :basket="basket" />
+        <delivery-info v-if="basket.order_type!=='VIRTUAL'"
+                       :basket="basket" />
       </div>
       <div class="step2__sidebar">
         <sidebar :basket="basket"

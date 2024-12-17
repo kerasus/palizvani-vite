@@ -91,7 +91,7 @@ export function logOut (context, payload) {
   const clearRedirectTo = payload?.clearRedirectTo
   context.commit('updateAccessToken', null)
   context.commit('updateUser', null)
-  context.commit('Shop/updateBasket', new Basket(), { root: true })
+  context.commit('Shop/clearBasket', new Basket(), { root: true })
   if (typeof window !== 'undefined') {
     Cookies.set('BearerAccessToken', '', {
       // domain: '.' + window.location.host,
