@@ -159,7 +159,7 @@ export default {
     display: flex;
     flex-flow: column;
     gap: 24px;
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 1024px) {
       & {
         width: 100%;
       }
@@ -167,10 +167,15 @@ export default {
   }
   .step2__sidebar {
     width: $sidebar-width;
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 1024px) {
       & {
         width: 100%;
       }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    & {
+      flex-flow: column;
     }
   }
 }

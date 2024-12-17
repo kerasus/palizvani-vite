@@ -170,10 +170,17 @@ export default {
       width: 32px;
       height: 32px;
     }
+    @media screen and (max-width: 600px) {
+      & {
+        top: 4px;
+        left: auto;
+        right: 4px;
+      }
+    }
   }
   .cart-item__thumbnail {
     width: $cart-item__thumbnail-width;
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 600px) {
       & {
         width: 100%;
       }
@@ -214,6 +221,13 @@ export default {
           font-size: 16px;
         }
       }
+      @media screen and (max-width: 1200px) {
+        & {
+          flex-flow: column;
+          gap: 8px;
+          margin-bottom: 8px;
+        }
+      }
     }
     .cart-item__type-info {
       position: absolute;
@@ -236,7 +250,7 @@ export default {
       right: 20px;
       top: 65px;
       width: 120px;
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: 1200px) {
         & {
           position: relative;
           top: 0;
@@ -263,7 +277,7 @@ export default {
         color: $primary;
         font-size: 24px;
       }
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: 1200px) {
         & {
           position: relative;
           top: 0;
@@ -295,6 +309,11 @@ export default {
       & {
         width: 100%;
       }
+    }
+  }
+  @media screen and (max-width: 600px) {
+    & {
+      padding: 56px 22px 24px 24px;
     }
   }
 }
