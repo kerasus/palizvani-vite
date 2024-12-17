@@ -1,4 +1,5 @@
 import { Cookies } from 'quasar'
+import { Basket } from 'src/models/Basket.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 
 export function login (context, data) {
@@ -90,6 +91,7 @@ export function logOut (context, payload) {
   const clearRedirectTo = payload?.clearRedirectTo
   context.commit('updateAccessToken', null)
   context.commit('updateUser', null)
+  context.commit('Shop/updateBasket', new Basket(), { root: true })
   if (typeof window !== 'undefined') {
     Cookies.set('BearerAccessToken', '', {
       // domain: '.' + window.location.host,
