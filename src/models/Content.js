@@ -12,6 +12,7 @@ class Content extends Model {
       { key: 'description' },
       { key: 'summary' },
       { key: 'thumbnail' },
+      { key: 'creation_time' },
       {
         key: 'is_free',
         defalut: false
