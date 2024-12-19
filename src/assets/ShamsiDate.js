@@ -15,8 +15,8 @@ class ShamsiDate {
     return moment(dateTime, 'YYYY-M-D HH:mm:ss').format('HH:mm:ss jYYYY/jMM/jDD')
   }
 
-  static getTitledDateTime (dateTime) {
-    return moment(dateTime, 'YYYY-M-D HH:mm:ss').format('jD jMMMM jYYYY')
+  static getTitledDateTime (dateTime, format = 'jD jMMMM jYYYY') {
+    return moment(dateTime, 'YYYY-M-D HH:mm:ss').format(format)
   }
 }
 

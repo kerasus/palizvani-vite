@@ -89,6 +89,7 @@
   .splide__pagination {
     margin-top: 24px;
     gap: 4px;
+    padding-inline-start: 0;
     li {
       .splide__pagination__page {
         transition: all 0.3s;

@@ -12,6 +12,7 @@ class Post extends Model {
       { key: 'summary' },
       { key: 'thumbnail' },
       { key: 'category' },
+      { key: 'creation_time' },
       {
         key: 'category_info',
         relatedModel: PostCategory
