@@ -7,48 +7,63 @@
         </q-banner>
       </div>
     </div>
-    <div class="PublicWebStatistic-boxes row">
-      <div class="PublicWebStatistic-boxes row" />
+    <div class="PublicWebStatistic-boxes">
+      <q-linear-progress v-if="loading"
+                         indeterminate />
+      <div v-else
+           class="row q-col-gutter-md">
+        <div class="col-md-4 col-12">
+          <statistic-item :value="statistics.users_count"
+                          title="کاربر فعال"
+                          icon="groups" />
+        </div>
+        <div class="col-md-4 col-12">
+          <statistic-item :value="statistics.training_classrooms_count"
+                          title="دوره"
+                          icon="co_present" />
+        </div>
+        <div class="col-md-4 col-12">
+          <statistic-item :value="statistics.event_classrooms_count"
+                          title="رویداد"
+                          icon="event_note" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { User } from 'src/models/User.js'
-// import ShamsiDate from 'src/assets/ShamsiDate.js'
-// import { APIGateway } from 'src/api/APIGateway.js'
-import { ClassroomList } from 'src/models/Classroom.js'
-import { ClassroomRegistrationList } from 'src/models/ClassroomRegistration.js'
+import { APIGateway } from 'src/api/APIGateway.js'
+import StatisticItem from './components/Item.vue'
 
 export default {
   name: 'PublicWebStatistic',
-  data: () => ({
-    loading: false,
-    user: new User(),
-    classroomsKey: Date.now(),
-    userRegistrations: new ClassroomRegistrationList(),
-    slide: 0,
-    classrooms: new ClassroomList(),
-    breakpoints: {
-      // 1024 and up
-      1024: {
-        itemsToShow: 3,
-        snapAlign: 'start'
-      },
-      // 700px and up
-      700: {
-        itemsToShow: 3.5,
-        snapAlign: 'center'
-      },
-      // 300px and up
-      300: {
-        itemsToShow: 1.5,
-        snapAlign: 'center'
+  components: { StatisticItem },
+  data () {
+    return {
+      loading: false,
+      statistics: {
+        users_count: 0,
+        training_classrooms_count: 0,
+        event_classrooms_count: 0
       }
-    },
-    maximizedToggle: true,
-    dialog: false
-  })
+    }
+  },
+  mounted() {
+    this.getStatistics()
+  },
+  methods: {
+    getStatistics () {
+      this.loading = true
+      APIGateway.aggregator.statistics()
+        .then((statistics) => {
+          this.statistics = statistics
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    }
+  }
 }
 </script>
 
