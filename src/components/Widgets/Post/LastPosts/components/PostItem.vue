@@ -109,5 +109,38 @@ export default defineComponent({
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+    & {
+      flex-flow: column;
+      .thumbnail {
+        order: 1;
+        width: 100%;
+        margin-bottom: 8px;
+        .q-img {
+          border-radius: 8px;
+        }
+      }
+      .content {
+        order: 2;
+        width: 100%;
+        padding: 24px !important;
+      }
+    }
+  }
+  @media screen and (max-width: 600px) {
+    & {
+      .content {
+        .meta-and-action {
+          flex-flow: column;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 8px;
+          .q-btn {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
 }
 </style>
