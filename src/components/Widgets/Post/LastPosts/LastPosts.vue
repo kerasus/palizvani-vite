@@ -86,7 +86,7 @@ export default {
         900: {
           perPage: 1
         },
-        500: {
+        600: {
           perPage: 1
         }
       },
