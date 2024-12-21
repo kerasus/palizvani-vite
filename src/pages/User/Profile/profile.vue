@@ -1,5 +1,4 @@
 <template>
-  {{ selectedBirthProvince }}
   <entity-edit v-if="mounted"
                ref="entityEdit"
                v-model:value="inputs"
@@ -222,7 +221,7 @@ export default {
           FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'options', [])
         }
       } else {
-        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'value', null)
+        // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'value', null)
         FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'disable', false)
 
         if (this.inputDataLoaded) {
