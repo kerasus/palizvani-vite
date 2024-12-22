@@ -209,7 +209,7 @@ export default {
         this.$nextTick(() => {
           if (!newValue) {
             FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'value', 'ایران')
-            // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'disable', true)
+            FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'readonly', true)
             if (this.inputDataLoaded) {
               // province
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'type', 'select')
@@ -225,7 +225,7 @@ export default {
             }
           } else {
             // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'value', null)
-            FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'disable', false)
+            FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'readonly', false)
 
             if (this.inputDataLoaded) {
               // province
@@ -248,7 +248,7 @@ export default {
         this.$nextTick(() => {
           if (!newValue) {
             FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', 'ایران')
-            // FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'disable', true)
+            FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'readonly', true)
             if (this.inputDataLoaded) {
               // province
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'type', 'select')
@@ -264,7 +264,7 @@ export default {
             }
           } else {
             // FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
-            FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'disable', false)
+            FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'readonly', false)
             if (this.inputDataLoaded) {
               // province
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'type', 'input')
