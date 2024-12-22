@@ -19,7 +19,8 @@
         </div>
         <div class="input-container q-py-md">
           <div class="outsideLabel">description</div>
-          <editor v-model:value="localOptions.description" />
+          <form-builder-tiptap-editor v-model:value="localOptions.description"
+                                      :options="editorOptions" />
         </div>
       </div>
     </template>
@@ -27,15 +28,17 @@
 </template>
 <script>
 import { defineComponent } from 'vue'
-import Editor from 'src/components/Utils/Editor.vue'
+import { APIGateway } from 'src/api/APIGateway.js'
 import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
 import ImageUploader from 'src/components/ImageUploader.vue'
+import PostMixin from 'src/components/Widgets/Post/PostMixin.js'
+import FormBuilderTiptapEditor from 'src/components/FormBuilderCustumComponents/FormBuilderTiptapEditor.vue'
 import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
 
 export default defineComponent({
   name: 'OptionPanel',
-  components: { OptionPanelTabs, ImageUploader, Editor },
-  mixins: [mixinOptionPanel],
+  components: { OptionPanelTabs, ImageUploader, FormBuilderTiptapEditor },
+  mixins: [mixinOptionPanel, PostMixin],
   props: {
     options: {
       type: Object,
@@ -45,6 +48,10 @@ export default defineComponent({
     }
   },
   data() {
+    const authorization = 'Bearer ' + this.$store.getters['Auth/accessToken']
+    const uploadVideo = this.uploadVideo
+    const uploadAudio = this.uploadAudio
+
     return {
       defaultOptions: {
         title: null,
@@ -69,6 +76,23 @@ export default defineComponent({
             translateX: 0,
             translateY: 0
           }
+        },
+        editorOptions: {
+          bubbleMenu: false,
+          floatingMenu: false,
+          poem: false,
+          reading: false,
+          loadBareHtml: true,
+          persianKeyboard: true,
+          mathliveOptions: { smartFence: false },
+          uploadServer: {
+            url: '/api' + APIGateway.media.APIAdresses.base,
+            instantUpload: true,
+            responseKey: 'file',
+            headers: { Authorization: authorization }
+          },
+          uploadVideo,
+          uploadAudio
         }
       }
     }
