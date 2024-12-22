@@ -255,7 +255,7 @@ export default {
           FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', [])
         }
       } else {
-        FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
+        // FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
         FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'disable', false)
         if (this.inputDataLoaded) {
           // province
