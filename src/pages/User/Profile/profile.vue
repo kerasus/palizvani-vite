@@ -206,7 +206,7 @@ export default {
     isAbroadBirthAddress (newValue) {
       if (!newValue) {
         FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'value', 'ایران')
-        FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'disable', true)
+        // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'disable', true)
         if (this.inputDataLoaded) {
           // province
           FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'type', 'select')
@@ -240,7 +240,7 @@ export default {
     isAbroadLivingAddress (newValue) {
       if (!newValue) {
         FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', 'ایران')
-        FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'disable', true)
+        // FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'disable', true)
         if (this.inputDataLoaded) {
           // province
           FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'type', 'select')
@@ -255,7 +255,7 @@ export default {
           FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', [])
         }
       } else {
-        FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
+        // FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
         FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'disable', false)
         if (this.inputDataLoaded) {
           // province
