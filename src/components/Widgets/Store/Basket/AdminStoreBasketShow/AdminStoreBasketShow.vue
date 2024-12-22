@@ -87,6 +87,17 @@
           </template>
         </template>
       </entity-index>
+      <q-dialog v-model="downloadDialog">
+        <q-card style="width: 800px; max-width: 95%;">
+          <q-card-section>
+            محتوای قابل دانلود
+          </q-card-section>
+          <q-separator />
+          <q-card-section>
+            <product-or-package-medias :basket-item="selectedBasketItem" />
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -102,6 +113,7 @@ import BtnControl from 'components/Control/btn.vue'
 import { EntityShow, EntityIndex } from 'quasar-crud'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import FormBuilderDateTime from 'src/components/FormBuilderCustumComponents/FormBuilderDateTime.vue'
+import ProductOrPackageMedias from 'src/components/Widgets/Store/Basket/UserStoreBasketShow/ProductOrPackageMedias.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
 const FormBuilderDateTimeComp = shallowRef(FormBuilderDateTime)
@@ -110,13 +122,16 @@ export default {
   name: 'AdminStoreBasketShow',
   components: {
     EntityShow,
-    EntityIndex
+    EntityIndex,
+    ProductOrPackageMedias
   },
   mixins: [mixinWidget],
   data () {
     return {
       mounted: false,
       entityLoading: false,
+      downloadDialog: false,
+      selectedBasketItem: null,
       api: APIGateway.basket.APIAdresses.byId(this.$route.params.id),
       entityIdKey: 'id',
       entityParamKey: 'id',
@@ -268,6 +283,10 @@ export default {
     this.mounted = true
   },
   methods: {
+    openDownloadDialog (basketItem) {
+      this.selectedBasketItem = basketItem
+      this.downloadDialog = true
+    },
     showUserPage () {
       const routeData = this.$router.resolve({ name: 'Admin.User.Show', params: { id: this.basket.owner } })
       window.open(routeData.href, '_blank')

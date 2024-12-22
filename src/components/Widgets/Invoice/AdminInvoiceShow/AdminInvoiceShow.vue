@@ -138,21 +138,80 @@
       </q-card>
 
     </div>
+    <div v-if="invoice.item_type==='STORE_BASKET'"
+         class="q-mt-md">
+      <entity-index v-model:value="tableInputs"
+                    title="لیست محصولات سفارش"
+                    :table="table"
+                    :loaded-data="invoice.item_info"
+                    :table-keys="tableKeys"
+                    :show-search-button="false"
+                    :show-expand-button="false"
+                    :show-reload-button="false">
+        <template #entity-index-table-cell="{inputData}">
+          <template v-if="inputData.col.name === 'number'">
+            {{ inputData.rowNumber }}
+          </template>
+          <template v-else-if="inputData.col.name === 'thumbnail'">
+            <q-img :src="inputData.col.value"
+                   width="100px" />
+          </template>
+          <template v-else-if="inputData.col.name === 'download'">
+            <q-btn v-if="!inputData.col.value"
+                   color="primary"
+                   @click="openDownloadDialog(inputData.props.row)">
+              <q-icon name="download"
+                      class="q-mr-sm" />
+              دانلود
+            </q-btn>
+            <template v-else>
+              {{}}
+            </template>
+          </template>
+          <template v-else-if="inputData.col.name === 'action'">
+            <q-btn color="primary"
+                   outline
+                   :to="{name: inputData.props.row.product ? 'Admin.Store.Product.Show' : 'Admin.Store.Package.Show', params: {id: inputData.props.row.product || inputData.props.row.package}}">
+              <q-icon name="visibility"
+                      class="q-mr-sm" />
+              مشاهده
+            </q-btn>
+          </template>
+          <template v-else>
+            {{ inputData.col.value }}
+          </template>
+        </template>
+      </entity-index>
+      <q-dialog v-model="downloadDialog">
+        <q-card style="width: 800px; max-width: 95%;">
+          <q-card-section>
+            محتوای قابل دانلود
+          </q-card-section>
+          <q-separator />
+          <q-card-section>
+            <product-or-package-medias :basket-item="selectedBasketItem" />
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import Assist from 'assets/js/Assist.js'
 import { User } from 'src/models/User.js'
+import { EntityIndex } from 'quasar-crud'
 import { Wallet } from 'src/models/Wallet.js'
+import { Product } from 'src/models/Product.js'
 import { Invoice } from 'src/models/Invoice.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import InvoicePaymentCard from 'src/components/InvoicePaymentCard/InvoicePaymentCard.vue'
+import ProductOrPackageMedias from 'src/components/Widgets/Store/Basket/UserStoreBasketShow/ProductOrPackageMedias.vue'
 
 export default {
   name: 'AdminInvoiceShow',
-  components: { InvoicePaymentCard },
+  components: { InvoicePaymentCard, EntityIndex, ProductOrPackageMedias },
   mixins: [mixinWidget],
   props: {
     invoiceId: {
@@ -160,13 +219,112 @@ export default {
       default: null
     }
   },
-  data: () => {
+  data () {
     return {
       user: new User(),
       wallet: new Wallet(),
       invoice: new Invoice(),
       defaultOptions: {
         showBackBtn: true
+      },
+
+      downloadDialog: false,
+      selectedBasketItem: null,
+      tableKeys: {
+        data: 'items_info.list',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+      tableInputs: [],
+      table: {
+        columns: [
+          {
+            name: 'number',
+            required: true,
+            label: 'شماره',
+            align: 'left',
+            field: () => ''
+          },
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.product_info?.id ? row.product_info.id : row.package_info.id
+          },
+          {
+            name: 'title',
+            required: true,
+            label: 'نام محصول',
+            align: 'left',
+            field: row => (row.product_info?.id ? row.product_info : row.package_info).title
+          },
+          {
+            name: 'is_package_or_product',
+            required: true,
+            label: 'نوع محصول',
+            align: 'left',
+            field: row => row.package ? 'بسته' : 'تکی'
+          },
+          {
+            name: 'store_category',
+            required: true,
+            label: 'دسته فروشگاه',
+            align: 'left',
+            field: row => ((row.product_info?.id ? row.product_info : row.package_info).store_category_info?.parent?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).store_category_info?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).store_category_info?.title || '-')
+          },
+          {
+            name: 'store_category1',
+            required: true,
+            label: 'دسته محتوا',
+            align: 'left',
+            field: row => ((row.product_info?.id ? row.product_info : row.package_info).content_category_info?.parent?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).content_category_info?.parent?.title || '-') + '، ' + ((row.product_info || row.package_info).content_category_info?.title || '-')
+          },
+          {
+            name: 'count',
+            required: true,
+            label: 'تعداد',
+            align: 'left',
+            field: row => row.count
+          },
+          {
+            name: 'is_physical_info',
+            required: true,
+            label: 'نوع جنس',
+            align: 'left',
+            field: row => (row.product_info?.id ? row.product_info : row.package_info).is_physical_info.label
+          },
+          {
+            name: 'physical_type_info',
+            required: true,
+            label: 'نوع محصول',
+            align: 'left',
+            field: row => row.product_info ? (new Product(row.product_info)).physical_type_info.label : '-'
+          },
+          {
+            name: 'unit_price',
+            required: true,
+            label: 'قیمت',
+            align: 'left',
+            field: row => parseInt((row.product_info?.id ? row.product_info : row.package_info).unit_price?.toString()).toLocaleString('fa')
+          },
+          {
+            name: 'download',
+            required: true,
+            label: 'دانلود',
+            align: 'left',
+            field: row => (row.product_info?.id ? row.product_info : row.package_info).is_physical
+          },
+          {
+            name: 'action',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: row => ''
+          }
+        ]
       }
     }
   },
@@ -176,6 +334,10 @@ export default {
     this.getInvoice()
   },
   methods: {
+    openDownloadDialog (basketItem) {
+      this.selectedBasketItem = basketItem
+      this.downloadDialog = true
+    },
     loadAuthData() { // prevent Hydration node mismatch
       this.user = this.$store.getters['Auth/user']
     },

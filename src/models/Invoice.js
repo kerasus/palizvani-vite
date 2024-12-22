@@ -1,4 +1,5 @@
 import { User } from 'src/models/User.js'
+import { Basket } from 'src/models/Basket.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { Model, Collection } from 'js-abstract-model'
 
@@ -96,6 +97,10 @@ class Invoice extends Model {
         ]
       }
     })
+
+    if (this.item_type === 'STORE_BASKET') {
+      this.item_info = new Basket(data.item_info)
+    }
   }
 }
 
