@@ -128,6 +128,9 @@ export default {
     {
       path: 'donation-category',
       name: 'Public.DonationCategory',
+      meta: {
+        hasDynamicSetting: true
+      },
       component: () => import('layouts/bareLayout.vue'),
       children: [
         { path: '', name: 'Public.DonationCategory.List', component: () => import('src/pages/BasicDynamicPage.vue') },

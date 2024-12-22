@@ -18,24 +18,43 @@
           <q-img :src="donationCategory.thumbnail" />
         </div>
       </div>
-      <div v-if="donation.id"
+      <div class="show-donation-selector">
+        <q-banner class="donation-category-title">
+          پرداخت
+          صدقه
+          آنلاین
+        </q-banner>
+        <div class="donation-selector-form">
+          <entity-create v-if="mounted"
+                         ref="entityCreate"
+                         v-model:value="donationSelectorInputs"
+                         :api="donationSelectorApi"
+                         :entity-id-key="donationSelectorEntityIdKey"
+                         :entity-param-key="donationSelectorEntityParamKey"
+                         :show-route-name="donationSelectorShowRouteName"
+                         :default-layout="false"
+                         :show-close-button="false"
+                         :show-edit-button="false"
+                         :show-expand-button="false"
+                         :show-save-button="false"
+                         :show-reload-button="false" />
+        </div>
+      </div>
+      <div v-if="selectedDonation?.id"
            class="show-donation-section">
         <div class="show-donation-payment-section">
           <q-banner class="donation-category-title">
-            پرداخت
-            {{donation.title}}
+            شرح مورد استفاده
+            <!--            {{selectedDonation.title}}-->
           </q-banner>
         </div>
         <div class="show-donation-info-section">
           <div class="donation-content">
-            <q-banner class="donation-title">
-              {{donation.title}}
-            </q-banner>
             <div class="donation-description"
-                 v-html="donation.description" />
+                 v-html="selectedDonation.description" />
           </div>
           <div class="donation-thumbnail">
-            <q-img :src="donation.thumbnail" />
+            <q-img :src="selectedDonation.thumbnail" />
           </div>
         </div>
       </div>
@@ -44,15 +63,21 @@
 </template>
 
 <script>
-import { Donation } from 'src/models/Donation.js'
+import { shallowRef } from 'vue'
+import { EntityCreate } from 'quasar-crud'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { DonationList } from 'src/models/Donation.js'
+import BtnControl from 'src/components/Control/btn.vue'
 import { DonationCategory } from 'src/models/DonationCategory.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { FormBuilderAssist } from 'quasar-form-builder'
+
+const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'DonationList',
-  components: { Breadcrumbs },
+  components: { Breadcrumbs, EntityCreate },
   mixins: [mixinWidget],
   data () {
     return {
@@ -68,21 +93,47 @@ export default {
       table: {
         columns: []
       },
-      donation: new Donation(),
+      donations: new DonationList(),
       donationCategory: new DonationCategory(),
       mounted: false,
-      createRouteName: ''
+      createRouteName: '',
+
+      donationSelectorApi: 'id',
+      donationSelectorInputs: [
+        { type: 'select', name: 'donation', responseKey: 'donation', label: 'مورد استفاده', placeholder: ' ', optionValue: 'id', optionLabel: 'title', col: 'col-md-8 col-12' },
+        { type: 'input', name: 'amount', responseKey: 'amount', label: 'مبلغ', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'fullName', responseKey: 'fullName', label: 'نام و نام خانوادگی', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'input', name: 'mobile', responseKey: 'mobile', label: 'موبایل(جهت اصلاع رسانی)', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'checkbox', name: 'private', responseKey: 'private', label: 'ناشناس بمانم', placeholder: ' ', value: false, class: 'flex justify-end items-end full-height', col: 'col-md-2 col-12' },
+        { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'پرداخت', placeholder: ' ', atClick: () => {}, class: 'flex justify-end items-end full-height', col: 'col-md-2 col-12' }
+      ],
+      donationSelectorEntityIdKey: 'id',
+      donationSelectorEntityParamKey: 'id',
+      donationSelectorShowRouteName: 'Admin.Donation.Show'
+    }
+  },
+  computed: {
+    selectedDonation () {
+      const donationId = FormBuilderAssist.getInputsByName(this.donationSelectorInputs, 'donation')?.value
+      if (!donationId) {
+        return null
+      }
+
+      return this.donations.list.find(item => item.id === donationId)
     }
   },
   mounted() {
-    this.getDonation()
+    this.getDonations()
   },
   methods: {
-    getDonation () {
-      this.donation.loading = true
-      APIGateway.donation.get(this.$route.params.donation_category_id)
-        .then((donation) => {
-          this.donation = new Donation(donation)
+    getDonations () {
+      this.donations.loading = true
+      APIGateway.donation.index({
+        category: this.$route.params.donation_category_id
+      })
+        .then(({ list }) => {
+          this.donations = new DonationList(list)
+          FormBuilderAssist.setAttributeByName(this.donationSelectorInputs, 'donation', 'options', this.donations.list)
           this.getDonationCategory()
         })
     },
@@ -110,10 +161,6 @@ export default {
           {
             label: donationCategory.title,
             to: { name: 'Public.DonationCategory.Show', params: { donation_category_id: donationCategory.id } }
-          },
-          {
-            label: donation.title,
-            to: { name: 'Public.DonationCategory.Donation.Show', params: { donation_category_id: donationCategory.id, donation_id: donation.id } }
           }
         ]
       })
@@ -145,6 +192,23 @@ export default {
           margin-bottom: 16px;
         }
         .donation-category-description {}
+      }
+    }
+    .show-donation-selector {
+      .donation-category-title {
+        margin-bottom: 34px;
+      }
+      .donation-selector-form {
+        background: #F5F5F5;
+        padding: 44px 24px 24px 24px;
+        margin-bottom: 60px;
+        :deep(.entity-crud-formBuilder) {
+          .form-builder-checkbox {
+            .q-checkbox {
+              height: 48px !important;
+            }
+          }
+        }
       }
     }
     .show-donation-section {
