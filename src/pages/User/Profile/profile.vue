@@ -214,14 +214,14 @@ export default {
               // province
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'type', 'select')
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'disable', false)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'value', null)
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'value', null)
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'options', Provinces)
 
               // city
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'type', 'select')
-              FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', true)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'options', [])
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', true)
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+              FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'options', getCitiesOfProvince(this.selectedBirthProvince))
             }
           } else {
             // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_country', 'value', null)
@@ -231,12 +231,11 @@ export default {
               // province
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'type', 'input')
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'disable', false)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'value', null)
-
               // city
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'type', 'input')
               FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'disable', false)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_province', 'value', null)
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'birth_city', 'value', null)
             }
           }
         })
@@ -253,28 +252,28 @@ export default {
               // province
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'type', 'select')
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'disable', false)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'value', null)
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'value', null)
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'options', Provinces)
 
               // city
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'type', 'select')
-              FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', true)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', [])
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', true)
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+              FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', getCitiesOfProvince(this.selectedLivingProvince))
             }
           } else {
-            // FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
+            FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
             FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'readonly', false)
             if (this.inputDataLoaded) {
               // province
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'type', 'input')
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'disable', false)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'value', null)
 
               // city
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'type', 'input')
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'disable', false)
-              FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'living_province', 'value', null)
+              // FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'value', null)
             }
           }
         })
