@@ -262,7 +262,7 @@ export default {
               FormBuilderAssist.setAttributeByName(this.inputs, 'living_city', 'options', getCitiesOfProvince(this.selectedLivingProvince))
             }
           } else {
-            FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
+            // FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'value', null)
             FormBuilderAssist.setAttributeByName(this.inputs, 'living_country', 'readonly', false)
             if (this.inputDataLoaded) {
               // province
