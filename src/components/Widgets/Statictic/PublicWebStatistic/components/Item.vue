@@ -48,15 +48,15 @@ export default {
     color: #EAC38A;
     width: 70px;
     .q-icon {
-      font-size: 68px;
+      font-size: 70px;
     }
   }
   .item-content {
-    width: 70px;
+    width: fit-content;
     .item-title {
       font-size: 18px;
       color: #212121;
-      margin-bottom: 24px;
+      margin-bottom: 8px;
     }
     .item-value {
       font-size: 18px;
