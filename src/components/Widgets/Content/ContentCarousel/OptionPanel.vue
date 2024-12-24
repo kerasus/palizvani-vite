@@ -2,6 +2,14 @@
   <option-panel-tabs v-model:options="localOptions">
     <template #main-tab>
       <div class="q-mt-md">
+        عنوان
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-12">
+          <q-input v-model="localOptions.categoryTitle" />
+        </div>
+      </div>
+      <div class="q-mt-md">
         کد دسته پدربزرگ
       </div>
       <div class="row">
@@ -53,6 +61,7 @@ export default defineComponent({
   data () {
     return {
       defaultOptions: {
+        categoryTitle: 'عنوان دلخواه برای دسته محتوای مشخص شده',
         categoryId: null,
         categoryCategoryId: null,
         categoryCategoryCategoryId: null,

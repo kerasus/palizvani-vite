@@ -3,7 +3,7 @@
     <div class="contentCarousel-title">
       <div>
         <q-banner class="banner">
-          سیر مطالعاتی و سخنرانی‌ها
+          {{ getCategoryTitle }}
         </q-banner>
       </div>
       <div>
@@ -81,6 +81,11 @@ export default {
         }
       },
       maximizedToggle: true
+    }
+  },
+  computed: {
+    getCategoryTitle () {
+      return this.localOptions.categoryTitle
     }
   },
   mounted () {

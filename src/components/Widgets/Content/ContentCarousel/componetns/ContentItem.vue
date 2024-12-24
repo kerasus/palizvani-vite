@@ -22,7 +22,7 @@
       <q-btn color="primary"
              class="btn-show-content"
              :to="{name: 'Public.Content.Show', params: {id: content.id}}">
-        مشاهده و ثبت نام
+        مشاهده جزییات
         <svg xmlns="http://www.w3.org/2000/svg"
              width="18.387"
              height="11.502"
