@@ -158,11 +158,11 @@ export default {
             field: row => (new Basket(row)).status_info.label
           },
           {
-            name: 'creation_time',
+            name: 'order_time',
             required: true,
             label: 'تاریخ ثبت',
             align: 'left',
-            field: row => Assist.miladiToShamsi(row.creation_time)
+            field: row => Assist.miladiToShamsi(row.order_time)
           },
           {
             name: 'action',
