@@ -11,22 +11,22 @@
           <div class="package-show__title">
             {{ storePackage.title }}
           </div>
-          <div class="package-show__attrs">
-            <div class="package-show__attrs-title">
-              ویژگی ها:
-            </div>
-            <div class="package-show__attrs-items">
-              <div class="package-show__attrs-item">
-                <div class="package-show__attrs-item-label">
-                  وزن:
-                </div>
-                <div class="package-show__attrs-item-value">
-                  {{ storePackage.weight }}
-                  گرم
-                </div>
-              </div>
-            </div>
-          </div>
+          <!--          <div class="package-show__attrs">-->
+        <!--            <div class="package-show__attrs-title">-->
+        <!--              ویژگی ها:-->
+        <!--            </div>-->
+        <!--            <div class="package-show__attrs-items">-->
+        <!--              <div class="package-show__attrs-item">-->
+        <!--                <div class="package-show__attrs-item-label">-->
+        <!--                  وزن:-->
+        <!--                </div>-->
+        <!--                <div class="package-show__attrs-item-value">-->
+        <!--                  {{ storePackage.weight }}-->
+        <!--                  گرم-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
         </div>
       </div>
       <div class="package-show__summery-price">
@@ -78,6 +78,14 @@
         <!--               @click="addToCart" />-->
       </div>
     </div>
+    <div v-if="storePackage.description"
+         class="package-show__descriptions">
+      <q-banner class="package-show__descriptions-title">
+        توضیحات:
+      </q-banner>
+      <div class="package-show__descriptions-data"
+           v-html="storePackage.description" />
+    </div>
     <div class="package-show__products">
       <q-expansion-item expand-separator
                         default-opened
@@ -90,14 +98,7 @@
       </q-expansion-item>
 
     </div>
-    <div v-if="storePackage.description"
-         class="package-show__descriptions">
-      <q-banner class="package-show__descriptions-title">
-        توضیحات:
-      </q-banner>
-      <div class="package-show__descriptions-data"
-           v-html="storePackage.description" />
-    </div>
+
   </div>
 </template>
 
@@ -405,6 +406,7 @@ export default {
     }
   }
   .package-show__descriptions {
+    margin-bottom: 47px;
     padding: 32px 32px 70px 32px;
     border: 1px solid #DFE1EC;
     border-radius: 8px;

@@ -29,11 +29,12 @@
           قیمت محصول:
         </div>
         <div class="product-item__price-info-value">
-          {{ product.getFinalPrice() }}
+          {{ parseInt(product.unit_price).toLocaleString('fa') }}
           ریال
         </div>
       </div>
-      <q-btn color="primary"
+      <q-btn v-if="!product.is_hidden"
+             color="primary"
              :to="{ name: 'Public.Product', params: { id: product.id }}"
              class="product-item__price-action">
         مشاهده
