@@ -67,14 +67,17 @@ export default defineComponent({
   border-radius: 8px;
   padding: 0;
   margin: 0;
+  $thumbnail-width: 400px;
   .thumbnail {
-    width: 45%;
+    //width: 45%;
+    width: $thumbnail-width;
     .q-img {
-      border-radius: 20px 8px 8px 20px;
+      border-radius: 0 8px 8px 0;
     }
   }
   .content {
-    width: 55%;
+    //width: 55%;
+    width: calc( 100% - #{$thumbnail-width} );
     padding: 52px 80px 52px 40px;
     display: flex;
     flex-flow: column;
