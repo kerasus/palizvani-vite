@@ -334,7 +334,7 @@ export default {
           col: 'col-md-3 col-12'
         },
 
-        { type: 'checkbox', name: 'is_abroad_birth_address', placeholder: ' ', label: 'محل تولد خارج از کشور است؟۳۳۳۳', responseKey: 'is_abroad_birth_address', className: 'require', col: 'col-12' },
+        { type: 'checkbox', name: 'is_abroad_birth_address', placeholder: ' ', label: 'محل تولد خارج از کشور است؟', responseKey: 'is_abroad_birth_address', className: 'require', col: 'col-12' },
         { type: 'input', name: 'birth_country', placeholder: ' ', label: 'کشور محل تولد', responseKey: 'birth_country', col: 'col-md-4 col-12' },
         {
           type: 'select',
