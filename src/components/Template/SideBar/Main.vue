@@ -85,7 +85,7 @@ export default {
             },
             {
               title: 'کتب سطح دو',
-              externalLink: 'https://formafzar.com/form/c73vr',
+              externalLink: 'https://formafzar.com/form/zmvhh',
               show: true
             },
             {
@@ -110,7 +110,7 @@ export default {
             },
             {
               title: 'کتب جریان‌شناسی سطح دو',
-              externalLink: 'https://formafzar.com/form/w1m0i',
+              externalLink: 'https://formafzar.com/form/xskmo',
               show: true
             },
             {

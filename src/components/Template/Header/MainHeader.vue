@@ -56,7 +56,7 @@
                     <q-item-section>کتب سطح یک</q-item-section>
                   </q-item>
                   <q-item v-close-popup
-                          href="https://formafzar.com/form/c73vr"
+                          href="https://formafzar.com/form/zmvhh"
                           target="_blank"
                           clickable>
                     <q-item-section>کتب سطح دو</q-item-section>
@@ -86,7 +86,7 @@
                     <q-item-section>کتب جریان‌شناسی سطح یک</q-item-section>
                   </q-item>
                   <q-item v-close-popup
-                          href="https://formafzar.com/form/w1m0i"
+                          href="https://formafzar.com/form/xskmo"
                           target="_blank"
                           clickable>
                     <q-item-section>کتب جریان‌شناسی سطح دو</q-item-section>
