@@ -28,20 +28,23 @@ export default class ClassroomAPI extends APIRepository {
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
+      index: (filters) => this.name + this.APIAdresses.base + encodeURI(filters),
       byId: (id) => this.name + this.APIAdresses.byId(id)
     }
   }
 
   index (data) {
+    const normalizedSendData = this.getNormalizedSendData({
+      unit__category__type: null, // String
+      per_page: 10, // Number
+      page: 1 // Number
+    }, data)
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
       request: this.APIAdresses.base,
-      data: this.getNormalizedSendData({
-        unit__category__type: null, // String
-        per_page: 10, // Number
-        page: 1 // Number
-      }, data),
+      cacheKey: this.CacheList.index(normalizedSendData),
+      data: normalizedSendData,
       resolveCallback: (response) => {
         const paginate = response.data
         const results = response.data.results

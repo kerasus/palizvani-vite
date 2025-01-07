@@ -63,7 +63,7 @@ import { Classroom, ClassroomList } from 'src/models/Classroom.js'
 import { EventRegistrationList } from 'src/models/EventRegistration.js'
 
 export default {
-  name: 'EventCarousel',
+  name: 'LastEvents',
   components: {
     EventItem
   },
