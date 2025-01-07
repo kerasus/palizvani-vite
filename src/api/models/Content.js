@@ -10,6 +10,10 @@ export default class ContentAPI extends APIRepository {
       byId: (id) => '/cma/contents/' + id
     }
     this.CacheList = {
+      base: this.name + this.APIAdresses.base,
+      index: (filters) => this.name + this.APIAdresses.base + encodeURI(filters)
+    }
+    this.CacheList = {
       base: this.name + this.APIAdresses.base
     }
     this.restUrl = (id) => this.APIAdresses.base + '/' + id
@@ -23,15 +27,17 @@ export default class ContentAPI extends APIRepository {
   }
 
   index(data) {
+    const normalizedSendData = this.getNormalizedSendData({
+      category: null, // Number
+      per_page: 10, // Number
+      page: 1 // Number
+    }, data)
     return this.sendRequest({
       apiMethod: 'get',
       api: this.api,
       request: this.APIAdresses.base,
-      data: this.getNormalizedSendData({
-        category: null, // Number
-        per_page: 10, // Number
-        page: 1 // Number
-      }, data),
+      cacheKey: this.CacheList.index(normalizedSendData),
+      data: normalizedSendData,
       resolveCallback: (response) => {
         const paginate = response.data
         const results = response.data.results
