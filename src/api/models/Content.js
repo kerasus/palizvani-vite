@@ -13,9 +13,6 @@ export default class ContentAPI extends APIRepository {
       base: this.name + this.APIAdresses.base,
       index: (filters) => this.name + this.APIAdresses.base + encodeURI(filters)
     }
-    this.CacheList = {
-      base: this.name + this.APIAdresses.base
-    }
     this.restUrl = (id) => this.APIAdresses.base + '/' + id
     /* Setting the callback functions for the CRUD operations. */
     this.setCrudCallbacks({
