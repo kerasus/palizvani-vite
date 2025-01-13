@@ -19,6 +19,13 @@
                   :show-search-button="false"
                   :show-expand-button="false"
                   :show-reload-button="false">
+      <template #toolbar>
+        <q-btn color="primary"
+               :loading="exportReportLoading"
+               @click="getBasketsListExcel">
+          دریافت
+        </q-btn>
+      </template>
       <template #entity-index-table-cell="{inputData}">
         <template v-if="inputData.col.name === 'number'">
           {{ inputData.rowNumber }}
@@ -174,6 +181,7 @@ export default {
         ]
       },
       mounted: false,
+      exportReportLoading: false,
       createRouteName: ''
     }
   },
@@ -183,6 +191,20 @@ export default {
   methods: {
     search () {
       this.$refs.entityIndex.search()
+    },
+    getBasketsListExcel () {
+      this.exportReportLoading = true
+      const filter = this.$refs.entityIndex.createParams()
+      filter.report_type = 'baskets_list'
+      APIGateway.basket.exportBasketReport(filter)
+        .then((xlsxData) => {
+          // Assist.saveXlsx(xlsxData, this.classroomId)
+          Assist.saveXlsx(xlsxData, 'سفارش ها')
+          this.exportReportLoading = false
+        })
+        .catch((e) => {
+          this.exportReportLoading = false
+        })
     }
   }
 }

@@ -5,7 +5,7 @@ import { Basket, BasketList } from 'src/models/Basket.js'
 
 export default class BasketAPI extends APIRepository {
   constructor() {
-    super('package', appApi)
+    super('basket', appApi, '/store/baskets', Basket)
     this.APIAdresses = {
       base: '/store/baskets',
       checkoutReview: '/store/baskets/checkout_review',
@@ -15,7 +15,8 @@ export default class BasketAPI extends APIRepository {
       setAddress: (id) => '/store/baskets/' + id + '/set_address',
       createInvoice: (id) => '/store/baskets/' + id + '/create_invoice',
       submitDiscountCode: (id) => '/store/baskets/' + id + '/submit_discount_code',
-      removeDiscountCode: (id) => '/store/baskets/' + id + '/remove_discount_code'
+      removeDiscountCode: (id) => '/store/baskets/' + id + '/remove_discount_code',
+      exportBasketReport: '/store/baskets/export_report'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base
@@ -199,6 +200,24 @@ export default class BasketAPI extends APIRepository {
       }, { owner }),
       resolveCallback: (response) => {
         return new Invoice(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  exportBasketReport(data) {
+    return this.sendRequest({
+      apiMethod: 'get',
+      api: this.api,
+      request: this.APIAdresses.exportBasketReport,
+      data: this.getNormalizedSendData({
+        report_type: null // String
+      }, data),
+      responseType: 'blob',
+      resolveCallback: (response) => {
+        return response.data // xlsxData
       },
       rejectCallback: (error) => {
         return error
