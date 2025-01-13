@@ -59,7 +59,7 @@ import ContentItem from './componetns/ContentItem.vue'
 import { mixinPrefetchServerData, mixinWidget } from 'src/mixin/Mixins.js'
 
 export default {
-  name: 'EventCarousel',
+  name: 'ContentCarousel',
   components: {
     ContentItem
   },
