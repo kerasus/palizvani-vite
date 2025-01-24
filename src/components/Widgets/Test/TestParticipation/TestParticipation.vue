@@ -103,7 +103,8 @@ export default {
       answerBook: new AnswerBook(),
       remainingTime: 0,
       timerInterval: null,
-      tabHiddenTime: null
+      tabHiddenTime: null,
+      lastIntervalTime: Date.now()
     }
   },
   computed: {
@@ -225,7 +226,21 @@ export default {
     },
     startTimer () {
       this.stopTimer()
+      this.lastIntervalTime = Date.now() // Initialize the last interval time
       this.timerInterval = setInterval(() => {
+        const now = Date.now()
+        const timeDiff = now - this.lastIntervalTime
+
+        // Check if more than 2 seconds have passed since the last interval
+        if (timeDiff > 2000) {
+          this.stopTimer()
+          this.getTestQuestions(true)
+        }
+
+        // Update the last interval time
+        this.lastIntervalTime = now
+
+        // Handle the timer logic
         if (this.remainingTime <= 0) {
           this.stopTimer()
           this.onTimeout()
@@ -234,6 +249,7 @@ export default {
           this.answerBook.remainingTime = this.remainingTime
           this.$store.commit('Test/updateAnswerBook', this.answerBook)
         }
+        this.tabHiddenTime = Date.now()
       }, 1000)
     },
     stopTimer () {
@@ -290,8 +306,9 @@ export default {
           this.stopTimer() // Stop the timer
           this.$q.notify({
             type: 'warning',
-            message: 'شما بیش از ۲ ثانیه از تب خارج شدید. تایمر متوقف شد.'
+            message: 'شما بیش از ۲ ثانیه از تب خارج شدید.'
           })
+          this.getTestQuestions(true)
         }
         this.tabHiddenTime = null // Reset the hidden time
       }
