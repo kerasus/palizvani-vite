@@ -38,8 +38,10 @@ import { APIGateway } from 'src/api/APIGateway.js'
 import { AnswerBook } from 'src/models/AnswerBook.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
+import FormBuilderFile from 'src/components/FormBuilderCustumComponents/FormBuilderFile.vue'
 
 const BtnControlComp = shallowRef(BtnControl)
+const FormBuilderFileComp = shallowRef(FormBuilderFile)
 
 export default {
   name: 'AllQuestions',
@@ -58,7 +60,7 @@ export default {
       inputs: [
         // { type: 'inputEditor', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
         // { type: 'input', name: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
-        { type: 'file', name: 'answer_attachment', label: 'فایل جامع پاسخ سوالات', placeholder: ' ', sendNull: true, col: 'col-9' },
+        { type: FormBuilderFileComp, name: 'answer_attachment', label: 'فایل جامع پاسخ سوالات', placeholder: ' ', sendNull: true, col: 'col-9' },
         { type: BtnControlComp, name: 'btnRemoveAnswerAttachment', label: 'حذف فایل پیوست', placeholder: ' ', atClick: () => {}, col: 'col-3 flex justify-center' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ثبت پاسخ جامع', placeholder: ' ', atClick: () => {}, col: 'col-12' }
       ]

@@ -102,7 +102,8 @@ export default {
       storeAnswerBook: null,
       answerBook: new AnswerBook(),
       remainingTime: 0,
-      timerInterval: null
+      timerInterval: null,
+      tabHiddenTime: null
     }
   },
   computed: {
@@ -138,9 +139,12 @@ export default {
     this.$bus.on('test-participate-all-question-sent-failed', () => {
       this.onAllQuestionsSentFailed()
     })
+
+    this.setupVisibilityChangeListener()
   },
   beforeUnmount() {
     this.stopTimer()
+    this.removeVisibilityChangeListener()
   },
   methods: {
     loadAnswerBookFromStore () {
@@ -238,6 +242,7 @@ export default {
       }
 
       clearInterval(this.timerInterval)
+      this.timerInterval = null
     },
     backToClassList () {
       this.$router.push({ name: 'UserPanel.Profile.AllClassrooms' })
@@ -267,6 +272,29 @@ export default {
           this.answerBook.loading = false
           this.backToClassList()
         })
+    },
+    setupVisibilityChangeListener () {
+      document.addEventListener('visibilitychange', this.handleVisibilityChange)
+    },
+    removeVisibilityChangeListener () {
+      document.removeEventListener('visibilitychange', this.handleVisibilityChange)
+    },
+    handleVisibilityChange () {
+      if (document.hidden) {
+        // Tab is hidden, record the time
+        this.tabHiddenTime = Date.now()
+      } else {
+        // Tab is visible again
+        if (this.tabHiddenTime && Date.now() - this.tabHiddenTime > 2000) {
+          // User was away for more than 2 seconds
+          this.stopTimer() // Stop the timer
+          this.$q.notify({
+            type: 'warning',
+            message: 'شما بیش از ۲ ثانیه از تب خارج شدید. تایمر متوقف شد.'
+          })
+        }
+        this.tabHiddenTime = null // Reset the hidden time
+      }
     }
   }
 }
