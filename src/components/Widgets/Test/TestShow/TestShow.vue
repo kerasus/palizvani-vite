@@ -129,16 +129,12 @@
 </template>
 
 <script>
-import { shallowRef } from 'vue'
 import Assist from 'src/assets/js/Assist.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { EntityShow, EntityEdit } from 'quasar-crud'
 import { AnswerBook } from 'src/models/AnswerBook.js'
 import { FormBuilderAssist } from 'quasar-form-builder'
-import FormBuilderFile from 'src/components/FormBuilderCustumComponents/FormBuilderFile.vue'
-
-const FormBuilderFileComp = shallowRef(FormBuilderFile)
 
 export default {
   name: 'TestShow',
@@ -149,7 +145,7 @@ export default {
       mounted: false,
       overallAnswerInput: [
         // { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
-        { type: FormBuilderFileComp, name: 'overall_answer_attachment', responseKey: 'overall_answer_attachment', label: 'فایل پیوست جامع', placeholder: ' ', col: 'col-12' }
+        { type: 'file', name: 'overall_answer_attachment', responseKey: 'overall_answer_attachment', label: 'فایل پیوست جامع', placeholder: ' ', col: 'col-12' }
       ],
       questionInput: [
         { type: 'input', name: 'answer_text', responseKey: 'answer_text', label: 'متن پاسخ', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
