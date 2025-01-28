@@ -73,7 +73,7 @@ export default {
   props: {
     value: {
       default: () => [],
-      type: [Array, String, Number, Boolean]
+      type: [Array, String, Number, Boolean, MediaList]
     },
     disable: {
       default: false,
