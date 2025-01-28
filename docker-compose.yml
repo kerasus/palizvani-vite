@@ -1,17 +1,47 @@
-version: "3.3"
+version: "3.8"
+
 services:
-  nextjs:
-    build: ./
-    network_mode: "host"
-    restart: "always"
-  nginx:
-    build: ./nginx
-    network_mode: "host"
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - nextjs
-#    ports:
-#      - "8081:80"
-#    ports:
-#      - "${NGINX_PORT}:80"
+  palizvani-front-containter3000:
+    image: palizvani-front-image:latest
+    environment:
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    container_name: palizvani-front-containter3000_container
+    restart: always
+
+  palizvani-front-containter3001:
+    image: palizvani-front-image:latest
+    environment:
+      - PORT=3001
+    ports:
+      - "3001:3001"
+    container_name: palizvani-front-containter3001_container
+    restart: always
+
+  palizvani-front-containter3002:
+    image: palizvani-front-image:latest
+    environment:
+      - PORT=3002
+    ports:
+      - "3002:3002"
+    container_name: palizvani-front-containter3002_container
+    restart: always
+
+  palizvani-front-containter3003:
+    image: palizvani-front-image:latest
+    environment:
+      - PORT=3003
+    ports:
+      - "3003:3003"
+    container_name: palizvani-front-containter3003_container
+    restart: always
+
+  palizvani-front-containter3004:
+    image: palizvani-front-image:latest
+    environment:
+      - PORT=3004
+    ports:
+      - "3004:3004"
+    container_name: palizvani-front-containter3004_container
+    restart: always
