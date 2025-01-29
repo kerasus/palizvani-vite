@@ -114,7 +114,7 @@
                          :show-reload-button="false" />
           </template>
           <q-separator class="q-my-lg" />
-          <entity-create v-if="mounted"
+          <entity-create v-if="classroomDataLoaded"
                          ref="entityCreateSubmitAttendanceStatus"
                          v-model:value="submitAttendanceStatusInputs"
                          :api="submitAttendanceStatusApi"
@@ -160,6 +160,7 @@ export default {
     const userId = parseInt(this.$route.params.user_id)
     const sessionId = parseInt(this.$route.params.session_id)
     return {
+      classroomDataLoaded: false,
       entityShowLoading: false,
       classroom: new Classroom(),
       session: new Session(),
@@ -386,6 +387,7 @@ export default {
           // this.updateAttendanceInputs(this.session.is_defined_syllabus, this.classroom.holding_type)
           this.updateAttendanceInputs(this.session.is_show_syllabus_input, this.session.is_show_present_listen_input, this.classroom.holding_type)
           this.updateAttendanceInputsValues()
+          this.classroomDataLoaded = true
         })
         .catch(() => {
           this.classroom.loading = false
