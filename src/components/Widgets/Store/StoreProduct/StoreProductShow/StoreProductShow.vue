@@ -73,7 +73,7 @@
         </div>
         <div class="product-show__summery-price-action">
           <template v-if="!product.is_add_to_basket_disabled">
-            <q-btn v-if="!basketItem && product.inventory > 0"
+            <q-btn v-if="!basketItem && (product.inventory > 0 || product.inventory ===-1)"
                    class="product-btn-add-to-cart"
                    :loading="addToCartLoading"
                    color="primary"
