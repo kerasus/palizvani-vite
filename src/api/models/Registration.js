@@ -62,7 +62,9 @@ export default class RegistrationAPI extends APIRepository {
       data: this.getNormalizedSendData({
         classroom: null, // Number
         type: null, // String
-        status: null // String
+        status: null, // String
+        owner__national_code: null, // Number
+        invoice__status: null // Number
       }, data),
       responseType: 'blob',
       resolveCallback: (response) => {
