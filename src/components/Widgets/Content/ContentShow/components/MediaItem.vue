@@ -12,7 +12,6 @@
         </template>
         <template v-else>
           <q-icon name="file_download" />
-          دانلود
         </template>
       </q-btn>
     </div>
@@ -56,7 +55,7 @@ export default {
   background: #F9F9F9;
   border: 1px solid #DFE1EC;
   border-radius: 10px;
-  padding: 10px 16px 10px 21px;
+  padding: 8px 4px 8px 4px;
   display: flex;
   flex-flow: row;
   justify-content: space-between;

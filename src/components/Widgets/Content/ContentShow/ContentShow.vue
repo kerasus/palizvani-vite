@@ -434,7 +434,7 @@ export default {
     background: #FFFFFF;
     border: 1px solid #DFE1EC;
     border-radius: 8px;
-    padding: 36px 46px;
+    padding: 8px 8px;
   }
 }
 </style>
