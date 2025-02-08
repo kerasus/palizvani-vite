@@ -72,5 +72,10 @@ export default {
     .q-btn {
     }
   }
+  @media screen and (min-width: 600px) {
+    & {
+      padding: 24px 48px 24px 48px;
+    }
+  }
 }
 </style>

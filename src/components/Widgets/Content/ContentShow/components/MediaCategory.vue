@@ -8,7 +8,7 @@
     <div class="media-list row q-col-gutter-md">
       <div v-for="media in medias.list"
            :key="media.id"
-           class="media-item col-md-6 col-sm-6 col-12">
+           class="media-item col-md-6 col-sm-12 col-12">
         <media-item :media="media"
                     :media-type="mediaType"
                     @onView="onView(media)" />
