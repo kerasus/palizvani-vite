@@ -34,11 +34,32 @@
       </div>
     </template>
   </entity-show>
+  <entity-edit v-if="mounted"
+               ref="entityEdit"
+               v-model:value="editInputs"
+               title="توضیحات تصحیح"
+               :api="api"
+               :show-close-button="false"
+               :show-edit-button="false"
+               :show-expand-button="false"
+               :show-save-button="false"
+               :show-index-button="false"
+               :show-reload-button="false"
+               :after-load-input-data="afterLoadInputData">
+    <template #after-form-builder>
+      <div class="flex justify-end q-mt-md">
+        <q-btn color="primary"
+               label="ثبت توضیحات"
+               :loading="loading"
+               @click="saveNotation" />
+      </div>
+    </template>
+  </entity-edit>
 </template>
 
 <script>
 import { shallowRef } from 'vue'
-import { EntityShow } from 'quasar-crud'
+import { EntityShow, EntityEdit } from 'quasar-crud'
 import { Project } from 'src/models/Project.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { ProjectAttendanceSheets } from 'src/models/ProjectAttendanceSheets.js'
@@ -49,7 +70,8 @@ const ContentsSelectorComp = shallowRef(ContentsSelector)
 export default {
   name: 'AdminProjectAttendanceSheetShow',
   components: {
-    EntityShow
+    EntityShow,
+    EntityEdit
   },
   data () {
     // const projectId = this.$route.params.project_id
@@ -101,7 +123,11 @@ export default {
         { type: 'separator', name: 'space', size: '0', col: 'col-md-12' },
 
         { type: ContentsSelectorComp, name: 'project_info.contents_info', responseKey: 'project_info.contents_info', col: 'col-12' },
-        { type: 'inputEditor', name: 'project_info.correct_answer', responseKey: 'project_info.correct_answer', label: 'پاسخ صحیح', placeholder: ' ', col: 'col-12' }
+        { type: 'inputEditor', name: 'project_info.correct_answer', responseKey: 'project_info.correct_answer', label: 'پاسخ صحیح', placeholder: ' ', col: 'col-12' },
+        { type: 'inputEditor', name: 'notation', responseKey: 'notation', label: 'توضیحات تصحیح کننده', placeholder: ' ', col: 'col-12' }
+      ],
+      editInputs: [
+        { type: 'inputEditor', name: 'notation', responseKey: 'notation', label: 'توضیحات تصحیح کننده', placeholder: ' ', col: 'col-12' }
       ]
     }
   },
