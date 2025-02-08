@@ -27,7 +27,7 @@
                  outline
                  color="primary"
                  label="بررسی"
-                 :to="{name: sessionAttendanceSheetList, params: {classroom_id: classroomId, session_id: inputData.props.row.id}}"
+                 :to="{name: sessionAttendanceSheetList, params: {classroom_id: classroomId, session_id: inputData.props.row.id}, query: { session_number: inputData.rowNumber }}"
                  class="q-mr-md" />
           <q-btn size="md"
                  color="primary"

@@ -285,7 +285,8 @@ export default {
         registration__status: status
       })
         .then((xlsxData) => {
-          Assist.saveXlsx(xlsxData, this.classroom.title)
+          const title = `جلسه  ${this.$route.query.session_number} - ${this.classroom.title}`
+          Assist.saveXlsx(xlsxData, title)
           this.exportReportLoading = false
         })
         .catch((e) => {
