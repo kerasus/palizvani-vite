@@ -10,7 +10,8 @@ export default class ProjectAttendanceSheetsAPI extends APIRepository {
       project_sheets: '/lma/project_attendance_sheets/project_sheets',
       byId: (id) => '/lma/project_attendance_sheets/' + id,
       verify: (id) => '/lma/project_attendance_sheets/' + id + '/verify',
-      notVerify: (id) => '/lma/project_attendance_sheets/' + id + '/not_verify'
+      notVerify: (id) => '/lma/project_attendance_sheets/' + id + '/not_verify',
+      saveNotation: (id) => '/lma/project_attendance_sheets/' + id + '/save_notation'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -103,6 +104,23 @@ export default class ProjectAttendanceSheetsAPI extends APIRepository {
       apiMethod: 'put',
       api: this.api,
       request: this.APIAdresses.notVerify(projectAttendanceSheetsId),
+      resolveCallback: (response) => {
+        return new ProjectAttendanceSheets(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  saveNotation (projectAttendanceSheetsId, notation) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.saveNotation(projectAttendanceSheetsId),
+      data: {
+        notation
+      },
       resolveCallback: (response) => {
         return new ProjectAttendanceSheets(response.data)
       },

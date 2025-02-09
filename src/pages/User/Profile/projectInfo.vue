@@ -114,7 +114,9 @@ export default {
       attendanceSheetsShowInputs: [
         { type: 'separator', name: 'space', label: 'انجام پروژه', className: 'custom-separator', col: 'col-12' },
         { type: 'inputEditor', name: 'answer_text', responseKey: 'answer_text', label: 'متن پاسخ', placeholder: ' ', col: 'col-12' },
-        { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' }
+        { type: 'file', name: 'answer_attachment', responseKey: 'answer_attachment', label: 'فایل ضمیمه', placeholder: ' ', col: 'col-md-4 col-12' },
+        { type: 'separator', name: 'space', label: 'توضیحات مصحح', className: 'custom-separator', col: 'col-12' },
+        { type: 'inputEditor', name: 'notation', responseKey: 'notation', label: '', placeholder: ' ', col: 'col-12' }
       ]
     }
   },
