@@ -99,7 +99,7 @@ export default {
       exportReportLoading: false,
       membersListInputs: [
         { type: 'hidden', name: 'classroom', value: classroomId },
-        { type: 'input', name: 'owner__national_code', label: 'کد ملی۲', placeholder: ' ', col: 'col-md-3 col-12' },
+        { type: 'input', name: 'owner__national_code', label: 'کد ملی', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'status', options: (new Registration()).statusEnums, label: 'وضعیت', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: 'select', name: 'invoice__status', options: (new Invoice()).statusEnums, label: 'نوع صورتحساب', placeholder: ' ', col: 'col-md-3 col-12' },
         { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
