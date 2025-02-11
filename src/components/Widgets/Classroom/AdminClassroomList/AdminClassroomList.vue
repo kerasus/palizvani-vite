@@ -79,6 +79,15 @@ export default {
       inputs: [
         {
           type: 'select',
+          name: 'unit__category',
+          options: [],
+          value: null,
+          label: 'گروه آموزشی',
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'select',
           name: 'unit',
           options: [],
           value: null,
@@ -97,24 +106,6 @@ export default {
         },
         {
           type: 'select',
-          name: 'unit__category',
-          options: [],
-          value: null,
-          label: 'گروه آموزشی',
-          placeholder: ' ',
-          col: 'col-md-3 col-12'
-        },
-        {
-          type: 'select',
-          name: 'classroomStatus',
-          options: Enums.classroomStatuses.filter(item => item.showInUserFilters),
-          value: null,
-          label: 'وضعیت دوره',
-          placeholder: ' ',
-          col: 'col-md-3 col-12'
-        },
-        {
-          type: 'select',
           name: 'holding_type',
           options: (new Classroom()).holding_typeEnums,
           value: null,
@@ -127,7 +118,7 @@ export default {
           name: 'professor',
           options: [],
           value: null,
-          label: 'استاد',
+          label: 'professor',
           placeholder: ' ',
           col: 'col-md-3 col-12'
         },
@@ -251,6 +242,14 @@ export default {
         return 'Admin.Event.Show'
       }
       return 'Admin.Classroom.Show'
+    },
+    selectedUnitCategoryType () {
+      return FormBuilderAssist.getInputsByName(this.inputs, 'unit__category')?.value
+    }
+  },
+  watch: {
+    selectedUnitCategoryType () {
+      this.getUnits()
     }
   },
   mounted () {
@@ -263,8 +262,12 @@ export default {
   methods: {
     setClassroomTypeOfInputs () {
       FormBuilderAssist.setAttributeByName(this.inputs, 'status', 'label', 'وضعیت ' + this.classroomTypeTitle)
+      FormBuilderAssist.setAttributeByName(this.inputs, 'professor', 'label', (this.localOptions.classroomType === 'TRAINING') ? 'استاد' : 'برگزار کننده')
       FormBuilderAssist.setAttributeByName(this.inputs, 'unit', 'label', this.getUnitFilterTitle())
       FormBuilderAssist.setAttributeByName(this.inputs, 'unit__category__type', 'value', this.localOptions.classroomType)
+      if (this.localOptions.classroomType !== 'TRAINING') {
+        this.inputs = this.inputs.filter(input => input.name !== 'unit__category')
+      }
       this.table.columns.forEach(col => {
         if (col.name === 'title') {
           col.label = 'نام ' + this.classroomTypeTitle
@@ -278,7 +281,12 @@ export default {
       this.$refs.entityIndex.search()
     },
     getUnits () {
-      APIGateway.unit.index({ per_page: 9999, category__type: this.localOptions.classroomType })
+      const category = this.selectedUnitCategoryType
+      APIGateway.unit.index({
+        per_page: 9999,
+        category__type: this.localOptions.classroomType,
+        category
+      })
         .then((units) => {
           this.loadSelectOptions('unit', this.getSelectOptions(units.list.list, 'id', 'title'))
         })
