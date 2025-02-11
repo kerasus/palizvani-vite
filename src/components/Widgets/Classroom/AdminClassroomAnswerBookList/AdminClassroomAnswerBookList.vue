@@ -240,6 +240,13 @@ export default {
           align: 'left',
           field: row => row.grader_info ? row.grader_info.firstname + ' ' + row.grader_info.lastname : '-'
         },
+        {
+          name: 'grader_info',
+          required: true,
+          label: 'زمان تصحیح',
+          align: 'left',
+          field: row => row.grading_time ? this.toShamsi(row.grading_time) : '-'
+        },
         // {
         //   name: 'last_modification_time',
         //   required: true,
