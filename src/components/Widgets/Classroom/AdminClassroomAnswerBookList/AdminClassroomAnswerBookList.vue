@@ -124,7 +124,7 @@ export default {
           type: 'select',
           name: 'status',
           options: [
-            { label: 'جاری', value: 'WAITING_FOR_GRADING' },
+            { label: 'در انتظار تصحیح', value: 'WAITING_FOR_GRADING' },
             { label: 'در حال تصحیح', value: 'GRADING' },
             { label: 'تصحیح شده', value: 'GRADED' },
             {
@@ -138,6 +138,10 @@ export default {
             {
               label: 'اعتراض شده',
               value: 'OBJECTED'
+            },
+            {
+              label: 'پاسخ اعتراض',
+              value: 'OBJECTION_RESPONDED'
             }
           ],
           label: 'وضعیت',

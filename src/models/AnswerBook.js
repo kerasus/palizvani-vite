@@ -83,11 +83,11 @@ class AnswerBook extends Model {
             value: 'CREATED'
           },
           {
-            label: 'ارسال نشده',
+            label: 'در انتظار اتمام آزمون',
             value: 'FETCHED'
           },
           {
-            label: 'ارسال شده',
+            label: 'در انتظار تصحیح',
             value: 'SUBMITTED'
           },
           {
@@ -113,6 +113,19 @@ class AnswerBook extends Model {
         ]
       }
     })
+    // ذخیره مقدار اولیه‌ی status
+    this._originalStatus = this.status
+  }
+
+  get status() {
+    if (this._originalStatus === 'FETCHED' && this.test_info.status !== 'HOLDING') {
+      return 'SUBMITTED'
+    }
+    return this._originalStatus
+  }
+
+  set status(value) {
+    this._originalStatus = value
   }
 }
 
