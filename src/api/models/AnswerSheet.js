@@ -9,7 +9,8 @@ export default class AnswerSheetAPI extends APIRepository {
       base: '/lma/answer_sheets',
       byId: (id) => '/lma/answer_sheets/' + id,
       getTestQuestions: (id) => '/lma/answer_sheets/' + id + '/get_test_questions',
-      submitOverallAnswer: (id) => '/lma/answer_sheets/' + id + '/submit_overall_answer'
+      submitOverallAnswer: (id) => '/lma/answer_sheets/' + id + '/submit_overall_answer',
+      submitScore: (id) => '/lma/answer_sheets/' + id + '/submit_score'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,
@@ -92,7 +93,7 @@ export default class AnswerSheetAPI extends APIRepository {
     return this.sendRequest({
       apiMethod: 'put',
       api: this.api,
-      request: this.APIAdresses.byId(answerSheetsId),
+      request: this.APIAdresses.submitScore(answerSheetsId),
       data: {
         score
       },
