@@ -36,6 +36,13 @@
                    :loading="test.loading" />
         </q-td>
       </template>
+      <template #body-cell-order="props">
+        <q-td auto-width>
+          <q-input v-model="props.row.order"
+                   style="width: 80px;"
+                   :loading="test.loading" />
+        </q-td>
+      </template>
       <template #body-cell-is_extra_mark="props">
         <q-td auto-width>
           <q-toggle v-model="props.row.is_extra_mark"
@@ -58,7 +65,7 @@
                  size="sm"
                  outline
                  @click="editTestQuestion(props.row)">
-            ویرایش نمره و حالت امتیازی سوال
+            ثبت نمره و ترتیب و حالت امتیازی
           </q-btn>
           <q-btn color="red"
                  class="q-mr-md"
@@ -268,6 +275,13 @@ export default {
           label: 'شماره',
           align: 'left',
           field: () => ''
+        },
+        {
+          name: 'order',
+          required: true,
+          label: 'ترتیب',
+          align: 'left',
+          field: row => row.order ? row.order : '-'
         },
         {
           name: 'id',

@@ -97,7 +97,8 @@ export default class TestAPI extends APIRepository {
       request: this.APIAdresses.testQuestionById(data.id),
       data: {
         mark: data.mark,
-        is_extra_mark: data.is_extra_mark
+        is_extra_mark: data.is_extra_mark,
+        order: data.order
       },
       resolveCallback: () => {
         return null
