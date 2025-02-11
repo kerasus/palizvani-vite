@@ -113,6 +113,9 @@ export default {
           value: item.id
         }
       })
+      if (this.categoryType === 'content') {
+        this.$emit('update:value', newValue.value)
+      }
     },
     subCategory (newValue) {
       this.bakhshCategory = null
@@ -128,6 +131,9 @@ export default {
           value: item.id
         }
       })
+      if (this.categoryType === 'content') {
+        this.$emit('update:value', newValue.value)
+      }
     },
     bakhshCategory (newValue) {
       const categoryId = newValue ? newValue.value : null
@@ -138,23 +144,60 @@ export default {
     this.getCategories()
   },
   methods: {
-    setMainCategory (category) {
-      if (!category?.parent?.parent?.id) {
+    setMainCategory (category, categoryType = 'bakhshCategory') {
+      if (categoryType === 'bakhshCategory' && !category?.parent?.parent?.id) {
         return
       }
-      this.mainCategory = this.mainCategoryOptions.find(item => item.value === category.parent.parent.id)
+      if (categoryType === 'subCategory' && !category?.parent?.id) {
+        return
+      }
+      if (categoryType === 'mainCategory' && !category?.id) {
+        return
+      }
+      this.mainCategory = this.mainCategoryOptions.find(item => (
+        (categoryType === 'bakhshCategory' && item.value === category.parent.parent.id) ||
+        (categoryType === 'subCategory' && item.value === category.parent.id) ||
+        (categoryType === 'mainCategory' && item.value === category.id)
+      ))
     },
-    setSubCategory (category) {
-      if (!category?.parent?.id) {
+    setSubCategory (category, categoryType = 'bakhshCategory') {
+      if (categoryType === 'bakhshCategory' && !category?.parent?.id) {
         return
       }
-      this.subCategory = this.subCategoryOptions.find(item => item.value === category.parent.id)
+      if (categoryType === 'subCategory' && !category?.id) {
+        return
+      }
+      this.subCategory = this.subCategoryOptions.find(item => (
+        (categoryType === 'bakhshCategory' && item.value === category.parent.id) ||
+        (categoryType === 'subCategory' && item.value === category.id)
+      ))
     },
     setBakhshCategory (category) {
       if (!category?.id) {
         return
       }
       this.bakhshCategory = this.bakhshCategoryOptions.find(item => item.value === category.id)
+    },
+    setMainAndSubAndBakshCategory (category) {
+      this.$nextTick(() => {
+        this.setMainCategory(category)
+        this.$nextTick(() => {
+          this.setSubCategory(category)
+          this.$nextTick(() => {
+            this.setBakhshCategory(category)
+            this.$emit('update:value', category.id)
+          })
+        })
+      })
+    },
+    setMainAndSubCategory (category) {
+      this.$nextTick(() => {
+        this.setMainCategory(category, 'subCategory')
+        this.$nextTick(() => {
+          this.setSubCategory(category, 'subCategory')
+          this.$emit('update:value', category.id)
+        })
+      })
     },
     getCategories () {
       this.categories.laoding = true
@@ -188,17 +231,15 @@ export default {
           })
 
           if (this.value?.parent?.parent?.id && this.value?.id) {
-            const category = this.value
-            this.$nextTick(() => {
-              this.setMainCategory(category)
-              this.$nextTick(() => {
-                this.setSubCategory(category)
-                this.$nextTick(() => {
-                  this.setBakhshCategory(category)
-                  this.$emit('update:value', category.id)
-                })
-              })
-            })
+            this.setMainAndSubAndBakshCategory(this.value)
+          }
+
+          if (this.categoryType === 'content') {
+            if (!this.value?.parent?.parent?.id && this.value?.parent?.id && this.value?.id) {
+              this.setMainAndSubCategory(this.value)
+            } else if (!this.value?.parent?.parent?.id && !this.value?.parent?.id && this.value?.id) {
+              this.setMainCategory(this.value, 'mainCategory')
+            }
           }
         })
         .catch(() => {
@@ -206,7 +247,6 @@ export default {
         })
     }
   }
-
 }
 </script>
 

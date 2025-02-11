@@ -58,6 +58,7 @@ import Enums from 'src/assets/Enums/Enums.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
+import { Classroom } from 'src/models/Classroom.js'
 import BtnControl from 'src/components/Control/btn.vue'
 import { FormBuilderAssist } from 'quasar-form-builder'
 import { UnitCategory } from 'src/models/UnitCategory.js'
@@ -83,7 +84,7 @@ export default {
           value: null,
           label: 'unit',
           placeholder: ' ',
-          col: 'col-md-2 col-12'
+          col: 'col-md-3 col-12'
         },
         {
           type: 'select',
@@ -92,10 +93,46 @@ export default {
           value: null,
           label: 'وضعیت ',
           placeholder: ' ',
-          col: 'col-md-2 col-12'
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'select',
+          name: 'unit__category',
+          options: [],
+          value: null,
+          label: 'گروه آموزشی',
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'select',
+          name: 'classroomStatus',
+          options: Enums.classroomStatuses.filter(item => item.showInUserFilters),
+          value: null,
+          label: 'وضعیت دوره',
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'select',
+          name: 'holding_type',
+          options: (new Classroom()).holding_typeEnums,
+          value: null,
+          label: 'نوع برگزاری',
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
+        },
+        {
+          type: 'select',
+          name: 'professor',
+          options: [],
+          value: null,
+          label: 'استاد',
+          placeholder: ' ',
+          col: 'col-md-3 col-12'
         },
         { type: 'hidden', name: 'unit__category__type', value: null },
-        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: () => {}, col: 'col-md-2 col-12' }
+        { type: BtnControlComp, name: 'btn', label: 'جستجو', placeholder: ' ', atClick: this.search, col: 'col-md-2 col-12' }
       ],
       defaultOptions: {
         classroomType: 'TRAINING'
@@ -217,8 +254,9 @@ export default {
     }
   },
   mounted () {
-    this.setActionBtn()
     this.getUnits()
+    this.getProfessors()
+    this.getUnitCategories()
     this.setClassroomTypeOfInputs()
     this.mounted = true
   },
@@ -236,9 +274,6 @@ export default {
         }
       })
     },
-    setActionBtn () {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'btn', 'atClick', this.search)
-    },
     search () {
       this.$refs.entityIndex.search()
     },
@@ -250,6 +285,29 @@ export default {
         .catch(() => {
 
         })
+    },
+    getUnitCategories () {
+      APIGateway.unitCategory.index({
+        type: this.localOptions.classroomType
+      })
+        .then(unitCategoryList => {
+          this.loadSelectOptions('unit__category', this.getSelectOptions(unitCategoryList.list.list, 'id', 'title'))
+        })
+    },
+    getProfessors () {
+      APIGateway.user.professors({ per_page: 9999 })
+        .then(({ list }) => {
+          const professors = list.list.map(item => {
+            return {
+              value: item.id,
+              label: this.getUserFullname(item)
+            }
+          })
+          this.loadSelectOptions('professor', this.getSelectOptions(professors, 'value', 'label'))
+        })
+    },
+    getUserFullname (user) {
+      return user.firstname + ' ' + user.lastname
     },
     loadSelectOptions (name, value) {
       const inputIndex = this.inputs.findIndex(input => input.name === name)
