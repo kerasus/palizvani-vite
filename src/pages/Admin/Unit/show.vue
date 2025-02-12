@@ -21,6 +21,8 @@
              label="لیست جلسات" />
       <q-tab name="quiz"
              label="آزمون" />
+      <q-tab name="transcriptSheetHistory"
+             label="تاریخچه کارنامه" />
     </q-tabs>
     <q-separator />
     <q-tab-panels v-if="mounted"
@@ -134,6 +136,45 @@
           </template>
         </entity-index>
       </q-tab-panel>
+      <q-tab-panel name="transcriptSheetHistory"
+                   class="q-pa-none">
+        <entity-index v-if="mounted"
+                      ref="transcriptSheetHistoryEntityIndex"
+                      v-model:value="transcriptSheetHistoryFilterInputs"
+                      title="لیست نمرات"
+                      :api="transcriptSheetHistoryApi"
+                      :table="transcriptSheetHistoryTable"
+                      :table-keys="transcriptSheetHistoryTableKeys"
+                      :show-reload-button="false"
+                      :show-search-button="false"
+                      :show-expand-button="false">
+          <template #toolbar>
+            <div class="flex justify-end">
+              <q-btn color="primary"
+                     outline
+                     label="افزودن نمره"
+                     :loading="newTranscriptSheetHistoryLoading"
+                     :to="{name: 'Admin.Unit.TranscriptSheetHistory.Create', params: {unit_id: $route.params.id}}" />
+            </div>
+          </template>
+          <template #entity-index-table-cell="{inputData, showConfirmRemoveDialog}">
+            <template v-if="inputData.col.name === 'actions'">
+              <div class="q-gutter-md">
+                <div class="action-column-entity-index">
+                  <q-btn size="md"
+                         color="primary"
+                         label="تعیین جزییات"
+                         :to="{name: 'Admin.Unit.TranscriptSheetHistory.Show', params: {id: inputData.props.row.id}}" />
+                  <delete-btn @click="showConfirmRemoveDialog(inputData.props.row, 'id', getRemoveMessage(inputData.props.row))" />
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              {{ inputData.col.value }}
+            </template>
+          </template>
+        </entity-index>
+      </q-tab-panel>
     </q-tab-panels>
   </q-card>
 </template>
@@ -162,6 +203,7 @@ export default {
     return {
       tab: 'UnitInfo',
       mounted: false,
+      newTranscriptSheetHistoryLoading: false,
       newSessionLoading: false,
       newSessionName: '-',
       newSessionSessionCount: null,
@@ -288,6 +330,65 @@ export default {
         { type: 'hidden', name: 'unit', value: this.$route.params.id }
       ],
       testTableKeys: {
+        data: 'results',
+        total: 'count',
+        currentPage: 'current',
+        perPage: 'per_page',
+        pageKey: 'page'
+      },
+
+      transcriptSheetHistoryApi: APIGateway.transcriptSheetHistory.APIAdresses.base,
+      transcriptSheetHistoryTable: {
+        columns: [
+          {
+            name: 'id',
+            required: true,
+            label: 'شناسه',
+            align: 'left',
+            field: row => row.id
+          },
+          {
+            name: 'national_code',
+            required: true,
+            label: 'کد ملی',
+            align: 'left',
+            field: row => row.national_code
+          },
+          {
+            name: 'score',
+            required: true,
+            label: 'نمره',
+            align: 'left',
+            field: row => row.score
+          },
+          {
+            name: 'creation_time',
+            required: true,
+            label: 'تاریخ ایجاد',
+            align: 'left',
+            field: row => ShamsiDate.getDateTime(row.creation_time)
+          },
+          {
+            name: 'last_modification_time',
+            required: true,
+            label: 'تاریخ آخرین تغییر',
+            align: 'left',
+            field: row => ShamsiDate.getDateTime(row.last_modification_time)
+          },
+          {
+            name: 'actions',
+            required: true,
+            label: 'عملیات',
+            align: 'left',
+            field: ''
+          }
+        ],
+        data: []
+      },
+      transcriptSheetHistoryFilterInputs: [
+        { type: 'hidden', name: 'unit', value: this.$route.params.id }
+      ],
+      transcriptSheetHistoryTableKeys: {
         data: 'results',
         total: 'count',
         currentPage: 'current',

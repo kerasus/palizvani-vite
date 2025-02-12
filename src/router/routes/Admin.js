@@ -85,6 +85,15 @@ export default {
             { name: 'Admin.Unit.TestSet.Show', path: ':id', component: () => import('src/pages/Admin/TestSet/Show.vue') },
             { name: 'Admin.Unit.TestSet.Create', path: 'create', component: () => import('src/pages/Admin/TestSet/Create.vue') }
           ]
+        },
+        {
+          name: 'Admin.Unit.TranscriptSheetHistory',
+          path: ':unit_id/transcript_sheet_history',
+          component: () => import('src/layouts/bareLayout.vue'),
+          children: [
+            { name: 'Admin.Unit.TranscriptSheetHistory.Show', path: ':id', component: () => import('src/pages/Admin/TranscriptSheetHistory/Show.vue') },
+            { name: 'Admin.Unit.TranscriptSheetHistory.Create', path: 'create', component: () => import('src/pages/Admin/TranscriptSheetHistory/Create.vue') }
+          ]
         }
       ]
     },
