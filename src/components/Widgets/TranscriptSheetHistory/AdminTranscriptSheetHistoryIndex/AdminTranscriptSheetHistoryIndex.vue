@@ -45,12 +45,10 @@
 
 <script>
 import { EntityIndex } from 'quasar-crud'
-import { TranscriptSheetHistory } from 'src/models/TranscriptSheetHistory.js'
 import ShamsiDate from 'src/assets/ShamsiDate.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { mixinAuthData } from 'src/mixin/Mixins.js'
-import { FormBuilderAssist } from 'quasar-form-builder'
 
 export default {
   name: 'TranscriptSheetHistoryShow',
@@ -67,7 +65,7 @@ export default {
       dropClassroomByAdminLoading: false,
       exportReportLoading: false,
       transcriptSheetHistoryListInputs: [
-        { type: 'hidden', name: 'unit', value: this.$route.params.unit_id },
+        { type: 'hidden', name: 'unit', value: this.$route.params.unit_id }
       ],
       transcriptSheetHistoryListApi: APIGateway.transcriptSheetHistory.APIAdresses.base,
       transcriptSheetHistoryListTable: {
