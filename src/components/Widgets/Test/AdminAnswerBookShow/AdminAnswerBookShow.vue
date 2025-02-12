@@ -49,27 +49,20 @@
                 :key="answerSheetIndex"
                 clickable>
           <div class="row full-width q-col-gutter-md">
-            <div class="col-12"
-                 :class="{'col-md-10': $route.query.classroom_type !== 'EVENT'}">
+            <div class="col-md-10 col-12">
               <div v-html="'<span>' + (answerSheetIndex + 1) + ' - </span>' + answerSheet.test_question_info.question_info.text" />
               <q-card class="q-mt-sm">
-                <q-card-section v-if="Array.isArray(answerSheet.test_question_info.question_info.choices_info) && answerSheet.test_question_info.question_info.choices_info.length > 0">
-                  <div v-for="(choice, choiceIndex) in answerSheet.test_question_info.question_info.choices_info"
-                       :key="choiceIndex">
-                    <q-banner>
-                      <template v-slot:avatar>
-                        <q-icon :name="answerSheet.answer_choice_index === choiceIndex ? 'check_box' : 'check_box_outline_blank'"
-                                size="sm"
-                                color="primary" />
-                      </template>
-                      <div v-html="choice.text.replace(/\n/g, '<br>')" />
-                    </q-banner>
-                    <q-separator />
-                  </div>
-                </q-card-section>
-                <q-card-section v-else>
+                <q-card-section>
                   <div>
-                    متن پاسخ:
+                    پاسخ صحیح:
+                  </div>
+                  <div v-html="answerSheet.test_question_info.question_info.correct_answer" />
+                </q-card-section>
+              </q-card>
+              <q-card class="q-mt-sm">
+                <q-card-section>
+                  <div>
+                    متن پاسخ کاربر:
                   </div>
                   <div>
                     {{ answerSheet.answer_text }}
@@ -79,7 +72,7 @@
                     <q-btn outline
                            color="primary"
                            icon="attachment"
-                           label="فایل پیوست"
+                           label="فایل پیوست کاربر"
                            :href="answerSheet.answer_attachment"
                            target="_blank" />
                   </div>
@@ -91,7 +84,7 @@
               <q-badge v-if="answerSheet.score !== null">
                 {{ answerSheet.score }}
                 از
-                {{ answerSheet.test_question_info.question_info.mark }}
+                {{ answerSheet.test_question_info.mark }}
                 نمره
               </q-badge>
               <q-badge v-else>
@@ -165,6 +158,29 @@
         </div>
         <div v-html="answerBook.objection_result" />
       </template>
+      <q-banner>
+        <q-input v-model="answerBook.grader_description"
+                 type="textarea"
+                 label="توضیحات مصحح"
+                 :loading="graderDescriptionLoading" />
+        <q-btn color="primary"
+               label="ثبت توضیحات مصحح"
+               outline
+               class="full-width"
+               :loading="graderDescriptionLoading"
+               @click="submitGraderDescription" />
+      </q-banner>
+      <q-card-actions v-if="answerBook.status === 'GRADING'">
+        <q-btn color="primary"
+               class="q-mr-lg"
+               @click="confirmScores">
+          تایید نهایی نمرات
+        </q-btn>
+        <q-btn color="red"
+               @click="confirmUngradable">
+          نیاز به رفع مشکل
+        </q-btn>
+      </q-card-actions>
     </q-card>
     <div v-else>
       کمی صبر کنید...
@@ -186,6 +202,7 @@ export default {
   data () {
     return {
       mounted: false,
+      graderDescriptionLoading: false,
       overallAnswerInput: [
         // { type: 'input', name: 'overall_answer_text', responseKey: 'overall_answer_text', label: 'متن پاسخ جامع', placeholder: ' ', inputType: 'textarea', col: 'col-12' },
         { type: 'file', name: 'overall_answer_attachment', responseKey: 'overall_answer_attachment', label: 'فایل پیوست جامع', placeholder: ' ', col: 'col-12' }
@@ -255,6 +272,17 @@ export default {
           this.answerBook.loading = false
         })
     },
+    submitGraderDescription () {
+      this.graderDescriptionLoading = true
+      APIGateway.answerBook.submitGraderDescription(this.answerBook.id, this.answerBook.grader_description)
+        .then(() => {
+          this.graderDescriptionLoading = false
+          this.getAnswerBook()
+        })
+        .catch(() => {
+          this.graderDescriptionLoading = false
+        })
+    },
     submitScore (index) {
       this.scores[index].loading = true
       APIGateway.answerSheet.submitScore(this.scores[index].answerSheetId, this.scores[index].score)
@@ -274,6 +302,30 @@ export default {
           this.answerBook.loading = false
         })
         .catch(() => {
+          this.answerBook.loading = false
+        })
+    },
+    confirmScores () {
+      this.answerBook.loading = true
+      APIGateway.answerBook.confirmScores(this.$route.params.answer_book_id)
+        .then(() => {
+          this.getAnswerBook()
+          this.answerBook.loading = false
+        })
+        .catch(() => {
+          this.getAnswerBook()
+          this.answerBook.loading = false
+        })
+    },
+    confirmUngradable () {
+      this.answerBook.loading = true
+      APIGateway.answerBook.confirmUngradable(this.$route.params.answer_book_id)
+        .then(() => {
+          this.getAnswerBook()
+          this.answerBook.loading = false
+        })
+        .catch(() => {
+          this.getAnswerBook()
           this.answerBook.loading = false
         })
     }
