@@ -4,6 +4,13 @@
     <q-card v-if="!answerBook.loading && answerBook.id">
       <q-card-section class="flex justify-between">
         <div>{{ answerBook.test_info.title }}</div>
+        <q-btn v-if="!answerBook.loading && answerBook.status === 'OBJECTED' && answerBook.ticket"
+               outline
+               color="primary"
+               class="btn-need-installment"
+               :to="{name: 'UserPanel.Ticket.Show', params: {id: answerBook.ticket}}">
+          مشاهده اعتراض
+        </q-btn>
       </q-card-section>
       <q-separator />
       <q-banner>

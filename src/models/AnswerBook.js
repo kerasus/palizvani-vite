@@ -2,6 +2,7 @@ import { User } from 'src/models/User.js'
 import { Test } from 'src/models/Test.js'
 import { Collection, Model } from 'js-abstract-model'
 import { AnswerSheetList } from 'src/models/AnswerSheet.js'
+import { Ticket } from 'src/models/Ticket'
 
 class AnswerBook extends Model {
   constructor (data) {
@@ -37,6 +38,11 @@ class AnswerBook extends Model {
       { key: 'objection_request' },
       { key: 'objection_result' },
       { key: 'objection_time' },
+      { key: 'ticket' },
+      {
+        key: 'ticket_info',
+        relatedModel: Ticket
+      },
       {
         key: 'answer_sheet_info',
         relatedModel: AnswerSheetList
