@@ -590,6 +590,13 @@ export default {
             field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).attendance_status_info.label
           },
           {
+            name: 'attendance_score',
+            required: true,
+            label: 'نمره حضور و غیاب',
+            align: 'left',
+            field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).attendance_score
+          },
+          {
             name: 'action',
             required: true,
             label: 'جزییات',

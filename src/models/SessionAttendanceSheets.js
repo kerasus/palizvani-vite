@@ -36,7 +36,8 @@ class SessionAttendanceSheets extends Model {
       { key: 'session' },
       { key: 'session_info' },
       { key: 'assignment_status' },
-      { key: 'creation_time' }
+      { key: 'creation_time' },
+      { key: 'attendance_score' }
     ], {
       status: {
         infoKey: 'is_answer_verified_info',
