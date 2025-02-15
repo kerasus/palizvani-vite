@@ -17,12 +17,18 @@
       </q-btn>
     </template>
     <template #before-index-table>
-      <form-builder ref="formBuilder"
-                    v-model:value="enrollNewMembersInputs"
-                    :loading="enrollNewMembersLoading" />
-      <form-builder ref="formBuilder"
-                    v-model:value="registerNewMembersInputs"
-                    :loading="registerNewMembersLoading" />
+      <div class="row before-index-table">
+        <div class="right-side">
+          <form-builder ref="formBuilder"
+                        v-model:value="enrollNewMembersInputs"
+                        :loading="enrollNewMembersLoading" />
+        </div>
+        <div class="left-side">
+          <form-builder ref="formBuilder"
+                        v-model:value="registerNewMembersInputs"
+                        :loading="registerNewMembersLoading" />
+        </div>
+      </div>
     </template>
     <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'number'">
@@ -505,8 +511,16 @@ export default {
 </script>
 <style lang="scss">
 .before-index-table {
-  margin: 8px;
   display: flex;
   justify-content: flex-end;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.right-side {
+  margin-right: 4px;
+}
+
+.left-side {
+
 }
 </style>
