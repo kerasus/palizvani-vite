@@ -886,82 +886,81 @@ export default {
     this.$store.commit('Test/updateAnswerBook', null)
     this.getRegistrationInfo()
     this.mounted = true
-    console.log(this.classroom)
-    if (this.classroom.holding_type === 'OFFLINE') {
-      this.sessionsTable = {
-        columns: [
-          {
-            name: 'number',
-            required: true,
-            label: 'شماره',
-            align: 'left',
-            field: () => ''
-          },
-          {
-            name: 'id',
-            required: true,
-            label: 'شناسه',
-            align: 'left',
-            field: row => row.id
-          },
-          {
-            name: 'title',
-            required: true,
-            label: 'عنوان',
-            align: 'left',
-            field: row => row.title
-          },
-          {
-            name: 'title',
-            required: true,
-            label: 'زمان شروع',
-            align: 'left',
-            field: row => row.beginning_time ? ShamsiDate.getDateTime(row.beginning_time) : '-'
-          },
-          {
-            name: 'title',
-            required: true,
-            label: 'زمان پایان',
-            align: 'left',
-            field: row => row.ending_time ? ShamsiDate.getDateTime(row.ending_time) : '-'
-          },
-          {
-            name: 'assignment_status',
-            required: true,
-            label: 'وضعیت تکلیف',
-            align: 'left',
-            field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).assignment_status_info.label
-          },
-          {
-            name: 'attendance_status',
-            required: true,
-            label: 'وضعیت حضور و غیاب',
-            align: 'left',
-            field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).attendance_status_info.label
-          },
-          {
-            name: 'attendance_score',
-            required: true,
-            label: 'نمره حضور و غیاب',
-            align: 'left',
-            field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).attendance_score
-          },
-          {
-            name: 'action',
-            required: true,
-            label: 'جزییات',
-            align: 'left',
-            field: ''
-          }
-        ]
-      }
-    }
     FormBuilderAssist.setAttributeByName(this.testListInputs, 'owner', 'value', this.user.id)
   },
   methods: {
     onPageChanged (responseData) {
       this.totalAttendanceScore = responseData.data.results?.map(session => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(session))).attendance_score || 0) // گرفتن مقدار امتیاز حضور
         .reduce((sum, value) => sum + value, 0) // محاسبه مجموع
+      if (this.classroom.holding_type === 'OFFLINE') {
+        this.sessionsTable = {
+          columns: [
+            {
+              name: 'number',
+              required: true,
+              label: 'شماره',
+              align: 'left',
+              field: () => ''
+            },
+            {
+              name: 'id',
+              required: true,
+              label: 'شناسه',
+              align: 'left',
+              field: row => row.id
+            },
+            {
+              name: 'title',
+              required: true,
+              label: 'عنوان',
+              align: 'left',
+              field: row => row.title
+            },
+            {
+              name: 'title',
+              required: true,
+              label: 'زمان شروع',
+              align: 'left',
+              field: row => row.beginning_time ? ShamsiDate.getDateTime(row.beginning_time) : '-'
+            },
+            {
+              name: 'title',
+              required: true,
+              label: 'زمان پایان',
+              align: 'left',
+              field: row => row.ending_time ? ShamsiDate.getDateTime(row.ending_time) : '-'
+            },
+            {
+              name: 'assignment_status',
+              required: true,
+              label: 'وضعیت تکلیف',
+              align: 'left',
+              field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).assignment_status_info.label
+            },
+            {
+              name: 'attendance_status',
+              required: true,
+              label: 'وضعیت حضور و غیاب',
+              align: 'left',
+              field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).attendance_status_info.label
+            },
+            {
+              name: 'attendance_score',
+              required: true,
+              label: 'نمره حضور و غیاب',
+              align: 'left',
+              field: row => (new SessionAttendanceSheets(this.getCurrentUserAttendanceSheet(row))).attendance_score
+            },
+            {
+              name: 'action',
+              required: true,
+              label: 'جزییات',
+              align: 'left',
+              field: ''
+            }
+          ]
+        }
+      }
     },
     showParticipateTypeDialog (testId, answerBookId) {
       this.$store.commit('Test/updateAnswerBook', null)
