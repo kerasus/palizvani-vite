@@ -16,6 +16,14 @@
         خروجی اکسل
       </q-btn>
     </template>
+    <template #before-index-table>
+      <form-builder ref="formBuilder"
+                    v-model:value="enrollNewMembersInputs"
+                    :loading="enrollNewMembersLoading" />
+      <form-builder ref="formBuilder"
+                    v-model:value="registerNewMembersInputs"
+                    :loading="registerNewMembersLoading" />
+    </template>
     <template v-slot:entity-index-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'number'">
         {{ inputData.rowNumber }}
@@ -72,15 +80,18 @@ import { Invoice } from 'src/models/Invoice.js'
 import { APIGateway } from 'src/api/APIGateway.js'
 import { Classroom } from 'src/models/Classroom.js'
 import { Registration } from 'src/models/Registration.js'
-import { FormBuilderAssist } from 'quasar-form-builder'
+import { FormBuilder, FormBuilderAssist } from 'quasar-form-builder'
+import EntityInput from 'quasar-crud/src/components/Entity/Attachment/EntityInput.vue'
 import BtnControl from 'src/components/Control/btn.vue'
 
+const EntityInputComp = shallowRef(EntityInput)
 const BtnControlComp = shallowRef(BtnControl)
 
 export default {
   name: 'MembersList',
   components: {
-    EntityIndex
+    EntityIndex,
+    FormBuilder
   },
   props: {
     classroomId: {
@@ -92,6 +103,216 @@ export default {
     const classroomId = this.classroomId
     return {
       mounted: false,
+      enrollNewMembersLoading: false,
+
+      enrollNewMembersInputs: [
+        {
+          type: EntityInputComp,
+          name: 'enrollNewMembers',
+          selectionMode: 'multiple',
+          popUpButtonConfig: {
+            label: 'پیش ثبت نام مستقیم',
+            outline: true,
+            buttonColor: 'deep-purple',
+            buttonTextColor: 'white',
+            buttonBadgeColor: 'pink'
+          },
+          dialogConfirmButtonConfig: {
+            label: 'تایید',
+            buttonColor: 'deep-purple',
+            buttonTextColor: 'white',
+            buttonBadgeColor: 'pink'
+          },
+
+          apiAddress: APIGateway.user.APIAdresses.unenrolledUsersInClassroom,
+          tableTitle: 'لیست کل کاربران پیش ثبت نام نشده',
+          showTableItemsRouteName: 'Admin.BlockManagement.Show',
+          tableKeys: {
+            data: 'results',
+            total: 'count',
+            currentPage: 'current',
+            perPage: 'per_page',
+            pageKey: 'page'
+          },
+          table: {
+            columns: [
+              {
+                name: 'id',
+                required: true,
+                label: 'شناسه',
+                align: 'left',
+                field: row => row.id
+              },
+              {
+                name: 'fullname',
+                required: true,
+                label: 'نام و نام خانوادگی',
+                align: 'left',
+                field: row => row.firstname + ' ' + row.lastname
+              },
+              {
+                name: 'last_passed_unit_title',
+                required: true,
+                label: 'آخرین دوره',
+                align: 'left',
+                field: row => row.last_passed_unit_title
+              },
+              {
+                name: 'national_code',
+                required: true,
+                label: 'کد ملی',
+                align: 'left',
+                field: row => row.national_code
+              },
+              {
+                name: 'mobile_number',
+                required: true,
+                label: 'شماره همراه',
+                align: 'left',
+                field: row => row.mobile_number
+              },
+              {
+                name: 'last_academy_name',
+                required: true,
+                label: 'دانشگاه',
+                align: 'left',
+                field: row => row.last_academy_name
+              },
+              {
+                name: 'living_city',
+                required: true,
+                label: 'شهر',
+                align: 'left',
+                field: row => row.living_city
+              }
+            ]
+          },
+          inputs: [
+            { type: 'input', name: 'id', value: null, label: 'شناسه', placeholder: ' ', col: 'col-md-4 col-12' },
+            { type: 'input', name: 'national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-4 col-12' },
+            { type: 'input', name: 'mobile_number', value: null, label: 'شماره همراه', placeholder: ' ', col: 'col-md-4 col-12' },
+            { type: 'input', name: 'email', value: null, label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'input', name: 'search', value: null, label: 'جست و جو', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'hidden', name: 'registered_classes__classroom__ne', value: classroomId }
+          ],
+          itemIndicatorKey: row => row.firstname + ' ' + row.lastname,
+          // itemIndicatorKey: 'firstname',
+          itemIdentifyKey: 'id',
+          onConfirmed: this.onEnrollNewMembersConfirmedSelected,
+
+          value: [],
+          selected: [],
+          col: 'col-md-12 col-12'
+        }
+      ],
+
+      registerNewMembersLoading: false,
+
+      registerNewMembersInputs: [
+        {
+          type: EntityInputComp,
+          name: 'registerNewMembers',
+          selectionMode: 'multiple',
+          popUpButtonConfig: {
+            label: 'ثبت نام مستقیم',
+            outline: true,
+            buttonColor: 'deep-purple',
+            buttonTextColor: 'white',
+            buttonBadgeColor: 'pink'
+          },
+          dialogConfirmButtonConfig: {
+            label: 'تایید',
+            buttonColor: 'deep-purple',
+            buttonTextColor: 'white',
+            buttonBadgeColor: 'pink'
+          },
+
+          apiAddress: APIGateway.user.APIAdresses.unregisteredUsersInClassroom,
+          tableTitle: 'لیست کل کاربران ثبت نام نشده',
+          showTableItemsRouteName: 'Admin.BlockManagement.Show',
+          tableKeys: {
+            data: 'results',
+            total: 'count',
+            currentPage: 'current',
+            perPage: 'per_page',
+            pageKey: 'page'
+          },
+          table: {
+            columns: [
+              {
+                name: 'id',
+                required: true,
+                label: 'شناسه',
+                align: 'left',
+                field: row => row.id
+              },
+              {
+                name: 'fullname',
+                required: true,
+                label: 'نام و نام خانوادگی',
+                align: 'left',
+                field: row => row.firstname + ' ' + row.lastname
+              },
+              {
+                name: 'last_passed_unit_title',
+                required: true,
+                label: 'آخرین دوره',
+                align: 'left',
+                field: row => row.last_passed_unit_title
+              },
+              {
+                name: 'national_code',
+                required: true,
+                label: 'کد ملی',
+                align: 'left',
+                field: row => row.national_code
+              },
+              {
+                name: 'mobile_number',
+                required: true,
+                label: 'شماره همراه',
+                align: 'left',
+                field: row => row.mobile_number
+              },
+              {
+                name: 'last_academy_name',
+                required: true,
+                label: 'دانشگاه',
+                align: 'left',
+                field: row => row.last_academy_name
+              },
+              {
+                name: 'living_city',
+                required: true,
+                label: 'شهر',
+                align: 'left',
+                field: row => row.living_city
+              }
+            ]
+          },
+          inputs: [
+            { type: 'input', name: 'id', value: null, label: 'شناسه', placeholder: ' ', col: 'col-md-4 col-12' },
+            { type: 'input', name: 'national_code', value: null, label: 'کد ملی', placeholder: ' ', col: 'col-md-4 col-12' },
+            { type: 'input', name: 'mobile_number', value: null, label: 'شماره همراه', placeholder: ' ', col: 'col-md-4 col-12' },
+            { type: 'input', name: 'email', value: null, label: 'ایمیل', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'input', name: 'firstname', value: null, label: 'نام', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'input', name: 'lastname', value: null, label: 'نام خانوادگی', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'input', name: 'search', value: null, label: 'جست و جو', placeholder: ' ', col: 'col-md-3 col-12' },
+            { type: 'hidden', name: 'registered_classes__classroom__ne', value: classroomId }
+          ],
+          itemIndicatorKey: row => row.firstname + ' ' + row.lastname,
+          // itemIndicatorKey: 'firstname',
+          itemIdentifyKey: 'id',
+          onConfirmed: this.onRegisterNewMembersConfirmedSelected,
+
+          value: [],
+          selected: [],
+          col: 'col-md-12 col-12'
+        }
+      ],
+
       createInvoiceLoading: false,
       classroom: new Classroom(),
 
@@ -220,6 +441,30 @@ export default {
           this.exportReportLoading = false
         })
     },
+    onRegisterNewMembersConfirmedSelected (data) {
+      const owners = data.map(item => item.id)
+      this.registerNewMembersLoading = true
+      APIGateway.classroom.registerNewMembers({ classroomId: this.classroomId, owners })
+        .then(() => {
+          this.$refs.membersList.search()
+          this.registerNewMembersLoading = false
+        })
+        .catch(() => {
+          this.registerNewMembersLoading = false
+        })
+    },
+    onEnrollNewMembersConfirmedSelected (data) {
+      const owners = data.map(item => item.id)
+      this.enrollNewMembersLoading = true
+      APIGateway.classroom.enrollNewMembers({ classroomId: this.classroomId, owners })
+        .then(() => {
+          this.$refs.membersList.search()
+          this.enrollNewMembersLoading = false
+        })
+        .catch(() => {
+          this.enrollNewMembersLoading = false
+        })
+    },
     dropClassroomByAdmin (row) {
       const classroomId = row.classroom
       const userId = row.owner
@@ -258,3 +503,10 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.before-index-table {
+  margin: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

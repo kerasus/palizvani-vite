@@ -14,7 +14,9 @@ export default class UserAPI extends APIRepository {
       byId: (id) => '/uma/users/' + id,
       changeRole: (id) => '/uma/users/' + id + '/change_role',
       unassignedGradersWithLastPassedUnit: '/uma/users/unassigned_graders_with_last_passed_unit',
-      unassignedLeadersWithLastPassedUnit: '/uma/users/unassigned_leaders_with_last_passed_unit'
+      unassignedLeadersWithLastPassedUnit: '/uma/users/unassigned_leaders_with_last_passed_unit',
+      unenrolledUsersInClassroom: '/uma/users/unenrolled_users_in_classroom',
+      unregisteredUsersInClassroom: '/uma/users/unregistered_users_in_classroom'
     }
     this.CacheList = {
       base: this.name + this.APIAdresses.base,

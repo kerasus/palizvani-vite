@@ -13,9 +13,11 @@ export default class ClassroomAPI extends APIRepository {
       byId: (id) => '/lma/classrooms/' + id,
       toggleOngoingStatus: (id) => '/lma/classrooms/' + id + '/toggle_ongoing_status',
       enroll: (id) => '/lma/classrooms/' + id + '/enroll',
+      bulkEnroll: (id) => '/lma/classrooms/' + id + '/bulk_enroll',
       graders: (id) => '/lma/classrooms/' + id + '/graders',
       drop: (id) => '/lma/classrooms/' + id + '/drop',
       register: (id) => '/lma/classrooms/' + id + '/register',
+      bulkRegister: (id) => '/lma/classrooms/' + id + '/bulk_register',
       leaders: (id) => '/lma/classrooms/' + id + '/leaders',
       announceResult: (id) => '/lma/classrooms/' + id + '/announce_result',
       getClassroomAndCorrespondingRegistration: (classroomId, ownerId) => '/lma/classrooms/' + classroomId + '/get_classroom_and_corresponding_registration/' + ownerId,
@@ -240,6 +242,42 @@ export default class ClassroomAPI extends APIRepository {
       data: {
         classroomId: data.classroomId,
         graders: data.graders
+      },
+      resolveCallback: (response) => {
+        return new ClassroomList(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  registerNewMembers (data) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.bulkRegister(data.classroomId),
+      data: {
+        classroomId: data.classroomId,
+        owners: data.owners
+      },
+      resolveCallback: (response) => {
+        return new ClassroomList(response.data)
+      },
+      rejectCallback: (error) => {
+        return error
+      }
+    })
+  }
+
+  enrollNewMembers (data) {
+    return this.sendRequest({
+      apiMethod: 'put',
+      api: this.api,
+      request: this.APIAdresses.bulkEnroll(data.classroomId),
+      data: {
+        classroomId: data.classroomId,
+        owners: data.owners
       },
       resolveCallback: (response) => {
         return new ClassroomList(response.data)
