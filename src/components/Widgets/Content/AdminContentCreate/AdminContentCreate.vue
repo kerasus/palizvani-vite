@@ -54,7 +54,7 @@ export default {
         { type: 'input', name: 'title', responseKey: 'title', label: 'عنوان', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'file', name: 'thumbnail', responseKey: 'thumbnail', label: 'عکس', placeholder: ' ', col: 'col-md-6 col-12' },
         { type: 'checkbox', name: 'is_hidden', responseKey: 'is_hidden', label: 'پنهان باشد؟', placeholder: ' ', value: true, col: 'col-12' },
-        { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category', col: 'col-12' },
+        { type: ContentCategorySelectorComp, name: 'category', responseKey: 'category', sendNull: true, col: 'col-12' },
         { type: 'inputEditor', name: 'description', responseKey: 'description', label: 'توضیحات', col: 'col-12' },
         { type: ContentMediasComp, name: 'medias', responseKey: 'medias_info', col: 'col-12' },
         { type: BtnControlComp, name: 'btn', responseKey: 'btn', label: 'ایجاد محتوا', placeholder: ' ', atClick: () => {}, col: 'col-md-6' }

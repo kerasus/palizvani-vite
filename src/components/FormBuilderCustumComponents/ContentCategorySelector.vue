@@ -102,7 +102,11 @@ export default {
     mainCategory (newValue) {
       this.subCategory = null
       this.subCategoryOptions = []
-      if (!newValue.item.children) {
+      if (this.categoryType === 'content') {
+        const selectedCategoryId = newValue?.value ? newValue?.value : null
+        this.$emit('update:value', selectedCategoryId)
+        return
+      } else if (!newValue.item.children) {
         this.$emit('update:value', newValue.value)
         return
       }
@@ -113,14 +117,21 @@ export default {
           value: item.id
         }
       })
-      if (this.categoryType === 'content') {
-        this.$emit('update:value', newValue.value)
-      }
     },
     subCategory (newValue) {
       this.bakhshCategory = null
       this.bakhshCategoryOptions = []
-      if (!newValue?.item?.children) {
+      if (this.categoryType === 'content') {
+        let selectedCategoryId = newValue?.value ? newValue?.value : null
+        if (this.mainCategory.value) {
+          selectedCategoryId = this.mainCategory.value
+        }
+        if (newValue?.value) {
+          selectedCategoryId = this.subCategory.value
+        }
+        this.$emit('update:value', selectedCategoryId)
+        return
+      } else if (!newValue?.item?.children) {
         this.$emit('update:value', null)
         return
       }
@@ -131,13 +142,24 @@ export default {
           value: item.id
         }
       })
-      if (this.categoryType === 'content') {
-        this.$emit('update:value', newValue.value)
-      }
     },
     bakhshCategory (newValue) {
+      let selectedCategoryId = null
       const categoryId = newValue ? newValue.value : null
-      this.$emit('update:value', categoryId)
+      if (this.categoryType === 'content') {
+        if (this.mainCategory.value) {
+          selectedCategoryId = this.mainCategory.value
+        }
+        if (this.subCategory.value) {
+          selectedCategoryId = this.subCategory.value
+        }
+        if (categoryId) {
+          selectedCategoryId = categoryId
+        }
+      } else {
+        selectedCategoryId = categoryId
+      }
+      this.$emit('update:value', selectedCategoryId)
     }
   },
   mounted() {
