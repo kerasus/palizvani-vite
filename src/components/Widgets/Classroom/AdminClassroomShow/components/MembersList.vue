@@ -157,13 +157,6 @@ export default {
                 field: row => row.firstname + ' ' + row.lastname
               },
               {
-                name: 'last_passed_unit_title',
-                required: true,
-                label: 'آخرین دوره',
-                align: 'left',
-                field: row => row.last_passed_unit_title
-              },
-              {
                 name: 'national_code',
                 required: true,
                 label: 'کد ملی',
@@ -260,13 +253,6 @@ export default {
                 label: 'نام و نام خانوادگی',
                 align: 'left',
                 field: row => row.firstname + ' ' + row.lastname
-              },
-              {
-                name: 'last_passed_unit_title',
-                required: true,
-                label: 'آخرین دوره',
-                align: 'left',
-                field: row => row.last_passed_unit_title
               },
               {
                 name: 'national_code',
