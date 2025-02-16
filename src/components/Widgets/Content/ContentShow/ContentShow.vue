@@ -95,11 +95,7 @@ export default {
     breadcrumbsPath () {
       const path = [
         {
-          label: 'خانه',
-          to: { name: 'Public.Home' }
-        },
-        {
-          label: 'آرشیو محتوا',
+          label: 'محتوا',
           to: { name: 'Public.ContentCategoryParentParent.List' }
         }
       ]
