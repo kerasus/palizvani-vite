@@ -5,31 +5,7 @@
     <div class="ContentCategory-info-wrapper">
       <breadcrumbs class="q-mb-xl"
                    style="margin-top: 29px; margin-bottom: 19px;" />
-      <div v-if="contentCategory.id"
-           class="ContentCategory-info">
-        <div class="ContentCategory-thumbnail">
-          <q-img :src="contentCategory.thumbnail" />
-        </div>
-        <div class="ContentCategory-meta">
-          <q-banner>
-            {{ contentCategory.title }}
-          </q-banner>
-          <div class="ContentCategory-desc"
-               v-html="contentCategory.description" />
-        </div>
-      </div>
     </div>
-    <q-banner class="ContentCategoryList-banner">
-      <span v-if="localOptions.listType === 'category_parent_parent'">
-        دسته بندی های کلی
-      </span>
-      <span v-if="localOptions.listType === 'category_parent'">
-        دسته بندی اصلی
-      </span>
-      <span v-if="localOptions.listType === 'category'">
-        دسته بندی جزئی
-      </span>
-    </q-banner>
     <filters :show-category-route-name="showCategoryRouteName"
              :content-categories="contentCategories"
              @filter="onChangeFilter" />
@@ -104,11 +80,7 @@ export default {
     breadcrumbsPath () {
       const path = [
         {
-          label: 'خانه',
-          to: { name: 'Public.Home' }
-        },
-        {
-          label: 'آرشیو محتوا',
+          label: 'محتوا',
           to: { name: 'Public.ContentCategoryParentParent.List' }
         }
       ]
