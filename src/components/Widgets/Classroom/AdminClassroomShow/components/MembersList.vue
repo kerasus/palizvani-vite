@@ -455,6 +455,8 @@ export default {
         .then(() => {
           this.$refs.membersList.search()
           this.enrollNewMembersInputsKey = Date.now()
+          this.enrollNewMembersInputs.value = []
+          this.enrollNewMembersInputs.selected = []
           this.enrollNewMembersLoading = false
         })
         .catch(() => {
