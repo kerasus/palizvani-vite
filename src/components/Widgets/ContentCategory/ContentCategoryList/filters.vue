@@ -114,7 +114,6 @@ export default {
     },
     screenGtMd: {
       handler (newValue) {
-        debugger
         if (!newValue) {
           this.$nextTick(() => {
             this.subFilterExpanded = true
