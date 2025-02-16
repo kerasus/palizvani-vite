@@ -441,9 +441,11 @@ export default {
       this.registerNewMembersLoading = true
       APIGateway.classroom.registerNewMembers({ classroomId: this.classroomId, owners })
         .then(() => {
-          this.$refs.membersList.search()
-          this.enrollNewMembersInputsKey = Date.now()
+          this.registerNewMembersInputs.value = [] // does not work!
+          this.registerNewMembersInputs.selected = [] // does not work!
+          this.registerNewMembersInputsKey = Date.now()
           this.registerNewMembersLoading = false
+          this.$refs.membersList.search()
         })
         .catch(() => {
           this.registerNewMembersLoading = false
@@ -454,9 +456,11 @@ export default {
       this.enrollNewMembersLoading = true
       APIGateway.classroom.enrollNewMembers({ classroomId: this.classroomId, owners })
         .then(() => {
-          this.$refs.membersList.search()
+          this.enrollNewMembersInputs.value = [] // does not work!
+          this.enrollNewMembersInputs.selected = [] // does not work!
           this.enrollNewMembersInputsKey = Date.now()
           this.enrollNewMembersLoading = false
+          this.$refs.membersList.search()
         })
         .catch(() => {
           this.enrollNewMembersLoading = false
