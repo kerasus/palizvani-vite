@@ -20,11 +20,13 @@
       <div class="row before-index-table">
         <div class="right-side">
           <form-builder ref="formBuilder"
+                        :key="enrollNewMembersInputsKey"
                         v-model:value="enrollNewMembersInputs"
                         :loading="enrollNewMembersLoading" />
         </div>
         <div class="left-side">
           <form-builder ref="formBuilder"
+                        :key="registerNewMembersInputsKey"
                         v-model:value="registerNewMembersInputs"
                         :loading="registerNewMembersLoading" />
         </div>
@@ -109,8 +111,9 @@ export default {
     const classroomId = this.classroomId
     return {
       mounted: false,
-      enrollNewMembersLoading: false,
 
+      enrollNewMembersLoading: false,
+      enrollNewMembersInputsKey: Date.now(),
       enrollNewMembersInputs: [
         {
           type: EntityInputComp,
@@ -155,13 +158,6 @@ export default {
                 label: 'نام و نام خانوادگی',
                 align: 'left',
                 field: row => row.firstname + ' ' + row.lastname
-              },
-              {
-                name: 'last_passed_unit_title',
-                required: true,
-                label: 'آخرین دوره',
-                align: 'left',
-                field: row => row.last_passed_unit_title
               },
               {
                 name: 'national_code',
@@ -215,7 +211,7 @@ export default {
       ],
 
       registerNewMembersLoading: false,
-
+      registerNewMembersInputsKey: Date.now(),
       registerNewMembersInputs: [
         {
           type: EntityInputComp,
@@ -260,13 +256,6 @@ export default {
                 label: 'نام و نام خانوادگی',
                 align: 'left',
                 field: row => row.firstname + ' ' + row.lastname
-              },
-              {
-                name: 'last_passed_unit_title',
-                required: true,
-                label: 'آخرین دوره',
-                align: 'left',
-                field: row => row.last_passed_unit_title
               },
               {
                 name: 'national_code',
@@ -452,8 +441,11 @@ export default {
       this.registerNewMembersLoading = true
       APIGateway.classroom.registerNewMembers({ classroomId: this.classroomId, owners })
         .then(() => {
-          this.$refs.membersList.search()
+          this.registerNewMembersInputs.value = [] // does not work!
+          this.registerNewMembersInputs.selected = [] // does not work!
+          this.registerNewMembersInputsKey = Date.now()
           this.registerNewMembersLoading = false
+          this.$refs.membersList.search()
         })
         .catch(() => {
           this.registerNewMembersLoading = false
@@ -464,8 +456,11 @@ export default {
       this.enrollNewMembersLoading = true
       APIGateway.classroom.enrollNewMembers({ classroomId: this.classroomId, owners })
         .then(() => {
-          this.$refs.membersList.search()
+          this.enrollNewMembersInputs.value = [] // does not work!
+          this.enrollNewMembersInputs.selected = [] // does not work!
+          this.enrollNewMembersInputsKey = Date.now()
           this.enrollNewMembersLoading = false
+          this.$refs.membersList.search()
         })
         .catch(() => {
           this.enrollNewMembersLoading = false
