@@ -105,8 +105,9 @@ export default {
       if (this.categoryType === 'content') {
         const selectedCategoryId = newValue?.value ? newValue?.value : null
         this.$emit('update:value', selectedCategoryId)
-        return
-      } else if (!newValue.item.children) {
+      }
+
+      if (!newValue.item.children) {
         this.$emit('update:value', newValue.value)
         return
       }
@@ -123,15 +124,16 @@ export default {
       this.bakhshCategoryOptions = []
       if (this.categoryType === 'content') {
         let selectedCategoryId = newValue?.value ? newValue?.value : null
-        if (this.mainCategory.value) {
+        if (this.mainCategory?.value) {
           selectedCategoryId = this.mainCategory.value
         }
         if (newValue?.value) {
-          selectedCategoryId = this.subCategory.value
+          selectedCategoryId = this.subCategory?.value
         }
         this.$emit('update:value', selectedCategoryId)
-        return
-      } else if (!newValue?.item?.children) {
+      }
+
+      if (!newValue?.item?.children) {
         this.$emit('update:value', null)
         return
       }
@@ -147,10 +149,10 @@ export default {
       let selectedCategoryId = null
       const categoryId = newValue ? newValue.value : null
       if (this.categoryType === 'content') {
-        if (this.mainCategory.value) {
+        if (this.mainCategory?.value) {
           selectedCategoryId = this.mainCategory.value
         }
-        if (this.subCategory.value) {
+        if (this.subCategory?.value) {
           selectedCategoryId = this.subCategory.value
         }
         if (categoryId) {
