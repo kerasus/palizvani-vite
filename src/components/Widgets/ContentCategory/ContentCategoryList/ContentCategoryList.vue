@@ -33,7 +33,7 @@
     <filters :show-category-route-name="showCategoryRouteName"
              :content-categories="contentCategories"
              @filter="onChangeFilter" />
-    <div class="contents row">
+    <div class="contents row justify-center">
       <q-linear-progress v-if="contents.loading"
                          class="q-my-md"
                          indeterminate />

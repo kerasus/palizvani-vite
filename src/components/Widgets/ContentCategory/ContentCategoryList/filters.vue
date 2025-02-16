@@ -20,7 +20,8 @@
         </q-btn>
       </div>
       <div class="content-type-filters">
-        <q-btn flat
+        <q-btn v-if="screenGtMd"
+               flat
                class="filter-btn"
                :class="{'filter-btn__selected': subFilterExpanded}"
                @click="subFilterExpanded = !subFilterExpanded">
@@ -99,11 +100,22 @@ export default {
         label: 'همه',
         value: null
       }].concat(this.media.typeEnums)
+    },
+    screenGtMd () {
+      if (typeof window === 'undefined') {
+        return true
+      }
+      return this.$q.screen.gt.md
     }
   },
   watch: {
     searchText () {
       this.emitFilters()
+    },
+    screenGtMd () {
+      if (!this.screenGtMd) {
+        this.subFilterExpanded = true
+      }
     }
   },
   methods: {
@@ -162,12 +174,12 @@ export default {
   .filter-btn {
     border: 1px solid #000000;
     border-radius: 20px;
-    padding: 8px;
     display: flex;
     justify-content: space-between;
-    gap: 8px;
     align-items: center;
     background: #FFFFFF;
+    height: 43px;
+    padding: 0 8px;
     .filter-btn-title {
       font-size: 14px;
       color: #212121;
