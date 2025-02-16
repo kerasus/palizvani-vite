@@ -442,6 +442,7 @@ export default {
       APIGateway.classroom.registerNewMembers({ classroomId: this.classroomId, owners })
         .then(() => {
           this.$refs.membersList.search()
+          this.enrollNewMembersInputsKey = Date.now()
           this.registerNewMembersLoading = false
         })
         .catch(() => {
@@ -455,8 +456,6 @@ export default {
         .then(() => {
           this.$refs.membersList.search()
           this.enrollNewMembersInputsKey = Date.now()
-          this.enrollNewMembersInputs.value = []
-          this.enrollNewMembersInputs.selected = []
           this.enrollNewMembersLoading = false
         })
         .catch(() => {
