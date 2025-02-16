@@ -20,11 +20,13 @@
       <div class="row before-index-table">
         <div class="right-side">
           <form-builder ref="formBuilder"
+                        :key="enrollNewMembersInputsKey"
                         v-model:value="enrollNewMembersInputs"
                         :loading="enrollNewMembersLoading" />
         </div>
         <div class="left-side">
           <form-builder ref="formBuilder"
+                        :key="registerNewMembersInputsKey"
                         v-model:value="registerNewMembersInputs"
                         :loading="registerNewMembersLoading" />
         </div>
@@ -109,8 +111,9 @@ export default {
     const classroomId = this.classroomId
     return {
       mounted: false,
-      enrollNewMembersLoading: false,
 
+      enrollNewMembersLoading: false,
+      enrollNewMembersInputsKey: Date.now(),
       enrollNewMembersInputs: [
         {
           type: EntityInputComp,
@@ -208,7 +211,7 @@ export default {
       ],
 
       registerNewMembersLoading: false,
-
+      registerNewMembersInputsKey: Date.now(),
       registerNewMembersInputs: [
         {
           type: EntityInputComp,
@@ -451,6 +454,7 @@ export default {
       APIGateway.classroom.enrollNewMembers({ classroomId: this.classroomId, owners })
         .then(() => {
           this.$refs.membersList.search()
+          this.enrollNewMembersInputsKey = Date.now()
           this.enrollNewMembersLoading = false
         })
         .catch(() => {
