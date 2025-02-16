@@ -112,10 +112,16 @@ export default {
     searchText () {
       this.emitFilters()
     },
-    screenGtMd () {
-      if (!this.screenGtMd) {
-        this.subFilterExpanded = true
-      }
+    screenGtMd: {
+      handler (newValue) {
+        debugger
+        if (!newValue) {
+          this.$nextTick(() => {
+            this.subFilterExpanded = true
+          })
+        }
+      },
+      immediate: true
     }
   },
   methods: {

@@ -84,7 +84,6 @@ export default {
     padding: 4px;
     display: flex;
     justify-content: space-between;
-    gap: 4px;
     height: 36px;
     align-items: center;
     background: transparent;
