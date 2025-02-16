@@ -30,37 +30,36 @@
         دسته بندی جزئی
       </span>
     </q-banner>
-    <entity-index v-if="mounted"
-                  ref="entityIndex"
-                  v-model:value="inputs"
-                  :api="api"
-                  :table="table"
-                  :table-keys="tableKeys"
-                  :table-grid-size="true"
-                  :default-layout="false"
-                  :show-search-button="false"
-                  :show-expand-button="false"
-                  :show-reload-button="false">
-      <template #entity-index-table-item-cell="{inputData}">
-        <content-category-item :content-category="getContentCategory(inputData.props.row)"
-                               :show-category-route-name="showCategoryRouteName" />
+    <filters :show-category-route-name="showCategoryRouteName"
+             :content-categories="contentCategories"
+             @filter="onChangeFilter" />
+    <div class="contents row">
+      <q-linear-progress v-if="contents.loading"
+                         class="q-my-md"
+                         indeterminate />
+      <template v-else>
+        <div v-for="(content, contentIndex) in contents.list"
+             :key="contentIndex"
+             class="col-md-4">
+          <content-item :content="content" />
+        </div>
       </template>
-    </entity-index>
+    </div>
   </div>
 </template>
 
 <script>
-import { EntityIndex } from 'quasar-crud'
+import Filters from './filters.vue'
+import ContentItem from './ContentItem.vue'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import { APIGateway } from 'src/api/APIGateway.js'
-import { FormBuilderAssist } from 'quasar-form-builder'
-import ContentCategoryItem from './ContentCategoryItem.vue'
-import { ContentCategory } from 'src/models/ContentCategory.js'
+import { ContentList } from 'src/models/Content.js'
 import Breadcrumbs from 'src/components/Widgets/Breadcrumbs/Breadcrumbs.vue'
+import { ContentCategory, ContentCategoryList } from 'src/models/ContentCategory.js'
 
 export default {
   name: 'ContentCategoryList',
-  components: { ContentCategoryItem, EntityIndex, Breadcrumbs },
+  components: { Breadcrumbs, Filters, ContentItem },
   mixins: [mixinWidget],
   data () {
     return {
@@ -80,6 +79,9 @@ export default {
         columns: []
       },
       mounted: false,
+      subFilterExpanded: false,
+      contents: new ContentList(),
+      contentCategories: new ContentCategoryList(),
       contentCategory: new ContentCategory(),
       contentCategoryParent: new ContentCategory(),
       contentCategoryParentParent: new ContentCategory(),
@@ -144,21 +146,13 @@ export default {
   },
   created() {
     this.updateBreadcrumbs()
-
-    if (this.localOptions.listType === 'category_parent_parent') {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent__isnull', 'value', true)
-    } else if (this.localOptions.listType === 'category_parent') {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent__isnull', 'value', null)
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent', 'value', this.contentCategoryId)
-    } else if (this.localOptions.listType === 'category') {
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent__isnull', 'value', null)
-      FormBuilderAssist.setAttributeByName(this.inputs, 'parent', 'value', this.contentCategoryId)
-    }
+  },
+  mounted () {
     if (this.contentCategoryId) {
       this.loadContentCategory()
     }
-  },
-  mounted () {
+    this.getContentCategories()
+    this.getContents({ selected_category: this.contentCategoryId })
     this.mounted = true
   },
   methods: {
@@ -207,6 +201,45 @@ export default {
       }
 
       this.$store.commit('AppLayout/updateBreadcrumbs', breadcrumbs)
+    },
+
+    getFilterOfCategorySearch () {
+      const filter = {}
+      if (this.localOptions.listType === 'category_parent_parent') {
+        filter.parent__isnull = true
+      } else if (this.localOptions.listType === 'category_parent') {
+        filter.parent__isnull = null
+        filter.parent = this.contentCategoryId
+      } else if (this.localOptions.listType === 'category') {
+        filter.parent__isnull = null
+        filter.parent = this.contentCategoryId
+      }
+
+      return filter
+    },
+    getContents (filters) {
+      this.contents.loading = true
+      APIGateway.content.index({ ...filters, per_page: 9999 })
+        .then(({ list }) => {
+          this.contents = new ContentList(list)
+        })
+        .finally(() => {
+          this.contents.loading = false
+        })
+    },
+    getContentCategories () {
+      const filter = this.getFilterOfCategorySearch()
+      this.contentCategories.loading = true
+      APIGateway.contentCategory.index({ ...filter, per_page: 9999 })
+        .then(({ list }) => {
+          this.contentCategories = new ContentCategoryList(list)
+        })
+        .finally(() => {
+          this.contentCategories.loading = false
+        })
+    },
+    onChangeFilter (newFilter) {
+      this.getContents({ ...newFilter, selected_category: this.contentCategoryId })
     }
   }
 }

@@ -1,5 +1,15 @@
 .q-field {
   $input-height: 48px;
+  .q-field__control {
+    height: $input-height;
+    .q-field__marginal {
+      height: $input-height;
+    }
+    .q-field__prepend {
+      padding-left: 12px;
+      padding-right: 0;
+    }
+  }
   &.q-field--outlined {
     .q-field__inner {
       .q-field__control {
