@@ -10,21 +10,21 @@
       {{ content.title }}
     </div>
     <div class="categories">
-      <q-btn v-if="content.category_info.id"
+      <q-btn v-if="content?.category_info?.id"
              flat
              class="category-btn">
         <div class="category-btn-title q-px-sm">
           {{ content.category_info.title }}
         </div>
       </q-btn>
-      <q-btn v-if="content.category_info.parent.id"
+      <q-btn v-if="content?.category_info?.parent?.id"
              flat
              class="category-btn">
         <div class="category-btn-title q-px-sm">
           {{ content.category_info.parent.title }}
         </div>
       </q-btn>
-      <q-btn v-if="content.category_info.parent.parent.id"
+      <q-btn v-if="content?.category_info?.parent?.parent?.id"
              flat
              class="category-btn">
         <div class="category-btn-title q-px-sm">
