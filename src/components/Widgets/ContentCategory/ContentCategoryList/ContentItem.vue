@@ -9,29 +9,7 @@
          @click="goToContentPageShow">
       {{ content.title }}
     </div>
-    <div class="categories">
-      <q-btn v-if="content?.category_info?.id"
-             flat
-             class="category-btn">
-        <div class="category-btn-title q-px-sm">
-          {{ content.category_info.title }}
-        </div>
-      </q-btn>
-      <q-btn v-if="content?.category_info?.parent?.id"
-             flat
-             class="category-btn">
-        <div class="category-btn-title q-px-sm">
-          {{ content.category_info.parent.title }}
-        </div>
-      </q-btn>
-      <q-btn v-if="content?.category_info?.parent?.parent?.id"
-             flat
-             class="category-btn">
-        <div class="category-btn-title q-px-sm">
-          {{ content.category_info.parent.parent.title }}
-        </div>
-      </q-btn>
-    </div>
+    <content-item-categories :content="content" />
     <q-btn color="primary"
            class="show-content-btn"
            :to="{name: 'Public.Content.Show', params: {id: content.id}}">
@@ -42,9 +20,11 @@
 
 <script>
 import { Content } from 'src/models/Content.js'
+import ContentItemCategories from './ContentItemCategories.vue'
 
 export default {
   name: 'ContentItem',
+  components: { ContentItemCategories },
   props: {
     content: {
       type: Content,
@@ -93,33 +73,6 @@ export default {
     border-top-right-radius: 0;
     border-top-left-radius: 0;
     height: 60px;
-  }
-  .categories {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin-bottom: 16px;
-    .category-btn {
-      border: 1px solid #000000;
-      border-radius: 20px;
-      padding: 4px;
-      display: flex;
-      justify-content: space-between;
-      gap: 4px;
-      align-items: center;
-      background: transparent;
-      .category-btn-title {
-        font-size: 12px;
-        color: #212121;
-      }
-      &.category-btn__selected {
-        background: #444444;
-        .category-btn-title {
-          color: white;
-        }
-      }
-    }
   }
 }
 </style>

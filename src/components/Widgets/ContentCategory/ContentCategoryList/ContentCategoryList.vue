@@ -40,7 +40,7 @@
       <template v-else>
         <div v-for="(content, contentIndex) in contents.list"
              :key="contentIndex"
-             class="col-md-4">
+             class="col-md-4 col-12">
           <content-item :content="content" />
         </div>
       </template>
